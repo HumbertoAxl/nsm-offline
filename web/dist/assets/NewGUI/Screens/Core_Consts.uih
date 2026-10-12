@@ -1,0 +1,9 @@
+Macro:(M_Consts)
+	Define:(?CSTAFFTYPE_SKILLSCOACH?=0)
+	Define:(?CSTAFFTYPE_FITNESSCOACH?=1)
+	Define:(?CSTAFFTYPE_YOUTHCOACH?=2)
+	Define:(?CSTAFFTYPE_SCOUT?=3)
+	Define:(?CSTAFFTYPE_PHYSIO?=4)
+EndM
+
+M_Consts:()

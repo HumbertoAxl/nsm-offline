@@ -1,0 +1,636 @@
+// Bux Pack
+Cull:(0,0,320,500) ref:StoreBux
+	strvar(%uid)
+	float(%selected,%canOpen,%oneClickPurchase)
+	set(%selected,twk(Store,SelectedUId)=%uid)
+	if(%selected)
+	<
+		if([gel.gx+[gel.w/2]] < @l or([gel.gx+[gel.w/2]] > @r))
+		<
+			set(%selected,0)
+			set(twk(Store,SelectedUId),0)
+		>
+	>
+{{
+	// Selected Status
+	Rect:(0,0,@W,@H)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#AAAAAA40)
+		Draw:(RoundedPanel,0,@H,@W,0,,#25252500)
+			Handle(0,1)
+			if(%selected)
+			<
+				set(gel.h,min(@H,lerp(gel.h,@H,0.25)))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,1,0.25)
+
+				if(gel.alpha > 0.99)
+				<
+					set(%canOpen,1)
+				>
+			>
+			else
+			<
+				set(%canOpen,0)
+				set(gel.h,lerp(gel.h,20,0.25))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,0,0.25)
+			>
+
+		Rect:() $HIDE
+			.set(gel.alpha,0)
+			if(%canOpen)
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.2)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			M_Text:(store_2STAGECONFIRM,@C,380,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			
+			// Cancel Button 
+			M_Button:(@R-30,@T+35,40,40,Button_RedSliced,Icon_Cross,0,0,40,40,#FFFFFFFF,link,ref,,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				Layer(AboveText2)
+				if(%canOpen)
+				<
+					if(%clicked)
+					<
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+	}}
+
+	// Item Image 
+	Draw:(Coinstack1,@C,150) ref:BundleIcon
+		Scale(0.7,0.7)
+		Handle(0.5,0.5)
+
+
+	// Red Tag: Value Proposition
+	Rect:() $HIDE ref:AmountFree
+	{
+		Draw:(Tag_Red,170,@T,,,)
+		Rect:(242,-50,0,0,-45)
+		{{
+			M_Text:("",40,4,100,40,C,C,Text,BEBAS28,,0,0,#00000000,NoItalics,#FFFFFFFF,FreeAmount)
+				CharacterSpacing(1)
+			M_Text:(Store_Free,0,33,180,40,C,C,TextLoc,BEBAS38,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				CharacterSpacing(2)
+		}}
+	}
+
+	Rect:() ref:GreenTagHook
+	
+	// Item Title 
+	M_Text:(TITLE,0,325,@W,0,C,C,TextBox,KNUL30,,0,0,#00000000,NoItalics,#252525FF,Title)
+		LineSpacing(0.8)
+		.set(gel.text, gel.text)
+		if(%canOpen)
+		<
+			set(gel.colour,#FFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#252525FF)
+		>
+
+	
+	// Item Description
+	M_Text:(,0,378,@W,0,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,Description)
+		LineSpacing(0.85)
+		frlerp(gel.alpha,1-%selected,0.1)
+
+
+	// Purchase Button
+	Rect:()
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+	{
+		Text:() $HIDE ref:Price
+			.set(%BUTTONTEXT,gel.text)
+		
+	    M_Button:(@C,455,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		{
+			Rect:(0,0,@W,@H)
+				Press()
+				<
+					:set(%pressed,1)
+				>
+				else
+				<
+					:set(%pressed,0)
+				>
+				Click()
+				<
+					set(twk(Money,BuxEmitterX),gel.gx+140)
+					set(twk(Money,BuxEmitterY),gel.gy+307)
+					:Post(UI_Swoosh)
+					set(twk(Store,SelectedUId),%uid)
+					set(%clicked,1)
+					if(%oneClickPurchase)
+					<
+						Post(store.btn_Buy,twk(Store,SelectedUId))
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+			if(%clicked)
+			<
+				if(%canOpen)
+				<
+					Post(store.btn_Buy,twk(Store,SelectedUId))
+					set(twk(Store,SelectedUId),"")
+				>
+			>
+	}
+}} Template
+
+
+
+
+
+// Card Pack
+Rect:(0,0,320,500) ref:StorePlayerPack
+	strvar(%uid)
+	float(%selected,%canOpen,%oneClickPurchase)
+	set(%selected,twk(Store,SelectedUId)=%uid)
+	if(%selected)
+	<
+		if([gel.gx+[gel.w/2]] < @l or([gel.gx+[gel.w/2]] > @r))
+		<
+			set(%selected,0)
+			set(twk(Store,SelectedUId),0)
+		>
+	>
+{{
+	// Selected Status
+	Rect:(0,0,@W,@H)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#AAAAAA40)
+		Draw:(RoundedPanel,0,@H,@W,0,,#25252500)
+			Handle(0,1)
+			if(%selected)
+			<
+				set(gel.h,min(@H,lerp(gel.h,@H,0.25)))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,1,0.25)
+
+				if(gel.alpha > 0.99)
+				<
+					set(%canOpen,1)
+				>
+			>
+			else
+			<
+				set(%canOpen,0)
+				set(gel.h,lerp(gel.h,20,0.25))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,0,0.25)
+			>
+
+		Rect:() $HIDE
+			.set(gel.alpha,0)
+			if(%canOpen)
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.2)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			M_Text:(store_2STAGECONFIRM,@C,380,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			
+			//Cancel Button 
+			M_Button:(@R-30,@T+35,40,40,Button_RedSliced,Icon_Cross,0,0,40,40,#FFFFFFFF,link,ref,,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				Layer(AboveText2)
+				if(%canOpen)
+				<
+					if(%clicked)
+					<
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+	}}
+
+
+	//Item Image 
+	Rect:(25,0) 
+	{{
+		Draw:(Pack_Reflection,0,416)
+		Draw:(Pack_Default,0,25) ref:PackBottom
+		Draw:(Pack_Top)
+	}}
+		Scale(0.75,0.75)
+
+	// Pack Title 
+	M_Text:("Recovery",@C-3,233,0,0,C,C,Text,KNUL40,Upper,1,0,#101010FF,NoItalics,#101010FF,Title)
+		M_TextMaxWidth:(220)
+		Angle(9)
+		Italicise(-0.34)
+
+	// Pack Contents
+	M_Text:("",@C-3,271,0,0,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Contents)
+		M_TextMaxWidth:(220)
+		Angle(9)
+		Italicise(-0.34)
+	
+	// Pack Description
+	M_Text:(,0,368,@W,0,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,Description)
+		LineSpacing(0.85)
+		frlerp(gel.alpha,1-%selected,0.1)
+
+	// Pack LimitedCount
+	M_Text:(,0,407,@W,0,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,LimitedCount)
+		LineSpacing(0.85)
+		frlerp(gel.alpha,1-%selected,0.1)
+
+	Rect:() ref:GreenTagHook
+
+	// Purchase Button
+	Rect:()
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+	{
+		Text:() $HIDE ref:Price
+			.set(%BUTTONTEXT,gel.text)
+		
+	    M_Button:(120,455,200,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,SelectedPurchaseButton,(%BUTTONTEXT),0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		{
+			Rect:(0,0,@W,@H)
+				Press()
+				<
+					:set(%pressed,1)
+				>
+				else
+				<
+					:set(%pressed,0)
+				>
+				Click()
+				<
+					:Post(UI_Swoosh)
+					set(twk(Store,SelectedUId),%uid)
+					set(%clicked,1)
+					if(%oneClickPurchase)
+					<
+						Post(store.btn_Buy,twk(Store,SelectedUId))
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+			if(%clicked)
+			<
+				if(%canOpen)
+				<
+					Post(store.btn_Buy,twk(Store,SelectedUId))
+					set(twk(Store,SelectedUId),"")
+				>
+			>
+	}
+
+	// Info Button
+	M_Button:(@R-50,455,60,60,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,InfoButton,loc(store_INFO_sla),0,2,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,textref)
+		if(%clicked)
+		<
+			Post(store.btn_Info,%uid)
+		>
+}} Template
+
+
+
+
+
+// Individual Card
+Macro:(M_StoreCard,?PRODUCT?)
+	Cull:(0,0,320,500) ref:?PRODUCT?
+		float(%selected,%canOpen,%oneClickPurchase)
+		init(%oneClickPurchase,1)
+		set(%selected,twk(Store,SelectedUId)=?PRODUCT?)
+		if(%selected)
+		<
+			if([gel.gx+[gel.w/2]] < @l or([gel.gx+[gel.w/2]] > @r))
+			<
+				set(%selected,0)
+				set(twk(Store,SelectedUId),0)
+			>
+		>
+	{{
+		// Selected Status
+		Rect:(0,0,@W,@H)
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#AAAAAA40)
+			Draw:(RoundedPanel,0,@H,@W,0,,#25252500)
+				Handle(0,1)
+				if(%selected)
+				<
+					set(gel.h,min(@H,lerp(gel.h,@H,0.25)))
+					set(gel.hy,gel.h)
+					frlerp(gel.alpha,1,0.25)
+
+					if(gel.alpha > 0.99)
+					<
+						set(%canOpen,1)
+					>
+				>
+				else
+				<
+					set(%canOpen,0)
+					set(gel.h,lerp(gel.h,20,0.25))
+					set(gel.hy,gel.h)
+					frlerp(gel.alpha,0,0.25)
+				>
+
+			Rect:() $HIDE
+				.set(gel.alpha,0)
+				if(%canOpen)
+				<
+					:set(gel.vis,1)
+					frlerp(gel.alpha,1,0.1)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.2)
+					if(gel.alpha < 0.01)
+					<
+						:set(gel.vis,0)
+					>
+				>
+			{
+				M_Text:(store_2STAGECONFIRM,@C,380,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				
+				// Cancel Button 
+				M_Button:(@R-30,@T+35,40,40,Button_RedSliced,Icon_Cross,0,0,40,40,#FFFFFFFF,link,ref,,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					Layer(AboveText2)
+					if(%canOpen)
+					<
+						if(%clicked)
+						<
+							set(twk(Store,SelectedUId),"")
+						>
+					>
+			}
+		}}
+
+
+		// Item Image
+		Rect:(@C,190)
+			Card_Slot(?PRODUCT?,NONE,NONE,false,false)
+			Scale(1.75,1.75)
+		{{
+		}}
+
+
+		// Item Description
+		M_Text:(,0,378,@W,0,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+			.set(gel.text,loc(twk(SoftCards,?PRODUCT?_Descr)))
+			LineSpacing(0.85)
+			frlerp(gel.alpha,1-%selected,0.1)
+
+		Rect:() ref:GreenTagHook
+
+		// Purchase Button
+		Rect:()
+			strvar(%BUTTONTEXT)
+			init(%BUTTONTEXT,"")
+			.set(%BUTTONTEXT,cashfmt(twk(SoftCards,?PRODUCT?_Price),true))
+		{
+		    M_Button:(@C,455,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			{
+				Rect:(0,0,@W,@H)
+					Press()
+					<
+						:set(%pressed,1)
+					>
+					else
+					<
+						:set(%pressed,0)
+					>
+					Click()
+					<
+						:Post(UI_Swoosh)
+						set(twk(Store,SelectedUId),?PRODUCT?)
+						set(%clicked,1)
+						if(%oneClickPurchase)
+						<
+							Post(store.btn_Buy,twk(Store,SelectedUId))
+							set(twk(Store,SelectedUId),"")
+						>
+					>
+			}
+				
+				if(%clicked)
+				<
+					if(%canOpen)
+					<
+						Message(store.btn_Buy,twk(Store,SelectedUId))
+					>
+				>
+		}
+	}}
+EndM
+
+
+
+
+// Remove Ads
+Cull:(0,0,320,500) ref:StoreItemRestore
+	strvar(%uid)
+	float(%selected,%canOpen,%oneClickPurchase)
+	set(%selected,twk(Store,SelectedUId)=%uid)
+	if(%selected)
+	<
+		if([gel.gx+[gel.w/2]] < @l or([gel.gx+[gel.w/2]] > @r))
+		<
+			set(%selected,0)
+			set(twk(Store,SelectedUId),0)
+		>
+	>
+{{
+	// Selected Status
+	Rect:(0,0,@W,@H)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#AAAAAA40)
+		Draw:(RoundedPanel,0,@H,@W,0,,#25252500)
+			Handle(0,1)
+			if(%selected)
+			<
+				set(gel.h,min(@H,lerp(gel.h,@H,0.25)))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,1,0.25)
+
+				if(gel.alpha > 0.99)
+				<
+					set(%canOpen,1)
+				>
+			>
+			else
+			<
+				set(%canOpen,0)
+				set(gel.h,lerp(gel.h,20,0.25))
+				set(gel.hy,gel.h)
+				frlerp(gel.alpha,0,0.25)
+			>
+
+		Rect:() $HIDE
+			.set(gel.alpha,0)
+			if(%canOpen)
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.2)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			M_Text:(store_2STAGECONFIRM,@C,380,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			
+			// Cancel Button 
+			M_Button:(@R-30,@T+35,40,40,Button_RedSliced,Icon_Cross,0,0,40,40,#FFFFFFFF,link,ref,,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				Layer(AboveText2)
+				if(%canOpen)
+				<
+					if(%clicked)
+					<
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+	}}
+
+
+	// Item Image 
+	Draw:(RemoveAds1,@C,150) ref:BundleIcon
+		Scale(0.7,0.7)
+		Handle(0.5,0.5)
+
+
+	// Item Title 
+	M_Text:(TITLE,0,325,@W,0,C,C,TextBox,KNUL30,,0,0,#00000000,NoItalics,#252525FF,Title)
+		LineSpacing(0.8)
+		.set(gel.text, gel.text)
+		if(%canOpen)
+		<
+			set(gel.colour,#FFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#252525FF)
+		>
+
+
+	// Item Description
+	M_Text:(,0,378,@W,0,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,Description)
+		LineSpacing(0.85)
+		frlerp(gel.alpha,1-%selected,0.1)
+
+	Rect:() ref:GreenTagHook
+
+	// Purchase Button
+	Rect:()
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+	{
+		Text:() $HIDE ref:Price
+			.set(%BUTTONTEXT,gel.text)
+		
+		##I
+		M_Button:(@C-75,455,130,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,SelectedPurchaseButton,(%BUTTONTEXT),0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		##A
+	    M_Button:(@C,455,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,SelectedPurchaseButton,(%BUTTONTEXT),0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		##*
+		{
+			Rect:(0,0,@W,@H)
+				Press()
+				<
+					:set(%pressed,1)
+				>
+				else
+				<
+					:set(%pressed,0)
+				>
+				Click()
+				<
+					:Post(UI_Swoosh)
+					set(twk(Store,SelectedUId),%uid)
+					set(%clicked,1)
+					if(%oneClickPurchase)
+					<
+						Post(store.btn_Buy,twk(Store,SelectedUId))
+						set(twk(Store,SelectedUId),"")
+					>
+				>
+		}
+			if(%clicked)
+			<
+				if(%canOpen)
+				<
+					Post(store.btn_Buy,twk(Store,SelectedUId))
+					set(twk(Store,SelectedUId),"")
+				>
+			>
+	}
+
+	// Restore Button
+	##I
+	M_Button:(@C+75,455,130,60,Button_SilverSliced,Icon_Restore,52.5,5,25,25,#252525FF,link,ref,loc(store_RESTOREPURCHASES),0,18,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+		if(%clicked)
+		<
+			Post(store.btn_Restore,%uid)
+		>
+	##*
+}} Template
+
+
+
+// Special templates to spawn into products - Sale, Best Value, etc.
+Macro:(M_BasicGreenTag,?TEXT?)
+	Draw:(Tag_Green,0,@T,,,)
+	Rect:(-43,65,150,80,45)
+	{{
+		M_Text:(?TEXT?,@L,@T-[@H/4],@W,@H,C,C,TextBox,BEBAS28,,0,0,#00000000,NoItalics,#FFFFFFFF,TagText)
+	}}
+EndM
+
+Rect:() ref:FreeTag
+{
+	M_BasicGreenTag:("shop_Free")
+} Template
+
+Rect:() ref:OnSaleTag
+{
+	M_BasicGreenTag:("shop_Sale")
+} Template
+
+Rect:() ref:BestValueTag
+{
+	M_BasicGreenTag:("shop_BestValue")
+} Template
+
+Rect:() ref:MostPopularTag
+{
+	M_BasicGreenTag:("shop_MostPopular")
+} Template
+
+Rect:() ref:PercentageOff
+{
+	M_BasicGreenTag:("")
+} Template

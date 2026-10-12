@@ -1,0 +1,95 @@
+Macro:(M_RatingScorer,?REF?,?PLAYER?)
+	Cull:(0,0,[@W/2]-5,100) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(ratings.btn_ProfileScorer) ref:ClickMessage
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell100Dark,-3,-2,@W+6,@H+4)
+			M_Glint:(0,0,0,@W)
+		Else
+			Draw:(Cell100,-3,-2,@W+6,@H+4)
+		EndIf
+
+		Rect:() $HIDE ref:BadgeParent
+		{
+			M_Badge:(33,40,SD,1,Badge)
+		}
+
+		If:(?PLAYER?)
+			M_Text:(NAME,200,15,300,40,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(NAME,200,50,300,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,TeamName)
+			M_Text:(,@R-50,0,0,@H,C,C,Text,KNUL40,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Value)
+		Else
+			M_Text:(NAME,200,15,300,40,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(NAME,200,50,300,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,TeamName)
+			M_Text:(,@R-50,0,0,@H,C,C,Text,KNUL40,,1,0,#252525FF,NoItalics,#252525FF,Value)
+		EndIf
+
+		Clip:(0,-1,@W,@H)
+		{
+			Rect:(100,44) ref:CardFace
+				Card_Face(TopScorer) ref:CardSlot
+		}
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+Macro:(M_RatingAssist,?REF?,?PLAYER?)
+	Cull:(0,0,[@W/2]-5,100) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(ratings.btn_ProfileAssists) ref:ClickMessage
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell100Dark,-3,-2,@W+6,@H+4)
+			M_Glint:(0,0,0,@W)
+		Else
+			Draw:(Cell100,-3,-2,@W+6,@H+4)
+		EndIf
+
+			Rect:() $HIDE ref:BadgeParent
+			{
+			M_Badge:(33,40,SD,1,Badge)
+		}
+
+		If:(?PLAYER?)
+			M_Text:(NAME,200,15,300,40,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(NAME,200,50,300,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,TeamName)
+			M_Text:(,@R-50,0,0,@H,C,C,Text,KNUL40,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Value)
+		Else
+			M_Text:(NAME,200,15,300,40,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(NAME,200,50,300,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,TeamName)
+			M_Text:(,@R-50,0,0,@H,C,C,Text,KNUL40,,1,0,#252525FF,NoItalics,#252525FF,Value)
+		EndIf
+
+		Clip:(0,-1,@W,@H)
+		{
+			Rect:(100,45) ref:CardFace
+				Card_Face(TopAssists) ref:CardSlot
+		}
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+Macro:(M_RatingBlank,?REF?)
+	Cull:(0,0,[@W/2]-5,100) ref:?REF?
+	{
+	} Template
+EndM

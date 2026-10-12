@@ -1,0 +1,26 @@
+{    
+  "GameControls": {
+    "skillsClampHuman": 20,
+    "skillsClampOpp": 20
+  },
+  
+  "15" : {
+    "chancetype": "attack"
+  },
+
+  "28" : {
+    "chancetype": "midfield"
+  },
+
+  "42" : {
+    "chancetype": "attack"
+  },
+
+  "59" : {
+    "chancetype": "midfield"
+  },
+
+   "85" : {
+    "chancetype": "freekick"
+  }
+}

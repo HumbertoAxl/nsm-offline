@@ -1,0 +1,130 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(staff_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+		Layer(Text)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+			Layer(Default)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,218,60,hirelist_SKILLS,1,StaffHireList,CurrentTab,staffhirelist.btn_Tab)
+		M_Tab:(248,0,218,60,hirelist_FITNESS,2,StaffHireList,CurrentTab,staffhirelist.btn_Tab)
+		M_Tab:(466,0,218,60,hirelist_YOUTH,3,StaffHireList,CurrentTab,staffhirelist.btn_Tab)
+		M_Tab:(684,0,218,60,hirelist_SCOUT,4,StaffHireList,CurrentTab,staffhirelist.btn_Tab)
+		M_Tab:(902,0,219,60,hirelist_PHYSIO,5,StaffHireList,CurrentTab,staffhirelist.btn_Tab)
+
+		M_SwitchTabs:(5,StaffHireList,12,15,1112,15,staffhirelist.btn_Tab)
+	}}
+
+	
+
+
+
+	CTRLSelectGroup:(0,@T+180,@W,@H-250,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+		.CTRLSetSelected()
+		if(twk(Ftue,Enabled))
+		<
+			CTRLGlobalBlock(?BTNCAN?,Y)
+		>
+	{
+		// Clipped Content (Upsell height is @H-345)
+		Clip:(@L,@T+180,@W,@H-250)
+		{{
+			// Moved Content
+			Rect:(30,10,@W-60,@H-25)
+			{{
+				M_StaffListRow_ViewGeneral:(StaffHireList,staffhirelist)
+
+				// Hire List
+				Rect:(0,0,@W,@H) ref:StaffHireList
+					if(twk(StaffHireList,CurrentTab) = 1)
+					<
+						set(gel.vis,twk(Facilities,TrainingGroundLevel) > 0)
+					>
+					elif(twk(StaffHireList,CurrentTab) = 2)
+					<
+						set(gel.vis,twk(Facilities,FitnessCentreLevel) > 0)
+					>
+					elif(twk(StaffHireList,CurrentTab) = 3)
+					<
+						set(gel.vis,twk(Facilities,YouthAcademyLevel) > 0)
+					>
+					elif(twk(StaffHireList,CurrentTab) = 4)
+					<
+						set(gel.vis,twk(Facilities,ScoutsOfficeLevel) > 0)
+					>
+					elif(twk(StaffHireList,CurrentTab) = 5)
+					<
+						set(gel.vis,twk(Facilities,MedicalUnitLevel) > 0)
+					>
+					else
+					<
+						:set(gel.vis,0)
+					>>>>>
+					ScrollingList(StaffHireList,ListScroll,@H,StaffHireList,ListScrollVel) ref:ScrollingList
+					CTRLScrollList(ScrollingList) ref:CTRLScrollList
+					VerticalList(5) ref:Offset
+				{{
+				}}
+
+				M_Text:(hirelist_NOTRAINGROUND,@C,213,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,twk(StaffHireList,CurrentTab) = 1 and(twk(Facilities,TrainingGroundLevel) = 0))
+
+				M_Text:(hirelist_NOFITCENTRE,@C,213,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,twk(StaffHireList,CurrentTab) = 2 and(twk(Facilities,FitnessCentreLevel) = 0))
+
+				M_Text:(hirelist_NOACADEMY,@C,213,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,twk(StaffHireList,CurrentTab) = 3 and(twk(Facilities,YouthAcademyLevel) = 0))
+
+				M_Text:(hirelist_NOOFFICE,@C,213,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,twk(StaffHireList,CurrentTab) = 4 and(twk(Facilities,ScoutsOfficeLevel) = 0))
+
+				M_Text:(hirelist_NOMEDICAL,@C,213,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,twk(StaffHireList,CurrentTab) = 5 and(twk(Facilities,MedicalUnitLevel) = 0))
+			}}
+
+			// Swipe Panels
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				.set(twk(StaffHireList,ListScroll),0)
+				if(not(twk(CardEngine,DraggingCard)))
+				<
+					SwipePanel(StaffHireList,ListScroll,StaffHireList,ListScrollVel) ref:SwipePanelHireList
+				>
+			{{
+				Rect:(0,10,@W,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,StaffHireList,ListScroll,StaffHireList,ScrollingList,SwipePanels,SwipePanelHireList)
+				}}
+			}}
+		}}
+	}
+	M_SwitchStickHint:(✃,@R-29,@B-115,Y)
+		CTRLScrollListIcon(StaffHireList,CTRLScrollList)
+
+	// Headers
+	Rect:(@L,@T+140,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,0,@w,44)	
+		CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:DataListHeader
+		{
+			M_DataListHeaders:(0,0,@W,@H,StaffHireList,staffhirelist)
+		}
+	}}
+}}

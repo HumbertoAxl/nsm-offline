@@ -1,0 +1,17 @@
+##E
+//Arabic
+Img:(Title_Badge,NewGUI/UI/Title/Title_Badge_Ar.png) Volatile:TitleArtwork
+Img:(Title_Manager,NewGUI/UI/Title/Title_Manager_Ar.png) Volatile:TitleArtwork
+##C
+//Farsi
+Img:(Title_Badge,NewGUI/UI/Title/Title_Badge_Fa.png) Volatile:TitleArtwork
+Img:(Title_Manager,NewGUI/UI/Title/Title_Manager_Fa.png) Volatile:TitleArtwork
+##J
+//Japan
+Img:(Title_Badge,NewGUI/UI/Title/Title_Badge_Ja.png) Scale:0.4 Volatile:TitleArtwork
+// Img:(Title_Manager,NewGUI/UI/Title/Title_Manager_Ja.png) Volatile:TitleArtwork
+##!ECJ
+//English
+Img:(Title_Badge,NewGUI/UI/Title/Title_Badge.png) Volatile:TitleArtwork
+Img:(Title_Manager,NewGUI/UI/Title/Title_Manager.png) Volatile:TitleArtwork
+##*

@@ -1,0 +1,239 @@
+Macro:(M_ScrollingItemSheet,?REF?,?CAT?,?TWK?)
+	Locator:((0,0,0),(0,0,0),(1,1,1)) ref:?REF?
+		float(%pos,%lerpAmt,%index)
+		set(%pos,[%index*twk(Setup,ScrollSpacing)])
+		set(%lerpAmt,[twk(?CAT?,?TWK?)+%pos]/100)
+		set(gel3d.rotx,lerp(0,35,%lerpAmt))
+		set(gel3d.y,twk(?CAT?,?TWK?)+%pos-[%lerpAmt*10])
+		set(gel3d.scalex,lerp(1,0.8,abs(%lerpAmt)))
+		set(gel3d.scaley,lerp(1,0.8,abs(%lerpAmt)))
+	{
+		M_Text:(,-250,-50,500,100,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#BBBBBBFF,Text)
+	} Template
+EndM
+
+Macro:(M_ScrollingItemNormal,?W?,?H?,?REF?,?MSG?,?CAT?,?TWK?)
+	Cull:(0,0,0,0) ref:?REF?
+		.set(gel.w,?W?)
+		.set(gel.h,?H?)
+		float(%index)
+		set(gel.y,-[twk(Setup,ScrollSpacing)/2]+twk(?CAT?,?TWK?) + [%index*twk(Setup,ScrollSpacing)])
+		if(abs(gel.y+[twk(Setup,ScrollSpacing)/2])<[twk(Setup,ScrollSpacing)/2])
+		<
+			:Message(?MSG?,-1) ref:Message
+			:Post(UI_EarningsGainStat)
+			CTRLSetSelected()
+		>
+		CTRLSelect(CTRLSquareSelected,0,0,0,-[?H?/2])
+		CTRLPress(UP)
+		<
+			:set(twk(?CAT?,?TWK?ForceElement),%index-1)
+		>
+		CTRLPress(DOWN)
+		<
+			:set(twk(?CAT?,?TWK?ForceElement),%index+1)
+		>
+		CTRLBlock(LEFT,RIGHT)
+	{
+		M_Text:("",0,0,?W?,?H?,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#000000FF,Text)
+		{{
+			Draw:(Icon_Warning,10,40,30,30,,#252525FF) $HIDE ref:LeagueWarning
+		}}
+	} Template
+EndM
+
+Macro:(M_ScrollingFields,?X?,?Y?,?W?,?H?,?REF?,?CAT?,?TWK?,?ID?)
+	Rect:() ref:?REF?
+	{
+		Draw:(RoundedPanel,?X?-6,?Y?-6,?W?+12,?H?+12,,#CC1618FF)
+			
+		Draw:(RoundedPanel,?X?,?Y?,?W?,?H?,,#DDDDDDFF)
+		Rect:(?X?,?Y?-10,?W?,?H?+20) ref:SwipePanel
+
+			float(%remainder,%count)
+			inittwk(twk(?CAT?,?TWK?),0)
+			inittwk(twk(?CAT?,?TWK?ForceElement),-1)
+			if(twk(Setup,ScrollingFieldSwipe) oneof(0,?ID?))
+			<
+				SwipePanel(?CAT?,?TWK?,?CAT?,?TWK?Vel,,,,,20)
+				<
+					:set(twk(Setup,ScrollingFieldSwipe),?ID?)
+					set(twk(?CAT?,?TWK?),min(48,max(-48-[[%count-1]*twk(Setup,ScrollSpacing)],twk(?CAT?,?TWK?))))
+				>
+				else
+				<
+					:set(twk(Setup,ScrollingFieldSwipe),0)
+					:set(twk(?CAT?,?TWK?Target),twk(?CAT?,?TWK?)+[twk(?CAT?,?TWK?Vel)*30]-[twk(Setup,ScrollSpacing)/2])
+					:set(twk(?CAT?,?TWK?Vel),0)
+					:set(%remainder,twk(?CAT?,?TWK?Target))
+					:fmod(%remainder,twk(Setup,ScrollSpacing))
+					:sub(twk(?CAT?,?TWK?Target),%remainder)
+
+					if(twk(?CAT?,?TWK?Target) > 0)
+					<
+						:set(twk(?CAT?,?TWK?Target),0)
+					>
+					if(twk(?CAT?,?TWK?Target) < -[%count-1]*twk(Setup,ScrollSpacing))
+					<
+						:set(twk(?CAT?,?TWK?Target),-[%count-1]*twk(Setup,ScrollSpacing))
+					>
+
+					if(twk(?CAT?,?TWK?ForceElement) >= 0)
+					<
+						set(twk(?CAT?,?TWK?),-[[min(%count-1,twk(?CAT?,?TWK?ForceElement))]*twk(Setup,ScrollSpacing)])
+						set(twk(?CAT?,?TWK?Target),twk(?CAT?,?TWK?))
+						set(twk(?CAT?,?TWK?ForceElement),-1)
+					>
+
+					frlerp(twk(?CAT?,?TWK?),twk(?CAT?,?TWK?Target),0.05)
+				>
+			>
+
+		Clip:(?X?,?Y?,?W?,?H?)
+		{
+			Sheet:(0,0,900,0,0,0,66.46,1,1,1) ref:SheetHook
+			//FIXEDFOV
+				PinVP([?W?/2],[?H?/2],900)
+			{
+			}
+		}
+
+		Clip:(?X?,?Y?+[?H?/2]-[twk(Setup,ScrollSpacing)/2],?W?,twk(Setup,ScrollSpacing))
+		{{
+			Draw:(White,@L,@T,@W,@H)
+				Layer(Text)
+
+			Rect:() ref:NormalHook
+		}}
+
+		Rect:()
+			Layer(AboveText)
+		{
+			Draw:(Fade_Down,?X?,?Y?,?W?,40,,#FFFFFFFF)
+			Draw:(Fade_Up,?X?,?Y?+?H?,?W?,40,,#FFFFFFFF)
+				Handle(0,1)
+			Draw:(White,?X?,?Y?+[?H?/2]-[twk(Setup,ScrollSpacing)/2],?W?,1,,#00000020)
+			Draw:(White,?X?,?Y?+[?H?/2]+[twk(Setup,ScrollSpacing)/2],?W?,1,,#00000020)
+		}
+	}
+EndM
+
+
+
+Macro:(M_NameEntryCell,?X?,?Y?,?W?,?H?,?ID?,?CAT?,?VAR?,?DEFAULT?,?LINK?)
+	Rect:(?X?,?Y?,?W?,?H?) ref:?VAR?
+		Layer(Text)
+		M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLSquareSelected,0,0,0,0)
+		Click()
+		<
+			set(%clicked,1)
+		>
+		if(%clicked)
+		<
+			if(twk(Setup,FocusedItem) != ?ID?)
+			<
+				:Post(UI_Select)
+			>
+			:Message(?LINK?)
+		>
+		if(twk(Setup,FocusedItem) = ?ID?)
+		<
+			:CTRLSetSelected()
+			CTRLBlock(LEFT,RIGHT,UP,DOWN)
+		>
+		else
+		<
+			CTRLPress(RIGHT)
+			<
+				set(twk(Setup,ReturnFocusTo),?VAR?)
+				CTRLSetSelected(ContinentGroup)
+			>
+		>
+
+		strvar(%textstring)
+		float(%w,%valid)
+	{{
+		Draw:(White,0,0,@W,@H,,#E0E0E9FF)
+			if(twk(Setup,FocusedItem) = ?ID?)
+			<
+				frlerp(gel.colour,#FFFFFFFF,0.1)
+			>
+			else
+			<
+				set(gel.colour,#DDDDDDFF)
+			>
+
+
+		PushOrigin:(15,0)
+			M_Text:(,0,2,0,@H,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				set(%w,%gfw)
+				if((twk(Setup,FocusedItem) = ?ID?) and(%textstring!=gel.text))
+				<
+					:Post(UI_Select)
+				>
+				set(%textstring,gel.text)
+				set(%valid,%textstring != loc(?DEFAULT?))
+				
+				if(%valid)
+				<
+					set(gel.colour,#252525FF)
+				>
+				else
+				<
+					set(gel.colour,#00000020)
+				>
+				If:(?ID?=1)
+					GS_ShowNameF()
+				EndIf
+				If:(?ID?=2)
+					GS_ShowNameL()
+				EndIf
+				If:(?ID?=3)
+					GS_ShowSeed()
+				EndIf
+
+
+			// Focus Indicator
+			Draw:(White,0,5,3,40,,#3040FFFF)
+				set(gel.vis,twk(Setup,FocusedItem) = ?ID?)
+				:set(gel.alpha,1)
+				PulseAlpha(1,0,0.35,0.35,0.2,0.2)
+				if(%valid)
+				<
+					set(gel.x,%w+16)
+				>
+				else
+				<
+					set(gel.x,10)
+				>
+		PopOrigin
+
+		// Clear box
+		Rect:(@R-70,0,70,@H)
+			Click(setup.btn_Clear)
+			set(gel.vis,twk(Setup,FocusedItem) = ?ID? and(%valid))
+		{{
+			Draw:(Circle_50,20,7,35,35,,#CCCCCCFF)
+			M_Text:("x",20,5,35,35,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		}}
+
+		// Valid
+		Draw:(Circle_50,@C-20,53,38,38,,#EEEEEEFF)
+			Layer(Text)
+		{{
+			Draw:(Icon_Tick,20,20,40,40,,#CC1618FF)
+				Handle(0.5,0.5)
+				.set(gel.scale,0)
+				if(%valid)
+				<
+					frlerp(gel.alpha,1,0.2)
+					frlerp(gel.scale,1,0.2)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.3)
+					frlerp(gel.scale,0.5,0.3)
+				>
+		}}
+	}}
+EndM

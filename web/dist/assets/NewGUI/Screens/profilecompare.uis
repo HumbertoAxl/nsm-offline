@@ -1,0 +1,136 @@
+// //-------------------------------------------------------------------------------------------IMPORTS
+// Import:(Core.uih)
+// //
+// Import:(cards.uih)
+// Import:(badge_Macros.uih)
+// //----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// //---------------------------------------------------------------------------------------------SETUP
+// //----------------------------------------------------------------------------------------ANIMATIONS
+// //--------------------------------------------------------------------------------------------MACROS
+// //-----------------------------------------------------------------------------------------TEMPLATES
+// Rect:(0,0) ref:RoleMarker
+// {{
+// 	Draw:(Circle_50,0,0,32,32) ref:RoleBackground
+// 	M_Text:(,-2,0,40,35,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,RoleText)
+// 		Scale(0.9,0.9)
+// }} Template
+
+// Cull:(0,0,300,40) ref:PlayerEntry
+// 	float(%id,%selected)
+// 	set(%selected,twk(ProfileCompare,SelectedIndex) = %id)
+// 	Click("profilecompare.btn_ComparePlayer",%id)
+// {{
+// 	Draw:(White,@L,@T,@W,@H)
+
+// 	M_Text:(,60,10,@W,@H,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,Name)
+// 		if(%selected)
+// 		<
+// 			:set(gel.colour,#10DD10FF)
+// 		>
+// 		else
+// 		<
+// 			set(gel.colour,#252525FF)
+// 		>
+
+// 	Rect:(200,4) ref:RoleMarkerHook
+// 		ChildrenOffset(35,0)
+
+// }} Template
+
+// //-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+// M_NewDialogOPEN:("Compare",profilecompare)
+// // ----------------
+// // ----------------
+
+// 	Rect:(@L,@T+50,@W,@H-50)
+// 		float(%tab)
+// 	{{
+// 		Draw:(White,0,0,@W,@H,,#DDDDDDFF)
+
+// 		// Close button
+// 		M_ImageButton:(@R-45,45,70,70,0,0,45,45,White,#252525FF,null,BackButtonAudio)
+// 		<
+// 			.set(%state,"closing")
+// 		>
+	
+
+// 		// Header
+// 		Rect:(100,80)
+// 			Card_Face(ProfileCompareP1)
+// 			Scale(1.5,1.5)
+// 		M_Badge:(100,350,HD,0.7,P1Badge)
+
+// 		M_Text:(,0,5,0,0,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Name)
+// 		M_Text:("VS",420,50,0,0,C,C,Text,KNUL45,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 		// DropDown
+
+// 		Rect:(@R-400,80)
+// 			Card_Face(ProfileCompareP2)
+// 			Scale(1.5,1.5)
+// 		M_Badge:(@R-400,350,HD,0.7,P2Badge)
+
+// 		// Stats
+// 		Rect:(200,100,450,@H-100)
+// 		{{
+// 			M_Text:(RATING,0,0,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(ROLES,0,40,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(AGE,0,80,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(VALUE,0,120,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(TRAIT,0,160,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+
+// 			M_Text:(TACKLING,0,200,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(TECHNIQUE,0,240,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(DRIBBLING,0,280,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(PACE,0,320,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+// 			M_Text:(STRENGTH,0,360,@W,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+
+// 			M_Text:(,0,0,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Rating)
+// 			// Roles
+// 			Rect:(100,50) ref:P1RolesHook
+// 				ChildrenOffset(40,0) ref:ChildrenOffset
+// 			M_Text:(,0,80,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Age)
+// 			M_Text:(,0,120,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Value)
+// 			M_Text:(,0,160,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Trait)
+// 			M_Text:(,0,200,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Tackling)
+// 			M_Text:(,0,240,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Technique)
+// 			M_Text:(,0,280,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Dribbling)
+// 			M_Text:(,0,320,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Pace)
+// 			M_Text:(,0,360,@W,50,L,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P1Strength)
+
+
+
+
+// 			M_Text:(,0,0,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Rating)
+// 			// Roles
+// 			Rect:(300,50) ref:P2RolesHook
+// 				ChildrenOffset(40,0) ref:ChildrenOffset
+// 			M_Text:(,0,80,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Age)
+// 			M_Text:(,0,120,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Value)
+// 			M_Text:(,0,160,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Trait)
+// 			M_Text:(,0,200,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Tackling)
+// 			M_Text:(,0,240,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Technique)
+// 			M_Text:(,0,280,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Dribbling)
+// 			M_Text:(,0,320,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Pace)
+// 			M_Text:(,0,360,@W,50,R,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref,ProfileCompare,P2Strength)
+
+// 		}}
+
+// 		Clip:(@R-300,200,300,500)
+// 			SwipePanel(ProfileCompare,SquadScroll,ProfileCompare,SquadScrollVel)
+// 		{{
+// 			Rect:(@L,@T,@W,@H) ref:ListHook
+// 				VerticalList(0) ref:VerticalList
+// 				ScrollingList(ProfileCompare,SquadScroll,@H,ProfileCompare,SquadScrollVel) ref:ScrollingList
+// 			{{
+// 			}}
+// 		}}
+// 	}}
+
+// // ----------------
+// // ----------------
+// M_NewDialogCLOSE:()

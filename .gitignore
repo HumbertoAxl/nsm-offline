@@ -1,0 +1,24 @@
+# Local source artifacts and investigation output
+*.apk
+analysis/*
+!analysis/*.md
+!analysis/apk-identity.json
+!analysis/runtime-comparison.json
+!analysis/native-apk-inventory.json
+!analysis/rea-archive-evidence.json
+!analysis/rea-android-evidence.json
+!analysis/rea-artifact-evidence.json
+__pycache__/
+*.pyc
+*.log
+web/test-output/
+tools/
+
+# Local tooling and credentials
+node_modules/
+.netlify/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

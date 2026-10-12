@@ -1,0 +1,64 @@
+Rect:() $HIDE
+	set(gel.vis,twk(Ftue,Enabled)=0)
+{
+	// M_ContextHintDialog,?SCREEN?,?TYPE?,?X?,?Y?,?W?,?H?,?MESSAGE?,?ANIMX?,?ANIMY?,?ANIMNAME?,?CLICK?,?MESSAGEX?,?MESSAGEY?,?BUTTON?,?ANIMKILL?,?ANIMDESTX?,?ANIMDESTY?,?TWK?,?STEP?,?SHELL?,?INITMESSAGE?)
+	// M_ContextHintDialog:(store,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_STORE),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Store,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Store
+	// M_ContextHintDialog:(boardtargets,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_BOARDTARGETS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,BoardTargets,1,GameScreen,,#00000040,LEFT) ref:Hint_BoardTargets
+	// M_ContextHintDialog:(home,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_TRANSFERWINDOW),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,TransferWindow,1,GameScreen,,#00000040,LEFT) ref:Hint_TransferWindow	
+	M_ContextHintDialog:(social,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_SOCIAL),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Social,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Social
+	M_ContextHintDialog:(choosesponsor,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_SPONSOR),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Sponsor,1,GameScreen,,#00000040,LEFT) ref:Hint_Sponsor
+	M_ContextHintDialog:(home,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_RATETHEAPP),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,RateTheApp,1,GameScreen,,#00000040,LEFT) ref:Hint_RateTheApp
+	M_ContextHintDialog:(dilemma,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_DILEMMA),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Dilemma,1,GameScreen,,#00000040,LEFT) ref:Hint_Dilemma
+	M_ContextHintDialog:(finances,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_SPONSORLOW),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,SponsorLow,1,GameScreen,,#00000040,LEFT) ref:Hint_SponsorLow
+	M_ContextHintDialog:(finances,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_FANSLOW),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,FansLow,1,GameScreen,,#00000040,LEFT) ref:Hint_FansLow
+	M_ContextHintDialog:(finances,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_BOARDLOW),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,BoardLow,1,GameScreen,,#00000040,LEFT) ref:Hint_BoardLow
+	M_ContextHintDialog:(formationmenu,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_LOWENERGY),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,LowEnergy,1,GameScreen,,#00000040,LEFT) ref:Hint_LowEnergy
+	M_ContextHintDialog:(formationmenu,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_INJUREDPLAYER),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,InjuredPlayer,1,GameScreen,,#00000040,LEFT) ref:Hint_InjuredPlayer
+	M_ContextHintDialog:(formationmenu,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_FORMATIONS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Formations,1,GameScreen,,#00000040,LEFT) ref:Hint_Formations
+	M_ContextHintDialog:(home,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_BUYINGPLAYERS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,BuyingPlayers,1,GameScreen,,#00000040,LEFT) ref:Hint_BuyingPlayers
+	M_ContextHintDialog:(formationmenu,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_UNHAPPYPLAYER),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,UnhappyPlayer,1,GameScreen,,#00000040,LEFT) ref:Hint_UnhappyPlayer
+	M_ContextHintDialog:(formationmenu,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_FORMATIONUNLOCKED),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,FormationUnlocked,1,GameScreen,,#00000040,LEFT) ref:Hint_FormationUnlocked
+	M_ContextHintDialog:(search,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_TRANSFERTARGETS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,TransferTargets,1,OverlayLayer1,,#00000040,LEFT) ref:Hint_TransferTargets
+	M_ContextHintDialog:(search,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_SHORTLIST),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Shortlist,1,OverlayLayer1,,#00000040,LEFT) ref:Hint_Shortlist
+	M_ContextHintDialog:(home,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_SCANDAL),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Scandal,1,GameScreen,,#00000040,LEFT) ref:Hint_scandal
+	M_ContextHintDialog:(matchengine,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_HEADER),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Header,1,GameScreen,,#00000040,LEFT,loc(CHINT_HEADER_ALT)) ref:Hint_Header
+	M_ContextHintDialog:(matchengine,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_RETRIES),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Retries,1,GameScreen,,#00000040,LEFT) ref:Hint_Retries
+	M_ContextHintDialog:(manager,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_MANAGER),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Manager,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Manager
+	M_ContextHintDialog:(manager,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_PRESTIGING),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,ManagerPrestiging,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_ManagerPrestiging
+	M_ContextHintDialog:(manager,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_ACHIEVEMENTS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Achievements,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Achievements
+	##4
+	##-
+	M_ContextHintDialog:(manager,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_REPLAYS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,Replays,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Replays
+	##*
+	M_ContextHintDialog:(formationmatch,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_PLAYERSENTOFF),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,PlayerSentOff,1,GameScreen,,#00000040,LEFT) ref:Hint_PlayerSentOff
+
+	//iOS & Android Only Hints
+	##IA
+	M_ContextHintDialog:(badgeeditor,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_BADGEEDITOR),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,BadgeEditor,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_BadgeEditor
+	M_ContextHintDialog:(kiteditor,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_KITEDITOR),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,KitEditor,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_KitEditor
+	M_ContextHintDialog:(rename,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_NAMEEDITOR),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,NameEditor,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_NameEditor
+	//M_ContextHintDialog:(online,CONTEXTFULLSCREEN,@l,@t,@w,@h,loc(CHINT_LEADERBOARDS),@l+780,-@t+600,,ClickMessage,@l+310-@f,-@t+350,OK,,,,NameEditor,1,(twk(DynamicOverlay,CurrentTopOverlay)),,#00000040,LEFT) ref:Hint_Leaderboards
+	##*
+
+	// Cards Carousel Reminder
+	M_ContextHintDialog:(home,CONTEXTCARDCAROUSEL,@r-390+@f,@t,110,50,loc(CHINT_CARDCAROUSEL),@r-288+@f,@t+110,FTUE_MultiTap,,@l+310-@f,-@t+350,OK,,,,CardCarousel,1,GameScreen,,#00000040,LEFT) ref:Hint_CardCarousel
+		float(%wasVisible)
+		if(gel.vis)
+		<
+			set(%wasVisible,1)
+		>
+		if(%wasVisible and(not(gel.vis)))
+		<
+			set(%wasVisible,0)
+			set(twk(FtueNoLocal,ContextHintActive),0)
+			set(twk(ContextHint,CardCarouselEnabled),0)
+			set(twk(ContextHint,CardCarouselCount),0)
+		>
+
+	// Apply TeamTalk Hint not using Context Dialog
+	Rect:()
+		set(gel.vis,(shell(GameScreen)="formationmatch") and(twk(ScreenTransition,Active)=0) and(twk(DynamicOverlay,CurrentTopOverlay)="") and(twk(Formation,CurrentTab)=3) and(twk(Match,TeamTalkEnabled)) and(twk(Match,TeamTalkCount) > 0))
+	{
+		M_HandAnim_DragHoldRelease:(910,500-[@z/2],340-[@y/2],400)
+	}
+}

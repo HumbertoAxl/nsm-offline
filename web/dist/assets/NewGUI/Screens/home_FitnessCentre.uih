@@ -1,0 +1,1521 @@
+//-----------------------------------Textures
+Texture:(Fitness_01_Shadow,Facilities/Fitness/Fitness_centre_T1s.png,false)
+Texture:(Fitness_02_Shadow,Facilities/Fitness/Fitness_centre_T2s.png,false)
+Texture:(Fitness_03_Shadow,Facilities/Fitness/Fitness_centre_T3s.png,false)
+Texture:(Fitness_04_Shadow,Facilities/Fitness/Fitness_centre_T4s.png,false)
+Texture:(Fitness_05_Shadow,Facilities/Fitness/Fitness_centre_T5s.png,false)
+Texture:(Fitness_06_Shadow,Facilities/Fitness/Fitness_centre_T6s.png,false)
+
+Texture:(Fitness_01,Facilities/Fitness/Fitness_01.png)
+Texture:(Fitness_01_RAILING,Facilities/Scout/Scouts_LV1_railing.png)
+Texture:(Fitness_02,Facilities/Fitness/Fitness_02.png)
+Texture:(Fitness_03,Facilities/Fitness/Fitness_03.png)
+Texture:(Fitness_04,Facilities/Fitness/Fitness_04.png)
+Texture:(Fitness_05,Facilities/Fitness/Fitness_05.png)
+Texture:(Fitness_05_ROOF,Facilities/Fitness/Fitness_05b_ROOF.png)
+Texture:(Fitness_06,Facilities/Fitness/Fitness_06.png)
+Texture:(Fitness_06_ROOF,Facilities/Fitness/Fitness_06b_ROOF.png)
+
+Texture:(Fitness_Track_01,Facilities/Fitness/running_lines_T1.png)
+Texture:(Fitness_Track_02,Facilities/Fitness/running_lines_T2.png)
+
+##P4N
+//Night
+Texture:(Fitness_Track_01_Night,Facilities/Fitness/running_lines_T1_DUSK.nspng)
+Texture:(Fitness_Track_02_Night,Facilities/Fitness/running_lines_T2_DUSK.nspng)
+
+Texture:(Fitness_01_Night,Facilities/Fitness/Fitness_01_DUSK.nspng)
+Texture:(Fitness_02_Night,Facilities/Fitness/Fitness_02_DUSK.nspng)
+Texture:(Fitness_03_Night,Facilities/Fitness/Fitness_03_DUSK.nspng)
+Texture:(Fitness_04_Night,Facilities/Fitness/Fitness_04_DUSK.nspng)
+Texture:(Fitness_05_Night,Facilities/Fitness/Fitness_05_DUSK.nspng)
+Texture:(Fitness_05_ROOF_Night,Facilities/Fitness/Fitness_05b_ROOF_DUSK.nspng)
+Texture:(Fitness_06_Night,Facilities/Fitness/Fitness_06_DUSK.nspng)
+Texture:(Fitness_06_ROOF_Night,Facilities/Fitness/Fitness_06b_ROOF_DUSK.nspng)
+
+//Winter
+Texture:(Fitness_Track_01_Winter,Facilities/Fitness/running_lines_T1_WINTER.nspng)
+Texture:(Fitness_Track_02_Winter,Facilities/Fitness/running_lines_T2_WINTER.nspng)
+
+Texture:(Fitness_01_Winter,Facilities/Fitness/Fitness_01_WINTER.nspng)
+Texture:(Fitness_02_Winter,Facilities/Fitness/Fitness_02_WINTER.nspng)
+Texture:(Fitness_03_Winter,Facilities/Fitness/Fitness_03_WINTER.nspng)
+Texture:(Fitness_04_Winter,Facilities/Fitness/Fitness_04_WINTER.nspng)
+Texture:(Fitness_05_Winter,Facilities/Fitness/Fitness_05_WINTER.nspng)
+Texture:(Fitness_05_ROOF_Winter,Facilities/Fitness/Fitness_05b_ROOF_WINTER.nspng)
+Texture:(Fitness_06_Winter,Facilities/Fitness/Fitness_06_WINTER.nspng)
+Texture:(Fitness_06_ROOF_Winter,Facilities/Fitness/Fitness_06b_ROOF_WINTER.nspng)
+
+//Winter Night
+Texture:(Fitness_Track_01_Winter_Night,Facilities/Fitness/running_lines_T1_WINTER_DUSK.nspng)
+Texture:(Fitness_Track_02_Winter_Night,Facilities/Fitness/running_lines_T2_WINTER_DUSK.nspng)
+
+Texture:(Fitness_01_Winter_Night,Facilities/Fitness/Fitness_01_WINTER_DUSK.nspng)
+Texture:(Fitness_02_Winter_Night,Facilities/Fitness/Fitness_02_WINTER_DUSK.nspng)
+Texture:(Fitness_03_Winter_Night,Facilities/Fitness/Fitness_03_WINTER_DUSK.nspng)
+Texture:(Fitness_04_Winter_Night,Facilities/Fitness/Fitness_04_WINTER_DUSK.nspng)
+Texture:(Fitness_05_Winter_Night,Facilities/Fitness/Fitness_05_WINTER_DUSK.nspng)
+Texture:(Fitness_05_ROOF_Winter_Night,Facilities/Fitness/Fitness_05b_ROOF_WINTER_DUSK.nspng)
+Texture:(Fitness_06_Winter_Night,Facilities/Fitness/Fitness_06_WINTER_DUSK.nspng)
+Texture:(Fitness_06_ROOF_Winter_Night,Facilities/Fitness/Fitness_06b_ROOF_WINTER_DUSK.nspng)
+##*
+
+//----------------------------------Fitness Centre Static Meshes STANDARD
+StaticModel:(Fitness_Centre_Shadow_Lv_1,Fitness_Centre_Shadow_Lv_1)
+StaticModel:(Fitness_Centre_Shadow_Lv_2,Fitness_Centre_Shadow_Lv_2)
+StaticModel:(Fitness_Centre_Shadow_Lv_3,Fitness_Centre_Shadow_Lv_3)
+StaticModel:(Fitness_Centre_Shadow_Lv_4,Fitness_Centre_Shadow_Lv_4)
+StaticModel:(Fitness_Centre_Shadow_Lv_5,Fitness_Centre_Shadow_Lv_5)
+StaticModel:(Fitness_Centre_Shadow_Lv_6,Fitness_Centre_Shadow_Lv_6)
+
+StaticModel:(Fitness_Centre_Lv_1,Fitness_Centre_Lv_1)
+StaticModel:(Fitness_Centre_Lv_2,Fitness_Centre_Lv_2)
+StaticModel:(Fitness_Centre_Lv_3,Fitness_Centre_Lv_3)
+StaticModel:(Fitness_Centre_Lv_4,Fitness_Centre_Lv_4)
+StaticModel:(Fitness_Centre_Lv_5,Fitness_Centre_Lv_5)
+StaticModel:(Fitness_Centre_Lv_6,Fitness_Centre_Lv_6)
+
+StaticModel:(Fitness_Centre_Railing_Lv_1,Fitness_Centre_Railing_Lv_1)
+StaticModel:(Fitness_Centre_Roof_Lv_5,Fitness_Centre_Roof_Lv_5)
+StaticModel:(Fitness_Centre_Roof_Lv_6,Fitness_Centre_Roof_Lv_6)
+
+StaticModel:(Fitness_Centre_Lines_Lv_1,Fitness_Centre_Lines_Lv_1)
+StaticModel:(Fitness_Centre_Lines_Lv_2,Fitness_Centre_Lines_Lv_2)
+StaticModel:(Fitness_Centre_Lines_Lv_3,Fitness_Centre_Lines_Lv_3)
+
+StaticModel:(Fitness_Centre_Extra_Lv_5,Fitness_Centre_Extra_Lv_5)
+StaticModel:(Fitness_Centre_Extra_Lv_6,Fitness_Centre_Extra_Lv_6)
+
+##IA
+StaticModel:(Fitness_Centre_Base_Lv_0,Fitness_Centre_Base_Lv_0)
+StaticModel:(Fitness_Centre_Base_Lv_1,Fitness_Centre_Base_Lv_1)
+StaticModel:(Fitness_Centre_Base_Lv_2,Fitness_Centre_Base_Lv_2)
+StaticModel:(Fitness_Centre_Base_Lv_3,Fitness_Centre_Base_Lv_3)
+StaticModel:(Fitness_Centre_Base_Lv_4,Fitness_Centre_Base_Lv_4)
+StaticModel:(Fitness_Centre_Base_Lv_5,Fitness_Centre_Base_Lv_5)
+StaticModel:(Fitness_Centre_Base_Lv_6,Fitness_Centre_Base_Lv_6)
+
+StaticModel:(Fitness_Centre_Trees_Lv_0,Fitness_Centre_Trees_Lv_0)
+StaticModel:(Fitness_Centre_Trees_Lv_1,Fitness_Centre_Trees_Lv_1)
+StaticModel:(Fitness_Centre_Trees_Lv_2,Fitness_Centre_Trees_Lv_2)
+StaticModel:(Fitness_Centre_Trees_Lv_3,Fitness_Centre_Trees_Lv_3)
+StaticModel:(Fitness_Centre_Trees_Lv_4,Fitness_Centre_Trees_Lv_4)
+StaticModel:(Fitness_Centre_Trees_Lv_5,Fitness_Centre_Trees_Lv_5)
+StaticModel:(Fitness_Centre_Trees_Lv_6,Fitness_Centre_Trees_Lv_6)
+
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_0,Fitness_Centre_Trees_Shadow_Lv_0)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_1,Fitness_Centre_Trees_Shadow_Lv_1)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_2,Fitness_Centre_Trees_Shadow_Lv_2)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_3,Fitness_Centre_Trees_Shadow_Lv_3)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_4,Fitness_Centre_Trees_Shadow_Lv_4)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_5,Fitness_Centre_Trees_Shadow_Lv_5)
+StaticModel:(Fitness_Centre_Trees_Shadow_Lv_6,Fitness_Centre_Trees_Shadow_Lv_6)
+
+
+##P4N
+//Winter
+StaticModel:(Fitness_Centre_Base_HI_Lv_0_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_0_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_1_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_1_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_2_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_2_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_3_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_3_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_4_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_4_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_5_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_5_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_6_Winter,HIGH DETAIL/Winter/Fitness_Centre_Base_HI_Lv_6_WINTER.3DMH)
+//Summer
+StaticModel:(Fitness_Centre_Base_HI_Lv_0,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_0.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_1,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_1.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_2,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_2.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_3,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_3.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_4,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_4.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_5,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_5.3DMH)
+StaticModel:(Fitness_Centre_Base_HI_Lv_6,HIGH DETAIL/Fitness_Centre_Base_HI_Lv_6.3DMH)
+
+//Winter
+StaticModel:(Fitness_Centre_Trees_HI_Lv_0_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_0_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_1_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_1_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_2_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_2_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_3_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_3_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_4_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_4_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_5_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_5_WINTER.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_6_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_HI_Lv_6_WINTER.3DMH)
+//Summer
+StaticModel:(Fitness_Centre_Trees_HI_Lv_0,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_0.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_1,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_1.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_2,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_2.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_3,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_3.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_4,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_4.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_5,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_5.3DMH)
+StaticModel:(Fitness_Centre_Trees_HI_Lv_6,HIGH DETAIL/Fitness_Centre_Trees_HI_Lv_6.3DMH)
+
+//Winter
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_0_Winter,HIGH DETAIL/Winter/Fitness_Centre_Trees_Shadow_HI_Lv_0_WINTER.3DMH)
+//Summer
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_0,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_0.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_1,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_1.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_2,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_2.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_3,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_3.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_4,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_4.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_5,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_5.3DMH)
+StaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_6,HIGH DETAIL/Fitness_Centre_Trees_Shadow_HI_Lv_6.3DMH)
+##* 
+
+
+
+//--------------------------------------------------------------------------------Fitness
+
+//-------------------------------------TIER 3
+View:(Fitness_03,512,512) 
+##IA
+	M_ONCE:()
+##P4N
+	if(twk(Facilities,Night) = 0)
+	<
+		M_ONCE:()
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+##*
+{
+	Sheet:()
+	{
+		Draw:(Fitness_T3_PrimaryCol,0,0,512,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+##P4N
+View:(Fitness_03_Night,512,512) 
+	if(twk(Facilities,Night) = 1)
+	<
+		M_ONCE:()
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+{
+	Sheet:()
+	{
+		Draw:(Fitness_T3_PrimaryCol,0,0,512,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+##*
+
+
+//-------------------------------------TIER 4
+View:(Fitness_04,512,512) 
+##IA
+	M_ONCE:()
+##P4N
+	if(twk(Facilities,Night) = 0)
+	<
+		M_ONCE:()
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+##*
+{
+	Sheet:()
+	{
+		Draw:(Fitness_T4_PrimaryCol,0,0,512,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+##P4N
+View:(Fitness_04_Night,512,512)
+	if(twk(Facilities,Night) = 1)
+	<
+		M_ONCE:()
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+{
+	Sheet:()
+	{
+		Draw:(Fitness_T4_PrimaryCol,0,0,512,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+##*
+
+
+
+//Make This Define Equal to a Texture to show the colliders for the fitness centre
+Define:(?FITNESS_CENTRE_SHOW_COLLIDERS?=) 
+
+//----------------------------------Club Shop Macro
+Macro:(M_FitnessCentre,?SCALE?)
+	//Developed Facility 1
+	Locator:((0,0,0),(0,0,0),(?SCALE?,?SCALE?,?SCALE?))
+		Unload(Fitness_01_Shadow,Fitness_02_Shadow,Fitness_03_Shadow,Fitness_04_Shadow,Fitness_05_Shadow,Fitness_06_Shadow)
+		Unload(Fitness_01,Fitness_02,Fitness_05,Fitness_06)
+		Unload(Fitness_05_ROOF,Fitness_06_ROOF)
+	{
+		UseShader:(ProjectedLight3DVCol)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+		{
+			
+			Rect:()
+				Layer(Ground)
+				M_FacilityConstructionController:(FitnessCentre,2)
+			{
+				//-----------------------------------------------------Tier 0
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_0,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_0,Base_HI)
+						M_TextureSelectW:()
+					##*
+
+					//Fitness Centre Selection Hint
+					M_AreaSelection:(550,13800,-2,2,FitnessCentre,27,20,0,0,180,Fitness,575)
+
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_0,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_0,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+				
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_0,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_0,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*	
+						
+					M_FacilitySectionHotArea:(550,13800,0,26,20,10,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+				}
+		
+
+				//-----------------------------------------------------Tier 1
+		
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_1,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_1,Base_HI)
+						M_TextureSelectW:()
+					##*
+
+					Locator:((775,15060,0),(0,0,0),(1,1,1))
+						set(gel.vis,(twk(FitnessCentreConstruction,LastConstructionLevel) != 0) or(shell("Facility")!=""))
+					{
+						//Building Shadow
+						DrawStaticModel:(Fitness_Centre_Shadow_Lv_1,Fitness_01_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_1,Fitness_01)
+							M_TextureSelectW:()
+						DrawStaticModel:(Fitness_Centre_Railing_Lv_1,Fitness_01_RAILING)
+							Blend(ONE,INV_IMAGE_ALPHA)
+
+						//Side Badge
+						M_StadTeamBadge:(467,150,-145,0,-90,-90,150,ZSafeSprite,)
+							Layer(ZSprite)
+					}
+					
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_1,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_1,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_1,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_1,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*	
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT1Cars)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								//Back
+								M_Vehicle:(2405,12305,Car,Car,182,Green)
+								
+								//Front
+								M_Vehicle:(2225,11685,Car,Car,180,Purple)
+								M_Vehicle:(2750,11685,Car,Car,0,Cyan)
+							}
+							//Back
+							M_Vehicle:(2935,11685,Van,Van,180,White)
+							##P4N
+							Batch:(BatchedFitnessT1CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{
+								//Back
+								M_Vehicle_HI:(2405,12305,Car1_Type1,Car,182)
+								//Front
+								M_Vehicle_HI:(2225,11685,Car2_Type2,Car,180)
+								M_Vehicle_HI:(2750,11685,Car3_Type1,Car,0)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2935,11685,Van1_Type1,Van,180)
+							##*
+						}
+					}
+					
+
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-2),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_1,Fitness_Track_01)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}
+											
+					M_FacilitySectionHotArea:(730,15070,0,4.1,2.7,2.2,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FacilitySectionHotArea:(1300,15100,0,0.5,1.8,0.8,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction1:(1)
+				}
+		
+
+				//-----------------------------------------------------Tier 2
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_2,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_2,Base_HI)
+						M_TextureSelectW:()
+					##*
+					
+					Locator:((880,15160,0),(0,0,0),(1,1,1))
+					{
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_2,Fitness_02)
+							M_TextureSelectW:()
+
+						//Side Badge
+						M_StadTeamBadge:(687,-50,-145,0,-90,-90,160,ZSafeSprite,)
+							Layer(ZSprite)
+
+						//Front Sign and badge
+						//POSX,POSY,POSZ,ROTX,ROTY,ROTZ,BGW,BGH,BADGEX,BADGEY,BADGESIZE,TEXTX,TEXTY,TEXTW,FONTSIZE,FADE1X,FADE1Y,FADE1W,FADE1H,FADE2X,FADE2Y,FADE2W,FADE2H,SHADER,Stand,ShadeCol
+						M_StadTeamNameAndBadge:(260,-455,-252,-90,-90,-90,750,85,80,44,80,430,7,680,KNUL64,1,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+							Layer(ZSprite)
+					}
+					
+					//Building Shadow
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Locator:((880,15160,0),(0,0,0),(1,1,1))
+						{
+							//Building Shadow
+							DrawStaticModel:(Fitness_Centre_Shadow_Lv_2,Fitness_02_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_2,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_2,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_2,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_2,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*	
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT2Cars)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								//Back
+								M_Vehicle:(2425,12305,Car,Car,182,Blue)
+								
+								//Front
+								M_Vehicle:(2225,11685,Car,Car,180,Green)
+								M_Vehicle:(2740,11685,Car,Car,0,Red)
+								M_Vehicle:(2935,11685,Car,Car,182,Orange)
+							}
+							//Back
+							M_Vehicle:(2230,12305,Van,Van,180,Yellow)
+							##P4N
+							Batch:(BatchedFitnessT2CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{
+								
+								//Back
+								M_Vehicle_HI:(2425,12305,Car1_Type1,Car,182)
+								
+								//Front
+								M_Vehicle_HI:(2225,11685,Car2_Type1,Car,180)
+								M_Vehicle_HI:(2740,11685,Car1_Type2,Car,0)
+								M_Vehicle_HI:(2935,11685,Car3_Type1,Car,182)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2230,12305,Van1_Type2,Van,180)
+							##*
+						}
+					}
+					
+					
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-1),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_2,Fitness_Track_01)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}	
+				
+					M_FacilitySectionHotArea:(870,15165,0,5.6,3.4,2.5,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction2:()
+				}
+
+					
+				//-----------------------------------------------------Tier 3	
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_3,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_3,Base_HI)
+						M_TextureSelectW:()
+					##*
+
+					Locator:((1047,15246,0),(0,0,0),(1,1,1))
+					{
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_3,Fitness_03)
+							M_TextureSelectW:()
+
+						//Front Sign
+						//?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?
+						M_TeamName:(780,-515,-330,-90,-90,-90,715,80,360,0,705,KNUL64,1.2,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+							Layer(ZSprite)
+
+						//Front Badge
+						M_StadTeamBadge:(-675,-515,-245,-90,-90,-90,160,ZSafeSprite,)
+							Layer(ZSprite)
+					}
+					
+					//Building Shadow
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Locator:((1047,15246,0),(0,0,0),(1,1,1))
+						{
+							//Building Shadow
+							DrawStaticModel:(Fitness_Centre_Shadow_Lv_3,Fitness_03_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+
+
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_3,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_3,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_3,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_3,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()	
+					}
+					##*	
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT3Cars)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								//Back
+								M_Vehicle:(1695,12305,Car,Car,180,Blue)
+								M_Vehicle:(1900,12305,Car,Car,0,Red)
+								M_Vehicle:(2425,12305,Car,Car,182,Green)
+								
+								//Front
+								M_Vehicle:(1715,11685,Car,Car,2,Red)
+								M_Vehicle:(2055,11685,Car,Car,182,Black)
+								M_Vehicle:(2225,11685,Car,Car,180,Purple)
+								M_Vehicle:(2740,11685,Car,Car,0,Orange)
+							}
+							//Back
+							M_Vehicle:(2230,12305,Van,Van,0,Green)
+							##P4N
+							Batch:(BatchedFitnessT3CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{
+								//Back
+								M_Vehicle_HI:(1695,12305,Car1_Type3,Car,180)
+								M_Vehicle_HI:(1900,12305,Car2_Type1,Car,0)
+								M_Vehicle_HI:(2425,12305,Car3_Type1,Car,182)
+								//Front
+								M_Vehicle_HI:(1715,11685,Car3_Type3,Car,2)
+								M_Vehicle_HI:(2055,11685,Car1_Type2,Car,182)
+								M_Vehicle_HI:(2225,11685,Car2_Type2,Car,180)
+								M_Vehicle_HI:(2740,11685,Car2_Type1,Car,0)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2230,12305,Van1_Type1,Van,0)
+							##*
+						}
+					}
+					
+
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-1),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_3,Fitness_Track_02)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}	
+
+					M_FacilitySectionHotArea:(1080,15300,0,7,5,3.8,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FacilitySectionHotArea:(860,14700,0,1.8,1,3.8,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction3:()
+				}
+
+				//-----------------------------------------------------Tier 4		
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_4,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_4,Base_HI)
+						M_TextureSelectW:()
+					##*
+
+					Locator:((963,14790,0),(0,0,0),(1,1,1))
+					{
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_4,Fitness_04)
+							M_TextureSelectW:()
+
+						//Front Sign
+						//?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?
+						M_TeamName:(772,-70,-390,0,-90,-90,715,80,360,0,705,KNUL64,1.2,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+							Layer(ZSprite)
+
+						//Front Badge
+						M_StadTeamBadge:(0,-1060,-325,-90,-90,-90,160,ZSafeSprite,)
+							Layer(ZSprite)
+					}
+					
+					//Building Shadow
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Locator:((963,14790,0),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Shadow_Lv_4,Fitness_04_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_4,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_4,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_4,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_4,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()	
+					}
+					##*
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT4Cars)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								//Back
+								M_Vehicle:(1885,12305,Car,Car,180,Blue)
+								M_Vehicle:(1565,12305,Car,Car,180,Green)
+								M_Vehicle:(1375,12305,Car,Car,2,Orange)
+								M_Vehicle:(1205,12305,Car,Car,0,Black)
+								
+								//Front
+								M_Vehicle:(1195,11685,Car,Car,180,Blue)
+								M_Vehicle:(1375,11685,Car,Car,2,Purple)
+								M_Vehicle:(1565,11685,Car,Car,0,Red)
+								M_Vehicle:(2055,11685,Car,Car,180,White)
+								M_Vehicle:(2225,11685,Car,Car,0,Cyan)
+								M_Vehicle:(2740,11685,Car,Car,180,Green)
+							}
+
+							//Back
+							M_Vehicle:(2430,12305,Van,Van,180,Red)
+							##P4N
+							Batch:(BatchedFitnessT4CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{
+								//Back
+								M_Vehicle_HI:(1885,12305,Car1_Type2,Car,180)
+								M_Vehicle_HI:(1565,12305,Car2_Type1,Car,180)
+								M_Vehicle_HI:(1375,12305,Car1_Type3,Car,2)
+								M_Vehicle_HI:(1205,12305,Car3_Type2,Car,0)
+								
+								//Front
+								M_Vehicle_HI:(1195,11685,Car1_Type3,Car,180)
+								M_Vehicle_HI:(1375,11685,Car2_Type2,Car,2)
+								M_Vehicle_HI:(1565,11685,Car1_Type1,Car,0)
+								M_Vehicle_HI:(2055,11685,Car3_Type1,Car,180)
+								M_Vehicle_HI:(2225,11685,Car1_Type1,Car,0)
+								M_Vehicle_HI:(2740,11685,Car2_Type1,Car,180)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2430,12305,Van1_Type2,Van,180)
+							##*
+						}
+					}
+					##*	
+
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-1),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_3,Fitness_Track_02)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}			
+
+					M_FacilitySectionHotArea:(970,14800,0,6.2,8.9,4,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction4:()
+				}
+
+				//-----------------------------------------------------Tier 5	
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_5,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_5,Base_HI)
+						M_TextureSelectW:()
+					##*
+					
+					//Building
+					Locator:((1223,14655,0),(0,0,0),(1,1,1))
+					{					
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_5,Fitness_05)
+							M_TextureSelectW:()	
+						
+						//Building Roof
+						DrawStaticModel:(Fitness_Centre_Roof_Lv_5,Fitness_05_ROOF)
+							M_TextureSelectW:()
+
+						//Front Sign
+						//?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?
+						M_TeamName:(1000,-1217,-450,-90,-90,-90,645,80,330,0,635,KNUL64,1.2,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+							Layer(ZSprite)
+
+						//Front Badge
+						M_StadTeamBadge:(880,-1217,-130,-90,-90,-90,160,ZSafeSprite,)
+							Layer(ZSprite)
+					}
+
+					//Extras
+					DrawStaticModel:(Fitness_Centre_Extra_Lv_5,Fitness_05)
+
+					//Building Shadow
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Locator:((1223,14655,0),(0,0,0),(1,1,1))
+						{
+							//Building Shadow
+							DrawStaticModel:(Fitness_Centre_Shadow_Lv_5,Fitness_05_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_5,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_5,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_5,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_5,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*	
+
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT5Cars)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								
+								//Back
+								M_Vehicle:(1565,12305,Car,Car,180,Black)
+								M_Vehicle:(1375,12305,Car,Car,2,Red)
+								M_Vehicle:(1075,12305,Car,Car,182,Blue)
+								M_Vehicle:(710,12305,Car,Car,0,Orange)
+								//Front
+								M_Vehicle:(1075,11685,Car,Car,180,Black)
+								M_Vehicle:(1375,11685,Car,Car,2,White)
+								M_Vehicle:(1565,11685,Car,Car,0,Cyan)
+								M_Vehicle:(2055,11685,Car,Car,180,Green)
+								M_Vehicle:(2225,11685,Car,Car,0,Blue)
+								M_Vehicle:(2740,11685,Car,Car,180,Red)
+							}
+
+							//Back
+							M_Vehicle:(2225,12305,Van,Van,0,Yellow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+
+							##P4N
+							Batch:(BatchedFitnessT5CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{
+								
+								//Back
+								M_Vehicle_HI:(1565,12305,Car1_Type2,Car,180)
+								M_Vehicle_HI:(1375,12305,Car2_Type1,Car,2)
+								M_Vehicle_HI:(1075,12305,Car1_Type3,Car,182)
+								M_Vehicle_HI:(710,12305,Car2_Type1,Car,0)
+								//Front
+								M_Vehicle_HI:(1075,11685,Car1_Type1,Car,180)
+								M_Vehicle_HI:(1375,11685,Car3_Type3,Car,2)
+								M_Vehicle_HI:(1565,11685,Car2_Type3,Car,0)
+								M_Vehicle_HI:(2055,11685,Car1_Type1,Car,180)
+								M_Vehicle_HI:(2225,11685,Car2_Type2,Car,0)
+								M_Vehicle_HI:(2740,11685,Car3_Type1,Car,180)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2225,12305,Van1_Type1,Van,0)
+							##*
+						}
+					}
+					
+
+
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-1),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_3,Fitness_Track_02)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}	
+
+					M_FacilitySectionHotArea:(1200,14850,0,8.4,8.5,5.2,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FacilitySectionHotArea:(1925,13560,0,2.7,1.6,5.2,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FacilitySectionHotArea:(845,13560,0,5.7,1.6,2.5,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction5:()
+				}
+
+				//-----------------------------------------------------Tier 6	
+				Rect:()
+				{
+					//Base
+					##IA
+					DrawStaticModel:(Fitness_Centre_Base_Lv_6,GenBase)
+					##P4N
+					DrawStaticModel:(Fitness_Centre_Base_HI_Lv_6,Base_HI)
+						M_TextureSelectW:()
+					##*
+					
+					//Building
+					Locator:((1565,14467,0),(0,0,0),(1,1,1))
+					{
+						//Building
+						DrawStaticModel:(Fitness_Centre_Lv_6,Fitness_06)
+							M_TextureSelectW:()
+						//Building Roof
+						DrawStaticModel:(Fitness_Centre_Roof_Lv_6,Fitness_06_ROOF)
+							M_TextureSelectW:()
+
+						//Front Sign
+						//?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?
+						M_TeamName:(900,-1442,-400,-90,-90,-90,645,80,330,0,635,KNUL64,1.2,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+							Layer(ZSprite)
+
+						//Front Badge
+						M_StadTeamBadge:(-884,-1220,-450,-125,-90,-90,380,ZSafeSprite,)
+							Layer(ZSprite)
+					}
+					
+					//Extras
+					DrawStaticModel:(Fitness_Centre_Extra_Lv_6,Fitness_06)
+
+					//Building Shadow
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Locator:((1565,14467,0),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Shadow_Lv_6,Fitness_06_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+
+					
+					//Tree Shadows
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						##IA
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_Lv_6,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						##P4N
+						DrawStaticModel:(Fitness_Centre_Trees_Shadow_HI_Lv_6,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						##*
+					}
+
+					//Trees STANDARD
+					##IA
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_Lv_6,GenTrees)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					//Trees HIGH DETAIL
+					##P4N
+					UseShader:(ProjectedLight3DVColOneBit_Alt)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(Fitness_Centre_Trees_HI_Lv_6,Trees_HI)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*	
+					//Vehicles
+					UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+						Layer(Ground)
+					{
+						Rect:()
+							M_CheckShowCars:(FitnessCentre)
+						{
+							##IA
+							Batch:(BatchedFitnessT6Cars)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								
+								//Back
+								M_Vehicle:(1565,12305,Car,Car,0,Purple)
+								M_Vehicle:(1375,12305,Car,Car,182,Cyan)
+								M_Vehicle:(1075,12305,Car,Car,-2,Orange)
+								M_Vehicle:(905,12305,Car,Car,0,Green)
+								M_Vehicle:(710,12305,Car,Car,180,Blue)
+								//Front
+								M_Vehicle:(1075,11685,Car,Car,0,Blue)
+								M_Vehicle:(1375,11685,Car,Car,182,Red)
+								M_Vehicle:(1565,11685,Car,Car,-2,White)
+								M_Vehicle:(2055,11685,Car,Car,0,Blue)
+								M_Vehicle:(2225,11685,Car,Car,180,Orange)
+								M_Vehicle:(2740,11685,Car,Car,180,Black)
+							}
+
+							Batch:(BatchedFitnessT6Vans)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							{
+								//Back
+								M_Vehicle:(2225,12305,Van,Van,0,Red)
+							}
+							##P4N
+							Batch:(BatchedFitnessT6CarsHI)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelect:(NSM_CarSheet_HI)
+							{	
+								//Back
+								M_Vehicle_HI:(1565,12305,Car3_Type2,Car,0)
+								M_Vehicle_HI:(1375,12305,Car1_Type2,Car,182)
+								M_Vehicle_HI:(1075,12305,Car2_Type1,Car,-2)
+								M_Vehicle_HI:(905,12305,Car2_Type3,Car,0)
+								M_Vehicle_HI:(710,12305,Car1_Type1,Car,180)
+								//Front
+								M_Vehicle_HI:(1075,11685,Car3_Type2,Car,0)
+								M_Vehicle_HI:(1375,11685,Car1_Type3,Car,182)
+								M_Vehicle_HI:(1565,11685,Car2_Type3,Car,-2)
+								M_Vehicle_HI:(2055,11685,Car1_Type2,Car,0)
+								M_Vehicle_HI:(2225,11685,Car2_Type1,Car,180)
+								M_Vehicle_HI:(2740,11685,Car1_Type3,Car,180)
+							}
+							//Back
+							M_Vehicle_HI_Single:(2225,12305,Van1_Type2,Van,0)
+							##*
+						}
+					}
+					
+
+
+					//Running Track
+					UseShader:(ProjectedLight3DVCol)
+						Layer(AboveSky)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						Locator:((0,0,-1),(0,0,0),(1,1,1))
+						{
+							DrawStaticModel:(Fitness_Centre_Lines_Lv_3,Fitness_Track_02)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+					}
+				
+					M_FacilitySectionHotArea:(1150,14480,0,7.8,11.5,8,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FacilitySectionHotArea:(2550,14480,0,3.5,11.5,3.9,0,0,0,11,FitnessCentre,2,?FITNESS_CENTRE_SHOW_COLLIDERS?)
+					M_FitnessConstruction6:()
+				}
+			}
+		}
+	}
+EndM
+
+
+Macro:(M_FitnessConstruction1)
+	//FitnessCentreScaffold Tier1
+	Rect:()
+		M_CheckShowConstruction:(FitnessCentre,1)
+	{
+		Locator:((775,15060,0),(0,0,90),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(0,50,-13,0,0,30,1.7,1.7,0.3)
+									
+			//Digger
+			M_ConstructionObjPop_new:(-1200,-650,0,120,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.4,1,1,1)
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(-3200,-1150,0,0,0,120,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(-2400,-1350,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(-2400,-1500,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-700,-850,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-700,-1000,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(-2200,-1900,0,90,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-500,1050,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-600,1200,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(-2200,-2650,0,180,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.5,1,0,0)
+			
+			//Left
+			M_ConstructionObjPop_new:(-385,-600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(0,-700,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+			M_ConstructionObjPop_new:(385,-600,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+			//Back
+			M_ConstructionObjPop_new:(485,40,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+			//Right
+			M_ConstructionObjPop_new:(385,680,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(0,780,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+			M_ConstructionObjPop_new:(-385,680,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-485,40,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+
+			M_ConstructionScaffoldRoof_new:(0,47,-500,0,0,0,2,3,0.3)
+		}
+	}
+EndM
+
+Macro:(M_FitnessConstruction2)
+	//FitnessCentreScaffold Tier2
+	Rect:() $HIDE
+		M_CheckShowConstruction:(FitnessCentre,2)
+	{
+		Locator:((880,15160,0),(0,0,90),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(-600,350,-13,0,0,30,1.7,1.7,0.3)
+			
+			//Digger
+			M_ConstructionObjPop_new:(-980,1200,0,30,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.4,1,1,1)
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(-3200,-1350,0,0,0,150,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(-2400,-1350,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(-2400,-1500,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-700,-850,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-700,-1000,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(-2200,-1900,0,90,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-500,1250,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-600,1400,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(-2200,-2650,0,180,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.6,1,0,0)
+
+			//Right
+			M_ConstructionObjPop_new:(525,740,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(10,840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+			M_ConstructionObjPop_new:(-505,740,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-605,350,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+			M_ConstructionObjPop_new:(-605,-290,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+			//Left
+			M_ConstructionObjPop_new:(-505,-800,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+			M_ConstructionObjPop_new:(10,-900,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			M_ConstructionObjPop_new:(525,-800,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.35,1,0,0)	
+			//Back
+			M_ConstructionObjPop_new:(625,-290,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+			M_ConstructionObjPop_new:(625,355,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+		}
+	}
+EndM
+
+Macro:(M_FitnessConstruction3)		
+	//FitnessCentreScaffold Tier3
+	Rect:() $HIDE
+		M_CheckShowConstruction:(FitnessCentre,3)
+	{
+		Locator:((1047,15246,0),(0,0,0),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(1100,-750,-13,0,0,-60,1.7,1.7,0.3)
+			
+			//Digger
+			M_ConstructionObjPop_new:(-1400,600,0,35,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.4,1,1,1)
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(1100,-3100,0,0,0,150,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(600,-2500,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(800,-2500,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-950,-1000,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-700,-1000,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(1600,-2200,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			M_ConstructionObjPop_new:(1200,-2200,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-1200,-1250,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-1400,-1400,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(2200,-2200,0,-90,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.6,1,0,0)
+
+			//Left
+			M_ConstructionObjPop_new:(-940,-800,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(-425,-900,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+			M_ConstructionObjPop_new:(345,-900,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+			M_ConstructionObjPop_new:(860,-800,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			//Back
+			M_ConstructionObjPop_new:(960,-290,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+			M_ConstructionObjPop_new:(960,355,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+			//Right
+			M_ConstructionObjPop_new:(860,740,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+			M_ConstructionObjPop_new:(346,840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			M_ConstructionObjPop_new:(-425,840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+			M_ConstructionObjPop_new:(-940,740,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-1040,350,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+			M_ConstructionObjPop_new:(-1040,-290,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+		}
+
+		//JF: Should be done after the scaffold/construction models to make sure the tweaks get set to their correct values
+		M_ConstructionTweaks_new:(?VAR?,?FACNUM?)
+	}
+EndM
+
+Macro:(M_FitnessConstruction4)
+	//FitnessCentreScaffold Tier4
+	Rect:() $HIDE
+		M_CheckShowConstruction:(FitnessCentre,4)
+	{
+		Locator:((963,14790,0),(0,0,0),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(1100,-750,-13,0,0,-60,1.7,1.7,0.3)
+			M_ConstructionBase_new:(-1100,-1350,-13,0,0,20,1.85,1.7,0.3)
+			
+			//Digger
+			M_ConstructionObjPop_new:(1450,-670,0,-80,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.3,1,1,1)
+			M_ConstructionObjPop_new:(-800,-2100,0,130,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.6,1,1,1)
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(300,-3100,0,0,0,210,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(300,-2300,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(500,-2300,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-950,-1000,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-700,-1000,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(1600,-2000,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			M_ConstructionObjPop_new:(1200,-2000,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-300,-1750,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-500,-1900,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(2400,-1900,0,-90,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.6,1,0,0)
+
+			//Left
+			M_ConstructionObjPop_new:(-745,-1290,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(-100,-1390,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+			M_ConstructionObjPop_new:(540,-1390,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+			M_ConstructionObjPop_new:(800,-1290,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+			//Back
+			M_ConstructionObjPop_new:(895,-1030,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(895,-390,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+			M_ConstructionObjPop_new:(895,600,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			//Right
+			M_ConstructionObjPop_new:(800,1240,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+			M_ConstructionObjPop_new:(540,1340,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+			M_ConstructionObjPop_new:(-100,1340,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+			M_ConstructionObjPop_new:(-745,1240,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-840,980,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+			M_ConstructionObjPop_new:(-840,340,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+			M_ConstructionObjPop_new:(-840,-650,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)	
+		}
+	}
+EndM
+
+Macro:(M_FitnessConstruction5)
+	//FitnessCentreScaffold Tier5
+	Rect:() $HIDE
+		M_CheckShowConstruction:(FitnessCentre,5)
+	{
+		Locator:((1223,14655,0),(0,0,0),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(1300,-1050,-13,0,0,-30,1.7,1.7,0.3)
+			M_ConstructionBase_new:(-1100,-1350,-13,0,0,20,1.85,1.7,0.3)
+			
+			//Digger
+			M_ConstructionObjPop_new:(-1700,-600,0,30,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.4,1,1,1)
+			M_ConstructionObjPop_new:(300,-1900,0,-60,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.7,1,1,1)
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(300,-2750,0,0,0,210,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(1100,-3150,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(1300,-3150,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-1250,-2500,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-1000,-2500,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(1600,-1800,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			M_ConstructionObjPop_new:(1200,-1800,0,180,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.5,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-600,-2750,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-800,-2900,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(2400,-1700,0,-90,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.6,1,0,0)
+			
+			//------Crane
+			//Column
+			M_ConstructionCranePop_new:(-1500,1200,0,0,ConstructionPop,Diggerpop,Construction_Crane_Base,Construction_Crane_BaseB,Construction_Crane_Side,Construction_Crane_Sections,0.7,1,1)
+			//Arm
+			Locator:((-1500,1200,0),(0,0,0),(1,1,1))
+				float(%t)
+				add(%t,FrameTime*0.1)
+				add(gel3d.rotz,0.01)
+				set(gel3d.rotz,lerp(260,300,[sin(%t)+1]/2))
+				Euler(RYP)
+			{
+				M_ConstructionCranePop_new:(0,0,0,0,ConstructionPop,Diggerpop,Construction_Crane_Tower,Construction_Crane_TowerB,Construction_Crane_Side,Construction_Crane_Sections,0.5,1,0)
+			}	
+
+			//Left
+			M_ConstructionObjPop_new:(-1055,-1290,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(-415,-1390,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)	
+			M_ConstructionObjPop_new:(485,-1390,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)	
+			M_ConstructionObjPop_new:(1000,-1290,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.15,1,0,0)		
+			//Back
+			M_ConstructionObjPop_new:(1095,-1030,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)		
+			M_ConstructionObjPop_new:(1095,-390,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)		
+			M_ConstructionObjPop_new:(1095,600,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)			
+			//Right
+			M_ConstructionObjPop_new:(1000,1240,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+			M_ConstructionObjPop_new:(485,1340,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+			M_ConstructionObjPop_new:(-415,1340,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+			M_ConstructionObjPop_new:(-1055,1240,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-1150,980,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+			M_ConstructionObjPop_new:(-1150,340,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+			M_ConstructionObjPop_new:(-1150,-650,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+		}
+	}
+EndM
+
+Macro:(M_FitnessConstruction6)
+	//FitnessCentreScaffold Tier6
+	Rect:() $HIDE
+		M_CheckShowConstruction:(FitnessCentre,6)
+	{
+		Locator:((1565,14467,0),(0,0,0),(1,1,1))
+		{
+			//Base
+			M_ConstructionBase_new:(1300,-1800,-13,0,0,-60,1.7,1.7,0.3)
+			M_ConstructionBase_new:(-1400,-1150,-13,0,0,20,1.85,1.7,0.3)
+			
+			//Digger
+			M_ConstructionObjPop_new:(-2200,-1200,0,60,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.5,1,1,1)
+			M_ConstructionObjPop_new:(800,-2200,0,130,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.7,1,1,1)
+
+
+			//Cement Truck
+			M_ConstructionCementTruck_new:(300,-2600,0,0,0,210,0.4)
+			//Portaloo
+			M_ConstructionObjPop_new:(1100,-3050,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.2,1,03,03)
+			M_ConstructionObjPop_new:(1300,-3050,0,0,ConstructionPop,Diggerpop,Construction_Portaloo,Construction_Sheet02,Shadowpop,0.3,1,03,03)
+			//BrickPile
+			M_ConstructionPallet_new:(-1250,-2500,0,0,0,0,0.4)
+			M_ConstructionPallet_new:(-1000,-2500,0,0,0,15,0.4)
+			//ContainerCrate
+			M_ConstructionObjPop_new:(-1600,-2300,0,-90,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.6,1,07,17)
+			M_ConstructionObjPop_new:(-1600,-2700,0,-90,ConstructionPop,Diggerpop,Construction_Container01,Stadium_Lv_3,Shadowpop,0.6,1,07,17)
+			//Barrels
+			M_ConstructionObjPop_new:(-1000,-2750,0,35,ConstructionPop,Diggerpop,Construction_Barrel_Pile,Construction_Sheet01,Shadowpop,0.2,1,0,0)
+			M_ConstructionObjPop_new:(-1200,-2900,0,50,ConstructionPop,Diggerpop,Construction_Barrel_Single,Construction_Sheet01,Shadowpop,0.3,1,0,0)
+			//Sign
+			M_ConstructionObjPop_new:(2400,-1700,0,-90,ConstructionPop,Diggerpop,Construction_Sign,Construction_Sheet01,Shadowpop,0.7,1,0,0)
+			
+			//------Crane
+			//Column
+			M_ConstructionCranePop_new:(-1900,1200,0,0,ConstructionPop,Diggerpop,Construction_Crane_Base,Construction_Crane_BaseB,Construction_Crane_Side,Construction_Crane_Sections,0.7,1,1)
+			//Arm
+			Locator:((-1900,1200,0),(0,0,0),(1,1,1))
+				float(%t)
+				add(%t,FrameTime*0.1)
+				add(gel3d.rotz,0.01)
+				set(gel3d.rotz,lerp(260,300,[sin(%t)+1]/2))
+				Euler(RYP)
+			{
+				M_ConstructionCranePop_new:(0,0,0,0,ConstructionPop,Diggerpop,Construction_Crane_Tower,Construction_Crane_TowerB,Construction_Crane_Side,Construction_Crane_Sections,0.5,1,0)
+			}	
+
+			//Left
+			M_ConstructionObjPop_new:(-1505,-1500,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+			M_ConstructionObjPop_new:(-885,-1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+			M_ConstructionObjPop_new:(140,-1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+			M_ConstructionObjPop_new:(1040,-1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+			M_ConstructionObjPop_new:(1555,-1500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+			//Back
+			M_ConstructionObjPop_new:(1655,-1025,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+			M_ConstructionObjPop_new:(1655,-125,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+			M_ConstructionObjPop_new:(1655,900,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+			//Right
+			M_ConstructionObjPop_new:(1555,1540,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+			M_ConstructionObjPop_new:(1040,1640,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+			M_ConstructionObjPop_new:(145,1640,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+			M_ConstructionObjPop_new:(-880,1640,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+			M_ConstructionObjPop_new:(-1505,1540,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+			//Front
+			M_ConstructionObjPop_new:(-1600,1025,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			M_ConstructionObjPop_new:(-1600,130,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.7,1,0,0)
+			M_ConstructionObjPop_new:(-1600,-860,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.75,1,0,0)
+		}
+	}
+EndM

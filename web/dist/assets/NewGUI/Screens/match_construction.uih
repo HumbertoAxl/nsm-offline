@@ -1,0 +1,328 @@
+Define:(?HOMEORMATCH?=MATCH)
+
+//----------------------------------------------------------------------------------------------------------------------------WEST STAND MACROS
+Macro:(M_MatchStandWConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandW,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeW <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(25,-2075,0,180,3X19)
+			}
+
+		}
+	}
+EndM
+
+
+Macro:(M_MatchWConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandW,?NUM?)
+			
+		{
+			//Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeW <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(25,-2475,0,180,5X19X9)
+			}
+
+		}
+	}
+EndM
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------EAST STAND MACROS
+
+Macro:(M_MatchStandEConstruction1,?NUM?)
+
+	Rect:()	// Visibility set by tier selector
+	{
+		Rect:()
+			M_CheckShowConstruction:(PitchStandE,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeE <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(25,2005,0,180,3X19)		
+			}
+		}
+	}
+EndM
+
+
+Macro:(M_MatchStandEConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:()
+			M_CheckShowConstruction:(PitchStandE,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeE <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(25,2300,0,180,5X19)
+			}
+		}
+	}
+EndM
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------SOUTH STAND MACROS
+Macro:(M_MatchStandSConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeS <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(-2800,-10,0,-90,3X13)
+			}
+		}
+	}
+EndM
+
+//South stand construction tier 4
+Macro:(M_MatchStandSConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeS <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(-3065,-10,0,-90,4X13)
+			}
+		}
+	}
+EndM
+
+//South stand construction tier 5
+Macro:(M_MatchStandSConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeS <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(-3050,-15,0,-90,5X13)
+			}
+		}
+	}
+EndM
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------NORTH STAND MACROS
+//North stand construction tiers 0,1,2,3
+Macro:(M_MatchStandNConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeN <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(2840,0,0,-90,3X13)
+			}
+		}
+	}
+EndM
+
+//North stand construction tier 4
+Macro:(M_MatchStandNConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+			//Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeN <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(2840,0,0,-90,4X13)
+			}
+
+		}
+	}
+EndM
+
+//North stand construction tier 5
+Macro:(M_MatchStandNConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeN <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				M_ScaffoldLow:(3100,-12,0,-90,5X13)
+			}
+		}
+	}
+EndM
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------CORNER STAND MACROS
+Macro:(M_MatchPitchCornersConstruction3,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchCorners,?NUM?)
+		{
+			// Lower poly single mesh match version
+			Rect:()
+				if(%currentFadeC <1.0)
+				<
+					set(gel.layer,AboveText)
+				>
+				else
+				<
+					set(gel.layer,Ground)
+				>
+			{
+				//NE
+				M_ScaffoldLow:(2945,2130,0,-90,4X4)
+				//NW
+				M_ScaffoldLow:(2945,-2150,0,-90,4X4)
+				//SE
+				M_ScaffoldLow:(-2895,2130,0,-90,4X4)
+				//SW
+				M_ScaffoldLow:(-2895,-2150,0,-90,4X4)
+			}
+		}
+	}
+EndM
+
+
+
+Macro:(M_MatchPitchCornersConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchCorners,?NUM?)
+		{
+
+			// Lower poly single mesh match version
+
+			//NE
+			M_ScaffoldLow:(3050,2245,0,-90,5X5)
+			//NW
+			M_ScaffoldLow:(3050,-2270,0,-90,5X5)
+			//SE
+			M_ScaffoldLow:(-3000,2210,0,-90,5X5)
+			//SW
+			M_ScaffoldLow:(-3000,-2270,0,-90,5X5)
+			
+		}
+	}
+EndM
+

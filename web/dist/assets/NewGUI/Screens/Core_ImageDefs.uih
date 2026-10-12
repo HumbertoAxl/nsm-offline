@@ -1,0 +1,174 @@
+// Img:(Blah,Blah.png)   SOFT    SIMPLE    Scale:0.X    Low:0.Y    Pack:name  or   Volatile:name  or   Volpack:name
+// SOFT means treat as soft edged, as above.
+// SIMPLE means ‘don’t turn into strips’. Handy for images used in particle effects, to keep the polygon count down. NB: images used in ‘tile’ commands are automatically tagged as ‘simple’
+// Scale:0.X means ‘scale the source image down to 0.X of its original size before packing into the hi-res assets’ (If you don’t specify ‘Scale:’ then a value of 1.0 is used)
+// Low:0.Y means ‘scale the source image down to 0.Y of its original size before packing into the LOW-RES assets’ (if you don’t specify ‘Low:’ then a value of 0.5 x Scale is used)
+// Volatile:name means this image (and others with the same tag) should be put into the same Atlas and loaded/unloaded as needed rather than staying in memory all the time. Good for things like the different pitch locales in Cricket, to save on run-time memory.
+
+
+// CORE
+Img:(Blank,NewGUI/_Core/Blank.png)
+Img:(White,NewGUI/_Core/White.png)
+Img:(White_Angle,NewGUI/_Core/White_Angle.png,4,4,4,4,0.5)
+Img:(White_Frame,NewGUI/_Core/White_Frame.png,2,2,2,2)
+
+Img:(Circle_10,NewGUI/_Core/Circle/Circle_10.png)
+Img:(Circle_20,NewGUI/_Core/Circle/Circle_20.png)
+Img:(Circle_50,NewGUI/_Core/Circle/Circle_50.png)
+Img:(Circle_100,NewGUI/_Core/Circle/Circle_100.png)
+Img:(Circle_200,NewGUI/_Core/Circle/Circle_200.png)
+
+Img:(ChartLine,NewGUI/_Core/Chart/ChartLine.png)
+Img:(ChartPoint,NewGUI/_Core/Chart/ChartPoint.png)
+
+Img:(Fade_Up,NewGUI/_Core/Fades/Fade_Up.png)
+Img:(Fade_Down,NewGUI/_Core/Fades/Fade_Down.png)
+Img:(Fade_Left,NewGUI/_Core/Fades/Fade_Left.png)
+Img:(Fade_Right,NewGUI/_Core/Fades/Fade_Right.png)
+Img:(Fade_Edged,NewGUI/_Core/Fades/Fade_Edged.png)
+
+Img:(TextGlow_Match,NewGUI/_Core/TextGlow/TextGlow_Match.png,32,32,32,32)
+Img:(TextGlow_Title,NewGUI/_Core/TextGlow/TextGlow_Title.png,26,26,26,26)
+
+Img:(ScrollBar2X,NewGUI/_Core/ScrollBar2X.png,20,20,20,20,0.5)
+Img:(Vignette,NewGUI/_Core/Vignette.png)
+Img:(Glow_Quarter,NewGUI/_Core/Glow_Quarter.png) FORCE
+Img:(BlurShadow,NewGUI/_Core/BlurShadow.png,30,30,30,30)
+Img:(Icon_Padlock,NewGUI/UI/Icons/Icon_Padlock.png)
+
+// Progress Wheel
+Img:(Relationship_InnerFill,NewGUI/UI/Bars/Relationship_InnerFill.png)
+//--------------------------------------------------------------------------------
+Import:(ImageDefs_characters.uih)
+
+// FX
+Img:(Burst,NewGUI/FX/Burst.png)
+Img:(Glint,NewGUI/FX/Glint.png)
+Img:(Rays,NewGUI/FX/Rays.png)
+Img:(Sparkle,NewGUI/FX/Sparkle.png)
+Img:(CardFX_BG,NewGUI/Cards/CardFX_BG.png)
+Img:(CardFX_Glow,NewGUI/Cards/CardFX_Glow.png)
+Img:(LightGlow,NewGUI/FX/LightGlow.png)
+
+// Cells
+Img:(Cell55,NewGUI/UI/Cells/Cell55.png,20,20,0,0)
+Img:(Cell70,NewGUI/UI/Cells/Cell70.png,20,20,0,0)
+Img:(Cell85,NewGUI/UI/Cells/Cell85.png,20,20,0,0)
+Img:(Cell100,NewGUI/UI/Cells/Cell100.png,20,20,0,0)
+Img:(Cell55Dark,NewGUI/UI/Cells/Cell55Dark.png,20,20,0,0)
+Img:(Cell70Dark,NewGUI/UI/Cells/Cell70Dark.png,20,20,0,0)
+Img:(Cell85Dark,NewGUI/UI/Cells/Cell85Dark.png,20,20,0,0)
+Img:(Cell100Dark,NewGUI/UI/Cells/Cell100Dark.png,20,20,0,0)
+
+Img:(Cell_Fixture_Separator,NewGUI/UI/Cells/Cell_Fixture_Separator.png)
+Img:(ColumnHeader,NewGUI/UI/ColumnHeader.png) FORCE
+
+Img:(Cell_Star0,NewGUI/UI/Cells/Cell_Star0.png) FORCE
+Img:(Cell_Star1,NewGUI/UI/Cells/Cell_Star1.png) FORCE
+Img:(Cell_Star2,NewGUI/UI/Cells/Cell_Star2.png) FORCE
+Img:(Cell_Star3,NewGUI/UI/Cells/Cell_Star3.png) FORCE
+Img:(Cell_Star4,NewGUI/UI/Cells/Cell_Star4.png) FORCE
+Img:(Profile_Star0,NewGUI/UI/Profiles/Profile_Star0.png) FORCE
+Img:(Profile_Star1,NewGUI/UI/Profiles/Profile_Star1.png) FORCE
+Img:(Profile_Star2,NewGUI/UI/Profiles/Profile_Star2.png) FORCE
+Img:(Profile_Star3,NewGUI/UI/Profiles/Profile_Star3.png) FORCE
+Img:(Profile_Star4,NewGUI/UI/Profiles/Profile_Star4.png) FORCE
+
+
+// Double resolution HD Buttons
+Img:(Button_Shadow,NewGUI/UI/Buttons/Button_Shadow.png,20,20,20,20) SIMPLE
+Img:(Button_Shade,NewGUI/UI/Buttons/Button_Shade.png,17,17,2,17,0.5) SIMPLE
+Img:(Button_BlueSliced,NewGUI/UI/Buttons/Button_BlueSliced.png,15,15,15,15,0.5)
+Img:(Button_FBSliced,NewGUI/UI/Buttons/Button_FBSliced.png,15,15,15,15,0.5)
+Img:(Button_GreenSliced,NewGUI/UI/Buttons/Button_GreenSliced.png,15,15,15,15,0.5)
+Img:(Button_RedSliced,NewGUI/UI/Buttons/Button_RedSliced.png,15,15,15,15,0.5)
+Img:(Button_SilverSliced,NewGUI/UI/Buttons/Button_SilverSliced.png,15,15,15,15,0.5)
+
+// Panels
+Img:(RoundedPanel,NewGUI/UI/Panels/RoundedPanel.png,17,17,17,17,0.5)
+Img:(PanelAngled,NewGUI/UI/Panels/PanelAngled.png,20,20,20,20)
+Img:(PanelAngled2,NewGUI/UI/Panels/PanelAngled2.png,20,20,20,20)
+Img:(SponsorFrame_Desel,NewGUI/UI/ChooseSponsor/SponsorFrame_Desel.png,25,25,25,91,0.5)
+
+// Double res drop shadowed panel defs
+Img:(Rounded_Shadowed,NewGUI/UI/PanelsResolution/Rounded_Shadowed.png,70,70,70,70,0.5)
+Img:(Rounded_Shadowed_Reflection,NewGUI/UI/PanelsResolution/Rounded_Shadowed_Reflection.png,20,20,0,0)
+Img:(FloorShadow,NewGUI/UI/PanelsResolution/FloorShadow.png,70,70,0,0)
+Img:(NewStarShape,NewGUI/UI/Dilemma/NewStarShape.png)
+Img:(Header_Hexagons,NewGUI/UI/PanelsResolution/Header_Hexagons.png,25,280,0,0,0.5)
+Img:(Icon_PanelRotate,NewGUI/UI/PanelsResolution/Icon_PanelRotate.png)
+Img:(Rounded_HexagonsFade,NewGUI/UI/PanelsResolution/Rounded_HexagonsFade.png)
+
+
+//Icons
+Img:(Icon_Tick,NewGUI/UI/Icons/Icon_Tick.png)
+Img:(Icon_Bux,NewGUI/UI/Icons/Icon_Bux.png)
+Img:(Icon_CupSmall,NewGUI/UI/Icons/Icon_CupSmall.png)
+Img:(Icon_NightSmall,NewGUI/UI/Icons/Icon_NightSmall.png)
+
+Img:(Icon_Star,NewGUI/UI/Icons/Icon_Star.png)
+Img:(Icon_Facebook1,NewGUI/UI/Icons/Icon_Facebook1.png) FORCE
+Img:(Icon_Locked,NewGUI/UI/Icons/Icon_Locked.png)
+Img:(Icon_LockedSmall,NewGUI/UI/Icons/Icon_LockedSmall.png)
+Img:(Icon_TraitTag,NewGUI/UI/MatchCommentary/Icon_TraitTag.png)
+Img:(Icon_Notification,NewGUI/UI/Header/Icon_Notification.png) FORCE
+Img:(Icon_Count,NewGUI/UI/Header/Icon_Count.png) FORCE
+Img:(Icon_Alert,NewGUI/UI/Header/Icon_Alert.png) FORCE
+Img:(Icon_Exclamation,NewGUI/UI/Header/Icon_Exclamation.png)
+Img:(Icon_Alert_Exclamation_BG,NewGUI/UI/Header/Icon_Alert_Exclamation_BG.png)
+Img:(Icon_ThumbsUp,NewGUI/UI/Icons/Icon_ThumbsUp.png) FORCE
+Img:(Club_Shield,NewGUI/UI/Dialog/Club_Shield.png)
+Img:(Icon_DownArrow,NewGUI/UI/Icons/Icon_DownArrow.png)
+Img:(Icon_Cross,NewGUI/UI/Icons/Icon_Cross.png)
+Img:(Icon_Tick,NewGUI/UI/Icons/Icon_Tick.png)
+Img:(Icon_Warning,NewGUI/UI/Icons/Icon_Warning.png)
+
+Img:(Badge_Shadow,NewGUI/UI/Badge/Badge_Shadow.png)
+
+// Dialog bubbles
+Img:(Bubble_Shadow,NewGUI/UI/Dialog/Bubble_Shadow.png,50,20,29,89)
+Img:(Bubble_Speech,NewGUI/UI/Dialog/Bubble_Speech.png)
+Img:(Speech_L,NewGUI/UI/Dialog/Speech_L.png)
+Img:(Speech_R,NewGUI/UI/Dialog/Speech_R.png)
+
+
+// Player icons used on Match and Cards
+Img:(Icon_Goal,NewGUI/UI/Icons/Player/Icon_Goal.png) FORCE
+Img:(Icon_Injured,NewGUI/UI/Icons/Player/Icon_Injured.png) FORCE
+Img:(Icon_RedCard,NewGUI/UI/Icons/Player/Icon_RedCard.png) FORCE
+Img:(Icon_SubOff,NewGUI/UI/Icons/Player/Icon_SubOff.png) FORCE
+Img:(Icon_SubOn,NewGUI/UI/Icons/Player/Icon_SubOn.png) FORCE
+Img:(Icon_YellowCard,NewGUI/UI/Icons/Player/Icon_YellowCard.png) FORCE
+Img:(Icon_YellowRedCard,NewGUI/UI/Icons/Player/Icon_YellowRedCard.png) FORCE
+Img:(Icon_TraitTag_Small,NewGUI/UI/Icons/Icon_TraitTag_Small.png) FORCE
+
+
+// Cards
+Img:(CardBack,NewGUI/Cards/CardBack.png) FORCE
+Img:(CardBlank,NewGUI/Cards/CardBlank.png) FORCE
+
+
+// Profile Player / Profile Staff
+Img:(Icon_Concern_Contract,NewGUI/UI/Profiles/Concerns/Icon_Concern_Contract.png)
+Img:(Icon_Concern_Development,NewGUI/UI/Profiles/Concerns/Icon_Concern_Development.png)
+Img:(Icon_Concern_Form,NewGUI/UI/Profiles/Concerns/Icon_Concern_Form.png)
+Img:(Icon_Concern_Selection,NewGUI/UI/Profiles/Concerns/Icon_Concern_Selection.png)
+Img:(Icon_Concern_Management,NewGUI/UI/Profiles/Concerns/Icon_Concern_Management.png)
+Img:(Icon_Concern_TeamForm,NewGUI/UI/Profiles/Concerns/Icon_Concern_TeamForm.png)
+Img:(Icon_ArrowLR,NewGUI/UI/Profiles/Icon_ArrowLR.png)
+Img:(Icon_Energy,NewGUI/UI/Profiles/Icon_Energy.png)
+Img:(Icon_Energy_Small,NewGUI/UI/Icons/Icon_Energy_Small.png)
+Img:(Icon_Recycle,NewGUI/UI/Icons/Icon_Recycle.png)
+Img:(Icon_Mow,NewGUI/UI/Icons/Icon_Mow.png)
+Img:(Icon_Cam,NewGUI/UI/Icons/Icon_Cam.png)
+
+
+//------------------Sort
+Img:(BtnWhite,NewGUI/DebugPanel/Button_Small_White.png,12,12,12,12)
+Img:(GreyRecess,NewGUI/DebugPanel/GreyRecess.png,12,12,12,12)
+Img:(Separator,NewGUI/UI/Separator.png)
+Img:(Header_Hex,NewGUI/UI/Header/Header_Hex.png)
+
+Img:(Tag_Red,NewGUI/IAP/Promotion/Tag_Red.png) FORCE
+Img:(Tag_Green,NewGUI/IAP/Promotion/Tag_Green.png) FORCE
+Img:(Tag_Grey,NewGUI/IAP/Promotion/Tag_Grey.png) FORCE

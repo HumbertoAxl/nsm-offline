@@ -1,0 +1,5 @@
+Import:(match_common.uih)
+
+Draw:(MatchArrow,,,,,,#FFFFFFAA) $HIDE ref:MatchArrow
+	Layer(Pitch)
+	Handle(0,0.5)

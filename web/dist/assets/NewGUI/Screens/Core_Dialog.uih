@@ -1,0 +1,207 @@
+Img:(Dialog_Fade,NewGUI/UI/Dialog/Dialog_Fade.png)
+Img:(Dialog_Top,NewGUI/UI/Dialog/Dialog_Top.png)
+Img:(Dialog_Bottom,NewGUI/UI/Dialog/Dialog_Bottom.png)
+Img:(Dialog_Hexagons,NewGUI/UI/Dialog/Dialog_Hexagons.png)
+Img:(Dialog_CloseBG,NewGUI/UI/Dialog/Dialog_CloseBG.png,60,5,0,0)
+Img:(Dialog_Sheen,NewGUI/UI/Dialog/Dialog_Sheen.png)
+	
+// New dialog panel
+Macro:(M_NewDialogOPEN,?TITLE?,?SCREEN_NAME?)
+	Rect:(@L,@T,@W,@H)	
+		Click()
+		CTRLClearSelect()
+
+	Dissolve:(@o,@M-20,@s,36) ref:DialogRoot
+		strvar(%state)
+		float(%dissolveAlpha)
+		init(%state,"opening")
+		float(%px,%py,%pw,%ph)
+		if(%state = "instantopen")
+		<
+			set(gel.h,@h-100)
+			:Post(UI_Swoosh)
+		>
+
+		.set(%px,gel.gx)
+		.set(%py,gel.gy-gel.hy)
+		.set(%pw,gel.w)
+		.set(%ph,gel.h)
+
+		if(%state = "opening")
+		<
+			:Post(UI_Swoosh)
+			frlerp(gel.h,@h-100,0.15)
+		>
+		elif(%state = "closing")
+		<
+			frlerp(gel.h,36,0.3)
+		>>
+
+		set(gel.hy,[gel.h/2]-50)
+
+		set(%px,gel.gx)
+		set(%py,gel.gy-gel.hy)
+		.set(%pw,gel.w)
+		set(%ph,gel.h)
+
+		if(%state = "closing")
+		<
+			.set(%state,"closing")
+			frlerp(gel.alpha,0,0.3)
+			if(gel.alpha < 0.05)
+			<
+				.set(gel.alpha,0)
+				.Post(?SCREEN_NAME?::".btn_Close")
+			>	
+		>
+
+		if(abs(gel.h - (@h-100)) < 5 and(%state oneof("opening","instantopen")))
+		<
+			.Post(?SCREEN_NAME?::".DIALOGOPENED")
+		>
+		elif(abs(gel.h - 36) < 5 and(%state = "closing"))
+		<
+			.Post(?SCREEN_NAME?::".DIALOGCLOSED")
+		>>
+		set(%dissolveAlpha,gel.alpha)
+	{{
+
+		// Top Bar
+		Rect:()
+			Layer(AboveText3)
+			LockLayer()
+			set(gel.gy,%py)
+		{
+			// Top Bar
+			Draw:(White,@f,0,@w,34,,#CC1618FF)
+			Draw:(Dialog_Top,@f,0,@w,38)
+			M_Text:(,30,0,0,38,L,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				.set(gel.text,?TITLE?)
+				.ToUpperCase()
+
+			Draw:(Dialog_Sheen,@f,3,,,,#808080FF)
+				Additive()
+				Handle(1,0)
+				if(gel.x < @w)
+				<
+					:Delay(1)
+					add(gel.x,2)
+					set(gel.alpha,lerp(0.4,0,gel.gx/[@w/2]))
+				>
+				else
+				<
+					:set(gel.x,@f)
+					:set(gel.alpha,0.5)
+				>
+
+			Draw:(Dialog_CloseBG,@R,3,131-@f,31)
+				Delay(0.3)
+				frlerp(gel.x,@R-131,0.3)
+			{{
+				Draw:(Dialog_Hexagons,-297,0,,,,#00000000)
+					Delay(0.3)
+					frlerp(gel.alpha,0.25,0.01)
+			}}
+
+			// Close Button
+			Rect:()
+				.set(gel.alpha,0)
+				Delay(0.3)
+				frlerp(gel.alpha,1,0.1)
+			{
+				Rect:()
+					if((twk(DynamicOverlay,CurrentTopScreen) = "cardscarousel"))
+					<
+						:set(gel.vis,0)
+					>
+					elif(twk(DynamicOverlay,CurrentTopScreen) oneof("profilestaff","profileplayer"))
+					<
+						if(twk(Negotiate,InProgress) or(twk(Transfer,InProgress)))
+						<
+							:set(gel.vis,0)
+						>
+						else
+						<
+							:set(gel.vis,1)
+						>
+					>
+					else
+					<
+						:set(gel.vis,1)
+					>>
+				{
+					##IAP
+					M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_Cross,#252525FF,null,BackButtonAudio)
+					##N4
+					M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_DownArrow,#252525FF,null,BackButtonAudio)
+					##*
+						M_CTRLButtonExtra:(?BTNCAN?,false)
+						if(%clicked)
+						<
+							if(%state != "closing")
+							<
+								Post(?SCREEN_NAME?::".btn_CloseStart")
+							>
+							:set(%state,"closing")
+						>
+
+					M_SwitchButtonHint:(?ICONCAN?,@R-42,4)
+						CTRLHasSelectedGroup()
+						<
+							set(gel.vis,0)
+						>
+						else
+						<
+							set(gel.vis,1)
+						>
+				}
+
+			}
+			
+		}
+
+		// Bottom Bar
+		Rect:()
+			Layer(AboveText3)
+			set(gel.gy,%py+%ph)
+		{
+			// Bottom
+			Draw:(White,@f,0,@w,2,,#CC1618FF)
+				Handle(0,1)
+
+			Draw:(Dialog_Bottom,@f,4,@w,6)
+				Handle(0,1)
+		}
+
+		Clip:(@f,@T,@w,@H)
+			set(gel.gy,%py)
+			set(gel.h,%ph-1)
+			
+			if(%state = oneof("opening","instantopen"))
+			<
+				:Message(DIALOGOPENED)
+			>
+			elif(%state = "closing")
+			<
+				:Message(DIALOGCLOSED)
+			>>
+		{
+			Rect:(0,0,@W,@h-135)
+				set(gel.gy,@t)
+			{{
+				Draw:(Dialog_Fade,@f,100,@w,300)
+				Draw:(Dialog_Fade,@f,0,@w,-300)
+					set(gel.y,-@t+%py+%ph)
+
+				// Content Window Area
+				Rect:(0,110,@W,@H)
+				{{
+
+EndM
+
+Macro:(M_NewDialogCLOSE)
+				}}
+			}}
+		}
+	}}
+EndM

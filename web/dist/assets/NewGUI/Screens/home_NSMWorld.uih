@@ -1,0 +1,1151 @@
+
+
+//------------------------------------Seasons
+Rect:()
+	
+	.if(Player.weatherSeason = 0)<
+		set(twk(Facilities,Season),"_Spring")
+	>
+	.if(Player.weatherSeason = 1)<
+		set(twk(Facilities,Season),"")
+	>
+	.if(Player.weatherSeason = 2)<
+		set(twk(Facilities,Season),"_Autumn")
+	>
+	.if(Player.weatherSeason = 3)<
+		set(twk(Facilities,Season),"_Winter")
+	>
+//----------------------------------Import
+Import:(Vehicles.uih)
+
+
+//----------------------------------Textures
+
+##IA
+Img:(World_River_1,NewGUI/Environment/World_River_1.png)
+Img:(World_River_2,NewGUI/Environment/World_River_2.png)
+
+StaticModel:(World_Base_River,World_Base_River)
+//----------------------------------NSM WORLD Static Meshes STANDARD
+StaticModel:(World_Base_Floor_C,World_Base_Floor_C)
+StaticModel:(World_Base_Floor_E,World_Base_Floor_E)
+StaticModel:(World_Base_Floor_E_EXT,World_Base_Floor_E_EXT)
+StaticModel:(World_Base_Floor_E2,World_Base_Floor_E2)
+StaticModel:(World_Base_Floor_N,World_Base_Floor_N)
+StaticModel:(World_Base_Floor_N2,World_Base_Floor_N2)	
+StaticModel:(World_Base_Floor_NE,World_Base_Floor_NE)	
+StaticModel:(World_Base_Floor_NE2,World_Base_Floor_NE2)	
+StaticModel:(World_Base_Floor_NW,World_Base_Floor_NW)	
+StaticModel:(World_Base_Floor_S,World_Base_Floor_S)	
+StaticModel:(World_Base_Floor_S2,World_Base_Floor_S2)	
+StaticModel:(World_Base_Floor_SE,World_Base_Floor_SE)	
+StaticModel:(World_Base_Floor_SE2,World_Base_Floor_SE2)	
+StaticModel:(World_Base_Floor_SW,World_Base_Floor_SW)	
+StaticModel:(World_Base_Floor_W,World_Base_Floor_W)
+
+StaticModel:(World_Base_HousesA_E,World_Base_HousesA_E)
+StaticModel:(World_Base_HousesA_N,World_Base_HousesA_N)
+StaticModel:(World_Base_HousesA_S,World_Base_HousesA_S)
+StaticModel:(World_Base_HousesB_N,World_Base_HousesB_N)
+StaticModel:(World_Base_HousesB_S,World_Base_HousesB_S)
+StaticModel:(World_Base_HousesB_SW,World_Base_HousesB_SW)
+StaticModel:(World_Base_HousesB_W,World_Base_HousesB_W)
+StaticModel:(World_Base_HousesC_C,World_Base_HousesC_C)
+StaticModel:(World_Base_HousesC_E,World_Base_HousesC_E)
+StaticModel:(World_Base_HousesC_N,World_Base_HousesC_N)
+StaticModel:(World_Base_HousesC_NW,World_Base_HousesC_NW)
+StaticModel:(World_Base_HousesC_S,World_Base_HousesC_S)
+StaticModel:(World_Base_HousesC_SW,World_Base_HousesC_SW)
+StaticModel:(World_Base_HousesD_E,World_Base_HousesD_E)
+StaticModel:(World_Base_HousesD_NW,World_Base_HousesD_NW)
+StaticModel:(World_Base_HousesD_SW,World_Base_HousesD_SW)
+StaticModel:(World_Base_Towers_NW,World_Base_Towers_NW)
+StaticModel:(World_Base_Towers_SW,World_Base_Towers_SW)
+
+StaticModel:(World_Base_Trees_C,World_Base_Trees_C)
+StaticModel:(World_Base_Trees_E,World_Base_Trees_E)
+StaticModel:(World_Base_Trees_N,World_Base_Trees_N)
+StaticModel:(World_Base_Trees_NE,World_Base_Trees_NE)
+StaticModel:(World_Base_Trees_NW,World_Base_Trees_NW)
+StaticModel:(World_Base_Trees_S,World_Base_Trees_S)
+StaticModel:(World_Base_Trees_SE,World_Base_Trees_SE)
+StaticModel:(World_Base_Trees_SW,World_Base_Trees_SW)
+StaticModel:(World_Base_Trees_W,World_Base_Trees_W)
+StaticModel:(World_Base_Trees_C_Shadow,World_Base_Trees_Shadow_C)
+
+StaticModel:(World_Base_Trees_E_Shadow,World_Base_Trees_Shadow_E)
+StaticModel:(World_Base_Trees_N_Shadow,World_Base_Trees_Shadow_N)
+StaticModel:(World_Base_Trees_NE_Shadow,World_Base_Trees_Shadow_NE)
+StaticModel:(World_Base_Trees_NW_Shadow,World_Base_Trees_Shadow_NW)
+StaticModel:(World_Base_Trees_S_Shadow,World_Base_Trees_Shadow_S)
+StaticModel:(World_Base_Trees_SE_Shadow,World_Base_Trees_Shadow_SE)
+StaticModel:(World_Base_Trees_SW_Shadow,World_Base_Trees_Shadow_SW)
+StaticModel:(World_Base_Trees_W_Shadow,World_Base_Trees_Shadow_W)
+
+
+##P4N
+Texture:(World_River_HI,NSMWorld/World_River_HI.pcpng)
+Texture:(Pylon_HI,NSMWorld/pylon_alpha.pcpng)
+
+//Autumn
+StaticModel:(World_Base_Floor_HI_C_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_C_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_E_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_E_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_N_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_N_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_NE_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_NE_AUTUMN.3DMH)	
+StaticModel:(World_Base_Floor_HI_NW_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_NW_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_S_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_S_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_SE_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_SE_AUTUMN.3DMH)
+StaticModel:(World_Base_Floor_HI_SW_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_SW_AUTUMN.3DMH)	
+StaticModel:(World_Base_Floor_HI_W_Autumn,HIGH DETAIL/Autumn/World_Base_Floor_HI_W_AUTUMN.3DMH)
+//Winter
+StaticModel:(World_Base_Floor_HI_C_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_C_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_E_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_E_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_N_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_N_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_NE_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_NE_WINTER.3DMH)	
+StaticModel:(World_Base_Floor_HI_NW_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_NW_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_S_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_S_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_SE_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_SE_WINTER.3DMH)
+StaticModel:(World_Base_Floor_HI_SW_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_SW_WINTER.3DMH)	
+StaticModel:(World_Base_Floor_HI_W_Winter,HIGH DETAIL/Winter/World_Base_Floor_HI_W_WINTER.3DMH)
+//Summer
+StaticModel:(World_Base_Floor_HI_C,HIGH DETAIL/World_Base_Floor_HI_C.3DMH)
+StaticModel:(World_Base_Floor_HI_E,HIGH DETAIL/World_Base_Floor_HI_E.3DMH)
+StaticModel:(World_Base_Floor_HI_N,HIGH DETAIL/World_Base_Floor_HI_N.3DMH)
+StaticModel:(World_Base_Floor_HI_NE,HIGH DETAIL/World_Base_Floor_HI_NE.3DMH)	
+StaticModel:(World_Base_Floor_HI_NW,HIGH DETAIL/World_Base_Floor_HI_NW.3DMH)
+StaticModel:(World_Base_Floor_HI_S,HIGH DETAIL/World_Base_Floor_HI_S.3DMH)
+StaticModel:(World_Base_Floor_HI_SE,HIGH DETAIL/World_Base_Floor_HI_SE.3DMH)
+StaticModel:(World_Base_Floor_HI_SW,HIGH DETAIL/World_Base_Floor_HI_SW.3DMH)	
+StaticModel:(World_Base_Floor_HI_W,HIGH DETAIL/World_Base_Floor_HI_W.3DMH)
+
+//Winter
+StaticModel:(World_Base_Houses_HI_C_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_C_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_E_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_E_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_N_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_N_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_NE_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_NE_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_NW_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_NW_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_S_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_S_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_SE_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_SE_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_SW_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_SW_WINTER.3DMH)
+StaticModel:(World_Base_Houses_HI_W_Winter,HIGH DETAIL/Winter/World_Base_Houses_HI_W_WINTER.3DMH)
+//Summer
+StaticModel:(World_Base_Houses_HI_C,HIGH DETAIL/World_Base_Houses_HI_C.3DMH)
+StaticModel:(World_Base_Houses_HI_E,HIGH DETAIL/World_Base_Houses_HI_E.3DMH)
+StaticModel:(World_Base_Houses_HI_N,HIGH DETAIL/World_Base_Houses_HI_N.3DMH)
+StaticModel:(World_Base_Houses_HI_NE,HIGH DETAIL/World_Base_Houses_HI_NE.3DMH)
+StaticModel:(World_Base_Houses_HI_NW,HIGH DETAIL/World_Base_Houses_HI_NW.3DMH)
+StaticModel:(World_Base_Houses_HI_S,HIGH DETAIL/World_Base_Houses_HI_S.3DMH)
+StaticModel:(World_Base_Houses_HI_SE,HIGH DETAIL/World_Base_Houses_HI_SE.3DMH)
+StaticModel:(World_Base_Houses_HI_SW,HIGH DETAIL/World_Base_Houses_HI_SW.3DMH)
+StaticModel:(World_Base_Houses_HI_W,HIGH DETAIL/World_Base_Houses_HI_W.3DMH)
+
+StaticModel:(World_Base_Houses_Lights_HI_C,HIGH DETAIL/World_Base_Houses_Lights_HI_C.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_E,HIGH DETAIL/World_Base_Houses_Lights_HI_E.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_N,HIGH DETAIL/World_Base_Houses_Lights_HI_N.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_NW,HIGH DETAIL/World_Base_Houses_Lights_HI_NW.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_S,HIGH DETAIL/World_Base_Houses_Lights_HI_S.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_SE,HIGH DETAIL/World_Base_Houses_Lights_HI_SE.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_SW,HIGH DETAIL/World_Base_Houses_Lights_HI_SW.3DMH)
+StaticModel:(World_Base_Houses_Lights_HI_W,HIGH DETAIL/World_Base_Houses_Lights_HI_W.3DMH)
+
+//Winter
+StaticModel:(World_Base_Trees_HI_C_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_C_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_E_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_E_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_N_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_N_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_NE_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_NE_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_NW_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_NW_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_S_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_S_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_SE_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_SE_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_SW_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_SW_WINTER.3DMH)
+StaticModel:(World_Base_Trees_HI_W_Winter,HIGH DETAIL/Winter/World_Base_Trees_HI_W_WINTER.3DMH)
+//Summer
+StaticModel:(World_Base_Trees_HI_C,HIGH DETAIL/World_Base_Trees_HI_C.3DMH)
+StaticModel:(World_Base_Trees_HI_E,HIGH DETAIL/World_Base_Trees_HI_E.3DMH)
+StaticModel:(World_Base_Trees_HI_N,HIGH DETAIL/World_Base_Trees_HI_N.3DMH)
+StaticModel:(World_Base_Trees_HI_NE,HIGH DETAIL/World_Base_Trees_HI_NE.3DMH)
+StaticModel:(World_Base_Trees_HI_NW,HIGH DETAIL/World_Base_Trees_HI_NW.3DMH)
+StaticModel:(World_Base_Trees_HI_S,HIGH DETAIL/World_Base_Trees_HI_S.3DMH)
+StaticModel:(World_Base_Trees_HI_SE,HIGH DETAIL/World_Base_Trees_HI_SE.3DMH)
+StaticModel:(World_Base_Trees_HI_SW,HIGH DETAIL/World_Base_Trees_HI_SW.3DMH)
+StaticModel:(World_Base_Trees_HI_W,HIGH DETAIL/World_Base_Trees_HI_W.3DMH)
+
+StaticModel:(World_Base_Trees_HI_C_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_C.3DMH)
+StaticModel:(World_Base_Trees_HI_E_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_E.3DMH)
+StaticModel:(World_Base_Trees_HI_N_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_N.3DMH)
+StaticModel:(World_Base_Trees_HI_NE_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_NE.3DMH)
+StaticModel:(World_Base_Trees_HI_NW_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_NW.3DMH)
+StaticModel:(World_Base_Trees_HI_S_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_S.3DMH)
+StaticModel:(World_Base_Trees_HI_SE_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_SE.3DMH)
+StaticModel:(World_Base_Trees_HI_SW_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_SW.3DMH)
+StaticModel:(World_Base_Trees_HI_W_Shadow,HIGH DETAIL/World_Base_Trees_Shadow_HI_W.3DMH)
+
+StaticModel:(World_Base_HI_River,HIGH DETAIL/World_Base_HI_River.3DMH)
+
+StaticModel:(Pylons_HI,HIGH DETAIL/Pylons_HI.3DMH)
+
+Texture:(World_River_HI_Night,NSMWorld/World_River_HI_DUSK.nspng)
+Texture:(Pylon_HI_Night,NSMWorld/pylon_alpha_DUSK.nspng)
+##*
+
+
+
+//--------------------------------surface
+Surf:($CLOUDSHADOW,512,512)
+//---------------------------------TextureSheet
+View:($CLOUDSHADOW,512,512)
+{
+	Sheet:(0,-300,0,0,0,40,0,1,1,1)
+	{
+
+		Cls:(#FFFFFFFF)
+
+		Rect:() $HIDE
+		 	set(gel.vis,twk(Facilities,Night) = 0) 
+		{
+			Spine:(NSM_CloudShadow,256,256,0,CloudShadowScroll,Loop)
+				 Scale(0.5,0.5)
+				 if(Player.weatherSeason = 3)
+				 <
+				 	:set(gel.anim.speed,0.02)
+				 	:set(gel.alpha,0.5)
+				 	//ConsolePrint(SNOW)
+				 >
+				  elif(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN)
+				 <
+				 	:set(gel.anim.speed,0.04)
+				 	:set(gel.alpha,1)
+				 	//ConsolePrint(RAIN)
+				 >
+				 else
+				 <
+				 	:set(gel.anim.speed,0.08)
+				 	:set(gel.alpha,0.6)
+				 	//ConsolePrint(NORM)
+				 >>
+		}
+	}
+}
+
+
+//--------------------------------surface
+Surf:($RIVER,128,128)
+
+//---------------------------------TextureSheet STANDARD
+View:($RIVER,128,128)
+{
+	Sheet:(0,0,0,0,0,0,0,1,1,1)
+	{
+		Cls:(#000000FF)
+		
+		Draw:(World_River_1,0,-128,128,128,,#DDDDFFFF)
+			Mover(0,0.2)
+			WrapY(-128,0)
+		Draw:(World_River_1,0,0,128,128,,#DDDDFFFF)
+			Mover(0,0.2)
+			WrapY(0,128)
+
+		Draw:(World_River_2,-128,0,128,128,,#FFFFFF15)
+			Mover(0.1,0)
+			WrapX(0,128)
+		Draw:(World_River_2,0,0,128,128,,#FFFFFF15)
+			Mover(0.1,0)
+			WrapX(-128,0)
+		
+		Draw:(Fade_Right,-26,0,64,128,,#632F06DD)
+		Draw:(Fade_Right,144,0,-64,128,,#632F06DD)
+	}
+}
+
+
+//---------------------------------Training Ground Macro
+Macro:(M_NSMWorld,?SCALE?)
+	Locator:((0,0,0),(0,0,0),(?SCALE?,?SCALE?,?SCALE?))
+		Layer(Ground)
+	{
+		// World
+		UseShader:(ProjectedLight3DVCol)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+		{
+			##IA
+			Batch:(World_GenBase)
+			{
+				DrawStaticModel:(World_Base_Floor_C,GenBase)
+				DrawStaticModel:(World_Base_Floor_E,GenBase)
+				DrawStaticModel:(World_Base_Floor_E_EXT,GenBase)
+				DrawStaticModel:(World_Base_Floor_N,GenBase)
+				DrawStaticModel:(World_Base_Floor_NE,GenBase)
+				DrawStaticModel:(World_Base_Floor_NW,GenBase)
+				DrawStaticModel:(World_Base_Floor_S,GenBase)
+				DrawStaticModel:(World_Base_Floor_SE,GenBase)
+				DrawStaticModel:(World_Base_Floor_SW,GenBase)
+				DrawStaticModel:(World_Base_Floor_W,GenBase)
+			}
+		
+			Batch:(World_Grass)
+			{
+				DrawStaticModel:(World_Base_Floor_E2,Grass)
+				DrawStaticModel:(World_Base_Floor_N2,Grass)
+				DrawStaticModel:(World_Base_Floor_NE2,Grass)
+				DrawStaticModel:(World_Base_Floor_S2,Grass)
+				DrawStaticModel:(World_Base_Floor_SE2,Grass)
+			}
+
+			Batch:(World_HouseA)
+			{
+				DrawStaticModel:(World_Base_HousesA_E,HouseA)
+				DrawStaticModel:(World_Base_HousesA_N,HouseA)
+				DrawStaticModel:(World_Base_HousesA_S,HouseA)
+			}
+
+			Batch:(World_HouseB)
+			{
+				DrawStaticModel:(World_Base_HousesB_N,HouseB)
+				DrawStaticModel:(World_Base_HousesB_S,HouseB)
+				DrawStaticModel:(World_Base_HousesB_SW,HouseB)
+				DrawStaticModel:(World_Base_HousesB_W,HouseB)
+			}
+
+			Batch:(World_HouseC)
+			{
+				DrawStaticModel:(World_Base_HousesC_C,HouseC)
+				DrawStaticModel:(World_Base_HousesC_E,HouseC)
+				DrawStaticModel:(World_Base_HousesC_N,HouseC)
+				DrawStaticModel:(World_Base_HousesC_NW,HouseC)
+				DrawStaticModel:(World_Base_HousesC_S,HouseC)
+				DrawStaticModel:(World_Base_HousesC_SW,HouseC)
+			}
+
+			Batch:(World_HouseD)
+			{
+				DrawStaticModel:(World_Base_HousesD_E,HouseD)
+				DrawStaticModel:(World_Base_HousesD_NW,HouseD)
+				DrawStaticModel:(World_Base_HousesD_SW,HouseD)
+			}
+
+			Batch:(World_Tower)
+			{
+				DrawStaticModel:(World_Base_Towers_NW,Tower)
+				DrawStaticModel:(World_Base_Towers_SW,Tower)
+			}
+
+			//River STANDARD
+			Locator:((0,0,-50),(0,0,0),(1,1,1))
+			{
+				DrawStaticModel:(World_Base_River,$RIVER)	
+			}
+
+			##P4N
+			DrawStaticModel:(World_Base_Floor_HI_C,Base_HI)
+				M_TextureSelectAWS:()			
+			DrawStaticModel:(World_Base_Floor_HI_E,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_N,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_NE,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_NW,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_S,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_SE,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_SW,Base_HI)
+				M_TextureSelectAWS:()
+			DrawStaticModel:(World_Base_Floor_HI_W,Base_HI)
+				M_TextureSelectAWS:()
+
+			
+			Batch:(World_Houses)
+				M_TextureSelect:(Buildings_HI)
+				M_SeasonSSA:()
+			{
+				DrawStaticModel:(World_Base_Houses_HI_C,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_E,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_N,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_NE,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_NW,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_S,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_SE,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_SW,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_W,Buildings_HI)
+			}
+
+			Batch:(World_Houses_Winter)
+				M_TextureSelect:(Buildings_HI)
+				M_SeasonW:()
+			{
+				DrawStaticModel:(World_Base_Houses_HI_C_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_E_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_N_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_NE_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_NW_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_S_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_SE_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_SW_Winter,Buildings_HI)
+				DrawStaticModel:(World_Base_Houses_HI_W_Winter,Buildings_HI)
+			}
+
+			Rect:() $HIDE
+				.set(gel.vis,twk(Facilities,Night)=1)
+			{
+				Batch:(House_Lights_Night)
+				{
+					DrawStaticModel:(World_Base_Houses_Lights_HI_C,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_E,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_N,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_NW,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_S,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_SE,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_SW,Buildings_HI_Night)
+					DrawStaticModel:(World_Base_Houses_Lights_HI_W,Buildings_HI_Night)
+				}
+			}
+
+			//Pylons
+			UseShader:(ProjectedLight3DVColOneBit_Alt)
+				SetSampler(TexSamp1,$CLOUDSHADOW)
+				Layer(OneBit)
+			{
+				DrawStaticModel:(Pylons_HI,Pylon_HI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:()
+			}
+			
+			UseShader:(ProjectedLight3D)
+				SetSampler(TexSamp1,$CLOUDSHADOW)
+				set(gel.vis,twk(Match,PlayerAtHome) =1)
+			{
+				//Turbines North to South
+				M_Turbine:(-42840,-7400,-2600,-90,-1)
+				M_Turbine:(-45990,-11920,-2600,-90,-0.98)
+				M_Turbine:(-45210,-17140,-2600,-90,-1)
+				M_Turbine:(-39980,-23515,-2600,-90,-0.96)
+				M_Turbine:(-38970,-29350,-2600,-90,-1.05)
+				M_Turbine:(-34740,-33640,-2600,-90,-0.99)
+			}
+
+			//River
+			UseShader:(ProjectedLight3DVColScroll)
+				float(%Scroll)
+				add(%Scroll,-0.001)
+				SetUniform1F(Time,%Scroll)
+			{
+				DrawStaticModel:(World_Base_HI_River,World_River_HI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:()
+			}
+			##*
+		}
+	
+		// Tree Shadows
+		UseShader:(Simple3DNZW)
+			Layer(Shadows)
+		{
+			
+			Batch:(World_Base_Tree_Shadows)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				M_TextureSelect:(Trees_HI)
+			{
+				##IA
+				DrawStaticModel:(World_Base_Trees_C_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_E_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_N_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_NE_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_NW_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_S_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_SE_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_SW_Shadow,GenTrees)
+				DrawStaticModel:(World_Base_Trees_W_Shadow,GenTrees)
+				##P4N
+				DrawStaticModel:(World_Base_Trees_HI_C_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_E_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_N_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NE_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NW_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_S_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SE_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SW_Shadow,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_W_Shadow,Trees_HI)
+				##*
+			}
+			
+		}
+
+		// Trees STANDARD
+		##IA
+		UseShader:(ProjectedLight3DVColOneBit)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+			Layer(OneBit)
+		{
+			Batch:(World_Base_Trees)
+				Blend(ONE,INV_IMAGE_ALPHA)
+			{
+				DrawStaticModel:(World_Base_Trees_C,GenTrees)
+				DrawStaticModel:(World_Base_Trees_E,GenTrees)
+				DrawStaticModel:(World_Base_Trees_N,GenTrees)
+				DrawStaticModel:(World_Base_Trees_NE,GenTrees)
+				DrawStaticModel:(World_Base_Trees_NW,GenTrees)
+				DrawStaticModel:(World_Base_Trees_S,GenTrees)
+				DrawStaticModel:(World_Base_Trees_SE,GenTrees)
+				DrawStaticModel:(World_Base_Trees_SW,GenTrees)
+				DrawStaticModel:(World_Base_Trees_W,GenTrees)
+			}
+		}
+		// Trees HIGH DETAIL
+		##P4N
+		UseShader:(ProjectedLight3DVColOneBit_Alt)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+			Layer(OneBit)
+		{
+			Batch:(World_Base_Trees)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				M_TextureSelect:(Trees_HI)
+				M_SeasonSSA:()
+			{
+				DrawStaticModel:(World_Base_Trees_HI_C,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_E,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_N,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NE,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NW,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_S,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SE,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SW,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_W,Trees_HI)
+			}
+			Batch:(World_Base_Trees_Winter)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				M_TextureSelect:(Trees_HI)
+				M_SeasonW:()
+			{
+				DrawStaticModel:(World_Base_Trees_HI_C_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_E_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_N_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NE_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_NW_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_S_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SE_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_SW_Winter,Trees_HI)
+				DrawStaticModel:(World_Base_Trees_HI_W_Winter,Trees_HI)
+			}
+		}	
+		##*
+			
+		
+
+		// -----------------------------------------------------------------Vehicles
+
+		// Rendering vehicles on home screen only.
+		Rect:()
+			set(gel.vis,not(twk(Match,InProgress)))
+			Layer(Ground)
+		{
+			// One shader declaration
+			UseShader:(ProjectedLight3DVCol)
+				SetSampler(TexSamp1,$CLOUDSHADOW)
+			{
+				//--------------------------------------------------Surrounding World Vehicles East Estates
+				##IA
+				Batch:(BatchedCarsEast)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//TerraceRight
+					M_Vehicle:(-3850,10750,Car,Car,95,White)
+					M_Vehicle:(-3800,11050,Car,Car,90,Orange)
+					M_Vehicle:(-3800,11650,Car,Car,-90,Green)
+					M_Vehicle:(-2800,8550,Car,Car,-93,Cyan)
+					M_Vehicle:(-5800,15800,Car,Car,0,Cyan)
+					M_Vehicle:(-6100,15800,Car,Car,0,Red)
+					M_Vehicle:(-6350,15800,Car,Car,185,Black)
+					M_Vehicle:(-6800,15800,Car,Car,5,White)				
+					//TerraceLeft
+					M_Vehicle:(1000,8550,Car,Car,90,Red)					
+					//BungalowBackCarPark
+					M_Vehicle:(-4850,17965,Car,Car,95,White)
+					M_Vehicle:(-4850,18995,Car,Car,85,Blue)					
+					//BungalowBack
+					M_Vehicle:(-2300,17400,Car,Car,0,Red)
+					M_Vehicle:(700,17450,Car,Car,180,Green)
+					M_Vehicle:(2300,17400,Car,Car,10,Blue)
+					M_Vehicle:(-2200,19000,Car,Car,180,Black)					
+					//GreySlantysBackCarPark
+					M_Vehicle:(800,21390,Car,Car,90,Red)
+					M_Vehicle:(280,22060,Car,Car,-95,Green)
+					M_Vehicle:(250,21750,Car,Car,-90,Orange)					
+					//TowerFrontCarParkNear
+					M_Vehicle:(5850,17400,Car,Car,0,Blue)
+					M_Vehicle:(6185,17350,Car,Car,180,Purple)
+					M_Vehicle:(6515,17410,Car,Car,-5,Black)
+					M_Vehicle:(7845,17400,Car,Car,180,Cyan)					
+					//TowerFrontCarParkFar
+					M_Vehicle:(10500,19450,Car,Car,180,Yellow)
+					M_Vehicle:(10800,19450,Car,Car,0,Red)
+					M_Vehicle:(11100,19450,Car,Car,175,Purple)
+					M_Vehicle:(12100,19450,Car,Car,175,Green)					
+					//TowerOnRoad
+					M_Vehicle:(9630,19250,Car,Car,180,Red)
+					//RedSlantyRightCarPark
+					M_Vehicle:(5900,13800,Car,Car,0,Red)
+					M_Vehicle:(6200,13800,Car,Car,180,Purple)
+					M_Vehicle:(6500,13800,Car,Car,175,Green)
+					//RedSlantyLeftCarPark
+					M_Vehicle:(14600,14650,Car,Car,180,White)
+					M_Vehicle:(14900,14650,Car,Car,0,Yellow)
+					M_Vehicle:(15200,14700,Car,Car,5,Cyan)
+					M_Vehicle:(13150,13950,Car,Car,90,Red)
+					//TerraceBackCarPark
+					M_Vehicle:(16150,21050,Car,Car,0,Red)
+					M_Vehicle:(16400,21850,Car,Car,175,Purple)
+					M_Vehicle:(16700,21850,Car,Car,180,Green)
+
+				}
+				Batch:(BatchedVansEast)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//TerraceRight
+					M_Vehicle:(-3850,11350,Van,Van,-90,Red)
+					//TerraceLeft
+					M_Vehicle:(-200,9650,Van,Van,0,Green)
+					//BungalowBackCarPark
+					M_Vehicle:(-4800,18290,Van,Van,-90,Yellow)
+					//BungalowBack
+					M_Vehicle:(-700,19300,Van,Van,5,White)
+					//TowerFrontCarPark
+					M_Vehicle:(6850,17400,Van,Van,0,White)
+					M_Vehicle:(7320,17400,Van,Van,180,White)
+					//TowerBackCarPark
+					M_Vehicle:(11500,21850,Van,Van,0,Red)
+					//RedSlantyRightCarPark
+					M_Vehicle:(6850,14400,Van,Van,90,Yellow)
+					//TerraceBackCarPark
+					M_Vehicle:(18150,18950,Van,Van,90,White)
+				}
+				##P4N
+				Batch:(BatchedCarsEastHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_CarSheet_HI)
+				{
+					//TerraceRight
+					M_Vehicle_HI:(-3850,10750,Car1_Type2,Car,95)
+					M_Vehicle_HI:(-3800,11050,Car2_Type3,Car,90)
+					M_Vehicle_HI:(-3800,11650,Car3_Type1,Car,-90)
+					M_Vehicle_HI:(-2800,8550,Car1_Type2,Car,-93)
+					M_Vehicle_HI:(-5800,15800,Car2_Type2,Car,0)
+					M_Vehicle_HI:(-6100,15800,Car1_Type1,Car,0)
+					M_Vehicle_HI:(-6350,15800,Car3_Type3,Car,185)
+					M_Vehicle_HI:(-6800,15800,Car3_Type1,Car,5)
+					//TerraceLeft
+					M_Vehicle_HI:(1000,8550,Car1_Type2,Car,90
+					//BungalowBackCarPark
+					M_Vehicle_HI:(-4850,17965,Car2_Type3,Car,95)
+					M_Vehicle_HI:(-4850,18995,Car1_Type1,Car,85)
+					//BungalowBack
+					M_Vehicle_HI:(-2300,17400,Car1_Type3,Car,0)
+					M_Vehicle_HI:(700,17450,Car2_Type1,Car,180)
+					M_Vehicle_HI:(2300,17400,Car3_Type2,Car,10)
+					M_Vehicle_HI:(-2200,19000,Car1_Type1,Car,180)
+					//GreySlantysBackCarPark
+					M_Vehicle_HI:(800,21390,Car1_Type1,Car,90)
+					M_Vehicle_HI:(280,22060,Car3_Type2,Car,-95)
+					M_Vehicle_HI:(250,21750,Car1_Type3,Car,-90)
+					//TowerFrontCarParkNear
+					M_Vehicle_HI:(5850,17400,Car1_Type1,Car,0)
+					M_Vehicle_HI:(6185,17350,Car2_Type2,Car,180)
+					M_Vehicle_HI:(6515,17410,Car2_Type3,Car,-5)
+					M_Vehicle_HI:(7845,17400,Car1_Type1,Car,180)
+					//TowerFrontCarParkFar
+					M_Vehicle_HI:(10500,19450,Car1_Type1,Car,180)
+					M_Vehicle_HI:(10800,19450,Car2_Type2,Car,0)
+					M_Vehicle_HI:(11100,19450,Car3_Type1,Car,175)
+					M_Vehicle_HI:(12100,19450,Car1_Type2,Car,175)
+					//TowerOnRoad
+					M_Vehicle_HI:(9630,19250,Car1_Type3,Car,180)
+					//RedSlantyRightCarPark
+					M_Vehicle_HI:(5900,13800,Car1_Type1,Car,0)
+					M_Vehicle_HI:(6200,13800,Car3_Type3,Car,180)
+					M_Vehicle_HI:(6500,13800,Car2_Type1,Car,175)
+					//RedSlantyLeftCarPark
+					M_Vehicle_HI:(14600,14650,Car1_Type3,Car,180)
+					M_Vehicle_HI:(14900,14650,Car2_Type2,Car,0)
+					M_Vehicle_HI:(15200,14700,Car2_Type1,Car,5)
+					M_Vehicle_HI:(13150,13950,Car1_Type2,Car,90)
+					//TerraceBackCarPark
+					M_Vehicle_HI:(16150,21050,Car3_Type2,Car,0)
+					M_Vehicle_HI:(16400,21850,Car1_Type1,Car,175)
+					M_Vehicle_HI:(16700,21850,Car3_Type3,Car,180)	
+				}
+				Batch:(BatchedVansEastHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_VanSheet_HI)
+				{
+					//TerraceRight
+					M_Vehicle_HI:(-3850,11350,Van1_Type1,Van,-90)
+					//TerraceLeft
+					M_Vehicle_HI:(-200,9650,Van1_Type2,Van,0)
+					//BungalowBackCarPark
+					M_Vehicle_HI:(-4800,18290,Van1_Type1,Van,-90)
+					//BungalowBack
+					M_Vehicle_HI:(-700,19300,Van1_Type1,Van,5)
+					//TowerFrontCarPark
+					M_Vehicle_HI:(6850,17400,Van1_Type1,Van,0)
+					M_Vehicle_HI:(7320,17400,Van1_Type2,Van,180)
+					//TowerBackCarPark
+					M_Vehicle_HI:(11500,21850,Van1_Type1,Van,0)
+					//RedSlantyRightCarPark
+					M_Vehicle_HI:(6850,14400,Van1_Type1,Van,90)
+					//TerraceBackCarPark
+					M_Vehicle_HI:(18150,18950,Van1_Type2,Van,90)
+				}
+
+				//Truck Tower
+				M_Truck:(6845,18500,90,1,2,55)
+				##*
+				
+
+				
+				//-------------------------------------------------Surrounding World Vehicles South Estates
+				// Bungalows1
+				##IA
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,PitchStandWLevelVisible) oneof(0,1,2,3))
+				{
+					Batch:(BatchedCarsSouthT1)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						M_Vehicle:(-5000,0,Car,Car,95,White)
+						M_Vehicle:(-5150,1500,Car,Car,-90,Blue)
+						M_Vehicle:(-4850,3000,Car,Car,-100,Red)
+						M_Vehicle:(-6800,1000,Car,Car,-70,Orange)
+						M_Vehicle:(-6500,2500,Car,Car,90,Purple)
+						M_Vehicle:(-6500,4100,Car,Car,90,Green)
+					}
+				}
+				Batch:(BatchedCarsSouth)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//bungalows2
+					M_Vehicle:(-10000,-1000,Car,Car,0,Black)
+					M_Vehicle:(-11500,-800,Car,Car,180,Yellow)
+					M_Vehicle:(-13000,-1100,Car,Car,195,Cyan)
+					//Slanty1
+					M_Vehicle:(-11950,950,Car,Car,10,Orange)
+					M_Vehicle:(-12200,900,Car,Car,0,Blue)
+					M_Vehicle:(-12500,900,Car,Car,180,Red)
+					//Slanty2
+					M_Vehicle:(-11950,2950,Car,Car,185,Green)
+					M_Vehicle:(-12200,2900,Car,Car,10,Purple)
+					M_Vehicle:(-12500,2900,Car,Car,170,Blue)
+					//bungalows far
+					M_Vehicle:(-23250,-1600,Car,Car,90,Green)
+					M_Vehicle:(-23400,-3100,Car,Car,-80,Purple)
+					M_Vehicle:(-21500,-1600,Car,Car,-90,Blue)
+					M_Vehicle:(-21500,-3050,Car,Car,110,Orange)
+					M_Vehicle:(-20000,-2050,Car,Car,-85,Green)
+					M_Vehicle:(-20000,-3600,Car,Car,90,Yellow)
+				}
+			
+				M_Vehicle:(-6000,2100,Van,Van,0,White)
+					set(gel.vis,twk(Facilities,PitchStandWLevelVisible) oneof(0,1,2,3))
+					
+				M_Vehicle:(-9000,600,Van,Van,90,Yellow)
+				##P4N
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,PitchStandWLevelVisible) oneof(0,1,2,3))
+				{
+					Batch:(BatchedCarsSouthT1HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						M_Vehicle_HI:(-5000,0,Car1_Type2,Car,95)
+						M_Vehicle_HI:(-5150,1500,Car2_Type1,Car,-90)
+						M_Vehicle_HI:(-4850,3000,Car3_Type3,Car,-100)
+						M_Vehicle_HI:(-6800,1000,Car1_Type3,Car,-70)
+						M_Vehicle_HI:(-6500,2500,Car2_Type1,Car,90)
+						M_Vehicle_HI:(-6500,4100,Car1_Type2,Car,90)
+					}
+				}
+				Batch:(BatchedCarsSouth_HI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_CarSheet_HI)
+				{
+					//bungalows2
+					M_Vehicle_HI:(-10000,-1000,Car1_Type1,Car,0)
+					M_Vehicle_HI:(-11500,-800,Car2_Type2,Car,180)
+					M_Vehicle_HI:(-13000,-1100,Car3_Type3,Car,195)
+					//Slanty1
+					M_Vehicle_HI:(-11950,950,Car1_Type2,Car,10)
+					M_Vehicle_HI:(-12200,900,Car2_Type2,Car,0)
+					M_Vehicle_HI:(-12500,900,Car2_Type1,Car,180)
+					//Slanty2
+					M_Vehicle_HI:(-11950,2950,Car1_Type1,Car,185)
+					M_Vehicle_HI:(-12200,2900,Car3_Type3,Car,10)
+					M_Vehicle_HI:(-12500,2900,Car1_Type1,Car,170)
+					//bungalows far
+					M_Vehicle_HI:(-23250,-1600,Car2_Type1,Car,90)
+					M_Vehicle_HI:(-23400,-3100,Car1_Type2,Car,-80)
+					M_Vehicle_HI:(-21500,-1600,Car2_Type2,Car,-90)
+					M_Vehicle_HI:(-21500,-3050,Car3_Type3,Car,110)
+					M_Vehicle_HI:(-20000,-2050,Car1_Type1,Car,-85)
+					M_Vehicle_HI:(-20000,-3600,Car2_Type2,Car,90)
+				}
+			
+				M_Vehicle_HI_Single:(-6000,2100,Van1_Type1,Van,0)
+					set(gel.vis,twk(Facilities,PitchStandWLevelVisible) oneof(0,1,2,3))
+					
+				M_Vehicle_HI_Single:(-9000,600,Van1_Type2,Van,90)
+
+				//Truck Petrol station south
+				M_Truck:(-10700,-13370,-90,1,3,54)
+				##*
+
+
+				//-------------------------------------------------Surrounding World Vehicles North Estates
+				
+				##IA
+				//TrainStandard
+				Locator:((22350,-800,-150),(0,0,0),(1,1,1))
+				{
+					Locator:((0,0,0),(0,0,0),(1,1,1))
+						float(%FCURVE2)
+						float(%Train2RandDelay)
+						float(%MoveTrain2)
+						if(%MoveTrain2 = 0)
+						<
+							//Random delay for train start
+							:set(%TrainR2andDelay,frand(20,60))
+							:Delay(%Train2RandDelay)
+							:set(%MoveTrain2,1)
+						>
+						if(%MoveTrain2 = 1)
+						<
+							add(%FCURVE2,0.00025)
+							if(%FCURVE2>1)
+							<
+								set(%FCURVE2,0)
+								set(%MoveTrain2,0)
+							>
+						>
+						FollowCurve(Train,TrainTravel,%FCURVE2,true)
+					{	
+					 	Locator:((0,0,0),(-90,0,0),(1,1,1))
+					 	{
+					 		M_Train:(0,0,Train,NSM_CoachSheet_HI,0)
+						}
+					}
+				}
+
+				##P4N
+				//Train HI
+				Locator:((22880,0,-150),(0,0,0),(1,1,1))
+				{
+					Locator:((0,0,0),(0,0,0),(1,1,1))
+						float(%FCURVE)
+						float(%TrainRandDelay)
+						float(%MoveTrain)
+						if(%MoveTrain = 0)
+						<
+							//Random delay for train start
+							:set(%TrainRandDelay,frand(10,80))
+							:Delay(%TrainRandDelay)
+							:set(%MoveTrain,1)
+						>
+						if(%MoveTrain = 1)
+						<
+							add(%FCURVE,0.001)
+							if(%FCURVE>1)
+							<
+								set(%FCURVE,0)
+								set(%MoveTrain,0)
+							>
+						>
+						FollowCurve(Train,TrainTravel,%FCURVE,true)
+					{	
+						Locator:((0,0,0),(-90,0,0),(1.2,1.2,1.2))
+				 	 	{
+							M_Train:(0,0,Train_HI,NSM_CoachSheet,0)
+						}
+					}
+				}
+				
+				//TrainStandard
+				Locator:((22255,-800,-150),(0,0,0),(1,1,1))
+				{
+					Locator:((0,0,0),(0,0,0),(1,1,1))
+						float(%FCURVE2)
+						float(%Train2RandDelay)
+						float(%MoveTrain2)
+						if(%MoveTrain2 = 0)
+						<
+							//Random delay for train start
+							:set(%TrainR2andDelay,frand(20,60))
+							:Delay(%Train2RandDelay)
+							:set(%MoveTrain2,1)
+						>
+						if(%MoveTrain2 = 1)
+						<
+							add(%FCURVE2,0.00025)
+							if(%FCURVE2>1)
+							<
+								set(%FCURVE2,0)
+								set(%MoveTrain2,0)
+							>
+						>
+						FollowCurve(Train,TrainRun1,%FCURVE2,true)
+					{	
+					 	Locator:((0,0,0),(-90,0,0),(1,1,1))
+					 	{
+					 		M_Train:(0,0,Train,NSM_CoachSheet_HI,0)
+						}
+					}
+				}
+
+				//---------------------------------PATHED VEHICLES
+				//VEHICLEPATH
+				M_VehPath:(Car1_Type1,Car,001,-90,0,0,1,-50)
+				M_VehPath:(Car3_Type3,Car,001,-90,0,0,1b,-10)
+
+				///VEHICLEPATH2
+				M_VehPath:(Car2_Type3,Car,001,-90,0,0,2,-20)
+				M_VehPath:(Van1_Type1,Van,001,-90,0,0,2b)
+
+				///VEHICLEPATH3
+				M_VehPath:(Van1_Type1,Van,001,-90,0,0,3)
+				M_VehPath:(Car2_Type1,Car,001,-90,0,0,3b,-20)
+
+				///VEHICLEPATH4
+				M_VehPath:(Van1_Type2,Van,001,-90,0,0,4)
+				M_VehPath:(Car3_Type3,Car,001,-90,0,0,4b,-10)
+
+				///VEHICLEPATH5
+				M_VehPath:(Car1_Type2,Car,001,-90,0,0,5,-50)
+				M_VehPath:(Van1_Type2,Van,001,-90,0,0,5b)
+
+				///VEHICLEPATH6
+				M_VehPath:(Van1_Type1,Van,0006,-90,0,0,6)
+				M_VehPath:(Van1_Type2,Van,0006,-90,0,0,6b)
+
+				//Tractors
+				Rect:()
+				set(gel.vis,(twk(Facilities,Night) =0) and((Player.weatherSeason) oneof(0,2)))
+				{
+					//Tractor1
+					M_TractorPath:(0004,0,0,0,1)
+					//Tractor2
+					M_TractorPath:(001,0,0,0,2)
+				}
+				##*
+						
+				##IA
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,TrainingGroundLevelVisible) oneof(0,1,2,3))
+				{
+					Batch:(BatchedCarsNorthTrainingVar)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Bungalow Driveways
+						M_Vehicle:(13600,-5750,Car,Car,170,Orange)
+						M_Vehicle:(10600,-5850,Car,Car,180,Green)
+						M_Vehicle:(10500,-7450,Car,Car,0,Black)
+						M_Vehicle:(9000,-7600,Car,Car,-5,Cyan)
+						//Bungalow Car Park Near
+						M_Vehicle:(6400,-6200,Car,Car,90,Red)
+						M_Vehicle:(6450,-6500,Car,Car,-95,Blue)
+						M_Vehicle:(6450,-6820,Car,Car,95,Green)
+					}
+					M_Vehicle:(6450,-7220,Van,Van,95,White)
+					
+				}
+				Batch:(BatchedCarsNorth)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//WhiteSlantys
+					M_Vehicle:(20250,-3150,Car,Car,0,Red)
+					//Bungalow Car Park Far
+					M_Vehicle:(16250,0,Car,Car,180,Green)
+					M_Vehicle:(15900,0,Car,Car,180,Purple)
+					M_Vehicle:(15600,0,Car,Car,5,Black)
+					//Bungalow Driveways
+					M_Vehicle:(15200,-1600,Car,Car,95,White)
+					M_Vehicle:(15200,-3100,Car,Car,-90,Blue)
+					M_Vehicle:(16900,-3600,Car,Car,-80,Yellow)
+					M_Vehicle:(15120,-5650,Car,Car,5,Purple)
+					//Red Slanty Car Park
+					M_Vehicle:(16120,-11750,Car,Car,90,Cyan)
+					M_Vehicle:(16150,-12150,Car,Car,-90,Red)
+					M_Vehicle:(16100,-12650,Car,Car,-90,White)
+					//White Slanty Car Park
+					M_Vehicle:(4950,-12250,Car,Car,0,Cyan)
+
+				}
+				Batch:(BatchedVansNorth)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//WhiteSlantys
+					M_Vehicle:(19330,2150,Van,Van,0,White)
+					//Bungalow Car Park
+					M_Vehicle:(16650,-10,Van,Van,0,Red)
+					//Bungalow Driveways
+					M_Vehicle:(13300,-3100,Van,Van,90,White)
+					//White Slanty Car Park
+					M_Vehicle:(5450,-12250,Van,Van,180,Red)
+				}
+				##P4N
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,TrainingGroundLevelVisible) oneof(0,1,2,3))
+				{
+					Batch:(BatchedCarsNorthTrainingVarHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Bungalow Driveways
+						M_Vehicle_HI:(13600,-5750,Car1_Type2,Car,170)
+						M_Vehicle_HI:(10600,-5850,Car2_Type2,Car,180)
+						M_Vehicle_HI:(10500,-7450,Car3_Type3,Car,0)
+						M_Vehicle_HI:(9000,-7600,Car1_Type1,Car,-5)
+						//Bungalow Car Park Near
+						M_Vehicle_HI:(6400,-6200,Car2_Type1,Car,90)
+						M_Vehicle_HI:(6450,-6500,Car1_Type3,Car,-95)
+						M_Vehicle_HI:(6450,-6820,Car3_Type2,Car,95)
+					}
+					M_Vehicle_HI_Single:(6450,-7220,Van1_Type1,Van,95)
+					
+				}
+				Batch:(BatchedCarsNorthHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_CarSheet_HI)
+				{
+					//WhiteSlantys
+					M_Vehicle_HI:(20250,-3150,Car2_Type1,Car,0)
+					//Bungalow Car Park Far
+					M_Vehicle_HI:(16250,0,Car1_Type2,Car,180)
+					M_Vehicle_HI:(15900,0,Car2_Type1,Car,180)
+					M_Vehicle_HI:(15600,0,Car3_Type2,Car,5)
+					//Bungalow Driveways
+					M_Vehicle_HI:(15200,-1600,Car1_Type1,Car,95)
+					M_Vehicle_HI:(15200,-3100,Car3_Type3,Car,-90)
+					M_Vehicle_HI:(16900,-3600,Car2_Type2,Car,-80w)
+					M_Vehicle_HI:(15120,-5650,Car1_Type1,Car,5)
+					//Red Slanty Car Park
+					M_Vehicle_HI:(16120,-11750,Car2_Type1,Car,90)
+					M_Vehicle_HI:(16150,-12150,Car1_Type3,Car,-90)
+					M_Vehicle_HI:(16100,-12650,Car3_Type1,Car,-90)
+					//White Slanty Car Park
+					M_Vehicle_HI:(4950,-12250,Car1_Type2,Car,0)
+
+				}
+				Batch:(BatchedVansNorthHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_VanSheet_HI)
+				{
+					//WhiteSlantys
+					//M_Vehicle_HI:(19330,2150,Van1_Type2,Van,0)
+					//Bungalow Car Park
+					M_Vehicle_HI:(16650,-10,Van1_Type1,Van,0)
+					//Bungalow Driveways
+					M_Vehicle_HI:(13300,-3100,Van1_Type1,Van,90)
+					//White Slanty Car Park
+					M_Vehicle_HI:(5450,-12250,Van1_Type1,Van,180)
+				}
+
+				//Truck Petrol station North
+				M_Truck:(17255,8130,0,1,0,49)
+
+				//Truck Station Car Park
+				M_Truck:(20815,12130,90,,0,49)
+				##*
+
+
+				//--------------------------------------------------Surrounding World Vehicles West Estates
+				##IA
+				Batch:(BatchedCarsWest)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//Terraced Far Car Park
+					M_Vehicle:(3780,-16918,Car,Car,0,Blue)
+					M_Vehicle:(3400,-16920,Car,Car,185,Red)
+					M_Vehicle:(3100,-16915,Car,Car,15,White)
+					//Terraced Middle Car Park
+					M_Vehicle:(870,-15905,Car,Car,0,Yellow)
+					M_Vehicle:(545,-15910,Car,Car,180,Red)
+					M_Vehicle:(-150,-15912,Car,Car,5,Black)
+					//Terraced near Car Park
+					M_Vehicle:(-6300,-13700,Car,Car,0,White)
+					M_Vehicle:(-6600,-13650,Car,Car,175,Black)
+					M_Vehicle:(-6960,-13680,Car,Car,185,Orange)
+					//Bungalows
+					M_Vehicle:(3400,-18450,Car,Car,0,Purple)
+					M_Vehicle:(3300,-20450,Car,Car,170,Red)
+					M_Vehicle:(300,-20450,Car,Car,190,Yellow)
+					M_Vehicle:(-1200,-20450,Car,Car,0,Cyan)
+					M_Vehicle:(-600,-17950,Car,Car,90,Orange)
+					//Bungalow Car Park
+					M_Vehicle:(-5400,-19000,Car,Car,90,Blue)
+
+				}
+				Batch:(BatchedVansWest)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					//Terraced Middle Car Park
+					M_Vehicle:(210,-15880,Van,Van,180,Green)
+					//Terraced Near Car Park
+					M_Vehicle:(-7260,-13680,Van,Van,5,Red)
+					M_Vehicle:(-7200,-12760,Van,Van,90,Yellow)
+					//Terraced street End
+					M_Vehicle:(-3800,-10200,Van,Van,95,White)
+					//Bungalow Car Park
+					M_Vehicle:(-5400,-19300,Van,Van,90,Red)
+					M_Vehicle:(-5340,-19740,Van,Van,-80,White)
+				}
+				##P4N
+				Batch:(BatchedCarsWestHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_CarSheet_HI)
+				{
+					//Terraced Far Car Park
+					M_Vehicle_HI:(3780,-16918,Car3_Type1,Car,0)
+					M_Vehicle_HI:(3400,-16920,Car1_Type2,Car,185)
+					M_Vehicle_HI:(3100,-16915,Car3_Type2,Car,15)
+					//Terraced Middle Car Park
+					M_Vehicle_HI:(870,-15905,Car3_Type3,Car,0)
+					M_Vehicle_HI:(545,-15910,Car1_Type3,Car,180)
+					M_Vehicle_HI:(-150,-15912,Car2_Type1,Car,5)
+					M_Vehicle_HI:(-6310,-13750,Car1_Type2,Car,90)
+					M_Vehicle_HI:(-6940,-13630,Car2_Type3,Car,92)
+					M_Vehicle_HI:(-6935,-13970,Car1_Type1,Car,-90)
+					//Bungalows
+					M_Vehicle_HI:(3400,-18450,Car3_Type1,Car,0)
+					M_Vehicle_HI:(3300,-20450,Car1_Type2,Car,170)
+					M_Vehicle_HI:(300,-20450,Car2_Type3,Car,190)
+					M_Vehicle_HI:(-1200,-20450,Car2_Type1,Car,0)
+					M_Vehicle_HI:(-600,-17950,Car1_Type2,Car,90)
+					//Bungalow Car Park
+					M_Vehicle_HI:(-5400,-19000,Car3_Type3,Car,90)
+
+				}
+				Batch:(BatchedVansWestHI)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:(NSM_VanSheet_HI)
+				{
+					//Terraced Middle Car Park
+					M_Vehicle_HI:(210,-15880,Van1_Type2,Van,180)
+					//Terraced Near Car Park
+					M_Vehicle_HI:(-7200,-12760,Van1_Type1,Van,90)
+					M_Vehicle_HI:(-6960,-13250,Van1_Type2,Van,92)
+					M_Vehicle_HI:(-6320,-14275,Van1_Type1,Van,-90)
+					//Terraced street End
+					M_Vehicle_HI:(-3800,-10200,Van1_Type1,Van,95)
+					//Bungalow Car Park
+					M_Vehicle_HI:(-5400,-19300,Van1_Type1,Van,90)
+					M_Vehicle_HI:(-5340,-19740,Van1_Type2,Van,-80)
+				}
+				##*	
+			}
+		}
+
+	}
+EndM
+
+
+// //DEBUG-----*-----*-----*Show Light map projection-----*-----*-----*DEBUG
+// Draw:($CLOUDSHADOW,0,100,512)
+//  	Layer(Debug)
+//  	Blend(ONE,ZERO)

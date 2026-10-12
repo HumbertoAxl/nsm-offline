@@ -1,0 +1,285 @@
+
+// ----------------------------------------------------------- DEFS
+
+//----------------Shield Frames
+##IA
+Img:(BadgeMask1Frame,NewGUI/UI/Badge/Shields/Mask1_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask2Frame,NewGUI/UI/Badge/Shields/Mask2_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask3Frame,NewGUI/UI/Badge/Shields/Mask3_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask4Frame,NewGUI/UI/Badge/Shields/Mask4_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask5Frame,NewGUI/UI/Badge/Shields/Mask5_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask6Frame,NewGUI/UI/Badge/Shields/Mask6_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask7Frame,NewGUI/UI/Badge/Shields/Mask7_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask8Frame,NewGUI/UI/Badge/Shields/Mask8_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask9Frame,NewGUI/UI/Badge/Shields/Mask9_Frame.png) FORCE Scale:0.5
+Img:(BadgeMask10Frame,NewGUI/UI/Badge/Shields/Mask10_Frame.png) FORCE Scale:0.5
+
+##P4N
+Img:(BadgeMask1Frame,NewGUI/UI/Badge/Shields/Mask1_Frame.png) FORCE
+Img:(BadgeMask2Frame,NewGUI/UI/Badge/Shields/Mask2_Frame.png) FORCE
+Img:(BadgeMask3Frame,NewGUI/UI/Badge/Shields/Mask3_Frame.png) FORCE
+Img:(BadgeMask4Frame,NewGUI/UI/Badge/Shields/Mask4_Frame.png) FORCE
+Img:(BadgeMask5Frame,NewGUI/UI/Badge/Shields/Mask5_Frame.png) FORCE
+Img:(BadgeMask6Frame,NewGUI/UI/Badge/Shields/Mask6_Frame.png) FORCE
+Img:(BadgeMask7Frame,NewGUI/UI/Badge/Shields/Mask7_Frame.png) FORCE
+Img:(BadgeMask8Frame,NewGUI/UI/Badge/Shields/Mask8_Frame.png) FORCE
+Img:(BadgeMask9Frame,NewGUI/UI/Badge/Shields/Mask9_Frame.png) FORCE
+Img:(BadgeMask10Frame,NewGUI/UI/Badge/Shields/Mask10_Frame.png) FORCE
+##*
+
+//----------------Base Shield Masks
+Img:(BadgeMask1,NewGUI/UI/Badge/Shields/Mask1.png) NOTRIM
+Img:(BadgeMask2,NewGUI/UI/Badge/Shields/Mask2.png) NOTRIM
+Img:(BadgeMask3,NewGUI/UI/Badge/Shields/Mask3.png) NOTRIM
+Img:(BadgeMask4,NewGUI/UI/Badge/Shields/Mask4.png) NOTRIM
+Img:(BadgeMask5,NewGUI/UI/Badge/Shields/Mask5.png) NOTRIM
+Img:(BadgeMask6,NewGUI/UI/Badge/Shields/Mask6.png) NOTRIM
+Img:(BadgeMask7,NewGUI/UI/Badge/Shields/Mask7.png) NOTRIM
+Img:(BadgeMask8,NewGUI/UI/Badge/Shields/Mask8.png) NOTRIM
+Img:(BadgeMask9,NewGUI/UI/Badge/Shields/Mask9.png) NOTRIM
+Img:(BadgeMask10,NewGUI/UI/Badge/Shields/Mask10.png) NOTRIM
+
+//Animals img defs
+Img:(BadgeOverlayAnimal1,NewGUI/UI/Badge/Animals/Animal1.png)
+Img:(BadgeOverlayAnimal2,NewGUI/UI/Badge/Animals/Animal2.png)
+Img:(BadgeOverlayAnimal3,NewGUI/UI/Badge/Animals/Animal3.png)
+Img:(BadgeOverlayAnimal4,NewGUI/UI/Badge/Animals/Animal4.png)
+Img:(BadgeOverlayAnimal5,NewGUI/UI/Badge/Animals/Animal5.png)
+Img:(BadgeOverlayAnimal6,NewGUI/UI/Badge/Animals/Animal6.png)
+Img:(BadgeOverlayAnimal7,NewGUI/UI/Badge/Animals/Animal7.png)
+Img:(BadgeOverlayAnimal8,NewGUI/UI/Badge/Animals/Animal8.png)
+Img:(BadgeOverlayAnimal9,NewGUI/UI/Badge/Animals/Animal9.png)
+Img:(BadgeOverlayAnimal10,NewGUI/UI/Badge/Animals/Animal10.png)
+Img:(BadgeOverlayAnimal11,NewGUI/UI/Badge/Animals/Animal11.png)
+Img:(BadgeOverlayAnimal12,NewGUI/UI/Badge/Animals/Animal12.png)
+
+//Balls img defs
+Img:(BadgeOverlayBall1,NewGUI/UI/Badge/Balls/Ball1.png)
+Img:(BadgeOverlayBall2,NewGUI/UI/Badge/Balls/Ball2.png)
+Img:(BadgeOverlayBall3,NewGUI/UI/Badge/Balls/Ball3.png)
+Img:(BadgeOverlayBall4,NewGUI/UI/Badge/Balls/Ball4.png)
+Img:(BadgeOverlayBall5,NewGUI/UI/Badge/Balls/Ball5.png)
+
+//Banners img defs
+Img:(BadgeOverlayBanner1,NewGUI/UI/Badge/Banners/Banner1.png)
+Img:(BadgeOverlayBanner2,NewGUI/UI/Badge/Banners/Banner2.png)
+Img:(BadgeOverlayBanner3,NewGUI/UI/Badge/Banners/Banner3.png)
+
+//Buildings img defs
+Img:(BadgeOverlayBuilding1,NewGUI/UI/Badge/Buildings/Building1.png)
+Img:(BadgeOverlayBuilding2,NewGUI/UI/Badge/Buildings/Building2.png)
+
+//Combat img defs
+Img:(BadgeOverlayCombat1,NewGUI/UI/Badge/Combat/Combat1.png)
+Img:(BadgeOverlayCombat2,NewGUI/UI/Badge/Combat/Combat2.png)
+Img:(BadgeOverlayCombat3,NewGUI/UI/Badge/Combat/Combat3.png)
+Img:(BadgeOverlayCombat4,NewGUI/UI/Badge/Combat/Combat4.png)
+Img:(BadgeOverlayCombat5,NewGUI/UI/Badge/Combat/Combat5.png)
+Img:(BadgeOverlayCombat6,NewGUI/UI/Badge/Combat/Combat6.png)
+Img:(BadgeOverlayCombat7,NewGUI/UI/Badge/Combat/Combat7.png)
+Img:(BadgeOverlayCombat8,NewGUI/UI/Badge/Combat/Combat8.png)
+
+//Crowns img defs
+Img:(BadgeOverlayCrown1,NewGUI/UI/Badge/Crowns/Crown1.png)
+Img:(BadgeOverlayCrown2,NewGUI/UI/Badge/Crowns/Crown2.png)
+Img:(BadgeOverlayCrown3,NewGUI/UI/Badge/Crowns/Crown3.png)
+Img:(BadgeOverlayCrown4,NewGUI/UI/Badge/Crowns/Crown4.png)
+
+//Flags img defs
+Img:(BadgeOverlayFlag1,NewGUI/UI/Badge/Flags/Flag1.png)
+
+//MatchItems img defs
+Img:(BadgeOverlayMatch1,NewGUI/UI/Badge/MatchItems/MatchItem1.png)
+Img:(BadgeOverlayMatch2,NewGUI/UI/Badge/MatchItems/MatchItem2.png)
+Img:(BadgeOverlayMatch3,NewGUI/UI/Badge/MatchItems/MatchItem3.png)
+Img:(BadgeOverlayMatch4,NewGUI/UI/Badge/MatchItems/MatchItem4.png)
+
+//Plants img defs
+Img:(BadgeOverlayPlant1,NewGUI/UI/Badge/Plants/Plant1.png)
+Img:(BadgeOverlayPlant2,NewGUI/UI/Badge/Plants/Plant2.png)
+Img:(BadgeOverlayPlant3,NewGUI/UI/Badge/Plants/Plant3.png)
+
+//Stars img defs
+Img:(BadgeOverlayStar1,NewGUI/UI/Badge/Stars/Star1.png)
+Img:(BadgeOverlayStar2,NewGUI/UI/Badge/Stars/Star2.png)
+Img:(BadgeOverlayStar3,NewGUI/UI/Badge/Stars/Star3.png)
+Img:(BadgeOverlayStar4,NewGUI/UI/Badge/Stars/Star4.png)
+Img:(BadgeOverlayStar5,NewGUI/UI/Badge/Stars/Star5.png)
+Img:(BadgeOverlayStar6,NewGUI/UI/Badge/Stars/Star6.png)
+Img:(BadgeOverlayStarNS,NewGUI/UI/Badge/Stars/StarNS.png)
+
+//Symbols img defs
+Img:(BadgeOverlaySymbol1,NewGUI/UI/Badge/Symbols/Symbol1.png)
+Img:(BadgeOverlaySymbol2,NewGUI/UI/Badge/Symbols/Symbol2.png)
+
+//Wings img defs
+Img:(BadgeOverlayWing1,NewGUI/UI/Badge/Wings/Wing1.png)
+Img:(BadgeOverlayWing2,NewGUI/UI/Badge/Wings/Wing2.png)
+Img:(BadgeOverlayWing3,NewGUI/UI/Badge/Wings/Wing3.png)
+Img:(BadgeOverlayWing4,NewGUI/UI/Badge/Wings/Wing4.png)
+Img:(BadgeOverlayWing5,NewGUI/UI/Badge/Wings/Wing5.png)
+
+//Wreaths img defs
+Img:(BadgeOverlayWreath1,NewGUI/UI/Badge/Wreaths/Wreath1.png)
+Img:(BadgeOverlayWreath2,NewGUI/UI/Badge/Wreaths/Wreath2.png)
+Img:(BadgeOverlayWreath3,NewGUI/UI/Badge/Wreaths/Wreath3.png)
+
+//---------------------------------------------------------------------------------------
+
+
+Macro:(M_ImageDesignTemplate,?INDEX?,?IMG_ID?,?W?,?H?)
+	Rect:() ref:BadgeDesign?INDEX?
+	{
+		Draw:(?IMG_ID?,0,0,?W?,?H?) ref:HD
+			Handle(0.5,0.5)
+
+		Draw:(?IMG_ID?,0,0,?W?,?H?) $HIDE ref:SD
+			Handle(0.5,0.5)
+	} Template
+EndM
+
+
+// ----------------------------------------------------------- PATTERNS
+
+// Square
+M_ImageDesignTemplate:(Square,White,200,200)
+
+// Circle
+M_ImageDesignTemplate:(Circle,BadgeMask1,200,200)
+
+
+// Band
+Rect:(0,0,?BADGE_SIZE?,50) ref:BadgeDesignBand
+	Handle(0.5,0.5)
+{{
+	Draw:(White,@L,@T+[[@H-50]/2],@W,50)
+}} Template
+
+
+// Stripes
+Rect:(0,0,?BADGE_SIZE?,?BADGE_SIZE?) ref:BadgeDesignStripes
+	Handle(0.5,0.5)
+{{
+	Define:(?BAR_SPACE?=35)
+	Define:(?BAR_W?=[?BADGE_SIZE?/4]-[?BAR_SPACE?])
+	PushOrigin:(@L,@T)
+		Draw:(White,0,0,?BAR_W?,?BADGE_SIZE?)
+		Draw:(White,?BAR_W?+?BAR_SPACE?,0,?BAR_W?,?BADGE_SIZE?)
+		Draw:(White,[?BAR_W?*2]+[?BAR_SPACE?*2],0,?BAR_W?,?BADGE_SIZE?)
+		Draw:(White,[?BAR_W?*3]+[?BAR_SPACE?*3],0,?BAR_W?,?BADGE_SIZE?)
+	PopOrigin
+}} Template
+
+// DiagonalStripes
+Rect:(0,0,?BADGE_SIZE?+140,?BADGE_SIZE?-80) ref:BadgeDesignDiagStripes
+	Handle(0.5,0.5)
+{{
+	Define:(?BAR_SPACE?=50)
+	Define:(?BAR_W?=[?BADGE_SIZE?/4]-[?BAR_SPACE?])
+	PushOrigin:(@L,@T)
+		Draw:(White,0,0,?BAR_W?,?BADGE_SIZE?,45)
+		Draw:(White,[?BAR_W?*1.5]+[?BAR_SPACE?*1.5],0,?BAR_W?,?BADGE_SIZE?,45)
+		Draw:(White,[?BAR_W?*3]+[?BAR_SPACE?*3],0,?BAR_W?,?BADGE_SIZE?,45)
+	PopOrigin
+}} Template
+
+
+// Squares
+Define:(?SSIZE?=?BADGE_SIZE?/5)
+Rect:(0,0,?BADGE_SIZE?,?BADGE_SIZE?) ref:BadgeDesignSquares
+	Handle(0.5,0.5)
+{{
+	PushOrigin:(@L,@T)
+		Draw:(White,0,0,?SSIZE?,?SSIZE?)
+		Draw:(White,0,?SSIZE?*2,?SSIZE?,?SSIZE?)
+		Draw:(White,0,?SSIZE?*4,?SSIZE?,?SSIZE?)
+		
+		Draw:(White,?SSIZE?,?SSIZE?,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?,?SSIZE?*3,?SSIZE?,?SSIZE?)
+
+		Draw:(White,?SSIZE?*2,0,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?*2,?SSIZE?*2,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?*2,?SSIZE?*4,?SSIZE?,?SSIZE?)
+
+		Draw:(White,?SSIZE?*3,?SSIZE?,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?*3,?SSIZE?*3,?SSIZE?,?SSIZE?)
+
+		Draw:(White,?SSIZE?*4,0,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?*4,?SSIZE?*2,?SSIZE?,?SSIZE?)
+		Draw:(White,?SSIZE?*4,?SSIZE?*4,?SSIZE?,?SSIZE?)
+	PopOrigin
+}} Template
+
+// ----------------------------------------------------------- OVERLAYS
+
+M_ImageDesignTemplate:(Mask1,BadgeMask1)
+M_ImageDesignTemplate:(Mask2,BadgeMask2)
+M_ImageDesignTemplate:(Mask3,BadgeMask3)
+M_ImageDesignTemplate:(Mask4,BadgeMask4)
+M_ImageDesignTemplate:(Mask5,BadgeMask5)
+M_ImageDesignTemplate:(Mask6,BadgeMask6)
+M_ImageDesignTemplate:(Mask7,BadgeMask7)
+M_ImageDesignTemplate:(Mask8,BadgeMask8)
+M_ImageDesignTemplate:(Mask9,BadgeMask9)
+M_ImageDesignTemplate:(Mask10,BadgeMask10)
+
+M_ImageDesignTemplate:(Animal1,BadgeOverlayAnimal1)
+M_ImageDesignTemplate:(Animal2,BadgeOverlayAnimal2)
+M_ImageDesignTemplate:(Animal3,BadgeOverlayAnimal3)
+M_ImageDesignTemplate:(Animal4,BadgeOverlayAnimal4)
+M_ImageDesignTemplate:(Animal5,BadgeOverlayAnimal5)
+M_ImageDesignTemplate:(Animal6,BadgeOverlayAnimal6)
+M_ImageDesignTemplate:(Animal7,BadgeOverlayAnimal7)
+M_ImageDesignTemplate:(Animal8,BadgeOverlayAnimal8)
+M_ImageDesignTemplate:(Animal9,BadgeOverlayAnimal9)
+M_ImageDesignTemplate:(Animal10,BadgeOverlayAnimal10)
+M_ImageDesignTemplate:(Animal11,BadgeOverlayAnimal11)
+M_ImageDesignTemplate:(Animal12,BadgeOverlayAnimal12)
+M_ImageDesignTemplate:(Ball1,BadgeOverlayBall1)
+M_ImageDesignTemplate:(Ball2,BadgeOverlayBall2)
+M_ImageDesignTemplate:(Ball3,BadgeOverlayBall3)
+M_ImageDesignTemplate:(Ball4,BadgeOverlayBall4)
+M_ImageDesignTemplate:(Ball5,BadgeOverlayBall5)
+M_ImageDesignTemplate:(Banner1,BadgeOverlayBanner1)
+M_ImageDesignTemplate:(Banner2,BadgeOverlayBanner2)
+M_ImageDesignTemplate:(Banner3,BadgeOverlayBanner3)
+M_ImageDesignTemplate:(Building1,BadgeOverlayBuilding1)
+M_ImageDesignTemplate:(Building2,BadgeOverlayBuilding2)
+M_ImageDesignTemplate:(Combat1,BadgeOverlayCombat1)
+M_ImageDesignTemplate:(Combat2,BadgeOverlayCombat2)
+M_ImageDesignTemplate:(Combat3,BadgeOverlayCombat3)
+M_ImageDesignTemplate:(Combat4,BadgeOverlayCombat4)
+M_ImageDesignTemplate:(Combat5,BadgeOverlayCombat5)
+M_ImageDesignTemplate:(Combat6,BadgeOverlayCombat6)
+M_ImageDesignTemplate:(Combat7,BadgeOverlayCombat7)
+M_ImageDesignTemplate:(Combat8,BadgeOverlayCombat8)
+M_ImageDesignTemplate:(Crown1,BadgeOverlayCrown1)
+M_ImageDesignTemplate:(Crown2,BadgeOverlayCrown2)
+M_ImageDesignTemplate:(Crown3,BadgeOverlayCrown3)
+M_ImageDesignTemplate:(Crown4,BadgeOverlayCrown4)
+M_ImageDesignTemplate:(Flag1,BadgeOverlayFlag1)
+M_ImageDesignTemplate:(Match1,BadgeOverlayMatch1)
+M_ImageDesignTemplate:(Match2,BadgeOverlayMatch2)
+M_ImageDesignTemplate:(Match3,BadgeOverlayMatch3)
+M_ImageDesignTemplate:(Match4,BadgeOverlayMatch4)
+M_ImageDesignTemplate:(Plant1,BadgeOverlayPlant1)
+M_ImageDesignTemplate:(Plant2,BadgeOverlayPlant2)
+M_ImageDesignTemplate:(Plant3,BadgeOverlayPlant3)
+M_ImageDesignTemplate:(Star1,BadgeOverlayStar1)
+M_ImageDesignTemplate:(Star2,BadgeOverlayStar2)
+M_ImageDesignTemplate:(Star3,BadgeOverlayStar3)
+M_ImageDesignTemplate:(Star4,BadgeOverlayStar4)
+M_ImageDesignTemplate:(Star5,BadgeOverlayStar5)
+M_ImageDesignTemplate:(Star6,BadgeOverlayStar6)
+M_ImageDesignTemplate:(StarNS,BadgeOverlayStarNS)
+M_ImageDesignTemplate:(Symbol1,BadgeOverlaySymbol1)
+M_ImageDesignTemplate:(Symbol2,BadgeOverlaySymbol2)
+M_ImageDesignTemplate:(Wing1,BadgeOverlayWing1)
+M_ImageDesignTemplate:(Wing2,BadgeOverlayWing2)
+M_ImageDesignTemplate:(Wing3,BadgeOverlayWing3)
+M_ImageDesignTemplate:(Wing4,BadgeOverlayWing4)
+M_ImageDesignTemplate:(Wing5,BadgeOverlayWing5)
+M_ImageDesignTemplate:(Wreath1,BadgeOverlayWreath1)
+M_ImageDesignTemplate:(Wreath2,BadgeOverlayWreath2)
+M_ImageDesignTemplate:(Wreath3,BadgeOverlayWreath3)
+

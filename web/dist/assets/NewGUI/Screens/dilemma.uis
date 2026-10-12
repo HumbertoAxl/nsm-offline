@@ -1,0 +1,281 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(Core_ImageDefs.uih)
+Import:(ImageDefs_characters.uih)
+Import:(cards.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	// Setup
+	.set(twk(Dilemma,ContinueEnabled),0)
+	.set(twk(Dilemma,Selected),-1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//-----------------------------------------------------------------------------------------TEMPLATES
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_Reward_Relationship)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_Cash)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.text,"★ " :: gel.text)
+			.set(gel.w,%w)
+			.set(gel.x,[%w-%gfw]/2)
+			if(twk(Dilemma,Selected) = %id)
+			<
+				Delay(0.55)
+				.set(twk(Money,BuxEmitterX),[@C]-38)
+				.set(twk(Money,BuxEmitterY),410)
+				.set(twk(Money,BuxIncrease),twk(Dilemma,CashReward))
+				.set(twk(Money,BuxEmitterState),1)
+			>
+	}
+EndM
+
+Macro:(M_Reward_EnergyPlus)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_EnergyMinus)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_CardGroup)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_SquadPotential)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_Happiness)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_CoachingCooldown)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("",0,0,@W,30,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			M_Style:(Outline,#FFFFFF10)
+			.set(gel.w,%w)
+	}
+EndM
+
+Macro:(M_Reward_AddTrait)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("dilemmaReward_AddTrait",10,0,0,0,C,C,TextBoxAtt,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			.set(gel.w,%w-20)
+	}
+EndM
+
+Macro:(M_Reward_RemoveTrait)
+	Rect:(0,0,0,30) ref:Root
+		float(%w,%h,%id)
+	{
+		M_Text:("dilemmaReward_RemoveTrait",10,0,0,0,C,C,TextBoxAtt,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,Text)
+			.set(gel.w,%w-20)
+	}
+EndM
+
+
+
+
+Macro:(M_DilemmaPanel,?X?,?Y?,?ID?,?TX?)
+	Sheet:((0,0,1191),(0,-45,0),51.49,(1,1,1)) ref:Root?ID?
+	//FIXEDFOV
+	 	PinVP(?X?,?Y?)
+	 	.set(gel.alpha,0)
+	 	Delay(?ID?*0.15)
+	 	frlerp(gel.alpha,1,0.15)
+	 	frlerp(gel3d.roty,0,0.15)
+	 	:Post(sounds.cards_Swap)
+	{{
+		Rect:(0,0,360,570)
+			Handle(0.5,0.5)
+			if(twk(Dilemma,Selected) = -1)
+			<
+				M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			>
+			
+			Press()
+			<
+				set(%pressed,1)
+			>
+			Click()
+			<
+				set(%clicked,1)
+			>
+
+			// No choice made
+			if(twk(Dilemma,Selected) = -1)
+			<
+				// Confirm choice once
+				if(%clicked)
+				<
+					.set(twk(Dilemma,Selected),?ID?)
+					:Post(UI_Select)
+				>
+			>
+			else
+			<
+				// Selected dilemma
+				if(twk(Dilemma,Selected) = ?ID?)
+				<
+					frlerp(gel.x,?TX?,0.15)
+					Delay(0.5)
+					:Post(dilemma.btn_Option,?ID?)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.2)
+					frlerp(gel.scale,0.9,0.2)
+					:Post(UI_Swoosh)
+				>
+			>
+		{{
+			Dissolve:(@L,@T,@W,@H)
+			{{
+				Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+				Draw:(FloorShadow,-12,@B-2,@W+24,11)
+				Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+				
+				Draw:(NewStarShape,0,0,@W,570,,#E5E5E5FF)
+
+				// Title
+				Draw:(Header_Hexagons,0,0,@W,34)
+				M_Text:(generic_BOARD,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Type)
+					M_Style:(Outline,#FFFFFF20)
+
+				// Character art
+				Draw:(Character_Board,@C-50,155,300,300) ref:Character
+					Handle(0.5,0.5)
+					if(twk(Dilemma,BarProgress?ID?) >= 0)
+					<
+						:set(gel.x,@C-50)
+					>
+					else
+					<
+						:set(gel.x,@C)
+					>
+
+				// Character face
+				Rect:(@C-50,105) $HIDE ref:CharacterFace
+					Handle(0.5,0.5)
+					Scale(0.6,0.6)
+					Card_Face_HD(DilemmaFace?ID?)
+					if(twk(Dilemma,BarProgress?ID?) >= 0)
+					<
+						:set(gel.x,@C-50)
+					>
+					else
+					<
+						:set(gel.x,@C)
+					>
+
+
+				// Meter
+				Rect:()
+					set(gel.vis,twk(Dilemma,BarProgress?ID?) >= 0)
+				{
+					M_CircularBarChange:(@C+15,110,Dilemma,BarProgress?ID?)
+				}
+				
+				// Rewards Area
+				Rect:(0,270,@W,100)
+				{{
+					M_Text:(dilemma_REWARDS,@C,-12,0,0,C,C,TextLoc,KNUL20,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+					Draw:(White,0,0,@W,@H,,#808080FF)
+					Draw:(White,0,1,@W,@H-2,,#AAAAAAFF)			
+
+					Rect:(0,0,@W,@H) ref:RewardsHook
+					{{
+					}}
+
+					Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFF)
+					Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFF)
+				}}
+
+				M_Text:("",0,400,@W,0,C,C,Text,KNUL24,,0,0,#00000000,Italics,#252525FF,DescriptionTitle)
+					M_Style:(Outline,#25252520)
+
+				M_Text:("",5,487,@W-10,0,C,C,TextBoxAtt,KNUL24,,0,0,#00000000,Italics,#252525FF,Description)
+					M_Style:(Outline,#25252510)
+
+				// Cell Press Highlight
+				Draw:(RoundedPanel,0,1,@W,@H-2,,#FFFFFF00)
+					Additive()
+					Layer(Text)
+					if(%pressed and(twk(Dilemma,Selected) =-1))
+					<
+						set(gel.colour,#60606060)
+					>
+					else
+					<
+						if(gel.alpha > 0.01)
+						<
+							frlerp(gel.colour,#00000000,0.05)
+						>
+					>
+			}}
+		}}
+	}}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+Dissolve:() ref:DissolveRoot
+{
+	M_DilemmaPanel:(@C-195,366,0,@C+195)
+	M_DilemmaPanel:(@C+195,366,1,@C-195)
+}

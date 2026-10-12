@@ -1,0 +1,689 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+Import:(templates_combo.uih)
+Import:(templates_upsells.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_upsells.uih)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Search,ShortlistStarTargetX),364)
+	.set(twk(Search,ShortlistStarTargetY),140)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(squad_Macros.uih)
+
+Macro:(M_FilterItem,?X?,?Y?,?W?,?H?,?CAT?,?VAR?,?TEXT?,?ICON?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		Press()
+		<
+			set(%pressed,1)
+		>
+		Click()
+		<
+			set(%clicked,1)
+		>
+		if(%clicked)
+		<
+			Post(search.btn_UpdateFilters)
+			set(twk(?CAT?,?VAR?),1-twk(?CAT?,?VAR?))
+			if(twk(?CAT?,?VAR?) = 1)
+			<
+				Post(UI_Select)
+			>
+			else
+			<
+				Post(UI_Back)
+			>
+		>
+	{{
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			set(gel.vis,twk(?CAT?,?VAR?))
+		Draw:(Button_SilverSliced,0,0,@W,@H)
+			if(twk(?CAT?,?VAR?) = 1)
+			<
+				:set(gel.img,"Button_GreenSliced")
+				:set(gel.alpha,1)
+			>
+			else
+			<
+				:set(gel.img,"Button_SilverSliced")
+				:set(gel.alpha,0.5)
+			>
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		If:(?TEXT?)
+			M_Text:(?TEXT?,@C,@M+2,0,0,C,C,TextLoc,KNUL24,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				if(twk(?CAT?,?VAR?) = 1)
+				<
+					:set(gel.colour,#FFFFFFFF)
+				>
+				else
+				<
+					:set(gel.colour,#252525FF)
+				>
+		EndIf
+
+		If:(?ICON?)
+			Draw:(?ICON?,30,25,40,40,,#FFFFFFFF)
+				Handle(0.5,0.5)
+				if(twk(?CAT?,?VAR?) = 1)
+				<
+					:set(gel.colour,#FFFFFFFF)
+				>
+				else
+				<
+					:set(gel.colour,#25252540)
+				>
+		EndIf
+
+		Draw:(RoundedPanel,0,1,@W,@H,,#00000000)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+	}}
+EndM
+
+
+Macro:(M_SearchHeaders,?X?,?Y?)
+	Rect:(?X?,?Y?,@W-60,40)
+		Layer(AboveText)
+		LockLayer()
+	{{
+		M_SortIndicator:(0,0,305,@H,?SORT_NAME?,generic_PLAYER,130,0,L,Search,search,?SORT_ASCENDING?)
+		M_SortIndicator:(305,0,207,@H,?SORT_CLUBTLA?,standings_TEAM,65,0,L,Search,search,?SORT_ASCENDING?)
+
+		// Covered by other views
+		Rect:()
+			set(gel.vis,twk(Search,ViewComboSelected) = 1)
+		{
+			M_SortIndicator:(512 + [?CELL4?*0],0,?CELL4?,@H,?SORT_AGE?,generic_AGE,0,0,C,Search,search,?SORT_DESCENDING?)
+			M_SortIndicator:(512 + [?CELL4?*1],0,?CELL4?,@H,?SORT_RATING?,generic_RATING,0,0,C,Search,search,?SORT_DESCENDING?)
+			M_SortIndicator:(512 + [?CELL4?*2],0,?CELL4?,@H,?SORT_POTENTIAL?,generic_POTENTIAL,0,0,C,Search,search,?SORT_DESCENDING?)
+			M_SortIndicator:(512 + [?CELL4?*3],0,?CELL4?,@H,?SORT_SIGNINGPRICE?,generic_PRICE,0,0,C,Search,search,?SORT_DESCENDING?)
+		}
+
+		// Skills
+		Rect:()
+			set(gel.vis,twk(Search,ViewComboSelected) = 3)
+		{
+			M_SortIndicator:(512 + [?CELL6?*0],0,?CELL6?,@H,?SORT_SKILL_TRAIT?,profile_player_TRAIT,0,0,C,Search,search,?SORT_DESCENDING?)
+			
+			Rect:()
+				set(gel.vis,twk(Search,PositionComboSelected) = 0)
+			{
+				M_SortIndicator:(512 + [?CELL6?*1],0,?CELL6?,@H,?SORT_SKILL_TACKLING?,squaddata_SKILL_HANDLING_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*2],0,?CELL6?,@H,?SORT_SKILL_TECHNIQUE?,squaddata_SKILL_AGILITY_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*3],0,?CELL6?,@H,?SORT_SKILL_DRIBBLING?,squaddata_SKILL_REFLEXES_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+			}
+			Rect:()
+				set(gel.vis,twk(Search,PositionComboSelected) != 0)
+			{
+				M_SortIndicator:(512 + [?CELL6?*1],0,?CELL6?,@H,?SORT_SKILL_TACKLING?,squaddata_SKILL_TACKLING_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*2],0,?CELL6?,@H,?SORT_SKILL_TECHNIQUE?,squaddata_SKILL_TECHNIQUE_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*3],0,?CELL6?,@H,?SORT_SKILL_DRIBBLING?,squaddata_SKILL_DRIBBLING_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+			}
+			M_SortIndicator:(512 + [?CELL6?*4],0,?CELL6?,@H,?SORT_SKILL_PACE?,squaddata_SKILL_PACE_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+			M_SortIndicator:(512 + [?CELL6?*5],0,?CELL6?,@H,?SORT_SKILL_STRENGTH?,squaddata_SKILL_STRENGTH_tla,0,0,C,Search,search,?SORT_DESCENDING?)
+		}
+	}}
+EndM
+
+
+Macro:(M_SearchListRow_CommonDoodads)
+	float(%selected)
+	CTRLSelect(CTRLBasicSelected,0,0,6,6)
+	
+	func(ClickFunc)
+	<
+		Message(search.btn_ViewPlayer) ref:ClickMessage
+		:Post(UI_Select)
+	>
+	Click()
+	<
+		call(ClickFunc)
+	>
+	CTRLClick(?BTNOK?)
+	<
+	 	call(ClickFunc)
+	>
+	CTRLClick(Y,true)
+	<
+		callchild(Shortlist,Click)
+	>	
+	CTRLIsSelected()
+	<
+		set(%selected,1)
+	>
+	else
+	<
+		set(%selected,0)
+	>
+
+	if(twk(ControllerInput,Enabled))
+	<
+		CTRLPress(?BTNOK?)
+		<
+			set(%pressed,1)
+		>
+		else
+		<
+			set(%pressed,0)
+		>
+	>
+	else
+	<
+		M_CellPress:()
+	>
+	OnPost("profileplayer.highlightPlayer") ref:OnPost
+	<
+		CTRLSetSelected(,,true)
+	>
+EndM
+
+Macro:(M_SearchListRow_Common)
+	Cull:(0,0,@W,70) ref:Bg
+		float(%willing)
+	{{
+		Draw:(Cell70,-3,-2,@W+6,74) ref:Cell
+		Text:() $HIDE ref:Sel
+
+		Clip:(0,0,@W,@H-1)
+		{
+			Rect:(85,30) ref:Face
+				Card_Face(SquadListCard,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,false,true,0)
+				Scale(0.74,0.74)
+		}
+
+		M_Text:(,130,-13,200,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+
+		// Position
+		M_Text:(,136,17,200,@H,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,Pos)
+		{{
+			Draw:(RoleWhite,-5,24,50,22,,#505050FF) ref:RoleStrip
+				Layer(Default)
+				set(gel.w,%gfw+10)
+		}}
+		
+		M_Badge:(337,@M,SD,1,ClubBadge)
+		M_Text:(,370,0,200,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,ClubName)
+		M_Text:(,315,0,200,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Scouted)
+
+		Rect:(0,0,60,@H) ref:Shortlist
+			func(Click)
+			<
+				Message(search.btn_Shortlist) ref:ClickMessage
+				:Post(UI_Select)
+			>
+			Click()
+			<
+				call(Click)
+			>	
+		{{
+			Draw:(Shortlist_Off,15,15,30,)
+
+			Rect:() $HIDE ref:Remove
+			{
+				Draw:(Shortlist_On,15,15,30,)
+					if(gel.vis)
+					<
+						frlerp(gel.colour,#FFCC00FF,0.15)
+					>
+					else
+					<
+						:set(gel.colour,#FFCC0025)
+					>
+
+				Draw:(Shortlist_Star,30,30,20)
+					Handle(0.5,0.5)
+					if(gel.vis)
+					<
+						frlerp(gel.alpha,1,0.15)
+						frlerp(gel.scale,1,0.15)
+						frlerp(gel.angle,0,0.15)
+					>
+					else
+					<
+						:set(gel.alpha,1)
+						:set(gel.scale,1)
+						:set(gel.angle,-50)
+					>
+			}
+
+			Rect:()
+				set(gel.vis,%selected =1)
+			{
+				M_SwitchButtonHint:(⛍,36,4)
+					Scale(0.8,0.8)
+			}
+			
+				
+
+			Draw:(Blank) $HIDE ref:Add
+		}}
+
+		// Instance:(ShortlistStarEmitter,30,15)
+		// 	Delay(0.5)
+		// 	:set(twk(Search,ShortlistStarEmitterX),gel.gx)
+		// 	:set(twk(Search,ShortlistStarEmitterY),gel.gy)
+		// 	set(gel.vis,1)
+		
+		//M_ExclamationAlert:(-5,-5)
+		//	set(gel.vis,%willing = 0)
+
+		M_CellPressHighlight:()
+	}}
+EndM
+
+Macro:(M_SearchListRow_ViewGeneral)
+	Cull:(0,0,@W,70) ref:RowViewGeneral
+		float(%type)
+		M_SearchListRow_CommonDoodads:()
+	{{
+
+		M_SearchListRow_Common:()
+
+		Clip:(0,2,@W,65)
+		{
+			Draw:(Cell_Star0,512 + [?CELL4?*1]+[[?CELL4?-100]/2],-20,100,100)
+				.set(gel.img,"Cell_Star"::fmt(%type,X))
+		}
+
+		M_Text:(,512 + [?CELL4?*0],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Age)
+		M_Text:(,512 + [?CELL4?*1],0,?CELL4?,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,Rating)
+			M_Style_StarRating:()
+		
+		Draw:(Icon_Locked,512 + [?CELL4?*2]+[?CELL4?/2]-15,19,30,30,,#252525FF)
+			set(gel.vis,twk(Facilities,ScoutsOfficeLevel) < 3)
+		M_Text:(,512 + [?CELL4?*2],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Potential)
+			set(gel.vis,twk(Facilities,ScoutsOfficeLevel) >= 3)
+		
+		M_Text:(,512 + [?CELL4?*3],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Value)
+		Text:() ref:Contract
+	}} Template
+EndM
+
+Macro:(M_SearchListRow_ViewSkill)
+	Cull:(0,0,@W,70) ref:RowViewSkills
+		float(%isGK)
+		M_SearchListRow_CommonDoodads:()
+	{{
+		M_SearchListRow_Common:()
+
+		Draw:(Circle_20,512 + [[?CELL6?/2]-5],28,15,15,,#252525FF) $HIDE ref:Trait
+		
+		M_Text:(,512 + [?CELL6?*1],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill1)
+		M_Text:(,512 + [?CELL6?*2],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill2)
+		M_Text:(,512 + [?CELL6?*3],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill3)
+		M_Text:(,512 + [?CELL6?*4],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill4)
+		M_Text:(,512 + [?CELL6?*5],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill5)
+	}} Template
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+// Combo templates need to be outside of dialog to work
+Rect:(@o,@T,@s,@W)
+	.set(twk(Search,ViewComboReadout),loc(General))
+	//JF: Position combo set from code instead
+	//.set(twk(Search,PositionComboReadout),loc(view_All))
+	.set(twk(Search,AgeComboReadout),loc(view_All))
+	.set(twk(Search,RatingComboReadout),loc(view_All))
+	.set(twk(Search,ValueComboReadout),loc(view_All))
+{{
+	// Combo templates Position
+	M_ComboOPEN:(@L+26,@T+195,155,60,Search,PositionCombo,search.cmb_Close)
+		M_ComboEntry:(Search,PositionCombo,search.cmb_SelectedPosition,-1,(loc(view_All)),0)
+		M_ComboEntry:(Search,PositionCombo,search.cmb_SelectedPosition,0,(loc(tla_Goalkeeper)),0)
+		M_ComboEntry:(Search,PositionCombo,search.cmb_SelectedPosition,1,(loc(tla_Defender)),0)
+		M_ComboEntry:(Search,PositionCombo,search.cmb_SelectedPosition,2,(loc(tla_Midfielder)),0)
+		M_ComboEntry:(Search,PositionCombo,search.cmb_SelectedPosition,3,(loc(tla_Attacker)),0)
+	M_ComboCLOSE:(Search,PositionCombo)
+
+	// Combo templates Age
+	M_ComboOPEN:(544 + [?CELL4?*0],@T+195,[?CELL4?-5],60,Search,AgeCombo,search.cmb_Close)
+		M_ComboEntry:(Search,AgeCombo,search.cmb_Selected,-1,(loc(view_All)),0)
+		M_ComboEntry:(Search,AgeCombo,search.cmb_Selected,0,LTR("17-20"),0)
+		M_ComboEntry:(Search,AgeCombo,search.cmb_Selected,1,LTR("21-25"),0)
+		M_ComboEntry:(Search,AgeCombo,search.cmb_Selected,2,LTR("26-29"),0)
+		M_ComboEntry:(Search,AgeCombo,search.cmb_Selected,3,LTR("30+"),0)
+	M_ComboCLOSE:(Search,AgeCombo)
+
+	// Combo templates Rating
+	M_ComboOPEN:(544 + [?CELL4?*1],@T+195,[?CELL4?-5],60,Search,RatingCombo,search.cmb_Close)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,-1,(loc(view_All)),0)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,0,(loc(quality_Grey)),0)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,1,(loc(quality_Bronze)),0)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,2,(loc(quality_Silver)),0)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,3,(loc(quality_Gold)),0)
+		M_ComboEntry:(Search,RatingCombo,search.cmb_Selected,4,(loc(quality_Black)),0)
+	M_ComboCLOSE:(Search,RatingCombo)
+
+	// Combo templates Value
+	// M_ComboOPEN:(@L+730,@T+195,154,60,Search,ValueCombo,search.cmb_Close)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,-1,(loc(view_All)),0)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,0,"0-10k",0)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,1,"10-20k",0)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,2,"20-50k",0)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,3,"50-100k",0)
+	// 	M_ComboEntry:(Search,ValueCombo,search.cmb_Selected,4,"100k+",0)
+	// M_ComboCLOSE:(Search,ValueCombo)
+
+	// Combo template View
+	M_ComboOPEN:(@R-225,@T+113,200,60,Search,ViewCombo,search.cmb_Close)
+		M_ComboEntry:(Search,ViewCombo,search.cmb_View,1,(loc(General)),0)
+		M_ComboEntry:(Search,ViewCombo,search.cmb_View,3,(loc(Skills)),0)
+	M_ComboCLOSE:(Search,ViewCombo)
+}}
+
+M_NewDialogOPEN:(loc(search_HEADER),search)
+// ----------------
+// ----------------
+
+		// Tabs
+		Rect:(0,0,@W,60)
+			Layer(Text)
+		{{
+			Draw:(Tab_BG60,@f,-2,@w,68)
+			M_Tab:(30,0,220,60,search_SEARCH,1,Search,CurrentTab,search.btn_Tab)
+			M_Tab:(250,0,220,60,search_SHORTLISTED,2,Search,CurrentTab,search.btn_Tab)
+			M_Tab:(470,0,220,60,search_SCOUTED,3,Search,CurrentTab,search.btn_Tab)
+
+			M_ComboSelected:(@R-225,3,200,60,Search,ViewCombo,search.cmb_Open)
+
+			M_SwitchTabs:(3,Search,12,17,682,17,search.btn_Tab)
+		}}
+
+
+		CTRLSelectGroup:(0,@T+60,@W,85,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			CTRLClick(UP)
+			<
+				CTRLSetSelected(ViewComboComboSelected,search)
+				Post(CTRLNavigate)
+			>
+		{
+			// Search Filters
+			Rect:(0,60,@W,85)
+			{{
+				Draw:(White,@f,0,@w,@H,,#9DADB8FF)
+				Draw:(Fade_Down,@f,0,@w,@H,,#FFFFFFAA)
+
+				M_Text:(search_PARAM_POSITION,103,17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_ComboSelected:(26,25,155,60,Search,PositionCombo,search.cmb_Open)
+
+				M_Text:(search_PARAM_SIDE,292,17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_FilterItem:(192,31,60,48,Search,FilterLeft,generic_SIDE_L_sla,)
+				M_FilterItem:(262,31,60,48,Search,FilterCentre,generic_SIDE_C_sla,)
+				M_FilterItem:(332,31,60,48,Search,FilterRight,generic_SIDE_R_sla,)
+
+				M_Text:(search_PARAM_INTEREST,470,17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_FilterItem:(440,31,60,48,Search,FilterInterested,,Icon_Tick)
+
+				M_Text:(generic_AGE,544 + [?CELL4?*0]+[?CELL4?/2],17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_ComboSelected:(544 + [?CELL4?*0],25,[?CELL4?-5],60,Search,AgeCombo,search.cmb_Open)
+
+				M_Text:(generic_RATING,544 + [?CELL4?*1]+[?CELL4?/2],17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_ComboSelected:(544 + [?CELL4?*1],25,[?CELL4?-5],60,Search,RatingCombo,search.cmb_Open)
+
+				Draw:(White,@R-320,10,2,70,,#00000015)
+				Draw:(White,@R-30,10,2,70,,#00000015)
+				Rect:(@R-175,0)
+				{{
+					M_Text:(search_WINDOW,0,17,0,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+
+					Rect:()
+						float(%width)
+					{
+						M_Text:(,0,43,0,0,L,C,Text,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+							.set(gel.text,twk(Ticker,TransferWindowStatus))
+							.ToUpperCase()
+							set(%width,%gfw)
+							set(gel.x,@C-[%width/2])
+						{{
+							Draw:(RoundedPanel,-12,-13,100,26)
+								Layer(Default)
+								set(gel.w,%gfw+22)
+								if(twk(Ticker,TransferWindowOpen) = 1)
+								<
+									.set(gel.colour,#138E1BFF)
+								>
+								else
+								<
+									.set(gel.colour,#DD1010FF)
+								>
+						}}
+					}
+						
+					M_Text:("",0,71,0,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#252525FF,ref,Ticker,TransferWindowStatusInfo)
+				}}
+			}}
+		}
+
+
+		CTRLSelectGroup:(0,@T+185,@W,@H-180,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+		{
+			// Clipped Content
+			Clip:(0,185,@W,@H-180)
+			{{
+				// Moved Content
+				Rect:(30,10,@W-60,@H-25)
+				{{
+					M_SearchListRow_ViewGeneral:()
+					M_SearchListRow_ViewSkill:()
+
+					// Search Results
+					Rect:(0,0,@W,@H) ref:SearchList
+						ScrollingList(Search,SearchResultsScroll,@H,Search,SearchResultsScrollVel) ref:ScrollingListSearch
+						if(twk(Search,CurrentTab) = 1)
+						<
+							CTRLScrollList(ScrollingListSearch) ref:CTRLScrollList
+							:set(gel.vis,1)
+							if(twk(Search,SearchResultsScroll)<(twk(Search,SearchResultsScrollCap) + 500))
+							<
+								:Message(search.updateSearchEntries)
+							>
+							if(twk(Search,SearchResultsScroll)<twk(Search,SearchResultsScrollCap))
+							<
+								set(twk(Search,SearchResultsScroll),twk(Search,SearchResultsScrollCap))
+							>
+						>
+						else
+						<
+							:set(gel.vis,0)
+						>
+					{{
+					}}
+
+					// Shortlist
+					Rect:(0,0,@W,@H) ref:ShortlistList
+						ScrollingList(Search,ShortlistScroll,@H,Search,ShortlistScrollVel) ref:ScrollingListShortlist
+						if(twk(Search,CurrentTab) = 2)
+						<
+							CTRLScrollList(ScrollingListShortlist) ref:CTRLScrollList
+							:set(gel.vis,1)
+							if(twk(Search,ShortlistScroll)<(twk(Search,ShortlistScrollCap) + 500))
+							<
+								:Message(search.updateShortlistedEntries)
+							>
+							if(twk(Search,ShortlistScroll)<twk(Search,ShortlistScrollCap))
+							<
+								set(twk(Search,ShortlistScroll),twk(Search,ShortlistScrollCap))
+							>
+						>
+						else
+						<
+							:set(gel.vis,0)
+						>
+					{{
+					}}
+					M_Text:(search_NONESHORTLISTED,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+						set(gel.vis,twk(Search,CurrentTab) = 2 and(twk(Search,ShortlistedPlayersFound) = 0))
+
+
+					// Scout Results
+					Rect:(0,0,@W,@H) ref:ScoutResultsList
+						ScrollingList(Search,ScoutResultsScroll,@H,Search,ScoutResultsScrollVel) ref:ScrollingListScoutResults
+						if(twk(Search,CurrentTab) = 3)
+						<
+							CTRLScrollList(ScrollingListScoutResults) ref:CTRLScrollList
+							:set(gel.vis,1)
+							if(twk(Search,ScoutResultsScroll)<(twk(Search,ScoutResultsScrollCap) + 500))
+							<
+								:Message(search.updateScoutedEntries)
+							>
+							if(twk(Search,ScoutResultsScroll)<twk(Search,ScoutResultsScrollCap))
+							<
+								set(twk(Search,ScoutResultsScroll),twk(Search,ScoutResultsScrollCap))
+							>
+						>
+						else
+						<
+							:set(gel.vis,0)
+						>
+					{{
+					}}
+					M_Text:(search_NONESCOUTED,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+						set(gel.vis,twk(Search,CurrentTab) = 3 and(twk(Search,ScoutedPlayersFound) = 0))
+				}}
+
+				// Swipe Panels
+				Rect:(0,0,@W,@H) ref:SwipePanels
+					if(not(twk(CardEngine,DraggingCard)))
+					<
+						if(twk(Search,CurrentTab)=1)
+						<
+							SwipePanel(Search,SearchResultsScroll,Search,SearchResultsScrollVel) ref:SwipePanelSearch
+						>
+						if(twk(Search,CurrentTab)=2)
+						<
+							SwipePanel(Search,ShortlistScroll,Search,ShortlistScrollVel) ref:SwipePanelShortlist
+						>
+						if(twk(Search,CurrentTab)=3)
+						<
+							SwipePanel(Search,ScoutResultsScroll,Search,ScoutResultsScrollVel) ref:SwipePanelResults
+						>
+					>
+				{{
+					Rect:(0,10,@W,@H-20)
+					{{
+						M_ScrollIndicatorAlt:(@R-25,@H,Search,SearchResultsScroll,SearchList,ScrollingListSearch,SwipePanels,SwipePanelSearch)
+							set(gel.vis,twk(Search,CurrentTab)=1)
+						
+						M_ScrollIndicatorAlt:(@R-25,@H,Search,ShortlistScroll,ShortlistList,ScrollingListShortlist,SwipePanels,SwipePanelShortlist)
+							set(gel.vis,twk(Search,CurrentTab)=2)
+
+						M_ScrollIndicatorAlt:(@R-25,@H,Search,ScoutResultsScroll,ScoutResultsList,ScrollingListScoutResults,SwipePanels,SwipePanelResults)
+							set(gel.vis,twk(Search,CurrentTab)=3)
+					}}
+				}}
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-29,@B-28,Y)
+			if(twk(Search,CurrentTab) = 1)
+			<
+				CTRLScrollListIcon(SearchList,CTRLScrollList)
+			>
+			elif(twk(Search,CurrentTab) = 2)
+			<
+				CTRLScrollListIcon(ShortlistList,CTRLScrollList)
+			>
+			elif(twk(Search,CurrentTab) = 3)
+			<
+				CTRLScrollListIcon(ScoutResultsList,CTRLScrollList)
+			>>>
+
+		// Corner Upsell
+		Rect:() ref:CornerUpsellRoot
+			.set(gel.y,@B-125)
+			Layer(AboveText)
+			LockLayer()
+		{
+			Draw:(BannerFade_L,@f+@w,20,800+@y,120,,#576D78FFFFFFFFFF)
+				Handle(1,0)
+			Draw:(UpSell_BannerLines,@f+@w,102,800+@y,19)
+				Handle(1,0)
+
+			// Pressable Upsell Image
+			Rect:(@s-94+300,59,150,150)
+				frlerp(gel.x,@s-94,0.15)
+				Press()
+				<
+					set(gel.scale,1.04)
+				>
+				else
+				<
+					frlerp(gel.scale,1,0.1)
+				>
+				Click()
+				<
+					Post(UI_Select)
+					Message(search.btn_Upsell)
+				>
+				Handle(0.5,0.5)
+			{{
+				Draw:(UpSell_Pack_Players,0,0,165,165) ref:UpsellImage
+					Handle(0.5,0.5)
+			}}
+
+			M_Text:(,@s-170-100,48,0,0,R,C,TextLoc,BEBAS38,Upper,1,0,#FFFFFFFF,Italics,#FFFFFF00,UpsellTitle)
+				CharacterSpacing(1)
+				Delay(0.3)
+				frlerp(gel.x,@s-170,0.15)
+				PulseAlpha(0.1,1,0.75,0.75)
+
+			M_Text:(upsell_PLAYERS_INFO,@s-176-100,83,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,Italics,#FFFFFF00,UpsellDescription)
+				Delay(0.5)
+				frlerp(gel.x,@s-176,0.15)
+				frlerp(gel.alpha,1,0.05)
+		}
+
+
+		// Headers
+		Rect:(0,145,@W,44)
+			Layer(Text)
+		{{
+			Draw:(ColumnHeader,@f,0,@w,44)
+			CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			{
+				M_SearchHeaders:(30,0,Shortlist,search)
+			}
+		}}
+
+// ----------------
+// ----------------
+
+M_NewDialogCLOSE:()
+	if(%state = "closing")
+	<
+		call(SearchAlert,Hide)
+	>
+
+
+// Notifications
+Rect:() ref:SearchAlert
+	Layer(AboveText3)
+	LockLayer()
+	.set(gel.alpha,0)
+	.Delay(0.4)
+	frlerp(gel.alpha,1,0.1)
+	func(Hide)
+	<
+		set(gel.vis,0)
+	>
+{
+	M_ExclamationAlert:(@o+648,@T+89)
+		set(gel.vis,twk(PlayerSaved,NewScoutedPlayerFound) = 1)
+}

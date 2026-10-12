@@ -1,0 +1,78 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+Rect:(@L,@M-60,@W,120)
+	if(twk(QuickMessage,SplashOutcome) = 1)
+	<
+		.Post("sounds.match_CrowdGoalLong")
+			//.Post("UI_ResultsConfetti")
+		Delay(0.5)
+		.Post("sounds.match_Whistle")
+	>
+	float(%timer)
+	.set(%timer,0)
+	add(%timer,1)
+	if(%timer > 150)
+	<
+		set(shell(OverlayBottom),"")
+	>
+{{
+	// Background
+	Draw:(White,0,0,@W,@H,,#00000000)
+		if(%timer < 110)
+		<
+			frlerp(gel.alpha,0.8,0.1)
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.1)
+		>
+
+	M_Text:(game_GOAL,@C,@M,0,0,C,C,TextLoc,BEBAS60,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+		Handle(0.5,0.5)
+		float(%targetAlpha,%targetScale,%targetSpacing)
+	    .set(gel.alpha,0)
+		.set(gel.scale,0)
+		.set(%targetSpacing,5)
+
+	   	.set(%targetAlpha,1)
+	    .set(%targetScale,1.25)
+	    if(%timer < 110)
+	    <
+	    	frlerp(%targetSpacing,25,0.025)
+	    >
+	    else
+	    <
+	     	.set(%targetAlpha,0)
+	    	.set(%targetScale,0)
+	    >
+	    frlerp(gel.alpha,%targetAlpha,0.15)
+		frlerp(gel.scale,%targetScale,0.15)
+		CharacterSpacing(%targetSpacing)
+
+	M_Text:(game_GOAL,@C,@M,0,0,C,C,TextLoc,BEBAS60,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+		Handle(0.5,0.5)
+	    CharacterSpacing(10)
+		.set(gel.alpha,0)
+		.set(gel.scale,0)
+	    if(%timer > 16)
+	    <
+	    	.set(gel.alpha,1)
+	    	frlerp(gel.alpha,0,0.1)
+			frlerp(gel.scale,20,0.1)
+			if(gel.alpha < 0.01)
+			<
+				:set(gel.vis,0)
+			>
+	    >
+}}

@@ -1,0 +1,5 @@
+Rect:()
+	set(gel.vis,twk(Ftue,Complete))
+{
+	M_Tutorial:(200,200,Tutorial,RateTheAppStep,CFTUE_TRIALSHOOTING2)
+}

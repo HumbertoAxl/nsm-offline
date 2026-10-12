@@ -1,0 +1,698 @@
+Import:(Shaders.uih)
+Import:(badge_Macros.uih)
+// AC: This screen answers requests for rendered head textures
+
+PUSHCAT:(PlayerOldLook,EXC)
+
+// Head textures
+Img:(face1a,NewGUI/Faces/Base/face1a.png)
+Img:(face2a,NewGUI/Faces/Base/face2a.png)
+Img:(face3a,NewGUI/Faces/Base/face3a.png)
+Img:(face4a,NewGUI/Faces/Base/face4a.png)
+Img:(face1d,NewGUI/Faces/Base/face1d.png)
+Img:(face2d,NewGUI/Faces/Base/face2d.png)
+Img:(face3d,NewGUI/Faces/Base/face3d.png)
+Img:(face4d,NewGUI/Faces/Base/face4d.png)
+
+
+// Head details
+##IA
+Img:(Beard1,NewGUI/Faces/Beard_1.png) Scale:0.5
+Img:(Beard2,NewGUI/Faces/Beard_2.png) Scale:0.5
+Img:(Beard3,NewGUI/Faces/Beard_3.png) Scale:0.5
+Img:(Beard4,NewGUI/Faces/Beard_4.png) Scale:0.5
+Img:(Beard5,NewGUI/Faces/Beard_5.png) Scale:0.5
+Img:(Beard6,NewGUI/Faces/Beard_6.png) Scale:0.5
+Img:(Beard7,NewGUI/Faces/Beard_7.png) Scale:0.5
+Img:(Beard8,NewGUI/Faces/Beard_8.png) Scale:0.5
+Img:(Beard9,NewGUI/Faces/Beard_9.png) Scale:0.5
+Img:(Tache1,NewGUI/Faces/Tache_1.png) Scale:0.5
+Img:(Tache2,NewGUI/Faces/Tache_2.png) Scale:0.5
+Img:(Cleft,NewGUI/Faces/Chin_cleft_1.png) Scale:0.5
+Img:(Eye1,NewGUI/Faces/eye_dkbrown.png) Scale:0.25
+Img:(Eye2,NewGUI/Faces/eye_ltblue.png) Scale:0.25
+Img:(Eye3,NewGUI/Faces/eye_ltbrown.png) Scale:0.25
+Img:(Eye4,NewGUI/Faces/eye_grey.png) Scale:0.25
+Img:(Eyebrows1,NewGUI/Faces/Eyebrows_1.png) Scale:0.5
+Img:(Eyebrows2,NewGUI/Faces/Eyebrows_2.png) Scale:0.5
+Img:(FaceLines1,NewGUI/Faces/Face_lines_1.png) Scale:0.5
+Img:(Freckles1,NewGUI/Faces/Freckles_1.png) Scale:0.5
+Img:(Freckles2,NewGUI/Faces/Freckles_2.png) Scale:0.5
+Img:(Goaty1,NewGUI/Faces/Goaty_1.png) Scale:0.5
+Img:(Hair_Afro_Short,NewGUI/Faces/Hair_afro_short_UV.PNG) Scale:0.5
+Img:(Hair_Hightop_Short,NewGUI/Faces/Hair_hightop_short_UV.PNG) Scale:0.5
+Img:(Hair_Mohawk_Short,NewGUI/Faces/Hair_mohawk_short_UV.PNG) Scale:0.5
+Img:(Hair_Parted_Flop,NewGUI/Faces/Hair_parted_flop_UV.PNG) Scale:0.5
+Img:(Hair_Parted_Short,NewGUI/Faces/hair_parted_short_UV.PNG) Scale:0.5
+Img:(Hair_Long_Pulled,NewGUI/Faces/hair_pulledback_UV.PNG) Scale:0.5
+Img:(Hair_Receding,NewGUI/Faces/hair_receding.png) Scale:0.5
+Img:(Hair_Short_Wavy,NewGUI/Faces/hair_short_wavy.png) Scale:0.5
+Img:(NeckLine,NewGUI/Faces/neck_line_1.png) Scale:0.5
+Img:(ShavedHead,NewGUI/Faces/ShavedHead1.png) Scale:0.5
+Img:(Tache1,NewGUI/Faces/Tache_1.png) Scale:0.5
+Img:(Tache2,NewGUI/Faces/Tache_2.png) Scale:0.5
+Img:(Unshaven,NewGUI/Faces/Unshaven.png) Scale:0.5
+##P4N
+Img:(Beard1,NewGUI/Faces/Beard_1.png)
+Img:(Beard2,NewGUI/Faces/Beard_2.png)
+Img:(Beard3,NewGUI/Faces/Beard_3.png)
+Img:(Beard4,NewGUI/Faces/Beard_4.png)
+Img:(Beard5,NewGUI/Faces/Beard_5.png)
+Img:(Beard6,NewGUI/Faces/Beard_6.png)
+Img:(Beard7,NewGUI/Faces/Beard_7.png)
+Img:(Beard8,NewGUI/Faces/Beard_8.png)
+Img:(Beard9,NewGUI/Faces/Beard_9.png)
+Img:(Tache1,NewGUI/Faces/Tache_1.png)
+Img:(Tache2,NewGUI/Faces/Tache_2.png)
+Img:(Cleft,NewGUI/Faces/Chin_cleft_1.png)
+Img:(Eye1,NewGUI/Faces/eye_dkbrown.png)
+Img:(Eye2,NewGUI/Faces/eye_ltblue.png)
+Img:(Eye3,NewGUI/Faces/eye_ltbrown.png)
+Img:(Eye4,NewGUI/Faces/eye_grey.png)
+Img:(Eyebrows1,NewGUI/Faces/Eyebrows_1.png)
+Img:(Eyebrows2,NewGUI/Faces/Eyebrows_2.png)
+Img:(FaceLines1,NewGUI/Faces/Face_lines_1.png)
+Img:(Freckles1,NewGUI/Faces/Freckles_1.png)
+Img:(Freckles2,NewGUI/Faces/Freckles_2.png)
+Img:(Goaty1,NewGUI/Faces/Goaty_1.png)
+Img:(Hair_Afro_Short,NewGUI/Faces/Hair_afro_short_UV.PNG)
+Img:(Hair_Hightop_Short,NewGUI/Faces/Hair_hightop_short_UV.PNG)
+Img:(Hair_Mohawk_Short,NewGUI/Faces/Hair_mohawk_short_UV.PNG)
+Img:(Hair_Parted_Flop,NewGUI/Faces/Hair_parted_flop_UV.PNG)
+Img:(Hair_Parted_Short,NewGUI/Faces/hair_parted_short_UV.PNG)
+Img:(Hair_Long_Pulled,NewGUI/Faces/hair_pulledback_UV.PNG)
+Img:(Hair_Receding,NewGUI/Faces/hair_receding.png)
+Img:(Hair_Short_Wavy,NewGUI/Faces/hair_short_wavy.png)
+Img:(NeckLine,NewGUI/Faces/neck_line_1.png)
+Img:(ShavedHead,NewGUI/Faces/ShavedHead1.png)
+Img:(Tache1,NewGUI/Faces/Tache_1.png)
+Img:(Tache2,NewGUI/Faces/Tache_2.png)
+Img:(Unshaven,NewGUI/Faces/Unshaven.png)
+##*
+
+POPCAT:()
+
+//Clothing
+Img:(KeeperKitCollar,NewGUI/Faces/Clothing/Clothing_Keeper_design_1.png)
+Img:(KeeperKitSleeves,NewGUI/Faces/Clothing/Clothing_Keeper_design_2.png)
+Img:(KeeperKitShoulders,NewGUI/Faces/Clothing/Clothing_Keeper_design_3.png)
+Img:(KitCentreStripe,NewGUI/Faces/Clothing/Clothing_Player_CentreStripe.png)
+Img:(KitChecks,NewGUI/Faces/Clothing/Clothing_Player_Checks.png)
+Img:(KitDiagonalHalf,NewGUI/Faces/Clothing/Clothing_Player_DiagonalHalf.png)
+Img:(KitStripesH,NewGUI/Faces/Clothing/Clothing_Player_H_Stripe.png)
+Img:(KitQuarters,NewGUI/Faces/Clothing/Clothing_Player_Quarters.png)
+Img:(KitSash,NewGUI/Faces/Clothing/Clothing_Player_Sash.png)
+Img:(KitStripesV,NewGUI/Faces/Clothing/Clothing_Player_V_Stripe.png)
+Img:(KitVerticalHalf,NewGUI/Faces/Clothing/Clothing_Player_VerticalHalf.png)
+Img:(KitVStripe,NewGUI/Faces/Clothing/Clothing_Player_VStripe.png)
+Img:(KitBase,NewGUI/Faces/Clothing/Clothing_Soccer_Base.png)
+Img:(KitCollar,NewGUI/Faces/Clothing/Clothing_Soccer_Collar.png)
+Img:(KitTrim,NewGUI/Faces/Clothing/Clothing_Soccer_Shoulder.png)
+Img:(Suit,NewGUI/Faces/Clothing/Clothing_Suit_02.png) FORCE
+Img:(Tracksuit,NewGUI/Faces/Clothing/Clothing_Tracksuit_01.png) FORCE
+
+
+
+// Surfaces
+Surf:($FACESTAGING,512,512,False)
+Surf:($CLOTHESSTAGING,512,512,False)
+Surf:($HEADSTAGINGLARGE,512,1024,True)
+
+##IA
+Surf:($HEADSTAGING,128,256,False)
+##P4N
+Surf:($HEADSTAGING,256,512,False)
+##*
+
+
+// Models
+StaticModel:(Head1,headtemplate,true)
+StaticModel:(Head2,headtemplate,true)
+StaticModel:(Hair_Receding,Hair_Receding)
+StaticModel:(Hair_Short_Wavy,Hair_Short_Wavy)
+StaticModel:(Hair_Afro_Short,HairAfroShort)
+StaticModel:(Hair_Hightop_Medium,HairHightopMedium)
+StaticModel:(Hair_Hightop_Short,HairHightopShort)
+StaticModel:(Hair_Long_Pulled,HairLongPulled)
+StaticModel:(Hair_Mohawk_Short,HairMohawkShort)
+StaticModel:(Hair_Parted_Flop,HairPartedFlop)
+StaticModel:(Hair_Parted_Short,HairPartedShort)
+StaticModel:(Clothing_Player,Clothing_Player)
+StaticModel:(Clothing_Tracksuit,Clothing_Tracksuit)
+StaticModel:(Clothing_BossSuit,Clothing_BossSuit)
+StaticModel:(Eye,eye)
+
+Rect:()
+	set(gel.vis,twk(CardPrep,Request)!="")
+	set(twk(CardPrep,Complete),"")
+{
+	Rect:()
+		Message("regen",twk(CardPrep,Request))
+		float(%sat,%light,%base,%min,%max,%HAIR)
+		set(%base,twk(CardPrep,Base) fmod 5)
+		set(%sat,frand(0,1))
+		set(%light,frand(0,1))
+		set(%min,0)
+		set(%max,8)
+		if(%base<2)<
+			set(%sat,0)
+			set(%light,frand(0,0.2))
+			set(%min,5)
+			set(%max,15)
+		>
+		mul(%sat,%sat)
+		mul(%sat,%sat)
+		set(%HAIR,rand(%min,%max))
+	{
+
+		View:($FACESTAGING,512,512)
+		{
+			Sheet:(0,0,0,0,0,0,0,1,1,1)
+				colvar(%haircol)
+			{
+				// Dark colour brightness increase test [PB]
+				// instances of 7C6858FF changed to A68B76FF 65% brightness
+				// instances of 947868D0 change to B3917DD0 70% brightness
+
+				// AC: Trigger a regen of the head mesh so that we get a unique shape for this player.
+				// Also, pick one of the three available head textures as a base.
+				// selectchild() is the line that enables just one direct child of this object and disables the others.
+				Cls:(#000000FF)
+				Rect:()
+					set(twk(CardPrep,Complete),twk(CardPrep,Request))
+					selectchild(twk(CardPrep,Base))
+					set(%haircol,)
+				{
+					//Youngest
+					Draw:(face1a,,,,,,#888F78FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)
+					{
+						Draw:(face1a,,,,,,#947868E0)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face1a,,,,,,#909898FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)	
+					{
+						Draw:(face1a,,,,,,#808080FF)
+							Blend(SCREEN_COLOUR,IMAGE_COLOUR)
+						Draw:(face1a,,,,,,#A0A0A0FF)
+							Blend(SCREEN_COLOUR,ZERO)
+						Draw:(face1a,,,,,,#A68B76FF)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face1a)
+
+					Draw:(face1d)
+					{
+						Draw:(face1a,,,,,,#FFFFFF90)
+					}
+
+					Draw:(face1a)
+
+					// Young
+					Draw:(face2a,,,,,,#888878FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)
+					{
+						Draw:(face2a,,,,,,#B3917DD0)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face2a,,,,,,#909898FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)	
+					{
+						Draw:(face2a,,,,,,#808080FF)
+							Blend(SCREEN_COLOUR,IMAGE_COLOUR)
+						Draw:(face2a,,,,,,#A0A0A0FF)
+							Blend(SCREEN_COLOUR,ZERO)
+						Draw:(face2a,,,,,,#A68B76FF)
+							Blend(ONE,ONE)
+					}
+
+					Draw:(face2a)
+
+					Draw:(face2d)
+					{
+						Draw:(face2a,,,,,,#FFFFFF90)
+					}
+					
+					Draw:(face2a)
+
+					// older
+					Draw:(face3a,,,,,,#888878FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)
+					{
+						Draw:(face3a,,,,,,#B3917DD0)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face3a,,,,,,#909898FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)	
+					{
+						Draw:(face3a,,,,,,#808080FF)
+							Blend(SCREEN_COLOUR,IMAGE_COLOUR)
+						Draw:(face3a,,,,,,#A0A0A0FF)
+							Blend(SCREEN_COLOUR,ZERO)
+						Draw:(face3a,,,,,,#A68B76FF)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face3a)
+
+					Draw:(face3d)
+					{
+						Draw:(face3a,,,,,,#FFFFFF90)
+					}
+
+					Draw:(face3a)
+
+					// oldest
+					Draw:(face4a,,,,,,#888878FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)
+					{
+						Draw:(face4a,,,,,,#B3917DD0)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face4a,,,,,,#909898FF)
+						Blend(IMAGE_COLOUR,INV_IMAGE_ALPHA)	
+					{
+						Draw:(face4a,,,,,,#808080FF)
+							Blend(SCREEN_COLOUR,IMAGE_COLOUR)
+						Draw:(face4a,,,,,,#A0A0A0FF)
+							Blend(SCREEN_COLOUR,ZERO)
+						Draw:(face4a,,,,,,#A68B76FF)
+							Blend(ONE,ONE)	
+					}
+
+					Draw:(face4a)
+
+					Draw:(face4d)
+					{
+						Draw:(face4a,,,,,,#FFFFFF90)
+					}
+
+					Draw:(face4a)
+				}
+
+
+				//AC: Now randomly pick another of the three base textures (can be the same one) and blend it in (with a bias towards a small amount of blend)
+				//This gives us variation but without them all looking different shades of tea.
+				Rect:()
+					float(%shade)
+					set(%shade,frand(0,0.60))
+					set(gel.alpha,%shade*%shade)
+					selectchild(0,29)
+				{
+					Draw:(face1a,,,,,,#846858FFFFFFFFFF)
+					Draw:(face1a,,,,,,#6C5044FFFFFFFFFF)
+					Draw:(face1a)
+					Draw:(face1d,,,,,,#FFFFFF80FFFFFFFF)
+					Draw:(face1a)
+
+					Draw:(face2a,,,,,,#846858FFFFFFFFFF)
+					Draw:(face2a,,,,,,#6C5044FFFFFFFFFF)
+					Draw:(face2a)
+					Draw:(face2d,,,,,,#FFFFFF80FFFFFFFF)
+					Draw:(face2a)
+
+					Draw:(face3a,,,,,,#846858FFFFFFFFFF)
+					Draw:(face3a,,,,,,#6C5044FFFFFFFFFF)
+					Draw:(face3a)
+					Draw:(face3d,,,,,,#FFFFFF80FFFFFFFF)
+					Draw:(face3a)
+
+					Draw:(face4a,,,,,,#846858FFFFFFFFFF)
+					Draw:(face4a,,,,,,#6C5044FFFFFFFFFF)
+					Draw:(face4a)
+					Draw:(face4d,,,,,,#FFFFFF80FFFFFFFF)
+					Draw:(face4a)
+				}
+
+
+				// AC: Pick a random set of eyebrows.
+				Rect:()
+					set(gel.colour,lerp(#101010FF,#403820FF,frand(0,1)))
+					set(gel.alpha,frand(0.2,1.0))
+					selectchild(rand(0,1))
+				{
+					Draw:(Eyebrows1)
+					Draw:(Eyebrows2)
+				}
+
+				//AC: Multiply in a random amount of face lines.
+				Draw:(FaceLines1,,,,,,#7E4241FF)
+					set(gel.alpha,frand(0,1))
+					Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+
+				//AC: Multiply in a random amount of unshaven chin.
+				Rect:()
+					selectchild(rand(0,2))
+				{
+					Rect:()
+					Draw:(Unshaven)
+						set(gel.colour,lerp(#101010FF,#FFFFFFFF,frand(0,1)))
+						set(gel.alpha,frand(0,1))
+						set(gel.vis,twk(CardPrep,Age)>20)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Rect:()
+				}
+
+				//Select a random beard type (the empty Rects at the bottom are so that we can randomly choose 'none')
+				Rect:()
+					selectchild(rand(0,13))
+					float(%alpha,%lerp)
+					set(%lerp,frand(0,1))
+					set(%alpha,frand(0.5,1))
+					set(gel.vis,twk(CardPrep,Age)>24)
+				{
+					Draw:(Goaty1,,,,,,#000000FF)
+						set(gel.colour,lerp(#101010FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard1,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard2,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard3,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard4,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard5,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard6,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard7,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard8,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Beard9,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Tache1,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Draw:(Tache2,,,,,,#000000FF)
+						set(gel.colour,lerp(#202020FFFFFFFFFF,#FFFFFFFFFFFFFFFF,%lerp))
+						set(gel.alpha,%alpha)
+						Blend(SCREEN_COLOUR,INV_IMAGE_ALPHA)
+					Rect:()
+					Rect:()
+				}
+
+
+				//Random amount of freckles1
+				Draw:(Freckles1,,,,,,#952E2AFF)
+					set(gel.alpha,frand(0,1))
+
+				// random amount of freckles2
+				Draw:(Freckles2,,,,,,#952E2AFF)
+					set(gel.alpha,frand(0,1))
+
+				// random amount of necklines
+				Draw:(NeckLine,,,,,,#541917FF)
+					set(gel.alpha,frand(0,1))
+
+				// random amount of cleft
+				Draw:(Cleft,-3,,,,,#541917FF)
+					set(gel.alpha,frand(0,1))
+
+				// random amount of shaved head
+				Draw:(ShavedHead,,,,,,#541917FF)
+					set(gel.alpha,frand(0,1))
+					if(rand(0,3)=0)<
+						set(gel.alpha,0)
+					>
+
+
+				// Pick a random scale for the pupils in the eyes
+				Rect:()
+					float(%PSCALE)
+					set(%PSCALE,frand(0.9,1.1))
+				{
+					// pick a random one of the eye colours as a base.
+					Rect:(63,448)
+						selectchild(rand(0,2))
+						set(gel.scale,%PSCALE)
+					{{
+						Draw:(Eye1)
+							Handle(0.5,0.5)
+						Draw:(Eye2)
+							Handle(0.5,0.5)
+						Draw:(Eye3)
+							Handle(0.5,0.5)
+					}}
+
+					// Now pick a random second colour (or none) and blend a random amount towards it.
+					Rect:(63,448,,,,#FFFFFFFF)
+						set(gel.scale,%PSCALE)
+						set(gel.alpha,frand(0,1))
+						selectchild(rand(0,5))
+					{{
+						Draw:(Eye1)
+							Handle(0.5,0.5)
+						Draw:(Eye2)
+							Handle(0.5,0.5)
+						Draw:(Eye3)
+							Handle(0.5,0.5)
+						Draw:(Eye4)
+							Handle(0.5,0.5)
+						Rect:()
+						Rect:()
+					}}
+				}
+
+
+			}
+		}
+
+		View:($CLOTHESSTAGING,512,512)
+		{
+			Sheet:(0,0,0,0,0,0,0,1,1,1)
+				set(gel.vis,twk(CardPrep,Request)!="")
+			{
+				// The colours of these parts are set from code.
+				Cls:(#00000000)
+
+				Rect:() ref:NonKeeperClothingRoot
+				{
+					Draw:(KitBase) ref:KIT
+					Draw:(KitCollar) ref:KIT
+					Draw:(KitStripesV) ref:KIT
+					Draw:(KitStripesH) ref:KIT
+					Draw:(KitQuarters) ref:KIT
+					Draw:(KitSash) ref:KIT
+					Draw:(KitCentreStripe) ref:KIT
+					Draw:(KitVStripe) ref:KIT
+					Draw:(KitVerticalHalf) ref:KIT
+					Draw:(KitDiagonalHalf) ref:KIT
+					Draw:(KitChecks) ref:KIT
+					Draw:(KitTrim) ref:KIT
+				}
+
+				Rect:() $HIDE ref:KeeperClothingRoot
+				{
+					Draw:(KitBase) ref:KeeperKIT
+					Draw:(KeeperKitSleeves) ref:KeeperKIT
+					Draw:(KeeperKitCollar) ref:KeeperKIT
+					Draw:(KeeperKitShoulders) ref:KeeperKIT
+					Draw:(KitCollar) ref:KeeperKIT
+				}
+			}
+		}
+
+		View:($HEADSTAGINGLARGE,120,155)
+		{
+
+				 Camera:(0,0,0,0,0,0,25,1,1,1,,120,155)
+					set(gel.vis,twk(CardPrep,Request)!="")
+				 {
+					Cls:(#00000000,True)
+				UseShader:(Simple3D)
+					{
+						Locator:(0,-110,12,0,0,180)
+							// Rotate the head a little at random
+							set(gel3d.rotz,frand(-185,-175))
+							// Look left/right a little at random
+							float(%eyez,%scale)
+							set(%eyez,frand(-5,5))
+							// Scale the head a little at random
+							set(%scale,frand(0,1))
+							set(gel3d.rotx,lerp(6,-4,%scale))	
+							set(%scale,lerp(0.95,1.05,%scale))			
+							set(gel3d.scalex,%scale)
+							set(gel3d.scaley,%scale)
+							set(gel3d.scalez,%scale)
+							//Get reciprocal of scale so that eyes stay same size
+							set(%scale,frand(0.97,1.06)/%scale)
+
+						{
+							//Draw the head and clothing
+							DrawStaticModel:(Head1,$FACESTAGING)
+								set(gel.vis,twk(CardPrep,DoubleBuffer)=1)
+							DrawStaticModel:(Head2,$FACESTAGING)
+								set(gel.vis,twk(CardPrep,DoubleBuffer)=2)
+							DrawStaticModel:(Clothing_Tracksuit,$CLOTHESSTAGING) ref:KIT
+							DrawStaticModel:(Clothing_Player,$CLOTHESSTAGING) ref:KIT
+							DrawStaticModel:(Clothing_BossSuit,$CLOTHESSTAGING) ref:KIT
+
+
+							// Draw the eyes
+						//	Locator:(-3.21792,-11.91168,-23.808) ref:EYE 
+						//	Locator:(-3.49184,-11.91168,-23.808) ref:EYE
+							Locator:(-3.21792,-11.91168,-23.808) ref:EYE
+							//	set(gel3d.y,-11.91168)
+								set(gel3d.rotz,%eyez+3)
+								set(gel3d.scalex,%scale)
+								set(gel3d.scaley,%scale)
+								set(gel3d.scalez,%scale)
+							{
+								DrawStaticModel:(Eye,$FACESTAGING)
+							}
+							Locator:(3.21792,-11.91168,-23.808) ref:EYE
+							//	set(gel3d.y,-11.91168)
+								set(gel3d.rotz,%eyez-3)
+								set(gel3d.scalex,%scale)
+								set(gel3d.scaley,%scale)
+								set(gel3d.scalez,%scale)
+							{
+								DrawStaticModel:(Eye,$FACESTAGING)
+							}
+
+							// Draw the hair (or none) using a colourised shader
+							UseShader:(Coloured3D)
+
+								SetUniformColour(colourmod,sat(lerp(#202020FF,#FFD0B0FF,%light),1-%sat))
+								selectchild(%HAIR)
+							{
+								Rect:()
+
+								DrawStaticModel:(Hair_Short_Wavy,Hair_Short_Wavy)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Parted_Short,Hair_Parted_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Parted_Flop,Hair_Parted_Flop)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Long_Pulled,Hair_Long_Pulled)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								Rect:()
+								Rect:()
+
+								DrawStaticModel:(Hair_Receding,Hair_Receding)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Mohawk_Short,Hair_Mohawk_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Hightop_Medium,Hair_Hightop_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Hightop_Short,Hair_Hightop_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Hightop_Short,Hair_Hightop_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Afro_Short,Hair_Afro_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Afro_Short,Hair_Afro_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Afro_Short,Hair_Afro_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Hair_Afro_Short,Hair_Afro_Short)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+					
+				}
+			}
+		}
+
+		View:($HEADSTAGING,128,256)
+		{
+			Sheet:(0,0,0,0,0,0,0,1,1,1)
+				set(gel.vis,twk(CardPrep,Request)!="")
+				set(twk(CardPrep,Request),"")
+			{
+				Cls:(#00000000)
+				UseShader:(Downsample)
+				{
+					Draw:($HEADSTAGINGLARGE,0,0,128,256)
+				}
+			}
+		}
+	}
+}
+
+
+
+// ---------------------- Persistent Club Badge textures
+
+
+Surf:($CLUBBADGESURF,512,512,False,True)
+SubSurfaceArray:($CLUBBADGE_ARRAY_SURF,$CLUBBADGESURF,0,0,512,512,?BADGE_SIZE?,?BADGE_SIZE?,1,1,FIFO)
+Surf:($STADBADGESURF,512,512,False,True)
+SubSurfaceArray:($STADBADGE_ARRAY_SURF,$STADBADGESURF,0,0,512,512,?BADGE_SIZE?,?BADGE_SIZE?,1,1,FIFO)
+
+
+Rect:() ref:PlayerClubMasterBadge
+{
+	DrawCached:($CLUBBADGE_ARRAY_SURF,0,0,140,140,0,#00000000) $HIDE ref:BadgeCache
+	{
+
+		Rect:()	
+		{
+			M_ClubBadge:(HD)
+		}
+
+
+	}
+
+	Rect:() ref:SpawnedBadgeHook
+
+}
+
+Rect:() ref:StadiumClubMasterBadge
+{
+	DrawCached:($STADBADGE_ARRAY_SURF,0,0,140,140,0,#00000000) $HIDE ref:BadgeCache
+	{
+		Rect:()
+		{
+			M_ClubBadge:(HD)
+		}
+	}
+
+	Rect:() ref:SpawnedBadgeHook
+}
+
+
+Rect:() $HIDE ref:MatchBadgeEmbeds
+{
+	Embed:(MatchHomeTeamBadge)
+	{
+	    M_Badge:(0,0,HD,1,MatchHomeTeamBadge)
+	}
+
+	Embed:(MatchAwayTeamBadge)
+	{
+	    M_Badge:(0,0,HD,1,MatchAwayTeamBadge)
+	}
+}
+
+//AC: Clear suppress ambient flag
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),0)

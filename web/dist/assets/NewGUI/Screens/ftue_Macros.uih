@@ -1,0 +1,1355 @@
+Import:(splitspines.uih)
+Import:(ImageDefs_characters.uih)
+
+Macro:(M_ClickWindow,?TYPE?,?X?,?Y?,?W?,?H?,?COL?,?TWK?)
+	If:(?TYPE?=FULLSCREEN)
+		Rect:(@l,@t,@w,@h)
+			Press()
+			Click()
+			Click(,,1)
+		{{
+			Draw:(White,@L,@T,@W,@H,,?COL?)
+		}}
+	EndIf
+
+	If:(?TYPE?=CONTEXTFULLSCREEN)
+		Rect:(@l,@t,@w,@h)
+			Press()
+			Click()
+			<
+				add(twk(ContextHint,?TWK?Enabled),1)
+				set(twk(FtueNoLocal,ContextHintActive),0)
+			>
+			Click(,,1)
+		{{
+			Draw:(White,@L,@T,@W,@H,,?COL?)
+		}}
+	EndIf
+
+	If:(?TYPE?=WINDOW)
+		Rect:(?X?,?Y?,?W?,?H?)
+		{{
+			Rect:(0,0,@W,@H)
+				frlerp(gel.alpha,0.8,0.1)
+			{{
+				// Top
+				Draw:(White,@C,@T-1,@W,2000,,?COL?FFFFFFFF)
+					Click()
+					Click(,,1)
+					Handle(0.5,1)
+
+				// Bottom
+				Draw:(White,@C,@B,@W,2000,,?COL?FFFFFFFF)
+					Click()
+					Click(,,1)
+					Handle(0.5,0)
+
+				// Left
+				Draw:(White,@L,@M,2000,@H+4000,,?COL?FFFFFFFF)
+					Click()
+					Click(,,1)
+					Handle(1,0.5)
+				
+				// Right
+				Draw:(White,@R,@M,2000,@H+4000,,?COL?FFFFFFFF)
+					Click()
+					Click(,,1)
+					Handle(0,0.5)
+			}}
+		}}
+	EndIf
+
+	If:(?TYPE?=CONTEXTCARDCAROUSEL)
+		Rect:(?X?,?Y?,?W?,?H?)
+			Click(,,1)
+			<
+				add(twk(ContextHint,?TWK?Enabled),1)
+				set(twk(FtueNoLocal,ContextHintActive),0)
+			>
+		{{
+			Rect:(0,0,@W,@H)
+				frlerp(gel.alpha,0.8,0.1)
+			{{
+				// Top
+				Draw:(White,@C,@T-1,@W,2000,,?COL?FFFFFFFF)
+					Click()
+					<
+						add(twk(ContextHint,?TWK?Enabled),1)
+						set(twk(FtueNoLocal,ContextHintActive),0)
+					>
+					Click(,,1)
+					Handle(0.5,1)
+
+				// Bottom
+				Draw:(White,@C,@B,@W,2000,,?COL?FFFFFFFF)
+					Click()
+					<
+						add(twk(ContextHint,?TWK?Enabled),1)
+						set(twk(FtueNoLocal,ContextHintActive),0)
+					>
+					Click(,,1)
+					Handle(0.5,0)
+
+				// Left
+				Draw:(White,@L,@M,2000,@H+4000,,?COL?FFFFFFFF)
+					Click()
+					<
+						add(twk(ContextHint,?TWK?Enabled),1)
+						set(twk(FtueNoLocal,ContextHintActive),0)
+					>
+					Click(,,1)
+					Handle(1,0.5)
+				
+				// Right
+				Draw:(White,@R,@M,2000,@H+4000,,?COL?FFFFFFFF)
+					Click()
+					<
+						add(twk(ContextHint,?TWK?Enabled),1)
+						set(twk(FtueNoLocal,ContextHintActive),0)
+					>
+					Click(,,1)
+					Handle(0,0.5)
+			}}
+		}}
+	EndIf
+EndM
+
+// New FTUE Macro
+Macro:(M_FTUE,?SCREEN?,?TYPE?,?CLICKMESSAGE?,?X?,?Y?,?W?,?H?,?MESSAGE?,?ANIMX?,?ANIMY?,?ANIMNAME?,?CLICK?,?MESSAGEX?,?MESSAGEY?,?BUTTON?,?ANIMKILL?,?ANIMDESTX?,?ANIMDESTY?,?TWK?,?VALUE?,?SHELL?,?INITMESSAGE?,?COL?,?SIMON?,?CTRLREF?,?CTRLSCREEN?,?MESSAGE_ALT?,?CTRLPARENT?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		Rect:()
+			FtueRearmable()
+			:Post(?INITMESSAGE?)
+			If:(?SHELL?)
+				set(gel.vis,(shell(?SHELL?)=?SCREEN?) and(shellvis(?SHELL?)))
+			Else
+				set(gel.vis,(shell(GameScreen)=?SCREEN?) and(shellvis(GameScreen)))
+			EndIf
+			If:(?CLICKMESSAGE?)
+				OnPost(?CLICKMESSAGE?)
+				<
+					:Post(ftue.increaseStep)
+				>	
+			EndIf
+
+			If:("?TWK?" != "")
+				if(?TWK?=?VALUE?)
+				<
+					:Post(ftue.increaseStep)
+				>
+			EndIf
+			If:(?CTRLREF?)
+				if(twk(ControllerInput,Enabled))
+				<
+					:CTRLSetSelected(?CTRLREF?,?CTRLSCREEN?,true,?CTRLPARENT?)
+				>
+			EndIf
+			If:("?CTRLEXCEPT?"!="")
+				CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			EndIf
+		{
+			// CLICK CONTROL
+			M_ClickWindow:(?TYPE?,?X?,?Y?,?W?,?H?,?COL?)
+
+			// MESSAGE DIALOG
+			If:("?MESSAGE?" != "")
+				Rect:(0,0,510,240)
+					If:(?CLICK?)
+						Click(?CLICK?)
+					EndIf
+				{{
+					//Digital Simon Read 
+					If:(?TYPE?="FULLSCREEN")
+						Draw:(Fade_Up,@l,-@t+500,@w,300,,#000000FF)
+					EndIf
+
+					If:(?SIMON?="LEFT")
+						Draw:(FTUESimon,@l-232-@f,-@t+245,750,,,#FFFFFFFF)
+					EndIf
+
+					If:(?SIMON?="RIGHT" or(?SIMON?="ABOVERIGHT"))
+						Draw:(FTUESimon,@r-528+@f,-@t+245,750,,,#FFFFFFFF)
+					EndIf
+
+					Dissolve:(?MESSAGEX?,?MESSAGEY?,@W,@H) 
+						.set(gel.alpha,0)
+						frlerp(gel.alpha,1,0.1)
+					{{
+						If:(?SIMON?="LEFT")
+							Draw:(Bubble_Shadow,-37,-9,@W+46,@H+19)
+							Draw:(SpeechAngle,1,180,,,-45,#EEEEEEEE)
+ 						EndIf
+
+ 						If:(?SIMON?="RIGHT")
+							Draw:(Bubble_Shadow,@W+37,-9,-@W-46,@H+19)
+							Draw:(SpeechAngle,528,207,-20,,45,#EEEEEEEE)
+ 						EndIf
+
+ 						If:(?SIMON?="ABOVERIGHT")
+							Draw:(Bubble_Shadow,@W+9,278,@H+46,-@W-18,90)
+							Draw:(SpeechAngle,33,268,,,135,#EEEEEEEE)
+						EndIf
+
+ 						// New background without using clips
+ 						Draw:(RoundedPanel,0,0,@W,@H,,#EEEEEEEE)
+ 						Draw:(Fade_Down,0,32,@W,5,,#00000080)
+ 						// Don't need this but is a base red to allow for hexagons to fade in
+						Draw:(Button_Shade,0,34,@W,-34,,#CC1618FF)
+						Draw:(Header_Hexagons,0,0,@W,34,,#FFFFFF00)
+							Delay(0.5)
+							frlerp(gel.alpha,1,0.01)
+						Draw:(White,2,2,@W-4,1,,#FFFFFF30)
+						
+						// Message Title Text 
+						M_Text:(Assistant_Manager,20,0,@W-40,38,A,C,TextLoc,KNUL24,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+							//.ToUpperCase()
+						
+						// Message Body Text
+						M_Text:(,20,105,[@W-40],0,A,C,TextBoxAtt,KNUL22,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							if(twk(ControllerInput,Enabled) = 1)
+							<
+								If:("?MESSAGE_ALT?" != "")
+									:set(gel.text,?MESSAGE_ALT?)
+								Else
+									:set(gel.text,?MESSAGE?)
+								EndIf
+							>
+							else
+							<
+								:set(gel.text,?MESSAGE?)
+							>
+
+						// NEXT Button  
+						If:(?BUTTON?)
+							M_Button:(@R-100,@B-35,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,click,ObeyBtn,loc(ftue_NEXT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ObeyButton)
+								CTRLClearSelect()
+								M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+								if(%clicked)
+								<
+									Post(ftue.increaseStep)
+								>
+						EndIf
+					}}
+				}}
+			EndIf
+
+			// Drag or Drag/Hold spine animation
+			If:((?ANIMNAME?="FTUE_Drag") or(?ANIMNAME?="FTUE_DragHold"))
+				Rect:(?ANIMX?,?ANIMY?,,,,#FFFFFF00)
+					Layer(AboveText)
+					FtueRearmable()
+					:set(gel.alpha,0)
+					:set(gel.scale,0.3)
+					if(twk(ScreenTransition,Active) = 0)
+					<
+						frlerp(gel.alpha,1,0.1)
+						if(gel.alpha > 0.7)
+						<
+							:set(gel.anim.speed,1)
+						>
+						if(twk(System,LastClickMessage) = ?ANIMKILL?)
+						<
+							:set(gel.vis,0)
+						>
+					>
+					float(%stage,%t)
+					if(%stage = 0)
+					<
+						:set(gel.x,?ANIMX?)
+						:set(gel.y,?ANIMY?)
+					>
+					if(%stage = 1)
+					<
+						If:(?ANIMNAME?=FTUE_DragHold)
+							:Delay(1)
+						EndIf
+
+						add(%t,FrameTime * 0.017)
+						set(gel.x,lerp(?ANIMX?,?ANIMDESTX?,min(1,%t)))
+						set(gel.y,lerp(?ANIMY?,?ANIMDESTY?,min(1,%t)))
+						if(%t >= 1)
+						<
+							set(%stage,2)
+							set(gel.x,?ANIMDESTX?)
+							set(gel.y,?ANIMDESTY?)
+						>
+					>
+				{{
+					##IA
+					Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+
+					##N
+					Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+						.set(gel.alpha,0)
+						if(twk(ControllerInput,Enabled) = 0)
+						<
+							:set(gel.anim.normtime,0)
+							:set(gel.anim.speed,1)
+							frlerp(gel.alpha,1,0.1)
+						>
+						else
+						<
+							frlerp(gel.alpha,0,0.1)
+						>
+
+					##P4
+					Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold_PC,Loop)
+						.set(gel.alpha,0)
+						if(twk(ControllerInput,Enabled) = 0)
+						<
+							:set(gel.anim.normtime,0)
+							:set(gel.anim.speed,1)
+							frlerp(gel.alpha,1,0.1)
+						>
+						else
+						<
+							frlerp(gel.alpha,0,0.1)
+						>
+
+					##*
+						if(%stage = 0)
+						<
+							if(gel.anim.normtime > 0.5)
+							<
+								set(gel.anim.speed,0)
+								set(%stage,1)
+								set(%t,0)
+							>
+						>
+						if(%stage = 2)
+						<
+							set(gel.anim.speed,-1)
+							if(gel.anim.normtime <= 0)
+							<
+								set(gel.anim.normtime,0)
+								set(gel.anim.speed,1)
+								set(%stage,0)
+							>
+						>
+				}}
+			Else
+				If:(?ANIMNAME?)
+					// Standard spine animation
+					Rect:(?ANIMX?,?ANIMY?,,,,#FFFFFF00)
+						Layer(AboveText)
+						FtueRearmable()
+						:set(gel.alpha,0)
+						:set(gel.scale,0.3)
+						if(twk(ScreenTransition,Active) = 0)
+						<
+							frlerp(gel.alpha,1,0.1)
+							if(gel.alpha > 0.7)
+							<
+								:set(gel.anim.speed,1)
+							>
+							if(twk(System,LastClickMessage) = ?ANIMKILL?)
+							<
+								:set(gel.vis,0)
+							>
+						>
+					{{
+						##IA
+						SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+						Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+
+						##N
+						SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+						Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+							.set(gel.alpha,0)
+							if(twk(ControllerInput,Enabled) = 0)
+							<
+								:set(gel.anim.normtime,0)
+								:set(gel.anim.speed,1)
+								frlerp(gel.alpha,1,0.1)
+							>
+							else
+							<
+								frlerp(gel.alpha,0,0.1)
+							>
+
+						##P4
+						SplitSpine:(NSM_?ANIMNAME?_PC,NSM_FTUE,?ANIMNAME?_PC)
+						Spine:(NSM_?ANIMNAME?_PC,0,0,,?ANIMNAME?_PC,Loop)
+							.set(gel.alpha,0)
+							if(twk(ControllerInput,Enabled) = 0)
+							<
+								:set(gel.anim.normtime,0)
+								:set(gel.anim.speed,1)
+								frlerp(gel.alpha,1,0.1)
+							>
+							else
+							<
+								frlerp(gel.alpha,0,0.1)
+							>
+						##*
+					}}
+				EndIf
+			EndIf
+		}
+	}
+EndM
+
+
+Macro:(M_DummyStep,?MSG?,?PARAM?,?CTRLEXCEPT?)
+	Rect:()
+	{		
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			Post(ftue.increaseStep)
+			If:(?MSG?)
+				FtueRearmable()
+				:Post(?MSG?,?PARAM?)
+			EndIf
+	}
+EndM
+
+
+Macro:(M_DummyStepDelay,?DELAY?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		M_ClickWindow:(FULLSCREEN,,,,,#00000000)
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			Delay(?DELAY?)
+			Post(ftue.increaseStep)
+	}
+EndM
+
+Macro:(M_DummyStepOnPost,?INITMSG?,?INITPARAM?,?ONPOSTMSG?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			If:(?INITMSG?)
+				FtueRearmable()
+				:Post(?INITMSG?,?INITPARAM?)
+			EndIf
+			OnPost(?ONPOSTMSG?)
+			<
+				Post(ftue.increaseStep)
+			>
+	}
+EndM
+
+Macro:(M_DummyStepOnPostMulti,?INIT?,?ONPOSTMSG?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			FtueRearmable()
+			:Post(?INIT?)
+			OnPost(?ONPOSTMSG?)
+			<
+				Post(ftue.increaseStep)
+			>
+	}
+EndM
+
+Macro:(M_MatchChanceFailedExpr,?ONFAILMATCHRESET?,?ONFAILMATCHEND?)
+	:Post("ftue.matchChanceFailedKillBall")
+	:Delay(1)
+
+	:add(twk(FtueNoLocal,MatchChanceFailCount),1)
+
+	if(twk(FtueNoLocal,MatchChanceFailCount) > twk(FtueNoLocal,MatchChanceFailLimit))
+	<
+		:Post("ftue.matchChanceFailedEnd",twk(Ftue,Step))
+		:add(twk(Ftue,Step),?ONFAILMATCHEND?)
+	>
+	else
+	<
+		:Post("ftue.matchChanceFailedReset",twk(Ftue,Step))
+		:sub(twk(Ftue,Step),?ONFAILMATCHRESET?)
+	>
+EndM
+
+Macro:(M_DummyStepMatchOnPost,?INITMSG?,?INITPARAM?,?ONPOSTMSG?,?ONFAILMSG?,?ONFAILMATCHRESET?,?ONFAILMATCHEND?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		Rect:()
+			float(%failTriggered)
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			If:(?INITMSG?)
+				FtueRearmable()
+				:Post(?INITMSG?,?INITPARAM?)
+			EndIf
+			OnPost(?ONPOSTMSG?)
+			<
+				Post(ftue.increaseStep)
+				set(%failTriggered,0)
+			>
+			If:(?ONFAILMSG?)
+				FtueRearmable()
+				:set(%failTriggered,0)
+				OnPost(?ONFAILMSG?)
+				<
+					set(%failTriggered,1)
+				>
+				if(%failTriggered)
+				<
+					M_MatchChanceFailedExpr:(?ONFAILMATCHRESET?,?ONFAILMATCHEND?)
+				>
+			EndIf
+	}
+EndM
+
+
+Macro:(M_DummyPause,?MSG?,?SHELL?,?SCREEN?,?INITMSG?,?CTRLEXCEPT?,?CTRLREF?,?CTRLSCREEN?,?CTRLPARENT?)
+	Rect:()
+	{
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			if(shell(?SHELL?)=?SCREEN?)
+			<
+				Post(ftue.increaseStep)
+			>
+			If:(?MSG?)
+				FtueRearmable()
+				:Post(?MSG?)
+			EndIf
+			If:(?INITMSG?)
+				FtueRearmable()
+				:Post(?INITMSG?)
+			EndIf
+			If:(?CTRLREF?)
+				if(twk(ControllerInput,Enabled))
+				<
+					:CTRLSetSelected(?CTRLREF?,?CTRLSCREEN?,true,?CTRLPARENT?)
+				>
+			EndIf
+	}
+EndM
+
+Macro:(M_DummyBlock,?MSG?,?SHELL?,?SCREEN?,?CTRLEXCEPT?)
+	Rect:()
+	{
+		M_ClickWindow:(FULLSCREEN,,,,,#00000000)
+		Rect:()
+			CTRLGlobalBlockExcept(?CTRLEXCEPT?)
+			if(shell(?SHELL?)=?SCREEN?)
+			<
+				Post(ftue.increaseStep)
+			>
+			If:(?MSG?)
+				FtueRearmable()
+				:Post(?MSG?)
+			EndIf	
+	}
+EndM
+
+//New Training Macro
+Macro:(M_FTUETraining,?SCREEN?,?INITONVIS?,?INITMESSAGE?,?HIDEMESSAGE?,?CONTINUEMESSAGE?,?FAILMESSAGE?,?MESSAGE?,?ANIMX?,?ANIMY?,?ANIMNAME?,?CLICK?,?MESSAGEX?,?MESSAGEY?,?DELAY?,?ONFAIL?,?ANIMDESTX?,?ANIMDESTY?,?USECAMERA?,?SIMON?,?BACKMESSAGE?,?UNHIDEMESSAGE?,?ONFAILMATCHRESET?,?ONFAILMATCHEND?,?MESSAGE_ALT?,?ANIMROT?,?ANIMXCONT?,?ANIMYCONT?)
+	Rect:()
+	{
+		Rect:()
+			FtueRearmable()
+			If:(?INITONVIS? = 0)
+				:Post(?INITMESSAGE?)
+			EndIf
+			float(%forceHide,%continueTriggered,%failTriggered,%backTriggered)
+			:set(%forceHide,0)
+			:set(%continueTriggered,0)
+			:set(%failTriggered,0)
+			:set(%backTriggered,0)
+			If:(?HIDEMESSAGE?)
+				OnPost(?HIDEMESSAGE?)
+				<
+					set(%forceHide,1)
+				>
+			EndIf
+			If:(?UNHIDEMESSAGE?)
+				OnPost(?UNHIDEMESSAGE?)
+				<
+					set(%forceHide,0)
+				>
+			EndIf
+			If:(?CONTINUEMESSAGE?)
+				OnPost(?CONTINUEMESSAGE?)
+				<
+					if(%failTriggered = 0 and(%continueTriggered = 0))
+					<
+						:set(%continueTriggered,1)
+						:set(%backTriggered,0)
+					>
+				>
+			EndIf
+			If:(?FAILMESSAGE?)
+				OnPost(?FAILMESSAGE?)
+				<
+					if(%continueTriggered = 0)
+					<
+						:set(%failTriggered,1)
+						:set(%backTriggered,0)
+					>
+				>
+			EndIf
+			if(%forceHide = 1)
+			<
+				:set(gel.vis,0)
+			>
+			else
+			<
+				set(gel.vis,(shell(GameScreen)=?SCREEN? and(shellvis(GameScreen))))
+			>
+			if(%continueTriggered)
+			<
+				:Delay(?DELAY?)
+				:Post(ftue.increaseStep)
+			>
+			elif(%failTriggered)
+			<
+				If:(?ONFAIL?="Match")
+					M_MatchChanceFailedExpr:(?ONFAILMATCHRESET?,?ONFAILMATCHEND?)
+				Else
+					:Delay(?DELAY?)
+					If:(?ONFAIL?="Retry")
+						:Post(?INITMESSAGE?)
+					Else
+						if(twk(Ftue,TrainingEnabled)=1)
+						<
+							:sub(twk(Ftue,TrainingStep),?ONFAIL?)
+						>
+						else
+						<
+							:sub(twk(Ftue,Step),?ONFAIL?)
+						>
+					EndIf
+				EndIf
+				:set(%failTriggered,0)
+			>>
+
+			if(%backTriggered)
+			<
+				sub(twk(Ftue,Step),1)
+			>
+			If:(?BACKMESSAGE?)
+				OnPost(?BACKMESSAGE?)
+				<
+					if(%failTriggered = 0 and(%continueTriggered = 0))
+					<
+						set(%backTriggered,1)
+					>
+				>
+			EndIf
+		{
+			Rect:()
+				If:(?INITONVIS? = 1)
+					FtueRearmable()
+					:Post(?INITMESSAGE?)
+				EndIf
+
+			// MESSAGE DIALOG
+			If:("?MESSAGE?" != "")
+				Rect:(0,0,510,240)
+					If:(?CLICK?)
+						Click(?CLICK?)
+					EndIf
+				{{
+					// Simon Read 
+					Draw:(Fade_Up,@l,-@t+500,@w,300,,#000000FF)
+				
+					If:(?SIMON?="RIGHT" or(?SIMON?="ABOVERIGHT"))
+						Draw:(FTUESimon,@r-528+@f,-@t+245,750,,,#FFFFFFFF)
+					Else
+						Draw:(FTUESimon,@l-232-@f,-@t+245,750,,,#FFFFFFFF)
+					EndIf
+
+					Dissolve:(?MESSAGEX?,?MESSAGEY?,@W,@H) 
+						.set(gel.alpha,0)
+						frlerp(gel.alpha,1,0.05)
+					{{
+						If:(?SIMON?="RIGHT")
+							Draw:(Bubble_Shadow,-37,-9,@W+46,@H+19)
+							Draw:(SpeechAngle,1,180,,,-45,#EEEEEEEE)
+						EndIf
+
+						If:(?SIMON?="ABOVE" or(?SIMON?="ABOVERIGHT"))
+							Draw:(Bubble_Shadow,@W+9,278,@H+46,-@W-18,90)
+							Draw:(SpeechAngle,33,268,,,135,#EEEEEEEE)
+						EndIf
+
+ 						// New background without using clips
+ 						Draw:(RoundedPanel,0,0,@W,@H,,#EEEEEEEE)
+ 						Draw:(Fade_Down,0,32,@W,5,,#00000080)
+ 						// Don't need this but is a base red to allow for hexagons to fade in
+						Draw:(Button_Shade,0,34,@W,-34,,#CC1618FF)
+						Draw:(Header_Hexagons,0,0,@W,34,,#FFFFFF00)
+							Delay(0.5)
+							frlerp(gel.alpha,1,0.01)
+						Draw:(White,2,2,@W-4,1,,#FFFFFF30)
+
+						
+						// Message Title Text 
+						M_Text:(Assistant_Manager,20,0,@W-40,38,A,C,TextLoc,KNUL24,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+							.ToUpperCase()
+						
+						// Message Body Text
+						M_Text:(,20,105,[@W-40],0,A,C,TextBoxAtt,KNUL22,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							if(twk(ControllerInput,Enabled) = 1)
+							<
+								If:("?MESSAGE_ALT?" != "")
+									:set(gel.text,?MESSAGE_ALT?)
+								Else
+									:set(gel.text,?MESSAGE?)
+								EndIf
+							>
+							else
+							<
+								:set(gel.text,?MESSAGE?)
+							>
+
+						// NEXT Button  
+						If:(?BUTTON?)
+							M_Button:(@R-100,@B-35,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,click,ObeyBtn,NEXT,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ObeyButton)
+								CTRLClearSelect()
+								M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+								if(%clicked)
+								<
+									Post(ftue.increaseStep)
+								>
+						EndIf
+					}}
+				}}
+			EndIf
+
+			If:(?USECAMERA?=1)
+				Camera:((0,0,0),(-60,0,0),?MATCH_FOV?,(0.1,0.1,0.1),,@w,@h)
+					set(gel3d.x,twk(Pitch,CameraXPosition))
+					set(gel3d.y,twk(Pitch,CameraYPosition))
+					set(gel3d.z,twk(Pitch,CameraZPosition))
+					set(gel3d.rotx,twk(Pitch,CameraXRotation))
+				{
+					// Touch Drag spine animation
+					If:(?ANIMNAME?=FTUE_Drag)
+						Locator:((?ANIMX?,?ANIMY?,0),(90,0,0),(0.3,0.3,0.3))
+							Layer(AboveText)
+							FtueRearmable()
+							:set(gel.colour,#FFFFFF00)
+							float(%stage,%t)
+							if(twk(ScreenTransition,Active)=0)
+							<
+								:set(gel.alpha,0)
+								:set(gel3d.x,?ANIMX?)
+								:set(gel3d.y,?ANIMY?)
+								:set(%stage,0)
+								:set(%t,0)
+								frlerp(gel.alpha,1,0.1)
+								if(gel.alpha > 0.7)
+								<
+									set(gel.anim.speed,1)
+								>
+								if(twk(System,LastClickMessage) = ?ANIMKILL?)
+								<
+									:set(gel.vis,0)
+								>
+							>						
+							if(twk(ControllerInput,Enabled) = 1)
+							<
+								set(%stage,1)
+
+							>
+							if(%stage = 0)
+							<
+								:set(gel3d.x,?ANIMX?)
+								:set(gel3d.y,?ANIMY?)
+							>
+							if(%stage = 1)
+							<
+								if(twk(ControllerInput,Enabled) = 0)
+								<
+									add(%t,FrameTime * 0.017)
+									set(gel3d.x,lerp(?ANIMX?,?ANIMDESTX?,min(1,%t)))
+									set(gel3d.y,lerp(?ANIMY?,?ANIMDESTY?,min(1,%t)))
+									if(%t >= 1)
+									<
+										set(%stage,2)
+										set(gel3d.y,?ANIMDESTX?)
+										set(gel3d.y,?ANIMDESTY?)
+									>
+								>
+								else
+								<
+									set(gel3d.x,?ANIMX?)
+									set(gel3d.y,?ANIMY?)
+								>
+							>
+						{{
+							Locator:((0,0,0),(-60,0,0),(1,1,1))
+								set(gel3d.rotx,twk(Pitch,CameraXRotation))
+							{
+								##IA
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+								##N
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+									.set(gel.alpha,0)
+									if(twk(ControllerInput,Enabled) = 0)
+									<
+										If:(?ANIMNAME?=FTUE_Drag)
+											:set(gel.anim,FTUE_TapHold)
+										EndIf
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)
+									>
+									else
+									<
+										frlerp(gel.alpha,0,0.1)			
+									>
+								##P4
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold_PC,Loop)
+									.set(gel.alpha,0)
+									if(twk(ControllerInput,Enabled) = 0)
+									<
+										If:(?ANIMNAME?=FTUE_Drag)
+											:set(gel.anim,FTUE_TapHold_PC)
+										EndIf
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)
+									>
+									else
+									<
+										frlerp(gel.alpha,0,0.1)			
+									>
+
+								##*
+									FtueRearmable()
+									:set(gel.anim.normtime,0)
+									:set(gel.anim.speed,1)
+
+									if(%stage = 0)
+									<
+										if(gel.anim.normtime > 0.5)
+										<
+											set(gel.anim.speed,0)
+											set(%stage,1)
+											set(%t,0)
+										>
+									>
+									if(%stage = 2)
+									<
+										set(gel.anim.speed,-1)
+										if(gel.anim.normtime <= 0)
+										<
+											set(gel.anim.normtime,0)
+											set(gel.anim.speed,1)
+											set(%stage,0)
+										>
+									>
+							}
+						}}
+					Else
+
+					// Controller Drag spine animation
+					If:(?ANIMNAME?=FTUE_Path)
+						Locator:((?ANIMX?,?ANIMY?,0),(90,0,0),(0.3,0.3,0.3))
+							Layer(AboveText)
+							FtueRearmable()
+							:set(gel.colour,#FFFFFF00)
+							float(%stage,%t)
+							if(twk(ScreenTransition,Active)=0)
+							<
+								:set(gel.alpha,0)
+								:set(gel3d.x,?ANIMX?)
+								:set(gel3d.y,?ANIMY?)
+								:set(%stage,0)
+								:set(%t,0)
+								frlerp(gel.alpha,1,0.1)
+								if(gel.alpha > 0.7)
+								<
+									set(gel.anim.speed,1)
+								>
+								if(twk(System,LastClickMessage) = ?ANIMKILL?)
+								<
+									:set(gel.vis,0)
+								>
+							>						
+							if(twk(ControllerInput,Enabled) = 1)
+							<
+								set(%stage,1)
+							>
+							if(%stage = 0)
+							<
+								:set(gel3d.x,?ANIMX?)
+								:set(gel3d.y,?ANIMY?)
+							>
+							if(%stage = 1)
+							<
+								if(twk(ControllerInput,Enabled) = 0)
+								<
+									set(gel3d.rotz,0)
+									add(%t,FrameTime * 0.017)
+									set(gel3d.x,lerp(?ANIMX?,?ANIMDESTX?,min(1,%t)))
+									set(gel3d.y,lerp(?ANIMY?,?ANIMDESTY?,min(1,%t)))
+									if(%t >= 1)
+									<
+										set(%stage,2)
+										set(gel3d.y,?ANIMDESTX?)
+										set(gel3d.y,?ANIMDESTY?)
+									>
+								>
+								else
+								<
+									set(gel3d.x,?ANIMXCONT?)
+									set(gel3d.y,?ANIMYCONT?)
+								>
+							>
+						{{
+							Locator:((0,0,0),(-60,0,0),(1,1,1))
+								set(gel3d.rotx,twk(Pitch,CameraXRotation))
+								if(twk(ControllerInput,Enabled) = 1)
+								<
+									set(gel3d.rotz,?ANIMROT?)
+								>
+								else
+								<
+									set(gel3d.rotz,0)
+								>
+							{
+								##IA
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+								##N
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+									.set(gel.alpha,0)
+									if(twk(ControllerInput,Enabled) = 0)
+									<
+										:set(gel.anim,FTUE_TapHold)
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)
+									>
+									else
+									<
+										:set(gel.anim,FTUE_Path_N)
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)					
+									>
+								##P4
+								Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold_PC,Loop)
+									.set(gel.alpha,0)
+									if(twk(ControllerInput,Enabled) = 0)
+									<
+										:set(gel.anim,FTUE_TapHold_PC)
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)
+									>
+									else
+									<
+										:set(gel.anim,FTUE_Path_N)
+										:set(gel.anim.normtime,0)
+										:set(gel.anim.speed,1)
+										frlerp(gel.alpha,1,0.1)					
+									>
+								##*
+									FtueRearmable()
+									:set(gel.anim.normtime,0)
+									:set(gel.anim.speed,1)
+
+									if(%stage = 0)
+									<
+										if(gel.anim.normtime > 0.5)
+										<
+											set(gel.anim.speed,0)
+											set(%stage,1)
+											set(%t,0)
+										>
+									>
+									if(%stage = 2)
+									<
+										set(gel.anim.speed,-1)
+										if(gel.anim.normtime <= 0)
+										<
+											set(gel.anim.normtime,0)
+											set(gel.anim.speed,1)
+											set(%stage,0)
+										>
+									>
+							}
+						}}
+					Else
+
+
+						If:(?ANIMNAME?)
+							// Standard spine animation
+							Locator:((?ANIMX?,?ANIMY?,0),(90,0,0),(0.3,0.3,0.3))
+								Layer(AboveText)
+								FtueRearmable()
+								.set(gel.colour,#FFFFFF00)
+								if(twk(ScreenTransition,Active) = 0)
+								<
+									frlerp(gel.alpha,1,0.1)
+									if(gel.alpha > 0.7)
+									<
+										:set(gel.anim.speed,1)
+									>
+									if(twk(System,LastClickMessage) = ?ANIMKILL?)
+									<
+										:set(gel.vis,0)
+									>
+								>
+							{{
+								Locator:((0,0,0),(-60,0,0),(1,1,1))
+									set(gel3d.rotx,twk(Pitch,CameraXRotation))
+								{
+
+									If:(?ANIMNAME?= FTUE_Tap_Marker)
+										##IA
+										Spine:(NSM_TapMarkerSelect,0,0,,FTUE_Tap,Loop)
+										##N
+										Spine:(NSM_TapMarkerSelect,0,0,,FTUE_Tap,Loop)
+											.set(gel.alpha,0)
+											.set(gel.scale,1)
+											.set(gel.x,0)
+											.set(gel.y,0)
+											if(twk(ControllerInput,Enabled) = 0)
+											<
+												:set(gel.anim,FTUE_Tap)
+												:set(gel.scale,1)
+												:set(gel.x,0)
+												:set(gel.y,0)
+												:set(gel.anim.normtime,0)
+												:set(gel.anim.speed,1)
+												frlerp(gel.alpha,1,0.1)
+											>
+											else
+											<
+												if(twk(Ftue,Step) = 38)
+												<
+													:set(gel.anim,FTUE_Select_N)
+													:set(gel.scale,1.4)
+													:set(gel.x,-90)
+													:set(gel.y,-430)
+													:set(gel.anim.normtime,0)
+													:set(gel.anim.speed,1)
+													frlerp(gel.alpha,1,0.1)
+												>
+												else
+												<
+													:set(gel.anim,FTUE_Tap_N)
+													:set(gel.scale,1)
+													:set(gel.x,0)
+													:set(gel.y,0)
+													:set(gel.anim.normtime,0)
+													:set(gel.anim.speed,1)
+													frlerp(gel.alpha,1,0.1)
+												>
+											>
+
+										##P4
+										Spine:(NSM_TapMarkerSelect,0,0,,FTUE_Tap_PC,Loop)
+											.set(gel.alpha,0)
+											if(twk(ControllerInput,Enabled) = 0)
+											<
+												:set(gel.anim,FTUE_Tap_PC)
+												:set(gel.anim.normtime,0)
+												:set(gel.anim.speed,1)
+												frlerp(gel.alpha,1,0.1)
+											>
+											else
+											<
+												:set(gel.anim,FTUE_Tap_N)
+												:set(gel.anim.normtime,0)
+												:set(gel.anim.speed,1)
+												frlerp(gel.alpha,1,0.1)
+												
+											>
+										##*
+									Else
+
+
+										##IA
+										SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+										Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+
+										##N
+										SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+										Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+											.set(gel.alpha,0)
+											.set(gel.scale,1)
+											.set(gel.x,0)
+											.set(gel.y,0)
+											if(twk(ControllerInput,Enabled) = 0)
+											<
+												:set(gel.anim.normtime,0)
+												:set(gel.anim.speed,1)
+												frlerp(gel.alpha,1,0.1)
+											>
+											else
+											<
+												frlerp(gel.alpha,0,0.1)		
+											>
+
+										##P4
+										SplitSpine:(NSM_?ANIMNAME?_PC,NSM_FTUE,?ANIMNAME?_PC)
+										Spine:(NSM_?ANIMNAME?_PC,0,0,,?ANIMNAME?_PC,Loop)
+											.set(gel.alpha,0)
+											if(twk(ControllerInput,Enabled) = 0)
+											<
+
+												:set(gel.anim.normtime,0)
+												:set(gel.anim.speed,1)
+												frlerp(gel.alpha,1,0.1)
+											>
+											else
+											<
+												frlerp(gel.alpha,0,0.1)
+											>
+										##*
+
+									EndIf
+								}
+							}}
+						EndIf
+					EndIf
+				EndIf
+				}
+			Else
+				// Drag spine animation
+				If:(?ANIMNAME?="FTUE_Drag")
+					Rect:(?ANIMX?,?ANIMY?,,,#FFFFFF00)
+						Layer(AboveText)
+						FtueRearmable()
+						:set(gel.alpha,0)
+						:set(gel.scale,0.3)
+						if(twk(ScreenTransition,Active) = 0)
+						<
+							frlerp(gel.alpha,1,0.1)
+							if(gel.alpha > 0.7)
+							<
+								:set(gel.anim.speed,1)
+							>
+							if(twk(System,LastClickMessage) = ?ANIMKILL?)
+							<
+								:set(gel.vis,0)
+							>
+						>
+						float(%stage,%t)
+						if(%stage = 0)
+						<
+							:set(gel.x,?ANIMX?)
+							:set(gel.y,?ANIMY?)
+						>
+						if(%stage = 1)
+						<
+							add(%t,FrameTime * 0.017)
+							set(gel.x,lerp(?ANIMX?,?ANIMDESTX?,min(1,%t)))
+							set(gel.y,lerp(?ANIMY?,?ANIMDESTY?,min(1,%t)))
+							if(%t >= 1)
+							<
+								set(%stage,2)
+								set(gel.x,?ANIMDESTX?)
+								set(gel.y,?ANIMDESTY?)
+							>
+						>
+					{{
+						##IA
+						Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+
+						##N
+						Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+							.set(gel.alpha,0)
+							if(twk(ControllerInput,Enabled) = 0)
+							<
+								:set(gel.anim.normtime,0)
+								:set(gel.anim.speed,1)
+								frlerp(gel.alpha,1,0.1)
+							>
+							else
+							<
+								frlerp(gel.alpha,0,0.1)
+							>
+					
+						##P4
+						Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold_PC,Loop)
+							.set(gel.alpha,0)
+							if(twk(ControllerInput,Enabled) = 0)
+							<
+								:set(gel.anim.normtime,0)
+								:set(gel.anim.speed,1)
+								frlerp(gel.alpha,1,0.1)
+							>
+							else
+							<
+								frlerp(gel.alpha,0,0.1)
+							>
+
+						##*
+							if(%stage = 0)
+							<
+								if(gel.anim.normtime > 0.5)
+								<
+									set(gel.anim.speed,0)
+									set(%stage,1)
+									set(%t,0)
+								>
+							>
+							if(%stage = 2)
+							<
+								set(gel.anim.speed,-1)
+								if(gel.anim.normtime <= 0)
+								<
+									set(gel.anim.normtime,0)
+									set(gel.anim.speed,1)
+									set(%stage,0)
+								>
+							>
+					}}
+				Else
+					If:(?ANIMNAME?)
+						// Standard spine animation
+						Rect:(?ANIMX?,?ANIMY?,,,#FFFFFF00)
+							Layer(AboveText)
+							FtueRearmable()
+							:set(gel.alpha,0)
+							:set(gel.scale,0.3)
+							if(twk(ScreenTransition,Active) = 0)
+							<
+								frlerp(gel.alpha,1,0.1)
+								if(gel.alpha > 0.7)
+								<
+									:set(gel.anim.speed,1)
+								>
+								if(twk(System,LastClickMessage) = ?ANIMKILL?)
+								<
+									:set(gel.vis,0)
+								>
+							>
+						{{
+							##IA
+							SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+							Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+
+							##N
+							SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+							Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+								.set(gel.alpha,0)
+								if(twk(ControllerInput,Enabled) = 0)
+								<
+									:set(gel.anim.normtime,0)
+									:set(gel.anim.speed,1)
+									frlerp(gel.alpha,1,0.1)
+								>
+								else
+								<
+									frlerp(gel.alpha,0,0.1)
+								>
+							##P4
+							SplitSpine:(NSM_?ANIMNAME?_PC,NSM_FTUE,?ANIMNAME?_PC)
+							Spine:(NSM_?ANIMNAME?_PC,0,0,,?ANIMNAME?_PC,Loop)
+								.set(gel.alpha,0)
+								if(twk(ControllerInput,Enabled) = 0)
+								<
+									:set(gel.anim.normtime,0)
+									:set(gel.anim.speed,1)
+									frlerp(gel.alpha,1,0.1)
+								>
+								else
+								<
+									frlerp(gel.alpha,0,0.1)
+								>
+							##*
+						}}
+					EndIf
+				EndIf
+			EndIf
+		}
+	}
+EndM
+
+
+// Dribbling Tutorial specific Macro
+Macro:(M_FtueDribblingTutorial,?DELAY?,?MESSAGE?,?MESSAGE_ALT?)
+	Rect:()
+	{
+		Rect:()
+			FtueRearmable()
+			float(%nextStepTriggered,%prevStepTriggered,%finishWasTriggered,%failWasTriggered)
+			float(%currentStep)
+			:set(%nextStepTriggered,0)
+			:set(%prevStepTriggered,0)
+			:set(finishWasTriggered,0)
+			:set(failWasTriggered,0)
+			:set(%currentStep,0)
+			OnPost("TTouch.DribblingStarted")
+			<
+				set(%nextStepTriggered,1)
+				set(%prevStepTriggered,0)
+			>
+			OnPost("TTouch.ResetTouchPlayer",,"TTouch.ReturnToTouchRadius")
+			<
+				set(%prevStepTriggered,1)
+				set(%nextStepTriggered,0)
+			>
+			OnPost("TFootball.OffPitch",,"Training.FailLineCrossed")
+			<
+				if(%finishWasTriggered = 0)
+				<
+					set(%failWasTriggered,1)
+					Post(sounds.general_Negative)
+				>
+			>
+			OnPost("Training.LineCrossed")
+			<
+				DebugPrint("ON POST TRAINING LINE")
+				if(%failWasTriggered = 0)
+				<
+					set(%finishWasTriggered,1)
+				>
+			>
+
+			if(%nextStepTriggered)
+			<
+				if(%currentStep = 0)
+				<
+					set(%currentStep,1)
+				>
+				set(%nextStepTriggered,0)
+			>
+			if(%prevStepTriggered)
+			<
+				if(%currentStep = 1)
+				<
+					set(%currentStep,0)
+				>
+				set(%prevStepTriggered,0)
+			>
+			if(%failWasTriggered)
+			<
+				:Delay(?DELAY?)
+				sub(twk(Ftue,Step),1)
+				set(%failWasTriggered,0)
+			>
+			if(%finishWasTriggered)
+			<
+				:Delay(?DELAY?)
+				Post(ftue.increaseStep)
+				set(%finishWasTriggered,0)
+			>
+		{
+			M_FTUETraining:("matchengine",0,("initmessage"),"HideMessage","ContinueMessage","FailMessage",loc(CFTUE_TRIALDRIBBLING),(ballcontroller.x+30),(ballcontroller.y+70),FTUE_Drag,,@l+20-@f,-@t+70,0,Retry,(ballcontroller.x+30),(ballcontroller.y+300),1,ABOVE,,,,,loc(CFTUE_TRIALDRIBBLING_ALT)) ref:Trial_Dribbling
+				set(gel.vis,%currentStep = 0)
+
+			M_FTUETraining:("matchengine",0,("initmessage"),"HideMessage","ContinueMessage","FailMessage",loc(CFTUE_TRIALDRIBBLING2),,,,,@l+20-@f,-@t+70,0,1,,,1,ABOVE,,,,,) ref:Trial_Dribbling_2
+				set(gel.vis,%currentStep = 1)
+		}
+	}
+EndM
+
+
+Macro:(M_FtueTacklingTutorial)
+	Rect:()
+		float(%startX,%startY,%length,%goalX,%goalY)
+		set(%startX,TMatchPlayerFromId(1).x+15)
+		set(%startY,TMatchPlayerFromId(1).y+70)
+		set(%goalX,[ballcontroller.x+15]-%startX)
+		set(%goalY,[ballcontroller.y+70]-%startY)
+		set(%length,sqrt([%goalX*%goalX]+[%goalY*%goalY]))
+		set(%goalX,%startX + [[%goalX / %length] * 200])
+		set(%goalY,%startY + [[%goalY / %length] * 200])
+	{
+		M_FTUETraining:("matchengine",0,("ftue.matchSetTouchControls","disable_drag:false"),"TTouch.TackleDragStarted",("TMatchPlayer.BlockTackle",,"TMatchPlayer.Fouled",,"TFootball.ControlBall",,"TMatchPlayer.SlideTackle"),("TMatchPlayer.Pushed"),loc(CFTUE_STAGEDTACKLE2),%startX,%startY,FTUE_Drag,,@l+20-@f,-@t+70,0.8,1,%goalX,%goalY,1,ABOVE,,"TMatchPlayer.ReachedEndRun",,,loc(CFTUE_STAGEDTACKLE2_ALT))
+	}
+EndM

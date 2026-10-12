@@ -1,0 +1,358 @@
+Macro:(M_ColourPickerButton,?CAT?,?TWK?,?MSG?,?COLOUR?,?REFPREFIX?)  
+    Rect:(0,0,[@W/13],[@W/13]) ref:?REFPREFIX??COLOUR?
+        colvar(%colour)
+        init(%colour,#?COLOUR?)
+        if(%parentPressed)
+        <
+            Press()
+            <
+                :Message(?MSG?,#?COLOUR?)
+            >
+        >
+        CTRLPress(?BTNOK?)
+        <
+            :Message(?MSG?,#?COLOUR?)
+        >
+        CTRLSelect(CTRLKitColourPicker,-12,-12,[@W/13],[@W/13])
+    {
+        Draw:(White,0,0,[@W/13],[@W/13],,#?COLOUR?FFFFFFFF)
+
+        Rect:()
+            set(gel.vis,(twk(?CAT?,?TWK?) = #?COLOUR?) and(twk(ControllerInput,Enabled) = 0))
+            Layer(AboveText)
+        {
+            Draw:(White,0,0,[@W/13],3,,#404040FF)
+            Draw:(White,0,0,3,[@W/13],,#404040FF)
+            Draw:(White,0,[@W/13]-3,[@W/13],3,,#404040FF)
+            Draw:(White,[@W/13]-3,0,3,[@W/13],,#404040FF)
+
+            Draw:(White,1,1,[@W/13]-3,1,,#FFFFFFFF)
+            Draw:(White,1,1,1,[@W/13]-3,,#FFFFFFFF)
+            Draw:(White,1,[@W/13]-2,[@W/13]-3,1,,#FFFFFFFF)
+            Draw:(White,[@W/13]-2,1,1,[@W/13]-2,,#FFFFFFFF)
+        }
+    } 
+EndM
+
+
+Macro:(M_GoalieColourPickerButton,?CAT?,?TWK?,?MSG?,?COLOUR?,?REFPREFIX?)  
+    Rect:(0,0,[@W/6],[@W/6]) ref:?REFPREFIX??COLOUR?
+        colvar(%colour)
+        init(%colour,#?COLOUR?)
+        if(%parentPressed)
+        <
+            Press()
+            <
+               :Message(?MSG?,#?COLOUR?)
+            >
+        >
+         CTRLPress(?BTNOK?)
+        <
+            :Message(?MSG?,#?COLOUR?)
+        >
+        CTRLSelect(CTRLGoalieColourPicker,-26,-26,@W,@H)
+    {
+        Draw:(White,0,0,[@W/6],[@W/6],,#?COLOUR?FFFFFFFF)
+
+        Rect:()
+            set(gel.vis,(twk(?CAT?,?TWK?) = #?COLOUR?) and(twk(ControllerInput,Enabled) = 0))
+            Layer(AboveText)
+        {
+            Draw:(White,0,0,[@W/6],3,,#404040FF)
+            Draw:(White,0,0,3,[@W/6],,#404040FF)
+            Draw:(White,0,[@W/6]-3,[@W/6],3,,#404040FF)
+            Draw:(White,[@W/6]-3,0,3,[@W/6],,#404040FF)
+
+            Draw:(White,1,1,[@W/6]-3,1,,#FFFFFFFF)
+            Draw:(White,1,1,1,[@W/6]-3,,#FFFFFFFF)
+            Draw:(White,1,[@W/6]-2,[@W/6]-3,1,,#FFFFFFFF)
+            Draw:(White,[@W/6]-2,1,1,[@W/6]-2,,#FFFFFFFF)
+        }
+    } 
+EndM
+
+
+Macro:(M_ColourPickerGrid,?X?,?Y?,?W?,?H?,?CAT?,?TWK?,?MSG?,?REF?)
+    Rect:(?X?,?Y?,?W?,?H?) ref:?REF?
+        GridList(0,0) ref:GridList
+        float(%parentPressed)
+        if(TouchDown)
+        <
+            :Over()
+            <
+                set(%parentPressed,1)
+            >
+        >
+        else
+        <
+            :set(%parentPressed,0)
+        >
+    {{
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,440000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,442000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,444400FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,204400FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,004400FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,004420FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,004444FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,002044FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,000044FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,200044FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,440044FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,441010FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,000000FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,660000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,663300FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,666600FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,336600FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,006600FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,006633FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,006666FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,003366FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,000066FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,330066FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,660066FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,660033FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,202020FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,990000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,994C00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,999900FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,4C9900FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,009900FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00994CFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,009999FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,004C99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,000099FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,4C0099FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,990099FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99004CFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,404040FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CC0000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CC6600FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCCC00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,66CC00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00CC00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00CC66FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00CCCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,0066CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,0000CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,6600CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CC00CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CC0066FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,606060FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF0000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF8000FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFF00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,80FF00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00FF00FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00FF80FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,00FFFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,0080FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,0000FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,8000FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF00FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF0080FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,808080FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF3333FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF9933FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFF33FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99FF33FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,33FF33FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,33FF99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,33FFFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,3399FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,3333FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,9933FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF33FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF3399FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,A0A0A0FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF6666FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFB266FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFF66FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,B2FF66FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,66FF66FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,66FFB2FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,66FFFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,66B2FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,6666FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,B266FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF66FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF66B2FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,C0C0C0FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF9999FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFCC99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFF99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCFF99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99FF99FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99FFCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99FFFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,99CCFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,9999FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CC99FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF99FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FF99CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,E0E0E0FF,?REF?)
+
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFCCCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFE5CCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFFCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,E5FFCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCFFCCFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCFFE5FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCFFFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCE5FFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,CCCCFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,E5CCFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFCCFFFF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFCCE5FF,?REF?)
+        M_ColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFFFFFF,?REF?)
+    }}
+EndM
+
+Macro:(M_GoalieColourPickerGrid,?X?,?Y?,?W?,?H?,?CAT?,?TWK?,?MSG?,?REF?)
+    Rect:(?X?,?Y?,?W?,?H?) ref:?REF?
+        GridList(0,0) ref:GridList
+        float(%parentPressed)
+        if(TouchDown)
+        <
+            :Over()
+            <
+                set(%parentPressed,1)
+            >
+        >
+        else
+        <
+            :set(%parentPressed,0)
+        >
+    {{
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,FFFF00FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,A9CA3BFF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,80FF00FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,00FF00FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,00BE00FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,00FF80FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,01C4E4FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,FF8000FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,B266FFFF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,8000FFFF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,FF00FFFF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,FF0080FF,?REF?)
+       
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,000000FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,101010FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,202020FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,303030FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,404040FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,505050FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,606060FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,707070FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,808080FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,909090FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,A0A0A0FF,?REF?)
+        M_GoalieColourPickerButton:(?CAT?,?TWK?,?MSG?,B0B0B0FF,?REF?)
+    }}
+EndM
+
+
+// Define:(?SIXTH?=0.166666667)
+
+// Img:(PickerColH,NewGUI/ClubKitEdit/Picker_ColH.png)
+// Img:(PickerSat,NewGUI/ClubKitEdit/Picker_Sat.png)
+// Img:(PickerLight,NewGUI/ClubKitEdit/Picker_Light.png)
+
+// Macro:(M_RGBColourPicker,?X?,?Y?,?W?,?H?,?ID?)
+//     Rect:(?X?,?Y?,?W?,?H?,,#FFFFFFFFFFFFFFFF)
+//     {{
+//         Draw:(PickerColH,0,0,@W,30) ref:ColourPickerSlider?ID?
+//             set(twk(ColourPickerSlider?ID?,Position), twk(ColourPickerSlider?ID?,Value))
+//             Slider(ColourPickerSlider?ID?,Position,Value,StepNumber,2,Free,H)
+//             Click()
+//             Grab()
+//             <
+//                 :Message(colourpicker?ID?.touchslider)
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= 0 and (twk(ColourPickerSlider?ID?,Value) < ?SIXTH?))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,255)
+//                 set(twk(ColourPicker?ID?,PickedColour).g,0)
+//                 set(twk(ColourPicker?ID?,PickedColour).b,lerp(0,255,twk(ColourPickerSlider?ID?,Value)/?SIXTH?))
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= ?SIXTH? and (twk(ColourPickerSlider?ID?,Value) < [?SIXTH?*2]))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,lerp(255,0,[twk(ColourPickerSlider?ID?,Value)-?SIXTH?]/?SIXTH?))
+//                 set(twk(ColourPicker?ID?,PickedColour).g,0)
+//                 set(twk(ColourPicker?ID?,PickedColour).b,255)
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= [?SIXTH?*2] and (twk(ColourPickerSlider?ID?,Value) < [?SIXTH?*3]))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,0)
+//                 set(twk(ColourPicker?ID?,PickedColour).g,lerp(0,255,[twk(ColourPickerSlider?ID?,Value)-[?SIXTH?*2]]/?SIXTH?))
+//                 set(twk(ColourPicker?ID?,PickedColour).b,255)
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= [?SIXTH?*3] and (twk(ColourPickerSlider?ID?,Value) < [?SIXTH?*4]))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,0)
+//                 set(twk(ColourPicker?ID?,PickedColour).g,255)
+//                 set(twk(ColourPicker?ID?,PickedColour).b,lerp(255,0,[twk(ColourPickerSlider?ID?,Value)-[?SIXTH?*3]]/?SIXTH?))
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= [?SIXTH?*4] and (twk(ColourPickerSlider?ID?,Value) < [?SIXTH?*5]))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,lerp(0,255,[twk(ColourPickerSlider?ID?,Value)-[?SIXTH?*4]]/?SIXTH?))
+//                 set(twk(ColourPicker?ID?,PickedColour).g,255)
+//                 set(twk(ColourPicker?ID?,PickedColour).b,0)
+//             >
+//             if(twk(ColourPickerSlider?ID?,Value) >= [?SIXTH?*5] and (twk(ColourPickerSlider?ID?,Value) <= [?SIXTH?*6]))
+//             <
+//                 set(twk(ColourPicker?ID?,PickedColour).r,255)
+//                 set(twk(ColourPicker?ID?,PickedColour).g,lerp(255,0,[twk(ColourPickerSlider?ID?,Value)-[?SIXTH?*5]]/?SIXTH?))
+//                 set(twk(ColourPicker?ID?,PickedColour).b,0)
+//             >
+//         {{
+//             Draw:(Circle_50,@W,+1,@H+2,@H+2,,#00000055FFFFFFFF)
+//                  Handle(0.5,0.0)
+//                  set(gel.x,[twk(ColourPickerSlider?ID?,Position)]*[@W])
+//             Draw:(Circle_50,@W,-1,@H+2,@H+2,,#FFFFFFFFFFFFFFFF)
+//                  Handle(0.5,0.0)
+//                  set(gel.x,[twk(ColourPickerSlider?ID?,Position)]*[@W])
+//             Draw:(Circle_50,@W,0,@H,@H,,#000000FFFFFFFFFF)
+//                  Handle(0.5,0.0)
+//                  set(gel.colour,twk(ColourPicker?ID?,PickedColour))
+//                  set(gel.x,[twk(ColourPickerSlider?ID?,Position)]*[@W])
+
+//         }}
+
+//         Draw:(White,0,40,@W,@H-40) ref:ColourPickerPanel?ID?
+//             set(gel.colour,twk(ColourPicker?ID?,PickedColour))
+//             Click()
+//             Grab()
+//             <
+//                 :Message(colourpicker?ID?.touchpanel)
+//             >
+//         {{
+//             Draw:(PickerSat,0,0,@W,@H,,#FFFFFFFF000000FF)
+//             Draw:(PickerLight,0,0,@W,@H,,#FFFFFFFF000000FF)
+
+//              Draw:(Circle_50,0,0,32,32,,#00000055000000FF)
+//                 Handle(0.5,0.45)
+//                 set(gel.x,@W*twk(ColourPicker?ID?,Saturation))
+//                 set(gel.y,@H*twk(ColourPicker?ID?,Lightness))
+            
+//             Draw:(Circle_50,0,0,32,32,,#FFFFFFFF000000FF)
+//                 Handle(0.5,0.5)
+//                 set(gel.x,@W*twk(ColourPicker?ID?,Saturation))
+//                 set(gel.y,@H*twk(ColourPicker?ID?,Lightness))
+//             Draw:(Circle_50,0,0,30,30,,#FFFFFFFF000000FF)
+//                 Handle(0.5,0.5)
+//                 set(gel.colour,twk(ColourPicker?ID?,BakedColour))
+//                 set(gel.x,@W*twk(ColourPicker?ID?,Saturation))
+//                 set(gel.y,@H*twk(ColourPicker?ID?,Lightness))
+//         }}
+//     }}
+// EndM

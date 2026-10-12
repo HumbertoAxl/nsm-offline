@@ -1,0 +1,108 @@
+// Sting Display Panel
+Rect:(@C-260,@B,520,60)
+	Layer(AboveText)
+	LockLayer()
+
+	if(twk(Match,ChanceSting) != UIMatchConsts.STING_NONE)
+	<
+		:set(gel.vis,1)
+		float(%stage)
+		:set(%stage,0)
+		if(%stage = 0)
+		<
+			:Delay(0.2)
+			frlerp(gel.y,@B-80,0.1)
+			:Delay(2.5)
+			set(%stage,1)
+		>
+		else
+		<
+			frlerp(gel.y,@B+100,0.05)
+		>
+	>
+	else
+	<
+		:set(gel.vis,0)
+	>
+{{
+	Draw:(BlurShadow,-15,-5,@W+30,@H+25,,#00000090)
+	Draw:(Com_Panel_Dark,0,0,@W,@H)
+				
+	// Display Readout
+	Rect:(@C,30,@W,@H)
+		Handle(0.5,0.5)
+		.set(gel.alpha,0)
+		frlerp(gel.alpha,1,0.05)
+	{{
+		Rect:(@L,@T,@W,@H)
+		{{
+			M_Text:(,@C,@M,0,0,C,C,TextLoc,KNUL35,Upper,0,0,#00000000,NoItalics,#FFCA5900,ref)
+				if(twk(Match,ChanceSting) = UIMatchConsts.STING_PENALTY)
+				<
+					:set(gel.text,loc(game_INTRO_PENALTY))
+				>
+				elif(twk(Match,ChanceSting) = UIMatchConsts.STING_FREEKICK)
+				<
+					:set(gel.text,loc(game_INTRO_FREEKICK))
+				>
+				elif(twk(Match,ChanceSting) = UIMatchConsts.STING_CORNER)
+				<
+					:set(gel.text,loc(game_INTRO_CORNER))
+				>
+				elif(twk(Match,ChanceSting) = UIMatchConsts.STING_OFFSIDE)
+				<
+					:set(gel.text,loc(game_END_OFFSIDE))
+				>
+				elif(twk(Match,ChanceSting) = UIMatchConsts.STING_FOUL)
+				<
+					:set(gel.text,loc(game_END_FOUL))
+				>>>>>
+
+				M_Style:(Outline,#FFCA5920)
+	            float(%count,%spacing)
+	            if(%count < 4)
+	            <
+	                PulseAlpha(0.1,1,0.2,0.2,0.1,0.1)
+	            >
+	            if(gel.alpha > 0.99)
+	            <
+	                :add(%count,1)
+	            >
+		        .set(%spacing,30)
+		        set(%spacing,max(5,%spacing - [FrameTime]*0.5))
+		        CharacterSpacing(%spacing)
+		}}
+	}}
+
+    // Dot Matrix
+    Rect:(0,0,@W,@H)
+        PulseAlpha(0.2,0.5,0.2,0.4,0,0,0)
+        Layer(AboveText)
+    {{
+        Draw:(DotMatrix_Edge,0,0,9,60)
+        	Additive()
+        Clip:(0,0,@W-9,60)
+        {
+             Tile:(DotMatrix_Tile,9,0,32,60)
+                Copies(18,1)
+                Additive()
+        }
+        Draw:(DotMatrix_Edge,@R,0,-9,60)
+            Additive()
+    }}
+}}
+
+
+
+
+
+// TickerTape
+Rect:() $HIDE
+	if(twk(MatchHUD,GoalDistance) != "")
+	<
+		:Delay(0.2)
+		:set(gel.vis,1)
+	>
+{
+	Instance:(TickerTapeGoalShower,0,0)
+}

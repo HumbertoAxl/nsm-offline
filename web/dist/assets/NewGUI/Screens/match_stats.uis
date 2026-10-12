@@ -1,0 +1,111 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(match_stats_macros.uih)
+Import:(match_common.uih)
+Import:(badge_Macros.uih)
+Import:(cards.uih)
+Import:(templates_competitions.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(MatchStats,CurrentTab),1)
+	.Post(FadeInMusic)
+	//AC: If we're out of the FTUE, start counting matches before we alert the player to use the card carousel.
+	.if(twk(Ftue,Enabled)=0)
+	<
+		.add(twk(ContextHint,CardCarouselCount),1)
+	>
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-----------------------------------------------------------------------------------------TEMPLATES
+Rect:() ref:CommentNeg
+{{
+	Draw:(RoundedPanel,0,0,40,30,,#DD1010FFFFFFFFFF)
+	Draw:(Icon_ThumbsUp,8,28,25,-25)
+	M_Text:("",63,15,672+@y,0,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,Comment)
+}} Template
+
+Rect:() ref:CommentPos
+{{
+	Draw:(RoundedPanel,0,0,40,30,,#138E1BFFFFFFFFFF)
+	Draw:(Icon_ThumbsUp,8,3,25,25)
+	M_Text:("",63,15,672+@y,0,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,Comment)
+}} Template
+
+Rect:() ref:CommentXP
+{{
+	Draw:(RoundedPanel,0,0,40,30,,#138E1BFFFFFFFFFF)
+	M_Text:("+",0,12,40,0,C,C,Text,KNUL30,,0,1,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	M_Text:("",63,15,672+@y,0,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,Comment)
+}} Template
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	Clip:(@f,100,@w,@H-170)
+	{{
+		Draw:(White,@L,@T,@W,@H,,#65656580)
+		M_BadgeBackground:(0,115,0,#FFFFFF18)
+	}}
+
+	// Tabs
+	Rect:(@L,@T+180,@W,60)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,220,60,postmatch_ASSISTANT,1,MatchStats,CurrentTab)
+		M_Tab:(250,0,220,60,postmatch_STATS,2,MatchStats,CurrentTab)
+
+		M_SwitchTabs:(2,MatchStats,11,15,462,15)
+	}}
+
+
+	// Assistant
+	Rect:()
+		M_FadingTabContent:(MatchStats,CurrentTab,1)
+	{
+		M_AssistantFace:(AssistantSlotGameScreen,175,495)
+
+		// Assistant Comments
+		Rect:(390,300) ref:AssistantComments
+			ChildrenOffset(0,100) ref:Offset
+		{{
+		}}
+	}
+
+
+	// Stats
+	Rect:() $HIDE
+		M_FadingTabContent:(MatchStats,CurrentTab,2)
+	{
+		Rect:(@C-325,321)
+		{{
+			M_StatisticRow:(0,0,postmatch_STATS_POSS,Possession)
+			M_StatisticRow:(0,55,postmatch_STATS_SHOT,Shots)
+			M_StatisticRow:(0,110,postmatch_STATS_TARG,OnTarget)
+			M_StatisticRow:(0,165,postmatch_STATS_FOUL,Fouls)
+			M_StatisticRow:(0,220,postmatch_STATS_YELC,YellowCards)
+			M_StatisticRow:(0,275,postmatch_STATS_REDC,RedCards)
+
+			M_StatisticRow:(0,330,Corners,Corners)
+				.set(gel.vis,0)
+		}}
+	}
+
+
+	// Header
+	Rect:(@L,@T+80,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,60,@w,44)
+		M_PostMatchCompetitionHeader:()
+	}}
+}}

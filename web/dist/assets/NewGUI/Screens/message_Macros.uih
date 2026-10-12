@@ -1,0 +1,1895 @@
+
+//----------------------------------------------------------------------------------IMPORTS
+Import:(ImageDefs_upsells.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Generic_Player_Shadow,NewGUI/UI/Characters/Generic_Player_Shadow.png) FORCE Volatile:Messaging
+Img:(Msg_Background,NewGUI/UI/Messaging/Msg_Background.png) FORCE Volatile:BGMessaging
+##IA
+Img:(MSG_News_NSN_Left,NewGUI/UI/Messaging/MSG_News_NSN_Left.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSN_Right,NewGUI/UI/Messaging/MSG_News_NSN_Right.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSPost_Left,NewGUI/UI/Messaging/MSG_News_NSPost_Left.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSPost_Right,NewGUI/UI/Messaging/MSG_News_NSPost_Right.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSAdvertiser_Left,NewGUI/UI/Messaging/MSG_News_NSAdvertiser_Left.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSAdvertiser_Right,NewGUI/UI/Messaging/MSG_News_NSAdvertiser_Right.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSConstruction_Left,NewGUI/UI/Messaging/MSG_News_NSConstruction_Left.png) FORCE Scale:0.5 Volatile:Messaging
+Img:(MSG_News_NSConstruction_Right,NewGUI/UI/Messaging/MSG_News_NSConstruction_Right.png) FORCE Scale:0.5 Volatile:Messaging
+##P4N
+Img:(MSG_News_NSN_Left,NewGUI/UI/Messaging/MSG_News_NSN_Left.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSN_Right,NewGUI/UI/Messaging/MSG_News_NSN_Right.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSPost_Left,NewGUI/UI/Messaging/MSG_News_NSPost_Left.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSPost_Right,NewGUI/UI/Messaging/MSG_News_NSPost_Right.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSAdvertiser_Left,NewGUI/UI/Messaging/MSG_News_NSAdvertiser_Left.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSAdvertiser_Right,NewGUI/UI/Messaging/MSG_News_NSAdvertiser_Right.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSConstruction_Left,NewGUI/UI/Messaging/MSG_News_NSConstruction_Left.png) FORCE Volatile:Messaging
+Img:(MSG_News_NSConstruction_Right,NewGUI/UI/Messaging/MSG_News_NSConstruction_Right.png) FORCE Volatile:Messaging
+##*
+
+//----------------------------------------------------------------------------------MACROS
+Macro:(M_MessageDialogOPEN)
+	Rect:(@L,@T,@W,@H)	
+		Click()
+
+	Dissolve:(@o,@M-60,@s,36) ref:DialogRoot
+		float(%dissolveAlpha,%action)
+		inittwk(twk(Message,State),"opening")
+		float(%px,%py,%pw,%ph)
+
+		.set(%px,gel.gx)
+		.set(%py,gel.gy-gel.hy)
+		.set(%pw,gel.w)
+		.set(%ph,gel.h)
+
+		if(twk(Message,State) = "opening")
+		<
+			frlerp(gel.h,@h-150,0.15)
+			:Post(UI_Swoosh)
+		>
+		elif(twk(Message,State) = "closing")
+		<
+			frlerp(gel.h,36,0.3)
+		>>
+
+		set(gel.hy,[gel.h/2]-50)
+
+		set(%px,gel.gx)
+		set(%py,gel.gy-gel.hy)
+		.set(%pw,gel.w)
+		set(%ph,gel.h)
+
+		if(twk(Message,State) = "closing")
+		<
+			.set(twk(Message,State),"closing")
+			frlerp(gel.alpha,0,0.3)
+			if(gel.alpha < 0.05)
+			<
+				.set(gel.alpha,0)
+				if(%action = 0)
+				<
+					.Message(message.btn_Cancel)
+				>
+				if(%action = 1)
+				<
+					.Message(message.btn_Ok)
+				>
+			>	
+		>
+		set(%dissolveAlpha,gel.alpha)
+	{{
+
+		// Top Bar
+		Rect:()
+			Layer(AboveText)
+			LockLayer()
+			set(gel.gy,%py)
+		{
+			Draw:(White,@f,0,@w,34,,#CC1618FF)
+
+			Draw:(Dialog_Top,@f,0,@w,38)
+			Draw:(Dialog_Hexagons,@f+@w-297,0,,34,,#00000020)
+		}
+
+		// Bottom Bar
+		Rect:()
+			Layer(AboveText)
+			set(gel.gy,%py+%ph)
+		{
+			// Bottom
+			Draw:(White,@f,0,@w,2,,#CC1618FF)
+				Handle(0,1)
+			Draw:(Dialog_Bottom,@f,4,@w,6)
+				Handle(0,1)
+		}
+
+
+		Clip:(@f,@T,@w,@H)
+			set(gel.gy,%py)
+			set(gel.h,%ph)
+		{
+			Rect:(0,0,@W,@h-135)
+				set(gel.gy,@t)
+			{{
+				// Content Window Area
+				Rect:(0,100,@W,@H)
+				{{
+
+EndM
+
+Macro:(M_MessageDialogCLOSE)
+				}}
+			}}
+		}
+	}}
+EndM
+
+// Notes
+// 0 gives you the left of adjusted width screen
+// @s gives you the right of adjusted width screen
+// @f gives you the full left of any screen
+// @f+@w gives you the full right of any screen
+// Width = [1152 - XPos:380 - Right buffer:30] = 742 + additional widescreen space:@y
+
+Macro:(M_MessageContainer)
+	// THE DIALOG
+	Rect:() ref:Container
+		strvar(%title,%message)
+		.set(twk(Header,ScreenTitle),%title)
+	{
+		M_MessageDialogOPEN:()
+			
+			//Background 
+			If:(@w>1366)
+			 	Draw:(Msg_Background,@C,0,@w,680,,#CCCCEE40)
+			 		Handle(0.5,0)
+			 		Additive()
+			Else
+			 	Draw:(Msg_Background,@C,0,,680,,#CCCCEE40)
+			 		Handle(0.5,0)
+			 		Additive()
+			EndIf
+
+			// Top and bottom fades
+			Draw:(Dialog_Fade,@f,0,@w,120,,#FFFFFFAA)
+			Draw:(Dialog_Fade,@f,@B-50,@w,-120,,#FFFFFFAA)
+
+			// Centre text fade
+			Draw:(Dialog_Fade,@f,@M-75,@w,-50,,#FFFFFFAA)
+			Draw:(White,@f,@M-75,@w,150,,#FFFFFFAA)
+			Draw:(Dialog_Fade,@f,@M+75,@w,50,,#FFFFFFAA)
+
+			Rect:(0,-@t)
+			{{
+				Rect:() ref:Body
+			}}
+		M_MessageDialogCLOSE:()
+
+		// Footer reference outside as the dialog contains clipped content
+		Rect:() ref:Footer
+	}
+EndM
+
+//--------------------------------------------------------------------COMMON CONTENT: TEXT & BUTTONS
+Macro:(M_CurrentTextTitle,?ALIGN?,?X?,?Y?)
+	If:(?ALIGN?=Offset)
+		M_Text:(,380,197,[742+@y],235,A,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+			inherit(%message)
+			.set(gel.text,%message)
+			LineSpacing(1.1)
+	EndIf
+	If:(?ALIGN?=Positioned)
+		M_Text:(,?X?,?Y?,@s-200,0,C,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+			inherit(%message)
+			.set(gel.text,%message)
+			LineSpacing(1.1)
+	EndIf
+EndM
+
+Macro:(M_MessageHeader)
+	Rect:() ref:HeaderHook
+EndM
+
+Macro:(M_MessageHeader_News)
+	Rect:() ref:Root
+	{
+		Draw:(Fade_Up,@f,23,@w,7)
+		Draw:(Fade_Down,@f,130,@w,7)
+		Draw:(White,@f,30,@w,100)
+
+		Rect:()
+			set(gel.vis,twk(Player,StarLevel) < 5)
+		{
+			Draw:(MSG_News_NSAdvertiser_Left,0,30,,100,,#00000060)
+			Draw:(MSG_News_NSAdvertiser_Right,@s-503,30,,100)
+		}
+		Rect:()
+			set(gel.vis,(twk(Player,StarLevel) >= 5) and(twk(Player,StarLevel)<10))
+		{
+			Draw:(White,@f,30,@w,100,,#3351A8FF)
+			Draw:(MSG_News_NSPost_Left,0,30,,100,,#2A3F84FF)
+			Draw:(MSG_News_NSPost_Right,@s-503,30,,100)
+		}
+		Rect:()
+			set(gel.vis,twk(Player,StarLevel)>=10)
+		{
+			Draw:(White,@f,30,@w,100,,#CC0000FF)
+			Draw:(MSG_News_NSN_Left,0,30,,100,,#00000060)
+			Draw:(MSG_News_NSN_Right,@s-503,30,,100)
+		}
+	}
+EndM
+
+Macro:(M_MessageHeader_Construction)
+	Rect:() ref:Root
+	{
+		Draw:(Fade_Up,@f,23,@w,7)
+		Draw:(Fade_Down,@f,130,@w,7)
+		Draw:(White,@f,30,@w,100,,#343434FF)
+		Draw:(MSG_News_NSConstruction_Left,0,30,,100,,#FFFFFF60)
+		Draw:(MSG_News_NSConstruction_Right,@s-503,30,,100)
+	}
+EndM
+
+
+Macro:(M_MessageHeader_Club,?COL?,?TEXT?,?TEXTCOL?)
+	Rect:() ref:Root
+	{
+		Draw:(Fade_Up,@f,25,@w,5)
+		Draw:(Fade_Down,@f,130,@w,5)
+
+		// Right side team coloured fade
+		Draw:(White,@f,30,@w,100)
+		If:("?COL?" != "")
+			.set(gel.colour,#?COL?FF)
+		Else
+			.set(gel.colour,twk(Player,HomeShirtCol1))
+		EndIf
+		Draw:(White,135,30,-1000,100)
+		Draw:(Fade_Right,135,30,1000,100)
+		Draw:(Banner_Star,@s,30,,100,,#FFFFFF20)
+			Handle(1,0)
+
+		M_Badge:(@s-75,80,HD,0.85,HeaderBadge)
+		M_Text:(,@s-148,80,0,0,R,C,Text,KNUL40,,1,0,?TEXTCOL?,NoItalics,?TEXTCOL?,ref)
+			.set(gel.text,LTR(?TEXT?))
+			if("?COL?" = "")
+			<
+				.set(gel.colour,twk(Player,TeamTextCol))
+			>
+	}
+EndM
+
+Macro:(M_Buttons_OkayCustom,?X?,?CTRLBUTTON?)
+	Rect:(@o,@T,@s,@H)
+		strvar(%hinttxt)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt,loc(settings_?CTRLBUTTON?Button)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+	{{
+		M_Button:(?X?,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(generic_OKAY),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?CTRLBUTTON?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+Macro:(M_Buttons_Okay)
+	M_Buttons_OkayCustom:(@R-120,?BTNOK?)
+EndM
+
+Macro:(M_Buttons_CancelCustom,?X?,?CTRLBUTTON?)
+	Rect:(@o,@T,@s,@H)
+		strvar(%hinttxt)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt,loc(settings_?CTRLBUTTON?Button)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+	{{
+		M_Button:(?X?,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(generic_CANCEL),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?CTRLBUTTON?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+	}}
+EndM
+Macro:(M_Buttons_Cancel)
+	M_Buttons_CancelCustom:(@L+120,?BTNCAN?)
+EndM
+
+Macro:(M_Buttons_Yes)
+	Rect:(@o,@T,@s,@H)
+		strvar(%hinttxt)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+	{{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(generic_YES),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+
+	}}
+EndM
+
+Macro:(M_Buttons_No)
+	Rect:(@o,@T,@s,@H)
+		strvar(%hinttxt)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt,loc(settings_CANButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(generic_NO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+	}}
+EndM
+
+Macro:(M_Buttons_Back)
+	Rect:(@o,@T,@s,@H)
+		strvar(%hinttxt)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt,loc(settings_CANButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+	}}
+EndM
+
+Macro:(M_MessageFace,?CARDX?,?CARDY?,?CHARX?,?CHARY?)
+	Rect:()	$HIDE ref:CardFace
+	{
+		Draw:(Generic_Player_Shadow,?CARDX?-12,?CARDY?+75,,,,#FFFFFF60)
+		
+		Rect:(?CARDX?+180,?CARDY?+200) 
+			Card_Face_HD(Message_Face)
+			Scale(1.3,1.3)
+	}
+	Rect:(?CHARX?,?CHARY?,@W,@H) $HIDE ref:CharacterFace
+	{{
+		Draw:(Character_Reporter,175,295,650,650) ref:CharacterFace
+			Handle(0.5,0.5)
+	}}
+EndM
+
+//---------------------------------------------------------------------------------STANDARD TEMPLATE
+Macro:(M_Body_Standard)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_Standard_Okay)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+Macro:(M_Footer_Standard_OkayCancel)
+	Rect:() ref:Root
+	{
+		M_Buttons_Cancel:()
+		M_Buttons_Okay:()
+	}
+EndM
+
+Macro:(M_Footer_Standard_OkayCancelFlipped)
+	Rect:() ref:Root
+	{
+		M_Buttons_OkayCustom:(@L+120,?BTNCAN?)
+		M_Buttons_CancelCustom:(@R-120,?BTNOK?)
+	}
+EndM
+
+Macro:(M_Footer_Standard_OkayCancelXY)
+	Rect:() ref:Root
+	{
+		M_Buttons_OkayCustom:(@L+120,X)
+		M_Buttons_CancelCustom:(@R-120,Y)
+	}
+EndM
+
+Macro:(M_Footer_Standard_OkayBack)
+	Rect:() ref:Root
+	{
+		M_Buttons_Back:()
+		M_Buttons_Okay:()
+	}
+EndM
+
+Macro:(M_Footer_Standard_YesNo)
+	Rect:() ref:Root
+	{
+		M_Buttons_No:()
+		M_Buttons_Yes:()
+	}
+EndM
+
+//---------------------------------------------------------------------------------CLUB TEMPLATE
+Macro:(M_Body_Club)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_Badge:(@L+[@W*0.18],136,HD,1,ClubBadge)
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_Club)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+//------------------------------------------------------------------------------SCANDAL TEMPLATE
+Macro:(M_Body_Scandal)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(scandal_HEADER))
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_Scandal)
+	Rect:() ref:Root
+		strvar(%hinttxt1,%hinttxt2,%hinttxt3,%hinttxt4)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_YButton)::"  ")
+			set(%hinttxt2,loc(settings_XButton)::"  ")
+			set(%hinttxt3,loc(settings_CANButton)::"  ")
+			set(%hinttxt4,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+			set(%hinttxt3,"")
+			set(%hinttxt4,"")
+		>
+	{
+		M_Button:(@C-421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option1,ref,loc(scandal_CRITICISE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(Y,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+		
+		M_Button:(@C-140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option2,ref,loc(scandal_CASHFINE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(X,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+		
+		M_Button:(@C+140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option3,ref,loc(scandal_TRAINING),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt3)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+		
+		M_Button:(@C+421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option4,ref,loc(scandal_IGNORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt4)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+	}
+EndM
+
+//-----------------------------------------------------------------------------INCIDENT TEMPLATE
+Macro:(M_Body_Incident)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(incident_HEADER))
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+
+		M_Text:(generic_HAPPINESS,@C-108+[@y/2],420,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		M_MoraleWheel:(@C-160+[@y/2],440,Message,ExtraVar1)
+			Scale(1.6,1.6)
+
+		PushOrigin:(@C+20+[@y/2],470)
+			Draw:(Icon_Energy,3,0,50,50)
+				// Raw or Rookie
+				if(twk(Message,ExtraVar3) = 1)
+				<
+					set(gel.colour,#009DFDFFFFFFFFFF)
+				> // Retiring
+				elif(twk(Message,ExtraVar3) = 2)
+				<
+					set(gel.colour,#BBBBBBFFFFFFFFFF)
+				>
+				else
+				<
+					set(gel.colour,#369900FFFFFFFFFF)
+				>>
+			
+			// Energy Bar
+			Rect:(55,13,235,20)
+			{{
+				Draw:(White,-2,-2,@W+4,@H+4,,#FFFFFF80)
+				Draw:(White,0,0,@W,@H,,#252525FFFFFFFFFF)
+				
+				Draw:(White,0,0,@W,@H)
+					.set(gel.scalex,twk(Message,ExtraVar2)/100)
+					frlerp(gel.scalex,twk(Message,ExtraVar2)/100,0.1)
+					if(gel.scalex >= 0.75)
+			        <
+			        	set(gel.colour,#42BB00FFFFFFFFFF)
+			        >
+			        else
+			        <
+			            if(gel.scalex >= 0.50)
+			            <
+			            	set(gel.colour,#E0DE10FFFFFFFFFF)
+			            >
+			            else
+			            <
+			        		if(gel.scalex >= 0.25)
+			           		<
+			            		set(gel.colour,#E09E11FFFFFFFFFF)
+			            	>
+			            	else
+			            	<
+			            		set(gel.colour,#DD1010FFFFFFFFFF)
+			            	>
+			            >
+					>
+				Draw:(White,0,@M,@W,@H/2,,#00000015)
+				Draw:(White,[@W*0.25],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.5],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.75],0,1,@H,,#FFFFFFFF)
+			}}
+
+			M_Text:(generic_ENERGY,174,-10,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+
+		PopOrigin
+	}
+EndM
+
+Macro:(M_Footer_Incident)
+	Rect:() ref:Root
+		float(%selectedOption)
+		strvar(%hinttxt1,%hinttxt2,%hinttxt3)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_XButton)::"  ")
+			set(%hinttxt2,loc(settings_CANButton)::"  ")
+			set(%hinttxt3,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+			set(%hinttxt3,"")
+		>
+	{
+		M_Button:(@C-280,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(scandal_CASHFINE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt1)
+			set(%disabled,%selectedOption oneof(2,3))
+			if(%selectedOption = 0)
+			<
+				M_CTRLButtonExtra:(X,false)
+				if(%clicked)
+				<
+					.set(%selectedOption,1)
+					.Message(message.btn_Option1)
+				>
+			>
+		
+		M_Button:(@C,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(scandal_TRAINING),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt2)
+			set(%disabled,%selectedOption oneof(1,3))
+			if(%selectedOption = 0)
+			<
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+				if(%clicked)
+				<
+					.set(%selectedOption,2)
+					.Message(message.btn_Option2)
+				>
+			>
+
+		M_Button:(@C+280,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(scandal_IGNORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt3)
+			set(%disabled,%selectedOption oneof(1,2))
+			if(%selectedOption = 0)
+			<
+				M_CTRLButtonExtra:(?BTNOK?,false)
+				if(%clicked)
+				<
+					.set(%selectedOption,3)
+					.Message(message.btn_Option3)
+				>
+			>
+	}
+EndM
+
+//------------------------------------------------------------------------------REQUEST TEMPLATE
+Macro:(M_Body_Request)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(request_HEADER))
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+
+		M_Text:(generic_HAPPINESS,@C-108+[@y/2],420,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		M_MoraleWheel:(@C-160+[@y/2],440,Message,ExtraVar1)
+			Scale(1.6,1.6)
+
+		PushOrigin:(@C+20+[@y/2],470)
+			Draw:(Icon_Energy,3,0,50,50)
+				// Raw or Rookie
+				if(twk(Message,ExtraVar3) = 1)
+				<
+					set(gel.colour,#009DFDFFFFFFFFFF)
+				> // Retiring
+				elif(twk(Message,ExtraVar3) = 2)
+				<
+					set(gel.colour,#BBBBBBFFFFFFFFFF)
+				>
+				else
+				<
+					set(gel.colour,#369900FFFFFFFFFF)
+				>>
+			
+			// Energy Bar
+			Rect:(55,13,235,20)
+			{{
+				Draw:(White,-2,-2,@W+4,@H+4,,#FFFFFF80)
+				Draw:(White,0,0,@W,@H,,#252525FFFFFFFFFF)
+				
+				Draw:(White,0,0,@W,@H)
+					.set(gel.scalex,twk(Message,ExtraVar2)/100)
+					frlerp(gel.scalex,twk(Message,ExtraVar2)/100,0.1)
+					if(gel.scalex >= 0.75)
+			        <
+			        	set(gel.colour,#42BB00FFFFFFFFFF)
+			        >
+			        else
+			        <
+			            if(gel.scalex >= 0.50)
+			            <
+			            	set(gel.colour,#E0DE10FFFFFFFFFF)
+			            >
+			            else
+			            <
+			        		if(gel.scalex >= 0.25)
+			           		<
+			            		set(gel.colour,#E09E11FFFFFFFFFF)
+			            	>
+			            	else
+			            	<
+			            		set(gel.colour,#DD1010FFFFFFFFFF)
+			            	>
+			            >
+					>
+				Draw:(White,0,@M,@W,@H/2,,#00000015)
+				Draw:(White,[@W*0.25],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.5],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.75],0,1,@H,,#FFFFFFFF)
+			}}
+
+			M_Text:(generic_ENERGY,174,-10,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			
+		PopOrigin
+	}
+EndM
+
+Macro:(M_Footer_Request)
+	Rect:(@o,@T,@s,@H) ref:Root
+		float(%selectedOption)
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(generic_NO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			set(%disabled,%selectedOption = 2)
+			if(%selectedOption = 0)
+			<
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+				if(%clicked)
+				<
+					.set(%selectedOption,1)
+					.Message(message.btn_Option1)
+				>
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(generic_YES),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			set(%disabled,%selectedOption = 1)
+			if(%selectedOption = 0)
+			<
+				M_CTRLButtonExtra:(?BTNOK?,false)
+				if(%clicked)
+				<
+					.set(%selectedOption,2)
+					.Message(message.btn_Option2)
+				>
+			>
+	}}
+EndM
+
+//--------------------------------------------------------------------------REWARDED AD TEMPLATE
+Macro:(M_Body_RewardedAd)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(rewardedad_HEADER))
+	{
+		// Corner Upsell
+		Rect:() $HIDE ref:RetriesUpsell
+			.set(gel.y,581+[@z/2]-140)
+		{
+			Draw:(BannerFade_L,@f,20,@w,120,,#576D78FFFFFFFFFF)
+			Draw:(UpSell_BannerLines,@f+@w,102,1000+@y,19)
+				Handle(1,0)
+
+			M_Text:(upsell_RETRIES_HEADER,@s-240-100,50,0,0,R,C,TextLoc,BEBAS38,Upper,1,0,#FFFFFFFF,Italics,#FFFFFF00,ref)
+				CharacterSpacing(1)
+				Delay(0.3)
+				frlerp(gel.x,@s-240,0.15)
+				PulseAlpha(0.1,1,0.75,0.75)
+
+			M_Text:(upsell_RETRIES_INFO,@s-246-100,83,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,Italics,#FFFFFF00,ref)
+				Delay(0.5)
+				frlerp(gel.x,@s-246,0.15)
+				frlerp(gel.alpha,1,0.05)
+
+			// Pressable Upsell Image
+			Rect:(@s-126+300,32,220,220)
+				frlerp(gel.x,@s-126,0.15)
+				Press()
+				<
+					set(gel.scale,1.04)
+				>
+				else
+				<
+					frlerp(gel.scale,1,0.1)
+				>
+				Click(message.btn_Option2)
+				Handle(0.5,0.5)
+			{{
+				Draw:(UpSell_Retries,5,0,250,250)
+					Handle(0.5,0.5)
+			}}
+		}
+
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_RewardedAd)
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option2,ref,loc(generic_YES),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option1,ref,loc(generic_NO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+	}}
+EndM
+
+//-------------------------------------------------------------------------RELATIONSHIP TEMPLATE
+Macro:(M_MSG_RelationshipsBar,?CAT?,?TWK?)
+	Rect:(0,0,120,300) ref:Root
+		Handle(0.5,0.5)
+	{{
+		Rect:(@L,@T,@W,@H)
+		{{		
+			Rect:(@C,45) $HIDE ref:Bar_CardFace
+				Card_Face_HD(AssistantSlotMessage) ref:CardFace
+				Scale(0.5,0.5)
+				Handle(0.5,0.5)
+				
+
+			Rect:(@C,100) $HIDE ref:Bar_CharacterFace
+			{{
+				Draw:(Character_Reporter,0,0,300,300) ref:Bar_CharacterFace
+					Handle(0.5,0.5)
+			}}
+
+			M_Text:("Reporter",@C-100,-68,200,0,C,C,TextBox,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,Bar_Description)
+			M_CircularBarChange:(@C-60,160,?CAT?,?TWK?)
+		}}
+	}}
+EndM
+
+Macro:(M_Body_Relationships)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(statchange_RELATIONSHIPS))
+	{
+		// Hidden as the screen is cramped
+		//M_MessageHeader:()
+
+		M_CurrentTextTitle:(Positioned,100,85)
+
+		Rect:([@s/2],400) ref:BarsHook
+			ChildrenOffset(225+[@y/10],0) ref:Offset
+		{
+		}
+	}
+EndM
+
+Macro:(M_Footer_Relationships)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+// -----------------------------------------------------------------------------MEETING TEMPLATE
+Macro:(M_Body_Meeting)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(meeting_HEADER))
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+			Scale(0.9,0.9)
+		M_CurrentTextTitle:(Offset)
+
+		M_ConcernWheel:([@C-421]-@o-60,440,MeetingPerson,SelectionConcernsVal,Icon_Concern_Management)
+		M_ConcernWheel:([@C-140]-@o-60,440,MeetingPerson,DevelopmentConcernsVal,Icon_Concern_Development)
+		M_ConcernWheel:([@C+140]-@o-60,440,MeetingPerson,ContractConcernsVal,Icon_Concern_Contract)
+		M_ConcernWheel:([@C+421]-@o-60,440,MeetingPerson,FormConcernsVal,Icon_Concern_Form)
+	}
+EndM
+
+Macro:(M_Footer_Meeting)
+	Rect:() ref:Root
+		strvar(%hinttxt1,%hinttxt2,%hinttxt3,%hinttxt4)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_YButton)::"  ")
+			set(%hinttxt2,loc(settings_XButton)::"  ")
+			set(%hinttxt3,loc(settings_CANButton)::"  ")
+			set(%hinttxt4,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+			set(%hinttxt3,"")
+			set(%hinttxt4,"")
+		>
+	{
+		// Pre Minigame Buttons
+		Rect:()
+			set(gel.vis,twk(MeetingPerson,PostMinigame) = 0)
+		{
+			M_Button:(@C-421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option1,ref,loc(profile_player_CONCERNS_MANAGEMENT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt1)
+				M_CTRLButtonExtra:(Y,false)
+				set(%disabled,twk(MeetingPerson,SelectionConcernsVal) <= 10)
+				if(%clicked)
+				<
+					.set(twk(Message,State),"closing")
+				>
+
+			M_Button:(@C-140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option2,ref,loc(profile_player_CONCERNS_DEVELOPMENT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt2)
+				M_CTRLButtonExtra:(X,false)
+				set(%disabled,twk(MeetingPerson,DevelopmentConcernsVal) <= 10)
+				if(%clicked)
+				<
+					.set(twk(Message,State),"closing")
+				>
+
+			M_Button:(@C+140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option3,ref,loc(profile_player_CONCERNS_CONTRACT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt3)
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+				set(%disabled,twk(MeetingPerson,ContractConcernsVal) <= 10)
+				if(%clicked)
+				<
+					.set(twk(Message,State),"closing")
+				>
+
+			M_Button:(@C+421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option4,ref,loc(profile_player_CONCERNS_FORM),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt4)
+				M_CTRLButtonExtra:(?BTNOK?,false)
+				set(%disabled,twk(MeetingPerson,FormConcernsVal) <= 10)
+				if(%clicked)
+				<
+					.set(twk(Message,State),"closing")
+				>
+		}
+
+		Rect:()
+			set(gel.vis,twk(MeetingPerson,PostMinigame) = 1)
+		{
+			M_Buttons_Okay:()
+		}
+	}
+EndM
+
+//---------------------------------------------------------------NEW ASSISTANT OVERVIEW TEMPLATE
+Macro:(M_Body_Overview)
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(resume_HEADER))
+		:Post(UI_Swoosh)
+		float(%cycle)
+		set(%cycle,(%cycle+(FrameTime*0.15)) fmod 120)
+	{
+		// Corner Upsells
+		Rect:() $HIDE ref:CornerUpsellRoot
+			.set(gel.y,581+[@z/2]-140)
+		{
+			Draw:(BannerFade_L,@f,20,@w,120,,#576D78FFFFFFFFFF)
+			Draw:(UpSell_BannerLines,@f+@w,102,1000+@y,19)
+				Handle(1,0)
+
+			Rect:()
+			{
+				// Upsell Header
+				M_Text:(,@s-240-100,50,0,0,R,C,TextLoc,BEBAS38,Upper,1,0,#FFFFFFFF,Italics,#FFFFFF00,UpsellTitle)
+					CharacterSpacing(1)
+					Delay(0.3)
+					frlerp(gel.x,@s-240,0.15)
+					PulseAlpha(0.1,1,0.75,0.75)
+
+				// Upsell Info
+				M_Text:(,@s-246-100,83,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,Italics,#FFFFFF00,UpsellDescription)
+					Delay(0.5)
+					frlerp(gel.alpha,1,0.1)
+					frlerp(gel.x,@s-246,0.15)
+
+				// Pressable Upsell Image
+				Rect:(@s-126+300,32,220,220)
+					frlerp(gel.x,@s-126,0.15)
+					Press()
+					<
+						set(gel.scale,1.04)
+					>
+					else
+					<
+						frlerp(gel.scale,1,0.1)
+					>
+					Click(message.btn_Ok)
+					Handle(0.5,0.5)
+				{{
+					Draw:(UpSell_Cards_Energy,5,0,250,250) ref:UpsellImage
+						Handle(0.5,0.5)
+				}}
+
+			}
+		}
+
+
+		Rect:() ref:NonUpsellRoot
+		{
+			// Data page 1
+			Rect:(390,400,690+@y,1,,#FFFFFF00FFFFFFFF)
+				frlerp(gel.alpha,(%cycle < 60),0.1)
+			{{
+				Tile:(White,-10,-20,@W+20,1,,#0000001AFFFFFFFF)
+					Copies(1,5)
+					Spacing(0,40)
+
+				// Columns swapped for LTR
+				Rect:()
+				 .set(gel.vis,twk(Settings,UsingLTRText))
+				{
+					M_Text:(resume_POSITION,@R,0,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_CUPS,@R,40,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_NEXT,@R,80,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_WINDOW,@R,120,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,LeaguePosDesc)
+					M_Text:(,0,40,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,CupCompetitions)
+					M_Text:(,0,80,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,NextFixture)
+					M_Text:(,0,120,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,TransferWindowStatusInfo)
+				}
+
+				Rect:()
+				 .set(gel.vis,twk(Settings,UsingLTRText)=0)
+				{
+					M_Text:(resume_POSITION,0,0,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_CUPS,0,40,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_NEXT,0,80,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_WINDOW,0,120,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					M_Text:(,@R,0,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,LeaguePosDesc)
+					M_Text:(,@R,40,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,CupCompetitions)
+					M_Text:(,@R,80,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,NextFixture)
+					M_Text:(,@R,120,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,TransferWindowStatusInfo)
+				}
+
+			}}
+			
+
+			// Data page 2
+			Rect:(390,400,690+@y,1,,#FFFFFF00FFFFFFFF)
+				frlerp(gel.alpha,(60 < %cycle < 120),0.1)
+			{{
+				Tile:(White,-10,-20,@W+20,1,,#0000001AFFFFFFFF)
+					Copies(1,5)
+					Spacing(0,40)
+
+				// Columns swapped for LTR
+				Rect:()
+				 .set(gel.vis,twk(Settings,UsingLTRText))
+				{
+					M_Text:(resume_TOPSCORER,@R,0,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_MOSTASST,@R,40,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_INJURIES,@R,80,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_BANS,@R,120,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,TopScorers)
+					M_Text:(,0,40,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,MostAssists)
+					M_Text:(,0,80,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,Injuries)
+					M_Text:(,0,120,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,Bans)
+				}
+
+				Rect:()
+				 .set(gel.vis,twk(Settings,UsingLTRText)=0)
+				{
+					M_Text:(resume_TOPSCORER,0,0,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_MOSTASST,0,40,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_INJURIES,0,80,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(resume_BANS,0,120,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					M_Text:(,@R,0,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,TopScorers)
+					M_Text:(,@R,40,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,MostAssists)
+					M_Text:(,@R,80,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,Injuries)
+					M_Text:(,@R,120,0,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Overview,Bans)
+				}
+
+			}}
+		}
+
+		M_MessageHeader_Club:(,(twk(Player,TeamName)))
+		Draw:(White,@f,360,@w,2,,#DD1010FF)
+		M_AssistantFace:(AssistantSlotMessage,175,295)
+
+		M_Text:(,380,157,[742+@y],235,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref,Overview,Advice)
+			LineSpacing(1.1)
+	}
+EndM
+
+Macro:(M_Footer_Overview)
+	Rect:() ref:Root
+	{
+		Rect:() $HIDE ref:StandardButtons
+		{
+			M_Buttons_Okay:()
+		}
+
+		//Call to Action Buttons 
+		Rect:(@o,@T,@s,@H) $HIDE ref:CallToActionButtons
+			strvar(%ignoretxt,%okaytxt,%hinttxt1,%hinttxt2)
+			init(%ignoretxt,loc(resume_IGNORE))
+			if(twk(ControllerInput,Enabled) = 1)
+			<
+				set(%hinttxt1,loc(settings_CANButton)::"  ")
+				set(%hinttxt2,loc(settings_OKButton)::"  ")
+			>
+			else
+			<
+				set(%hinttxt1,"")
+				set(%hinttxt2,"")
+			>
+		{{
+			M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,IgnoreBtn,%ignoretxt,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,IgnoreButton,,,%hinttxt1)
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+			M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ObeyBtn,%okaytxt,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ObeyButton,,,%hinttxt2)
+				M_CTRLButtonExtra:(?BTNOK?,false)
+		}}
+	}
+EndM
+
+//--------------------------------------------------------------------SEASON FRIENDLIES TEMPLATE
+
+
+Macro:(M_Footer_SeasonFriendlies)
+	Rect:() ref:Root
+		float(%matchCount)
+		init(%matchCount,3)
+		strvar(%hinttxt1,%hinttxt2,%hinttxt3,%hinttxt4)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_YButton)::"  ")
+			set(%hinttxt2,loc(settings_XButton)::"  ")
+			set(%hinttxt3,loc(settings_CANButton)::"  ")
+			set(%hinttxt4,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+			set(%hinttxt3,"")
+			set(%hinttxt4,"")
+		>
+	{
+		M_Button:(@C-421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option1,ref,"0",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(Y,false)
+			if(%matchCount = 1)
+			<
+				set(gel.x,@C-140)
+			>
+			else
+			<
+				set(gel.x,@C-421)
+			>
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+
+		M_Button:(@C-140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option2,ref,"1",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(X,false)
+			set(gel.vis,%matchCount >= 1)
+			if(%matchCount = 1)
+			<
+				set(gel.x,@C+140)
+			>
+			else
+			<
+				set(gel.x,@C-140)
+			>
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+
+		M_Button:(@C+140,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option3,ref,"2",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt3)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			set(gel.vis,%matchCount >= 2)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+
+		M_Button:(@C+421,@B-33,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Option4,ref,"3",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt4)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			set(gel.vis,%matchCount >= 3)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+			>
+	}
+EndM
+
+//--------------------------------------------------------------------------NEWS REPORT TEMPLATE
+Macro:(M_Body_NewsReport)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_NewsReport)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+//-------------------------------------------------------------------------CONSTRUCTION TEMPLATE
+Macro:(M_Body_Construction)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_Construction)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+//------------------------------------------------------------------------EXTERNAL CLUB TEMPLATE
+Macro:(M_Body_ExternalClub)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_ExternalClub)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+	}
+EndM
+
+//-------------------------------------------------------------------------RATE THE APP TEMPLATE
+
+Macro:(M_Body_RateTheApp) 
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(rate_HEADER))
+		:Post(UI_Swoosh)
+	{
+		Draw:(FTUESimon,175,295,650,650)
+			Handle(0.5,0.5)
+		
+		Rect:(520,300)
+		{{
+			//Small Stars 
+			Draw:(Card_Star5,5,20,74,74)
+			Draw:(Card_Star3,10,25,64,64)
+			Draw:(Card_Star5,255,20,74,74)
+			Draw:(Card_Star3,260,25,64,64)
+			//Medium Stars
+			Draw:(Card_Star5,50,10,94,94)
+			Draw:(Card_Star3,55,15,84,84)
+			Draw:(Card_Star5,190,10,94,94)
+			Draw:(Card_Star3,195,15,84,84)
+			//Big Star
+			Draw:(Card_Star5,110,0,114,114)
+			Draw:(Card_Star3,115,5,104,104)
+		}}
+
+		M_Text:(RATE_THE_APP,380,47,[742+@y],235,L,C,TextBoxAtt,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+		M_Text:(RATE_THE_APP_DESC,380,217,[742+@y],0,L,T,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+			LineSpacing(1.1)
+
+		Rect:()
+				set(gel.vis,twk(RateAppConfig,DebugHints))
+		{
+			M_Text:(,380,70,[742+@y],235,L,C,TextBoxAtt,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+				.set(gel.text,"Reason: " :: twk(RateAppData,ActiveRequestReason))
+			// M_Text:(,10,85,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+		}
+	}
+EndM
+
+Macro:(M_Footer_RateTheApp)
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(rate_NOTNOW),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+		M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(rate_GO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//-------------------------------------------------------------------------NOTIFICATION TEMPLATE
+Macro:(M_Body_PushNotifications) 
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc("notifications_HEADER"))
+		:Post(UI_Swoosh)
+	{
+		Draw:(FTUESimon,175,295,650,650)
+			Handle(0.5,0.5)
+		M_Text:(PUSH_NOTIFICATIONS,380,87,[742+@y],235,L,C,TextBoxAtt,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+		M_Text:(PUSH_NOTIFICATIONS_DESC_SOON,380,197,[742+@y],235,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+			LineSpacing(1.1)
+	}
+EndM
+
+Macro:(M_Footer_PushNotifications) 
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,(loc("notifications_LATER")),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc("notifications_ENABLE"),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//------------------------------------------------------------------------ENERGY UPSELL TEMPLATE
+Macro:(M_Body_EnergyUpsell) 
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(upsell_NRG_MAINHEADER))
+		:Post(UI_Swoosh)
+	{
+		// Corner Upsell
+		Rect:()
+			.set(gel.y,581+[@z/2]-140)
+		{
+			Draw:(BannerFade_L,@f,20,@w,120,,#576D78FFFFFFFFFF)
+			Draw:(UpSell_BannerLines,@f+@w,102,1000+@y,19)
+				Handle(1,0)
+
+			M_Text:(upsell_NRG_HEADER,@s-240-100,50,0,0,R,C,TextLoc,BEBAS38,Upper,1,0,#FFFFFFFF,Italics,#FFFFFF00,UpsellTitle)
+				CharacterSpacing(1)
+				Delay(0.3)
+				frlerp(gel.x,@s-240,0.15)
+				PulseAlpha(0.1,1,0.75,0.75)
+
+			M_Text:(upsell_NRG_INFO,@s-246-100,83,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,Italics,#FFFFFF00,UpsellDescription)
+				Delay(0.5)
+				frlerp(gel.x,@s-246,0.15)
+				frlerp(gel.alpha,1,0.05)
+
+			// Pressable Upsell Image
+			Rect:(@s-126+300,32,220,220)
+				frlerp(gel.x,@s-126,0.15)
+				Press()
+				<
+					set(gel.scale,1.04)
+				>
+				else
+				<
+					frlerp(gel.scale,1,0.1)
+				>
+				Click(message.btn_Ok)
+				Handle(0.5,0.5)
+			{{
+				Draw:(UpSell_Cards_Energy,5,0,250,250) ref:UpsellImage
+					Handle(0.5,0.5)
+			}}
+		}
+
+		M_MessageHeader_Club:(,(twk(Player,TeamName)))
+		Draw:(FTUESimon,175,295,650,650)
+			Handle(0.5,0.5)
+		M_Text:(MSGINSTANT_ASSISTANT_LOWENERGY,380,197,[742+@y],235,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+	}
+EndM
+
+Macro:(M_Footer_EnergyUpsell) 
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(upsell_IGNORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(upsell_NRG_USE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//---------------------------------------------------------------TRANSFER WINDOW UPSELL TEMPLATE
+Macro:(M_Body_TransferWindowUpsell) 
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(upsell_WINDOW))
+		:Post(UI_Swoosh)
+	{
+		// Corner Upsell
+		Rect:()
+			.set(gel.y,581+[@z/2]-140)
+		{
+			Draw:(BannerFade_L,@f,20,@w,120,,#576D78FFFFFFFFFF)
+			Draw:(UpSell_BannerLines,@f+@w,102,1000+@y,19)
+				Handle(1,0)
+
+			M_Text:(upsell_CARDPACKS_HEADER,@s-240-100,50,0,0,R,C,TextLoc,BEBAS38,Upper,1,0,#FFFFFFFF,Italics,#FFFFFF00,UpsellTitle)
+				CharacterSpacing(1)
+				Delay(0.3)
+				frlerp(gel.x,@s-240,0.15)
+				PulseAlpha(0.1,1,0.75,0.75)
+
+			M_Text:(upsell_CARDPACKS_INFO,@s-246-100,83,0,0,R,C,TextLoc,KNUL25,,0,0,#00000000,Italics,#FFFFFF00,UpsellDescription)
+				Delay(0.5)
+				frlerp(gel.x,@s-246,0.15)
+				frlerp(gel.alpha,1,0.05)
+
+			// Pressable Upsell Image
+			Rect:(@s-126+300,32,220,220)
+				frlerp(gel.x,@s-126,0.15)
+				Press()
+				<
+					set(gel.scale,1.04)
+				>
+				else
+				<
+					frlerp(gel.scale,1,0.1)
+				>
+				Click(message.btn_Ok)
+				Handle(0.5,0.5)
+			{{
+				Draw:(UpSell_Pack_Players,5,0,250,250) ref:UpsellImage
+					Handle(0.5,0.5)
+			}}
+		}
+
+		M_MessageHeader_Club:(,(twk(Player,TeamName)))
+		Draw:(FTUESimon,175,295,650,650)
+			Handle(0.5,0.5)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_TransferWindowUpsell) 
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(upsell_IGNORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(adviceButton_GetPlayers),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//------------------------------------------------------------------------Fuse Consent Template
+Macro:(M_Body_FuseConsent) 
+	Rect:() ref:Root
+		.set(twk(Header,ScreenTitle),loc(Consent_HEADER))
+		:Post(UI_Swoosh)
+	{
+		Draw:(FTUESimon,175,295,650,650)
+			Handle(0.5,0.5)
+		M_Text:(Consent_TITLE,380,57,[742+@y],235,L,C,TextBoxAtt,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+		M_Text:(Consent_TEXT,380,207,[742+@y],235,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+			LineSpacing(1.1)
+	}
+EndM
+
+Macro:(M_Footer_FuseConsent) 
+	Rect:(@o,@T,@s,@H) ref:Root
+		float(%showno)
+		.set(%showno,0)
+		strvar(%hinttxt1,%hinttxt2,%hinttxt3)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_XButton)::"  ")
+			set(%hinttxt3,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+			set(%hinttxt3,"")
+		>
+	{{
+		M_Button:(@L+170,@B-33,280,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.null,ref,loc(Consent_DENY),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+				:Post(message.btn_Cancel)
+			>
+			set(gel.vis,%showno)
+
+		M_Button:(@R-470,@B-33,280,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.null,ref,loc(Consent_MORE_INFO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(X,false)
+			if(%clicked)
+			<
+				:Post(Fuse_Consent_Read)
+				set(%showno,1)
+			>
+
+		M_Button:(@R-170,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.null,ref,loc(Consent_YES),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt3)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+				:Post(message.btn_Ok)
+			>
+	}}
+EndM
+
+//------------------------------------------------------------------------ATT Consent Template
+
+Macro:(M_Body_SeasonFriendlies)
+    Rect:() ref:Root
+    {
+        M_MessageHeader_Club:(,(twk(Player,TeamName)))
+        M_MessageFace:(0,0,0,0)
+        M_CurrentTextTitle:(Offset)
+    }
+EndM
+
+Macro:(M_Body_ATTConsent)
+    Rect:() ref:Root
+        .set(twk(Header,ScreenTitle),loc(Consent_HEADER))
+        :Post(UI_Swoosh)
+    {
+        Draw:(FTUESimon,175,295,650,650)
+            Handle(0.5,0.5)
+        M_Text:(Consent_TITLE,380,22,[742+@y],235,L,C,TextBoxAtt,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+        M_Text:(,380,207,[742+@y],235,L,C,TextBoxAtt,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref)
+            set(gel.text,loc("Consent_TEXT_ATT_"::twk(Consent,ATTFlowScreen)))
+            LineSpacing(1.1)
+            // Note: If you want to change the font size, you're better off picking a smaller pre-existing font config (see Core_Fonts.uih), basically KNUL28, 25, etc...
+    }
+EndM
+
+
+
+Macro:(M_Button_ATT,?Index?,?Text?,?Msg?,?ButtStyle?) 
+	M_Button:(@R-170-(?Index?*(280+10)),@B-33,280,50,?ButtStyle?,,0,0,0,0,#FFFFFFFF,message.null,ref,loc(?Text?),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,)
+	if(%clicked)
+	<
+		:Post(?Msg?)
+	>
+EndM
+
+Macro:(M_Footer_ATTConsent)
+    Rect:(@o,@T,@s,@H) ref:Root
+    {{
+        Rect:()
+            // Info, Continue to game
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(6)))
+        {
+            // NOTE FOR CHRIS: If you wana rearange the buttons, just change the first number (0,1,2) on two of them
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_CONTINUE_TOGAME,privacy.btn_ContinueToGame,Button_GreenSliced)
+        }
+
+        Rect:()
+            // Allow Tracking (global), Info, Continue to game
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(5,3)))
+        {
+            M_Button_ATT:(2,Consent_ALLOW_TRACK_GLO,privacy.btn_AllowTrackGlobal,Button_GreenSliced)
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_CONTINUE_TOGAME,privacy.btn_ContinueToGame,Button_GreenSliced)
+        }
+
+        Rect:()
+            // Allow Tracking (app), Info, Continue to game
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(7)))
+        {
+            M_Button_ATT:(2,Consent_CONTINUE_TOGAME_M7,privacy.btn_ContinueToGame,Button_GreenSliced)
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_ALLOW_TRACK_APP,privacy.btn_AllowTrackApp,Button_GreenSliced)
+        }
+        
+        Rect:()
+            // Info, Continue to ATT
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(4)))
+        {
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_CONTINUE_TOATT,privacy.btn_ContinueToATT,Button_GreenSliced)
+        }
+        
+        Rect:()
+            // Continue to game, Info, Allow Tracking (app)
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(8)))
+        {
+            M_Button_ATT:(2,Consent_CONTINUE_TOPAUSE,privacy.btn_ContinueToGame,Button_GreenSliced)
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_MANAGE_TRACKING,privacy.btn_ManageTracking,Button_GreenSliced)
+        }
+        
+        Rect:()
+            // Allow Tracking (app), Info, Continue to game
+            set(gel.vis,(twk(Consent,ATTFlowScreen) oneof(9)))
+        {
+            M_Button_ATT:(2,Consent_MANAGE_TRACKING,privacy.btn_ManageTracking,Button_GreenSliced)
+            M_Button_ATT:(1,Consent_MORE_INFO,privacy.btn_MoreInfo,Button_GreenSliced)
+            M_Button_ATT:(0,Consent_CONTINUE_TOPAUSE,privacy.btn_ContinueToGame,Button_GreenSliced)
+        }
+
+      
+    }}
+EndM
+
+//--------------------------------------------------------------------------Relocate Template
+Macro:(M_Body_Relocate)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+
+Macro:(M_Footer_Relocate,?CANCELBUTTONCOL?,?CANCELBUTTONTEXT?,?OKAYBUTTONCOL?,?OKAYBUTTONTEXT?)
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_XButton)::"  ")
+			set(%hinttxt2,loc(settings_YButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_?CANCELBUTTONCOL?Sliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,?CANCELBUTTONTEXT?,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(X,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_?OKAYBUTTONCOL?Sliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,?OKAYBUTTONTEXT?,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(Y,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//--------------------------------------------------------------------------Remove Ads Upsell Template
+Macro:(M_Body_RemoveAdsUpsell)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_RemoveAdsUpsell)
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(message_button_PURCHASE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM
+
+//--------------------------------------------------------------------------Force Update Template
+Macro:(M_Body_ForceUpdate)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+
+Macro:(M_Footer_ForceUpdate)
+	Rect:() ref:Root
+	{
+		M_Buttons_Okay:()
+
+		Rect:()
+			if(twk(Message,State) = "closing")
+			<
+				set(twk(Message,State),"")
+			>
+	}
+EndM
+
+//--------------------------------------------------------------------------Force Update Template
+Macro:(M_Body_MustFinishDownload)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+
+Macro:(M_Footer_MustFinishDownload)
+	Rect:() ref:Root
+	{
+		M_Text:(,@R,@B-10,0,0,R,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+		if(twk(EconomyBalance,Cohort) = "")
+		<
+			:set(gel.text,loc(options_BUILD) :: (LTR(twk(Settings,VersionNumber) :: "_" :: twk(Cloud,CohortTag) :: "_" :: twk(CloudCache,Cohort)   )))
+		>
+		else
+		<
+			:set(gel.text,loc(options_BUILD) :: (LTR(twk(Settings,VersionNumber) :: ".12" :: "_" :: twk(EconomyBalance,Cohort))))
+		>
+
+		Rect:()
+			if(twk(Message,State) = "closing")
+			<
+				set(twk(Message,State),"")
+			>
+	}
+EndM
+
+//---------------------------------------------------------------------------------Transfer Offer TEMPLATE
+Macro:(M_Body_TransferOffer)
+	Rect:() ref:Root
+	{
+		M_MessageHeader:()
+		M_MessageFace:(0,0,0,0)
+		M_CurrentTextTitle:(Offset)
+	}
+EndM
+
+Macro:(M_Footer_TransferOffer)
+	Rect:(@o,@T,@s,@H) ref:Root
+		strvar(%hinttxt1,%hinttxt2)
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			set(%hinttxt1,loc(settings_CANButton)::"  ")
+			set(%hinttxt2,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt1,"")
+			set(%hinttxt2,"")
+		>
+	{{
+		M_Button:(@L+120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,message.btn_Cancel,ref,loc(IGNORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt1)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,0)
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,message.btn_Ok,ref,loc(transfer_CHECK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt2)
+			M_CTRLButtonExtra:(?BTNOK?,false)
+			if(%clicked)
+			<
+				.set(twk(Message,State),"closing")
+				.set(%action,1)
+			>
+	}}
+EndM

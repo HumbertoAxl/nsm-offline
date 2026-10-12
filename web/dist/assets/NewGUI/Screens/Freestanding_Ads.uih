@@ -1,0 +1,425 @@
+//-------------------------------------------------------Meshes
+StaticModel:(Ad_Freestanding_A,Ad_Freestanding_A)
+StaticModel:(Ad_Freestanding_B,Ad_Freestanding_B)
+StaticModel:(Ad_Freestanding_BE,Ad_Freestanding_BE)
+StaticModel:(Ad_Freestanding_SN,Ad_Freestanding_SN)
+StaticModel:(Ad_Freestanding_SE,Ad_Freestanding_SE)
+
+##P4N
+Texture:(FreestandingAd_Beam,Construction/FreestandingAd_Beam.nspng)
+StaticModel:(Ad_Freestanding_Light,HIGH DETAIL/Ad_Freestanding_Light.3DMH)
+##*
+
+StaticModel:(Traffic_Light,Traffic_Light)
+StaticModel:(Traffic_Light_S,Traffic_Light_S)
+
+//----------------------------------------------------------------------------Macros
+Macro:(M_ChooseFreestandingContents,?SLOT?,?DEFAULT?)
+	Rect:()
+		.if((twk(Club,SpecialEffect) = 1) and(twk(Club,DisabledSponsor) = ?SLOT?))
+			<
+				//	This slot scheduled for a special effect sponsor, so one of the 2 in valid range. E.g: Sponsor_56
+				set(twk(Club,Freestanding?SLOT?Content), "Sponsor_" :: fmt(rand(56,57),X))
+			>
+			else
+			<
+				//	Normal player sponsor slot
+				if(twk(Club,HasSponsor?SLOT?))
+				<
+					// If we have a sponsor use it.
+					set(twk(Club,Freestanding?SLOT?Content), "Sponsor_" :: twk(Club,Sponsor?SLOT?Id))
+				>
+				else
+				<
+					//	Or mark as Fallback if we have nothing in here
+					if(?DEFAULT?="")
+					<
+						set(twk(Club,Freestanding?SLOT?Content), "Fallback")
+					>
+					else
+					<
+						set(twk(Club,Freestanding?SLOT?Content), ?DEFAULT?)
+					>
+				>
+			>
+EndM
+
+Macro:(M_ChooseAllFreestandingContents)
+	Rect:()
+	{{
+		M_ChooseFreestandingContents:(1,Sponsor_9)
+		M_ChooseFreestandingContents:(2,Sponsor_16)
+		M_ChooseFreestandingContents:(3,Sponsor_1)
+	}}
+EndM
+
+//-------------------------------------------------------Anims
+Animation:(1800,Loop) ref:FresstandingAdsAnim
+{
+	//Ad1 ON
+	During:(0,600)
+	{
+		//Ad 1
+		Rect:(0,0,256,128,#FFFFFFFFFFFFFFFF)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding1Content))
+				
+		}}
+	}
+	//Ad1 to Ad2 transition
+	During:(601,700)
+	{
+		//Ad1
+		Rect:(0,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding1Content))
+				
+		}}
+			
+
+		//Ad2
+		Rect:(256,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding2Content))
+				
+		}}
+	}
+	
+	//Ad2 on
+	During:(701,1300)
+	{
+		Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+			set(gel.img, twk(Club,Freestanding2Content))
+	}
+
+	//Ad2 to Ad3 transition
+	During:(1301,1399)
+	{
+		//Ad2
+		Rect:(0,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding2Content))
+		}}
+		
+		//Ad3
+		Rect:(256,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding3Content))
+		}}
+	}
+
+	//Ad3 on
+	During:(1400,1700)
+	{
+		Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+			set(gel.img, twk(Club,Freestanding3Content))
+	}
+
+	//Ad3 to Ad1 transition
+	During:(1701,1799)
+	{
+		//Ad3
+		Rect:(0,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding3Content))
+		}}
+
+		
+		Rect:(256,0,256,128,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,0,0,256,128,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Freestanding1Content))
+		}}
+	}
+} 
+
+
+//-------------------------------------------------------Surfaces
+
+Surf:($FreestandingAd,256,128)
+
+View:($FreestandingAd,256,128)
+{
+	Sheet:() 
+	{
+		Cls:(#DDDDDDFF)
+		//Ad
+		AnimInstance:(0,0,FresstandingAdsAnim)
+	}
+}
+
+
+
+//-------------------------------------------------------Macros
+
+
+//----------------------------NSM World Freestanding Ads
+Macro:(M_FreestandingAds,?SCALE?)
+
+	Locator:((0,0,0),(0,0,0),(?SCALE?,?SCALE?,?SCALE?))
+	{
+		
+
+		UseShader:(ProjectedLight3DVCol)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+			Layer(Ground)	
+		{
+
+			//AC: Batching up all shadows that are drawn no matter what
+			UseShader:(Simple3DNZW)
+				Layer(Shadows)
+			{
+				Batch:(FreestandingAdShadows)
+					Blend(ONE,INV_IMAGE_ALPHA)
+				{
+					// south of club shop
+					Locator:((-6500,-5600,0),(0,0,0),(1,1,1))
+					{
+						DrawStaticModel:(Ad_Freestanding_SN,Construction_Sheet01)
+					}
+					// north of stadium
+					Locator:((-1800,5500,0),(0,0,0),(1,1,1))
+					{
+						DrawStaticModel:(Ad_Freestanding_SN,Construction_Sheet01)		
+					}
+					// north west roundabout		
+					Locator:((20000,-7600,0),(0,0,90),(1,1,1))
+					{
+						DrawStaticModel:(Ad_Freestanding_SE,Construction_Sheet01)
+					}
+					//North EAST roundabout
+					Locator:((19800,12000,0),(0,0,90),(1,1,1))
+					{
+						DrawStaticModel:(Ad_Freestanding_SE,Construction_Sheet01)						
+					}
+					//North of Fitness
+					Locator:((5500,18200,0),(0,0,90),(1,1,1))
+					{
+						DrawStaticModel:(Ad_Freestanding_SE,Construction_Sheet01)						
+					}
+				}
+			}
+		
+
+			Rect:()
+			 set(gel.vis,twk(Facilities,ClubShopLevel) > 4 or(twk(Facilities,ClubShopLevelPreview) > 4))
+			{
+				//If club shop T5
+				Locator:((2200,-7000,0),(0,0,90),(1,1,1))
+				if((twk(Facilities,ClubShopLevel) =6) or(twk(Facilities,ClubShopLevelPreview) =6))
+				<
+					set(gel3d.x,4200)
+				>
+				else
+				<
+					set(gel3d.x,2200)
+				>
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						DrawStaticModel:(Ad_Freestanding_SE,Construction_Sheet01)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+					
+					DrawStaticModel:(Ad_Freestanding_BE,Construction_Sheet01)
+						M_TextureSelect:()
+
+					##P4N
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						set(gel.vis,twk(Facilities,Night) =1)
+					##*				
+				}
+			}
+			Rect:()
+			 set(gel.vis,twk(Facilities,ClubShopLevelVisible) =6)
+			{
+				//If club shop T6
+				Locator:((4200,-8300,0),(0,0,90),(1,1,1))
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						DrawStaticModel:(Ad_Freestanding_SE,Construction_Sheet01)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+					DrawStaticModel:(Ad_Freestanding_BE,Construction_Sheet01)
+						M_TextureSelect:()
+
+					##P4N
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						set(gel.vis,twk(Facilities,Night) =1)
+					##*		
+				}
+			}
+			
+			Batch:(FreestandingAdFronts)
+			{
+				//South of ClubShop
+				Locator:((-6500,-5600,0),(0,0,0),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+				}
+				//North of Stadium
+				Locator:((-1800,5500,0),(0,0,180),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+				}
+				//North WEST roundabout
+				Locator:((20000,-7600,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+				}
+				//North EAST roundabout
+				Locator:((19650,12000,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+				}
+				//North of Fitness
+				Locator:((5500,18200,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)
+				}
+			}
+
+			Batch:(FreestandingAdBacks)
+				M_TextureSelect:(Construction_Sheet01)
+			{
+				//South of ClubShop
+				Locator:((-6500,-5600,0),(0,0,0),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_B,Construction_Sheet01)
+						//M_TextureSelect:()
+				}
+
+
+				//North of Stadium
+				Locator:((-1800,5500,0),(0,0,180),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_B,Construction_Sheet01)
+						//M_TextureSelect:()
+				}
+				//North WEST roundabout
+				Locator:((20000,-7600,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_BE,Construction_Sheet01)
+						//M_TextureSelect:()
+				}
+
+				//North EAST roundabout
+				Locator:((19650,12000,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_BE,Construction_Sheet01)
+						//M_TextureSelect:()
+				}
+				//North of Fitness
+				Locator:((5500,18200,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_BE,Construction_Sheet01)
+						//M_TextureSelect:()
+				}
+			}
+
+			##P4N
+			Rect:()
+				set(gel.vis,twk(Facilities,Night) =1)
+			{
+				//South of ClubShop
+				Locator:((-6500,-5600,0),(0,0,0),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//North of Stadium
+				Locator:((-1800,5500,0),(0,0,180),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//North WEST roundabout
+				Locator:((20000,-7600,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//North EAST roundabout
+				Locator:((19650,12000,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//North of Fitness
+				Locator:((5500,18200,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+			}
+			##*
+
+
+			//If Training Ground T5 or T6
+			 Rect:()
+			 	set(gel.vis,twk(Facilities,TrainingGroundLevelVisible) oneof(5,6))
+			{
+				Locator:((8220,-8050,0),(0,0,0),(1,1,1))
+				{
+
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						DrawStaticModel:(Ad_Freestanding_SN,Construction_Sheet01)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+
+					DrawStaticModel:(Ad_Freestanding_A,$FreestandingAd)	
+					DrawStaticModel:(Ad_Freestanding_B,Construction_Sheet01)
+						M_TextureSelect:()
+
+					##P4N
+					DrawStaticModel:(Ad_Freestanding_Light,FreestandingAd_Beam)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						set(gel.vis,twk(Facilities,Night) =1)
+					##*	
+				}
+			}
+		}
+
+	}
+	
+EndM
+
+
+
+
+
+//----------------------------NSM World Traffic Lights
+Macro:(M_TrafficLights,?SCALE?)
+	Locator:((0,0,0),(0,0,-90),(?SCALE?,?SCALE?,?SCALE?))
+		Layer(OneBit)	
+	{
+		UseShader:(ProjectedLight3DVColOneBit)
+			{
+			DrawStaticModel:(Traffic_Light,Construction_Sheet01)
+
+			DrawStaticModel:(Traffic_Light_S,Construction_Sheet01)
+				Blend(ONE,INV_IMAGE_ALPHA)
+		}
+	}
+EndM

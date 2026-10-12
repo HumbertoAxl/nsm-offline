@@ -1,0 +1,103 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Footer_BG,NewGUI/UI/Footer/Footer_BG.png)
+
+Img:(FTUEHighlight,NewGUI/UI/FTUE_Highlight.png)
+Img:(SpeechAngle,NewGUI/UI/Ftue/Speech_Angle.png)
+//---------------------------------------------------------------------------------------------SETUP
+
+Rect:()
+	set(gel.vis,(twk(Ftue,Enabled)) and(twk(Debug,Enabled)))
+{
+	M_Text:(,@L,@T+100,0,0,L,T,Text,KNUL25,,2,2,#000000FF,NoItalics,#FFFFFFFF,ref)
+		set(gel.text,"FTUE: " :: twk(Ftue,Step))
+
+	M_Text:(,@L,@T+130,0,0,L,T,Text,KNUL25,,2,2,#000000FF,NoItalics,#FFFFFFFF,ref)
+		set(gel.text,"Last Click Message: " :: twk(System,LastClickMessage))
+}
+
+Rect:(@C,@M,0,0) ref:DummyCTRLSelect
+	if(twk(Ftue,Enabled) and(twk(Ftue,Step)>1) and(shell(Settings) = ""))
+	<
+		CTRLSelect(CTRLBlank,,,,,,true)
+	>
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(ftue_Macros.uih)
+Import:(Context_HintMacros.uih)
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+//JF: We have to use a different Rearm for FTUE stuff (so that its not rearmed by Settings screen).
+//JF: These floats and tweaks tell FtueRearmable() when to rearm.
+Rect:()
+	float(%lastStep,%lastTrainingStep)
+	if(twk(Ftue,Enabled))
+	<
+		:set(%lastStep,-1)
+		:set(%lastTrainingStep,-1)
+	>
+	set(twk(Ftue,ChangedStep),%lastStep != twk(Ftue,Step))
+	set(twk(Ftue,ChangedTrainingStep),%lastTrainingStep != twk(Ftue,TrainingStep))
+	set(%lastStep,twk(Ftue,Step))
+	set(%lastTrainingStep,twk(Ftue,TrainingStep))
+
+// FtueStep Parent
+Rect:() ref:FtueStep
+	selectchild([twk(Ftue,Step)-1])
+	if(twk(Ftue,Enabled) and(shell(Settings) = ""))
+	<
+		:set(gel.vis,1)
+	>
+	else
+	<
+		:set(gel.vis,0)
+	>
+{
+	Import:(ftue_Defs.uih)
+}
+
+Rect:() ref:FtueStepTraining
+	selectchild([twk(Ftue,TrainingStep)-1])
+	if(twk(Ftue,TrainingEnabled) and(shell(Settings) = ""))
+	<
+		:set(gel.vis,1)
+	>
+	else
+	<
+		:set(gel.vis,0)
+	>
+{
+	Import:(ftue_TrainingDefs.uih)
+}
+
+// Extra logic
+Rect:()
+	if(twk(Ftue,Enabled))
+	<
+		strvar(%gamescreen)
+		set(%gamescreen,shell(GameScreen))
+		if(%gamescreen = "home")
+		<
+			// Hide the Header and Footer shells on the home screen
+			if(twk(Ftue,Step) oneof(0,1,2))
+			<
+				:ShowShell(CommonUI,0)
+				:ShowShell(SideMenu,0)
+				:ShowShell(Ticker,0)
+			>
+		>
+		if(%gamescreen = "setup")
+		<
+			// Reinstate the Header and Footer shells on the setup screen
+			:ShowShell(CommonUI,1)
+			:ShowShell(SideMenu,1)
+			:ShowShell(Ticker,1)
+		>
+	>
+
+// Post FTUE Tutorials
+Import:(Context_HintDefs.uih)

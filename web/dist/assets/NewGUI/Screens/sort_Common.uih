@@ -1,0 +1,106 @@
+Define:(?SORT_SELECTIONNUMBER?=25)
+Define:(?SORT_NAME?=2)
+Define:(?SORT_RATING?=6)
+Define:(?SORT_ENERGY?=50)
+Define:(?SORT_HAPPINESS?=51)
+Define:(?SORT_AGE?=52)
+Define:(?SORT_CONTRACT?=53)
+Define:(?SORT_VALUE?=10)
+Define:(?SORT_SIGNINGPRICE?=331)
+Define:(?SORT_INJURED?=54)
+Define:(?SORT_BANNED?=55)
+Define:(?SORT_POTENTIAL?=56)
+Define:(?SORT_CLUBID?=37)
+Define:(?SORT_CLUBTLA?=38)
+
+Define:(?SORT_STAT_APPS?=200)
+Define:(?SORT_STAT_SUBS?=205)
+Define:(?SORT_STAT_GOALS?=201)
+Define:(?SORT_STAT_ASSISTS?=202)
+Define:(?SORT_STAT_YCARDS?=203)
+Define:(?SORT_STAT_RCARDS?=204)
+Define:(?SORT_STAT_AVERAGERATING?=206)
+
+Define:(?SORT_SKILL_STRENGTH?=104)
+Define:(?SORT_SKILL_TACKLING?=100)
+Define:(?SORT_SKILL_TECHNIQUE?=101)
+Define:(?SORT_SKILL_DRIBBLING?=102)
+Define:(?SORT_SKILL_PACE?=103)
+Define:(?SORT_SKILL_TRAIT?=105)
+
+Define:(?SORT_CONCERN_SELECTION?=300)
+Define:(?SORT_CONCERN_TRAINING?=301)
+Define:(?SORT_CONCERN_CONTRACT?=302)
+Define:(?SORT_CONCERN_FORM?=303)
+
+Define:(?SORT_STAFFSKILL_TRAINING?=320)
+Define:(?SORT_STAFFSKILL_FITNESS?=321)
+Define:(?SORT_STAFFSKILL_YOUTH?=322)
+Define:(?SORT_STAFFSKILL_PHYSIO?=323)
+Define:(?SORT_STAFFSKILL_SCOUT?=324)
+
+Define:(?NOSORT?=-1)
+Define:(?SORT_ASCENDING?=0)
+Define:(?SORT_DESCENDING?=1)
+
+// ONLINE
+Define:(?SORT_ONLINE_POS?=501)
+Define:(?SORT_ONLINE_TEAM?=502)
+Define:(?SORT_ONLINE_POINTS_PLD?=503)
+Define:(?SORT_ONLINE_POINTS_W?=504)
+Define:(?SORT_ONLINE_POINTS_D?=505)
+Define:(?SORT_ONLINE_POINTS_L?=506)
+Define:(?SORT_ONLINE_POINTS_GF?=507)
+Define:(?SORT_ONLINE_POINTS_GA?=508)
+Define:(?SORT_ONLINE_POINTS_GD?=509)
+Define:(?SORT_ONLINE_POINTS_POINTS?=510)
+Define:(?SORT_ONLINE_POINTS_FORM?=511)
+
+Define:(?SORT_ONLINE_FINANCIAL_FACILITIES?=512)
+Define:(?SORT_ONLINE_FINANCIAL_SQUAD?=513)
+Define:(?SORT_ONLINE_FINANCIAL_STAFF?=514)
+Define:(?SORT_ONLINE_FINANCIAL_CARDS?=515)
+Define:(?SORT_ONLINE_FINANCIAL_CASH?=516)
+Define:(?SORT_ONLINE_FINANCIAL_TOTAL?=517)
+
+
+Macro:(M_SortIndicator,?X?,?Y?,?W?,?H?,?TYPE?,?TEXT?,?TX?,?TY?,?ALIGN?,?TWKCAT?,?CONTEXT?,?SORT_DIRECTION?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(?CONTEXT?.btn_Sort,?TYPE?::"|"::?SORT_DIRECTION?)
+		>
+		If:(?TYPE? != ?NOSORT?)
+			Click()
+			<
+				call(ClickFunc)
+			>
+			M_CTRLCellExtra:(?BTNOK?,true,CTRLSquareSelected,0,0,0,0)
+		EndIf
+		
+
+	{{
+		Draw:(White,0,0,@W+1,40,#FFFFFF00)
+			Additive()
+			if(%pressed)
+			<
+				frlerp(gel.alpha,0.15,0.25)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		Draw:(White,0,3,1,34,,#999999FFFFFFFFFF)
+		Draw:(White,@R,3,1,34,,#999999FFFFFFFFFF)
+
+		M_Text:(?TEXT?,?TX?,?TY?,@W,@H,?ALIGN?,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			set(gel.vis,twk(?TWKCAT?,SortingBy) != ?TYPE?)
+			M_Style:(Outline,#FFFFFF20)
+		M_Text:(?TEXT?,?TX?,?TY?,@W,@H,?ALIGN?,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFD800FF,ref)
+			set(gel.vis,twk(?TWKCAT?,SortingBy) = ?TYPE?)
+			M_Style:(Outline,#FFD80020)
+	}}
+EndM

@@ -1,0 +1,8 @@
+Rect:(@L,@T,@W,@H)
+	if(twk(ScreenTransition,Active))
+	<
+		Click()
+		Grab()
+		Press()
+		CTRLGlobalBlockExcept()
+	>

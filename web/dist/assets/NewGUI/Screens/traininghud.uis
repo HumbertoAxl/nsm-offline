@@ -1,0 +1,52 @@
+Import:(Core.uih)
+
+
+//---------------------------------------------------------------------------------------
+// ------------------------------- TRAINING ---------------------------------------------
+//---------------------------------------------------------------------------------------
+Macro:(M_TrainingAttempt,?INDEX?,?X?)
+	Rect:()
+	{
+		Draw:(Circle_50,?X?,0,70,70)
+			set(gel.vis,twk(TrainingHUD,Attempt?INDEX?State)=0)
+		Draw:(Circle_50,?X?,0,70,70,,#FF0000FF)
+			set(gel.vis,twk(TrainingHUD,Attempt?INDEX?State)=-1)
+		Draw:(Circle_50,?X?,0,70,70,,#00FF00FF)
+			set(gel.vis,twk(TrainingHUD,Attempt?INDEX?State)=1)
+	}
+		set(gel.vis,twk(TrainingHUD,MaxAttempts)>=?INDEX?)	
+EndM
+
+Rect:()
+{
+
+	// ----------------------- Time Limit
+	Rect:(@R-60,@T+60,100,100) ref:TimeLimit
+		set(gel.vis,twk(TrainingHUD,TimeLimit) > 0)
+		Handle(0.5,0.5)
+	{{
+		M_Text:("10",@L,@T,@W,@H,C,C,Text,KNUL64,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			set(gel.text,twk(TrainingHUD,TimeLimit))
+	}}
+		float(%lastTime)
+		.set(%lastTime,twk(TrainingHUD,TimeLimit))
+		if(%lastTime != twk(TrainingHUD,TimeLimit))
+		<
+			:set(gel.scalex,1.4)
+			:set(gel.scaley,1.4)
+		>
+		set(%lastTime,twk(TrainingHUD,TimeLimit))
+		frlerp(gel.scalex,0.7,0.02)
+		frlerp(gel.scaley,0.7,0.02)
+
+
+	// ----------------------- Attempts
+	M_TrainingAttempt:(1,0)
+	M_TrainingAttempt:(2,80)
+	M_TrainingAttempt:(3,160)
+
+	// ----------------------- Passes Required
+	Text:("0",@L,80,100,50,C)	
+		set(gel.text,twk(TrainingHUD,PassesMade)::"/"::twk(TrainingHUD,PassesRequired))
+		set(gel.vis,twk(TrainingHUD,PassesRequired)>0) 
+}

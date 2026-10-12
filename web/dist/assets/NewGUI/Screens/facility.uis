@@ -1,0 +1,541 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Facility_Rosette,NewGUI/UI/Icons/Facility_Rosette.png)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.Message(facility.btn_Preview,twk(FacilityUpgrade,FacilityCurrentLevel))
+	.set(twk(FacilityView,Rotated),0)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//----------------------------------------------------------------------------------------TEAMPLATES
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_FacilitySetCamPos,?POSX?,?POSY?,?TEXT?,?CAT?,?VAR?,?SA?)
+	Draw:(White,?POSX?,?POSY?,80,60)
+	{{
+		Text:(?TEXT?,@C,@M,0,0,,,#000000FF)
+		FontSize(2)
+		Italicise(0)
+		FontShadow(0,0)
+		FontScale(0.6,0.6)
+
+		Text:(,@C,@M+15,0,0,,,#666060FF)
+		FontSize(2)
+		Italicise(0)
+		FontShadow(0,0)
+		FontScale(0.6,0.6)
+		Readout(?CAT?,?VAR?)
+	}}
+		float(%r,%t)
+		add(%t,FrameTime)
+		add(%r,0.08)
+		Press()
+		<
+		    .:set(%r,0)
+		    .add(twk(?CAT?,?VAR?),?SA?)
+		    .:Delay(0.5)
+		    if(%t > max(1,[15-%r]))
+		    <
+	            add(twk(?CAT?,?VAR?),?SA?)
+	            :set(%t,0)
+		    >
+		>
+EndM
+
+Macro:(M_StandSelectionButton,?POSX?,?POSY?,?VAL?,?CX?,?TRIX?,?REF?)
+	Draw:(White,?POSX?,?POSY?,90,30,,#E8E8E8FF) ref:?REF?
+		Handle(0.5,0.5)
+	Draw:(Fade_Right,?POSX?-45,?POSY?-15,75,30,,#40404550)
+
+	Rect:(?POSX?,?POSY?,100,55)
+		Handle(0.5,0.5)
+		.set(gel.scale,0.9)
+		Press()
+		<
+			frlerp(gel.scale,1.1,0.3)
+		>
+		CTRLPress(?REF?,false)
+		<
+			frlerp(gel.scale,1.1,0.3)
+		>
+		else
+		<
+			frlerp(gel.scale,0.9,0.3)
+		>	
+	{{
+		Rect:(?TRIX?,0,25,25)
+		{{
+			Clip:(?CX?,-25,60,60)
+			{
+				Draw:(White,0,0,20,20,45,#252525FF)
+					Handle(0.5,0.5)	
+			}	
+		}}
+			
+	}}
+		Click(facility.cancel_Preview)
+		<
+			add(twk(Home,CameraMode),?VAL?)
+			
+			if(twk(Home,CameraMode) >10)
+			<
+			 	set(twk(Home,CameraMode),2)
+			>
+			if(twk(Home,CameraMode) <2)
+			<
+			 	set(twk(Home,CameraMode),10)
+			>
+			if(twk(Home,CameraMode) oneof(3,5,7,9))
+			<
+				:set(twk(FacilityView,Focused),"PitchCorners")
+			 	:Post(home.btn_Build,"PitchCorners")
+			>
+			elif(twk(Home,CameraMode) = 10)
+			<
+				:set(twk(FacilityView,Focused),"Pitch")
+			 	:Post(home.btn_Build,"Pitch")
+			>
+			elif(twk(Home,CameraMode) = 2)
+			<
+				:set(twk(FacilityView,Focused),"PitchStandS")
+			 	:Post(home.btn_Build,"PitchStandS")
+			>
+			elif(twk(Home,CameraMode) = 4)
+			<
+				:set(twk(FacilityView,Focused),"PitchStandW")
+			 	:Post(home.btn_Build,"PitchStandS")
+			>
+			elif(twk(Home,CameraMode) = 6)
+			<
+				:set(twk(FacilityView,Focused),"PitchStandN")
+			 	:Post(home.btn_Build,"PitchStandN")
+			>
+			elif(twk(Home,CameraMode) = 8)
+			<
+				:set(twk(FacilityView,Focused),"PitchStandE")
+			 	:Post(home.btn_Build,"PitchStandE")
+			>>>>>>
+
+			:Post(UI_Select)
+			:Post(UI_Swoosh)
+		>
+EndM
+
+Macro:(M_UpgradePanel,?ID?)
+	Rect:(0,0,305,218,,#FFFFFFFFFFFFFFFF) ref:UpgradePanel?ID?
+		Layer(Text)
+		Handle(0.5,1)
+		if(%listElement = [?ID?-1])
+		<
+			:set(twk(FacilityUpgrade,SelectedUpgradePanel),[%listElement+1])
+			if(?ID? >= twk(FacilityUpgrade,FacilityCurrentLevel))
+			<
+				:Message(facility.btn_Preview,?ID?)
+			>
+			frlerp(gel.scale,twk(FacilityUpgrade,SelectedScale),0.1)
+		>
+		else
+		<
+			frlerp(gel.scale,twk(FacilityUpgrade,UnselectedScale),0.1)
+		>
+	{{
+		Rect:(@L,@T,@W,@H) ref:Upgrade?ID?
+			CTRLSelect(CTRLBasicSelected,0,0,6,6)
+			float(%selected)
+			strvar(%hinttxt)
+			CTRLIsSelected()
+			<
+				set(%selected,1)
+				set(%hinttxt,loc(settings_OKButton)::"  ")
+			>
+			else
+			<
+				set(%selected,0)
+				set(%hinttxt,"")
+			>
+
+			If:(?ID?=1)
+				CTRLBlock(LEFT)
+			EndIf
+			If:(?ID?=3)
+				if(twk(FacilityUpgrade,FacilityType) ="PitchCorners")
+				<
+					CTRLBlock(RIGHT)
+				>
+			EndIf
+			If:(?ID?=6)
+				CTRLBlock(RIGHT)
+			EndIf
+			if(%lastFacilityType != twk(FacilityUpgrade,FacilityType))
+			<
+				if(twk(FacilityUpgrade,FacilityCurrentLevel)=?ID? or(twk(FacilityUpgrade,FacilityCurrentLevel) = 0 and(?ID?=1)))
+				<
+					:CTRLSetSelected()
+				>
+			>
+			CTRLPress(UP)
+			<
+				CTRLSetSelected(FacilityNextButton)
+			>
+		{{
+			
+			Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+			Draw:(FloorShadow,-12,@B-2,@W+24,11)
+			Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+			Clip:(0,0,@W+1,@H)
+			{
+				Draw:(NewStarShape,-2,-2,306,,,#C5C5C560FFFFFFFF)
+					//Current
+					if(twk(FacilityUpgrade,FacilityCurrentLevel) =?ID?)
+					<
+						set(gel.colour,#FF9C0030)
+					>
+					//Locked
+					if(twk(FacilityUpgrade,FacilityCurrentLevel) !=?ID?)
+					<
+						set(gel.colour,#FF001015)
+					>	
+					//Owned
+					if(twk(FacilityUpgrade,FacilityCurrentLevel) >?ID?)
+					<
+						set(gel.colour,#25252515)
+					>
+					//Available to build
+					if([twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID? and(twk(FacilityUpgrade,LockedFromConstruction) = 0) and(twk(FacilityUpgrade,UpgradeLockDescLvl?ID?) = ""))
+					<
+						set(gel.colour,#00D00015)
+					>			
+			}
+
+			Draw:(Header_Hexagons,-1,0,@W+2,34)
+				
+			// Level Number
+			M_Text:("Level ?ID?",10,0,400,35,L,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				.set(gel.text,loc(build_LEVEL) :: " " :: ?ID?)
+
+			// Description text
+			M_Text:("+1 Coach|Generate Fitness Cards",10,95,@W-20,0,C,C,TextBox,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				set(gel.text,twk(FacilityUpgrade,FacilityUpgradedDescLvl?ID?))
+
+			// Price
+			M_Text:(,@R-10,0,0,35,R,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.vis,[twk(FacilityUpgrade,FacilityCurrentLevel)+1] < ?ID? or([twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID? and(twk(FacilityUpgrade,LockedFromConstruction) = 0)))
+				set(gel.text,twk(FacilityUpgrade,UpgradePriceLvl?ID?))
+			
+			// Buy Button
+			M_Button:(@C,185,280,50,Button_GreenSliced,,24,10,20,38,#FFFFFFFF,facility.btn_Upgrade,ref,loc(build_BUY),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,,,%hinttxt)
+				set(gel.vis,([twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID?) and(twk(FacilityUpgrade,LockedFromConstruction) = 0) and(twk(FacilityUpgrade,UpgradeLockDescLvl?ID?) = ""))
+				if(%selected)
+				<
+					M_CTRLButtonExtra:(?BTNOK?,false)
+				>
+
+			//Locked Gated or Under Construction Button
+			Rect:()
+				set(gel.vis,[twk(FacilityUpgrade,FacilityCurrentLevel)+1] < ?ID? or([twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID? and(twk(FacilityUpgrade,LockedFromConstruction) = 1 or(twk(FacilityUpgrade,UpgradeLockDescLvl?ID?) != ""))))
+			{
+				//Under Construction
+				Rect:()
+					set(gel.vis,[twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID? and(twk(FacilityUpgrade,UpgradeLockDescLvl?ID?) = ""))
+				{
+					Draw:(RoundedPanel,10,157,@W-20,50,,#25252560)
+					M_Text:(build_PROGRESS,@C,156,0,50,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						PulseAlpha(1,0,0.4,0.4,1,1.5,1.5)
+
+					M_Text:("2 Matches Remaining",@C,157,0,50,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						PulseAlpha(0,1,0.4,0.4,1,1.5,1.5)
+						set(gel.text,twk(FacilityUpgrade,TimeRemaining))
+				}
+					
+
+				// Locked
+				Rect:()
+					float(%w)
+					set(gel.vis,not([twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID?))
+					set(gel.x,@C-[%w/2])
+				{
+					Draw:(Icon_Locked,0,167,30,30,,#252525FFFFFFFFFF)
+					M_Text:(build_LOCKED,35,157,0,50,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+						set(%w,%gfw+38)
+				}
+	
+				// Gated
+				Rect:()
+					set(gel.vis,[twk(FacilityUpgrade,FacilityCurrentLevel)+1] = ?ID? and(twk(FacilityUpgrade,UpgradeLockDescLvl?ID?) != ""))
+				{
+					Rect:()
+						PulseAlpha(1,0,0.4,0.4,1,1.5,1.5)
+					{
+						Rect:()
+							float(%w)
+							set(gel.x,@C-[%w/2])
+						{
+							Draw:(Icon_Locked,0,167,30,30,,#252525FFFFFFFFFF)
+							M_Text:(build_LOCKED,35,157,0,50,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+								set(%w,%gfw+38)
+						}
+					}
+
+					Rect:()
+						PulseAlpha(0,1,0.4,0.4,1,1.5,1.5)
+					{
+						M_Text:(,20,157,@W-40,50,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#252525FF,ref,FacilityUpgrade,UpgradeLockDescLvl?ID?)
+							LineSpacing(0.9)
+					}
+				}
+			}
+		
+			// Owned
+			Rect:()
+				set(gel.vis,twk(FacilityUpgrade,FacilityCurrentLevel) > ?ID?)
+			{
+				Draw:(RoundedPanel,10,157,@W-20,50,,#25252560)
+				M_Text:(build_OWNED,0,157,@W,50,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			}
+
+			// Current
+			Rect:()
+				set(gel.vis,twk(FacilityUpgrade,FacilityCurrentLevel) = ?ID?)
+			{
+				Draw:(RoundedPanel,10,157,@W-20,50,,#252525BB)
+				M_Text:(build_CURRENT,0,157,@W,50,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			}
+
+			//Facility current Rosette
+			Draw:(Facility_Rosette,265,-10,60,,,#FFFFFFFF)
+				LockLayer()
+				Layer(AboveText3)
+				set(gel.vis,twk(FacilityUpgrade,FacilityCurrentLevel) = ?ID?)
+		}}
+	}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H)
+	.set(gel.alpha,0)
+	set(gel.vis,twk(DynamicOverlay,CurrentTopOverlay)="")
+	frlerp(gel.alpha,1,0.15)
+	strvar(%lastFacilityType)
+	.set(%lastFacilityType,"")
+	float(%listElement)
+{{
+
+	// Facility Selection Controls
+	// Left Paging Control
+	Rect:(0,140,120,200)
+	{{
+		M_Button:(@C,@M+5,30,60,Button_SilverSliced,Icon_ArrowLR,@C-10,20,20,20,#252525FF,facility.btn_Prev,FacilityPrevButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,LB,FacilityPrevButton)
+			CTRLBlock(LEFT,UP)
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected("Upgrade"::twk(FacilityUpgrade,SelectedUpgradePanel))
+			>
+			M_ButtonZone:(0,0,@W,@H)
+	}}
+
+	// Right Paging Control
+	Rect:(@R-120,140,120,200)
+	{{
+		M_Button:(@C,@M+5,30,60,Button_SilverSliced,Icon_ArrowLR,@C+10,20,-20,20,#252525FF,facility.btn_Next,FacilityNextButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,RB,FacilityNextButton)
+			CTRLBlock(RIGHT,UP)
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected("Upgrade"::twk(FacilityUpgrade,SelectedUpgradePanel))
+			>
+			M_ButtonZone:(0,0,@W,@H)		
+	}}
+
+	M_SwitchButtonHint:(⛎,46,170)
+	M_SwitchButtonHint:(⛏,@R-78,170)
+
+
+	// Upgrade Panel
+	Rect:(0,@B-295,@W,295)
+		Click()
+	{{
+		// Background
+		Draw:(BG_Combined,@f,@T,@w,@H)
+			Blend(ONE,ZERO)
+
+
+		//Pitch Mow Selection Button
+		Rect:()
+			set(gel.vis,twk(FacilityView,Focused)="Pitch" and(twk(Facilities,PitchLevel) >=5) and(twk(FacilityUpgrade,FacilityCurrentLevel) >=5))
+		{
+			M_Button:(@R-90,-60,90,90,Button_SilverSliced,Icon_Mow,5,5,80,80,#252525FF,link,ref,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				M_CTRLButtonExtra:(Y,false)
+				if(%clicked)
+				<
+					add(twk(PlayerSaved,MowType),1)
+					fmod(twk(PlayerSaved,MowType),9)
+					set(twk(Pitch,PitchPattern),twk(PlayerSaved,MowType))
+				>			
+				M_SwitchButtonHint:(⛍,@R-65,-120)	
+		}
+
+
+		// Top Bar
+		Draw:(White,@f,0,@w,34,,#CC1618FF)
+		Draw:(Dialog_Top,@f,0,@w,38)
+		M_Text:(,30,0,0,38,L,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,FacilityUpgrade,FacilityName)
+
+		Draw:(Dialog_Sheen,@f,3,,,,#808080FF)
+			Additive()
+			Handle(1,0)
+			if(gel.x < @w)
+			<
+				:Delay(1)
+				add(gel.x,2)
+				set(gel.alpha,lerp(0.4,0,gel.gx/[@w/2]))
+			>
+			else
+			<
+				:set(gel.x,@f)
+				:set(gel.alpha,0.5)
+			>
+			
+		Draw:(Dialog_CloseBG,@R,3,131-@f,31)
+			Delay(0.3)
+			frlerp(gel.x,@R-131,0.3)
+		{{
+			Draw:(Dialog_Hexagons,-297,0,,,,#00000000)
+				Delay(0.3)
+				frlerp(gel.alpha,0.25,0.01)
+		}}
+	
+		// Close Button
+		Rect:()
+			.set(gel.alpha,0)
+			Delay(0.3)
+			frlerp(gel.alpha,1,0.1)
+		{
+			##IAP
+			M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_Cross,#252525FF,null,BackButtonAudio)
+			##N4
+			M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_DownArrow,#252525FF,null,BackButtonAudio)
+			##*
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+				if(%clicked)
+				<
+					// Post(UI_Back)
+					set(twk(FacilityView,Selected),0)
+					:set(twk(Home,CameraMode),1)
+					:set(twk(FacilityView,Rotated),0)
+					if(twk(FacilityUpgrade,FacilityType) oneof("Pitch","PitchStandN","PitchStandE","PitchStandS","PitchStandW"))
+					<
+						CTRLSetSelected(home_side_STADIUM,home)
+					>
+					if(twk(FacilityUpgrade,FacilityType) = "TrainingGround")
+					<
+						CTRLSetSelected(home_side_TRAINING,home)
+					>
+					if(twk(FacilityUpgrade,FacilityType) = "FitnessCentre")
+					<
+						CTRLSetSelected(home_side_FITNESS,home)
+					>
+					if(twk(FacilityUpgrade,FacilityType) = "YouthAcademy")
+					<
+						CTRLSetSelected(home_side_YOUTH,home)
+					>				
+					if(twk(FacilityUpgrade,FacilityType) = "MedicalUnit")
+					<
+						CTRLSetSelected(home_side_MEDICAL,home)
+					>
+					if(twk(FacilityUpgrade,FacilityType) = "ScoutsOffice")
+					<
+						CTRLSetSelected(home_side_SCOUT,home)
+					>
+					if(twk(FacilityUpgrade,FacilityType) = "ClubShop")
+					<
+						CTRLSetSelected(home_side_STORE,home)
+					>
+					:Message(facility.btn_Back)
+				>
+		}
+		M_SwitchButtonHint:(?ICONCAN?,@R-42,4)
+
+
+		//Upgrade bar
+		Rect:(0,35,@W,@H-35)
+		{{
+			//Swipe Panel
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				if(twk(Ftue,Enabled) = 0)
+				<
+					SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,FacilityUpgrade,UpgradesScrollX,FacilityUpgrade,UpgradesScrollXVel) ref:SwipePanelUpgrades
+				>
+			{{
+				Rect:(@C,230)
+				{{
+					Rect:(300,0,@W,@H) ref:UpgradesList
+						ChildrenOffset(340,0,false)
+						.set(twk(FacilityUpgrade,UpgradesScrollX),-[max(0,[twk(FacilityUpgrade,FacilityCurrentLevel)]-1) *340])
+						SnappingListX(FacilityUpgrade,UpgradesScrollX,@W,FacilityUpgrade,UpgradesScrollXVel,SwipePanels,SwipePanelUpgrades,15,0.1,) ref:ScrollPanelUpgrades
+						Rearmable()
+						:set(%listElement,0)
+						if(%lastFacilityType != twk(FacilityUpgrade,FacilityType))
+						<
+							CTRLClearSelect(true)
+						>
+					{{
+						M_UpgradePanel:(1)
+						M_UpgradePanel:(2)
+						M_UpgradePanel:(3)
+						M_UpgradePanel:(4)
+						M_UpgradePanel:(5)
+						M_UpgradePanel:(6)
+					}}
+				}}
+			}}
+			// Rect:(30,@T,@W-60,@H)
+			// {{
+			// 	M_ScrollIndicatorAltH:(@B-5,@W,FacilityUpgrade,UpgradesScrollX,UpgradesList,ScrollPanelUpgrades,SwipePanels,SwipePanelUpgrades)
+			// }}
+		}}
+	}}
+
+	//JF: Last thing to update the old value - so we know when we've changed facility
+	Rect:()
+		set(%lastFacilityType,twk(FacilityUpgrade,FacilityType))
+}}
+
+// // TEMP Facilty camera tweak buttons
+// Rect:(80,60)
+// Layer(Debug)
+// {{
+// 	Draw:(White,-20,0,440,270,,#06060600)
+// 		Click()
+	
+// 	//Cam X POSITION PLUS
+// 	M_FacilitySetCamPos:(145,70,POSX+,FacilityUpgrade,TempLocatorX,100)
+// 	//Cam X POSITION MINUS
+// 	M_FacilitySetCamPos:(-20,70,POSX-,FacilityUpgrade,TempLocatorX,-100)
+
+
+// 	//Cam Y POSITION PLUS
+// 	M_FacilitySetCamPos:(65,5,POSY+,FacilityUpgrade,TempLocatorY,100)
+// 	//Cam Y POSITION MINUS
+// 	M_FacilitySetCamPos:(65,135,POSY-,FacilityUpgrade,TempLocatorY,-100)
+	
+
+// 	//Cam Z POSITION PLUS
+// 	M_FacilitySetCamPos:(235,5,POSZ+,FacilityUpgrade,TempLocatorZ,100)
+// 	//Cam Z POSITION MINUS
+// 	M_FacilitySetCamPos:(235,135,POSZ-,FacilityUpgrade,TempLocatorZ,-100)
+
+
+// 	//Cam ROTX PLUS
+// 	M_FacilitySetCamPos:(335,5,ROTX+,FacilityUpgrade,TempLocatorRX,5)
+// 	//Cam ROTX MINUS
+// 	M_FacilitySetCamPos:(335,70,ROTX-,FacilityUpgrade,TempLocatorRX,-5)
+	
+// 	//Cam ROTZ PLUS
+// 	M_FacilitySetCamPos:(335,135,ROTZ+,FacilityUpgrade,TempLocatorRZ,5)
+// 	//Cam ROTZ MINUS
+// 	M_FacilitySetCamPos:(335,205,ROTZ-,FacilityUpgrade,TempLocatorRZ,-5)
+// }}

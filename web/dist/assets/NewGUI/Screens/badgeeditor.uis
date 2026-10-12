@@ -1,0 +1,821 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+
+Import:(Core.uih)
+Import:(rgbslider.uih)
+Import:(badge_Macros.uih)
+
+//---------------------------------------------------------------------------------------------SETUP
+
+Rect:()
+	.set(twk(BadgeEditor,BadgeScroll),0)
+
+Define:(?CTRL_SELECTED_TYPE_DESIGN_ROOT?=1)
+Define:(?CTRL_SELECTED_TYPE_DESIGN_ELEMENT?=2)
+Define:(?CTRL_SELECTED_TYPE_COLOUR_ROOT?=3)
+Define:(?CTRL_SELECTED_TYPE_COLOUR_ELEMENT?=4)
+Define:(?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?=5)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_DesignButton,?X?,?Y?,?INDEX?,?W?,?H?,?TEXT?,?SCALE?)
+	M_PressOPEN:(?X?,?Y?,?W?,?H?,,Design?INDEX?)
+		Rect:(?X?,?Y?,?W?,?H?)
+		{
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+				set(gel.vis,twk(BadgeEditor,DesignStyle) = ?INDEX?)
+			Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+			{{
+				Instance:(BadgeDesign?INDEX?,@W/2,@H/3)
+					Scale(?SCALE?,?SCALE?)
+			}}
+				if(twk(BadgeEditor,DesignStyle) = ?INDEX?)
+				<
+					set(gel.alpha,1)	
+				>
+				else
+				<
+					set(gel.alpha,0.5)
+				>
+			
+			If:(?INDEX? != -1)
+				Draw:(Badge_Shadow,20,94,110,,,#00000040)
+			EndIf
+
+			Draw:(White,10,115,@W-20,1,,#00000020FFFFFFFF)
+
+			M_Text:(?TEXT?,0,135,@W,0,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				set(gel.vis,twk(BadgeEditor,DesignStyle) != ?INDEX?)
+			
+			M_Text:(?TEXT?,@C,135,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+				Handle(0.5,0.5)
+				if(twk(BadgeEditor,DesignStyle) = ?INDEX?)
+				<
+					:set(gel.scale,0.5)
+					:set(gel.vis,1)
+					frlerp(gel.scale,1,0.25)
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+		}
+	M_PressCLOSE:()
+		if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+		<
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLIsSelected()
+			<
+				set(%selectedref,Design?INDEX?)
+			>
+		>
+		if(%clicked)
+		<
+			set(twk(BadgeEditor,DesignStyle),?INDEX?)
+			Message(badgeeditor.btn_Design,?INDEX?)
+		>
+EndM
+
+Macro:(M_MaskButton,?X?,?Y?,?INDEX?,?W?,?H?,?TEXT?)
+	M_PressOPEN:(?X?+100,?Y?,?W?,?H?,,Mask?INDEX?)
+		
+			Rect:()
+			{
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+					set(gel.vis,twk(BadgeEditor,BadgeStyle) = ?INDEX?)
+				Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+				Draw:(BadgeMask?INDEX?,32,16,,@H-87,,#33333366FFFFFFFF)
+			}
+				if(twk(BadgeEditor,BadgeStyle) = ?INDEX?)
+				<
+					set(gel.alpha,1)	
+				>
+				else
+				<
+					set(gel.alpha,0.5)
+				>
+
+			Draw:(Badge_Shadow,20,94,110,,,#00000040)
+			Draw:(White,10,115,@W-20,1,,#00000020FFFFFFFF)
+
+			M_Text:(?TEXT?,0,135,@W,0,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				set(gel.vis,twk(BadgeEditor,BadgeStyle) != ?INDEX?)
+				set(gel.text,loc(Badge_DESIGN) :: " " :: ?INDEX?)
+			
+			M_Text:(?TEXT?,@C,135,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+				set(gel.text,loc(Badge_DESIGN) :: " " :: ?INDEX?)
+				Handle(0.5,0.5)
+				if(twk(BadgeEditor,BadgeStyle) = ?INDEX?)
+				<
+					:set(gel.scale,0.5)
+					:set(gel.vis,1)
+					frlerp(gel.scale,1,0.25)
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+	M_PressCLOSE:()
+		Layer(AboveText)
+		LockLayer()
+		if(twk(BadgeEditor,CurrentTab) = 1)
+		<
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+			.if(twk(BadgeEditor,BadgeStyle) = ?INDEX?)
+			<
+				CTRLSetSelected()
+			>
+		>
+		if(%clicked)
+		<
+			set(twk(BadgeEditor,BadgeStyle),?INDEX?)
+			Message(badgeeditor.btn_Mask,?INDEX?)
+		>
+EndM
+
+//--------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(Badge_CUSTOMISE_YOUR_BADGE),badgeeditor)
+Rect:()
+	float(%ctrlSelectedType,%lastTab)
+	.set(%lastTab,1)
+{
+	// Big Badge
+	Rect:()
+	{
+		Rect:(700+[@y],40+[@z/2],385,575)
+		{{		
+			Draw:(RoundedPanel,56,-12,@W-40,@H+[@z/2],,#AAAAAA40)
+
+			Draw:(Badge_Shadow,100,390,260,,,#00000040)
+			
+			M_Badge:(@R-158,220,HD,2.2,BigBadge)
+
+			Rect:(@C+38,@M-60,?BADGE_SIZE?-120,?BADGE_SIZE?-60)
+				.set(twk(BadgeEditor,NewDrag),0)
+				Click()
+				if(twk(ControllerInput,Enabled) = 1)
+				<
+					CTRLPress(RB,false)
+					<
+						set(twk(BadgeEditor,JoyDragSpeed),0.2)
+					>
+					else
+					<
+						set(twk(BadgeEditor,JoyDragSpeed),2)
+					>
+
+					if(abs(JoyX1) > 0.2 or(abs(JoyY1) > 0.2))
+					<
+						:set(twk(BadgeEditor,NewDrag),1)
+						Message(badgeeditor.controllergrabbing)
+						:set(twk(BadgeEditor,NewDrag),0)
+					>
+					CTRLClick(RSB,False)
+					<
+						Message(badgeeditor.resetgrabbing)
+					>
+				>
+				else
+				<
+					Grab()
+					<
+						:set(twk(BadgeEditor,NewDrag),1)
+						Message(badgeeditor.grabbing)
+						:set(twk(BadgeEditor,NewDrag),0)
+			   		>
+		   		>
+				Scale(2.2,2.2)
+				Handle(0.5,0.5)
+
+			// Badge Swipe or RightStick Text
+			M_Text:(Badge_Stick,@R-320,-15,320,60,C,C,TextBox,KNUL20,,0,0,#00000000,NoItalics,#AAAAAAFF,Description)
+				if(twk(ControllerInput,Enabled) = 1)
+				<
+					set(gel.text,loc(Badge_Stick))
+				>
+				else
+				<
+					set(gel.text,loc(Badge_SWIPE))
+				>
+			M_Text:(Badge_FineTune,@R-320,20,320,60,C,C,TextBox,KNUL20,,0,0,#00000000,NoItalics,#AAAAAAFF,Description)
+				set(gel.vis,twk(ControllerInput,Enabled) = 1)
+
+		
+			// Purchase Button 
+			M_Button:(@R-156,@B-56+[@z/3],280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,badgeeditor.btn_Buy,BuyButton,"",0,3,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText,1)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+				CTRLBlock(UP)
+				CTRLPress(LEFT)
+				<
+					if(twk(BadgeEditor,CurrentTab) = 1)
+					<
+						CTRLSetSelected(PresetsButton)
+					>
+					else
+					<
+						CTRLSetSelected(ScaleUpButton)
+					>
+				> 
+			
+			// Item Description
+			M_Text:(Badge_Save_Changes,@R-320,@B-145+[@z/3],320,60,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,Description)
+		}}
+	}
+
+	// Selection Panel
+	// Tabs
+	Rect:(@L+52,@T+30,660+@y,50) 
+		Layer(Text)
+		if(twk(BadgeEditor,CurrentTab) = 2)
+		<
+			set(twk(BadgeEditor,DesignScroll2),twk(BadgeEditor,DesignScrollMaster))
+			set(twk(BadgeEditor,DesignScrollVel2),twk(BadgeEditor,DesignScrollMasterVel))
+		>
+		elif(twk(BadgeEditor,CurrentTab) = 3)
+		<
+			set(twk(BadgeEditor,DesignScroll3),twk(BadgeEditor,DesignScrollMaster))
+			set(twk(BadgeEditor,DesignScrollVel3),twk(BadgeEditor,DesignScrollMasterVel))
+		>
+		elif(twk(BadgeEditor,CurrentTab) = 4)
+		<
+			set(twk(BadgeEditor,DesignScroll4),twk(BadgeEditor,DesignScrollMaster))
+			set(twk(BadgeEditor,DesignScrollVel4),twk(BadgeEditor,DesignScrollMasterVel))
+		>
+		elif(twk(BadgeEditor,CurrentTab) = 5)
+		<
+			set(twk(BadgeEditor,DesignScroll5),twk(BadgeEditor,DesignScrollMaster))
+			set(twk(BadgeEditor,DesignScrollVel5),twk(BadgeEditor,DesignScrollMasterVel))
+		>>>>
+	{{
+		Draw:(Tab_BG50,0,-2,@W+1,58)
+		M_Tab:(0,0,@W/5,50,Badge_LAYER1,1,BadgeEditor,CurrentTab,link,1)
+			if(twk(BadgeEditor,CurrentTab)=1)
+			<
+				:Message(badgeeditor.btn_Layer,0)
+				:set(twk(BadgeEditor,DesignScrollVel2),0)
+				:set(twk(BadgeEditor,DesignScrollVel3),0)
+				:set(twk(BadgeEditor,DesignScrollVel4),0)
+				:set(twk(BadgeEditor,DesignScrollVel5),0)
+			>
+		
+		M_Tab:([@W/5],0,@W/5,50,Badge_LAYER2,2,BadgeEditor,CurrentTab,link,2)
+			if(twk(BadgeEditor,CurrentTab)=2)
+			<
+				:Message(badgeeditor.btn_Layer,1)
+				:set(twk(BadgeEditor,DesignScrollVel3),0)
+				:set(twk(BadgeEditor,DesignScrollVel4),0)
+				:set(twk(BadgeEditor,DesignScrollVel5),0)
+			>
+		
+		M_Tab:([@W/5]+[@W/5],0,@W/5,50,Badge_LAYER3,3,BadgeEditor,CurrentTab,link,3)
+			if(twk(BadgeEditor,CurrentTab)=3)
+			<
+				:Message(badgeeditor.btn_Layer,2)
+				:set(twk(BadgeEditor,DesignScrollVel2),0)
+				:set(twk(BadgeEditor,DesignScrollVel4),0)
+				:set(twk(BadgeEditor,DesignScrollVel5),0)
+			>
+		
+		M_Tab:([@W/5]+[@W/5*2],0,@W/5,50,Badge_LAYER4,4,BadgeEditor,CurrentTab,link,4)
+			if(twk(BadgeEditor,CurrentTab)=4)
+			<
+				:Message(badgeeditor.btn_Layer,3)
+				:set(twk(BadgeEditor,DesignScrollVel2),0)
+				:set(twk(BadgeEditor,DesignScrollVel3),0)
+				:set(twk(BadgeEditor,DesignScrollVel5),0)
+			>
+		
+		M_Tab:([@W/5]+[@W/5*3],0,@W/5,50,Badge_LAYER5,5,BadgeEditor,CurrentTab,link,5)
+			if(twk(BadgeEditor,CurrentTab)=5)
+			<
+				:Message(badgeeditor.btn_Layer,4)
+				:set(twk(BadgeEditor,DesignScrollVel2),0)
+				:set(twk(BadgeEditor,DesignScrollVel3),0)
+				:set(twk(BadgeEditor,DesignScrollVel4),0)
+			>
+
+		M_SwitchTabs:(5,BadgeEditor,-20,10,652+@y,10)
+	}}
+
+	// Contents 
+	Rect:(@L+52,@T+81,660+@y,520+@z)
+	{{
+		Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+		Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAA)
+		Draw:(Dialog_Fade,1,@B-1,@W-2,-300,,#FFFFFFAA)
+
+		CTRLSelectGroup:(0,0,@W,210+[@z/1.3],,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:MaskCTRLGroup
+			CTRLPress(DOWN)
+			<
+				if(twk(BadgeEditor,CurrentTab) = 1)
+				<
+					CTRLSetSelected(BadgeColourPicker)
+				>
+				else
+				<
+					CTRLSetSelected(DesignColourPicker)
+				>
+			> 
+			if(twk(BadgeEditor,CurrentTab) = 1)
+			<
+				:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_DESIGN_ROOT?)
+				<
+					CTRLSetSelected()
+				>
+			>
+			CTRLIsSelected()
+			<
+				set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_DESIGN_ROOT?)
+			>
+		{
+			// Badge Background Tab 
+			Dissolve:() ref:DissolveRoot 
+				if(twk(BadgeEditor,CurrentTab) = 1)
+				<
+					set(gel.vis,1)
+					frlerp(gel.alpha,1,0.25)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.25)
+					if(gel.alpha < 0.01)
+					<
+						set(gel.vis,0)
+					>
+				>
+			{
+				Clip:(1,0,@W-2,@H) ref:SwipePanels
+					if(twk(BadgeEditor,CurrentTab) = 1)
+					<
+						SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,BadgeEditor,BadgeScroll,BadgeEditor,BadgeScrollVel) ref:SwipePanelBadges
+
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_DESIGN_ELEMENT?)
+						<
+							CTRLHasSelectedGroup(0,true)
+							<
+								// Dummy call otherwise the else won't fire
+								set(gel.colour,#FFFFFFFF)
+							>
+							else
+							<
+								CTRLPushSelectGroup()
+							>
+						>
+					>
+					CTRLHasSelectedGroup(0,true)
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_DESIGN_ELEMENT?)
+					>
+				{{
+					Rect:(0,95+[@z/2],@W,@H)
+					{{
+						Rect:(0,0,@W,@H) ref:BadgeList
+						HorizontalList(8,,110,false)
+						ScrollingListX(BadgeEditor,BadgeScroll,@W+30,BadgeEditor,BadgeScrollVel) ref:ScrollingListBadges
+						{{
+							M_MaskButton:(90,94,1,140,165,Badge_DESIGN)
+							M_MaskButton:(240,94,2,140,165,Badge_DESIGN)
+							M_MaskButton:(390,94,3,140,165,Badge_DESIGN)
+							M_MaskButton:(540,94,4,140,165,Badge_DESIGN)
+							M_MaskButton:(690,94,5,140,165,Badge_DESIGN)
+							M_MaskButton:(840,94,6,140,165,Badge_DESIGN)
+							M_MaskButton:(990,94,7,140,165,Badge_DESIGN)
+							M_MaskButton:(1140,94,8,140,165,Badge_DESIGN)
+						}}
+					}}
+					Rect:(20,0,@W-40,210+[@z/2])
+					{{
+						M_ScrollIndicatorAltH:(@B,@W,BadgeEditor,BadgeScroll,BadgeList,ScrollingListBadges,SwipePanels,SwipePanelBadges)
+					}}
+				}}
+			}
+		}
+
+		CTRLSelectGroup:(0,0,@W,210+[@z/1.3],,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:DesignCTRLGroup
+			CTRLClick(DOWN)
+			<
+				CTRLSetSelected(DesignColourPicker)
+				Post(CTRLNavigate)
+			> 
+			if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+			<
+				:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_DESIGN_ROOT?)
+				<
+					CTRLSetSelected()
+				>
+			>
+			CTRLIsSelected()
+			<
+				set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_DESIGN_ROOT?)
+			>
+		{
+			Dissolve:() $HIDE
+				if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+				<
+					set(gel.vis,1)
+					frlerp(gel.alpha,1,0.25)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.25)
+					if(gel.alpha < 0.01)
+					<
+						set(gel.vis,0)
+					>
+				>
+			{
+				// Swipe List of Designs
+				Clip:(1,0,@W-2,@H) ref:SwipePanels
+					strvar(%selectedref)
+					set(%selectedref,"")
+					if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+					<
+						SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,BadgeEditor,DesignScrollMaster,BadgeEditor,DesignScrollMasterVel) ref:SwipePanelDesignsMaster
+
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_DESIGN_ELEMENT?)
+						<
+							CTRLHasSelectedGroup(0,true)
+							<
+								// Dummy call otherwise the else won't fire
+								set(gel.colour,#FFFFFFFF)
+							>
+							else
+							<
+								CTRLPushSelectGroup()
+							>
+						>
+					>
+					CTRLHasSelectedGroup(0,true)
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_DESIGN_ELEMENT?)
+					>
+				{{
+					Rect:(0,95+[@z/2],@W,@H)
+					{{
+						Rect:(0,0,@W,@H) ref:DesignList
+							HorizontalList(8,,110,false)
+							ScrollingListX(BadgeEditor,DesignScrollMaster,@W+30,BadgeEditor,DesignScrollMasterVel) ref:ScrollingListMaster
+						{{
+							M_DesignButton:(90,94,-1,140,165,Badge_Blank,1)
+							M_DesignButton:(240,94,Square,140,165,Badge_Square,0.3)
+							M_DesignButton:(390,94,Circle,140,165,Badge_Circle,0.35)
+							M_DesignButton:(540,94,Band,140,165,Badge_Band,0.3)
+							M_DesignButton:(690,94,Stripes,140,165,Badge_Stripes,0.25)
+							M_DesignButton:(840,94,Squares,140,165,Badge_Squares,0.25)
+							M_DesignButton:(990,94,DiagStripes,140,165,Badge_DiagStripes,0.25)
+							M_DesignButton:(1140,94,Animal1,140,165,Badge_Animal1,0.32)
+							M_DesignButton:(1290,94,Animal2,140,165,Badge_Animal2,0.32)
+							M_DesignButton:(1440,94,Animal3,140,165,Badge_Animal3,0.4)
+							M_DesignButton:(1590,94,Animal4,140,165,Badge_Animal4,0.35)
+							M_DesignButton:(1740,94,Animal5,140,165,Badge_Animal5,0.35)
+							M_DesignButton:(1890,94,Animal6,140,165,Badge_Animal6,0.35)
+							M_DesignButton:(2040,94,Animal7,140,165,Badge_Animal7,0.45)
+							M_DesignButton:(2190,94,Animal8,140,165,Badge_Animal8,0.45)
+							M_DesignButton:(2340,94,Animal9,140,165,Badge_Animal9,0.35)
+							M_DesignButton:(2490,94,Animal10,140,165,Badge_Animal10,0.4)
+							M_DesignButton:(2640,94,Animal11,140,165,Badge_Animal11,0.45)
+							M_DesignButton:(2790,94,Animal12,140,165,Badge_Animal12,0.35)
+							M_DesignButton:(2940,94,Ball1,140,165,Badge_Ball1,0.32)
+							M_DesignButton:(3090,94,Ball2,140,165,Badge_Ball2,0.32)
+							M_DesignButton:(3240,94,Ball3,140,165,Badge_Ball3,0.32)
+							M_DesignButton:(3390,94,Ball4,140,165,Badge_Ball4,0.32)
+							M_DesignButton:(3540,94,Ball5,140,165,Badge_Ball5,0.32)
+							M_DesignButton:(3690,94,Building1,140,165,Badge_Building1,0.35)
+							M_DesignButton:(3840,94,Building2,140,165,Badge_Building2,0.3)
+							M_DesignButton:(3990,94,Combat1,140,165,Badge_Combat1,0.3)
+							M_DesignButton:(4140,94,Combat2,140,165,Badge_Combat2,0.4)
+							M_DesignButton:(4290,94,Combat3,140,165,Badge_Combat3,0.35)
+							M_DesignButton:(4440,94,Combat4,140,165,Badge_Combat4,0.35)
+							M_DesignButton:(4590,94,Combat5,140,165,Badge_Combat5,0.4)
+							M_DesignButton:(4740,94,Combat6,140,165,Badge_Combat6,0.35)
+							M_DesignButton:(4890,94,Combat7,140,165,Badge_Combat7,0.4)
+							M_DesignButton:(5040,94,Combat8,140,165,Badge_Combat8,0.35)
+							M_DesignButton:(5190,94,Flag1,140,165,Badge_Flag1,0.4)
+							M_DesignButton:(5340,94,Match1,140,165,Badge_Match1,0.4)
+							M_DesignButton:(5490,94,Match2,140,165,Badge_Match2,0.6)
+							M_DesignButton:(5640,94,Match3,140,165,Badge_Match3,0.6)
+							M_DesignButton:(5790,94,Match4,140,165,Badge_Match4,0.5)
+							M_DesignButton:(5940,94,Plant1,140,165,Badge_Plant1,0.3)
+							M_DesignButton:(6090,94,Plant2,140,165,Badge_Plant2,0.25)
+							M_DesignButton:(6240,94,Plant3,140,165,Badge_Plant3,0.2)
+							M_DesignButton:(6390,94,Symbol1,140,165,Badge_Symbol1,0.35)
+							M_DesignButton:(6540,94,Symbol2,140,165,Badge_Symbol2,0.35)
+							M_DesignButton:(6690,94,Banner1,140,165,Badge_Banner1,0.3)
+							M_DesignButton:(6840,94,Banner2,140,165,Badge_Banner2,0.3)
+							M_DesignButton:(6990,94,Banner3,140,165,Badge_Banner3,0.3)
+							M_DesignButton:(7140,94,Crown1,140,165,Badge_Crown1,0.4)
+							M_DesignButton:(7290,94,Crown2,140,165,Badge_Crown2,0.4)
+							M_DesignButton:(7440,94,Crown3,140,165,Badge_Crown3,0.4)
+							M_DesignButton:(7590,94,Crown4,140,165,Badge_Crown4,0.4)
+							M_DesignButton:(7740,94,Star1,140,165,Badge_Star1,0.3)
+							M_DesignButton:(7890,94,Star2,140,165,Badge_Star2,0.4)
+							M_DesignButton:(8040,94,Star3,140,165,Badge_Star3,0.4)
+							M_DesignButton:(8190,94,Star4,140,165,Badge_Star4,0.4)
+							M_DesignButton:(8340,94,Star5,140,165,Badge_Star5,0.4)
+							M_DesignButton:(8490,94,Star6,140,165,Badge_Star6,0.35)
+							M_DesignButton:(8640,94,StarNS,140,165,Badge_StarNS,0.25)
+							M_DesignButton:(8790,94,Wing1,140,165,Badge_Wing1,0.4)
+							M_DesignButton:(8940,94,Wing2,140,165,Badge_Wing2,0.4)
+							M_DesignButton:(9090,94,Wing3,140,165,Badge_Wing3,0.4)
+							M_DesignButton:(9240,94,Wing4,140,165,Badge_Wing4,0.4)
+							M_DesignButton:(9390,94,Wing5,140,165,Badge_Wing5,0.3)
+							M_DesignButton:(9540,94,Wreath1,140,165,Badge_Wreath1,0.3)
+							M_DesignButton:(9690,94,Wreath2,140,165,Badge_Wreath2,0.25)
+							M_DesignButton:(9840,94,Wreath3,140,165,Badge_Wreath3,0.4)
+						}}
+					}}
+					
+					Rect:(20,0,@W-40,210+[@z/2])
+					{{
+						M_ScrollIndicatorAltH:(@B,@W,BadgeEditor,DesignScrollMaster,DesignList,ScrollingListMaster,SwipePanels,SwipePanelDesignsMaster)
+							set(gel.vis,twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+					}}
+
+
+					Rect:()
+						if(twk(BadgeEditor,CurrentTab) = 2)
+						<
+							:set(twk(BadgeEditor,DesignScrollMaster),twk(BadgeEditor,DesignScroll2))
+							:set(twk(BadgeEditor,DesignScrollMasterVel),twk(BadgeEditor,DesignScrollVel2))
+							:CTRLClearSelectFlag()
+							:CTRLSetSelected(twk(BadgeEditor,DesignSelected2))
+							.Post("badgeeditor.scrollToDesign",1)
+							if(%selectedref != "")
+							<
+								set(twk(BadgeEditor,DesignSelected2),%selectedref)
+							>
+						>
+						elif(twk(BadgeEditor,CurrentTab) = 3)
+						<
+							:set(twk(BadgeEditor,DesignScrollMaster),twk(BadgeEditor,DesignScroll3))
+							:set(twk(BadgeEditor,DesignScrollMasterVel),twk(BadgeEditor,DesignScrollVel3))
+							:CTRLClearSelectFlag()
+							:CTRLSetSelected(twk(BadgeEditor,DesignSelected3))
+							.Post("badgeeditor.scrollToDesign",2)
+							if(%selectedref != "")
+							<
+								set(twk(BadgeEditor,DesignSelected3),%selectedref)
+							>
+						>
+						elif(twk(BadgeEditor,CurrentTab) = 4)
+						<
+							:set(twk(BadgeEditor,DesignScrollMaster),twk(BadgeEditor,DesignScroll4))
+							:set(twk(BadgeEditor,DesignScrollMasterVel),twk(BadgeEditor,DesignScrollVel4))
+							:CTRLClearSelectFlag()
+							:CTRLSetSelected(twk(BadgeEditor,DesignSelected4))
+							.Post("badgeeditor.scrollToDesign",3)
+							if(%selectedref != "")
+							<
+								set(twk(BadgeEditor,DesignSelected4),%selectedref)
+							>
+						>
+						elif(twk(BadgeEditor,CurrentTab) = 5)
+						<
+							:set(twk(BadgeEditor,DesignScrollMaster),twk(BadgeEditor,DesignScroll5))
+							:set(twk(BadgeEditor,DesignScrollMasterVel),twk(BadgeEditor,DesignScrollVel5))
+							:CTRLClearSelectFlag()
+							:CTRLSetSelected(twk(BadgeEditor,DesignSelected5))
+							.Post("badgeeditor.scrollToDesign",4)
+							if(%selectedref != "")
+							<
+								set(twk(BadgeEditor,DesignSelected5),%selectedref)
+							>
+						>>>>
+
+				}}
+			}
+		}
+			
+
+		Dissolve:() $HIDE
+			M_FadingTabContent:(BadgeEditor,CurrentTab,1)
+		{
+			//Colour Picker
+			Rect:()
+			{{
+				Draw:(Button_Shadow,15,204+[@z/1.3],608+[@y]+22,300+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,26,206+[@z/1.3],608+[@y],300,,#FFFFFFFF000000FF)
+				M_Text:(Badge_BACKGROUND_COLOUR,45+[@y/5],230+[@z/1.3],@W-20,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				CTRLSelectGroup:(40+[@y/5],250+[@z/1.3],333,247,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:BadgeColourPicker
+					CTRLPress(RIGHT)
+					<
+						CTRLSetSelected(PresetsButton)
+						Post(CTRLNavigate)
+					> 
+					if(twk(BadgeEditor,CurrentTab) = 1)
+					<
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_ROOT?)
+						<
+							CTRLSetSelected()
+						>
+					>
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_ROOT?)
+					>
+				{
+					Rect:() ref:BackgroundPickerTest
+						if(twk(BadgeEditor,CurrentTab) = 1)
+						<
+							:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_ELEMENT?)
+							<
+								CTRLHasSelectedGroup(0,true)
+								<
+									// Dummy call otherwise the else won't fire
+									set(gel.colour,#FFFFFFFF)
+								>
+								else
+								<
+									CTRLPushSelectGroup()
+								>
+							>
+							
+							CTRLHasSelectedGroup(0,true)
+							<
+								set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_ELEMENT?)
+								:CTRLClearSelectFlag()
+								:CTRLSetSelected("BackgroundPicker"::trimstr(twk(BadgeEditor,SelectedColour),8))
+								if(%lastTab != twk(BadgeEditor,CurrentTab))
+								<
+									:CTRLClearSelectFlag()
+									:CTRLSetSelected("BackgroundPicker"::trimstr(twk(BadgeEditor,SelectedColour),8))
+								>
+							>
+						>
+
+					M_ColourPickerGrid:(50+[@y/5],260+[@z/1.3],320,400,BadgeEditor,SelectedColour,badgeeditor.btn_SetColour,BackgroundPicker)
+				}
+			}}
+
+			// Preset, Randomise & Clear All Buttons 
+			Rect:()
+			{{
+				M_Button:(495+[@y/1.75],302+[@z/1.3],230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,badgeeditor.btn_OpenPresets,PresetsButton,loc(Badge_PRESETS),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,BuyButtonText,1)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLPress(UP)
+					<
+						CTRLSetSelected(MaskCTRLGroup)
+						Post(CTRLNavigate)
+					>
+					if(twk(BadgeEditor,CurrentTab)=1)
+					<
+						:set(twk(Debug,TestVar),%ctrlSelectedType)
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+						<
+							CTRLSetSelected()
+						>
+					>
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+				M_Button:(495+[@y/1.75],364+[@z/1.3],230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,badgeeditor.btn_Randomise,RandomiseButton,loc(Badge_RANDOMISE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,BuyButtonText,1)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+				M_Button:(495+[@y/1.75],426+[@z/1.3],230+[@y/2],50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,badgeeditor.btn_ClearAll,ClearAllButton,loc(Badge_CLEAR_ALL),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText,1)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLBlock(DOWN)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+			}}
+		}
+
+
+		Dissolve:() $HIDE
+			if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+			<
+				set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					set(gel.vis,0)
+				>
+			>
+		{
+			// Scale & Rotate Buttons 
+			Rect:(0,0+[@z/1.3])
+			{{
+				M_Button:(495+[@y/1.75],265,230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ScaleUpButton,loc(Badge_SCALE_UP),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,NoButtonAudio)
+					M_RepeatPressAction:(badgeeditor.btn_ScaleUp)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLPress(UP)
+					<
+						CTRLSetSelected(DesignCTRLGroup)
+						Post(CTRLNavigate)
+					>
+					if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+					<
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+						<
+							CTRLSetSelected()
+						>
+					>
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+
+				M_Button:(495+[@y/1.75],327,230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ScaleDownButton,loc(Badge_SCALE_DOWN),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,NoButtonAudio)
+					M_RepeatPressAction:(badgeeditor.btn_ScaleDown)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+
+				M_Button:(495+[@y/1.75],389,230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,RoateLeftButton,loc(Badge_ROTATE_LEFT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,NoButtonAudio)
+					M_RepeatPressAction:(badgeeditor.btn_RotateRight)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+
+				M_Button:(495+[@y/1.75],451,230+[@y/2],50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,RotateRightButton,loc(Badge_ROTATE_RIGHT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,NoButtonAudio)
+					M_RepeatPressAction:(badgeeditor.btn_RotateLeft)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_SIDEBUTTON?)
+					>
+			}}
+
+			// Colour Picker
+			Rect:(0,[@z/1.3])
+			{{
+				Draw:(Button_Shadow,15,204,608+[@y]+22,300+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,26,206,608+[@y],300,,#FFFFFFFF000000FF)
+				M_Text:(Badge_LAYER_COLOUR,45+[@y/5],230,@W-20,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				CTRLSelectGroup:(40+[@y/5],250,333,247,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:DesignColourPicker
+					CTRLPress(RIGHT)
+					<
+						CTRLSetSelected(ScaleUpButton)
+						Post(CTRLNavigate)
+					>
+					if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+					<
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_ROOT?)
+						<
+							CTRLSetSelected()
+						>
+					>
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_ROOT?)
+					>
+				{
+					Rect:()
+						if(twk(BadgeEditor,CurrentTab) oneof(2,3,4,5))
+						<
+							:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_COLOUR_ELEMENT?)
+							<
+								CTRLHasSelectedGroup(0,true)
+								<
+									// Dummy call otherwise the else won't fire
+									set(gel.colour,#FFFFFFFF)
+								>
+								else
+								<
+									CTRLPushSelectGroup()
+								>
+							>
+
+							CTRLHasSelectedGroup(0,true)
+							<
+								set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_COLOUR_ELEMENT?)
+								:CTRLClearSelectFlag()
+								:CTRLSetSelected("LayerPicker"::trimstr(twk(BadgeEditor,SelectedColour),8))
+								if(%lastTab != twk(BadgeEditor,CurrentTab))
+								<
+									:CTRLClearSelectFlag()
+									:CTRLSetSelected("LayerPicker"::trimstr(twk(BadgeEditor,SelectedColour),8))
+								>
+							>
+						>
+
+					M_ColourPickerGrid:(50+[@y/5],260,320,400,BadgeEditor,SelectedColour,badgeeditor.btn_SetColour,LayerPicker)
+				}
+			}}
+		}
+	}}
+
+	Rect:()
+		set(%lastTab,twk(BadgeEditor,CurrentTab))
+}
+
+M_NewDialogCLOSE:()

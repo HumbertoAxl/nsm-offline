@@ -1,0 +1,372 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+Img:(Icon_Timer,NewGUI/UI/Icons/Icon_Timer.png)
+Img:(Icon_Timer_Needle,NewGUI/UI/Icons/Icon_Timer_Needle.png)
+Img:(Staff_RestSquad,NewGUI/UI/Staff/Staff_RestSquad.png)
+
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_CooldownTimer,?X?,?Y?)
+	Rect:(?X?,?Y?)
+		float(%stage,%amt)
+		add(%amt,0.004)
+		if(%amt > 1.0)
+		<
+			:set(%stage,1-%stage)
+		>
+		fmod(%amt,1)
+	{{
+		Draw:(Circle_200,90,90,100,100,,#AAAAAAFFFFFFFFFF)
+			Handle(0.5,0.5)
+			if(%stage = 0)
+			<
+				:set(gel.colour,#AAAAAAFFFFFFFFFF)
+			>
+			else
+			<
+				:set(gel.colour,#707070FF000000FF)
+			>
+		UseShader:(Segment)
+		{
+
+		    Draw:(Circle_200,90,90,100,100,,#707070FF000000FF)
+			    Handle(0.5,0.5)
+			    if(%stage = 0)
+			    <
+			    	:set(gel.colour,#707070FF000000FF)
+			    >
+			    else
+			    <
+			    	:set(gel.colour,#AAAAAAFFFFFFFFFF)
+			    >
+			SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+		}
+		Draw:(Icon_Timer,0,0,180,180)
+		Draw:(Icon_Timer_Needle,90,90,180,180)
+			Handle(0.5,0.5)
+			set(gel.angle,1-%amt*360)
+	}}
+EndM
+
+Macro:(M_CoachingSlot,?X?,?Y?,?ID?,?FACILITY?,?STAFFTYPE?,?TITLE?,?ORDER?)
+	Sheet:((0,0,1191),(0,-45,0),51.49,(1,1,1)) ref:Root?ID?
+	//FIXEDFOV
+	 	float(%occupied)
+	 	PinVP(?X?,@M-20)
+	 	.set(gel.alpha,0)
+	 	Delay(?ORDER?*0.15)
+	 	frlerp(gel.alpha,1,0.15)
+	 	frlerp(gel3d.roty,0,0.15)
+	 	:Post(sounds.cards_Swap)
+	{{
+		Rect:(0,0,300,280)
+			Handle(0.5,0.5)
+			M_CellPress:()
+		{{
+			Rect:(@L,@T,@W,@H) ref:CoachingRoot?ID?
+				//Press
+				float(%pressed)
+				Press()
+				<
+					set(%pressed,1)
+				>
+
+				else
+				<
+					set(%pressed,0)
+				>
+				Click()
+				<
+					Post(UI_Select)
+					Post(staff.btn_GenerateCard,?ORDER?)
+				>	
+				CTRLClick(?BTNOK?)
+				<
+					Post(UI_Select)
+					Post(staff.btn_GenerateCard,?ORDER?)
+				>
+				
+			{{
+
+				// Panel
+				Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+				Draw:(NewStarShape,0,0,@W,540,,#C5C5C560FFFFFFFF)
+
+
+				//Facility Image
+				Draw:(?FACILITY?1_Background,300,2,300,)
+			        .set(gel.img,?FACILITY?::clamp(twk(Facilities,?FACILITY?Level),1,6)::_Background)
+			        .set(gel.hx,300)
+				
+				
+				//Panel Shadow 
+				Rect:()
+					.set(gel.vis,?FACILITY?="ScoutsOffice" or(?FACILITY?="MedicalUnit"))
+				{
+					Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+					Draw:(FloorShadow,-12,@B-2,@W+24,11)
+				}
+				
+
+				// Staff Card
+				Rect:(?X?,?Y?,@W,@H) $HIDE ref:?ID?_CoachingSlot
+				{{
+					Draw:(LightGlow,-170,50,200,70,,#000000CCFFFFFFFF)	
+
+					Draw:(Cell_Star0,-60,-85,120,120) ref:RatingImage
+					M_Text:(32,0,-20,0,0,C,C,Text,KNUL35,,0,0,#00000000,NoItalics,#FFFFFFFF,RatingText)
+						M_Style_StarRating:()
+
+					Rect:(-65,-15,?CARD_W?,?CARD_H?)
+						Handle(0.5,0.5)
+						Card_Face(?ID?,,,false,true,twk(CardEngine,PickupDelay)) ref:CardSlot
+						Scale(1.2,1.2)
+				}}
+
+
+				// Rewards Text
+				Rect:(0,226,@W,40)
+				{{
+					Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+					Draw:(White,0,1,@W,@H-2,,#AAAAAAFFFFFFFFFF)			
+					Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFFFFFFFFFF)
+					Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFFFFFFFFFF)
+
+					Rect:()
+						if(twk(Staff,Coaching?ORDER?OnCooldown) = 1 or(twk(Facilities,?FACILITY?Level) = 0) or(%occupied=0)) 
+						<
+							:set(gel.vis,0)
+						>
+						else
+						<
+							:set(gel.vis,1)
+						>
+					{
+						M_Text:(coaching_REWARDS,@C,-12,0,0,C,C,TextLoc,KNUL20,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+						M_Text:(Coaching_?FACILITY?Tip,@C,20,0,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					}				
+				}}
+
+
+				// Blackout Effect
+				Rect:()
+					Layer(Text)
+					if(twk(Staff,Coaching?ORDER?OnCooldown) = 1 or(twk(Facilities,?FACILITY?Level) = 0) or(%occupied=0)) 
+					<
+						:set(gel.vis,1)
+					>
+					else
+					<
+						:set(gel.vis,0)
+					>
+				{
+					Draw:(RoundedPanel,-1,0,@W+2,@H+1,,#000000AAFFFFFFFF)
+					M_Text:("",0,246,@W,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						if(twk(Facilities,?FACILITY?Level) = 0)
+						<
+							if(twk(?FACILITY?Construction,TimeRemaining) >= 1)
+							<
+								:set(gel.text,loc(facilitiesdesc_UnderConstruction))
+							>
+							else
+							<
+								:set(gel.text,loc(CoachingPurchaseFacility))
+							>
+						>
+						elif(twk(Staff,Coaching?ORDER?OnCooldown) = 1)
+						<
+							:set(gel.text,twk(Staff,Coaching?ORDER?CooldownDesc))
+						>
+						elif((twk(Facilities,?FACILITY?Level) > 0) and(%occupied=0))
+						<
+							:set(gel.text,loc("COACHINGERROR_FACILITYNOTOCCUPIED"))
+						>>>
+				}
+
+
+				// Title
+				Draw:(Header_Hexagons,0,0,@W,34)
+					Layer(Text)
+				M_Text:("?TITLE?",0,18,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					M_Style:(Outline,#FFFFFF20)
+
+
+				// Timer
+				Rect:(@C-30,@M-30)
+					Layer(Text)
+					set(gel.vis,twk(Staff,Coaching?ORDER?OnCooldown) = 1 and(twk(Staff,Coaching?ORDER?Locked) = 0)) 
+				{{
+					M_CooldownTimer:(-60,-60)
+				}}
+
+				// Padlock
+				Draw:(Icon_Padlock,@C-70,60,140,140)
+					Layer(Text)
+					set(gel.vis,twk(Staff,Coaching?ORDER?Locked) = 1) 
+
+				M_CellPressHighlight:()
+			}}
+				CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		}}
+	}}
+EndM
+
+Macro:(M_CooldownSlot,?X?,?Y?,?ORDER?)
+	Sheet:((0,0,1191),(0,-45,0),51.49,(1,1,1)) //FIXEDFOV
+	 	PinVP(?X?,@M-20)
+	 	.set(gel.alpha,0)
+	 	Delay(5*0.15)
+	 	frlerp(gel.alpha,1,0.15)
+	 	frlerp(gel3d.roty,0,0.15)
+	 	:Post(sounds.cards_Swap)
+	{{
+		Rect:(0,0,300,280)
+			Handle(0.5,0.5)
+			M_CellPress:()
+		{{
+			Rect:(@L,@T,@W,@H) ref:RestSquadSlot
+				//Press
+				float(%pressed)
+				Press()
+				<
+					set(%pressed,1)
+				>
+				else
+				<
+					set(%pressed,0)
+				>
+				Click()
+				<
+					Post(UI_Select)
+					Post(staff.btn_GenerateCard,5)
+				>
+				CTRLClick(?BTNOK?)
+				<
+					Post(UI_Select)
+					Post(staff.btn_GenerateCard,5)
+				>
+			{{
+
+				// Panel
+				Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+				Draw:(NewStarShape,0,0,@W,540,,#C5C5C560FFFFFFFF)
+
+
+				//Panel Shadow 
+				Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+				Draw:(FloorShadow,-12,@B-2,@W+24,11)
+
+				Draw:(Staff_RestSquad,@C-150,30,300,200)
+				
+
+				// Title Text
+				Draw:(Header_Hexagons,0,0,@W,34)
+					Layer(Text)
+				M_Text:(Coaching_Rest,0,18,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					M_Style:(Outline,#FFFFFF20)
+
+
+				// Rewards Text
+				Rect:(0,226,@W,40)
+				{{
+					Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+					Draw:(White,0,1,@W,@H-2,,#AAAAAAFFFFFFFFFF)			
+					Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFFFFFFFFFF)
+					Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFFFFFFFFFF)
+
+					Rect:()
+						set(gel.vis,twk(Staff,Coaching?ORDER?OnCooldown) = 0)
+					{
+						M_Text:(coaching_REWARDS,@C,-12,0,0,C,C,TextLoc,KNUL20,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+						M_Text:(Coaching_RestTip,@C,20,0,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+							.set(gel.text,loc("Coaching_RestTip") rep("$num",twk(CoachingTimers,NRGCoachingCardCount)))
+					}
+				}}
+
+
+				// Blackout Effect
+				Rect:()
+					Layer(AboveText)
+					set(gel.vis,twk(Staff,Coaching?ORDER?OnCooldown) = 1)
+				{
+					Draw:(RoundedPanel,-1,0,@W+2,@H+1,,#000000AAFFFFFFFF)
+				}
+
+
+				// Timer
+				Rect:(@C-30,@M-30)
+					Layer(AboveText)
+					set(gel.vis,twk(Staff,Coaching?ORDER?OnCooldown) = 1 and(twk(Staff,Coaching?ORDER?Locked) = 0))
+				{{
+					M_CooldownTimer:(-60,-60)
+				}}
+
+
+				// Padlock
+				Draw:(Icon_Padlock,@C-70,60,140,140)
+					Layer(Text)
+					set(gel.vis,twk(Staff,Coaching?ORDER?Locked) = 1)
+
+
+				// Blackout Text
+				M_Text:("",0,246,@W,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					Layer(AboveText)
+					if(twk(Staff,Coaching?ORDER?OnCooldown) = 1)
+					<
+						:set(gel.vis,1)
+						set(gel.text,twk(Staff,Coaching?ORDER?CooldownDesc))
+					>
+					else
+					<
+						:set(gel.vis,0)
+					>
+
+				M_CellPressHighlight:()
+			}}
+				CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		}}
+	}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H) ref:PostMatchRoot
+	set(gel.vis,twk(Staff,PostMatchState) = 1)
+{
+	Rect:(30,100,1092,580)
+	{{
+		// Training Ground
+		Rect:(50,0,300,280)
+		{{
+			M_CoachingSlot:(@C,115,TrainingGround1,TrainingGround,?CSTAFFTYPE_SKILLSCOACH?,staff_SkillsCoach,0)
+		}}
+		// Fitness Centre
+		Rect:(394,0,300,280)
+		{{
+			M_CoachingSlot:(@C,115,FitnessCentre1,FitnessCentre,?CSTAFFTYPE_FITNESSCOACH?,staff_FitnessCoach,1)		
+		}}
+		// Youth Academy
+		Rect:(738,0,300,280)
+		{{
+			M_CoachingSlot:(@C,115,YouthAcademy,YouthAcademy,?CSTAFFTYPE_YOUTHCOACH?,staff_YouthCoach,2)
+		}}
+		// Scout Office
+		Rect:(50,305,300,280)
+		{{
+			M_CoachingSlot:(@C,115,ScoutOffice,ScoutsOffice,?CSTAFFTYPE_SCOUT?,staff_Scout,3)
+		}}
+		// Medical Unit
+		Rect:(394,305,300,280)
+		{{
+			M_CoachingSlot:(@C,115,MedicalUnit,MedicalUnit,?CSTAFFTYPE_PHYSIO?,staff_Physio,4)
+		}}
+		// Resting
+		Rect:(738,305,300,280)
+		{{
+			M_CooldownSlot:(@C,115,5)
+		}}
+	}}
+}

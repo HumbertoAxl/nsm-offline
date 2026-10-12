@@ -1,0 +1,337 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_ReviewTick,NewGUI/UI/EndSeason/Icon_ReviewTick.png)
+Img:(Icon_ReviewFootball,NewGUI/UI/EndSeason/Icon_ReviewFootball.png)
+Img:(Icon_ReviewClub,NewGUI/UI/EndSeason/Icon_ReviewClub.png)
+Img:(Icon_ReviewSeason,NewGUI/UI/EndSeason/Icon_ReviewSeason.png)
+Img:(Icon_ReviewStandings,NewGUI/UI/EndSeason/Icon_ReviewStandings.png)
+Img:(Icon_ReviewFinance,NewGUI/UI/EndSeason/Icon_ReviewFinance.png)
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+Animation:(200,Loop) ref:BGHexAnimation
+{
+	During:(0,99)
+	{
+		Draw:(Header_Hex,115,-15,300,,,#00000010FFFFFFFF)
+			TweenCol(#00000002FFFFFFFF)
+	}
+
+	During:(100,199)
+	{
+		Draw:(Header_Hex,115,-15,300,,,#00000002FFFFFFFF)
+			TweenCol(#00000010FFFFFFFF)
+	}
+}
+
+Animation:(200,Clamp) ref:SeasonLineAnimation
+{ 
+	During:(0,149)
+	{
+		Draw:(White,0,0,4,1,0,#252525FF)
+			Handle(0.5,0)
+			TweenSize(4,60,2,0,-1,-1)  
+	}
+
+	During:(150,199)
+	{
+		DrawEmbedded:(Line_Final)
+	}
+}
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_SeasonReviewCircle,?X?,?Y?,?NUM?,?ICON?,?COL?)
+    Rect:(?X?,?Y?) ref:Circle?NUM?
+    {{     
+        Draw:(Circle_200,2,2,116,116,,#252525FFFFFFFFFF)
+
+        Rect:()
+        	float(%amt,%playSound,%complete)
+			if(twk(SeasonReview,ReviewStep) = ?NUM?)
+			<
+				if(twk(ScreenTransition,Active) = 0)
+				<
+					// Initial delay
+					:Delay(0.5)
+
+					if(%complete = 0)
+					<
+						add(%amt,0.0122)
+					>
+					else
+					<
+						:Post(UI_Success)
+						:Delay(0.5)
+						:Post(endseason.btn_Continue)
+					>
+
+					if(%amt <= 0.85)
+					<
+						:set(%playSound,1)
+						if(%playSound = 1)
+						<
+							Post(UI_ResultsScoreLoop)
+							set(%playSound,0)
+						>
+						else
+						<
+							:Delay(0.1)
+							set(%playSound,1)
+						> 
+					>
+
+					set(%complete,(%amt >= 1.02))
+				>
+			>
+
+        {
+			UseShader:(Segment)
+			{
+				Draw:(Circle_200,60,60,116,116,,?COL?)
+					Handle(0.5,0.5)
+					SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+			}
+
+	        Draw:(CircleBar_Frame120,0,0,120,120,,#505050FFFFFFFFFF)
+
+			Draw:(?ICON?,60,60,50,50,,#252525FF)
+				Handle(0.5,0.5)
+				if(%complete)
+				<
+					frlerp(gel.scale,0,0.2)
+					frlerp(gel.alpha,0,0.2)
+				>
+
+			Draw:(Icon_ReviewTick,60,60,32,32,,?COL?)
+				Scale(0,0)
+				Handle(0.5,0.5)
+				if(%complete)
+				<
+					frlerp(gel.scale,1,0.2)
+				>
+		}
+    }}
+EndM
+
+
+Macro:(M_SeasonReviewLine,?X?,?Y?,?SPD?,?ANG?,?NUM?,?COL?)
+	Rect:(?X?,?Y?,,,?ANG?)
+	{{
+		Embed:(Line_Final)
+		{
+			Draw:(White,0,-10,4,70,0,?COL?)
+				Handle(0.5,0)
+		}
+
+		AnimInstance:(0,0,SeasonLineAnimation,0,0)
+			if(twk(SeasonReview,ReviewStep)=?NUM?)
+			<
+				if(twk(ScreenTransition,Active) = 0)
+				<
+					:Delay(0.5)
+					:set(gel.anim.speed,?SPD?)
+				>
+			>
+			else
+			<  
+				:set(gel.anim.speed,0)
+			>
+	}}
+EndM
+
+
+Macro:(M_SeasonReviewBar,?X?,?Y?,?SIZE?,?ANG?,?NUM?)
+	Rect:(?X?,?Y?) ref:Bar?NUM?
+	{{  
+		Draw:(White,0,0, 15,-170,?ANG?,#25252530)
+			Handle(0.5,0)
+		Draw:(White,0,0,15,170,?ANG?,#252525FF)
+			Handle(0.5,0)
+			:set(gel.scaley,0)
+			if(twk(SeasonReview,ReviewStep)=?NUM?)
+			<
+				if(twk(ScreenTransition,Active) = 0)
+				<
+					frlerp(gel.scaley,-1,?SIZE?)
+				>
+			>  
+	}}
+EndM
+
+
+Macro:(M_SeasonReviewBox,?POSX?,?POSY?,?W?,?H?,?TEXT?,?NUM?,?ICON?,?ICONSIZE?,?YEAR?)
+	Rect:(?POSX?,?POSY?,?W?,?H?,,#FFFFFF00FFFFFFFF) ref:Box?NUM?
+		if(twk(SeasonReview,ReviewStep)=?NUM?)
+		<
+			if(twk(ScreenTransition,Active) = 0)
+			<
+				Delay(1.8)
+				frlerp(gel.alpha,1,0.06)
+			>
+		>
+	{{
+		Rect:(100,0)
+		{{
+			Draw:(?ICON?,@L-10,@T+29,?ICONSIZE?,?ICONSIZE?,,#25252560FFFFFFFF)
+				Handle(0.5,0.5)
+
+			M_Text:(SEASON 0,@L+20,@T+20,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,)
+				.set(gel.text,loc(seasonend_HEADER)::" "::LTR(fmt(twk(SeasonReview,SeasonYear)+?YEAR?,XX)))
+			M_Text:(?TEXT?,@L+20,@T+40,0,0,L,C,TextLoc,KNUL24,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,)
+		}}
+			if(twk(SeasonReview,ReviewStep)=?NUM?)
+			<
+				if(twk(ScreenTransition,Active) = 0)
+				<
+					Delay(1.5)
+					frlerp(gel.x,0,0.1)
+					Delay(0.1)
+					//:Post(UI_Swoosh)
+				>
+			>
+		}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	Rect:(@C-150,@M-30)
+		Layer(AboveSky)
+	{{
+	   
+	   	AnimInstance:(-360,-160,BGHexAnimation)
+	   		Scale(1.35,1.35)
+	   		set(gel.anim.speed,0.2)
+	   	AnimInstance:(-25,-345,BGHexAnimation)
+	   		Scale(1.35,1.35)
+	   		Delay(0.2)
+	   		set(gel.anim.speed,0.4)
+	   	AnimInstance:(-35,40,BGHexAnimation)
+	   		Scale(1.35,1.35)
+	   		Delay(0.3)
+	   		set(gel.anim.speed,0.6)
+	   	AnimInstance:(295,227,BGHexAnimation)
+	   		Scale(1.35,1.35)
+	   		Delay(0)
+	   		set(gel.anim.speed,1)
+
+		Rect:(-113,-7)
+		{{
+			Draw:(Header_Hex,-25,24,40,,,#00000009FFFFFFFF)
+			Draw:(Header_Hex,45,24,40,,,#00000010FFFFFFFF)
+			Draw:(Header_Hex,80,5,40,,,#00000010FFFFFFFF)
+			Draw:(Header_Hex,115,-15,40,,,#00000009FFFFFFFF)
+		}}  
+			Scale(5,5)    
+	    
+
+	    // BG Hex Lines
+	    Draw:(Fade_Down,-205,30,15,-200,-150,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Down,-205,0,15,-240,90,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Down,-100,-180,15,-240,30,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Down,110,-180,15,-240,-30,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Down,435,10,15,-240,-30,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Up,100,200,15,-240,-30,#25252530)
+	         Handle(0.5,0)
+	    Draw:(Fade_Up,430,395,15,-240,-30,#25252530)
+	         Handle(0.5,0)
+	   	Draw:(Fade_Up,740,195,15,-240,90,#25252530)
+	         Handle(0.5,0)
+
+
+	    // Expanding Bars and BG Circles
+
+	    //Step 0
+  		Draw:(Circle_100,-220,0,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	   
+	    //Step 01 Bar
+	    Draw:(Circle_100,-110,-195,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	    M_SeasonReviewBar:(-208,-25,0.1,-29.5,1)
+	    
+	    //Step 02 Bar
+	    Draw:(Circle_100,120,-195,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	    M_SeasonReviewBar:(-87,-195,0.1,-90,2)
+	    
+	    //Step 03 Bar
+	    Draw:(Circle_100,215,0,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	    M_SeasonReviewBar:(125,-170,0.1,-150,3)
+	    
+	    //Step 04 Bar
+	    Draw:(Circle_100,440,0,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	    M_SeasonReviewBar:(245,0,0.1,-90,4)
+	    
+	    //Step 05 Bar
+	    Draw:(Circle_100,540,190,92,92,,#252525FF)
+	        Handle(0.5,0.5)
+	    M_SeasonReviewBar:(455,30,0.1,-150,5)
+
+
+	    // Circles and lines out to textbox
+
+	     //Step 0 SEASON END
+	   	M_SeasonReviewLine:(-220,40,1.7,0,0,#C80D0DFF)
+	   	M_SeasonReviewCircle:(-280,-60,0,Icon_ReviewFootball,#C80D0DFF)
+	   	M_SeasonReviewBox:(-310,90,240,80,seasonend_END,0,Icon_ReviewFootball,40,0)
+	     
+	    //Step 1 STANDINGS
+	   	M_SeasonReviewLine:(-110,-240,1.7,-180,1,#43C3EDFF)
+	    M_SeasonReviewCircle:(-170,-255,1,Icon_ReviewStandings,#43C3EDFF)
+	   	M_SeasonReviewBox:(-75,-310,240,80,seasonend_STANDINGS,1,Icon_ReviewStandings,55,0)
+
+	    //Step 2 SEASON AWARDS
+	    M_SeasonReviewLine:(165,-195,1.7,90,2,#43C3EDFF)
+	    M_SeasonReviewCircle:(60,-255,2,Icon_ReviewSeason,#43C3EDFF)
+	    M_SeasonReviewBox:(255,-243,240,80,seasonend_AWARDS,2,Icon_ReviewSeason,45,0)
+
+	    //Step 3 CLUB AWARDS
+	   	M_SeasonReviewLine:(215,40,1.7,0,3,#43C3EDFF)
+	    M_SeasonReviewCircle:(155,-60,3,Icon_ReviewClub,#43C3EDFF)
+	    M_SeasonReviewBox:(130,90,240,80,seasonend_AWARDS_CLUB,3,Icon_ReviewClub,45,0)
+
+	    //Step 4 CONTRACTS
+	   	M_SeasonReviewLine:(440,-40,1.7,180,4,#43C3EDFF)
+	    M_SeasonReviewCircle:(380,-60,4,Icon_ReviewFinance,#43C3EDFF)
+	    M_SeasonReviewBox:(370,-150,240,80,seasonend_CONTRACTS,4,Icon_ReviewFinance,46,0)
+
+	    //Step 5 NEW SEASON
+	    M_SeasonReviewLine:(540,210,1.7,0,5,#05AD01FF)
+	    M_SeasonReviewCircle:(480,130,5,Icon_ReviewFootball,#05AD01FF) 
+	    M_SeasonReviewBox:(455,260,240,80,seasonend_NEW,5,Icon_ReviewFootball,40,1) 
+	}}
+
+
+	Rect:() $HIDE
+		if(twk(SeasonReview,ReviewStep) = 6)
+	    <
+	        Delay(1)
+	        :set(gel.vis,1)
+		>
+	{
+		// Step 6 NEW SEASON TEXT
+	    M_Text:(seasonend_SPLASH,@C-20,@M+180,0,0,C,C,TextLoc,KNUL34,Upper,0,0,#00000000,NoItalics,#FFFFFF00,)
+			Delay(1)
+			frlerp(gel.scale,0.9,0.05)
+			frlerp(gel.alpha,1,0.05)
+
+		// Continue
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,endseason.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			:CTRLSetSelected()
+	}	
+}}
+

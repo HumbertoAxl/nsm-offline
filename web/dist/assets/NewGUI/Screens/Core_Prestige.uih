@@ -1,0 +1,305 @@
+Img:(Banner_Fade,NewGUI/Prestige/Banner_Fade.png) FORCE
+Img:(Banner_Star,NewGUI/Prestige/Banner_Star.png) FORCE
+Img:(Prestige_Star_BG,NewGUI/Prestige/Prestige_Star_BG.png) FORCE SIMPLE
+Img:(Prestige_Star_Gold,NewGUI/Prestige/Prestige_Star_Gold.png) FORCE SIMPLE
+Img:(Prestige_Star_Silver,NewGUI/Prestige/Prestige_Star_Silver.png) FORCE SIMPLE
+Img:(Prestige_Star_BGL,NewGUI/Prestige/Prestige_Star_BGL.png) FORCE SIMPLE
+Img:(Prestige_Star_GoldL,NewGUI/Prestige/Prestige_Star_GoldL.png) FORCE SIMPLE
+Img:(Prestige_Star_SilverL,NewGUI/Prestige/Prestige_Star_SilverL.png) FORCE SIMPLE
+Img:(Comp_BG,NewGUI/Prestige/Comp_BG.png,60,60,48,48,0.5) FORCE
+//-------------------------------------------------------------------------------------TROPHY IMAGES
+##IA
+Img:(Trophy_Country,NewGUI/Prestige/Trophies/Trophy_Country.png) FORCE Scale:0.6 Volatile:Trophy_Prestige
+Img:(Trophy_Continental_01,NewGUI/Prestige/Trophies/Trophy_Continental_01.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Continental_02,NewGUI/Prestige/Trophies/Trophy_Continental_02.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_01,NewGUI/Prestige/Trophies/Trophy_Domestic_01.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_02,NewGUI/Prestige/Trophies/Trophy_Domestic_02.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_03,NewGUI/Prestige/Trophies/Trophy_Domestic_03.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_01,NewGUI/Prestige/Trophies/Trophy_League_01.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_02,NewGUI/Prestige/Trophies/Trophy_League_02.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_03,NewGUI/Prestige/Trophies/Trophy_League_03.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_04,NewGUI/Prestige/Trophies/Trophy_League_04.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_05,NewGUI/Prestige/Trophies/Trophy_League_05.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_League_06,NewGUI/Prestige/Trophies/Trophy_League_06.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Manager_01,NewGUI/Prestige/Trophies/Trophy_Manager_01.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Manager_02,NewGUI/Prestige/Trophies/Trophy_Manager_02.png) FORCE Scale:0.6 Volatile:Trophy_Cabinet
+Img:(Trophy_Player_01,NewGUI/Prestige/Trophies/Trophy_Player_01.png) FORCE Scale:0.6 Volatile:Trophy_Player
+Img:(Trophy_Player_02,NewGUI/Prestige/Trophies/Trophy_Player_02.png) FORCE Scale:0.6 Volatile:Trophy_Player
+Img:(Trophy_Player_03,NewGUI/Prestige/Trophies/Trophy_Player_03.png) FORCE Scale:0.6 Volatile:Trophy_Player
+##P4N
+Img:(Trophy_Country,NewGUI/Prestige/Trophies/Trophy_Country.png) FORCE Volatile:Trophy_Prestige
+Img:(Trophy_Continental_01,NewGUI/Prestige/Trophies/Trophy_Continental_01.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Continental_02,NewGUI/Prestige/Trophies/Trophy_Continental_02.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_01,NewGUI/Prestige/Trophies/Trophy_Domestic_01.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_02,NewGUI/Prestige/Trophies/Trophy_Domestic_02.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Domestic_03,NewGUI/Prestige/Trophies/Trophy_Domestic_03.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_01,NewGUI/Prestige/Trophies/Trophy_League_01.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_02,NewGUI/Prestige/Trophies/Trophy_League_02.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_03,NewGUI/Prestige/Trophies/Trophy_League_03.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_04,NewGUI/Prestige/Trophies/Trophy_League_04.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_05,NewGUI/Prestige/Trophies/Trophy_League_05.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_League_06,NewGUI/Prestige/Trophies/Trophy_League_06.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Manager_01,NewGUI/Prestige/Trophies/Trophy_Manager_01.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Manager_02,NewGUI/Prestige/Trophies/Trophy_Manager_02.png) FORCE Volatile:Trophy_Cabinet
+Img:(Trophy_Player_01,NewGUI/Prestige/Trophies/Trophy_Player_01.png) FORCE Volatile:Trophy_Player
+Img:(Trophy_Player_02,NewGUI/Prestige/Trophies/Trophy_Player_02.png) FORCE Volatile:Trophy_Player
+Img:(Trophy_Player_03,NewGUI/Prestige/Trophies/Trophy_Player_03.png) FORCE Volatile:Trophy_Player
+##*
+
+//-------------------------------------------------------------------------------------SHIELD IMAGES
+Img:(Shield_Default,NewGUI/Prestige/Shields/Shield_Default.png) FORCE Volatile:Shield_Default
+Img:(Shield_Continental_01,NewGUI/Prestige/Shields/Shield_Continental_01.png) FORCE Volatile:Shield_Continental_01
+Img:(Shield_Continental_02,NewGUI/Prestige/Shields/Shield_Continental_02.png) FORCE Volatile:Shield_Continental_02
+Img:(Shield_Domestic_01,NewGUI/Prestige/Shields/Shield_Domestic_01.png) FORCE Volatile:Shield_Domestic_01
+Img:(Shield_Domestic_02,NewGUI/Prestige/Shields/Shield_Domestic_02.png) FORCE Volatile:Shield_Domestic_02
+Img:(Shield_Domestic_03,NewGUI/Prestige/Shields/Shield_Domestic_03.png) FORCE Volatile:Shield_Domestic_03
+Img:(Shield_League_01,NewGUI/Prestige/Shields/Shield_League_01.png) FORCE Volatile:Shield_League_01
+Img:(Shield_League_02,NewGUI/Prestige/Shields/Shield_League_02.png) FORCE Volatile:Shield_League_02
+Img:(Shield_League_03,NewGUI/Prestige/Shields/Shield_League_03.png) FORCE Volatile:Shield_League_03
+Img:(Shield_League_04,NewGUI/Prestige/Shields/Shield_League_04.png) FORCE Volatile:Shield_League_04
+Img:(Shield_League_05,NewGUI/Prestige/Shields/Shield_League_05.png) FORCE Volatile:Shield_League_05
+Img:(Shield_League_06,NewGUI/Prestige/Shields/Shield_League_06.png) FORCE Volatile:Shield_League_06
+//-------------------------------------------------------------------------------------------BANNERS
+Img:(Banner_Default,NewGUI/Prestige/Banners/Banner_Default.png) FORCE Volatile:Banners
+Img:(Banner_Continental_01,NewGUI/Prestige/Banners/Banner_Continental_01.png) FORCE Volatile:Banners
+Img:(Banner_Continental_02,NewGUI/Prestige/Banners/Banner_Continental_02.png) FORCE Volatile:Banners
+Img:(Banner_Domestic,NewGUI/Prestige/Banners/Banner_Domestic.png) FORCE Volatile:Banners
+Img:(Banner_League_01,NewGUI/Prestige/Banners/Banner_League_01.png) FORCE Volatile:Banners
+Img:(Banner_League_02,NewGUI/Prestige/Banners/Banner_League_02.png) FORCE Volatile:Banners
+Img:(Banner_League_03,NewGUI/Prestige/Banners/Banner_League_03.png) FORCE Volatile:Banners
+Img:(Banner_League_04,NewGUI/Prestige/Banners/Banner_League_04.png) FORCE Volatile:Banners
+Img:(Banner_League_05,NewGUI/Prestige/Banners/Banner_League_05.png) FORCE Volatile:Banners
+Img:(Banner_League_06,NewGUI/Prestige/Banners/Banner_League_06.png) FORCE Volatile:Banners
+
+//---------------------------------------------------------------------------------------------FLAGS
+// Launch countries only for now
+Img:(Flag_9,NewGUI/Prestige/Flags/Flag_9.png) FORCE Volatile:Flags
+Img:(Flag_12,NewGUI/Prestige/Flags/Flag_12.png) FORCE Volatile:Flags
+Img:(Flag_20,NewGUI/Prestige/Flags/Flag_20.png) FORCE Volatile:Flags
+Img:(Flag_28,NewGUI/Prestige/Flags/Flag_28.png) FORCE Volatile:Flags
+Img:(Flag_41,NewGUI/Prestige/Flags/Flag_41.png) FORCE Volatile:Flags
+Img:(Flag_42,NewGUI/Prestige/Flags/Flag_42.png) FORCE Volatile:Flags
+Img:(Flag_44,NewGUI/Prestige/Flags/Flag_44.png) FORCE Volatile:Flags
+Img:(Flag_50,NewGUI/Prestige/Flags/Flag_50.png) FORCE Volatile:Flags
+Img:(Flag_55,NewGUI/Prestige/Flags/Flag_55.png) FORCE Volatile:Flags
+Img:(Flag_62,NewGUI/Prestige/Flags/Flag_62.png) FORCE Volatile:Flags
+Img:(Flag_70,NewGUI/Prestige/Flags/Flag_70.png) FORCE Volatile:Flags
+Img:(Flag_71,NewGUI/Prestige/Flags/Flag_71.png) FORCE Volatile:Flags
+Img:(Flag_75,NewGUI/Prestige/Flags/Flag_75.png) FORCE Volatile:Flags
+Img:(Flag_77,NewGUI/Prestige/Flags/Flag_77.png) FORCE Volatile:Flags
+Img:(Flag_89,NewGUI/Prestige/Flags/Flag_89.png) FORCE Volatile:Flags
+Img:(Flag_90,NewGUI/Prestige/Flags/Flag_90.png) FORCE Volatile:Flags
+Img:(Flag_95,NewGUI/Prestige/Flags/Flag_95.png) FORCE Volatile:Flags
+Img:(Flag_97,NewGUI/Prestige/Flags/Flag_97.png) FORCE Volatile:Flags
+Img:(Flag_102,NewGUI/Prestige/Flags/Flag_102.png) FORCE Volatile:Flags
+Img:(Flag_123,NewGUI/Prestige/Flags/Flag_123.png) FORCE Volatile:Flags
+Img:(Flag_133,NewGUI/Prestige/Flags/Flag_133.png) FORCE Volatile:Flags
+Img:(Flag_136,NewGUI/Prestige/Flags/Flag_136.png) FORCE Volatile:Flags
+Img:(Flag_140,NewGUI/Prestige/Flags/Flag_140.png) FORCE Volatile:Flags
+Img:(Flag_141,NewGUI/Prestige/Flags/Flag_141.png) FORCE Volatile:Flags
+Img:(Flag_148,NewGUI/Prestige/Flags/Flag_148.png) FORCE Volatile:Flags
+Img:(Flag_150,NewGUI/Prestige/Flags/Flag_150.png) FORCE Volatile:Flags
+Img:(Flag_151,NewGUI/Prestige/Flags/Flag_151.png) FORCE Volatile:Flags
+Img:(Flag_154,NewGUI/Prestige/Flags/Flag_154.png) FORCE Volatile:Flags
+Img:(Flag_155,NewGUI/Prestige/Flags/Flag_155.png) FORCE Volatile:Flags
+Img:(Flag_156,NewGUI/Prestige/Flags/Flag_156.png) FORCE Volatile:Flags
+Img:(Flag_163,NewGUI/Prestige/Flags/Flag_163.png) FORCE Volatile:Flags
+Img:(Flag_164,NewGUI/Prestige/Flags/Flag_164.png) FORCE Volatile:Flags
+Img:(Flag_175,NewGUI/Prestige/Flags/Flag_175.png) FORCE Volatile:Flags
+Img:(Flag_180,NewGUI/Prestige/Flags/Flag_180.png) FORCE Volatile:Flags
+Img:(Flag_181,NewGUI/Prestige/Flags/Flag_181.png) FORCE Volatile:Flags
+Img:(Flag_192,NewGUI/Prestige/Flags/Flag_192.png) FORCE Volatile:Flags
+Img:(Flag_193,NewGUI/Prestige/Flags/Flag_193.png) FORCE Volatile:Flags
+Img:(Flag_200,NewGUI/Prestige/Flags/Flag_200.png) FORCE Volatile:Flags
+Img:(Flag_201,NewGUI/Prestige/Flags/Flag_201.png) FORCE Volatile:Flags
+Img:(Flag_206,NewGUI/Prestige/Flags/Flag_206.png) FORCE Volatile:Flags
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------------------BANNER MODELS
+Img:(ShieldModel_Colour,NewGUI/Prestige/ShieldModel_Colour.png)
+
+StaticModel:(Shield_Default,Shield_Default)
+StaticModel:(Shield_Continental_01,Shield_Continental_01)
+StaticModel:(Shield_Continental_02,Shield_Continental_02)
+StaticModel:(Shield_Domestic_01,Shield_Domestic_01)
+StaticModel:(Shield_Domestic_02,Shield_Domestic_02)
+StaticModel:(Shield_Domestic_03,Shield_Domestic_03)
+StaticModel:(Shield_League_01,Shield_League_01)
+StaticModel:(Shield_League_02,Shield_League_02)
+StaticModel:(Shield_League_03,Shield_League_03)
+StaticModel:(Shield_League_04,Shield_League_04)
+StaticModel:(Shield_League_05,Shield_League_05)
+StaticModel:(Shield_League_06,Shield_League_06)
+StaticModel:(Shield_NewStar,Shield_NewStar)
+StaticModel:(Shield_NewStar_Simple,Shield_NewStar_Simple)
+//--------------------------------------------------------------------------------------------------
+
+
+Macro:(M_PrestigeVar,?TYPE?,?VAR?)
+	Rearmable() ref:PrestigeRearm
+	colvar(%compColour)
+	strvar(%bannerImage,%bannerModel,%shieldImage,%trophyImage)
+	.set(%compColour,#CC1618FF)
+	.set(%bannerImage,"Banner_Default")
+	.set(%bannerModel,"Banner_Default")
+	.set(%shieldImage,"Shield_Default")
+	.set(%trophyImage,"Blank")
+
+	// MANAGERIAL
+	:if(?VAR? = 100)
+	<
+		// Star Manager of Season
+		set(%compColour,#252525FF)
+		set(%shieldImage,"Blank")
+		set(%trophyImage,"Trophy_Manager_01")
+	>
+	:if(?VAR? = 99)
+	<
+		// Star Manager of Month
+		set(%compColour,#252525FF)
+		set(%shieldImage,"Blank")
+		set(%trophyImage,"Trophy_Manager_02")
+	>
+
+	// CONTINENTAL
+	:if(?VAR? = 40)
+	<
+		set(%compColour,#005696FF)
+		set(%bannerImage,"Banner_Continental_01")
+		set(%bannerModel,"Shield_Continental_01")
+		set(%shieldImage,"Shield_Continental_01")
+		set(%trophyImage,"Trophy_Continental_01")
+	>
+	:if(?VAR? = 35)
+	<
+		set(%compColour,#CC1618FF)
+		set(%bannerImage,"Banner_Continental_02")
+		set(%bannerModel,"Shield_Continental_02")
+		set(%shieldImage,"Shield_Continental_02")
+		set(%trophyImage,"Trophy_Continental_02")
+	>
+	:if((?VAR? >= 31 and(?VAR? < 90)) and(not(?VAR? oneof(35,40))))
+	<
+		set(%compColour,#CC1618FF)
+		set(%bannerImage,"Banner_Continental_02")
+		set(%bannerModel,"Shield_Continental_02")
+		set(%shieldImage,"Shield_Continental_02")
+		set(%trophyImage,"Trophy_Continental_02")
+	>
+
+	// DOMESTIC
+	:if(?VAR? = 30)
+	<
+		set(%compColour,#D69E32FF)
+		set(%bannerImage,"Banner_Domestic")
+		set(%bannerModel,"Shield_Domestic")
+		set(%shieldImage,"Shield_Domestic_01")
+		set(%trophyImage,"Trophy_Domestic_01")
+	>
+	:if(?VAR? = 29)
+	<
+		set(%compColour,#ADB2B4FF)
+		set(%bannerImage,"Banner_Domestic")
+		set(%bannerModel,"Shield_Domestic")
+		set(%shieldImage,"Shield_Domestic_02")
+		set(%trophyImage,"Trophy_Domestic_02")
+	>
+	:if(?VAR? = 28)
+	<
+		set(%compColour,#90492AFF)
+		set(%bannerImage,"Banner_Domestic")
+		set(%bannerModel,"Shield_Continental_01")
+		set(%shieldImage,"Shield_Domestic_03")
+		set(%trophyImage,"Trophy_Domestic_03")
+	>
+	// Others
+	:if(?VAR? >= 20 and(?VAR? < 28))
+	<
+		set(%compColour,#90492AFF)
+		set(%bannerImage,"Banner_Domestic")
+		set(%bannerModel,"Shield_Domestic")
+		set(%shieldImage,"Shield_Domestic_03")
+		set(%trophyImage,"Trophy_Domestic_03")
+	>
+
+
+	// LEAGUE
+	:if(?VAR? oneof(18,19))
+	<
+		set(%compColour,#6A003AFF)
+		set(%bannerImage,"Banner_League_01")
+		set(%bannerModel,"Shield_League_01")
+		set(%trophyImage,"Trophy_League_01")
+		set(%shieldImage,"Shield_League_01")
+	>
+	:if(?VAR? = 11)
+	<
+		set(%compColour,#CF112BFF)
+		set(%bannerImage,"Banner_League_02")
+		set(%bannerModel,"Shield_League_02")
+		set(%trophyImage,"Trophy_League_02")
+		set(%shieldImage,"Shield_League_02")
+	>
+	:if(?VAR? = 9)
+	<
+		set(%compColour,#6BACE6FF)
+		set(%bannerImage,"Banner_League_03")
+		set(%bannerModel,"Shield_League_03")
+		set(%trophyImage,"Trophy_League_03")
+		set(%shieldImage,"Shield_League_03")
+	>
+	:if(?VAR? = 7)
+	<
+		set(%compColour,#490D67FF)
+		set(%bannerImage,"Banner_League_04")
+		set(%bannerModel,"Shield_League_04")
+		set(%trophyImage,"Trophy_League_04")
+		set(%shieldImage,"Shield_League_04")
+	>
+	:if(?VAR? = 5)
+	<
+		set(%compColour,#F6A22EFF)
+		set(%bannerImage,"Banner_League_05")
+		set(%bannerModel,"Shield_League_05")
+		set(%trophyImage,"Trophy_League_05")
+		set(%shieldImage,"Shield_League_05")
+	>
+	:if(?VAR? = 3)
+	<
+		set(%compColour,#27C960FF)
+		set(%bannerImage,"Banner_League_06")
+		set(%bannerModel,"Shield_League_06")
+		set(%trophyImage,"Trophy_League_06")
+		set(%shieldImage,"Shield_League_06")
+	>
+	If:(?TYPE?=CompetitionColour)
+		:set(gel.colour,%compColour)
+	EndIf
+	If:(?TYPE?=BannerImage)
+		:set(gel.img,%bannerImage)
+	EndIf
+	If:(?TYPE?=BannerModel)
+		:set(gel.model,%bannerModel)
+	EndIf
+	If:(?TYPE?=ShieldImage)
+		:set(gel.img,%shieldImage)
+	EndIf
+	If:(?TYPE?=TrophyImage)
+		:set(gel.img,%trophyImage)
+	EndIf
+EndM
+
+
+Macro:(M_Prestige,?TYPE?)
+	M_PrestigeVar:(?TYPE?,(%prestige))
+EndM
+
+Macro:(M_PrestigeMatch,?TYPE?)
+	M_PrestigeVar:(?TYPE?,(twk(Match,Prestige)))
+EndM

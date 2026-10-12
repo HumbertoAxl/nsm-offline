@@ -1,0 +1,85 @@
+// ------------------------------------- COLOURS
+
+//SkinCol:()
+SkinCol:(ffffff,cccccc,999999,666666)
+//SkinCol:(dcbfb9,ffcfb5,dfae9b,b19479,6d4d2d,4f392f)
+
+//HairCol:()
+HairCol:(ffffff,cccccc,999999,666666)
+//HairCol:(efd778,dd902d,5d390b,555555,444444,333333,3e2f1b,baae80)
+
+//EyesCol:()
+EyesCol:(ffffff,cccccc,999999,666666)
+//EyesCol:(9cc3da,77afff,7bac34,5a3f00,8f6b00)
+
+MouthCol:(ffffff)
+
+
+// -------------------------------------- ASSETS
+
+#Hair#
+	ImgRange:(FaceHair,1,19)
+	Ratio:(11,12)
+#Hair#End
+
+#Head#
+	ImgRange:(FaceHead,1,7)
+#Head#End
+
+#Burns#
+#Burns#End
+
+#Details#
+#Details#End
+
+#Ears#
+	ImgRange:(FaceEars,1,5)
+	Offsetx:(0,3)
+	OffsetY:(0,3)
+	ScaleX:(0.93,1)
+	//Scaley:(0.93,1)
+	
+#Ears#End
+
+#Earings#
+#Earings#End
+
+#Nose#
+	ImgRange:(FaceNose,1,9)
+#Nose#End
+
+#NosePiercing#
+#NosePiercing#End
+
+#Mouth#
+	ImgRange:(FaceMouth,1,6)
+#Mouth#End
+
+#Eyes#
+	Imgs:(FaceEyeSocket,1)
+	//ImgRange:(FaceEyeSocket,1,2)
+#Eyes#End
+
+#Brows#
+	ImgRange:(FaceBrows,1,5)
+#Brows#End
+
+#Beard#
+	ImgRange:(FaceBeard,1,5)
+	Ratio:(3,10)
+#Beard#End
+
+#BrowsPiercing#
+#BrowsPiercing#End
+
+#Tattoo#
+	Disable
+	// Imgs:(FaceTatoo,1)
+#Tattoo#End
+
+#Body#
+	ScaleX:(0.925,1)
+	ScaleY:(0.925,1)
+	//OffsetX:(-1,1)
+	//OffsetY:(0,5)
+#Body#End

@@ -1,0 +1,383 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// Bux images
+Img:(Coinstack1,NewGUI/IAP/Bux/Coinstack1.png) FORCE Volatile:Store
+Img:(Coinstack2,NewGUI/IAP/Bux/Coinstack2.png) FORCE Volatile:Store
+Img:(Coinstack3,NewGUI/IAP/Bux/Coinstack3.png) FORCE Volatile:Store
+Img:(Coinstack4,NewGUI/IAP/Bux/Coinstack4.png) FORCE Volatile:Store
+Img:(Coinstack5,NewGUI/IAP/Bux/Coinstack5.png) FORCE Volatile:Store
+Img:(Coinstack6,NewGUI/IAP/Bux/Coinstack6.png) FORCE Volatile:Store
+
+// Hard Special Images
+Img:(Retries1,NewGUI/IAP/Special/Retries1.png) FORCE Volatile:Store
+Img:(MarketingManager1,NewGUI/IAP/Special/MarketingManager1.png) FORCE Volatile:Store
+Img:(RemoveAds1,NewGUI/IAP/Special/RemoveAds1.png) FORCE Volatile:Store
+Img:(Editor,NewGUI/IAP/Special/Editor.png) FORCE Volatile:Store
+Img:(Parity1,NewGUI/IAP/Special/Parity1.png) FORCE Volatile:Store
+Img:(WatchAd1,NewGUI/IAP/Special/WatchAd1.png) FORCE Volatile:Store
+Img:(WatchAd2,NewGUI/IAP/Special/WatchAd2.png) FORCE Volatile:Store
+
+// Pack Default - replaced by dl images
+##J
+Img:(Pack_Default,NewGUI/IAP/CardPacks/Pack_Default_Ja.png) FORCE SIMPLE
+Img:(Pack_Body_Baseball,NewGUI/IAP/CardPacks/Pack_Body_Baseball_Ja.png) FORCE SIMPLE Volatile:Store
+##-
+Img:(Pack_Default,NewGUI/IAP/CardPacks/Pack_Default.png) FORCE SIMPLE
+Img:(Pack_Body_Baseball,NewGUI/IAP/CardPacks/Pack_Body_Baseball.png) FORCE SIMPLE Volatile:Store
+##*
+
+// Pack Actual - previously dl images
+Img:(Pack_Body_BIGNRG,NewGUI/IAP/CardPacks/Pack_Body_BigNRG.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_POWER,NewGUI/IAP/CardPacks/Pack_Body_Power.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_BLACK,NewGUI/IAP/CardPacks/Pack_Body_BLACK.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_SILVER,NewGUI/IAP/CardPacks/Pack_Body_SILVER.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_FreeNRG,NewGUI/IAP/CardPacks/Pack_Body_FreeNRG.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_FB,NewGUI/IAP/CardPacks/Pack_Body_FB.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_NSC2,NewGUI/IAP/CardPacks/Pack_Body_NSC2.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Buoyant2,NewGUI/IAP/CardPacks/Pack_Body_Buoyant2.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Retrobowl,NewGUI/IAP/CardPacks/Pack_Body_RB.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Retrogoal,NewGUI/IAP/CardPacks/Pack_Body_RG.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_NSGP,NewGUI/IAP/CardPacks/Pack_Body_NSGP.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RBCollege,NewGUI/IAP/CardPacks/Pack_Body_RBCollege.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Basic,NewGUI/IAP/CardPacks/Pack_Body_Basic.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Training,NewGUI/IAP/CardPacks/Pack_Body_Training.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Keeper,NewGUI/IAP/CardPacks/Pack_Body_Keeper.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Club,NewGUI/IAP/CardPacks/Pack_Body_Club.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Recovery,NewGUI/IAP/CardPacks/Pack_Body_Recovery.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Versatility,NewGUI/IAP/CardPacks/Pack_Body_Versatility.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Contracts,NewGUI/IAP/CardPacks/Pack_Body_Contracts.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Concerns,NewGUI/IAP/CardPacks/Pack_Body_Concerns.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Mystery,NewGUI/IAP/CardPacks/Pack_Body_Mystery2.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_Boxretail,NewGUI/IAP/CardPacks/Pack_Body_Boxretail.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RetailExc1,NewGUI/IAP/CardPacks/Pack_Body_RetailExc1.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RetailExc2,NewGUI/IAP/CardPacks/Pack_Body_RetailExc2.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RetailExc3,NewGUI/IAP/CardPacks/Pack_Body_RetailExc3.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RetailExc4,NewGUI/IAP/CardPacks/Pack_Body_RetailExc4.png) FORCE SIMPLE Volatile:Store
+Img:(Pack_Body_RetailExc5,NewGUI/IAP/CardPacks/Pack_Body_RetailExc5.png) FORCE SIMPLE Volatile:Store
+
+##N4
+//No option on Switch
+Img:(Pack_Body_ATT,NewLook/IAP/CardPacks/Pack_Body_ATT.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_DEF,NewLook/IAP/CardPacks/Pack_Body_DEF.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_GK,NewLook/IAP/CardPacks/Pack_Body_GK.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_Gold,NewLook/IAP/CardPacks/Pack_Body_Gold.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_Holiday,NewLook/IAP/CardPacks/Pack_Body_Holiday.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_LuckyDip,NewLook/IAP/CardPacks/Pack_Body_LuckyDip.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_MID,NewLook/IAP/CardPacks/Pack_Body_MID.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_Spine,NewLook/IAP/CardPacks/Pack_Body_Spine.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_Staff,NewLook/IAP/CardPacks/Pack_Body_Staff.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_SUPERKEEPER,NewLook/IAP/CardPacks/Pack_Body_SUPERKEEPER.png) FORCE SIMPLE Volatile:Store_NL
+Img:(Pack_Body_SuperStriker,NewLook/IAP/CardPacks/Pack_Body_SuperStriker.png) FORCE SIMPLE Volatile:Store_NL
+##-
+// Option on all other platforms
+Img:(OL_Pack_Body_ATT,NewGUI/IAP/CardPacks/Pack_Body_ATT.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_DEF,NewGUI/IAP/CardPacks/Pack_Body_DEF.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_GK,NewGUI/IAP/CardPacks/Pack_Body_GK.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_Gold,NewGUI/IAP/CardPacks/Pack_Body_Gold.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_Holiday,NewGUI/IAP/CardPacks/Pack_Body_Holiday.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_LuckyDip,NewGUI/IAP/CardPacks/Pack_Body_LuckyDip.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_MID,NewGUI/IAP/CardPacks/Pack_Body_MID.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_Spine,NewGUI/IAP/CardPacks/Pack_Body_Spine.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_Staff,NewGUI/IAP/CardPacks/Pack_Body_Staff.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_SUPERKEEPER,NewGUI/IAP/CardPacks/Pack_Body_SUPERKEEPER.png) FORCE SIMPLE Volatile:Store_OL
+Img:(OL_Pack_Body_SuperStriker,NewGUI/IAP/CardPacks/Pack_Body_SuperStriker.png) FORCE SIMPLE Volatile:Store_OL
+
+Img:(NL_Pack_Body_Gold,NewLook/IAP/CardPacks/Pack_Body_Gold.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_Holiday,NewLook/IAP/CardPacks/Pack_Body_Holiday.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_LuckyDip,NewLook/IAP/CardPacks/Pack_Body_LuckyDip.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_Spine,NewLook/IAP/CardPacks/Pack_Body_Spine.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_Staff,NewLook/IAP/CardPacks/Pack_Body_Staff.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_SUPERKEEPER,NewLook/IAP/CardPacks/Pack_Body_SUPERKEEPER.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_SuperStriker,NewLook/IAP/CardPacks/Pack_Body_SuperStriker.png) FORCE SIMPLE Volatile:Store_NL
+
+If:("?VARIANT?"="JAPAN")
+Img:(NL_Pack_Body_ATT,NewLook/IAP/CardPacks/Pack_Body_ATT_Ja.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_DEF,NewLook/IAP/CardPacks/Pack_Body_DEF_Ja.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_GK,NewLook/IAP/CardPacks/Pack_Body_GK_Ja.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_MID,NewLook/IAP/CardPacks/Pack_Body_MID_Ja.png) FORCE SIMPLE Volatile:Store_NL
+Else
+Img:(NL_Pack_Body_ATT,NewLook/IAP/CardPacks/Pack_Body_ATT.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_DEF,NewLook/IAP/CardPacks/Pack_Body_DEF.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_GK,NewLook/IAP/CardPacks/Pack_Body_GK.png) FORCE SIMPLE Volatile:Store_NL
+Img:(NL_Pack_Body_MID,NewLook/IAP/CardPacks/Pack_Body_MID.png) FORCE SIMPLE Volatile:Store_NL
+EndIf
+
+If:(twk(SettingsGlobal,OldNewLook))
+ImgClone:(Pack_Body_ATT,NL_Pack_Body_ATT)
+ImgClone:(Pack_Body_DEF,NL_Pack_Body_DEF)
+ImgClone:(Pack_Body_GK,NL_Pack_Body_GK)
+ImgClone:(Pack_Body_Gold,NL_Pack_Body_Gold)
+ImgClone:(Pack_Body_Holiday,NL_Pack_Body_Holiday)
+ImgClone:(Pack_Body_LuckyDip,NL_Pack_Body_LuckyDip)
+ImgClone:(Pack_Body_MID,NL_Pack_Body_MID)
+ImgClone:(Pack_Body_Spine,NL_Pack_Body_Spine)
+ImgClone:(Pack_Body_Staff,NL_Pack_Body_Staff)
+ImgClone:(Pack_Body_SUPERKEEPER,NL_Pack_Body_SUPERKEEPER)
+ImgClone:(Pack_Body_SuperStriker,NL_Pack_Body_SuperStriker)
+Else
+ImgClone:(Pack_Body_ATT,OL_Pack_Body_ATT)
+ImgClone:(Pack_Body_DEF,OL_Pack_Body_DEF)
+ImgClone:(Pack_Body_GK,OL_Pack_Body_GK)
+ImgClone:(Pack_Body_Gold,OL_Pack_Body_Gold)
+ImgClone:(Pack_Body_Holiday,OL_Pack_Body_Holiday)
+ImgClone:(Pack_Body_LuckyDip,OL_Pack_Body_LuckyDip)
+ImgClone:(Pack_Body_MID,OL_Pack_Body_MID)
+ImgClone:(Pack_Body_Spine,OL_Pack_Body_Spine)
+ImgClone:(Pack_Body_Staff,OL_Pack_Body_Staff)
+ImgClone:(Pack_Body_SUPERKEEPER,OL_Pack_Body_SUPERKEEPER)
+ImgClone:(Pack_Body_SuperStriker,OL_Pack_Body_SuperStriker)
+EndIf
+##*
+// Other Pack images
+Img:(Pack_Top,NewGUI/IAP/CardPacks/Pack_Top.png) FORCE Volatile:Store
+Img:(Pack_Reflection,NewGUI/IAP/CardPacks/Pack_Reflection.png) FORCE Volatile:Store
+Img:(Icon_Restore,NewGUI/IAP/Icon_Restore.png) FORCE Volatile:Store
+
+//---------------------------------------------------------------------------------------------SETUP
+If:(?REALLYWIDECONTENT?)
+	Define:(?PRODUCTSPACING?=@w/4.8)
+Else
+	Define:(?PRODUCTSPACING?=@w/3.5)
+EndIf
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//-----------------------------------------------------------------------------------------TEMPLATES
+//--------------------------------------------------------------------------------------------MACROS
+Import:(store_templates.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(store_HEADER),store)
+	Click()
+	<
+		set(twk(Header,StoreState),0)
+	>
+// ----------------
+// ----------------
+
+	Rect:(@L,@T,@W,@H)
+		Click()
+		<
+			set(twk(Store,SelectedUId),"")
+		>
+
+	// Tabs
+	Rect:(0,0,@W,40)
+		float(%tabx)
+		set(%tabx,30)
+		set(gel.vis,twk(Ftue,Enabled) = 0)
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,220,50,(twk(StoreLayout,Bux_TabName)),1,Store,CurrentTab,,5)
+			if(twk(Store,ShowBuxTab) = 1)
+			<
+				set(gel.vis,1)
+				set(gel.x,%tabx)
+				set(%tabx,[%tabx+220])
+			>
+			else
+			<
+				set(gel.vis,0)
+			>
+		M_Tab:(250,0,220,50,(twk(StoreLayout,CoachingCards_TabName)),2,Store,CurrentTab,,5)
+			if(twk(Store,ShowCoachingCardsTab) = 1)
+			<
+				set(gel.vis,1)
+				set(gel.x,%tabx)
+				set(%tabx,[%tabx+220])
+			>
+			else
+			<
+				set(gel.vis,0)
+			>
+		M_Tab:(470,0,220,50,(twk(StoreLayout,ManagerCards_TabName)),3,Store,CurrentTab,,5)
+			if(twk(Store,ShowManagerCardsTab) = 1)
+			<
+				set(gel.vis,1)
+				set(gel.x,%tabx)
+				set(%tabx,[%tabx+220])
+			>
+			else
+			<
+				set(gel.vis,0)
+			>
+		M_Tab:(690,0,220,50,(twk(StoreLayout,StaffCards_TabName)),4,Store,CurrentTab,,5)
+			if(twk(Store,ShowStaffCardsTab) = 1)
+			<
+				set(gel.vis,1)
+				set(gel.x,%tabx)
+				set(%tabx,[%tabx+220])
+			>
+			else
+			<
+				set(gel.vis,0)
+			>
+		M_Tab:(910,0,220,50,(twk(StoreLayout,PlayerPack_TabName)),5,Store,CurrentTab,,5)
+			if(twk(Store,ShowPlayerPacksTab) = 1)
+			<
+				set(gel.vis,1)
+				set(gel.x,%tabx)
+				set(%tabx,[%tabx+220])
+			>
+			else
+			<
+				set(gel.vis,0)
+			>
+	}}
+
+	// Tabs
+	Rect:(0,0,@W,40)
+		float(%tabx)
+		set(%tabx,30)
+		set(gel.vis,twk(Ftue,Enabled) = 1)
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,220,50,store_TAB_BUX,1,Store,CurrentTab,,5)
+		// M_Tab:(250,0,220,50,store_TAB_COACHING,2,Store,CurrentTab,,5)
+		// M_Tab:(470,0,220,50,store_TAB_MANAGER,3,Store,CurrentTab,,5)
+		// M_Tab:(690,0,220,50,store_TAB_STAFF,4,Store,CurrentTab,,5)
+		M_Tab:(250,0,220,50,store_TAB_PACKS,5,Store,CurrentTab,,5)
+	}}
+
+	//Swipe SwipePanels
+	Rect:(0,40,@W,@H-40) ref:SwipePanels
+		Layer(AboveText2)
+		if(twk(Store,CurrentTab) = 1)
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Store,ScrollX,Store,ScrollXVel) ref:SwipePanelStore
+		>
+		if(twk(Store,CurrentTab) = 2)
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Store,PlayerCardScrollX,Store,PlayerCardScrollXVel) ref:SwipePanelPlayerStore
+		>
+		if(twk(Store,CurrentTab) = 3)
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Store,ManagerCardScrollX,Store,ManagerCardScrollXVel) ref:SwipePanelManagerStore
+		>
+		if(twk(Store,CurrentTab) = 4)
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Store,StaffCardScrollX,Store,StaffCardScrollXVel) ref:SwipePanelStaffStore
+		>
+		if((twk(Store,CurrentTab) = 5) and(twk(Ftue,Enabled) = 0))
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Store,PlayerPackScrollX,Store,PlayerPackScrollXVel) ref:SwipePanelPlayerPackStore
+		>
+
+	//-----------------------------------------------------------------------------------------PAGE 1: Bux 
+
+	Dissolve:(0,50,@W,@H-45) ref:BuxTab
+		M_FadingTabContent:(Store,CurrentTab,1)
+	{{	
+		M_Text:("Store_NoProductsMessage",0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,Message)
+
+		Rect:(@L,@T,@W,@H)
+		{{
+			Rect:(30,30+[@z/2],@W-60,@H-30-[@z/2])
+			{{
+				Rect:(0,0,@W,@H) ref:Container
+					.set(twk(Store,ScrollX),0)
+					ChildrenOffset(?PRODUCTSPACING?,0,False) ref:ChildrenOffset
+					SnappingListX(Store,ScrollX,@W,Store,ScrollXVel,SwipePanels,SwipePanelStore,15,0.1,true) ref:ScrollingListBux
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Store,ScrollX,Container,ScrollingListBux,SwipePanels,SwipePanelStore)
+			}}
+		}}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 2: Player Cards 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:CoachingCardsTab
+		M_FadingTabContent:(Store,CurrentTab,2)
+	{{	
+		M_Text:("Store_NoProductsMessage",0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,Message)
+
+		Rect:(@L,@T,@W,@H)
+		{{
+			Rect:(30,30+[@z/2],@W-60,@H-30-[@z/2])
+			{{
+				Rect:(0,0,@W,@H) ref:Container 
+					.set(twk(Store,PlayerCardScrollX),0)
+					ChildrenOffset(?PRODUCTSPACING?,0,False) ref:ChildrenOffset
+					SnappingListX(Store,PlayerCardScrollX,@W,Store,PlayerCardScrollXVel,SwipePanels,SwipePanelPlayerStore,15,0.1,true) ref:ScrollingListPlayerCards
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Store,PlayerCardScrollX,Container,ScrollingListPlayerCards,SwipePanels,SwipePanelPlayerStore)
+			}}
+		}}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 3: Manager Cards 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:ManagerCardsTab
+		M_FadingTabContent:(Store,CurrentTab,3)
+	{{	
+		M_Text:("Store_NoProductsMessage",0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,Message)
+
+		Rect:(@L,@T,@W,@H)
+		{{
+			Rect:(30,30+[@z/2],@W-60,@H-30-[@z/2])
+			{{
+				Rect:(0,0,@W,@H) ref:Container
+					.set(twk(Store,ManagerCardScrollX),0)
+					ChildrenOffset(?PRODUCTSPACING?,0,False) ref:ChildrenOffset
+					SnappingListX(Store,ManagerCardScrollX,@W,Store,ManagerCardScrollXVel,SwipePanels,SwipePanelManagerStore,15,0.1,true) ref:ScrollingListManagerCards
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Store,ManagerCardScrollX,Container,ScrollingListManagerCards,SwipePanels,SwipePanelManagerStore)
+			}}
+		}}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 4: Staff Cards 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:StaffCardsTab
+		M_FadingTabContent:(Store,CurrentTab,4)
+	{{	
+		M_Text:("Store_NoProductsMessage",0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,Message)
+
+		Rect:(@L,@T,@W,@H)
+		{{
+			Rect:(30,30+[@z/2],@W-60,@H-30-[@z/2])
+			{{
+				Rect:(0,0,@W,@H) ref:Container
+					.set(twk(Store,StaffCardScrollX),0)
+					ChildrenOffset(?PRODUCTSPACING?,0,False) ref:ChildrenOffset
+					SnappingListX(Store,StaffCardScrollX,@W,Store,StaffCardScrollXVel,SwipePanels,SwipePanelStaffStore,15,0.1,true) ref:ScrollingListStaffCards
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Store,StaffCardScrollX,Container,ScrollingListStaffCards,SwipePanels,SwipePanelStaffStore)
+			}}
+		}}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 5: Player Packs 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:PlayerPackTab
+		M_FadingTabContent:(Store,CurrentTab,5)
+	{{	
+		M_Text:("Store_NoProductsMessage",0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,Message)
+
+		Rect:(@L,@T,@W,@H)
+		{{
+			Rect:(30,30+[@z/2],@W-60,@H-30-[@z/2])
+			{{
+				Rect:(0,0,@W,@H) ref:Container
+					.set(twk(Store,PlayerPackScrollX),0)
+					ChildrenOffset(?PRODUCTSPACING?,0,False) ref:ChildrenOffset
+					SnappingListX(Store,PlayerPackScrollX,@W,Store,PlayerPackScrollXVel,SwipePanels,SwipePanelPlayerPackStore,15,0.1,true) ref:ScrollingListPlayerPack
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Store,PlayerPackScrollX,Container,ScrollingListPlayerPack,SwipePanels,SwipePanelPlayerPackStore)
+			}}
+		}}
+	}}
+
+// ----------------
+
+M_NewDialogCLOSE:()

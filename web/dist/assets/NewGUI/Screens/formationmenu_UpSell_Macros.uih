@@ -1,0 +1,291 @@
+Import:(ImageDefs_upsells.uih)
+Import:(ImageDefs_characters.uih)
+
+Rect:(15,25,@W-15,50) ref:AdviceNeg
+{{
+	Draw:(RoundedPanel,0,-12,30,23,,#DD1010FFFFFFFFFF)
+	Draw:(Icon_ThumbsUp,6,9,20,-20)
+	M_Text:("We have too many rookies starting.",38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,Advice)
+}} Template
+
+Rect:(15,55,@W-15,50) ref:AdvicePos
+{{
+	Draw:(RoundedPanel,0,-12,30,23,,#138E1BFFFFFFFFFF)
+	Draw:(Icon_ThumbsUp,6,-11,20,20)
+	M_Text:("We have too many rookies starting.",38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,Advice)
+}} Template
+
+Rect:(15,55,@W-15,50) ref:AdviceNeutral
+{{
+	Draw:(RoundedPanel,0,-12,30,23,,#808080FFFFFFFFFF)
+	M_Text:("",38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,Advice)
+}} Template
+
+Macro:(M_ChangingCountText,?X?,?Y?,?CAT?,?VAR?)
+	M_Text:(,?X?,?Y?,0,0,C,C,Text,KNUL28,Upper,1,0,#000000FF,Italics,#000000FF,ref,?CAT?,?VAR?)
+		float(%current)
+		.set(gel.scale,1)
+		.set(%current,gel.text)
+		if(gel.text > %current)
+		<
+			:set(gel.scale,0)
+			:set(gel.alpha,0)
+
+			:set(%current,gel.text)
+		>
+		if(gel.text < %current)
+		<
+			:set(gel.scale,3)
+			:set(gel.alpha,0)
+
+			:set(%current,gel.text)	
+		>
+		frlerp(gel.scale,1,0.2)
+		frlerp(gel.alpha,1,0.2)
+EndM
+
+
+
+
+
+// Squad Focus
+// 1:Injuries 2:Suspensions	3:Low Energy 4:Low Happiness 5:Contract Concerns 6:Development Concerns 7:Team Form 8:Weak/Cover GK 9:Weak/Cover DEF 10:Weak/Cover MID 11:Weak/Cover ATT
+
+Macro:(M_FormationMenu_SquadAdvice)
+	Rect:() ref:FormationSquadAdvice
+	{
+
+		// CRITICAL FIRST XI ADVICE
+		Rect:(,,,,,#FFFFFF00FFFFFFFF)
+			if((twk(Formation,UpsellType) oneof(FormationUpsells.First11Injured,FormationUpsells.First11Banned)) or(twk(Team,Energy) < twk(Upsell,EnergyUpsellAppear)))
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			Rect:(@L,@B-130,@W,130)
+			{{
+				// Invalid Line-Up
+				Rect:(0,0,@W,@H)
+					set(gel.vis,twk(Formation,UpsellType) oneof(FormationUpsells.First11Injured,FormationUpsells.First11Banned))
+				{{
+					Draw:(White,0,0,@W,21,,#CC1618FFFFFFFFFF)
+					Rect:(30,0,@W,@H)
+					{{
+						M_Text:(squad_advice_InvalidLineUp,@C,11,0,0,C,C,TextLoc,KNUL18,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						M_Text:("",@C-175-[@y/2],50,350+@y,0,C,C,TextBox,KNUL22,,1,0,#00000080,Italics,#000000FF,ref)
+							CharacterSpacing(1)
+							if([twk(Formation,InjuredCount)+twk(Formation,BannedCount)] = 1)
+							<
+								:set(gel.text,"“" :: loc(squad_advice_InvalidPlayer) :: "”")
+							>
+							else
+							<
+								:set(gel.text,"“" :: loc(squad_advice_InvalidPlayers) :: "”")
+							>
+
+						Draw:(Fade_Up,1,23,@W-2,30,,#FFFFFFAAFFFFFFFF)
+						Draw:(Fade_Down,1,53,@W-2,30,,#FFFFFFAAFFFFFFFF)
+
+						Rect:(0,105,,,,#FFFFFFFFFFFFFFFF)
+							float(%w)
+							set(gel.x,[@W*0.35]-[[%w+65]/2])
+							if(twk(Formation,InjuredCount) = 0)
+							<
+								:set(gel.alpha,0.2)
+							>
+							else
+							<
+								:set(gel.alpha,1)
+							>
+						{{
+							Draw:(Icon_Injured,0,-16,30,30)
+							M_Text:(squad_INJ,35,0,0,0,L,C,TextLoc,KNUL25,Upper,1,0,#CC1618FF,Italics,#CC1618FF,ref)
+								set(%w,%gfw)
+							{{
+								M_ChangingCountText:(0,0,Formation,InjuredCount)
+									set(gel.x,%w+15)
+							}}
+						}}
+
+						Rect:(0,105,,,,#FFFFFFFFFFFFFFFF)
+							float(%w)
+							set(gel.x,[@W*0.65]-[[%w+65]/2])
+							if(twk(Formation,BannedCount) = 0)
+							<
+								:set(gel.alpha,0.2)
+							>
+							else
+							<
+								:set(gel.alpha,1)
+							>
+						{{
+							Draw:(Icon_RedCard,0,-15,28,28)
+							M_Text:(squad_SUS,35,0,0,0,L,C,TextLoc,KNUL25,Upper,1,0,#CC1618FF,Italics,#CC1618FF,ref)
+								set(%w,%gfw)
+							{{
+								M_ChangingCountText:(0,0,Formation,BannedCount)
+									set(gel.x,%w+15)
+							}}
+						}}
+					}}
+				}}
+
+
+
+				// Low Energy
+				Rect:()
+					set(gel.vis,not(twk(Formation,UpsellType) oneof(FormationUpsells.First11Injured,FormationUpsells.First11Banned)) and(twk(Team,Energy) < twk(Upsell,EnergyUpsellAppear)))
+				{
+					Draw:(White,0,0,@W,21,,#CC1618FFFFFFFFFF)
+					Draw:(Fade_Up,1,23,@W-2,30,,#FFFFFFAAFFFFFFFF)
+					Draw:(Fade_Down,1,53,@W-2,30,,#FFFFFFAAFFFFFFFF)
+
+					Rect:(30,0,@W,@H)
+					{{
+						M_Text:(upsell_NRG_MAINHEADER,@C,11,0,0,C,C,TextLoc,KNUL18,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						M_Text:(,@C-175-[@y/2],50,350+@y,0,C,C,TextBox,KNUL22,,1,0,#00000080,Italics,#000000FF,ref)
+							.set(gel.text,"“" :: loc(squad_advice_LowEnergy) :: "”")
+							CharacterSpacing(1)
+						M_Button:(@C,102,250,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,commonui.btn_Carousel,ref,loc(adviceButton_LowEnergy),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+							M_ButtonZone:(-75,0,@W,@H)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					}}
+				}
+
+				// Character
+				Clip:(0,-50,@W,180)
+				{
+					Draw:(FTUESimon,45,95,300,300)
+						Handle(0.5,0.5)
+						Layer(AboveText2)
+				}
+		
+			}}
+		}
+
+
+
+
+
+		// CRITICAL SQUAD ADVICE
+		Rect:(,,,,,#FFFFFF00FFFFFFFF)
+			if(not(twk(Formation,UpsellType) oneof(UpsellTypes.None,UpsellTypes.First11Injured,UpsellTypes.First11Banned)) and(twk(Team,Energy) > twk(Upsell,EnergyUpsellAppear)))
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			Clip:(@L,@B-130,@W,130)
+			{{
+				Draw:(Upsell_MatchBanner_01,@R,0,,130)
+					Handle(1,0)
+				
+				Rect:(75,0,@W,@H)
+				{{
+					M_Text:("",@C-155-[@y/2],37,310+@y,0,C,C,TextBox,KNUL24,,0,0,#00000000,Italics,#FFFFFFFF,UpsellTitle)
+						M_Style_DoubleOutline:(#FFFFFF35,#00000080)
+						CharacterSpacing(1)
+					M_Button:(@C,102,250,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,(formation.btn_Upsell,twk(Formation,UpsellType)),ref,"",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,UpsellButtonText,1)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						M_ButtonZone:(-75,0,@W,@H)
+				}}
+			}}
+			Draw:(UpSell_Pack_Coaching,-7,@B-157,180,180) ref:UpsellImage
+		}
+
+
+		// LOW PRIORITY ADVICE
+		Rect:(,,,,,#FFFFFF00FFFFFFFF)
+			if((twk(Formation,UpsellType) = UpsellTypes.None) and(twk(Team,Energy) > twk(Upsell,EnergyUpsellAppear)))
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			Rect:(@L,@B-130,@W,130)
+			{{
+				// Energy Levels
+				Rect:(15,40,@W-15,50)
+				{{
+					Rect:()
+						set(gel.vis,(twk(Team,Energy) > twk(Upsell,SquadStartingEnergyAmount)) and(twk(Team,Energy) < 90))
+					{
+						Draw:(RoundedPanel,0,-12,30,23,,#DD1010FFFFFFFFFF)
+						Draw:(Icon_ThumbsUp,6,9,20,-20)
+						M_Text:(squad_advice_energyneg,38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,ref)
+					}
+
+					Rect:()
+						set(gel.vis,twk(Team,Energy) >= 90)
+					{
+						Draw:(RoundedPanel,0,-12,30,23,,#138E1BFFFFFFFFFF)
+						Draw:(Icon_ThumbsUp,6,-11,20,20)
+						M_Text:(squad_advice_energypos,38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,ref)
+					}
+				}}
+
+				// Happiness Levels
+				Rect:(15,75,@W-15,50)
+					set(gel.vis,twk(Team,Happiness) < 75)
+				{{
+					Draw:(RoundedPanel,0,-12,30,23,,#DD1010FFFFFFFFFF)
+					Draw:(Icon_ThumbsUp,6,9,20,-20)
+					M_Text:(squad_advice_happinessneg,38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,ref)
+				}}
+
+				// Happiness Levels
+				Rect:(15,110,@W-15,50)
+					if(twk(Team,Happiness) < 75)
+					<
+						:set(gel.y,110)
+					>
+					else
+					<
+						:set(gel.y,75)
+					>
+				{{
+					Rect:()
+						set(gel.vis,twk(Formation,RookieCount) >= 3 and(twk(Formation,OutOfPositionCount) = 0))
+					{
+						Draw:(RoundedPanel,0,-12,30,23,,#DD1010FFFFFFFFFF)
+						Draw:(Icon_ThumbsUp,6,9,20,-20)
+						M_Text:(squad_advice_rookiesneg,38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,ref)
+					}
+
+					Rect:()
+						set(gel.vis,twk(Formation,OutOfPositionCount) > 0)
+					{
+						Draw:(RoundedPanel,0,-12,30,23,,#DD1010FFFFFFFFFF)
+						Draw:(Icon_ThumbsUp,6,9,20,-20)
+						M_Text:(squad_advice_outpositionneg,38,0,@W-38,0,L,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#252525FF,ref)
+					}
+				}}
+			}}
+		}
+	}
+EndM

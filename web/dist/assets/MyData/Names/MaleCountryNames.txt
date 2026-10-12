@@ -1,0 +1,16 @@
+Code	Country
+9	Argentina
+20	Belgium
+28	Brazil
+62	England
+71	France
+75	Germany
+92	Iran
+95	Italy
+151	Portugal
+156	Russia
+163	Saudi
+164	Scotland
+175	Spain
+193	Turkey
+//

@@ -1,0 +1,43 @@
+﻿id	shortname
+9	Argentina
+12	Australia
+20	Belgium
+28	Brazil
+41	Chile
+42	China
+44	Colombia
+50	Croatia
+55	Denmark
+62	England
+70	Finland
+71	France
+75	Germany
+77	Greece
+89	Iceland
+90	India
+92	Iran
+95	Italy
+97	Japan
+102	South Korea
+123	Mexico
+133	Netherlands
+136	New Zealand
+140	Northern Ireland
+141	Norway
+148	Peru
+150	Poland
+151	Portugal
+154	Ireland
+155	Romania
+156	Russia
+163	Saudi Arabia
+164	Scotland
+174	South Africa
+175	Spain
+180	Sweden
+181	Switzerland
+193	Turkey
+200	USA
+201	Uruguay
+206	Wales
+//

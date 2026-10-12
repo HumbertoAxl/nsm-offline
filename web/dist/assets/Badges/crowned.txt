@@ -1,0 +1,19 @@
+{
+	"mask_id" : ["1","2","3","4","5","6","7","8","9","10"],
+	"colour" : "1",
+	"scale" : 0.7,
+	"next_layer_variations" : [
+		{ 
+			"design_id" : ["Stripes","Squares","Band"],  "colour" : "2",
+			"next_layer_variations" : [
+				{ "design_id" : ["Ball2","Ball5"], "scale":0.6, "colour":"FFFFFF" },
+				{ "design_id" : ["Animal1","Animal2","Animal3"], "scale":0.6, "colour":"FFFFFF" },
+				{ "design_id" : ["Combat1","Combat2","Combat3"], "scale":0.8, "colour":"FFFFFF" }
+			]
+		}
+	],
+	"overlays" : [
+		{ "design_id" : ["Crown1","Crown2","Crown3","Crown4"],  "colour" : "d6cc17", "scale":0.5, "y":-100}
+	]
+
+}

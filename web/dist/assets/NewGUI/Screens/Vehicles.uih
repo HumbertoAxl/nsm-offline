@@ -1,0 +1,337 @@
+
+CurvePack:(Train,Train)
+
+CurvePack:(CarTravel,CarTravel)
+
+
+//Vehicles
+StaticModel:(Car_Red,Car_Red,true)
+StaticModel:(Car_White,Car_White,true)
+StaticModel:(Car_Blue,Car_Blue,true)
+StaticModel:(Car_Orange,Car_Orange,true)
+StaticModel:(Car_Green,Car_Green,true)
+StaticModel:(Car_Black,Car_Black,true)
+StaticModel:(Car_Purple,Car_Purple,true)
+StaticModel:(Car_Yellow,Car_Yellow,true)
+StaticModel:(Car_Cyan,Car_Cyan,true)
+
+StaticModel:(Van_Green,Van_Green,true)
+StaticModel:(Van_White,Van_White,true)
+StaticModel:(Van_Yellow,Van_Yellow,true)
+StaticModel:(Van_Red,Van_Red,true)
+
+StaticModel:(Coach_White,Coach_White,true)
+
+
+
+##P4N
+//-------------Mesh HI
+StaticModel:(Tractor_HI,HIGH DETAIL/Tractor_HI.3DMH)
+
+StaticModel:(Train_HI,HIGH DETAIL/Train_HI.3DMH)
+
+StaticModel:(Coach_HI,HIGH DETAIL/Coach_HI.3DMH)
+
+StaticModel:(Turbine_HI,HIGH DETAIL/World_Base_Floor_HI_Turbine.3DMH)
+StaticModel:(Turbine_Motor_HI,HIGH DETAIL/Turbine_Motor_HI.3DMH)
+StaticModel:(Turbine_Blades_HI,HIGH DETAIL/Turbine_Blades_HI.3DMH)
+
+StaticModel:(Ambulance_HI,HIGH DETAIL/Ambulance.3DMH)
+
+StaticModel:(Truck_Cab_HI,HIGH DETAIL/Truck_Cab_HI.3DMH)
+StaticModel:(Truck_Trailer_HI,HIGH DETAIL/Truck_Trailer_HI.3DMH)
+StaticModel:(Truck_Sign_HI,HIGH DETAIL/Truck_Sign_HI.3DMH)
+StaticModel:(Truck_Sign_HI_Night,HIGH DETAIL/Truck_Sign_DUSK_HI.3DMH)
+
+StaticModel:(Car_Lights_HI,HIGH DETAIL/Car_Lights_HI.3DMH)
+
+StaticModel:(Car1_Type1_HI,HIGH DETAIL/Car1_Type1_HI.3DMH)
+StaticModel:(Car1_Type2_HI,HIGH DETAIL/Car1_Type2_HI.3DMH)
+StaticModel:(Car1_Type3_HI,HIGH DETAIL/Car1_Type3_HI.3DMH)
+
+StaticModel:(Car2_Type1_HI,HIGH DETAIL/Car2_Type1_HI.3DMH)
+StaticModel:(Car2_Type2_HI,HIGH DETAIL/Car2_Type2_HI.3DMH)
+StaticModel:(Car2_Type3_HI,HIGH DETAIL/Car2_Type3_HI.3DMH)
+
+StaticModel:(Car3_Type1_HI,HIGH DETAIL/Car3_Type1_HI.3DMH)
+StaticModel:(Car3_Type2_HI,HIGH DETAIL/Car3_Type2_HI.3DMH)
+StaticModel:(Car3_Type3_HI,HIGH DETAIL/Car3_Type3_HI.3DMH)
+
+StaticModel:(Van1_Type1_HI,HIGH DETAIL/Van1_Type1_HI.3DMH)
+StaticModel:(Van1_Type2_HI,HIGH DETAIL/Van1_Type2_HI.3DMH)
+
+Texture:(NSM_CarSheet_HI,Vehicles/NSM_CarSheet_HI.pcpng)
+Texture:(NSM_VanSheet_HI,Vehicles/NSM_VanSheet_HI.pcpng)
+Texture:(NSM_CoachSheet_HI,Vehicles/NSM_CoachSheet_HI.pcpng)
+
+//-------------Textures HI
+Texture:(NSM_Tractor,Vehicles/NSM_Tractor.nspng)
+Texture:(NSM_Headlight,Vehicles/Car_Headlight.nspng)
+//DUSK
+Texture:(NSM_CarSheet_HI_Night,Vehicles/NSM_CarSheet_HI_DUSK.nspng)
+Texture:(NSM_VanSheet_HI_Night,Vehicles/NSM_VanSheet_HI_DUSK.nspng)
+Texture:(NSM_CoachSheet_Night,Vehicles/NSM_CoachSheet_DUSK.nspng)
+Texture:(NSM_CoachSheet_HI_Night,Vehicles/NSM_CoachSheet_HI_DUSK.nspng)
+Texture:(NSM_FastFoodSheet_Night,Vehicles/NSM_FastFoodSheet_DUSK.nspng)
+
+//WINTER
+Texture:(NSM_CarSheet_HI_Winter,Vehicles/NSM_CarSheet_HI_WINTER.nspng)
+Texture:(NSM_VanSheet_HI_Winter,Vehicles/NSM_VanSheet_HI_WINTER.nspng)
+Texture:(NSM_CoachSheet_Winter,Vehicles/NSM_CoachSheet_WINTER.nspng)
+Texture:(NSM_CoachSheet_HI_Winter,Vehicles/NSM_CoachSheet_HI_WINTER.nspng)
+Texture:(NSM_FastFoodSheet_Winter,Vehicles/NSM_FastFoodSheet_WINTER.nspng)
+
+//WINTER DUSK
+Texture:(NSM_CarSheet_HI_Night_Winter,Vehicles/NSM_CarSheet_HI_WINTER_DUSK.nspng)
+Texture:(NSM_VanSheet_HI_Night_Winter,Vehicles/NSM_VanSheet_HI_WINTER_DUSK.nspng)
+Texture:(NSM_CoachSheet_Night_Winter,Vehicles/NSM_CoachSheet_WINTER_DUSK.nspng)
+Texture:(NSM_CoachSheet_HI_Night_Winter,Vehicles/NSM_CoachSheet_HI_WINTER_DUSK.nspng)
+Texture:(NSM_FastFoodSheet_Night_Winter,Vehicles/NSM_FastFoodSheet_WINTER_DUSK.nspng)
+##*
+
+StaticModel:(Train,Train)
+
+StaticModel:(CheekyBurger,CheekyBurger)
+StaticModel:(CheekyBurger_Shadow,CheekyBurger_Shadow)
+StaticModel:(HotDog,HotDog)
+StaticModel:(HotDog_Shadow,HotDog_Shadow)
+
+Texture:(NSM_CoachSheet,Vehicles/NSM_CoachSheet.png)
+Texture:(NSM_FastFoodSheet,Vehicles/NSM_FastFoodSheet.png)
+
+Img:(NSM_CarSheet,NewGUI/Environment/NSM_CarSheet.png)
+Img:(NSM_VanSheet,NewGUI/Environment/NSM_VanSheet.png)
+
+
+
+//Turbine Macro
+Macro:(M_Turbine,?POSX?,?POSY?,?POSZ?,?ROTZ?,?SPD?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(0,0,?ROTZ?),(1,1,1))
+	{
+		Locator:((0,-175,2620),(0,0,0),(1,1,1))
+		{
+			DrawStaticModel:(Turbine_HI,Base_HI)
+				M_TextureSelect:()
+		}
+
+		Locator:((0,-175,95),(0,0,0),(1,1,1))
+		{
+			DrawStaticModel:(Turbine_Motor_HI,Base_HI)
+				M_TextureSelect:()
+		}
+		Locator:((0,0,0),(0,0,0),(1,1,1))
+			add(gel3d.roty,?SPD?)
+		{
+			DrawStaticModel:(Turbine_Blades_HI,Base_HI)
+				M_TextureSelect:()
+		}
+
+		//Turbine Light
+		UseShader:(ZSafeSprite)
+		Layer(ZSprite)
+		{
+			Rect:()
+			set(gel.vis,twk(Facilities,Night) = 1)
+			{
+				if(shell(GameScreen) ="home")
+				<
+					Locator:((0,-100,-100),(0,0,90),(1,1,1))
+				>
+				else
+				<
+					Locator:((0,-100,-100),(0,0,0),(1,1,1))
+				>
+				{
+					Billboard:(NSM_HPadLight,0,0,0,220,220,0,#FF1E0060FFFFFFFF)
+					   	set(gel.depth,gel.dist)
+					   	PulseAlpha(0,1,0.6,0.3,0,0.15,0.15)
+					    Handle(0.5,0.5)
+				}
+			}
+
+		}
+
+	}
+EndM
+
+//Vehicle Macros
+Macro:(M_Vehicle,?POSX?,?POSY?,?VEH?,?TEX?,?ROT?,?COL?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(1,1,1))
+	{
+		DrawStaticModel:(?VEH?_?COL?,NSM_?TEX?Sheet)
+		 Blend(ONE,INV_IMAGE_ALPHA)
+	}
+EndM
+
+Macro:(M_Vehicle_HI,?POSX?,?POSY?,?VEH?,?TEX?,?ROT?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(1,1,1))
+	{
+		DrawStaticModel:(?VEH?_HI,NSM_?TEX?Sheet_HI)	
+	}
+EndM
+
+Macro:(M_Vehicle_HI_Single,?POSX?,?POSY?,?VEH?,?TEX?,?ROT?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(1,1,1))
+	{
+		DrawStaticModel:(?VEH?_HI,NSM_?TEX?Sheet_HI)
+			Blend(ONE,INV_IMAGE_ALPHA)
+			M_TextureSelect:()
+		
+	}
+EndM
+
+Macro:(M_Train,?POSX?,?POSY?,?VEH?,?TEX?,?ROT?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(1,1,1))
+	{
+		DrawStaticModel:(?VEH?,?TEX?)
+			M_TextureSelect:()
+	}
+EndM
+
+Macro:(M_Truck,?POSX?,?POSY?,?ROT?,?TRAILER?,?TRAILERROT?,?SPONSOR?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(1,1,1))
+	{
+		DrawStaticModel:(Truck_Cab_HI,NSM_VehicleSheet)
+			Blend(ONE,INV_IMAGE_ALPHA)
+			M_TextureSelect:()
+		Rect:() $HIDE
+			set(gel.vis,?TRAILER? = 1)
+		{
+			Locator:((0,0,0),(0,0,?TRAILERROT?),(1,1,1))
+			{
+				DrawStaticModel:(Truck_Trailer_HI,NSM_VehicleSheet)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_TextureSelect:()
+				
+				
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,Night)=0)
+				{
+					DrawStaticModel:(Truck_Sign_HI,Sponsor_?SPONSOR?)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				Rect:() $HIDE
+					set(gel.vis,twk(Facilities,Night)=1)
+				{
+					DrawStaticModel:(Truck_Sign_HI_Night,Sponsor_?SPONSOR?)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+			}
+		}
+	}
+EndM
+
+//Coach Macro
+Macro:(M_Coach,?POSX?,?POSY?,?MESH?,?TEX?,?ROT?,?SCALE?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(?SCALE?,?SCALE?,?SCALE?))
+	{
+		DrawStaticModel:(?MESH?,?TEX?)
+			Blend(ONE,INV_IMAGE_ALPHA)
+			M_TextureSelect:()
+	}
+EndM
+
+//Ambulance Macro
+Macro:(M_Ambulance,?POSX?,?POSY?,?ROT?,?SCALE?)
+	Locator:((?POSX?,?POSY?,-2),(0,0,?ROT?),(?SCALE?,?SCALE?,?SCALE?))
+	{
+		DrawStaticModel:(Ambulance_HI,NSM_VehicleSheet)
+			Blend(ONE,INV_IMAGE_ALPHA)
+			M_TextureSelect:()
+	}
+EndM
+
+
+	
+//FastFood
+Macro:(M_FastFood,?POSX?,?POSY?,?VEH?,?TEX?,?ROT?)
+	Locator:((?POSX?,?POSY?,0),(0,0,?ROT?),(1,1,1))
+	{
+		UseShader:(Simple3DNZW)
+			Layer(Shadows)
+		{
+			DrawStaticModel:(?VEH?_Shadow,Construction_Sheet01)
+				Blend(ONE,INV_IMAGE_ALPHA)
+		}
+		
+		DrawStaticModel:(?VEH?,NSM_?TEX?Sheet)
+			Layer(Ground)
+			M_TextureSelect:()
+	}
+EndM
+
+
+//Vehicle pathing Macro
+Macro:(M_VehPath,?VEHTYPE?,?VEHCLASS?,?SPD?,?ROTZ?,?DELAY1?,?DELAY2?,?VAR?,?LIGHTOFFSET?)
+Locator:((0,0,0),(0,0,0),(1,1,1))
+	Euler(RYP)
+	float(%FCURVE?VAR?)
+	float(%CarRandDelay)
+	float(%MoveCar?VAR?)
+	if(%MoveCar?VAR? = 0)
+	<
+		//Random delay for Vehicle start
+		:set(%CarRandDelay,frand(?DELAY1?,?DELAY2?))
+		:Delay(%CarRandDelay)
+		:set(%MoveCar?VAR?,1)
+	>
+	if(%MoveCar?VAR? = 1)
+	<
+		add(%FCURVE?VAR?,0.0?SPD?)
+		if(%FCURVE?VAR?>1)
+		<
+			set(%FCURVE?VAR?,0)
+			set(%MoveCar?VAR?,0)
+		>
+	>
+	FollowCurve(CarTravel,CarTravel?VAR?,%FCURVE?VAR?,true)
+{	
+		Locator:((0,0,0),(0,0,?ROTZ?),(1,1,1))
+		{
+			M_Vehicle_HI_Single:(0,0,?VEHTYPE?,?VEHCLASS?,0)
+
+			Locator:((0,?LIGHTOFFSET?,0),(0,0,0),(1,1,1))
+				set(gel.vis,twk(Facilities,Night) =1)
+			{
+				DrawStaticModel:(Car_Lights_HI,NSM_Headlight)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					
+			}
+		}
+}
+EndM
+
+
+
+//Tractor pathing Macro
+Macro:(M_TractorPath,?SPD?,?ROTZ?,?DELAY1?,?DELAY2?,?VAR?)
+Locator:((0,0,0),(0,0,0),(1,1,1))
+			Euler(RYP)
+			float(%FCURVE?VAR?)
+			float(%CarRandDelay)
+			float(%MoveCar?VAR?)
+			if(%MoveCar?VAR? = 0)
+			<
+				//Random delay for Vehicle start
+				:set(%CarRandDelay,frand(?DELAY1?,?DELAY2?))
+				:Delay(%CarRandDelay)
+				:set(%MoveCar?VAR?,1)
+			>
+			if(%MoveCar?VAR? = 1)
+			<
+				add(%FCURVE?VAR?,0.0?SPD?)
+				if(%FCURVE?VAR?>1)
+				<
+					set(%FCURVE?VAR?,0)
+					set(%MoveCar?VAR?,0)
+				>
+			>
+			FollowCurve(CarTravel,TractorTravel?VAR?,%FCURVE?VAR?,true)
+		{	
+				Locator:((0,0,0),(0,0,?ROTZ?),(0.9,0.9,0.9))
+				{
+					DrawStaticModel:(Tractor_HI,NSM_Tractor)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+		}
+EndM

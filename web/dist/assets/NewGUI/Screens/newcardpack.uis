@@ -1,0 +1,58 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//Img:(Pack_Variety,NewGUI/Store/Pack_Variety.png)
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H)
+	Click()
+
+Rect:()
+{
+	Sheet:(0,0,600,-0,0,0,73.41,1,1,1) //FIXEDFOV
+	{
+		Rect:()
+		{{
+			Draw:(RoundedPanel,0,0,130,) ref:CardPack
+				Scale(2,2)
+				Handle(0.5,0.5)
+				func(HideBg)
+				<
+					set(gel.vis,false)
+				>
+				func(ShowBg)
+				<
+					set(gel.vis,true)
+				>
+		}}
+			.set(gel.y,1000)
+			float(%time)
+			.set(%time,0)
+			add(%time,1)
+			if(%time < 100)
+			<
+				frlerp(gel.y,0,0.25)
+			>
+			else
+			<
+				frlerp(gel.y,-300,0.25)
+				frlerp(gel.scalex,0,0.1)
+				frlerp(gel.scaley,0,0.1)
+			>
+			if(gel.scalex < 0.05)
+			<
+				.set(gel.scalex,0)
+			>
+			if(gel.scalex = 0)
+			<
+				ShowShell(NewCard,0)
+			>
+	}
+		.set(sheet.roty,-45)
+		add(sheet.roty,FrameTime*0.5)
+}

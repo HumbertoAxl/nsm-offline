@@ -1,0 +1,190 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+//---------------------------------------------------------------------------------------------SETUP
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//-----------------------------------------------------------------------------------------TEMPLATES
+//--------------------------------------------------------------------------------------------MACROS
+// Import:(store_templates.uih)
+Macro:(M_NameEntryCell,?X?,?Y?,?W?,?H?,?ID?,?CAT?,?VAR?,?DEFAULT?,?LINK?)
+	Rect:(?X?,?Y?,?W?,?H?) ref:?VAR?
+		Layer(Text)
+		M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLSquareSelected,0,0,0,0)
+		Click()
+		<
+			set(%clicked,1)
+		>
+		if(%clicked)
+		<
+			if(twk(RedeemCodeScreen,FocusedItem) != ?ID?)
+			<
+				:Post(UI_Select)
+			>
+			:Message(?LINK?)
+		>
+		if(twk(RedeemCodeScreen,FocusedItem) = ?ID?)
+		<
+			:CTRLSetSelected()
+			CTRLBlock(LEFT,RIGHT,UP,DOWN)
+		>
+		// else
+		// <
+		// 	CTRLPress(RIGHT)
+		// 	<
+		// 		set(twk(RedeemCodeScreen,ReturnFocusTo),?VAR?)
+		// 		CTRLSetSelected(ContinentGroup)
+		// 	>
+		// >
+
+		strvar(%textstring)
+		float(%w,%valid)
+	{{
+		Draw:(White,0,0,@W,@H,,#E0E0E9FF)
+			if(twk(RedeemCodeScreen,FocusedItem) = ?ID?)
+			<
+				frlerp(gel.colour,#FFFFFFFF,0.1)
+			>
+			else
+			<
+				set(gel.colour,#DDDDDDFF)
+			>
+
+
+		PushOrigin:(15,0)
+			M_Text:(,0,2,0,@H,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				set(%w,%gfw)
+				if((twk(RedeemCodeScreen,FocusedItem) = ?ID?) and(%textstring!=gel.text))
+				<
+					:Post(UI_Select)
+				>
+				set(%textstring,gel.text)
+				set(%valid,%textstring != loc(?DEFAULT?))
+				
+				if(%valid)
+				<
+					set(gel.colour,#252525FF)
+				>
+				else
+				<
+					set(gel.colour,#00000020)
+				>
+				If:(?ID?=1)
+					GS_ShowCodeF()
+				EndIf
+
+
+
+			// Focus Indicator
+			Draw:(White,0,5,3,40,,#3040FFFF)
+				set(gel.vis,twk(RedeemCodeScreen,FocusedItem) = ?ID?)
+				:set(gel.alpha,1)
+				PulseAlpha(1,0,0.35,0.35,0.2,0.2)
+				if(%valid)
+				<
+					set(gel.x,%w+16)
+				>
+				else
+				<
+					set(gel.x,10)
+				>
+		PopOrigin
+
+		// Clear box
+		Rect:(@R-70,0,70,@H)
+			Click(redeemcode.btn_Clear)
+			set(gel.vis,twk(RedeemCodeScreen,FocusedItem) = ?ID? and(%valid))
+		{{
+			Draw:(Circle_50,20,7,35,35,,#CCCCCCFF)
+			M_Text:("x",20,5,35,35,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		}}
+
+		// Valid
+		Draw:(Circle_50,@C-20,53,38,38,,#EEEEEEFF)
+			Layer(Text)
+		{{
+			Draw:(Icon_Tick,20,20,40,40,,#CC1618FF)
+				Handle(0.5,0.5)
+				.set(gel.scale,0)
+				if(%valid)
+				<
+					frlerp(gel.alpha,1,0.2)
+					frlerp(gel.scale,1,0.2)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.3)
+					frlerp(gel.scale,0.5,0.3)
+				>
+		}}
+	}}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(codes_HEADER),redeemcode)
+	Click()
+	<
+		// set(twk(Header,StoreState),0)
+	>
+// ----------------
+// ----------------
+
+	// Rect:(@L,@T,@W,@H)
+	// 	Click()
+	// 	<
+	// 		// set(twk(Store,SelectedUId),"")
+	// 	>
+
+	Rect:(@L,@T,@W,@H)
+	Click()
+	<
+		if(twk(RedeemCodeScreen,FocusedItem) = 1)
+		<
+			:Post(UI_Select)
+		>
+		:Message(redeemcode.loseFocus)
+	>
+
+	Rect:(@C-450,80,900,590)
+	{{
+
+		Rect:(20,50,@W,330)
+		{{
+			// First Name
+			Rect:(0,0,@W,@H)
+			{{
+				// First Name
+				M_Text:(codes_HELP,@C-200,10,400,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+				M_NameEntryCell:(@C-445+2,36,890,50,1,RedeemCodeScreen,FirstName,codes_DEFAULT,redeemcode.inp_Code_HIT)
+
+				Draw:(SponsorFrame_Desel,0,30,@W+2,100,,#CC1618FF)
+				Clip:(0,31,@W+2,98)
+				{{
+					Draw:(Dialog_Hexagons,@C+20,54,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+					
+					Draw:(Dialog_Hexagons,@C+20,85,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+
+				}}
+				// M_Text:(setup_MAXCHARS,0,20,@W-10,100,R,B,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+
+				M_Button:(@C,@B,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,redeemcode.btn_Redeem,ref,loc(codes_OK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			}}
+
+		}}
+	}}
+
+
+// ----------------
+
+M_NewDialogCLOSE:()

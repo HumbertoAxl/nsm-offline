@@ -1,0 +1,14 @@
+Locale Code	Android/WP/Switch Language Code	iOS Language Code	Distance	
+0	en	en	0	English
+1	tr	tr	1	Turkish
+2	pt	pt	1	Portugese
+3	it	it	1	Italian
+4	es	es	1	Spanish
+6	de	de	1	German
+7	fr	fr	1	French
+9	ru	ru	1	Russian
+10	ja	ja	1	Japanese
+12	zh	zh	1	Chinese
+13	fa	fa	1	Farsi
+14	ar	ar	1	Arabic
+15	ja	ja	1	Japanese

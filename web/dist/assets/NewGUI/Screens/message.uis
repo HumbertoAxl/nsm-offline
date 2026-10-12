@@ -1,0 +1,35 @@
+// IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+Import:(message_Macros.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+//---------------------------------------------------------------------------------------------SETUP
+// Notes
+// 0 gives you the left of adjusted width screen
+// @s gives you the right of adjusted width screen
+// @f gives you the full left of any screen
+// @f+@w gives you the full right of any screen
+// Width = [1152 - XPos:380 - Right buffer:30] = 742 + additional widescreen space:@y
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_MessageContainer:()
+
+// Rect:()
+// 	Layer(AboveText)
+// 	LockLayer()
+// {{
+// 	Draw:(White,20,150,1024,1024,,#AA0000AA)
+// 	Draw:(FONT_RAW_BITMAP,20,150,1024,1024)
+// }}

@@ -1,0 +1,26 @@
+##J
+Img:(NewStarGames,NewGUI/UI/Title/NewStarGames_Ja.png)
+##-
+Img:(NewStarGames,NewGUI/UI/Title/NewStarGames.png)
+##*
+
+Macro:(M_PRELOADPROGRESS)
+	Cls:(#FFFFFFFF)
+
+	Rect:()
+	{
+		Draw:(NewStarGames,@C,@M)
+			Handle(0.5,0.5)
+
+		// Progress Bar
+		Rect:(@C-300,@B-50,600,30)
+		{{
+			Draw:(White,0,0,@W,@H,0,#B5C4CCFF)
+			Draw:(White,0,0,@W,@H,,#42BB00FFFFFFFFFF)
+				set(gel.scalex,[1/%T]*%C)
+			Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+		}}
+	}
+	set(gel.vis,true)
+	.set(gel.vis,false)
+EndM

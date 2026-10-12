@@ -1,0 +1,347 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+##N
+Macro:(M_SponsorImageDef,?INDEX?)
+	If:(?INDEX? < 10)
+		Img:(Sponsor_?INDEX?,NewGUI/Sponsors/Sponsor_00?INDEX?.png) FORCE Volatile:Sponsors00?INDEX?
+	Else
+		Img:(Sponsor_?INDEX?,NewGUI/Sponsors/Sponsor_0?INDEX?.png) FORCE Volatile:Sponsors0?INDEX?
+	EndIf
+EndM
+##-
+Macro:(M_SponsorImageDef,?INDEX?)
+	If:(?INDEX? < 10)
+		Img:(Sponsor_?INDEX?,NewGUI/Sponsors/Sponsor_00?INDEX?.png) FORCE Volatile:Sponsors
+	Else
+		Img:(Sponsor_?INDEX?,NewGUI/Sponsors/Sponsor_0?INDEX?.png) FORCE Volatile:Sponsors
+	EndIf
+EndM
+##*
+
+M_SponsorImageDef:(1)
+M_SponsorImageDef:(2)
+M_SponsorImageDef:(3)
+M_SponsorImageDef:(4)
+M_SponsorImageDef:(5)
+M_SponsorImageDef:(6)
+M_SponsorImageDef:(7)
+M_SponsorImageDef:(8)
+M_SponsorImageDef:(9)
+M_SponsorImageDef:(10)
+M_SponsorImageDef:(11)
+M_SponsorImageDef:(12)
+M_SponsorImageDef:(13)
+M_SponsorImageDef:(14)
+M_SponsorImageDef:(15)
+M_SponsorImageDef:(16)
+M_SponsorImageDef:(17)
+M_SponsorImageDef:(18)
+M_SponsorImageDef:(19)
+M_SponsorImageDef:(20)
+M_SponsorImageDef:(21)
+M_SponsorImageDef:(22)
+M_SponsorImageDef:(23)
+M_SponsorImageDef:(24)
+M_SponsorImageDef:(25)
+M_SponsorImageDef:(26)
+M_SponsorImageDef:(27)
+M_SponsorImageDef:(28)
+M_SponsorImageDef:(29)
+M_SponsorImageDef:(30)
+// Need custom script for East version
+##EC
+Img:(Sponsor_31,NewGUI/Sponsors/Sponsor_031B.png) FORCE Volatile:Sponsors
+##-
+M_SponsorImageDef:(31)
+##*
+M_SponsorImageDef:(32)
+M_SponsorImageDef:(33)
+M_SponsorImageDef:(34)
+M_SponsorImageDef:(35)
+M_SponsorImageDef:(36)
+M_SponsorImageDef:(37)
+M_SponsorImageDef:(38)
+M_SponsorImageDef:(39)
+M_SponsorImageDef:(40)
+M_SponsorImageDef:(41)
+M_SponsorImageDef:(42)
+M_SponsorImageDef:(43)
+M_SponsorImageDef:(44)
+M_SponsorImageDef:(45)
+M_SponsorImageDef:(46)
+M_SponsorImageDef:(47)
+M_SponsorImageDef:(48)
+M_SponsorImageDef:(49)
+M_SponsorImageDef:(50)
+M_SponsorImageDef:(51)
+M_SponsorImageDef:(52)
+M_SponsorImageDef:(53)
+M_SponsorImageDef:(54)
+M_SponsorImageDef:(55)
+M_SponsorImageDef:(56)
+M_SponsorImageDef:(57)
+
+// ##IAP4
+// ImgSeq:(Sponsor_#,NewGUI/Sponsors/Sponsor_###.png,1,57) Volatile:Sponsors
+// Animation:(1,Clamp) ref:SponsorsDefs
+// {
+// 	Sequence:(Sponsor_#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57)
+// }
+// ##*
+
+Img:(FanStar_Unlit,NewGUI/UI/ChooseSponsor/FanStar_Unlit.png)
+Img:(FanStar_Lit,NewGUI/UI/ChooseSponsor/FanStar_Lit.png)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	// Setup
+	.set(twk(ChooseSponsor,Selected),-1)
+	.set(twk(ChooseSponsor,Complete),-1)
+	if(shell(GameScreen) = "choosesponsor")
+	<
+		set(twk(Header,ScreenTitle),(loc("Sponsors_"::twk(ChooseSponsor,Type))))
+	>
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_SponsorPanel,?X?,?Y?,?ID?,?TX?)
+	Sheet:((0,0,1191),(0,-45,0),51.49,(1,1,1)) //FIXEDFOV
+	 	PinVP(?X?,?Y?)
+	 	.set(gel.alpha,0)
+	 	Delay(?ID?*0.15)
+	 	frlerp(gel.alpha,1,0.15)
+	 	frlerp(gel3d.roty,0,0.15)
+	{{
+		Rect:(0,0,310,570) 
+			Handle(0.5,0.5)
+			if(twk(ChooseSponsor,Selected) = -1)
+			<
+				M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			>
+
+			// Press
+			Press()
+			<
+				set(%pressed,1)
+			>
+			Click()
+			<
+				set(%clicked,1)
+			>
+
+			// No choice made
+			if(twk(ChooseSponsor,Selected) = -1)
+			<
+				// Confirm choice once
+				if(%clicked)
+				<
+					.set(twk(ChooseSponsor,Selected),?ID?)
+					:Post(UI_Select)
+				>
+			>
+			else
+			<
+				// Selected dilemma
+				if(twk(ChooseSponsor,Selected) = ?ID?)
+				<
+					frlerp(gel.x,?TX?,0.15)
+					Delay(0.5)
+					:set(twk(ChooseSponsor,Complete),1)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.2)
+					frlerp(gel.scale,0.9,0.2)
+					:Post(UI_Swoosh)
+				>
+			>
+		{{
+			Rect:(@L,@T,@W,@H)
+			{{
+				// Base Panel - Double resolution
+				Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+				Draw:(FloorShadow,-12,@B-2,@W+24,11)
+				Draw:(Rounded_Shadowed,-15,-13,@W+30,@H+30)
+
+				Draw:(NewStarShape,0,-28,@W,570,,#E5E5E5FFFFFFFFFF)
+				Draw:(White,4,5,@W-8,118,,#E2E2E2FFFFFFFFFF)
+
+
+				// Logo
+				Draw:(Sponsor_1,@C,64)
+					Handle(0.5,0.5)
+					Scale(0.6,0.6)
+					set(gel.img,"Sponsor_" :: twk(ChooseSponsor,Sponsor?ID?Id))
+
+
+				// Contract
+				Rect:(0,164,@W,95)
+				{{
+					M_Text:(generic_CONTRACT_LC,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+					Draw:(White,0,0,@W,95,,#C0C0C0FFFFFFFFFF)
+					Draw:(White,0,47,@W,1,,#D0D0D0FFFFFFFFFF)
+					Draw:(White,0,0,@W,1,,#808080FFFFFFFFFF)
+					Draw:(White,0,94,@W,1,,#808080FFFFFFFFFF)
+
+					M_Text:(,@C,25,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+						if(twk(ChooseSponsor,Type) = 0)
+						<
+							set(gel.text,loc(sponsor_SEASON))
+							ToUpperCase()
+						>
+						else
+						<
+							set(gel.text,twk(ChooseSponsor,Sponsor?ID?Duration) :: " " :: loc(sponsor_SHORT))
+							ToUpperCase()
+						>
+					M_Text:(,@C,71,0,0,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						.set(gel.text,"★ " :: commasfmt(twk(ChooseSponsor,Sponsor?ID?Upfront)))
+					Draw:(Fade_Right,@L,0,20,95,,#EEEEEEFFFFFFFFFF)
+					Draw:(Fade_Left,@R-20,0,20,95,,#EEEEEEFFFFFFFFFF)
+				}}
+
+
+				// Bonuses
+				Rect:(0,307,@W,95)
+				{{
+					M_Text:(sponsor_MATCHBONUS,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					Draw:(White,0,0,@W,95,,#C0C0C0FFFFFFFFFF)
+					Draw:(White,0,47,@W,1,,#D0D0D0FFFFFFFFFF)
+					Draw:(White,0,0,@W,1,,#808080FFFFFFFFFF)
+					Draw:(White,0,94,@W,1,,#808080FFFFFFFFFF)
+
+					M_Text:(sponsor_WINBONUS,20,24,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					M_Text:(,@R-20,24,0,0,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						.set(gel.text,"★ " :: commasfmt(twk(ChooseSponsor,Sponsor?ID?WinBonus)))
+
+					M_Text:(sponsor_GOALBONUS,20,71,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					M_Text:(,@R-20,71,0,0,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						.set(gel.text,"★ " :: commasfmt(twk(ChooseSponsor,Sponsor?ID?GoalBonus)))
+
+					Draw:(Fade_Right,@L,0,20,95,,#EEEEEEFFFFFFFFFF)
+					Draw:(Fade_Left,@R-20,0,20,95,,#EEEEEEFFFFFFFFFF)
+				}}
+
+
+				// Fan Approval
+				Rect:(0,436,@W,95)
+				{{
+					M_Text:(sponsor_FANBONUS,@C,,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+				
+					PushOrigin:(@C-100,15)
+						Tile:(FanStar_Unlit,0,0,40,40)
+							Copies(5,1)
+							Spacing(40,0)
+
+						UseShader:(Region)
+						{
+							Draw:(FanStar_Lit,0,0,40,40)
+								SetUniform4F(region,gel.gx,gel.gy,[twk(ChooseSponsor,Sponsor?ID?FanApproval)*20],40)
+							Draw:(FanStar_Lit,40,0,40,40)
+								SetUniform4F(region,gel.gx,gel.gy,-40+[twk(ChooseSponsor,Sponsor?ID?FanApproval)*20],40)
+							Draw:(FanStar_Lit,80,0,40,40)
+								SetUniform4F(region,gel.gx,gel.gy,-80+[twk(ChooseSponsor,Sponsor?ID?FanApproval)*20],40)
+							Draw:(FanStar_Lit,120,0,40,40)
+								SetUniform4F(region,gel.gx,gel.gy,-120+[twk(ChooseSponsor,Sponsor?ID?FanApproval)*20],40)
+							Draw:(FanStar_Lit,160,0,40,40)
+								SetUniform4F(region,gel.gx,gel.gy,-160+[twk(ChooseSponsor,Sponsor?ID?FanApproval)*20],40)
+						}
+					PopOrigin
+				}}
+
+
+				// Cell Press Highlight
+				Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+					Additive()
+					Layer(Text)
+					if(%pressed and(twk(ChooseSponsor,Selected) = -1))
+					<
+						set(gel.colour,#60606060)
+					>
+					else
+					<
+						if(gel.alpha > 0.01)
+						<
+							frlerp(gel.colour,#00000000,0.05)
+						>
+					>
+
+
+				// Selection Frame and TICK AT BOTTOM
+				Draw:(SponsorFrame_Desel,0,0,@W,@H,,#D3D3D3FFFFFFFFFF)
+					if(twk(ChooseSponsor,Selected) = ?ID?)
+					<
+						:set(gel.colour,#CC1618FFFFFFFFFF)
+					>
+					else
+					<
+						:set(gel.colour,#D3D3D3FFFFFFFFFF)
+					>
+				Draw:(Rounded_HexagonsFade,@R-145,@B-45,145,45,,#A31113FFFFFFFFFF)
+					set(gel.vis,twk(ChooseSponsor,Selected) = ?ID?)
+
+				Draw:(Circle_50,@C-19,529,38,38,,#EEEEEEFFFFFFFFFF)
+				Draw:(Icon_Tick,@C,550,40,40,,#CC1618FFFFFFFFFF)
+					Handle(0.5,0.5)
+					.set(gel.scale,0)
+					if(twk(ChooseSponsor,Selected) = ?ID?)
+					<
+						frlerp(gel.scale,1,0.2)
+						PulseAlpha(0,1,0.3,0.3,0,0.1,0.1)
+					>
+					else
+					<
+						:set(gel.scale,0)
+						:set(gel.alpha,0)
+					>
+
+				// Loyalty Bonus
+				Rect:()
+					set(gel.vis,twk(ChooseSponsor,Sponsor?ID?Id) = twk(CurrentSponsor,Id))
+				{
+					Draw:(Tag_Grey,@R-149,@T,,,)
+
+					Rect:(242,-50,0,0,-45)
+					{{
+						M_Text:(sponsor_percent,85,33,0,0,C,C,TextLoc,BEBAS38,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+
+						M_Text:(sponsor_LOYALBONUS,15,50,170,40,C,C,TextLoc,BEBAS28,,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+							CharacterSpacing(2)
+							Scale(0.8,0.8)
+							PulseAlpha(1,0.5,0.5,0.5)
+					}}					
+				}
+			}}
+		}}
+	}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+Dissolve:() ref:DissolveRoot
+{
+	Rect:() $HIDE
+		set(gel.vis,twk(ChooseSponsor,OfferCount) = 2)
+	{
+		M_SponsorPanel:(@C-165,366,1,173)
+		M_SponsorPanel:(@C+165,366,2,-173)
+	}
+
+	Rect:() $HIDE
+		set(gel.vis,twk(ChooseSponsor,OfferCount) = 3)
+	{
+		M_SponsorPanel:(@C-346,366,1,346)
+		M_SponsorPanel:(@C,366,2,0)
+		M_SponsorPanel:(@C+346,366,3,-346)
+	}
+}

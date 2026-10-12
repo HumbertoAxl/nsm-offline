@@ -1,0 +1,464 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(splitspines.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// Download images
+Img:(Pack_Default,NewGUI/IAP/CardPacks/Pack_Default.png) FORCE SIMPLE
+
+// Fixed pack images
+Img:(Pack_Top,NewGUI/IAP/CardPacks/Pack_Top.png)
+Img:(Pack_Mask,NewGUI/IAP/CardPacks/Pack_Mask.png)
+Img:(Pack_Reflection,NewGUI/IAP/CardPacks/Pack_Reflection.png)
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(CardPack,Opened),0)
+	.set(twk(CardPack,AutoRevealIndex),-1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-----------------------------------------------------------------------------------------TEMPLATES
+Rect:(0,0,120,155) ref:Card
+	float(%index,%flip,%state)
+	if(twk(CardPack,AutoRevealIndex) = %index)
+	<
+		if(%state=0)
+		<
+			.set(%flip,1)
+			.sub(twk(CardPack,CardsRemaining),1)
+			if(%index = 1)
+			<
+				.Post(UI_CardAppear)
+			>
+			Delay(0.1)
+			.add(twk(CardPack,AutoRevealIndex),1)
+		>
+	>
+{{
+	Sheet:(0,0,1191,0,0,0,51.49) //FIXEDFOV
+	 	PinVP(@C,@M)
+
+	 	// Initial position
+	 	.set(gel.alpha,0)
+	 	.set(gel3d.x,0)
+	 	.set(gel3d.y,@B)
+	 	frlerp(gel3d.y,0,0.15)
+	 	frlerp(gel.alpha,1,0.15)
+ 		:Post(UI_Swoosh)
+
+		// Pulse
+		if(%flip = 0)
+		<
+			float(%t)
+			add(%t,FrameTime*5)
+			set(gel3d.z,lerp(1225,1191,[sin(%t)+1]/2))
+		>
+		
+		// Scale up
+		if(%flip = 1)
+		<
+			Delay(%index*0.25)
+			.set(gel3d.z,1500)
+			frlerp(gel3d.z,1000,0.075)
+			if(gel3d.z < 1005)
+			<
+				.set(gel3d.z,1000)
+				.set(%flip,2)
+			>
+		>
+		// Flip with slam
+		if(%flip = 2)
+		<
+			if(%state = 0)
+			<
+				frlerp(gel3d.roty,180,0.15)
+				:Post(sounds.cards_Swap)
+				:Post(UI_Success)
+			>
+			else
+			<
+				frlerp(gel3d.roty,0,0.15)
+				if(gel3d.roty >= -40)
+				<
+					frlerp(gel3d.z,1300,0.3)
+				>
+			>
+			if(gel3d.roty >= 90 and(%state = 0))
+			<
+				set(gel3d.roty,-90)
+				set(%state,1)
+			>
+		>
+	{{
+		Rect:(0,0,[240*0.9],[310*0.9])
+			Handle(0.5,0.5)
+		{{
+			// Back
+			Rect:()
+				set(gel.vis,%state = 0)
+			{
+				Draw:(CardBack,@L,@T,@W,@H)
+			}
+
+			// Front
+			Rect:()
+				set(gel.vis,%state = 1)
+			{
+				M_CardSlot:(0,0,CardPackOpen,NONE,NONE,0,1.8,Slot)
+			}
+		}}
+	}}
+
+
+
+
+
+	// Effects
+	Sheet:(0,0,1191,0,0,0,51.49) $HIDE //FIXEDFOV
+	 	PinVP(@C,@M)
+	 	if(twk(CardPack,AutoRevealIndex) = %index)
+		<
+			.set(gel.vis,1)
+		>
+	{{
+		AnimInstance:(0,0,CardBGFX)
+			set(gel.anim.speed,0)
+			Delay(%index*0.25)
+			set(gel.anim.speed,0.3)
+
+		Instance:(NewCardSpots,0,0)
+
+		##IP4
+		Instance:(NewCardEmitter,0,0) $HIDE
+     		Delay(1)
+   			set(gel.vis,1)
+   		##*
+	}}
+}} Template
+
+
+
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@l,@t,@w,@h)
+	Click()
+	Press()
+	CTRLGlobalBlockExcept(?BTNOK?)
+	CTRLClearSelect()
+	
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	Click()
+	Press()
+{{
+	// Background
+	Draw:(BG_Combined,@f,@T,@w,@H,,#A1A1A9FF)
+
+	Spine:(NSM_BGFX01,@f+100,500,-25,BGFX01,Loop)
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+	Spine:(NSM_BGFX01,@f+@w-150,@B-400,155,BGFX01,Loop) 
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+
+
+	// Title
+	Draw:(Fade_Right,@C,@T+20,-500,1)
+	Draw:(Fade_Right,@C,@T+20,500,1)
+	Draw:(Fade_Right,@C,@T+70,-500,1)
+	Draw:(Fade_Right,@C,@T+70,500,1)
+	M_Text:(,@C,@T+45,0,0,C,C,Text,KNUL30,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Title)
+		.set(gel.text,twk(PackOpen,PackName))
+
+
+	// Slice Open Card pack
+	Rect:(@C-180,170) ref:CardPack
+	{{
+		// Pack Bottom
+		Rect:()
+			float(%initialGY)
+			.set(%initialGY,gel.gy)
+			if(twk(CardPack,Opened) = 1)
+			<
+				frlerp(gel.gy,1000,0.03)
+				frlerp(gel.angle,-20,0.03)
+			>
+			else
+			<
+				:set(gel.gy,%initialGY)
+			>
+		{
+			Draw:(Pack_Reflection,0,390)
+			Draw:(Pack_Default) ref:PackBottom
+
+			// Title
+			M_Text:("",178,283,0,0,C,C,Text,KNUL45,Upper,1,0,#101010FF,NoItalics,#101010FF,Title)
+				M_TextMaxWidth:(290)
+				Angle(9)
+				Italicise(-0.34)
+
+			// Contents
+			M_Text:("",178,335,0,0,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Contents)
+				M_TextMaxWidth:(290)
+				Angle(9)
+				Italicise(-0.34)
+		}
+
+		// Card Pack Top
+		Rect:()
+			float(%initialGY)
+			.set(%initialGY,gel.gy)
+			if(twk(CardPack,Opened) = 1)
+			<
+				frlerp(gel.gy,100,0.1)
+				frlerp(gel.alpha,0,0.05)
+			>
+			else
+			<
+				:set(gel.gy,%initialGY)
+				:set(gel.alpha,1)
+			>
+		{
+			Draw:(Pack_Top,360,35)
+				Layer(Text)
+				float(%initialGY)
+				.set(%initialGY,gel.gy)
+				Handle(1,1)
+				sub(gel.gy,twk(CardPack,LastX) * 0.01)
+				sub(gel.angle,twk(CardPack,LastX) * 0.01)
+				if(twk(CardPack,Opened) = 0)
+				<
+					:set(gel.gy,%initialGY)
+					:set(gel.angle,0)
+				>
+		}
+
+		// Slice Interaction
+		Rect:(30,-15,300,430) ref:SliceInteraction
+			float(%oneTouchOpen)
+			.set(twk(CardPack,Opened),0)
+			set(gel.vis,twk(CardPack,Opened) = 0)
+			float(%lastTouchX,%offset,%initialGX)
+			Layer(AboveText)
+			.set(%initialGX,gel.gx)
+			set(twk(CardPack,LastX),0)
+			
+			##IAN
+			if(twk(ControllerInput,Enabled) = 0)
+			<
+				if(TouchDown)
+				<
+					Over()
+					<
+						:set(%offset,TouchX-gel.gx)
+						:set(%lastTouchX,TouchX)
+						if((TouchX > %lastTouchX) and(gel.x < 330))
+						<
+							set(gel.gx,TouchX-%offset)
+							set(twk(CardPack,LastX),TouchX - %lastTouchX)
+							set(%lastTouchX,TouchX)
+						>
+					>
+				>
+				else
+				<
+					//Auto open after an amount of slicing
+					if(gel.x > 130)
+					<
+						add(gel.x,10)
+						set(twk(CardPack,LastX),10)
+					>
+
+					if(gel.x > 330)
+					<
+						:set(twk(CardPack,Opened),1)
+						:set(twk(CardPack,LastX),0)
+						.Message(CardPackOpen.opened)
+					>
+				>
+			>
+			##*
+
+			if(twk(CardPack,Opened) = 0)
+			<
+				:set(gel.gx,%initialGX)
+				:set(%lastTouchX,0)
+				:set(%offset,0)
+			>
+
+			##P4N
+			func(OneTouchOpen)
+			<
+				.set(%oneTouchOpen,1)
+			>
+			if(%oneTouchOpen)
+			<
+				add(gel.x,10)
+
+				if(gel.x > 330)
+				<
+					:set(twk(CardPack,Opened),1)
+					:set(twk(CardPack,LastX),0)
+					.Message(CardPackOpen.opened)
+				>
+			>
+			##*
+
+
+		// Mask used to cover the tear as the top piece rotates
+		UseShader:(Region)
+		{
+			Draw:(Pack_Mask,32,4)
+				set(gel.vis,twk(CardPack,Opened) = 0)
+				Layer(Text)
+				float(%amt)
+				add(%amt,twk(CardPack,LastX))
+				SetUniform4F(region,gel.gx+%amt,gel.gy,295,26)
+		}
+
+		
+		##IAN
+		// Slice hint
+		Rect:()
+			Layer(AboveText)
+			float(%amt)
+			add(%amt,twk(CardPack,LastX))
+			if(%amt > 50)
+			<
+				frlerp(gel.alpha,0,0.05)
+			>
+			set(gel.vis,twk(ControllerInput,Enabled) = 0)
+		{
+			Clip:(25,0,310,100)
+			{{
+				Rect:(0,40)
+					set(gel.angle,3)
+				{{
+					Tile:(White,0,0,24,4,,#00000040FFFFFFFF)
+						Copies(10,1)
+						Spacing(35,0)
+						Mover(-1,0)
+						WrapX(-35,0)
+				}}
+			
+			}}
+
+			Rect:(0,47,,,4)
+			{{
+				Spine:(NSM_Scissors,0,0,0,NSM_ScissorMove,Loop) 
+			}}
+				set(gel.scale,0.6)
+		}
+		##*
+	}}
+
+	
+	##N
+	// Nintendo controller hint
+	M_Text:(pack_OPEN,@C,@B-40,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		set(gel.vis,(twk(CardPack,Opened) = 0) and(twk(ControllerInput,Enabled) = 1))
+
+	##P4
+	// PC click hint
+	M_Text:(Click_To_Open,@C,@B-40,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		set(gel.vis,(twk(CardPack,Opened) = 0) and(twk(ControllerInput,Enabled) = 0))
+	// PC controller hint
+	M_Text:(pack_OPEN,@C,@B-40,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		set(gel.vis,(twk(CardPack,Opened) = 0) and(twk(ControllerInput,Enabled) = 1))
+	##*
+
+
+	// Card Pack Opened
+	Rect:()
+		set(gel.vis,twk(CardPack,Opened))
+	{
+		// Cards
+		Spine:(NSM_CardSpread,@C-56,@M-50,,3CardSpread,Once) ref:UnflippedCards
+			// Trigger auto-reveal on spine animation completion
+			if(gel.anim.normtime > 0.99)
+			<
+				.set(twk(CardPack,AutoRevealIndex),0)
+			>
+		{
+			Rect:() ref:Card1
+				Slot(NSM_CardSlot01)
+
+			Rect:() ref:Card2
+				Slot(NSM_CardSlot02)
+
+			Rect:() ref:Card3
+				Slot(NSM_CardSlot03)
+
+			Rect:() ref:Card4
+				Slot(NSM_CardSlot04)
+
+			Rect:() ref:Card5
+				Slot(NSM_CardSlot05)
+
+			Rect:() ref:Card6
+				Slot(NSM_CardSlot06)
+
+			Rect:() ref:Card7
+				Slot(NSM_CardSlot07)
+
+			Rect:() ref:Card8
+				Slot(NSM_CardSlot08)
+
+			Rect:() ref:Card9
+				Slot(NSM_CardSlot09)
+
+			Rect:() ref:Card10
+				Slot(NSM_CardSlot10)
+		}
+			Scale(0.95,0.95)
+	
+
+		// Continue button
+		Rect:()
+			strvar(%hinttxt)
+			if(twk(ControllerInput,Enabled) = 1)
+			<
+				set(%hinttxt,loc(settings_OKButton)::"  ")
+			>
+			else
+			<
+				set(%hinttxt,"")
+			>
+		{
+			M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,CardPackOpen.back,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+				set(gel.vis,twk(CardPack,CardsRemaining) = 0)
+				M_CTRLButtonExtra:(?BTNOK?,false)
+		}
+
+	}
+}}
+
+
+// Full screen One Touch Open
+Rect:(@l,@t,@w,@h)
+	##P4N
+	if(twk(ControllerInput,Enabled) = 1)
+	<
+		CTRLClick(?BTNOK?,false)
+		<
+			call(SliceInteraction,OneTouchOpen)
+		>
+	>
+	##P4
+	Click()
+	<
+		call(SliceInteraction,OneTouchOpen)
+	>
+	##*

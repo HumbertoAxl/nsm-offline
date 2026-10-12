@@ -1,0 +1,211 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(cards.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-----------------------------------------------------------------------------------------TEMPLATES
+
+// Templates for Fixed List
+Cull:(0,120,@s-450,0) ref:FixedContentContainer
+{{
+	Rect:(@L,@T,@W,@H) ref:Hook
+		GridList(0,0) ref:GridList
+}}
+
+// Width of this item needs to fit inside the above gridlist
+Cull:(0,0,[[@s-450]/2]-10,30) ref:FixedText
+{{
+	M_Text:(,10,0,@W,30,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#252525FF,FixedText)
+}} Template
+
+
+// Templates for Information List
+Cull:(0,0,@s-450,0) ref:InfoContainer
+	float(%h)
+	.set(%h,gel.h)
+{{
+	Draw:(White_Frame,@L,@T,@W,0,,#00000040)
+		.set(gel.h,%h+2)
+
+	Rect:(@L,@T,@W) ref:Hook
+		VerticalList(0)
+}} Template
+
+Cull:(0,0,@s-450,35) ref:InfoTitle
+{{
+	Draw:(White,1,1,@W-2,@H-1,,#FFFFFF80)
+	M_Text:(,0,0,@W,@H,C,C,Text,KNUL20,,1,0,#252525FF,NoItalics,#252525FF,InfoTitle)
+}} Template
+
+Cull:(0,0,@s-450,80) ref:InfoOptionContainer
+	HorizontalList(0)
+	Handle(0.5,0)
+{{
+}} Template
+
+Cull:(0,0,@W,80) ref:InfoOption
+	float(%w)
+	.set(%w,gel.w)
+{{
+	Draw:(White,0,5,1,@H-10,,#00000030) ref:Seperator
+
+	M_Text:(,0,0,0,50,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#505050FF,InfoOption)
+		.set(gel.w,%w)
+	M_Text:(,0,30,0,50,C,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,InfoOption)
+		.set(gel.w,%w)
+		if(gel.text = "0%")
+		<
+			set(gel.alpha,0.3)
+		>
+		else
+		<
+			set(gel.alpha,1)
+		>
+}} Template
+
+
+// Templates for Contents List
+Cull:(0,0,?CARD_W?,?CARD_H?) ref:ContentsCard
+	Handle(0.5,0.5)
+	Click()
+	<
+		Message("store_productinfo.contentsCardClicked") ref:ClickMessage
+	>
+{
+} Template
+
+Cull:(0,0,@s-450,0) ref:ContentsContainer
+{{
+	// Title
+	Draw:(White,0,0,@W,34,,#808080FF)
+	Draw:(White,0,1,@W,32,,#B0B0B0FF)
+	M_Text:("",10,0,@W,34,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,Title)
+
+	Rect:(0,15,@W) ref:Container
+		VerticalList(40) ref:VerticalList
+}} Template
+
+Cull:(0,0,@s-450,40) ref:ContentsGuaranteedGroup
+{{
+	Rect:(70,80,@W) ref:CardHook
+		GridList(15,20) ref:GridList
+}} Template
+
+Cull:(0,0,@s-450,40) ref:ContentsPossibleGroup
+{{
+	M_Text:(,20,10,@W,0,L,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,Title)
+
+	Rect:(70,105,@W) ref:CardHook
+		GridList(15,20) ref:GridList
+}} Template
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:((twk(StoreInfo,PackName)),store_productinfo)
+// ----------------
+// ----------------
+
+	// Tabs
+	Rect:(0,0,@W,40)
+		Layer(AboveText2)
+		LockLayer()
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,220,50,lootinfo_CONTENTS,1,StoreInfo,CurrentTab,,5)
+		M_Tab:(250,0,220,50,lootinfo_INFO,2,StoreInfo,CurrentTab,,5)
+	}}
+
+
+	// Card Pack 
+	Rect:()
+	{
+		Rect:(20,68) 
+		{{
+			Draw:(Pack_Reflection,0,416)
+			Draw:(Pack_Default,0,25) ref:PackBottom
+			Draw:(Pack_Top)
+			M_Text:("",178,310,0,0,C,C,Text,KNUL45,Upper,1,0,#101010FF,NoItalics,#101010FF,PackTitle)
+				M_TextMaxWidth:(290)
+				Angle(9)
+				Italicise(-0.34)
+
+			M_Text:("",178,361,0,0,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,PackContents)
+				M_TextMaxWidth:(290)
+				Angle(9)
+				Italicise(-0.34)
+		}}
+	}
+
+	Dissolve:(0,50,@W,@H-45)
+		M_FadingTabContent:(StoreInfo,CurrentTab,1)
+	{{	
+		// Content
+		Rect:(350,0,@W-350,@H) ref:SwipePanel
+			SwipePanel(StoreInfo,ContentsScroll,StoreInfo,ContentsScrollVel) ref:SwipePanelContents
+		{{
+			Clip:(0,0,@W,@H)
+			{{
+				Rect:(50,35,@W-100,@H-70)
+				{{
+					Rect:(0,0,@W,@H) ref:ContentsList
+						ScrollingList(StoreInfo,ContentsScroll,@H,StoreInfo,ContentsScrollVel) ref:ScrollingListContents
+						VerticalList(0) ref:VerticalList
+						.set(twk(StoreInfo,ContentsScroll),0)
+						.set(twk(StoreInfo,ContentsScrollVel),0)
+					{{
+
+					}}
+					M_ScrollIndicatorAlt:(@R+5,@H,StoreInfo,ContentsScroll,ContentsList,ScrollingListContents,SwipePanel,SwipePanelContents)
+				}}
+			}}
+		}}
+	}}
+
+
+	Dissolve:(0,50,@W,@H-45)
+	 	M_FadingTabContent:(StoreInfo,CurrentTab,2)
+	{{	
+		// Title
+		Draw:(White,400,35,@W-450,34,,#808080FF)
+		Draw:(White,400,36,@W-450,32,,#B0B0B0FF)
+		M_Text:("",410,35,0,34,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,PackContains)
+
+		// Product Info
+		Rect:(350,0,@W-350,@H) ref:SwipePanel
+			SwipePanel(StoreInfo,InformationScroll,StoreInfo,InformationScrollVel) ref:SwipePanelInformation
+		{{
+			Clip:(0,69,@W,@H-72)
+			{{
+				Rect:(50,0,@W-100,@H-35)
+				{{
+					Rect:(0,0,@W,@H) ref:InformationList
+						ScrollingList(StoreInfo,InformationScroll,@H,StoreInfo,InformationScrollVel) ref:ScrollingListInformation
+						VerticalList(15) ref:VerticalList
+						.set(twk(StoreInfo,InformationScroll),0)
+						.set(twk(StoreInfo,InformationScrollVel),0)
+					{{
+					}}
+					M_ScrollIndicatorAlt:(@R+5,@H,StoreInfo,InformationScroll,InformationList,ScrollingListInformation,SwipePanel,SwipePanelInformation)
+				}}
+			}}
+		}}
+	}}
+
+
+	// Purchase Button
+	M_Button:(200,575,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,SelectedPurchaseButton,(twk(StoreInfo,SelectedPrice)),0,3,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		if(%clicked)
+		<
+			Post(store_productinfo.btn_Buy,twk(Store,SelectedUId))
+			set(twk(Store,SelectedUId),"")
+		>
+
+// ----------------
+// ----------------
+M_NewDialogCLOSE:()

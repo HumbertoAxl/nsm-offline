@@ -1,0 +1,71 @@
+Img:(iPhoneX_Corner,NewGUI/_Core/iPhoneX_Corner.png)
+Img:(iPhoneX_SideBar,NewGUI/_Core/iPhoneX_SideBar.png)
+
+Rect:()
+	Layer(Debug)
+	float(%grid,%xMode)
+	set(gel.vis,twk(Debug,ContentGrid))
+{
+	M_Rect:(@L+10,@B-60,50,50)
+		Click()
+		<
+			set(%grid,1-%grid)
+		>
+		// Press()
+		// <
+		// 	set(%grid,0)
+		// >
+		// else
+		// <
+		// 	set(%grid,1)
+		// >
+
+	M_Rect:(@L+70,@B-60,50,50)
+		Click()
+		<
+			set(%xMode,1-%xMode)
+		>
+
+	Rect:()
+		set(gel.vis,%grid)
+	{
+		Draw:(White,@L,@T+50,@W,1,,#FF0000FF) ref:Header_Bottom
+		Draw:(White,@L,@B-70,@W,1,,#FF0000FF) ref:Footer_Top
+
+		Draw:(White,@L,@T+80,@W,1,,#FF0000FF) ref:Main_Content_Top
+		Draw:(White,@L,@B-85,@W,1,,#FF0000FF) ref:Main_Content_Bottom
+
+		Draw:(White,@L,@T+195,@W,1,,#FF0000FF) ref:Table_Content_Top
+
+		Draw:(White,@L+30,@T,1,@H,,#FF0000FF) ref:Main_Content_Left
+		Draw:(White,@R-30,@T,1,@H,,#FF0000FF) ref:Main_Content_Right
+	}
+
+	// iPhoneX Corners
+	Rect:()
+		set(gel.vis,%xMode)
+	{
+		Draw:(iPhoneX_Corner,@L,@T,79,78,,#000000FF)
+		Draw:(iPhoneX_Corner,@R,@T,-79,78,,#000000FF)
+		Draw:(iPhoneX_Corner,@L,@B,79,-78,,#000000FF)
+		Draw:(iPhoneX_Corner,@R,@B,-79,-78,,#000000FF)
+		Draw:(iPhoneX_SideBar,@L,@T,66,768,,#000000FF)
+			float(%side)
+			Click()
+			<
+				set(%side,1-%side)
+			>
+			if(%side = 0)
+			<
+				set(gel.x,@L)
+				set(gel.hx,0)
+				set(gel.scale,1)
+			>
+			else
+			<
+				set(gel.x,@R-66)
+				set(gel.hx,gel.w)
+				set(gel.scalex,-1)
+			>
+	}
+}

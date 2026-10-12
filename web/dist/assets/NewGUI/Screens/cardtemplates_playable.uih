@@ -1,0 +1,851 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(cardface.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Card_Add_Side,NewGUI/Cards/Card_Add_Side.png) FORCE Scale:0.75
+Img:(Card_Agility,NewGUI/Cards/Card_Agility.png) FORCE Scale:0.75
+Img:(Card_Appeal,NewGUI/Cards/Card_Appeal.png) FORCE Scale:0.75
+Img:(Card_NRG_Black,NewGUI/Cards/Card_NRG_Black.png) FORCE Scale:0.75
+Img:(Card_NRG_Gold,NewGUI/Cards/Card_NRG_Gold.png) FORCE Scale:0.75
+Img:(Card_NRG_Green,NewGUI/Cards/Card_NRG_Green.png) FORCE Scale:0.75
+Img:(Card_NRG_Blue,NewGUI/Cards/Card_NRG_Blue.png) FORCE Scale:0.75
+Img:(Card_Contract,NewGUI/Cards/Card_Contract.png) FORCE Scale:0.75
+Img:(Card_Dribbling,NewGUI/Cards/Card_Dribbling.png) FORCE Scale:0.75
+Img:(Card_Fitness,NewGUI/Cards/Card_Fitness.png) FORCE Scale:0.75
+Img:(Card_Handling,NewGUI/Cards/Card_Handling.png) FORCE Scale:0.75
+Img:(Card_Injury,NewGUI/Cards/Card_Injury.png) FORCE Scale:0.75
+Img:(Card_Meeting,NewGUI/Cards/Card_Meeting.png) FORCE Scale:0.75
+Img:(Card_Pace,NewGUI/Cards/Card_Pace.png) FORCE Scale:0.75
+Img:(Card_Physio,NewGUI/Cards/Card_Physio.png) FORCE Scale:0.75
+Img:(Card_Reflexes,NewGUI/Cards/Card_Reflexes.png) FORCE Scale:0.75
+Img:(Card_Scout,NewGUI/Cards/Card_Scout.png) FORCE Scale:0.75
+Img:(Card_Skills,NewGUI/Cards/Card_Skills.png) FORCE Scale:0.75
+Img:(Card_Strength,NewGUI/Cards/Card_Strength.png) FORCE Scale:0.75
+Img:(Card_Tackling,NewGUI/Cards/Card_Tackling.png) FORCE Scale:0.75
+Img:(Card_Teamtalk,NewGUI/Cards/Card_Teamtalk.png) FORCE Scale:0.75
+Img:(Card_Technique,NewGUI/Cards/Card_Technique.png) FORCE Scale:0.75
+Img:(Card_Youth,NewGUI/Cards/Card_Youth.png) FORCE Scale:0.75
+
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+// Sunburst Burst 
+Animation:(2000,Loop) ref:Burst
+{
+	During:(0,2000,>)
+    {
+        Draw:(Burst,0,0,200,200,0,#FFFFFF10)
+        	Additive()
+            Handle(0.5,0.5)
+            TweenAngle(-360)
+
+        Draw:(Burst,0,0,200,200,0,#FFFFFF20)
+            Handle(0.5,0.5)
+            TweenAngle(360)
+    }
+}
+
+//--------------------------------------------------------------------------------------------MACROS
+
+//Back Tip
+Macro:(M_BackTip,?TEXT?)
+	// English language
+	M_Text:(?TEXT?,-@C+5,-15,@W-8,0,C,C,TextBox,KNUL18,,1,0,#50505080,Italics,#505050FF,ref)
+		.set(gel.vis,TPlayerClass.languageId = 0)
+		CharacterSpacing(1.5)
+		LineSpacing(0.85)
+
+	// Smaller text for all other languages
+	M_Text:(?TEXT?,-@C+5,-15,@W-8,0,C,C,TextBox,KNUL17,,1,0,#50505080,Italics,#505050FF,ref)
+		.set(gel.vis,TPlayerClass.languageId > 0)
+		CharacterSpacing(1.5)
+		LineSpacing(0.85)
+EndM
+
+//---------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------MANAGER CARDS
+//---------------------------------------------------------------------------------------------------------
+
+//Manager Card Macro
+Macro:(M_ManagerCardData,?CARDTYPE?,?IMAGE?,?IMAGEX?,?IMAGEY?,?IMAGESCALE?)
+	Rect:() ref:DataRoot
+		float(%BoostAmount,%EnergyEffect)
+	{
+		Text:() $HIDE ref:Boost
+			.set(%BoostAmount,gel.text)
+
+		//Card Reflection
+		Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+			Handle(0.5,0.5)
+			if(not(%dragging))
+			<
+				frlerp(gel.alpha,0.2,0.05)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		//Card Name 
+		M_Text:(,-[@W/2],49,@W,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+			M_Style:(Outline,#25252520)
+
+
+		//For cards other than NRG, sets the energy it gives you
+		Text:() $HIDE ref:Energy
+		
+		//Card Image
+		UseShader:(Region)
+			SetUniform4F(region,gel.gx-[53*bakedTrans.ix],gel.gy-[71*bakedTrans.jy],[106*bakedTrans.ix],[110*bakedTrans.jy])
+		{
+			//Draw:(White,-@W/2,-@H/2,@W,@H,,#B5C4CCFF)
+			AnimInstance:(0,-10,Burst)
+			
+			If:(?CARDTYPE?="NRG")
+				Draw:(LightGlow,-100,-110,200,200)
+					if(%BoostAmount<=25)
+					<
+						.set(gel.colour,#2CC36580FFFFFFFF)
+					>
+					elif(%BoostAmount<=50)
+					<
+						.set(gel.colour,#FFFF7480FFFFFFFF)
+					>
+					elif(%BoostAmount<=75)
+					<
+						.set(gel.colour,#74C3FF80FFFFFFFF)
+					>
+					elif(%BoostAmount<=100)
+					<
+						.set(gel.colour,#FFFF7480FFFFFFFF)
+					>>>>
+			EndIf
+			
+			Draw:(?IMAGE?,?IMAGEX?,?IMAGEY?)
+				.set(gel.scale,?IMAGESCALE?)
+				Handle(0.5,0.5)
+
+			//Draw:(?IMAGE?,-2,-2,110,114)
+			//	Handle(0.5,0.5)
+
+
+			If:(?CARDTYPE?="NRG")
+				if(%BoostAmount<=25)
+				<
+					:set(gel.img,"Card_NRG_Green")
+				>
+				elif(%BoostAmount<=50)
+				<
+					:set(gel.img,"Card_NRG_Gold")
+				>
+				elif(%BoostAmount<=75)
+				<
+					:set(gel.img,"Card_NRG_Blue")
+				>
+				elif(%BoostAmount<=100)
+				<
+					:set(gel.img,"Card_NRG_Black")
+				>>>>
+			EndIf
+
+			Rect:()
+				set((gel.vis,?CARDTYPE?) oneof("PHYSIO","APPEAL","CONTRACT"))
+			{
+				Draw:(Glow_Quarter,-20,0,74,74,90)
+			}
+		}
+
+		//Card boost (not shown on NRG, Meeting or Teamtalk)
+		Rect:() ref:BoostSign
+		{
+			Rect:()
+				strvar(%boostsign)
+				.set(gel.vis,not(?CARDTYPE? oneof("NRG","MEETING","TEAMTALK")))
+			{
+				Text:() $HIDE ref:BoostSign
+					set(%boostsign,gel.text)
+				M_Text:(,46,-53,0,0,R,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,ref)
+					M_Style:(Outline,#25252550)
+					CharacterSpacing(1.5)
+					.set(gel.scale,0.5)
+					.set(gel.text,LTR(%boostsign :: fmt(%BoostAmount,X)))
+			}
+		}
+
+		// Energy Effect for cards other than NRG
+		Rect:() ref:EnergyEffect
+		{
+			Rect:()
+				set(gel.vis,?CARDTYPE?!="NRG")
+			{
+				// Energy Cost
+				Rect:(-47,58,100,12)
+				{{
+					Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+					Draw:(White,0,0,@W,@H,,#42BB00FFFFFFFFFF)
+						.set(gel.scalex,abs(%EnergyEffect)/100)
+						if(%EnergyEffect >= 0)
+				        <
+				        	set(gel.colour,#42BB00FFFFFFFFFF)
+				        >
+				        else
+				        <
+				           	set(gel.colour,#DD1010FFFFFFFFFF)
+				        >
+					Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+					Draw:(White,25,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,50,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,75,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				}}	
+				
+				Draw:(Circle_50,-55,55,15,15,,#FFFFFFFFFFFFFFFF)
+				Rect:()
+				{
+					Draw:(Card_Energy,-58,55,18,,,#20CC18FFFFFFFFFF)
+				}
+					:set(gel.vis,%EnergyEffect>0)
+
+				Rect:()
+				{
+					Draw:(Card_Energy,-58,55,18,,,#B5C4CCFFFFFFFFFF)
+				}
+					:set(gel.vis,%EnergyEffect=0)
+
+				Rect:()
+				{
+					Draw:(Card_Energy,-58,55,18,,,#DD1010FFFFFFFFFF)
+				}	
+					:set(gel.vis,%EnergyEffect<0)
+			}
+
+			// Energy Effect for NRG cards
+			Rect:()
+				set((gel.vis,?CARDTYPE?) oneof("NRG"))
+			{
+				// Energy Cost
+				Rect:(-47,58,100,12)
+				{{
+					Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+					Draw:(White,0,0,@W,@H,,#42BB00FFFFFFFFFF)
+						.set(gel.scalex,%BoostAmount/100)
+				
+					Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+					Draw:(White,25,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,50,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,75,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				}}	
+					Draw:(Circle_50,-55,55,15,15,,#FFFFFFFFFFFFFFFF)
+					Draw:(Card_Energy,-58,55,18,,,#20CC18FFFFFFFFFF)
+			}
+		}
+	}
+EndM
+
+//----------------------------------------------------------------------------------------------------------------------NRG CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardNRG	
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("NRG",Card_NRG_Green,@W/6,@T+63,0.35)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardNRG_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_NRG)
+
+	M_Text:(NRG,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------PHYSIO CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardPhysio
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("PHYSIO",Card_Injury,-6,-12,0.32)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardPhysio_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_PHYSIO)
+
+	M_Text:(cardtype_Treatment,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------APPEAL CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardAppeal
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("APPEAL",Card_Appeal,-6,-12,0.32)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardAppeal_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_APPEAL)
+
+	M_Text:(ban_Appeal,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------CONTRACT CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardContract
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("CONTRACT",Card_Contract,-6,-12,0.32)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardContract_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_CONTRACT)
+
+	M_Text:(Contract,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------MEETING CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardMeeting
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("MEETING",Card_Meeting,0,-12,0.32)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardMeeting_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_MEETING)
+
+	M_Text:(staff_Meeting,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------TEAMTALK CARD
+
+//Front 
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardTeamTalk
+	float(%dragging)
+{{
+	Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+	M_ManagerCardData:("MEETING",Card_Teamtalk,-6,-6,0.32)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardTeamTalk_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_MANAGE_TEAMTALK)
+
+	M_Text:(teamtalk_TeamTalk,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//---------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------COACHING CARDS
+//---------------------------------------------------------------------------------------------------------
+
+//Coaching Card Macro 
+Macro:(M_CoachingCardData,?CARDTYPE?,?IMAGE?,?IMAGEX?,?IMAGEY?,?IMAGESCALE?,?COL?)
+	Rect:() ref:DataRoot
+		float(%BoostAmount,%EnergyEffect)
+	{
+		//Card Reflection
+		Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+			Handle(0.5,0.5)
+			if(not(%dragging))
+			<
+				frlerp(gel.alpha,0.2,0.05)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+
+		//Card Name 
+		M_Text:(,-[@W/2],49,@W,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+			M_Style:(Outline,#25252520)
+		
+		//Card Image
+		UseShader:(Region)
+			SetUniform4F(region,gel.gx-[53*bakedTrans.ix],gel.gy-[71*bakedTrans.jy],[106*bakedTrans.ix],[110*bakedTrans.jy])
+		{
+			AnimInstance:(0,-10,Burst)
+			Draw:(LightGlow,-100,-110,200,200,,?COL?FFFFFFFF)
+			Draw:(?IMAGE?,?IMAGEX?,?IMAGEY?)
+				.set(gel.scale,?IMAGESCALE?)
+				Handle(0.5,0.5)
+			
+			Rect:()
+				set(gel.vis,?CARDTYPE?!="AddSide")
+			{
+				Draw:(Card_Star5,-8,-83,74,74) ref:BlankStar
+			}
+		}
+		
+		Rect:() ref:BoostContainer
+		{
+			If:(?CARDTYPE?="AddSide")
+				Draw:(Glow_Quarter,-20,0,74,74,90)
+				M_Text:(LCR,46,-53,0,0,R,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,Boost)
+					M_Style:(Outline,#25252550)
+					CharacterSpacing(1.5)
+					.set(gel.scale,0.5)
+					Text:() $HIDE ref:BoostSign
+					Draw:(Card_Star0,-1,-75,60,60) $HIDE ref:Quality
+			Else
+				Draw:(Card_Star0,-1,-75,60,60) ref:Quality
+
+				//Card Boost
+				Text:() $HIDE ref:BoostSign
+				Text:() $HIDE ref:Boost
+			EndIf
+		}
+
+		Text:() $HIDE ref:Energy
+
+		// Energy Effect
+		Rect:() ref:EnergyEffect
+		{
+			// Energy Cost
+			Rect:(-47,58,100,12)
+			{{
+				Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+				Draw:(White,0,0,@W,@H,,#DD1010FFFFFFFFFF)
+					.set(gel.scalex,abs(%EnergyEffect)/100)
+				Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+				Draw:(White,25,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				Draw:(White,50,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				Draw:(White,75,0,1,@H,,#FFFFFFFFFFFFFFFF)
+			}}	
+			
+			Draw:(Circle_50,-55,55,15,15,,#FFFFFFFFFFFFFFFF)
+			Rect:()
+			{
+				Draw:(Card_Energy,-58,55,18,,,#B5C4CCFFFFFFFFFF)
+			}
+				:set(gel.vis,%EnergyEffect=0)
+
+			Rect:()
+			{
+				Draw:(Card_Energy,-58,55,18,,,#DD1010FFFFFFFFFF)
+			}	
+				:set(gel.vis,%EnergyEffect!=0)
+		}
+	}
+EndM
+
+//----------------------------------------------------------------------------------------------------------------------TACKLING CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardTackling
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Tackling",Card_Tackling,-2,-12,0.30,#FF000060)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardTackling_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	
+	M_BackTip:(CARDHELP_SKILL_TACKLING)
+
+	M_Text:(skilltype_Tackling,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------TECHNIQUE CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardTechnique
+	Handle(0.5,0.5)
+	float(%dragging)
+{{	
+	M_CoachingCardData:("Technique",Card_Technique,-38,-24,0.30,#1A93FE60)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardTechnique_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_TECHNIQUE)
+
+	M_Text:(skilltype_Technique,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------DRIBBLING CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardDribbling
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Dribbling",Card_Dribbling,2,-15,0.24,#F2652290)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardDribbling_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_DRIBBLING)
+
+	M_Text:(skilltype_Dribbling,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------PACE CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardPace
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Pace",Card_Pace,-16,-36,0.32,#1A930060)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardPace_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_PACE)
+
+	M_Text:(skilltype_Pace,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------STRENGTH CARD
+
+//Front 
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardStrength
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Strength",Card_Strength,2,-18,0.22,#FFCF1A80)
+}} Template	
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardStrength_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_STRENGTH)
+
+	M_Text:(skilltype_Strength,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------ADD SIDE CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardAddSide
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("AddSide",Card_Add_Side,2,-16,0.24,#571AF060)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardAddSide_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_ADDSIDE)
+
+	M_Text:(skilltype_AddSide,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------AGILITY CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardAgility
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Agiiity",Card_Agility,-2,-18,0.34,#F01ABB60)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardAgility_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_AGILITY)
+
+	M_Text:(skilltype_Agility,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------REFLEXES CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardReflexes
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Reflexes",Card_Reflexes,8,-12,0.28,#1A930080)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardReflexes_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_REFLEXES)
+
+	M_Text:(skilltype_Reflexes,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------HANDLING CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardHandling
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_CoachingCardData:("Handling",Card_Handling,-6,-8,0.32,#0054A6FF)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:CoachingCardHandling_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_SKILL_HANDLING)
+
+	M_Text:(skilltype_Handling,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//---------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------STAFF CARDS
+//---------------------------------------------------------------------------------------------------------
+
+//Staffing Card Macro 
+Macro:(M_StaffCardData,?CARDTYPE?,?IMAGE?,?IMAGEX?,?IMAGEY?,?IMAGESCALE?,?ENERGYEFFECT?)
+	Rect:() 
+		float(%BoostAmount)
+	{
+		//Card Reflection
+		Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+			Handle(0.5,0.5)
+			if(not(%dragging))
+			<
+				frlerp(gel.alpha,0.2,0.05)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		Draw:(PlayableCard_Base,-@W/2,-@H/2,@W,@H)
+
+		//Card Name 
+		M_Text:(,-[@W/2],49,@W,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+			M_Style:(Outline,#25252520)
+		
+		//Card Image
+		UseShader:(Region)
+			SetUniform4F(region,gel.gx-[53*bakedTrans.ix],gel.gy-[71*bakedTrans.jy],[106*bakedTrans.ix],[110*bakedTrans.jy])
+		{
+			AnimInstance:(0,-10,Burst)
+			Draw:(?IMAGE?,?IMAGEX?,?IMAGEY?)
+				.set(gel.scale,?IMAGESCALE?)
+				Handle(0.5,0.5)
+		}
+	
+		//Card Boost
+		Rect:() $HIDE
+		{
+			Draw:(Card_Star0,-1,-75,60,60) $HIDE ref:Quality
+			Text:() $HIDE ref:BoostSign
+			Text:() $HIDE ref:Boost
+		}
+
+		Text:() $HIDE ref:Energy
+
+		// Energy Effect
+		Rect:() ref:EnergyEffect
+		{
+			// Energy Cost
+			Rect:(-47,58,100,12)
+			{{
+				Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+				Draw:(White,0,0,@W,@H,,#42BB00FFFFFFFFFF)
+					.set(gel.scalex,abs(?ENERGYEFFECT?)/100)
+					if(?ENERGYEFFECT? >= 0)
+			        <
+			        	set(gel.colour,#42BB00FFFFFFFFFF)
+			        >
+			        else
+			        <
+			           	set(gel.colour,#DD1010FFFFFFFFFF)
+			        >
+				Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+				Draw:(White,25,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				Draw:(White,50,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				Draw:(White,75,0,1,@H,,#FFFFFFFFFFFFFFFF)
+			}}	
+			
+			Draw:(Circle_50,-55,55,15,15,,#FFFFFFFFFFFFFFFF)
+			Rect:()
+			{
+				Draw:(Card_Energy,-58,55,18,,,#20CC18FFFFFFFFFF)
+			}
+				:set(gel.vis,?ENERGYEFFECT?>0)
+
+			Rect:()
+			{
+				Draw:(Card_Energy,-58,55,18,,,#B5C4CCFFFFFFFFFF)
+			}
+				:set(gel.vis,?ENERGYEFFECT?=0)
+			
+			Rect:()
+			{
+				Draw:(Card_Energy,-58,55,18,,,#DD1010FFFFFFFFFF)
+			}	
+				:set(gel.vis,?ENERGYEFFECT?<0)
+		}
+	}
+EndM
+
+//----------------------------------------------------------------------------------------------------------------------SKILLS CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostSkills
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_StaffCardData:("Skills",Card_Skills,-2,-12,0.32,0)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostSkills_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_STAFF_SKILL)
+
+	M_Text:(staff_SkillTraining,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------FITNESS CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostFitness
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_StaffCardData:("Fitness",Card_Fitness,-2,-12,0.32,0)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostFitness_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_STAFF_FITNESS)
+
+	M_Text:(staff_SkillFitness,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------YOUTH CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostYouth
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_StaffCardData:("Youth",Card_Youth,-2,-12,0.32,0)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostYouth_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_STAFF_YOUTH)
+
+	M_Text:(staff_SkillYouth,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------SCOUTING CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostScouting
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_StaffCardData:("Scouting",Card_Scout,-2,-12,0.32,0)
+}} Template
+
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostScouting_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+		M_BackTip:(CARDHELP_STAFF_SCOUT)
+
+	M_Text:(staff_SkillScouting,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------PHYSIO CARD
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostPhysio
+	Handle(0.5,0.5)
+	float(%dragging)
+{{
+	M_StaffCardData:("Physio",Card_Physio,-2,-12,0.32,0)
+}} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:ManagerCardStaffBoostPhysio_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:(CARDHELP_STAFF_PHYSIO)
+
+	M_Text:(staff_SkillPhysio,-[@W/2],49,@W,0,C,C,TextLoc,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Style:(Outline,#25252520)
+}} Template
+
+//----------------------------------------------------------------------------------------------------------------------LOCKED SLOT
+
+//Front
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:LockedSlot
+{
+	Draw:(RoundedPanel,0,0,?CARD_W?,?CARD_H?,,#FFFFFF33)
+		Handle(0.5,0.5)
+} Template
+
+//Back
+Rect:(0,0,?CARD_W?,?CARD_H?) ref:LockedSlot_Back
+{{
+	Draw:(CardBlank,-@C,-@M,@W,@H,,#DDDDDDFF)
+	M_BackTip:()
+
+	M_Text:(generic_BACK,0,49,0,20,C,C,TextLoc,KNUL35,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		Handle(0.5,0.5)
+		M_Style:(Outline,#25252530)
+		.set(gel.scalex,0.85)
+		.set(gel.scaley,0.85)
+}} Template

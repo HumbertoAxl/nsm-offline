@@ -1,0 +1,39 @@
+{
+  "GameControls": {
+    "skillsClampHuman": 20,
+    "skillsClampOpp": 20
+  },
+  
+  "8" : {
+    "chancetype": "penalty"
+  },
+
+  "24" : {
+    "chancetype": "attack",
+    "playerteam" :  [{"x": -400, "y": 200, "selno": 1}, {"x": -250, "y": -200, "selno": 2}, {"x": -100, "y": 400, "selno": 3}, {"x": 50, "y": 450, "selno": 4}, {"x": 550, "y": 200, "selno": 5}, {"x": -150, "y": 300, "selno": 6}, {"x": -400, "y": -600, "selno": 7}, {"x": -100, "y": -700, "selno": 8}, {"x": 200, "y": -500, "selno": 9}, {"x": 300, "y": -740, "selno": 10}],
+    "oppteam" :  [{"x": -400, "y": -1000, "selno": 1}, {"x": -350, "y": 200, "selno": 2}, {"x": -300, "y": 200, "selno": 3}, {"x": -250, "y": 200, "selno": 4}, {"x": 500, "y": -200, "selno": 5}, {"x": -170, "y": -240, "selno": 6}, {"x": -430, "y": -620, "selno": 7}, {"x": -80, "y": -740, "selno": 8}, {"x": -100, "y": -970, "selno": 9}, {"x": 50, "y": 200, "selno": 10}],
+    "ball" :  {"x": 200, "y": -500, "controllerselno": 9, "controllerhuman": true}
+  },
+
+  "41" : {
+    "chancetype": "attack",
+    "playerteam" :  [{"x": 700, "y": -180, "selno": 1}, {"x": -250, "y": 150, "selno": 2}, {"x": -100, "y": 300, "selno": 3}, {"x": -50, "y": 300, "selno": 4}, {"x": 0, "y": 150, "selno": 5}, {"x": 70, "y": 50, "selno": 6}, {"x": -650, "y": -980, "selno": 7}, {"x": 150, "y": -750, "selno": 8}, {"x": 300, "y": -450, "selno": 9}, {"x": -100, "y": -800, "selno": 10}],
+    "oppteam" :  [{"x": -350, "y": -760, "selno": 1}, {"x": 250, "y": -1020, "selno": 2}, {"x": 500, "y": -770, "selno": 3}, {"x": 760, "y": -700, "selno": 4}, {"x": -650, "y": -450, "selno": 5}, {"x": -260, "y": -400, "selno": 6}, {"x": -250, "y": 0, "selno": 7}, {"x": 50, "y": 150, "selno": 8}, {"x": 100, "y": 150, "selno": 9}, {"x": 150, "y": 150, "selno": 10}],
+    "ball" :  {"x": -400, "y": -700, "controllerselno": 9, "controllerhuman": true}
+  },
+
+  "54" : {
+    "chancetype": "attack",
+    "playerteam" :  [{"x": 700, "y": -180, "selno": 1}, {"x": -250, "y": 150, "selno": 2}, {"x": -100, "y": 300, "selno": 3}, {"x": -50, "y": 300, "selno": 4}, {"x": 0, "y": 150, "selno": 5}, {"x": 70, "y": 50, "selno": 6}, {"x": -420, "y": -200, "selno": 7}, {"x": 50, "y": -150, "selno": 8}, {"x": 300, "y": -450, "selno": 9}, {"x": -200, "y": -400, "selno": 10}],
+    "oppteam" :  [{"x": -380, "y": -550, "selno": 1}, {"x": 400, "y": -480, "selno": 2}, {"x": 650, "y": -770, "selno": 3}, {"x": 800, "y": -300, "selno": 4}, {"x": 500, "y": -150, "selno": 5}, {"x": -490, "y": -90, "selno": 6}, {"x": -250, "y": 0, "selno": 7}, {"x": 50, "y": 150, "selno": 8}, {"x": 100, "y": 150, "selno": 9}, {"x": 150, "y": 150, "selno": 10}],
+    "ball" :  {"x": 300, "y": -350, "controllerselno": 9, "controllerhuman": true}
+  },
+
+   "67" : {
+    "chancetype": "midfield"
+  },
+
+   "82" : {
+    "chancetype": "midfield"
+  }
+}

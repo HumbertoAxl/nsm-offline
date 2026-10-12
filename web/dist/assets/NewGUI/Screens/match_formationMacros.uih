@@ -1,0 +1,287 @@
+Import:(formation_Navigation.uih)
+
+Macro:(M_TeamEnergy,?X?,?Y?)
+	Rect:(?X?,?Y?) ref:TeamEnergy
+		float(%energy,%reset)
+		if(twk(Match,ViewingHome))
+		<
+			:set(%reset,1)
+			set(%energy,twk(Match,Team1Energy))
+		>
+		else
+		<
+			:set(%reset,1)
+			set(%energy,twk(Match,Team2Energy))
+		>
+	{{
+		M_Text:(,0,0,0,0,C,C,Text,KNUL24,,0,0,#0000000,Italics,#FFFFFFFF,ref)
+			M_Style:(Outline,#FFFFFF20)
+			set(gel.text,LTR(fmt(%energy,X.X)))
+			CharacterSpacing(2)
+
+		Rect:()
+			set(%reset,0)
+	}}
+EndM
+
+
+
+
+
+Macro:(M_MatchFormationPitch,?X?,?Y?)
+	CTRLSelectGroup:(40,88,580,564,,CTRLPitchSelected,,,,,,,CTRLGroupPitch)
+	{	
+		Rect:(?X?,?Y?)
+		{{
+			M_MatchFormationPitchSlots:(Home,Team1)
+				set(gel.vis,twk(Match,ViewingHome) = 1)
+
+			M_MatchFormationPitchSlots:(Away,Team2)
+				set(gel.vis,twk(Match,ViewingHome) = 0)
+		}}
+	}
+EndM
+
+
+
+
+
+Macro:(M_EnergyBar,?X?,?Y?)
+	Rect:(?X?,?Y?,98,10) ref:Energy
+		float(%energy)
+		float(%current)
+		.set(%current,%energy)
+		frlerp(%current,%energy,0.1)
+	{{
+		Draw:(Fade_Down,-1,0,@W+2,-6,,#00000050FFFFFFFF)
+
+		Draw:(White,-1,-1,@W+2,@H+2,,#DDDDDDFFFFFFFFFF)
+		Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+		
+		Draw:(White,0,0,@W,@H)
+			.set(gel.scalex,%current/100)
+			frlerp(gel.scalex,clamp(%current/100,0,1),0.05)
+
+			if(%energy >= 75)
+	        <
+	        	set(gel.colour,#42BB00FFFFFFFFFF)
+	        >
+	        else
+	        <
+	            if(%energy >= 50)
+	            <
+	            	set(gel.colour,#E0DE10FFFFFFFFFF)
+	            >
+	            else
+	            <
+	        		if(%energy >= 25)
+	           		<
+	            		set(gel.colour,#E09E11FFFFFFFFFF)
+	            	>
+	            	else
+	            	<
+	            		set(gel.colour,#DD1010FFFFFFFFFF)
+	            	>
+	            >
+			>
+
+		Draw:(White,0,@M,@W,[@H/2],,#00000015)
+
+		Draw:(White,25,0,1,@H,,#FFFFFFFF)
+		Draw:(White,50,0,1,@H,,#FFFFFFFF)
+		Draw:(White,75,0,1,@H,,#FFFFFFFF)
+	}}
+EndM
+
+				
+
+
+// Star Man Anim
+Animation:(200,Loop) ref:StarManAnim
+{
+	Sequence:(StarSpin#,1,2,3,4,5,6,6,6,6,6,5,4,3,2,1,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1)
+		SpreadOver(0,40)
+
+	During:(40,200)
+	{
+		Draw:(StarSpin1)
+	}
+}
+
+Macro:(M_MatchFormationFaceSlot,?SIDE?,?INDEX?,?TEAM?)
+	Rect:(0,0,?CARD_W?,?CARD_H?) ref:MatchFormation?SIDE??INDEX?
+		Handle(0.5,0.5)
+		set(gel.x,twk(?TEAM?Formation,Sel?INDEX?_X))
+		set(gel.y,twk(?TEAM?Formation,Sel?INDEX?_Y)*1.05)
+		float(%pressed)
+		CTRLSelect(CTRLMatchFaceSelected,0,12,0,-20)
+		func(ClickFunc)
+		<
+			Message(match.btn_ViewPlayer?SIDE?,?INDEX?)
+		>
+		CTRLClick(?BTNOK?)
+		<
+		 	call(ClickFunc)
+		>
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			CTRLPress(?BTNOK?)
+			<
+				set(%pressed,1)
+			>
+			else
+			<
+				set(%pressed,0)
+			>
+		>
+		£M_FormationNavigation_?INDEX?:(?TEAM?Formation,PresetId,MatchFormation?SIDE?)
+	{{
+		Draw:(Badge_Shadow,-75,70,150,30,,#00000080)
+
+		Rect:()
+			Layer(AboveText)
+			LockLayer()
+		{
+			Clip:(-75,-100,150,168)
+			{
+				Rect:(0,-10,?CARD_W?,?CARD_H?) ref:CardFace
+					Card_Face(MatchFormation?SIDE??INDEX?,MATCHCARD,PU_MANAGER) ref:CardSlot
+					// Used to flash the face from commentary
+					float(%flashTimer,%flashFace)
+					if(twk(Match,?SIDE?FlashIds) contains("|"::?INDEX?::"|"))
+					<
+						frlerp(gel.scale,1.25,0.1)
+						:set(%flashFace,1)
+						:set(%flashTimer,0)
+						add(%flashTimer,FrameTime*0.05)
+						if(%flashTimer<1)
+						<
+							set(gel.alpha,lerp(0.2,1,min(1,%flashTimer)))
+						>
+						else
+						<
+							set(gel.alpha,lerp(1,0.2,min(1,%flashTimer-1)))
+						>
+						fmod(%flashTimer,2)
+						:Delay(2)
+						set(twk(Match,?SIDE?FlashIds),"")
+					>
+					else
+					<
+						frlerp(gel.scale,1.1,0.1)
+						:set(gel.alpha,1)
+						:set(%flashFace,0)
+					>
+				if(%pressed)
+				<
+					frlerp(gel.scale,1.25,0.2)
+				>
+				else
+				<
+					:set(gel.scale,1.1)
+				>
+			}
+
+			Rect:(0,20,?CARD_W?-20,?CARD_H?-20)
+				Handle(0.5,0.5)
+				if(twk(ControllerInput,Enabled) = 0)
+				<
+					Press()
+					<
+						set(%pressed,1)
+					>
+					else
+					<
+						set(%pressed,0)
+					>
+				>
+				Click()
+				<
+					callparent(2,ClickFunc)
+				>
+
+			M_EnergyBar:(-49,59)
+			M_Text:(,0,82,0,0,C,C,Text,KNUL35,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+				.set(gel.scale,0.56)
+
+			M_Text:(,-48,12,0,0,C,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,Rating)
+				FontStyle(#FFFFFFFF000000FF,1,1 #000000FF000000FF,2,2 #000000AA000000FF,3,3 #00000070000000FF,4,4)
+				CharacterSpacing(2)
+
+			AnimInstance:(-62,-35,StarManAnim) $HIDE ref:StarPlayer
+				Scale(0.45,0.45)
+				set(gel.anim.speed,0.8)
+
+			Draw:(Icon_Injured,-14,49,28,28) $HIDE ref:Injured
+			Draw:(Icon_Goal,24,-10,32,32) $HIDE ref:Goal2
+			Draw:(Icon_Goal,30,-4,32,32) $HIDE ref:Goal1
+			Draw:(Icon_Goal,36,2,32,32) $HIDE ref:Goal3
+			
+			Draw:(Icon_YellowCard,33,-35,28,28) $HIDE ref:YellowCard
+			Draw:(Icon_YellowRedCard,33,-35,28,28) $HIDE ref:YellowRedCard
+			Draw:(Icon_RedCard,33,-35,28,28) $HIDE ref:RedCard
+		}
+	}}
+EndM
+
+
+
+
+
+Macro:(M_MatchFormationPitchSlots,?SIDE?,?TEAM?)
+	Rect:() ref:MatchFormation
+	{
+		M_MatchFormationFaceSlot:(?SIDE?,10,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,9,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,8,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,7,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,6,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,5,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,4,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,3,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,2,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,1,?TEAM?)
+		M_MatchFormationFaceSlot:(?SIDE?,0,?TEAM?)
+	}
+EndM
+
+
+
+Macro:(M_TeamButton,?X?,?Y?,?W?,?H?)
+	M_PressOPEN:(?X?,?Y?-5,?W?,?H?,?LINK?)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+		Draw:(Button_SilverSliced,0,0,@W,@H)
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		Draw:(RoundedPanel,0,1,@W,@H,,#00000000)
+			Layer(Text)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+
+		Rect:() ref:TeamView
+			strvar(%BUTTONTEXT)
+		{
+			M_Text:(,@C,@M,0,50,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				Handle(0.5,0.5)
+				set(gel.text,%BUTTONTEXT)
+				set(gel.scale,min(1,[?W?-8]/%gfw))
+
+		}
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(Y,false)
+		func(ClickFunc)
+		<
+			Message(match.btn_ChangeTeamView)
+		>
+		if(%clicked)
+		<
+			call(ClickFunc)
+		>
+EndM

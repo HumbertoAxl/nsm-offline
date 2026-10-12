@@ -1,0 +1,625 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(home_construction.uih)
+Import:(facility_Macros.uih)
+Import:(ImageDefs_kits.uih)
+Import:(match_common.uih)
+Import:(match_weather.uih)
+Import:(badge_Macros.uih)
+Import:(cards.uih)
+
+Import:(match_stadium.uih)
+Import:(home_ClubShop.uih)
+Import:(home_FitnessCentre.uih)
+Import:(home_MedicalCentre.uih)
+Import:(home_ScoutOffice.uih)
+Import:(home_TrainingGround.uih)
+Import:(home_YouthAcademy.uih)
+Import:(home_NSMWorld.uih)
+Import:(FacilityConstruction.uis)
+
+Import:(CamAnim.uih)
+Import:(skydome.uih)
+
+Import:(FacilityConstruction.uis)
+Import:(templates_competitions.uih)
+
+
+CurvePack:(StadiumAnims,StadiumAnims)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(MatchInterval,FormationCam),0)
+	.Post(FadeOutMusic)
+	if(twk(Match,PlayerAtHome) = 0)
+	<
+		.set(twk(Pitch,PitchPattern),0)
+	>
+
+	.set(twk(Facilities,PitchLevelVisible),twk(Facilities,PitchLevel))
+	.set(twk(Facilities,PitchStandNLevelVisible),twk(Facilities,PitchStandNLevel))
+	.set(twk(Facilities,PitchStandSLevelVisible),twk(Facilities,PitchStandSLevel))
+	.set(twk(Facilities,PitchStandWLevelVisible),twk(Facilities,PitchStandWLevel))
+	.set(twk(Facilities,PitchStandELevelVisible),twk(Facilities,PitchStandELevel))
+	.set(twk(Facilities,PitchCornersLevelVisible),twk(Facilities,PitchCornersLevel))
+	.set(twk(Facilities,TrainingGroundLevelVisible),twk(Facilities,TrainingGroundLevel))
+	.set(twk(Facilities,MedicalUnitLevelVisible),twk(Facilities,MedicalUnitLevel))
+	.set(twk(Facilities,FitnessCentreLevelVisible),twk(Facilities,FitnessCentreLevel))
+	.set(twk(Facilities,ScoutsOfficeLevelVisible),twk(Facilities,ScoutsOfficeLevel))
+	.set(twk(Facilities,ClubShopLevelVisible),twk(Facilities,ClubShopLevel))
+	.set(twk(Facilities,YouthAcademyLevelVisible),twk(Facilities,YouthAcademyLevel))
+	.set(twk(Match,StadTeamName),twk(Match,Team1Name))
+
+	// Horizon
+	if(twk(Match,PlayerAtHome) = 1)
+	<
+		:set(twk(Match,Horizon),0)
+		Delay(1.5)
+		:set(twk(Audio,StadiumMusic),1)
+	>
+	else
+	<
+		:set(twk(Match,Horizon),rand(1,3))
+	>
+
+	//Seasons
+	.if(Player.weatherSeason = 0)<
+		set(twk(Facilities,Season),"_Spring")
+	>
+	.if(Player.weatherSeason = 1)<
+		set(twk(Facilities,Season),"")
+	>
+	.if(Player.weatherSeason = 2)<
+		set(twk(Facilities,Season),"_Autumn")
+	>
+	.if(Player.weatherSeason = 3)<
+		set(twk(Facilities,Season),"_Winter")
+	>
+
+Rect:()
+	set(twk(Audio,Ambient),"crowd")
+
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_Shirt,?CAT?,?INDEX?,?POS?,?TEAM?)
+	Locator:((0,0,0),(90,0,0),(1,1,1)) ref:Team?TEAM?Shirt?INDEX?
+		float(%LP)
+		Rearmable()
+		if(twk(MatchInterval,FormationCam)=3)
+		<
+			:set(gel3d.rotx,0)
+			:set(gel3d.rotz,-90)
+		>
+		else
+		<
+			set(gel3d.rotx,-twk(Cam,RX))
+			:set(gel3d.rotz,0)
+		>
+		.set(gel.alpha,0)
+		:set(%LP,0)
+		:Delay(twk(?CAT?,Sel?INDEX?_Type)*0.75)
+		:set(%LP,1)
+		frlerp(gel.alpha,1,0.05)
+		:set(gel3d.x,twk(?CAT?,Sel?INDEX?_X)*?POS?*0.85)
+		:set(gel3d.y,twk(?CAT?,Sel?INDEX?_Y)*?POS?*0.75)
+	{
+		Dissolve:()
+		{
+			//For PlayerHeadnShoulders
+			Draw:(Badge_Shadow,-150,100,300,50,,#00000060)
+			 	Layer(Default)
+				set(gel.vis,twk(MatchInterval,FormationCam) != 3)
+			Rect:(0,-67) ref:CardFace
+				Card_Face(MatchInterval?TEAM?Index?INDEX?)
+				if(twk(MatchInterval,FormationCam)= oneof(0,1,2))
+				<
+					set(gel.scale,1.4)
+				>
+				if(twk(MatchInterval,FormationCam)= 3)
+				<
+					set(gel.scale,1.6)
+				>
+
+			M_Text:(,0,95,0,0,C,C,Text,KNUL64,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+				M_Style:(Outline,#FFFFFF10)
+				.set(gel.scale,1)
+		}
+			if(%LP=1)
+			<
+				frlerp(gel.scale,1.3,0.05)
+			>
+	}
+		Layer(Debug)
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+//---------------------STADIUM
+Rect:() 
+   	M_CameraVariables:()
+{
+	//--------------------------Reset Cam if adj in match
+	Locator:(0,0,0,0,0,0)
+		M_InitCameraHere:(66.46)
+		if(twk(MatchInterval,FormationCam)=0)
+		<
+			if(twk(Facilities,PitchStandNLevel) = 5 or(twk(Facilities,PitchStandELevel) = 5 or(twk(Facilities,PitchStandSLevel) = 5 or(twk(Facilities,PitchStandWLevel) = 5))))
+			<
+				set(twk(Cam,FOV),86.27) //FIXEDFOV
+			>
+			elif(twk(Facilities,PitchStandWLevel) = 6)
+			<
+				set(twk(Cam,FOV),103.142) //FIXEDFOV
+			>
+			else
+			<
+				set(twk(Cam,FOV),66.46)
+			>>
+		>
+
+		
+	//Loop Stadium
+	Rect:()
+	set(gel.vis,twk(MatchInterval,FormationCam)=0)
+	{
+		M_CamAnim:(StadiumAnims,StadiumLoop,10000,Loop)	
+
+		AnimInstance:(0,0,StadiumAnims_StadiumLoop)
+		 	set(twk(Cam,AnimPosWeight),1)
+		   	set(twk(Cam,AnimAngleWeight),1)
+
+		//Lifts camera up a smudge
+		Rect:()
+   			sub(twk(Cam,Z),136)
+   			sub(twk(Cam,RX),8.5)
+
+	}
+
+	//Half Pitch Team 1 View
+	Rect:()
+	set(gel.vis,twk(MatchInterval,FormationCam)=1)
+	{
+			Locator:(0,3000,-1800,-45,0,0)
+				M_BlendCameraToLocator:(0.05,0.05,60) //FIXEDFOV
+				:Post(UI_Swoosh)
+	}
+
+	//Half Pitch Team 2 View
+	Rect:()
+	set(gel.vis,twk(MatchInterval,FormationCam)=2)
+	{
+			Locator:(0,1200,-1800,-45,0,0)
+				M_BlendCameraToLocator:(0.05,0.05,60) //FIXEDFOV
+				:Post(UI_Swoosh)
+	}
+
+	//Top Down Stadium
+	Rect:()
+	set(gel.vis,twk(MatchInterval,FormationCam)=3)
+	{
+			Locator:(-145,0,-3900,-90,0,90)
+				M_BlendCameraToLocator:(0.05,0.05,60) //FIXEDFOV
+				:Post(UI_Swoosh)
+	}
+
+
+
+	//-----------------------------------------------------------------------------------------Cam var
+	  M_SetCameraVariablesFromTweaks:()
+
+	//-----------------------------------------------------------------------------------------Camera
+		
+	Clip:(@L,@T+100,@W,@H-300)
+		if(twk(MatchInterval,FormationCam) = 1)
+		<
+			frlerp(gel.y,@T,0.05,-1,1)
+			frlerp(gel.h,@H,0.08,-1,1)
+		>
+	{
+		//Camera:((0,0,0),(0,0,0),60,(1,1,1),,,)
+		// Don't use screen width/height for camera
+		Camera:((0,0,0),(0,0,0),66.461,(0.01,0.01,0.01)) //FIXEDFOV
+		M_PositionCamera:()
+		{	
+			//Skydome
+			M_SkyMacro:(0,0,100,0,0,0,1,1,1,Simple3D)
+			
+			//SkyHorizon
+			M_HorizonMacro:(0,0,100,0,0,0,1,1,1)
+
+			Locator:((0,0,0),(0,0,90),(1,1,1))
+			{
+				//-------------------------------------------------------Surrounding Enivironment
+				M_NSMWorld:(1)
+
+				// //-------------------------------------------------------Stadium and Facility Meshes
+				//Stadium
+				Locator:((0,0,0),(0,0,0),(1,1,1))
+				{
+					M_StadiumBaseHome:(1)
+					M_3DPitchHome:(1)
+					M_LowerStadiumHome:(Stadium,1,True)		
+				}
+				
+				//--------------------Training
+				M_TrainingGround:(1)
+
+				//--------------------Fitness
+				M_FitnessCentre:(1)
+
+				//--------------------Medical
+				M_MedicalUnit:(1)
+
+				//--------------------Youth
+				M_YouthAcademy:(1)
+
+
+				//--------------------Scout
+				M_ScoutsOffice:(1)
+
+				//--------------------ClubShop
+				M_ClubShop:(1)
+			}
+			//-------------------------------------------------------Meshes
+			Locator:((0,-80,100),(0,0,0),(1,1,1))
+				set(gel.vis,twk(MatchInterval,FormationCam) oneof(1,3))
+				if(twk(MatchInterval,FormationCam) = 3)
+				<
+					.set(gel3d.y,80)
+				>
+			{
+				//HomeTeamFormation
+					M_Shirt:(Team1Formation,0,5,1)
+					M_Shirt:(Team1Formation,1,5,1)
+					M_Shirt:(Team1Formation,2,5,1)
+					M_Shirt:(Team1Formation,3,5,1)
+					M_Shirt:(Team1Formation,4,5,1)
+					M_Shirt:(Team1Formation,5,5,1)
+					M_Shirt:(Team1Formation,6,5,1)
+					M_Shirt:(Team1Formation,7,5,1)
+					M_Shirt:(Team1Formation,8,5,1)
+					M_Shirt:(Team1Formation,9,5,1)
+					M_Shirt:(Team1Formation,10,5,1)
+			}
+
+			Locator:((0,-120,100),(0,0,0),(1,1,1))
+				set(gel.vis,twk(MatchInterval,FormationCam) oneof(2,3))
+				if(twk(MatchInterval,FormationCam) = 3)
+				<
+					.set(gel3d.y,-80)
+				>
+			{
+				//AwayTeamFormation
+				M_Shirt:(Team2Formation,0,-5,2)
+				M_Shirt:(Team2Formation,1,-5,2)
+				M_Shirt:(Team2Formation,2,-5,2)
+				M_Shirt:(Team2Formation,3,-5,2)
+				M_Shirt:(Team2Formation,4,-5,2)
+				M_Shirt:(Team2Formation,5,-5,2)
+				M_Shirt:(Team2Formation,6,-5,2)
+				M_Shirt:(Team2Formation,7,-5,2)
+				M_Shirt:(Team2Formation,8,-5,2)
+				M_Shirt:(Team2Formation,9,-5,2)
+				M_Shirt:(Team2Formation,10,-5,2)
+			}
+		}
+	
+		//----------------------------------Rain
+		Rect:()
+			Layer(AboveSky)
+		     set(gel.vis,twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN and(twk(MatchInterval,FormationCam)=0))
+		{
+		    Instance:(RainSplashesEmitter,140,464)
+		    Instance:(RainStreaksEmitter,240,0)
+		}
+				
+
+		M_Rain:(40)
+		M_Snow:(40)
+
+		// //Faded screen ends
+		// Rect:()
+		// set(gel.vis,twk(MatchInterval,FormationCam) = 0)
+		// {
+		// 	Draw:(Fade_Left,@R+160,@T,380,@H*2,-15,#FFFFFFFF)
+		// 		Handle(1,0)
+		// 		Layer(AboveSky)
+		// 		.set(gel.alpha,0.98)
+
+		// 	Draw:(Fade_Right,@L,@T,380,@H*2,-15,#FFFFFFFF)
+		// 		Handle(0,0)
+		// 		Layer(AboveSky)
+		// 		.set(gel.alpha,0.98)
+		// }
+	}
+
+}
+
+
+
+Rect:(@L,@T,@W,@H)
+	Layer(Debug)
+	CTRLSelect(CTRLBlank)
+	func(ClickFunc)
+	<
+		if(twk(MatchInterval,FormationCam) = 0)
+		<
+			.set(twk(MatchInterval,FormationCam),1)
+		>
+		else
+		<
+			Post(matchinterval.btn_Confirm)
+		>
+	>
+	Click()
+	<
+		call(ClickFunc)
+	>
+	CTRLClick(?BTNOK?)
+	<
+		call(ClickFunc)
+	>
+	if(twk(MatchInterval,FormationCam) > 0)
+	<
+		:Delay(5)
+		:set(twk(MatchInterval,FormationCam),2)
+		:Delay(5)
+		:set(twk(MatchInterval,FormationCam),3)
+	>
+
+
+//Continue
+	//Text BG for winter
+	//##P4N
+	//Rect:() $HIDE
+ 	//	set(gel.vis,Player.weatherSeason = 3)
+	//{
+		Rect:(@C,@B+90,150,25,,#20202090FFFFFFFF)
+		{{
+			Draw:(Fade_Right,0,0,150,40,,#20202090FFFFFFFF)
+			Draw:(Fade_Right,0,0,-150,40,,#20202090FFFFFFFF)
+		}}
+			Handle(0,0.5)
+			Layer(Text)
+			if(twk(MatchInterval,FormationCam) oneof(1,2,3))
+			<
+				Delay(1.3)
+				frlerp(gel.alpha,1,0.1)
+				frlerp(gel.y,@B-52,0.2)
+			>
+			else
+			<
+				.set(gel.alpha,0)
+				.set(gel.y,@B+90)
+			>
+	//}
+	//##*
+		
+
+ M_Text:(,@C,@B+90,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	if(twk(ControllerInput,Enabled) = 0)
+	<
+		:set(gel.text,loc(prematch_HELP))
+	>
+	else
+	<
+		:set(gel.text,loc(settings_OKButton)::"  "::loc(generic_CONTINUE))
+	>
+	if(twk(MatchInterval,FormationCam) = 0)
+	<
+		frlerp(gel.y,@B-30,0.1)
+		.set(gel.colour,#252525FF)
+	>
+	else
+	<
+		.set(gel.alpha,0)
+		.set(gel.y,@B+90)
+		Delay(1.3)
+		frlerp(gel.alpha,1,0.1)
+		.set(gel.colour,#FFFFFFFF)
+		frlerp(gel.y,@B-30,0.2)
+	>
+	
+
+//DEBUG Click to trigger formation
+Rect:(@L,@T,50,50)
+	set(gel.vis,twk(Debug,Enabled))
+	Click()
+	<
+		:set(twk(MatchInterval,FormationCam),0)
+	>
+
+
+
+
+
+Rect:(@o,@T,@s,@H)
+	Layer(Debug)
+	LockLayer()
+{{
+
+	//Pitch Mow Selection
+	Rect:()
+		set(gel.vis,twk(Facilities,PitchLevel) >= 5 and(twk(Match,PlayerAtHome)))
+
+	{
+		M_Button:(@R-60,@B-55,90,90,Button_SilverSliced,Icon_Mow,5,5,80,80,#252525FF,link,ref,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(Y,false)
+			if(%clicked)
+			<
+				add(twk(PlayerSaved,MowType),1)
+				fmod(twk(PlayerSaved,MowType),9)
+				set(twk(Pitch,PitchPattern),twk(PlayerSaved,MowType))
+			>
+			M_SwitchButtonHint:(⛍,@R-35,@B-115)	
+	}
+
+
+	//Shirt style
+	Rect:()
+	{
+		M_PressOPEN:(@L+60,@B-60,90,90)
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			Draw:(Button_SilverSliced,0,0,@W,@H)
+			Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+			
+			//HomeTeamKit
+			Rect:(35,38)	
+			{{
+				Draw:(ShirtBase,0,0,70,70,,#00FF00FF)
+					Handle(0.5,0.5)
+					ColReadout(Match,Team1ShirtCol1)
+				Draw:(ShirtStripes,0,0,70,70,,#FF0000FF)
+					Handle(0.5,0.5)
+					ColReadout(Match,Team1ShirtCol2)
+					M_KitStyleImageSwitch:((twk(Match,Team1KitStyle)),"ShirtStripes","ShirtHoops","ShirtSleeves","ShirtChecks","ShirtDiagonalHalf","ShirtHorizontalHalf","ShirtVerticalHalf","ShirtVStripe","ShirtCentreStripe","ShirtSash","ShirtQuarters")
+				Draw:(ShirtCollar,0,0,70,70,,#FFFFFFFFFFFFFFFF)
+					Handle(0.5,0.5)
+			}}
+				Scale(0.9,0.9)
+
+			//AwayTeamKit
+			Rect:(55,55)	
+			{{
+				Draw:(ShirtBase,0,0,70,70,,#00FF00FF)
+					Handle(0.5,0.5)
+					ColReadout(Match,Team2ShirtCol1)
+				Draw:(ShirtStripes,0,0,70,70,,#FF0000FF)
+					Handle(0.5,0.5)
+					ColReadout(Match,Team2ShirtCol2)
+					M_KitStyleImageSwitch:((twk(Match,Team2KitStyle)),"ShirtStripes","ShirtHoops","ShirtSleeves","ShirtChecks","ShirtDiagonalHalf","ShirtHorizontalHalf","ShirtVerticalHalf","ShirtVStripe","ShirtCentreStripe","ShirtSash","ShirtQuarters")					
+				Draw:(ShirtCollar,0,0,70,70,,#FFFFFFFFFFFFFFFF)
+					Handle(0.5,0.5)
+			}}
+				Scale(0.9,0.9)
+
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+				Layer(AboveText)
+				Additive()
+				if(%pressed)
+				<
+					set(gel.colour,#60606060)
+				>
+				else
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+		M_PressCLOSE:()
+			M_CTRLButtonExtra:(X,false)
+			if(%clicked)
+			<
+				Message(matchinterval.btn_ToggleKit)
+			>
+	  		M_SwitchButtonHint:(⛌,@L+85,@B-120)
+
+	}
+
+
+	Dissolve:(@L,@B-270,@W,100)
+		if(twk(MatchInterval,FormationCam)=1)
+		<
+			frlerp(gel.alpha,0,0.06)
+			frlerp(gel.y,@B-150,0.08)
+		>
+	{{
+		//DropShadowBottom
+		Draw:(Fade_Down,@f,100,@w,15,,#00000066)
+
+		//Teams BG
+		Draw:(White,@f,0,@w,100)
+			M_PrestigeMatch:(CompetitionColour)
+
+		//TeamColourHome
+		Draw:(White,@C-85,0,25,100,,#FF3030FF)
+			ColReadout(Match,Team1ShirtCol1)
+			
+		//TeamColourAway
+		Draw:(White,@C+60,0,25,100,,#3030FFFF)
+			ColReadout(Match,Team2ShirtCol1)
+
+		Draw:(Fade_Down,@C-85,0,170,100,,#FFFFFF30)	
+
+		//Vs BG
+		Draw:(White,@C-60,0,120,100,,#00FE9BFF)
+
+		//Darker Lower Half
+		Draw:(White,@f,50,@w,50,,#00000009)
+		Draw:(Fade_Down,@f,50,@w,50,,#00000020)
+
+		//Vs text
+		M_Text:(prematch_VS,@C,0,0,100,C,C,TextLoc,KNUL60,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+
+		//TeamNameHome
+		M_Text:(New Star FC,@C-300,0,0,100,C,C,Text,KNUL40,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			.set(gel.text,LTR(MatchHomeTeam.tla))
+		//TeamNameAway
+		M_Text:(Dagenham,@C+300,0,0,100,C,C,Text,KNUL40,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			.set(gel.text,LTR(MatchAwayTeam.tla))
+	}}
+
+	//Sponsor
+	Rect:()
+		.set(gel.vis,twk(Club,HasSponsor1))
+		if(twk(MatchInterval,FormationCam)=1)
+		<
+			frlerp(gel.alpha,0,0.2)
+		>
+	{
+		M_Text:(prematch_SPONSOR,@C,@B-152,0,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#656565FF,ref)
+		
+		Draw:(White,@C,@B-94,210,79,,#FFFFFF80FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Sponsor_1,@C,@B-94,410,150)
+			Handle(0.5,0.5)
+			Scale(0.5,0.5)
+			.set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+	}
+
+
+	// Competition Header
+	M_PreMatchCompetitionHeader:()
+		if(twk(MatchInterval,FormationCam)=1)
+		<
+			frlerp(gel.y,@T+20,0.07)
+		>
+		else
+		<
+			.set(gel.y,@T+50)
+		>
+
+	// BadgeHome
+	Rect:(@C-300,@H-220,@W,@H)
+		.set(gel.scale,1.8)
+		if(twk(MatchInterval,FormationCam)=0)
+		<
+			.set(gel.x,@C-300)
+			.set(gel.y,@M-75)
+		>
+		elif(twk(MatchInterval,FormationCam)= oneof(1,2,3))
+		<
+			frlerp(gel.x,@R-230,0.07)
+			frlerp(gel.y,@T+80,0.07)
+			frlerp(gel.scale,0.75,0.07)
+		>>
+	{{
+		DrawEmbedded:(MatchHomeTeamBadge)
+	}}
+
+	// BadgeAway
+	Rect:(@C+300,@H-220,@W,@H)
+		.set(gel.scale,1.8)
+		if(twk(MatchInterval,FormationCam)=0)
+		<
+			.set(gel.x,@C+300)
+			.set(gel.y,@M-75)
+		>
+		elif(twk(MatchInterval,FormationCam)= oneof(1,2,3))
+		<
+			frlerp(gel.x,@R-90,0.07)
+			frlerp(gel.y,@T+80,0.07)
+			frlerp(gel.scale,0.75,0.07)
+		>>
+	{{
+		DrawEmbedded:(MatchAwayTeamBadge)
+	}}
+		
+}}

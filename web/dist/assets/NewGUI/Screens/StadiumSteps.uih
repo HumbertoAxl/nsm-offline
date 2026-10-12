@@ -1,0 +1,98 @@
+
+//Stadium colour masks
+Img:(StadiumSteps,NewGUI/ColourMasks/Stadium/stadium_steps.png)
+Img:(Stadium_T3_PrimaryCol,NewGUI/ColourMasks/Stadium/Stadium_T3_PrimaryCol.png)
+Img:(Stadium_T4_PrimaryCol,NewGUI/ColourMasks/Stadium/Stadium_T4_PrimaryCol.png)
+Img:(Stadium_T5_PrimaryCol,NewGUI/ColourMasks/Stadium/Stadium_T5_PrimaryCol.png)
+Img:(Stadium_T6_PrimaryCol,NewGUI/ColourMasks/Stadium/Stadium_T6_PrimaryCol.png)
+
+//Club Shop colour masks
+Img:(Shop_T1_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T1_PrimaryCol.png)
+Img:(Shop_T2_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T2_PrimaryCol.png)
+Img:(Shop_T3_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T3_PrimaryCol.png)
+Img:(Shop_T4_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T4_PrimaryCol.png)
+Img:(Shop_T5_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T5_PrimaryCol.png)
+Img:(Shop_T6_PrimaryCol,NewGUI/ColourMasks/Shop/Shop_T6_PrimaryCol.png)
+##P4N
+Img:(Shop_T1_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T1_PrimaryCol_DUSK.nspng)
+Img:(Shop_T2_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T2_PrimaryCol_DUSK.nspng)
+Img:(Shop_T3_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T3_PrimaryCol_DUSK.nspng)
+Img:(Shop_T4_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T4_PrimaryCol_DUSK.nspng)
+Img:(Shop_T5_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T5_PrimaryCol_DUSK.nspng)
+Img:(Shop_T6_PrimaryCol_Night,NewGUI/ColourMasks/Shop/Shop_T6_PrimaryCol_DUSK.nspng)
+##*
+
+//Fitness colour masks
+Img:(Fitness_T3_PrimaryCol,NewGUI/ColourMasks/Fitness/Fitness_T3_PrimaryCol.png)
+Img:(Fitness_T4_PrimaryCol,NewGUI/ColourMasks/Fitness/Fitness_T4_PrimaryCol.png)
+##P4N
+Img:(Fitness_T3_PrimaryCol_Night,NewGUI/ColourMasks/Fitness/Fitness_T3_PrimaryCol_DUSK.nspng)
+Img:(Fitness_T4_PrimaryCol_Night,NewGUI/ColourMasks/Fitness/Fitness_T4_PrimaryCol_DUSK.nspng)
+##*
+
+
+//Training Ground colour masks
+Img:(Training_T4_PrimaryCol,NewGUI/ColourMasks/Training/Training_T4_PrimaryCol.png)
+Img:(Training_T5_PrimaryCol,NewGUI/ColourMasks/Training/Training_T5_PrimaryCol.png)
+##P4N
+Img:(Training_T4_PrimaryCol_Night,NewGUI/ColourMasks/Training/Training_T4_PrimaryCol_DUSK.nspng)
+Img:(Training_T5_PrimaryCol_Night,NewGUI/ColourMasks/Training/Training_T5_PrimaryCol_DUSK.nspng)
+##*
+
+
+//----------------------------------------------------------------------------Stadium
+View:(Stadium_Lv_3,256,512)
+	M_ONCE:()
+{
+	Sheet:() 
+	{
+		Draw:(StadiumSteps,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+		Draw:(StadiumSteps,0,2,256,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+
+		//Draw:(Stadium_T3_PrimaryCol,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			//set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+
+View:(Stadium_Lv_4,256,512)
+	M_ONCE:()
+{
+	Sheet:()
+	{
+		Draw:(StadiumSteps,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+		
+		//Draw:(Stadium_T4_PrimaryCol,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			//set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+
+View:(Stadium_Lv_5,256,512)
+	M_ONCE:()
+{
+	Sheet:() 
+	{
+		Draw:(StadiumSteps,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGBA,twk(Match,Team1Col))
+
+		//Draw:(Stadium_T5_PrimaryCol,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+			//set(gel.colour.RGBA,twk(Match,Team1Col))
+	}
+}
+
+View:(Stadium_Lv_6,256,512)
+ 	M_ONCE:()
+{
+ 	Sheet:() 
+ 	{
+ 		//Cls:(#FF0000FF)
+ 		Draw:(StadiumSteps,0,0,256,512,,#FF00FFFF)
+ 			set(gel.colour.RGBA,twk(Match,Team1Col))
+
+// 		//Draw:(Stadium_T6_PrimaryCol,0,0,256,512,,#FFFFFFFFFFFFFFFF)
+// 			//set(gel.colour.RGBA,twk(Match,Team1Col))
+ 	}
+}
+

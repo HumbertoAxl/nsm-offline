@@ -1,0 +1,183 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	// Init changes made
+	inittwk(twk(Formation,ChangesMade),0)
+	// Dismiss the Low Energy upsell
+	if((twk(Formation,CurrentTab)=3) and(twk(Match,ShowNRGUpsell)))
+	<
+		.set(twk(Match,ShowNRGUpsell),0)
+	>
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(formation_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+	// Left Side Pitch
+	Rect:(@L,[@z/2])
+	{{
+		PushOrigin:(-10,0)
+			Draw:(Squad_Pitch_Texture,-3,73,665,624)
+			M_FormationSquad:(330,98)
+			M_FormationStatistics:(448,618,Team)
+		PopOrigin
+
+		// DropZone for TeamTalk
+		Rect:(25,@T+80,610,600)
+		 	if(twk(Match,DraggingTeamTalkCard))
+			<
+				Card_AreaSlot(MatchCardsArea,formationmatch.action_TeamTalk,TEAMTALKCARD)
+			>
+	}}
+
+
+
+
+
+	// Tabs
+	Rect:(@L+642,@T+80,490+@y,50)
+		Layer(Text)
+	{{
+		Draw:(Tab_BG50,0,-2,@W+1,58)
+		M_Tab:(0,0,@W/3,50,tactics_SUBS,1,Formation,CurrentTab,,5)
+		M_Tab:([@W/3],0,@W/3,50,tactics_FORMATION,2,Formation,CurrentTab,,5)
+		M_Tab:([@W/3]*2,0,@W/3,50,tactics_CARDS,3,Formation,CurrentTab,,5)
+
+		M_SwitchTabs:(3,Formation,-10,10,@R-20,10)
+	}}
+
+
+
+
+
+	// CONTENTS
+	Rect:(@L+642,@T+130,490+@y,553+@z)
+	{{
+		Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+		Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAA)
+		Draw:(Dialog_Fade,1,@B-1,@W-2,-300,,#FFFFFFAA)
+
+		// SUBS
+		Rect:()
+			float(%swiping)
+			M_FadingTabContent:(Formation,CurrentTab,1)
+		{
+			Rect:(0,0,0,0,0,#FFFFFFFFFFFFFFFF)
+				if(twk(Formation,SubsLeft) = 0)
+				<
+					frlerp(gel.alpha,0,0.15)
+				>
+				else
+				<
+					frlerp(gel.alpha,1,0.15)
+				>
+			{
+				M_Text:(tactics_REMAINING,@C,520,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					float(%w,%totalWidth)
+					.set(%w,%gfw)
+					.add(%totalWidth,%w)
+					set(gel.x,@C-[%totalWidth/2])
+				{
+					M_Text:(,0,520,0,0,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF000000FF,ref,Formation,SubsLeft)
+						set(gel.x,%w+10)
+						.add(%totalWidth,[%gfw]+10)
+				}
+			}
+
+			M_Text:(tactics_NOMORESUBS,@C,520,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,ref)
+				if(twk(Formation,SubsLeft) = 0)
+				<
+					frlerp(gel.alpha,1,0.15)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.15)
+				>
+
+			CTRLSelectGroup:(-1,0,@W+1,@H,,CTRLSquareSelected,,,,,,1,CTRLGroupSquare) ref:SubsSelectGroup
+			{{
+				M_FormationMatchSubCard:(@C-184-[[@y/10]*1.5],170,1,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C-62-[[@y/10]/2],170,2,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C+62+[[@y/10]/2],170,3,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C+184+[[@y/10]*1.5],170,4,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C-124-[@y/10],400,5,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C,400,6,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+				M_FormationMatchSubCard:(@C+124+[@y/10],400,7,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,0,1)
+			}}
+		}
+
+
+
+
+
+		// FORMATION
+		Rect:() $HIDE
+			M_FadingTabContent:(Formation,CurrentTab,2)
+		{
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,1)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,2)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,6)
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,3)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,8)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,5)
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,9)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,7)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,4)
+		}
+
+
+
+
+
+		// CARDS
+		Rect:() $HIDE
+			M_FadingTabContent:(Formation,CurrentTab,3)
+		{
+			M_FormationEnergyCard:(@C-160,110,Energy25CardSlot,NRG25CardsCount,Energy25Card)
+			M_FormationEnergyCard:(@C,110,Energy50CardSlot,NRG50CardsCount,Energy50Card)
+			M_FormationEnergyCard:(@C+160,110,Energy75CardSlot,NRG75CardsCount,Energy75Card)
+			M_FormationTeamTalkCard:(@C,300)
+
+			// Upsell Get Cards
+			Rect:()
+				.set(gel.vis,twk(Formation,ShowTacticsUpsell))
+			{
+				Clip:(@L,@B-120,@W,120)
+				{{
+					Draw:(Upsell_MatchBanner_01,@R,0)
+						Handle(1,0)
+
+					Rect:(80,0,@W,@H)
+						if(@w>1152)
+						<
+							.set(gel.x,0)
+						>
+					{{
+						M_Text:(upsell_GETCARDS,@C,28,0,0,C,C,TextLoc,BEBAS50,,0,0,#00000000,Italics,#FFFFFFFF,ref)
+							.set(gel.text,loc(twk(Upsell,TacticsUpsellTitle)))
+							.set(gel.scalex,0.9)
+							CharacterSpacing(2)
+							PulseAlpha(0.3,1,0.5,0.5)
+						
+						M_Button:(@C,85,250,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,formation.btn_Upsell,ref,loc(upsell_TOSTORE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+							M_ButtonZone:(-80,0,@W,@H)
+					}}
+				}}
+
+				Draw:(UpSell_Cards_Energy,-10+[@y/8],@B-170,200,200,,#FFFFFFFFFFFFFFFF)
+					.set(gel.img,twk(Upsell,TacticsUpsellImage))
+					PulseAlpha(1,0,0.5,0.5,0,2,2)
+				Draw:(UpSell_Cards_TeamTalk,-10+[@y/8],@B-170,200,200,,#FFFFFFFFFFFFFFFF)
+					.set(gel.img,twk(Upsell,TacticsUpsellImage2))
+					PulseAlpha(0,1,0.5,0.5,0,2,2)
+			}
+		}
+	}}
+}}

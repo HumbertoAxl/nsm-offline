@@ -1,0 +1,107 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(templates_combo.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(templates_online.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	// Combo Templates
+	M_ComboOPEN:(@R-275,@T+80,250,60,Online,ViewCombo,online.cmb_Close)
+		M_ComboEntry:(Online,ViewCombo,online.cmb_SelectedView,-1,(loc(online_ViewAll)),0)
+		M_ComboEntry:(Online,ViewCombo,online.cmb_SelectedView,0,(loc(online_ViewMonth)),0)
+		M_ComboEntry:(Online,ViewCombo,online.cmb_SelectedView,1,(loc(online_ViewWeekly)),0)
+		M_ComboEntry:(Online,ViewCombo,online.cmb_SelectedView,2,(loc(online_ViewToday),0)
+		M_ComboEntry:(Online,ViewCombo,online.cmb_SelectedView,3,(loc(online_ViewLast10)),0)
+	M_ComboCLOSE:(Online,ViewCombo)
+
+
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+			Layer(Default)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,200,60,standings_POINTS,1,Online,CurrentTab,online.btn_Tab)
+		M_Tab:(230,0,200,60,standings_FINANCIAL,2,Online,CurrentTab,online.btn_Tab)
+	}}
+
+	// Combo
+	M_ComboSelected:(@R-275,@T+80,250,60,Online,ViewCombo,online.cmb_Open)
+
+
+	// Clipped Content
+	Clip:(@L,@T+180,@W,@H-249)
+	{{
+		// Moved Content
+		Rect:(30,10,@W-60,@H-25)
+		{{
+			// Points
+			// Stick it in a rect to fix the scrolling list inheriting from a parent when it shoudn't
+			Rect:()
+			{
+				Rect:(0,0,@W,@H) ref:PointsList
+					M_FadingTabContent:(Online,CurrentTab,1)
+					ScrollingList(Online,PointsScroll,@H,Online,PointsScrollVel) ref:ScrollingListPoints
+					VerticalList(5) ref:VerticalList
+				{{
+					M_OnlinePointsRow:(PlayerPointsEntry,1)
+					M_OnlinePointsRow:(PointsEntry)
+				}}
+
+			}
+
+			// Financial
+			Rect:()
+			{
+				Rect:(0,0,@W,@H) $HIDE ref:FinancialList
+					M_FadingTabContent:(Online,CurrentTab,2)
+					ScrollingList(Online,FinancialScroll,@H,Online,FinancialScrollVel) ref:ScrollingListFinancial
+					VerticalList(5) ref:VerticalList
+				{{
+					M_OnlineFinancialRow:(PlayerFinancialEntry,1)
+					M_OnlineFinancialRow:(FinancialEntry)
+				}}
+			}
+		}}
+
+		// Swipe Panels
+		Rect:(0,0,@W,@H) ref:SwipePanels
+			if(not(twk(CardEngine,DraggingCard)))
+			<
+				if(twk(Online,CurrentTab) = 1)
+				<
+					SwipePanel(Online,PointsScroll,Online,PointsScrollVel) ref:SwipePanelPoints
+				>
+				if(twk(Online,CurrentTab) = 2)
+				<
+					SwipePanel(Online,FinancialScroll,Online,FinancialScrollVel) ref:SwipePanelFinancial
+				>
+			>
+		{{
+			Rect:(0,10,@W,@H-20)
+			{{
+				M_ScrollIndicatorAlt:(@R-25,@H,Online,PointsScroll,PointsList,ScrollingListPoints,SwipePanels,SwipePanelPoints)
+					set(gel.vis,twk(Online,CurrentTab)=1)
+				M_ScrollIndicatorAlt:(@R-25,@H,Online,FinancialScroll,FinancialList,ScrollingListFinancial,SwipePanels,SwipePanelFinancial)
+					set(gel.vis,twk(Online,CurrentTab)=2)
+			}}
+		}}		
+	}}
+
+
+	// Headers and Filters
+	Rect:(@L,@T+140,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,0,@w,44)
+		M_OnlineHeaders:(0,0,@W,@H,Online,online)
+	}}
+}}

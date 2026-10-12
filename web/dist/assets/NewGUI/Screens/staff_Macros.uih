@@ -1,0 +1,85 @@
+Import:(sort_Common.uih)
+
+// Larger cells for 16:9
+If:(@w > 1152)
+	Define:(?CELL3?=[[@s-350]/3])
+Else
+	Define:(?CELL3?=267) 
+EndIf
+
+Macro:(M_DataListHeaders,?X?,?Y?,?W?,?H?,?TWKCAT?,?CONTEXT?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_SortIndicator:(0,0,290,@H,?SORT_NAME?,hirelist_NAME,110,0,L,?TWKCAT?,?CONTEXT?,?SORT_ASCENDING?)
+			M_SortIndicator:(290 + [?CELL3?*0],0,?CELL3?,@H,?SORT_RATING?,generic_RATING,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			M_SortIndicator:(290 + [?CELL3?*1],0,?CELL3?,@H,?SORT_AGE?,generic_AGE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			M_SortIndicator:(290 + [?CELL3?*2],0,?CELL3?,@H,?SORT_VALUE?,generic_VALUE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+		}}
+	}}
+EndM
+
+Macro:(M_StaffListRow_CommonDoodads,?CONTEXT?)
+	float(%type,%willing)
+	M_CellPress:()
+	func(ClickFunc)
+	<
+		Post(UI_Select)
+		Post(UI_Swoosh)
+		Message(?CONTEXT?.btn_ViewStaff) ref:ClickMessage
+	>
+	Click()
+	<
+		call(ClickFunc)
+	>
+	OnPost("profilestaff.highlightStaff") ref:OnPost
+	<
+		CTRLSetSelected(,,true)
+	>
+	M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+EndM
+
+//-------------------------------------------------------- Small rows with Staff Face
+Macro:(M_StaffListRow_Common,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:Bg
+	{{
+		Draw:(Cell70,-3,-2,@W+6,74) ref:Cell
+	
+		Clip:(0,0,@W,@H-1)
+		{
+			Rect:(65,35) ref:Face
+				Card_Face(StaffListCard,HIRE,PU_MANAGER|PU_COACHING,false,true,300)
+				Scale(0.74,0.74)
+		}
+
+		Rect:(@L,@T,@W,@H) ref:CardArea
+			Card_AreaSlot(StaffListCardArea,staff.action_ApplyCard,PU_MANAGER|PU_COACHING,,StaffListCard)
+
+		Clip:(0,2,@W,@H-4)
+		{
+			Draw:(Cell_Star0,290 + [?CELL3?*0]+[[?CELL3?-100]/2],-20,100,100)
+				.set(gel.img,"Cell_Star"::fmt(%type,X))
+		}
+
+		M_Text:(,110,0,290,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+		M_Text:(,290 + [?CELL3?*0],0,?CELL3?,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,Rating)
+			M_Style_StarRating:()
+		M_Text:(,290 + [?CELL3?*1],0,?CELL3?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Age)
+		M_Text:(,290 + [?CELL3?*2],0,?CELL3?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Value)
+		
+		M_ExclamationAlert:(-5,-5)
+			set(gel.vis,%willing = 0)
+
+		Text:() $HIDE ref:Contract
+		M_CellPressHighlight:()
+	}}
+EndM
+
+Macro:(M_StaffListRow_ViewGeneral,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:RowViewGeneral
+		M_StaffListRow_CommonDoodads:(?CONTEXT?)
+	{{
+		M_StaffListRow_Common:(?TWKCAT?,?CONTEXT?)
+	}} Template
+EndM

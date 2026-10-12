@@ -1,0 +1,344 @@
+Img:(Highlight_Circle,NewGUI/UI/Controller/Highlight_Circle.png)
+Img:(Highlight_Round,NewGUI/UI/Controller/Highlight_Round.png,30,30,30,30,0.5)
+Img:(Highlight_Square,NewGUI/UI/Controller/Highlight_Square.png,6,6,6,6)
+Img:(Highlight_Replay,NewGUI/UI/Controller/Highlight_Replay.png,28,28,28,28)
+Img:(Highlight_Pitch,NewGUI/UI/Controller/Highlight_Pitch.png,80,80,0,0)
+
+
+Macro:(M_CTRLAnimDoodadCommon)
+	float(%attractTimer,%timer,%w,%h,%vis)
+	set(gel.vis,%vis)
+	set(%vis,0)
+	CTRLIsSelected()
+	<
+		add(%attractTimer,FrameTime*0.6)
+		add(%timer,FrameTime*0.1)
+		fmod(%attractTimer,40)
+		fmod(%timer,20)
+	>
+	else
+	<
+		set(%attractTimer,0)
+		set(%timer,0)
+	>
+	if(%timer < 10)
+	<
+		set(gel.colour,collerp(#29A1DBFFFFFFFFFF,#0653B2FFFFFFFFFF,[%timer/10]))
+	>
+	else
+	<
+		set(gel.colour,collerp(#0653B2FFFFFFFFFF,#29A1DBFFFFFFFFFF,[%timer-10]/10))
+	>
+EndM
+
+Rect:() ref:CTRLBlank
+	M_CTRLAnimDoodadCommon:()
+{
+} Template
+
+
+Rect:() ref:CTRLButtonSelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{
+	// Attract
+	Draw:(Highlight_Round,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+		set(gel.x,-%w/2)
+		set(gel.y,-%h/2)
+
+	// Highlight
+	Draw:(Highlight_Round,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w)
+		set(gel.hy,gel.h)
+} Template
+
+
+Rect:() ref:CTRLBasicSelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{
+	// Attract
+	Draw:(Highlight_Round,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	// Highlight
+	Draw:(Highlight_Round,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+} Template
+
+
+Rect:() ref:CTRLPitchSelected
+	M_CTRLAnimDoodadCommon:()
+{
+	// Attract
+	Draw:(Highlight_Pitch,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	// Highlight
+	Draw:(Highlight_Pitch,0,0,400,564)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+} Template
+
+
+Rect:() ref:CTRLCircleSelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{
+	// Attract
+	Draw:(Highlight_Circle,0,0,300,300)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	Draw:(Highlight_Circle,0,0,300,300)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+} Template
+
+
+Rect:() ref:CTRLSquareSelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{
+	// Attract
+	Draw:(Highlight_Square,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+
+	Draw:(Highlight_Square,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+} Template
+
+
+Rect:(0,0,320,0) ref:CTRLKitColourPicker
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{{
+	Draw:(White,0,0,[@W/13],3,,#404040FF)
+	Draw:(White,0,0,3,[@W/13],,#404040FF)
+	Draw:(White,0,[@W/13]-3,[@W/13],3,,#404040FF)
+	Draw:(White,[@W/13]-3,0,3,[@W/13],,#404040FF)
+
+	Draw:(White,1,1,[@W/13]-3,1,,#FFFFFFFF)
+	Draw:(White,1,1,1,[@W/13]-3,,#FFFFFFFF)
+	Draw:(White,1,[@W/13]-2,[@W/13]-3,1,,#FFFFFFFF)
+	Draw:(White,[@W/13]-2,1,1,[@W/13]-2,,#FFFFFFFF)
+}} Template
+
+
+Rect:(0,0,320,0) ref:CTRLGoalieColourPicker
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{{
+    Draw:(White,0,0,[@W/6],3,,#404040FF)
+    Draw:(White,0,0,3,[@W/6],,#404040FF)
+    Draw:(White,0,[@W/6]-3,[@W/6],3,,#404040FF)
+    Draw:(White,[@W/6]-3,0,3,[@W/6],,#404040FF)
+
+    Draw:(White,1,1,[@W/6]-3,1,,#FFFFFFFF)
+    Draw:(White,1,1,1,[@W/6]-3,,#FFFFFFFF)
+    Draw:(White,1,[@W/6]-2,[@W/6]-3,1,,#FFFFFFFF)
+    Draw:(White,[@W/6]-2,1,1,[@W/6]-2,,#FFFFFFFF)
+}} Template
+
+
+Rect:() ref:CTRLReplaySelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+{
+	// Attract
+	Draw:(Highlight_Replay,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+		set(gel.x,-%w/2)
+		set(gel.y,-%h/2)
+
+	Draw:(Highlight_Replay,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w)
+		set(gel.hy,gel.h)
+} Template
+
+
+Rect:() ref:CTRLLeagueComboSelectedGroup
+	M_CTRLAnimDoodadCommon:()
+	Layer(AboveText2)
+	inherit(%clippedHeight)
+	set(gel.y,%clippedHeight/2)
+{
+	// Attract
+	Draw:(Highlight_Square,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	Draw:(Highlight_Square,0,0,340,340)
+		inherit(%clippedHeight)
+		.set(gel.w,%w)
+		set(gel.h,%clippedHeight)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+} Template
+
+
+Rect:() ref:CTRLMatchFaceSelected
+	M_CTRLAnimDoodadCommon:()
+	Layer(Text)
+{
+	// Attract
+	Draw:(Highlight_Round,0,0,340,340)
+		if(%attractTimer < 10)
+		<
+			set(gel.w,lerp(%w+8,%w,%attractTimer/10))
+			set(gel.h,lerp(%h+8,%h,%attractTimer/10))
+		>
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+		set(gel.x,-%w/2)
+		set(gel.y,-%h/2)
+
+	Draw:(Highlight_Round,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w)
+		set(gel.hy,gel.h)
+} Template
+
+
+
+
+// Inside CTRLSelectGroup back up anims
+Macro:(M_CTRLAnimDoodadGroup)
+	float(%w,%h,%vis)
+	.set(gel.colour,#CC1618FF)
+	set(gel.vis,%vis)
+	set(%vis,0)
+EndM
+
+Macro:(M_CornerHint)
+	Rect:() ref:CornerHint
+		float(%cornerHintVis)
+		set(gel.vis,%cornerHintVis)
+		set(%cornerHintVis,0)
+		.set(gel.x,-[%w/2]+1)
+		.set(gel.y,[%h/2]-31)
+	{{
+		Draw:(Circle_50,-1,-1,32,32)
+
+		Draw:(Circle_20,6,6,18,18,,#FFFFFFFF00000000)
+		M_Text:(?ICONCAN?,15,16,,,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+			Scale(0.72,0.725)
+	}}
+EndM
+
+Rect:() ref:CTRLGroupSquare
+	M_CTRLAnimDoodadGroup:()
+	Layer(AboveText2)
+	LockLayer()
+{
+	Draw:(Highlight_Square,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	M_CornerHint:()
+} Template
+
+
+Rect:() ref:CTRLGroupSocial
+	M_CTRLAnimDoodadGroup:()
+	Layer(AboveText2)
+	LockLayer()
+{
+	Draw:(Highlight_Square,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	M_CornerHint:()
+} Template
+
+
+Rect:() ref:CTRLGroupPitch
+	M_CTRLAnimDoodadGroup:()
+{
+	Draw:(Highlight_Pitch,0,0,400,564)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	Rect:(3,-3)
+	{{
+		M_CornerHint:()
+	}}
+} Template
+
+
+Rect:() ref:CTRLGroupRound
+	M_CTRLAnimDoodadGroup:()
+	Layer(AboveText2)
+	LockLayer()
+{
+	Draw:(Highlight_Round,0,0,340,340)
+		.set(gel.w,%w)
+		.set(gel.h,%h)
+		set(gel.hx,gel.w/2)
+		set(gel.hy,gel.h/2)
+
+	M_CornerHint:()
+} Template

@@ -1,0 +1,447 @@
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(CircleBar_Frame64,NewGUI/UI/Bars/CircleBar_Frame64.png)
+Img:(CircleBar_Frame70,NewGUI/UI/Bars/CircleBar_Frame70.png)
+Img:(CircleBar_Frame120,NewGUI/UI/Bars/CircleBar_Frame120.png)
+Img:(CircleBar_TextMask,NewGUI/UI/Bars/CircleBar_TextMask.png)
+Img:(CircleBar_Reflection,NewGUI/UI/Bars/CircleBar_Reflection.png)
+Img:(CircleBar_Glow,NewGUI/UI/Bars/CircleBar_Glow.png)
+
+Img:(Change_Neg,NewGUI/UI/Bars/Change_Neg.png)
+Img:(Change_Pos,NewGUI/UI/Bars/Change_Pos.png)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+//-------------------------------------------------------------------------------------------CONTENT
+Macro:(M_CircularBar,?X?,?Y?,?CAT?,?VAR?)
+    Rect:(?X?,?Y?)
+    {{  
+        Draw:(CircleBar_Reflection,0,108,120,40)
+        Draw:(Circle_200,2,2,116,116,,#252525FFFFFFFFFF)
+        UseShader:(Segment)
+        {
+            Draw:(Circle_200,60,60,116,116,,#43C3EDFFFFFFFFFF)
+            Handle(0.5,0.5)
+            float(%amt)
+            if(twk(?CAT?,?VAR?)=100)
+            <
+                frlerp(%amt,[1.02/100]*twk(?CAT?,?VAR?),0.1)
+            >
+            else
+            <
+                frlerp(%amt,[1/100]*twk(?CAT?,?VAR?),0.1)
+            >
+            
+            SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+        }
+        Draw:(CircleBar_Frame120,0,0,120,120,,#505050FFFFFFFFFF)
+
+        // Text and reflection
+        M_Text:(,60,58,0,0,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+            set(gel.text,LTR(fmt(twk(?CAT?,?VAR?),X) :: "%"))
+        Clip:(0,0,120,88)
+        {
+            M_Text:(,60,85,0,0,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#FFFFFF30,ref)
+                set(gel.text,LTR(fmt(twk(?CAT?,?VAR?),X) :: "%"))
+                Scale(1,-1)
+        }
+        Draw:(CircleBar_TextMask,17,70,,,,#505050FFFFFFFFFF)
+            Layer(Text)
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+Macro:(M_CircularBarChange,?X?,?Y?,?CAT?,?VAR?)
+    Define:(?SPEED?=0.05)
+    Rect:(?X?,?Y?)
+        float(%current,%state,%direction)
+        .set(%state,0)
+        .set(%current,twk(?CAT?,?VAR?_Displayed))
+        .set(%direction,1)
+        if(%current > twk(?CAT?,?VAR?))
+        <
+            .set(%direction,-1)
+        >
+        .set(twk(?CAT?,?VAR?_Displayed),twk(?CAT?,?VAR?))
+
+        float(%playSound)
+        if(%state = 1 and(abs(%current - twk(?CAT?,?VAR?)) > 0.5))
+        <
+            :set(%playSound,1)
+            if(%playSound = 1)
+            <
+                Post(UI_ResultsScoreLoop)
+                set(%playSound,0)
+            >
+            else
+            <
+                :Delay(0.1)
+                set(%playSound,1)
+            >
+        >
+    {{
+        Draw:(CircleBar_Reflection,0,108,120,40)
+        Draw:(Circle_200,2,2,116,116,,#252525FF)
+
+        // Increase
+        Rect:() $HIDE
+            set(gel.vis,%direction = 1)
+        {
+            // Green
+            UseShader:(Segment)
+            {
+                // Increase segment
+                Draw:(Circle_200,60,60,116,116,,#20FF2000)
+                    Handle(0.5,0.5)
+                    .set(gel.alpha,0)
+                    float(%amt)
+                    .set(%amt,twk(?CAT?,?VAR?)/100)
+                    frlerp(gel.alpha,1,?SPEED?)
+                    if(gel.alpha > 0.95)
+                    <
+                        set(%state,1)
+                    >
+                    SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+
+                // Blue Meter Bar
+                Draw:(Circle_200,60,60,116,116,,#43C3EDFF)
+                    Handle(0.5,0.5)
+                    float(%amt)
+                    .set(%amt,min(1,%current/100))
+                    if(%state = 1)
+                    <
+                        frlerp(%current,twk(?CAT?,?VAR?),?SPEED?)
+                        if(twk(?CAT?,?VAR?)=100)
+                        <
+                            set(%amt,[1.02/100]*%current)
+                        >
+                        else
+                        <
+                            set(%amt,[1/100]*%current)
+                        >
+                    >
+                    SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+            }
+        }
+
+
+        // Decrease
+        Rect:() $HIDE
+            set(gel.vis,%direction = -1)
+                float(%decreaseAmount)
+                .set(%decreaseAmount,min(1,%current/100))
+                if(%state = 1)
+                <
+                    frlerp(%current,twk(?CAT?,?VAR?),?SPEED?)
+                    frlerp(%decreaseAmount,[1/100]*%current,0.1)
+                >
+        {
+            UseShader:(Segment)
+            {
+                // Blue Meter Bar
+                Draw:(Circle_200,60,60,116,116,,#43C3EDFF)
+                    Handle(0.5,0.5)
+                    SetUniform4F(seganim,gel.gx,gel.gy,1-(%decreaseAmount*2),100)
+
+                // Red Decrease segment part I
+                Draw:(Circle_200,60,60,116,116,,#FF000000)
+                    Handle(0.5,0.5)
+                    .set(gel.alpha,0)
+                    if(%state = 0)
+                    <
+                        frlerp(gel.alpha,1,?SPEED?)
+                        if(gel.alpha > 0.95)
+                        <
+                            set(%state,1)
+                        >
+                    >
+                    SetUniform4F(seganim,gel.gx,gel.gy,1-(%decreaseAmount*2),100)
+
+
+                // Red Decrease segment part II blue mask
+                Draw:(Circle_200,60,60,116,116,,#43C3EDFF)
+                    Handle(0.5,0.5)
+                    float(%amt)
+                    set(%amt,twk(?CAT?,?VAR?)/100)
+                    SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+            }               
+        }
+
+        Draw:(CircleBar_Frame120,0,0,120,120,,#505050FF)
+
+        // Text and reflection
+        M_Text:(,60,58,0,0,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+            set(gel.text,LTR(fmt(%current+0.5,X) :: "%"))
+        Clip:(0,0,120,88)
+        {
+            M_Text:(,60,85,0,0,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#FFFFFF30,ref)
+                set(gel.text,LTR(fmt(%current+0.5,X) :: "%"))
+                Scale(1,-1)
+        }
+        Draw:(CircleBar_TextMask,17,70,,,,#505050FF)
+            Layer(Text)
+
+
+        // Negative Change
+        Rect:(135,126,60,60) $HIDE
+            Handle(0.5,0.78)
+            .set(gel.scale,0.1)
+            if([twk(?CAT?,?VAR?) - %current] < 0)
+            <
+                set(gel.vis,1)
+                frlerp(gel.scale,1,0.1)
+            >           
+        {{
+            Rect:(@L,@T,@W,@H)
+            {{
+                Draw:(Change_Neg)
+                    Scale(0.5,0.5)
+                M_Text:("8",@C,15,0,0,C,C,Text,KNUL21,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+                    M_Style:(Outline,#FFFFFF20)
+                    CharacterSpacing(-0.5)
+                    .set(gel.text,"")
+                    .set(gel.text,LTR(fmt(twk(?CAT?,?VAR?) - %current,X) rep("-","")))
+            }}
+        }}
+            
+
+        // Positive Change
+        Rect:(135,123,60,60) $HIDE
+            Handle(0.5,0.78)
+            .set(gel.scale,0.01)
+            if([twk(?CAT?,?VAR?) - %current] > 0)
+            <
+                set(gel.vis,1)
+                frlerp(gel.scale,1,0.1)
+            >
+        {{
+            Rect:(@L,@T,@W,@H)
+            {{
+                Draw:(Change_Pos)
+                    Scale(0.5,0.5)
+                M_Text:("8",@C,32,0,0,C,C,Text,KNUL21,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+                    M_Style:(Outline,#FFFFFF20)
+                    CharacterSpacing(-0.5)
+                    .set(gel.text,"")
+                    .set(gel.text,LTR(fmt([twk(?CAT?,?VAR?) - %current],X)))
+            }}
+        }}
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+Macro:(M_SkillPotentialWheel,?X?,?Y?,?CAT?,?VAR?)
+    Rect:(?X?,?Y?)
+    {{  
+        Draw:(CircleBar_Reflection,0,108,120,40)
+        Draw:(Circle_200,2,2,116,116,,#252525FF)
+
+        UseShader:(Segment)
+        {
+            Draw:(Circle_200,60,60,116,116,,#8C7000FFFFFFFFFF)
+                // Show potential for New Star players, or if you own Scouts Office level 3 for other players.
+                set(gel.vis,(twk(ProfilePlayer,IsOthersTeam) = 0) or(twk(Facilities,ScoutsOfficeLevel) >= 3))
+                Handle(0.5,0.5)
+                float(%amt)
+                if(twk(?CAT?,SkillPotential?VAR?)=20)
+                <
+                    set(%amt,[1.02/20]*twk(?CAT?,SkillPotential?VAR?))
+                >
+                else
+                <
+                    set(%amt,[1/20]*twk(?CAT?,SkillPotential?VAR?))
+                >
+                SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+
+            Draw:(Circle_200,60,60,,,,#FFCC00FFFFFFFFFF)
+                Handle(0.5,0.5)
+                Scale(0.575,0.575)
+                float(%amt)
+                if(twk(?CAT?,Skill?VAR?)=20)
+                <
+                    frlerp(%amt,[1.02/20]*twk(?CAT?,Skill?VAR?),0.1)
+                >
+                else
+                <
+                    frlerp(%amt,[1/20]*twk(?CAT?,Skill?VAR?),0.1)
+                >
+                SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)   
+        }
+
+        Draw:(CircleBar_Frame120,0,0,120,120,,#505050FF)
+
+        M_Text:(,60,46,0,0,C,C,Text,KNUL45,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,ProfilePlayer,Skill?VAR?,DoLTR)
+        Draw:(White,@C+35,68,50,1,,#AAAAAAFF)
+        
+        M_Text:(,60,82,0,0,C,C,Text,KNUL24,,0,0,#00000000,NoItalics,#AAAAAAFF,ref,ProfilePlayer,SkillPotential?VAR?,DoLTR)   
+            // Show potential for New Star players, or if you own Scouts Office level 3 for other players.
+            set(gel.vis,(twk(ProfilePlayer,IsOthersTeam) = 0) or(twk(Facilities,ScoutsOfficeLevel) >= 3))
+
+        Draw:(Icon_LockedSmall,50,72,20,20,,#AAAAAAFF)
+            // Show for other players if your Scouts Office is under level 3.
+             set(gel.vis,(twk(ProfilePlayer,IsOthersTeam) = 1) and(twk(Facilities,ScoutsOfficeLevel) < 3))
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+Macro:(M_ConcernWheel,?X?,?Y?,?CAT?,?VAR?,?ICON?)
+    Rect:(?X?,?Y?)
+        float(%target)
+        frlerp(%target,clamp(twk(?CAT?,?VAR?)/100,0,1),0.1)
+    {{  
+        Draw:(CircleBar_Reflection,0,108,120,40)
+        Draw:(Circle_200,2,2,116,116,,#252525FF)
+        UseShader:(Segment)
+        {
+            Draw:(Circle_200,60,60,116,116)
+                Handle(0.5,0.5)
+                float(%amt)
+                if(twk(?CAT?,?VAR?)=100)
+                <
+                    frlerp(%amt,[1.02/100]*twk(?CAT?,?VAR?),0.1)
+                >
+                else
+                <
+                    frlerp(%amt,[1/100]*twk(?CAT?,?VAR?),0.1)
+                >
+                set(gel.colour,lerp(#FFCC00FFFFFFFFFF,#DD1010FFFFFFFFFF,clamp(%amt,0,1)))
+                SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+        }
+        Draw:(CircleBar_Frame120,0,0,120,120,,#505050FF)
+
+        Draw:(?ICON?,60,60,,,,#252525FF)
+            Handle(0.5,0.5)
+            Scale(0.7,0.7)
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+Macro:(M_SquadDataWheel,?X?,?Y?,?CAT?,?VAR?,?REF?,?ICON?)
+    Rect:(?X?,?Y?) ref:?REF?
+        float(%target)
+        set(%target,twk(?CAT?,?VAR?)) ref:SetValue
+    {{  
+        Draw:(Circle_50,4,4,56,56,,#252525FF)
+        UseShader:(Segment)
+        {
+            Draw:(Circle_200,32,32,54,54)
+                Handle(0.5,0.5)
+                float(%amt)
+                if(%target=100)
+                <
+                    :set(%amt,[1.02/100]*%target)
+                >
+                else
+                <
+                    :set(%amt,[1/100]*%target)
+                >
+                set(gel.colour,lerp(#FFCC00FFFFFFFFFF,#DD1010FFFFFFFFFF,clamp(%amt,0,1)))
+                set(gel.angle,-%amt*360)
+                SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+        }
+        Draw:(CircleBar_Frame64,0,0,64,64,,#505050FF)
+
+        Draw:(Icon_?ICON?,32,32,,,,#252525FF)
+            Handle(0.5,0.5)
+            Scale(0.34,0.34)
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+Macro:(M_MoraleWheel,?X?,?Y?,?CAT?,?VAR?)
+    Rect:(?X?,?Y?)
+    {{  
+        Draw:(CircleBar_Reflection,0,63,70,)
+        Draw:(Circle_200,2,2,66,66,,#252525FF)
+        UseShader:(Segment)
+        {
+            Draw:(Circle_200,35,35,64,64)
+                Handle(0.5,0.5)
+                float(%amt)
+                if(twk(?CAT?,?VAR?)=100)
+                <
+                    frlerp(%amt,[1.02/100]*twk(?CAT?,?VAR?),0.1)
+                >
+                else
+                <
+                    frlerp(%amt,[1/100]*twk(?CAT?,?VAR?),0.1)
+                >
+                set(gel.colour,lerp(#DD1010FFFFFFFFFF,#FFCC00FFFFFFFFFF,clamp(%amt,0,1)))
+                SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+        }
+        Draw:(CircleBar_Frame70,0,0,70,70,,#505050FF)
+        
+        M_Text:(,-1,0,70,70,C,C,Text,KNUL35,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+            set(gel.text,LTR(fmt(twk(?CAT?,?VAR?)),X))
+    }}
+EndM
+
+//--------------------------------------------------------------------------------------
+
+
+Macro:(M_CircleTimer,?X?,?Y?,?CAT?)
+        // Timer
+        Rect:(?X?,?Y?,120,120)
+            Handle(0.5,0.5)
+            float(%enabled)
+            .set(%enabled,0)
+            .set(gel.scale,0.8)
+            .set(gel.alpha,0.2)
+            frlerp(gel.scale,1,0.1)
+            frlerp(gel.alpha,1,0.1)
+        {{
+            Rect:(@L,@T,@W,@H)
+            {{
+                Draw:(CircleBar_Reflection,0,110,120,40)
+                Draw:(Circle_100,2,2,116,116,,#252525FFFFFFFFFF)
+            
+                UseShader:(Segment)
+                {
+                    Draw:(Circle_200,60,60,116,116,,#DD1010FFFFFFFFFF)
+                        Handle(0.5,0.5)
+                        if(twk(?CAT?,NormTimeRemaining) < 0.3)
+                        <
+                            PulseAlpha(1,0.1,0.15,0.15,0.1,0.1)
+                        >
+                        if(twk(?CAT?,NormTimeRemaining) = 1)
+                        <
+                            SetUniform4F(seganim,gel.gx,gel.gy,-1.02,100)
+                        >
+                        else
+                        <
+                            SetUniform4F(seganim,gel.gx,gel.gy,[twk(?CAT?,NormTimeRemaining)*-2]+1,100)
+                        >
+                }
+
+                Draw:(CircleBar_Frame120,0,0,120,120,,#505050FFFFFFFFFF)
+
+                M_Text:(,@C,@M,0,0,C,C,Text,KNUL45,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+                    strvar(%timetext)
+                    set(%timetext,fmt((twk(?CAT?,TimeRemaining)/1000)+0.99,X))
+                    if(%enabled)
+                    <
+                        :Post(UI_KeyMomentHeartbeat)
+                        :Post(sounds.match_ClockTick)
+                    >
+                    if(twk(?CAT?,TimeRemaining)>0)
+                    <
+                        if(gel.text != %timetext)
+                        <
+                            set(gel.scale,0)
+                            set(gel.alpha,0)
+                        >
+                        frlerp(gel.scale,1.5,0.05)
+                        frlerp(gel.alpha,1,0.05)
+                    >
+                    else
+                    <
+                        set(gel.text,"0")
+                        frlerp(gel.scale,4,0.05)
+                        frlerp(gel.alpha,0,0.05)
+                        :Post(UI_KeyMomentHeartbeatStop)
+                    >
+                    set(gel.text,LTR(%timetext))
+ 
+            }}
+        }}
+EndM
+//--------------------------------------------------------------------------------------

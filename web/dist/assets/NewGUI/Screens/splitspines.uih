@@ -1,0 +1,6 @@
+	SplitSpine:(NSM_FTUE_TapHoldPath,NSM_FTUE,FTUE_TapHold,FTUE_TapHold_PC,FTUE_Path_N)		
+	SplitSpine:(NSM_BGFX_DustClouds,NSM_BGFX,BGFX_DustClouds)
+   	SplitSpine:(NSM_BGFX_Dustmote,NSM_BGFX,BGFX_Dustmote)
+   	SplitSpine:(NSM_BGFX01,NSM_BGFX,BGFX01)
+   	SplitSpine:(NSM_BGFX02,NSM_BGFX,BGFX02)
+    SplitSpine:(NSM_TapMarkerSelect,NSM_FTUE,FTUE_Tap,FTUE_Tap_PC,FTUE_Select_N,FTUE_Tap_N)

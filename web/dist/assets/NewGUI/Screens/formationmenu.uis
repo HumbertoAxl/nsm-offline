@@ -1,0 +1,641 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(Freestanding_Ads.uih)
+Import:(hoardings.uih)
+Import:(splitspines.uih)
+
+
+//----------------------------------------------------------------------------------ANIMATIONS
+Animation:(60,Loop) ref:FTUECARDFX
+{
+	//Scale down frame
+	During:(0,59) 
+	{
+		Draw:(CardRim,0,0,122,157,,#AAFFAAFF000000FF)
+			Handle(0.5,0.5)
+		Draw:(CardRim,0,0,124,159,,#AAFFAAFF000000FF)
+			Handle(0.5,0.5)
+
+		Draw:(CardRim,0,0,122,157,,#7AE903FF000000FF)
+			Handle(0.5,0.5)
+			TweenSize(143,178,61.5,79,-1,-1)
+			TweenCol(#7AE90300)
+
+		Draw:(White,0,0,123,158,,#AAFFAA10000000FF) 
+			Handle(0.5,0.5)
+			TweenCol(#7AE90340)
+	}
+}
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_SquadData,NewGUI/UI/Icons/Icon_SquadData.png) FORCE
+Img:(Icon_Shortlist,NewGUI/UI/Icons/Icon_Shortlist.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Formation,SubsScroll),0)
+	.set(twk(Formation,ReservesScroll),0)
+	.set(twk(Formation,AutoPickClicked),0)
+	// Reset tab if applying a card
+	if(twk(CardEngine,DraggingCard))
+	<
+		:set(twk(Formation,CurrentTab),1)
+	>
+	if(twk(Formation,AutoPickState) != 0)
+	<
+		:set(twk(Formation,ReservesScroll),0)
+		:set(twk(Formation,ReservesScrollVel),0)
+		:set(twk(Formation,SubsScroll),0)
+		:set(twk(Formation,SubsScrollVel),0)
+		:set(twk(Formation,AutoPickTimer),0)
+
+		if(twk(Formation,AutoPickState) = 2)
+		<
+			Post(formation.autoPickSlideFinished)
+			set(twk(Formation,AutoPickState),0)
+		>
+		elif(twk(Formation,AutoPickTimer) >= 0.995)
+		<
+			set(twk(Formation,AutoPickState),2)
+			set(twk(Formation,AutoPickTimer),1)
+		>>
+
+		// Afterwards in case we want to add a delay before sliding
+		frlerp(twk(Formation,AutoPickTimer),1,0.1)
+	>
+	{{
+		//	Home/Away has been decided by this point, so update hoarding and freestanding data
+		M_ChooseAllHoardingContents:()
+		M_ChooseAllFreestandingContents:()
+	}}
+
+Define:(?CTRL_SELECTED_TYPE_LEFT?=1)
+Define:(?CTRL_SELECTED_TYPE_RIGHT?=2)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(badge_Macros.uih)
+Import:(formation_Macros.uih)
+Import:(formationmenu_UpSell_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%ctrlSelectedType,%lastTab)
+	.set(%lastTab,1)
+{{
+	// Left Side Pitch
+	Rect:(@L,[@z/2])
+	{{
+		Draw:(Squad_Pitch_Texture,-3,73,665,624)
+		
+		M_FormationSquad:(330,98)
+
+		M_FormationStatistics:(448,618,Team)
+		##P4N
+		//Ftue Apply Skill Card Highlight CONTROLLER ONLY
+		Rect:(105,297)
+			if((twk(Ftue,Step) = 76) and(twk(ControllerInput,Enabled) = 1))
+					<
+						set(gel.vis,1)
+					>
+					else
+					<
+						set(gel.vis,0)
+					>
+				{{
+					Spine:(NSM_TapMarkerSelect,0,-100,,FTUE_Select_N,Loop)
+						Scale(0.5,0.5)
+						Layer(Debug)
+						LockLayer()
+					AnimInstance:(0,0,FTUECARDFX)
+					Layer(AboveText)	
+		    	}}
+    	##*
+		M_Button:(145,605,140,50,Button_SilverSliced,Blank,10,2,50,50,#252525FF,link,ref,loc(squad_AUTOPICK),0,2,C,C,TextBox,KNUL20,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			set(%disabled,twk(Formation,AutoPickState))
+			M_CTRLButtonExtra:(Y,false)
+			set(twk(Formation,AutoPickClicked),0)
+			if(%clicked)
+			<
+				set(twk(Formation,AutoPickClicked),1)
+				Post(formation.btn_AutoPick)
+			>
+
+		M_SwitchButtonHint:(⛍,200,560)
+	}}
+
+	// Tabs
+	Rect:(@L+652,@T+80,469+@y,50)
+		Layer(Text)
+	{{
+		Draw:(Tab_BG50,0,-2,@W,58)
+		M_Tab:(0,0,@W/3,50,squad_HEADER,1,Formation,CurrentTab,formation.btn_Tab,5)
+		M_Tab:([@W/3],0,@W/3,50,squad_FORMATION,2,Formation,CurrentTab,formation.btn_Tab,5)
+		M_Tab:([@W/3]*2,0,@W/3,50,squad_INFO,3,Formation,CurrentTab,formation.btn_Tab,5)
+
+		M_SwitchTabs:(3,Formation,-10,10,@R-20,10,formation.btn_Tab)
+	}}
+
+
+	// CONTENTS
+	Rect:(@L+652,@T+130,470+@y,553+@z)
+		float(%contentRootX,%contentRootY,%contentRootW,%contentRootH)
+		init(%contentRootX,gel.x)
+		init(%contentRootY,gel.y)
+		init(%contentRootW,gel.w)
+		init(%contentRootH,gel.h)
+	{{
+		Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+		Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAA)
+		Draw:(Dialog_Fade,1,@B-1,@W-2,-300,,#FFFFFFAA)
+
+		// LINE UP
+		Rect:()
+			float(%swiping,%scrolling)
+			set(%scrolling,0)
+			if(twk(Formation,CurrentTab) = 1)
+			<
+				set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					set(gel.vis,0)
+				>
+			>
+		{
+
+			// Subs/Reserves Sidebar
+			Draw:(White,1,0,28,422,,#707F87FFFFFFFFFF)
+			Draw:(White,29,0,3,427,,#00000015FFFFFFFF)
+				Layer(AboveText)
+			Draw:(Fade_Down,1,220,28,6,,#00000060FFFFFFFF)
+			Draw:(Fade_Down,1,422,28,6,,#00000099FFFFFFFF)
+
+			Rect:(15,110,0,0,90)
+			{{
+				M_Text:(tactics_SUBS,0,0,@W,0,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					CharacterSpacing(3)
+				M_Text:(squad_RESERVES,-211,0,@W,0,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					CharacterSpacing(3)	
+			}}
+
+			// Scroll Hover Zones
+			M_ScrollHoverZone:(0,0,50,220,Formation,SubsScroll,1)
+			M_ScrollHoverZone:(@R-50,0,50,220,Formation,SubsScroll,-1)
+			M_ScrollHoverZone:(0,220,50,202,Formation,ReservesScroll,1)
+			M_ScrollHoverZone:(@R-50,220,50,202,Formation,ReservesScroll,-1)
+
+			// Clipped Content
+			// Changes to this Clip should be reflected in "SlidingSubsHolder"
+			Clip:(29,0,@W-30,425)
+			{{
+				// SUBS
+				// Changes to this Rect should be reflected in "SlidingSubsHolder"
+				CTRLSelectGroup:(-1,0,@W+1,220,,CTRLSquareSelected,,,,,,1,CTRLGroupSquare) ref:SubsSelectGroup
+					if(twk(Formation,CurrentTab) = 1)
+					<
+						:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_RIGHT?)
+						<
+							CTRLSetSelected()
+						>
+					>
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+						set(%scrolling,1)
+					>
+				{
+					Rect:(0,0,@W,220) ref:SubsList
+						ScrollingListX(Formation,SubsScroll,@W,Formation,SubsScrollVel) ref:ScrollingListSubs
+						CTRLHasSelectedGroup(0,true)
+						<
+							set(%scrolling,1)
+							if(twk(Formation,CurrentTab) != 1)
+							<
+								CTRLPopSelectGroup()
+							>
+							else
+							<
+								set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+							>
+						>
+						if(%scrolling = 1)
+						<
+							CTRLScrollList(ScrollingListSubs) ref:CTRLScrollList
+						>
+					{{
+						M_SubMarker:(70-12,6,1)
+						M_SubMarker:(200-12,6,2)
+						M_SubMarker:(330-12,6,3)
+						M_SubMarker:(460-12,6,4)
+						M_SubMarker:(590-12,6,5)
+						M_SubMarker:(720-12,6,6)
+						M_SubMarker:(850-12,6,7)
+						M_FormationSubCard:(70,111,Substitute1,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(200,111,Substitute2,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(330,111,Substitute3,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(460,111,Substitute4,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(590,111,Substitute5,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(720,111,Substitute6,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+						M_FormationSubCard:(850,111,Substitute7,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,250,1)
+					}}
+
+					Rect:(0,0,@W,220) ref:SwipePanels
+						if(twk(Ftue,Enabled) = 0)
+						<
+							if(not(twk(CardEngine,DraggingCard)) and(twk(Formation,AutoPickState) = 0))
+							<
+								if(%swiping oneof(0,1))
+								<
+									SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Formation,SubsScroll,Formation,SubsScrollVel) ref:SwipePanelSubs
+									<
+										:set(%swiping,1)
+									>
+									else
+									<
+										set(%swiping,0)
+									>
+								>
+							>
+						>
+					{{
+						Rect:(10,226,@W-20,@H)
+						{{
+							M_ScrollIndicatorAltH:(0,@W,Formation,SubsScroll,SubsList,ScrollingListSubs,SwipePanels,SwipePanelSubs)
+						}}
+					}}
+
+					Rect:()
+						//JF: Back the player out of the group when they use auto pick (so that it doesn't mess with cards sliding) - needs to be after we process the cards
+						if(twk(Formation,AutoPickClicked))
+						<
+							CTRLHasSelectedGroup(0,true)
+							<
+								CTRLClearSelectFlag()
+								CTRLPopSelectGroup()
+								CTRLSetSelected(SubsSelectGroup)
+							>
+						>
+				}
+
+				M_SwitchStickHint:(✃,@R-38,190,X)
+					if(%scrolling = 1)
+					<
+						CTRLScrollListIcon(SubsList,CTRLScrollList)
+					>
+					else
+					<
+						set(gel.vis,0)
+					>
+
+
+				//RESERVES
+				//Changes to this Rect should be reflected in "SlidingReservesHolder"
+				CTRLSelectGroup:(-1,220,@W+1,202,,CTRLSquareSelected,,,,,,1,CTRLGroupSquare) ref:ReservesSelectGroup
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+						set(%scrolling,2)
+					>
+				{
+					Rect:(69,275,@W,202)
+						CTRLHasSelectedGroup(0,true)
+						<
+							set(%scrolling,2)
+							if(twk(Formation,CurrentTab) != 1)
+							<
+								CTRLPopSelectGroup()
+							>
+							else
+							<
+								set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+							>
+						>
+					{{
+						Rect:(0,0,20,100) ref:ReservesListEndBuffer
+						{
+						} Template
+						
+						// Changes to this Rect should be reflected in "SlidingReservesHolder"
+						Rect:(0,35,@W,@H) ref:ReservesList
+							ScrollingListX(Formation,ReservesScroll,@W,Formation,ReservesScrollVel) ref:ScrollingListReserves
+							if(%scrolling = 2)
+							<
+								CTRLScrollList(ScrollingListReserves) ref:CTRLScrollList
+							>
+							:ChildrenOffset(130,,False) ref:Offset
+						{{
+						}}
+					}}
+
+					Rect:(0,220,@W,202) ref:SwipePanels
+						if(twk(Ftue,Enabled) = 0)
+						<
+							if(not(twk(CardEngine,DraggingCard)) and(twk(Formation,AutoPickState) = 0))
+							<
+								if(%swiping oneof(0,2))
+								<
+									SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Formation,ReservesScroll,Formation,ReservesScrollVel) ref:SwipePanelReserves
+									<
+										:set(%swiping,2)
+									>
+									else
+									<
+										set(%swiping,0)
+									>
+								>
+							>
+						>
+					{{
+						Rect:(10,208,@W-20,@H)
+						{{
+							M_ScrollIndicatorAltH:(0,@W,Formation,ReservesScroll,ReservesList,ScrollingListReserves,SwipePanels,SwipePanelReserves)
+						}}
+					}}
+
+					Rect:()
+						//JF: Back the player out of the group when they use auto pick (so that it doesn't mess with cards sliding) - needs to be after we process the cards
+						if(twk(Formation,AutoPickClicked))
+						<
+							CTRLHasSelectedGroup(0,true)
+							<
+								CTRLClearSelectFlag()
+								CTRLPopSelectGroup()
+								CTRLSetSelected(ReservesSelectGroup)
+							>
+						>
+				}
+				M_SwitchStickHint:(✃,@R-38,392,X)
+					if(%scrolling = 2)
+					<
+						CTRLScrollListIcon(ReservesList,CTRLScrollList)
+					>
+					else
+					<
+						set(gel.vis,0)
+					>
+			}}
+
+			##P4N
+			//Ftue Swap Keeper Highlight CONTROLLER ONLY
+			Rect:(99,111)
+				if((twk(Ftue,Step) = 23) and(twk(ControllerInput,Enabled) = 1))
+				<
+					set(gel.vis,1)
+				>
+				else
+				<
+					set(gel.vis,0)
+				>
+			{{
+				Spine:(NSM_TapMarkerSelect,0,-100,,FTUE_Select_N,Loop)
+					Scale(0.5,0.5)
+					Layer(Debug)
+					LockLayer()
+				AnimInstance:(0,0,FTUECARDFX)	
+	    	}}
+	    	##*
+		
+
+			// HOLDERS for Assistant Pick System
+			Clip:(@l+29,@t,@w-30,@h)
+			 	.set(gel.x,@l+29-%contentRootX)
+			 	.set(gel.y,@t-%contentRootY)
+			 	.set(gel.w,[-@l+%contentRootX+%contentRootW]-30)
+			{
+			 	Rect:()
+			 		Layer(AboveText)
+					LockLayer()
+			 		.set(gel.x,-@l+%contentRootX)
+			 		.set(gel.y,-@t+%contentRootY)
+			 	{
+					Rect:(0,0,30,230) ref:SlidingSubsHolder
+					{{
+					}}
+					Rect:(69,275+35,30,190) ref:SlidingReservesHolder
+					{{
+					}}
+				}
+			}
+
+			M_FormationMenu_SquadAdvice:()
+		}
+
+
+		// FORMATION
+		Rect:(10,10,@W-20,@H-20) $HIDE
+			if(twk(Formation,CurrentTab) = 2)
+			<
+				set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					set(gel.vis,0)
+				>
+			>
+		{{
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,1)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,2)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]-[[@H/3]/2],[@W/3]-14,140,6)
+
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,3)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,8)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]*2-[[@H/3]/2],[@W/3]-14,140,5)
+
+			M_FormationSlab:([@W/3]-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,9)
+			M_FormationSlab:([@W/3]*2-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,7)
+			M_FormationSlab:([@W/3]*3-[[@W/3]/2],[@H/3]*3-[[@H/3]/2],[@W/3]-14,140,4)
+		}}
+
+		// INFO
+		Rect:(0,0,@W,@H) $HIDE
+			if(twk(Formation,CurrentTab) = 3)
+			<
+				set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					set(gel.vis,0)
+				>
+			>
+		{{
+			M_Text:(squadinfo_TOPSCORER,0,25,[@W/2],0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Text:("",@L+10,25+30,[@W/2]-20,0,C,T,TextBox,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,TopScorers)
+
+			M_Text:(squadinfo_MOSTASST,@W*0.5,25,[@W/2],0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Text:("",@C+10,25+30,[@W/2]-20,0,C,T,TextBox,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,MostAssists)
+
+			Draw:(White,10,120,@W-20,1,,#0000001AFFFFFFFF)
+			
+			M_Text:(squadinfo_INJURIES,0,140,[@W/2],0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Text:("",@L+10,140+30,[@W/2]-20,0,C,T,TextBox,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,Injuries)
+				if(twk(Formation,Injuries) = "")
+				<
+					:set(gel.text,"None")
+				>
+			
+			M_Text:(squadinfo_BANS,@W*0.5,140,[@W/2],0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Text:("",@C+10,140+30,[@W/2]-20,0,C,T,TextBox,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,Bans)
+				if(twk(Formation,Bans) = "")
+				<
+					:set(gel.text,"None")
+				>
+
+			M_Button:(@C,270,300,50,Button_SilverSliced,Icon_SquadData,20,2,50,50,#252525FF,formation.btn_SquadData,squaddatabutton,loc(squadinfo_DATA),20,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				CTRLBlock(RIGHT)
+				CTRLPress(DOWN)
+				<
+					CTRLSetSelected(viewsquadbutton)
+					Post(CTRLNavigate)
+				>
+				if(twk(Formation,CurrentTab) = 3)
+				<
+					:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_RIGHT?)
+					<
+						CTRLSetSelected()
+					>
+				>
+				CTRLIsSelected()
+				<
+					set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+				>
+
+
+			Rect:()
+				set(gel.vis,twk(Formation,HasOppTeam))
+			{
+				M_Text:(squadinfo_LEAGUE,-10,305,@W,40,R,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					.set(gel.text,twk(Formation,NextCompType))
+
+				// Team Colours
+				Clip:(20,340,200,140)
+				{{
+					Draw:(White_Angle,120,-50,50,250,-30)
+						.set(gel.colour,twk(Formation,OppTeamCol1))
+						.set(gel.alpha,0.7)
+					Draw:(White_Angle,150,-50,50,250,-30)
+						.set(gel.colour,twk(Formation,OppTeamCol2))
+				}}
+				M_Badge:(140,415,HD,0.75,OpponentBadge)
+				M_Text:(,200,395,0,0,L,C,Text,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,OppTeamName)
+				M_Text:(,200,430,0,0,L,C,Text,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref,Formation,OppLeagueName) 
+				M_Text:(,@R-50,410,0,0,C,C,Text,KNUL25,,1,0,#000000FF,NoItalics,#000000FF,ref)
+					.set(gel.text,LTR("(" :: twk(Formation,MatchLocation) :: ")"))
+
+
+				M_Button:(@W*0.26,510,200+[@y/2],50,Button_SilverSliced,,0,0,0,0,#00000000,formation.btn_Opponent,viewsquadbutton,loc(squadinfo_VIEWSQUAD),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+					>
+
+				M_Button:(@W*0.74,510,200+[@y/2],50,Button_SilverSliced,,0,0,0,0,#00000000,formation.btn_opponentfixture,ref,loc(squadinfo_PREVIEW),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					CTRLIsSelected()
+					<
+						set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+					>
+			}
+
+			// Next Match
+			Draw:(White,0,305,@W,40,,#252525FFFFFFFFFF)
+			M_Text:(squadinfo_NEXT,10,305,0,40,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Text:(squadinfo_NEXT_ERROR,0,420,@W,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)	
+				set(gel.vis,twk(Formation,HasOppTeam) = 0)
+		}}
+	}}
+
+	Rect:()
+		set(%lastTab,twk(Formation,CurrentTab))
+		//set(twk(Debug,TestVar),%ctrlSelectedType)
+}}
+	
+
+		
+
+
+
+// Text:(READOUT,100,100)
+// 	set(gel.text,twk(Debug,TestVar))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// DEBUG FOR SETTING TEAM STRENGTH
+Rect:()
+	set(gel.vis,twk(Debug,SetTeamStrength))
+{
+	Draw:(White,0,80,240,100)
+		Layer(Debug)
+		float(%strength)
+		.set(%strength,10)
+		Click()
+	{{
+		M_Text:(,0,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#000000FF,ref)
+			Layer(Debug)
+			set(gel.text,"STRENGTH: "::fmt(%strength,X))
+
+		Draw:(RoundedPanel,10,40,30,30,,#FF0000FF)
+			Click()
+			<
+				set(%strength,max(10,%strength-10))
+			>
+		{{
+			M_Text:("<",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#000000FF,ref)
+				Layer(Debug)
+		}}
+
+		Draw:(RoundedPanel,50,40,30,30,,#FF0000FF)
+			Click()
+			<
+				set(%strength,min(100,%strength+10))
+			>
+		{{
+			M_Text:(">",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#000000FF,ref)
+				Layer(Debug)
+		}}
+
+		Draw:(RoundedPanel,90,40,140,30,,#FF0000FF)
+			Click(debug.setTeamStrength,"-1|"::fmt(%strength,X))
+		{{
+			M_Text:("GENERATE",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#000000FF,ref)
+				Layer(Debug)
+		}}
+	}}
+}

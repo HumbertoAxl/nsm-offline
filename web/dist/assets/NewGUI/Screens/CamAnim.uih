@@ -1,0 +1,599 @@
+
+Macro:(M_CamAnim,?PACK?,?CURVE?,?LENGTH?,?LOOP?)
+Animation:(?LENGTH?,?LOOP?) ref:?PACK?_?CURVE?
+{
+	During:(0,?LENGTH?)
+	{
+		Locator:()
+			FollowCurve(?PACK?,?CURVE?,tween)
+			M_BlendCameraToLocator:((twk(Cam,AnimPosWeight)),(twk(Cam,AnimAngleWeight)))
+	}
+}
+EndM
+
+Macro:(M_CamLookAtAnim,?PACK?,?CURVE?,?LENGTH?,?LOOP?)
+Animation:(?LENGTH?,?LOOP?) ref:?PACK?_?CURVE?_LookAt
+{
+	During:(0,?LENGTH?)
+	{
+		Locator:()
+			FollowCurve(?PACK?,?CURVE?,tween)
+			LookAt(twk(Cam,AnimLookWeight))
+	}
+}
+EndM
+
+
+Macro:(M_CameraVariables)
+	float(%CX,%CY,%CZ,%CRX,%CRY,%CRZ,%FOV,%CAMSTAGE)
+	strvar(%ACTIVECAM)
+EndM
+
+Macro:(M_CamStage,?S?)
+	Rect:()
+		set(gel.vis,%CAMSTAGE = ?S?)
+EndM
+
+Macro:(M_ActiveCam,?S?)
+	Rect:()
+		set(gel.vis,%ACTIVECAM = "?S?")
+EndM
+
+Macro:(M_SetCamStage,?S?)
+	set(%CAMSTAGE,?S?)
+EndM
+
+Macro:(M_SetActiveCam,?S?)
+	set(%ACTIVECAM,"?S?")
+EndM
+
+// Tweak driven camera
+Macro:(M_TweakActiveCam,?CAT?,?VAR?,?S?)
+	Rect:()
+		set(gel.vis,twk(?CAT?,?VAR?)="?S?")
+EndM
+Macro:(M_SetTweakActiveCam,?CAT?,?VAR?,?S?)
+	set(twk(?CAT?,?VAR?),"?S?")
+EndM
+
+Macro:(M_SetCameraVariablesFromTweaks)
+	Rect:()
+		set(%CX,twk(Cam,X))
+		set(%CY,twk(Cam,Y))
+		set(%CZ,twk(Cam,Z))
+		set(%CRX,twk(Cam,RX))
+		set(%CRY,twk(Cam,RY))
+		set(%CRZ,twk(Cam,RZ))
+		set(%FOV,twk(Cam,FOV))
+EndM
+
+Macro:(M_PositionCamera)
+	set(gel3d.x,%CX)
+	set(gel3d.y,%CY)
+	set(gel3d.z,%CZ)
+	set(gel3d.rotx,%CRX)
+	set(gel3d.roty,-%CRZ)
+	set(gel3d.rotz,-%CRY)
+	set(gel3d.fov,%FOV)
+EndM
+
+Macro:(M_InitCameraHere,?FOV?)
+	inittwk(twk(Cam,X),gel3d.x)
+	inittwk(twk(Cam,Y),gel3d.y)
+	inittwk(twk(Cam,Z),gel3d.z)
+	inittwk(twk(Cam,RX),gel3d.rotx)
+	inittwk(twk(Cam,RY),gel3d.roty)
+	inittwk(twk(Cam,RZ),gel3d.rotz)
+	inittwk(twk(Cam,FOV),?FOV?)
+EndM
+
+Macro:(M_BlendCameraToLocator,?PW?,?AW?,?FOV?)
+	frlerp(twk(Cam,X),gel3d.x,?PW?)
+	frlerp(twk(Cam,Y),gel3d.y,?PW?)
+	frlerp(twk(Cam,Z),gel3d.z,?PW?)
+
+	If:(?FOV?)
+		frlerp(twk(Cam,FOV),?FOV?,?PW?)
+	EndIf
+	
+	franglerp(twk(Cam,RX),gel3d.rotx,?AW?)
+	franglerp(twk(Cam,RY),gel3d.roty,?AW?)
+	franglerp(twk(Cam,RZ),gel3d.rotz,?AW?)			
+EndM
+
+Macro:(M_PutCameraHere)
+	M_BlendCameraToLocator:((twk(Cam,ManPosWeight)),(twk(Cam,ManAngleWeight)))
+EndM
+
+Macro:(M_LookAtMe)
+	LookAt(twk(Cam,ManLookWeight))
+EndM
+
+Macro:(M_CamControl_Reset)
+	set(twk(Cam,AnimPosWeight),0)
+	set(twk(Cam,AnimAngleWeight),0)
+	set(twk(Cam,AnimLookWeight),0)
+	set(twk(Cam,ManPosWeight),0)
+	set(twk(Cam,ManAngleWeight),0)
+	set(twk(Cam,ManLookWeight),0)
+EndM
+
+Macro:(M_CamControl_Animated,?WP?,?WA?)
+	set(twk(Cam,AnimPosWeight),?WP?)
+	set(twk(Cam,AnimAngleWeight),?WA?)
+EndM
+
+Macro:(M_CamControl_Manual,?WP?,?WA?)
+	set(twk(Cam,ManPosWeight),?WP?)
+	set(twk(Cam,ManAngleWeight),?WA?)
+EndM
+
+Macro:(M_CamControl_ManLook,?W?)
+	set(twk(Cam,ManLookWeight),?W?)
+EndM
+
+Macro:(M_CamControl_AnimLook,?W?)
+	set(twk(Cam,AnimLookWeight),?W?)
+EndM
+
+
+Macro:(M_FreeCamControl)
+	float(%targetX,%targetY)
+	float(%TX,%TY,%XA,%YA,%H,%V,%D,%XO,%YO,%DX,%DY)
+	float(%lerpTime)
+	float(%inertia)
+	//Stadium
+	if(twk(Home,CurrentFacility) = 1)
+	<
+		:set(%targetX,0)
+		:set(%targetY,0)
+	>
+	//Fitness
+	if(twk(Home,CurrentFacility) = 2)
+	<
+		if(twk(Facilities,FitnessCentreLevel)=0)
+		<
+			:set(%targetX,700)
+			:set(%targetY,14000)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=1)
+		<
+			:set(%targetX,700)
+			:set(%targetY,15150)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=2)
+		<
+			:set(%targetX,800)
+			:set(%targetY,15250)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=3)
+		<
+			:set(%targetX,1250)
+			:set(%targetY,15250)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=4)
+		<
+			:set(%targetX,1000)
+			:set(%targetY,15000)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=5)
+		<
+			:set(%targetX,1100)
+			:set(%targetY,14800)
+		>
+		if(twk(Facilities,FitnessCentreLevel)=6)
+		<
+			:set(%targetX,1750)
+			:set(%targetY,14750)
+		>
+	>
+
+	//Medical
+	if(twk(Home,CurrentFacility) = 3)
+	<
+		if(twk(Facilities,MedicalUnitLevel)=0)
+		<
+			:set(%targetX,-12500)
+			:set(%targetY,-7000)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=1)
+		<
+			:set(%targetX,-13500)
+			:set(%targetY,-6000)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=2)
+		<
+			:set(%targetX,-13500)
+			:set(%targetY,-5500)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=3)
+		<
+			:set(%targetX,-13500)
+			:set(%targetY,-6000)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=4)
+		<
+			:set(%targetX,-13800)
+			:set(%targetY,-6000)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=5)
+		<
+			:set(%targetX,-13500)
+			:set(%targetY,-6000)
+		>
+		if(twk(Facilities,MedicalUnitLevel)=6)
+		<
+			:set(%targetX,-13500)
+			:set(%targetY,-6000)
+		>
+	>
+
+	//Scout
+	if(twk(Home,CurrentFacility) = 4)
+	<
+		if(twk(Facilities,ScoutsOfficeLevel)=0)
+		<
+			:set(%targetX,-10700)
+			:set(%targetY,9000)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=1)
+		<
+			:set(%targetX,-10700)
+			:set(%targetY,8800)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=2)
+		<
+			:set(%targetX,-10800)
+			:set(%targetY,8800)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=3)
+		<
+			:set(%targetX,-10800)
+			:set(%targetY,8800)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=4)
+		<
+			:set(%targetX,-10600)
+			:set(%targetY,8900)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=5)
+		<
+			:set(%targetX,-10300)
+			:set(%targetY,9100)
+		>
+		if(twk(Facilities,ScoutsOfficeLevel)=6)
+		<
+			:set(%targetX,-9700)
+			:set(%targetY,9300)
+		>
+	>
+
+	//Shop
+	if(twk(Home,CurrentFacility) = 5)
+	<
+		if(twk(Facilities,ClubShopLevel)=0)
+		<
+			:set(%targetX,-500)
+			:set(%targetY,-8500)
+		>
+
+		if(twk(Facilities,ClubShopLevel)=1)
+		<
+			:set(%targetX,-1400)
+			:set(%targetY,-8200)
+		>
+		if(twk(Facilities,ClubShopLevel)=2)
+		<
+			:set(%targetX,-1960)
+			:set(%targetY,-8200)
+		>
+		if(twk(Facilities,ClubShopLevel)=3)
+		<
+			:set(%targetX,-1750)
+			:set(%targetY,-8300)
+		>
+		if(twk(Facilities,ClubShopLevel)=4)
+		<
+			:set(%targetX,-1100)
+			:set(%targetY,-9150)
+		>
+		if(twk(Facilities,ClubShopLevel)=5)
+		<
+			:set(%targetX,-600)
+			:set(%targetY,-9150)
+		>
+		if(twk(Facilities,ClubShopLevel)=6)
+		<
+			:set(%targetX,-100)
+			:set(%targetY,-9150)
+		>
+	>
+
+	//Youth
+	if(twk(Home,CurrentFacility) = 6)
+	<
+		if(twk(Facilities,YouthAcademyLevel)=0)
+		<
+			:set(%targetX,11400)
+			:set(%targetY,9000)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=1)
+		<
+			:set(%targetX,11400)
+			:set(%targetY,12100)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=2)
+		<
+			:set(%targetX,11950)
+			:set(%targetY,12100)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=3)
+		<
+			:set(%targetX,11950)
+			:set(%targetY,12100)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=4)
+		<
+			:set(%targetX,12200)
+			:set(%targetY,12000)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=5)
+		<
+			:set(%targetX,12200)
+			:set(%targetY,12000)
+		>
+		if(twk(Facilities,YouthAcademyLevel)=6)
+		<
+			:set(%targetX,11550)
+			:set(%targetY,11800)
+		>
+		
+	>
+
+	//Training
+	if(twk(Home,CurrentFacility) = 7)
+	<
+		if(twk(Facilities,TrainingGroundLevel)=0)
+		<
+			:set(%targetX,9500)
+			:set(%targetY,-500)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=1)
+		<	
+			:set(%targetX,11300)
+			:set(%targetY,-3000)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=2)
+		<	
+			:set(%targetX,11300)
+			:set(%targetY,-3550)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=3)
+		<	
+			:set(%targetX,11050)
+			:set(%targetY,-3650)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=4)
+		<	
+			:set(%targetX,10700)
+			:set(%targetY,-4800)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=5)
+		<	
+			:set(%targetX,10800)
+			:set(%targetY,-5400)
+		>
+		if(twk(Facilities,TrainingGroundLevel)=6)
+		<	
+			:set(%targetX,10800)
+			:set(%targetY,-5400)
+		>
+	>
+
+    .set(%XA,twk(Home,CamMinXA))
+    .set(%YA,twk(Home,CamDefaultY))
+
+	if(twk(ControllerInput,Enabled) = 1)
+	<
+		if(twk(CardsCarousel,State) = 0)
+		<
+			if(abs(JoyX1) > 0.2)
+			<
+				set(%DX,JoyX1 * -twk(SettingsGlobal,InvertCameraX))
+			>
+			if(abs(JoyY1) > 0.2)
+			<
+				set(%DY,JoyY1 * -twk(SettingsGlobal,InvertCameraY))
+			>
+		>
+	>
+	else
+	<
+		if(TouchDown and(twk(FacilityView,Zooming)=0) and(shell("Message") != "message") and(twk(CardEngine,DraggingCard)=0) and(twk(CardsCarousel,State) = 0))
+	    <
+	    	float(%lastTX,%lastTY)
+	    	if(TouchX > [@L+120] and(TouchY > [@T+50]) and(TouchY < [@B-70]))
+	    	<
+				:set(%lastTX,TouchX)
+				:set(%lastTY,TouchY)
+				set(%DX,min(10,max(-10,[TouchX-%lastTX]*0.15)))
+
+				set(%DY,[%lastTY-TouchY]*0.15)
+
+				set(%lastTX,TouchX)
+				set(%lastTY,TouchY)
+			>
+	    >
+	>
+    
+    set(%XA,min(twk(Home,CamMinXA),max(twk(Home,CamMaxXA),%XA)))
+    add(%YA,%DX)
+    set(%DX,%DX*0.95)
+
+    set(%XA,min(twk(Home,CamMinXA),max(twk(Home,CamMaxXA),%XA+%DY)))
+    set(%DY,%DY*0.85)
+
+    // Distance from the point
+	if(twk(Home,SpectatorMode) = 0)
+	<
+		set(%D,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance) - 1000,[twk(FacilityView,Scale)-0.5]*2)) //allows overzoom but messes with Max distance camera will zoom out so clamp below
+		set(%D,clamp(%D,0,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance),[twk(FacilityView,Scale)-0.5]*2))) //Clamp the max it can go out
+		
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			if(twk(CardsCarousel,State) = 0)
+			<
+				if(abs(JoyZ0) > 0.2)
+				<
+					set(%inertia,-JoyZ0*0.02)
+					//sub(twk(FacilityView,Scale),JoyZ0*0.02)
+				>
+				if(abs(JoyZ1) > 0.2)
+				<
+					set(%inertia,JoyZ1*0.02)
+					//add(twk(FacilityView,Scale),JoyZ1*0.02)
+				>
+			>
+			set(twk(FacilityView,Scale),clamp(twk(FacilityView,Scale)+%inertia,twk(FacilityView,MinScale),twk(FacilityView,MaxScale)))
+			mul(%inertia,0.95)
+		>
+	>
+
+	else
+	<
+		set(%D,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance) - 1000,[twk(FacilityView,Scale)-1.2]*2)) //allows overzoom but messes with Max distance camera will zoom out so clamp below
+		set(%D,clamp(%D,0,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance),[twk(FacilityView,Scale)-1.2]*2))) //Clamp the max it can go out
+	>
+
+	//Lerp back to the max bounds
+	if(%D < twk(Home,CamMinDistance) and(twk(FacilityView,Zooming) = 0))
+	<
+		frlerp(%lerpTime,0.0001,0.03)
+		frlerp(twk(FacilityView,Scale),twk(FacilityView,MinScale),%lerpTime)
+	>
+	else
+	<
+		set(%lerpTime,0.003) //initial value before Zooming
+	>
+
+    //Target point for the camera to look at
+    .set(%TX,0)
+    .set(%TY,0)
+    frlerp(%TX,%targetX,0.2)
+    frlerp(%TY,%targetY,0.2)
+
+    if(twk(Home,ForceTargetUpdate) = 1)
+    <
+		set(%TX,%targetX)
+    	set(%TY,%targetY)
+    >
+    
+
+    if(abs(%TX-%targetX) < 1 and(abs(%TY-%targetY) < 1))
+    <
+    	:set(twk(Home,FreeCamPosBlend),1)
+    	:set(twk(Home,FreeCamRotBlend),1)
+    >
+    else
+    <
+    	:set(twk(Home,FreeCamPosBlend),0.5)
+    	:set(twk(Home,FreeCamRotBlend),0.5)
+    >
+
+
+    //Calculate vertical length
+    set(%V,%D*sin(%XA))
+    
+    //Calculate horizontal length
+    set(%H,%D*cos(%XA))
+    set(%XO,-%H*sin(%YA))
+    set(%YO,%H*cos(%YA))
+
+    set(gel3d.x,%TX+%XO)
+    set(gel3d.y,%TY+%YO)
+    set(gel3d.z,%V)
+    set(gel3d.rotx,%XA)
+    set(gel3d.rotz,-%YA)
+EndM
+
+
+Macro:(M_DebugCamControl)
+	float(%targetX_DEBUG,%targetY_DEBUG)
+	float(%TX_DEBUG,%TY_DEBUG,%XA_DEBUG,%YA_DEBUG,%H_DEBUG,%V_DEBUG,%D_DEBUG,%XO_DEBUG,%YO_DEBUG,%ZO_DEBUG,%DX_DEBUG,%DY_DEBUG)
+
+    .set(%XA_DEBUG,twk(Home,CamMinXA))
+    .set(%YA_DEBUG,twk(Home,CamMaxXA))
+
+    if(TouchDown and(twk(FacilityView,Zooming)=0) and(shell("Message") != "message") and(twk(CardEngine,DraggingCard)=0) and(twk(CardsCarousel,State) = 0))
+    <
+    	float(%lastTX_DEBUG,%lastTY_DEBUG)
+    	if(TouchX > [@L+120] and(TouchY > [@T+50]) and(TouchY < [@B-70]))
+    	<
+			:set(%lastTX_DEBUG,TouchX)
+			:set(%lastTY_DEBUG,TouchY)
+			set(%DX_DEBUG,min(10,max(-10,[TouchX-%lastTX_DEBUG]*0.15)))
+
+			set(%DY_DEBUG,[%lastTY_DEBUG-TouchY]*0.15)
+
+			set(%lastTX_DEBUG,TouchX)
+			set(%lastTY_DEBUG,TouchY)
+		>
+    >
+    
+    add(%YA_DEBUG,%DX_DEBUG)
+    set(%DX_DEBUG,%DX_DEBUG*0.95)
+
+    set(%XA_DEBUG,%XA_DEBUG+%DY_DEBUG)
+    set(%DY_DEBUG,%DY_DEBUG*0.85)
+
+    // Distance from the point
+	if(twk(Home,SpectatorMode) = 0)
+	<
+		set(%D_DEBUG,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance) - 1000,[twk(FacilityView,Scale)-0.5]*2)) //allows overzoom but messes with Max distance camera will zoom out so clamp below
+		//set(%D,clamp(%D,0,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance),[twk(FacilityView,Scale)-0.5]*2))) //Clamp the max it can go out
+	>
+	else
+	<
+		set(%D_DEBUG,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance) - 1000,[twk(FacilityView,Scale)-1.2]*2)) //allows overzoom but messes with Max distance camera will zoom out so clamp below
+		//set(%D,clamp(%D,0,lerp(twk(Home,CamMaxDistance),twk(Home,CamMinDistance),[twk(FacilityView,Scale)-1.2]*2))) //Clamp the max it can go out
+	>
+
+    //Target point for the camera to look at
+    .set(%TX_DEBUG,0)
+    .set(%TY_DEBUG,0)
+    frlerp(%TX_DEBUG,%targetX_DEBUG,0.2)
+    frlerp(%TY_DEBUG,%targetY_DEBUG,0.2)
+
+    if(twk(Home,ForceTargetUpdate) = 1)
+    <
+		set(%TX_DEBUG,%targetX_DEBUG)
+    	set(%TY_DEBUG,%targetY_DEBUG)
+    >
+    
+
+    if(abs(%TX_DEBUG-%targetX_DEBUG) < 1 and(abs(%TY_DEBUG-%targetY_DEBUG) < 1))
+    <
+    	:set(twk(Home,FreeCamPosBlend),1)
+    	:set(twk(Home,FreeCamRotBlend),1)
+    >
+    else
+    <
+    	:set(twk(Home,FreeCamPosBlend),0.5)
+    	:set(twk(Home,FreeCamRotBlend),0.5)
+    >
+
+
+    //Calculate vertical length
+    set(%V_DEBUG,%D_DEBUG*sin(%XA_DEBUG))
+    
+    //Calculate horizontal length
+    set(%H_DEBUG,%D_DEBUG*cos(%XA_DEBUG))
+    set(%XO_DEBUG,-%H_DEBUG*sin(%YA_DEBUG))
+    set(%YO_DEBUG,%H_DEBUG*cos(%YA_DEBUG))
+
+    set(gel3d.x,%TX_DEBUG+%XO_DEBUG)
+    set(gel3d.y,%TY_DEBUG+%YO_DEBUG)
+    set(gel3d.z,%V_DEBUG+%ZO_DEBUG)
+    set(gel3d.rotx,%XA_DEBUG)
+    set(gel3d.rotz,-%YA_DEBUG)
+EndM

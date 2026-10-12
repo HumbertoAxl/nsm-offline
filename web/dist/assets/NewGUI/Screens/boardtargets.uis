@@ -1,0 +1,205 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(ImageDefs_characters.uih)
+//
+Import:(boardtargets_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(BG_Stadium,NewGUI/UI/ImageBG/BG_Stadium.png) Volatile:BGStadium
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(BoardTargets,ContinueEnabled),0)
+	.set(twk(Money,SetCounter),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+	
+	// Background 
+	Draw:(BG_Stadium,@C,50,@w,376+@z)
+		Handle(0.5,0)
+
+	// Can delete and incorporate into image
+	Draw:(Fade_Down,@f,50,@w,150,,#FFFFFFAA)
+	Draw:(Fade_Up,@f,326+@z,@w,100,,#FFFFFFAA)
+
+
+	// Board Target Instructions
+	Rect:(@L+30,@T+80,@W-60,60)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#00000000)
+			frlerp(gel.alpha,0.75,0.025)
+
+		Clip:(0,0,@W,@H)
+			.set(gel.w,0)
+			if(gel.w < @W)
+			<
+				add(gel.w,15)
+			>
+		{{
+			M_Text:(targets_new_HELP,0,0,@W,60,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.vis,twk(BoardTargets,MatchesRemaining) > 0)
+			M_Text:(targets_DONE,0,0,@W,60,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.vis,twk(BoardTargets,MatchesRemaining) = 0)
+		}}
+	}}
+
+
+	// Speech Panel
+	Rect:(@C-304,@B-605-[@z/2],850,170)
+		Layer(Text)
+	{{
+		Draw:(Bubble_Shadow,-38,-9,@W+47,@H+19)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF40)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		{{
+			Draw:(Bubble_Speech,-30,112,,,,#FFFFFF00FFFFFFFF)
+				Delay(twk(Question,QuestionDelay))
+				frlerp(gel.alpha,0.95,0.1)
+		}}
+
+		// Speech Marks
+		Draw:(Speech_L,@C-250,84,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C-350,0.1)
+			frlerp(gel.scale,0.5,0.1)
+			
+		Draw:(Speech_R,@C+250,84,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C+350,0.1)
+			frlerp(gel.scale,0.5,0.1)
+
+		M_Text:(,125,0,600,@H,C,C,TextBox,KNUL35,,0,0,#00000000,NoItalics,#50505000,ref,BoardTargets,Message)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+	}}
+
+
+	// Answer Panel
+	Rect:(@L,@B-382,@W,342)
+	{{
+		// Red Panel
+		Draw:(White,@f,0,@w,66,,#CC1618FF)
+		Draw:(White,@f,34,@w,34,,#00000009)
+		Draw:(Fade_Down,@f,34,@w,17,,#00000020)
+
+		// Character Details
+		Rect:(@C-310,5)
+		{{
+			Draw:(Club_Shield,38,-4,65,65)
+			
+			M_Text:(board_Representative,96,16,400,0,L,C,TextLoc,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			// M_Text:(,96,16,400,0,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			// .set(gel.text,LTR(""M. Rutherford"))
+			M_Text:(targets_new_DIRECTOR,96,45,400,0,L,C,TextLoc,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+		}}
+
+		// Answer Panel - in wrong place
+		Draw:(BoardTargets_Header,@f,66,@w,40)
+
+		// Character
+		Rect:(@C-420,-85-[@z/2])
+		{{
+			Draw:(Character_Board,0,0,535,535)
+				Handle(0.5,0.5)
+		}}
+
+		Rect:(@R-250,35) $HIDE
+			.set(gel.alpha,0)
+			if(twk(BoardTargets,CompletedCount) = 3 and(twk(BoardTargets,IntroMsgClosed)))
+			<
+				Delay(2)
+				.set(gel.vis,1)
+				frlerp(gel.alpha,1,0.05)
+			>
+		{{
+			M_Text:(targets_BONUS,0,0,0,0,R,C,TextLoc,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			
+			M_Text:(,22,-1,0,0,L,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"★ " :: commasfmt(twk(BoardTargets,TotalReward)))
+				// Coins
+				.set(twk(Money,BuxEmitterX),gel.gx-12)
+				.set(twk(Money,BuxEmitterY),gel.gy-14)
+				.set(twk(Money,BuxIncrease),twk(BoardTargets,TotalReward))
+				.set(twk(Money,BuxEmitterState),1)
+				Delay(1.5)
+				.set(twk(Money,SetCounter),1)
+		}}
+	}}
+
+
+
+	Draw:(Dialog_Fade,@f,@B-70,@w,-175,,#FFFFFFCC)
+
+	// Completed Targets
+	Rect:()
+		set(gel.vis,twk(BoardTargets,MatchesRemaining) = 0)
+	{
+		Rect:()
+			if(twk(BoardTargets,IntroMsgClosed) = 1)
+			<
+				Delay(3.25)
+				.set(twk(BoardTargets,ContinueEnabled),1)
+				Delay(0.75)
+				.Message(boardtargets.animation_End1)
+			>
+
+		
+
+		Rect:(@L+20,@B-310,@W-40,310)
+		{{
+			M_BoardTargetPanel:(1,[@W/3]*0,0,ReviewTarget)
+			M_BoardTargetPanel:(2,[@W/3]*1,0,ReviewTarget)
+			M_BoardTargetPanel:(3,[@W/3]*2,0,ReviewTarget)
+
+			
+			//Top Divider
+			Draw:(Fade_Edged,[@W/3],-2,1,32,,#FFFFFFFF)
+			Draw:(Fade_Edged,[@W/3]*2,-2,1,32,,#FFFFFFFF)
+
+			//Bottom Divider
+			Draw:(Fade_Edged,[@W/3],50,1,166,,#000000FF)
+			Draw:(Fade_Edged,[@W/3]*2,50,1,166,,#000000FF)
+		}}
+	}
+
+
+	// New Targets
+	Rect:(@L+20,@B-310,@W-40,310)
+		set(gel.vis,twk(BoardTargets,MatchesRemaining) > 0)
+	{{
+		Rect:()
+			if(twk(BoardTargets,IntroMsgClosed) = 1)
+			<
+				Delay(1.7)
+				.set(twk(BoardTargets,ContinueEnabled),1)
+			>
+
+		M_BoardTargetPanel:(1,[@W/3]*0,0,NewTarget)
+		M_BoardTargetPanel:(2,[@W/3]*1,0,NewTarget)
+		M_BoardTargetPanel:(3,[@W/3]*2,0,NewTarget)
+
+		//Top Divider
+		Draw:(Fade_Edged,[@W/3],-2,1,32,,#FFFFFFFF)
+		Draw:(Fade_Edged,[@W/3]*2,-2,1,32,,#FFFFFFFF)
+
+		//Bottom Divider
+		Draw:(Fade_Edged,[@W/3],50,1,166,,#000000FF)
+		Draw:(Fade_Edged,[@W/3]*2,50,1,166,,#000000FF)
+	}}
+}}

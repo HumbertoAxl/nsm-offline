@@ -1,0 +1,331 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(title_images.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+##IA
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Scale:0.5 Volatile:BGPanorama
+##P4N
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Volatile:BGPanorama
+##*
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Setup,Gender),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+
+Rect:()
+##J
+	// Initially set focus to LastName
+	.CTRLSetSelected(LastName)
+##-
+	// Initially set focus to FirstName
+	.CTRLSetSelected(FirstName)
+	// When using the physical keyboard move focus on to ContinentGroup
+	OnPost(keyboard.btn_Char)
+	<
+		CTRLSetSelected(ContinentGroup)
+	>
+##*
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(setup_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H)
+	Click()
+	<
+		if(twk(Setup,FocusedItem) = 1)
+		<
+			:Post(UI_Select)
+		>
+		:Message(setup.loseFocus)
+	>
+
+// Manager Details
+Dissolve:() ref:DissolveRoot
+{
+	Rect:(@C-450-50,80,450,590)
+	{{
+		Draw:(PanelAngled,-4,-3,@W+7,@H+7)
+
+		Clip:(0,0,@W,@H)
+		{
+			Draw:(BG_Panorama,0,0-[@y/2],1100+@y,@H+@y,,#FFFFFFFF)
+			Draw:(Fade_Down,0,34,@W,100,,#FFFFFF60)
+			Draw:(Fade_Up,0,@H-100,@W,100,,#FFFFFF90)
+		}
+
+		Draw:(White,0,0,@W,34,,#CC1618FF)
+		Draw:(Dialog_Top,0,0,@W,38)
+		Clip:(0,0,@W,34)
+		{{
+			Draw:(Dialog_Hexagons,@C+20,4,,,,#00000000)
+				Delay(0.5)
+				frlerp(gel.alpha,0.25,0.01)
+		}}
+		M_Text:(setup_DETAILS,10,0,0,38,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+
+		Rect:(20,50,410,230)
+		{{
+			##J
+			// Japan wants first and last name boxes swapped
+			Define:(?POSY_FIRSTNAME?=140)
+			Define:(?POSY_LASTNAME?=0)
+			##-
+			Define:(?POSY_FIRSTNAME?=0)
+			Define:(?POSY_LASTNAME?=140)
+			##*
+
+			// First Name
+			Rect:(0,?POSY_FIRSTNAME?,@W,120)
+			{{
+				// First Name
+				M_Text:(setup_FIRST,0,10,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+				M_NameEntryCell:(6,36,400,50,1,Setup,FirstName,FIRSTNAME_ENTRY_INSTRUCTIONS,setup.inp_NameF_HIT)
+
+				Draw:(SponsorFrame_Desel,0,30,@W+2,100,,#CC1618FF)
+				Clip:(0,31,@W+2,98)
+				{{
+					Draw:(Dialog_Hexagons,@C+20,54,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+					
+					Draw:(Dialog_Hexagons,@C+20,85,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+
+				}}
+				M_Text:(setup_MAXCHARS,0,20,@W-10,100,R,B,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+			}}
+			
+			// Last Name
+			Rect:(0,?POSY_LASTNAME?,@W,120)
+			{{
+				M_Text:(setup_LAST,0,10,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+				M_NameEntryCell:(6,36,@W-10,50,2,Setup,LastName,LASTNAME_ENTRY_INSTRUCTIONS,setup.inp_NameL_HIT)
+				Draw:(SponsorFrame_Desel,0,30,@W+2,100,,#CC1618FF)
+				Clip:(0,31,@W+2,98)
+				{{
+					Draw:(Dialog_Hexagons,@C+20,54,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+
+					Draw:(Dialog_Hexagons,@C+20,85,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.25,0.01)
+
+				}}
+				M_Text:(setup_MAXCHARS,0,20,@W-10,100,R,B,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+			}}
+
+			// Gender
+			Rect:(0,320,@W,125)
+			{{
+				M_Text:(setup_GENDER,0,0,0,40,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+				
+				Rect:()
+					strvar(%BUTTONTEXT)
+					init(%BUTTONTEXT,"")
+				{
+					M_PressOPEN:(@C,75,400,70,setup.loseFocus)
+						Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+						Draw:(Button_SilverSliced,0,0,@W,@H)
+						Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+						Draw:(White,18,9,54,54,,#808080FF)
+						Draw:(Header_Manager_Male,20,11,50,50,,#FFFFFFFF)
+							if(twk(Setup,Gender) = 0)
+							<
+								set(gel.img,"Header_Manager_Male")
+								:set(%BUTTONTEXT,loc(setup_M))
+							>
+							else
+							<
+								set(gel.img,"Header_Manager_Female")
+								:set(%BUTTONTEXT,loc(setup_F))
+							>
+						M_Text:(,@C,35,0,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#252525FF,ref)
+							set(gel.text,(%BUTTONTEXT))
+					M_PressCLOSE:()
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						if(%clicked)
+						<
+							set(twk(Setup,Gender),1-twk(Setup,Gender))
+						>
+				}
+			}}
+		}}
+	}}
+
+
+	Define:(?PANELWIDTH?=400)
+	//JF: Template Instances
+	M_ScrollingItemSheet:(ContinentItemSheet,Setup,ContinentScroll)
+	M_ScrollingItemNormal:(?PANELWIDTH?,twk(Setup,ScrollSpacing)*2,ContinentItemNormal,setup.cmb_Continent,Setup,ContinentScroll)
+		CTRLClick(?BTNOK?)
+		<
+			Post("setup.SelectNationGroupElement")
+		>
+	M_ScrollingItemSheet:(NationItemSheet,Setup,NationScroll)
+	M_ScrollingItemNormal:(?PANELWIDTH?,twk(Setup,ScrollSpacing)*2,NationItemNormal,setup.cmb_Nation,Setup,NationScroll)
+		CTRLClick(?BTNOK?)
+		<
+			CTRLPopSelectGroup()
+			CTRLSetSelected(setupContinueButton,sidemenu)
+		>
+
+	// Continent and Country to play in
+	Rect:(@C+50,80,450,590)
+	{{
+		Rect:(@L,@T,@W,@H)
+		{{
+			Draw:(PanelAngled,-4,-3,@W+8,@H+7)
+			Clip:(0,0,@W,@H)
+			{
+				Draw:(BG_Panorama,-550-[@y/2],0-[@y/2],1100+@y,@H+@y,,#FFFFFFFF)
+				Draw:(Fade_Down,0,34,@W,100,,#FFFFFF60)
+				Draw:(Fade_Up,0,@H-100,@W,100,,#FFFFFF90)
+			}
+			Draw:(White,0,0,@W,34,,#CC1618FF)
+			Draw:(Dialog_Top,0,0,@W,38)
+			Clip:(0,0,@W,34)
+			{{
+				Draw:(Dialog_Hexagons,@C+20,4,,,,#00000000)
+					Delay(0.5)
+					frlerp(gel.alpha,0.25,0.01)
+			}}
+
+			Rect:()
+				.set(gel.vis,twk(Settings,AppVariant)!="Japan") // JB: Japan want continent lock
+			{
+
+				M_Text:(setup_COUNTRY,10,0,0,38,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				M_Text:(setup_CONTINENT,20,40,0,40,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+				CTRLSelectGroup:(26,86,400,200,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:ContinentGroup
+				{
+					M_ScrollingFields:(26,86,?PANELWIDTH?,200,ContinentHook,Setup,ContinentScroll,1)
+						CTRLSelect(CTRLSquareSelected,0,0,0,0)
+				}
+				CTRLHasSelectedGroup()
+				<	
+					:set(twk(Setup,FocusedItem),4)
+				>
+				else
+				<
+					:if(twk(Setup,FocusedItem) = 4)
+					<
+						set(twk(Setup,FocusedItem),0)
+					>
+				>
+				CTRLPress(LEFT)
+				<
+					CTRLSetSelected(twk(Setup,ReturnFocusTo))
+				>
+			}
+
+			Rect:()
+				.set(gel.vis,twk(Settings,AppVariant)="Japan") // Filler for the Japan empty slot
+			{
+				Draw:(Title_Badge,126,86,200)
+			}
+
+			M_Text:(setup_NATION,20,299,0,40,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+			CTRLSelectGroup:(26,345,400,200,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			{
+				Rect:()
+					OnPost("setup.SelectNationGroupElement")
+					<
+						CTRLClearSelect()
+						CTRLClearSelectFlag()
+						CTRLPushSelectGroup()
+					>
+
+				M_ScrollingFields:(26,345,?PANELWIDTH?,200,NationHook,Setup,NationScroll,2)
+					CTRLSelect(CTRLSquareSelected,0,0,0,0)
+			}
+			CTRLHasSelectedGroup()
+			<	
+				:set(twk(Setup,FocusedItem),5)
+			>
+			else
+			<
+				:if(twk(Setup,FocusedItem) = 5)
+				<
+					set(twk(Setup,FocusedItem),0)
+				>
+			>
+
+			Rect:() $HIDE ref:StaticLeagueWarning
+			{
+				Draw:(Icon_Warning,7,555,30,30,,#252525FF)
+				M_Text:(setup_NoPromotion,43,571,@W-43,0,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ref)
+			}
+		}}
+	}}
+
+
+
+
+	// Debug for choosing starting league
+	Rect:()
+		float(%open)
+		set(gel.vis,twk(Debug,Enabled))
+	{
+		Rect:(@L,@T,@W,@H)
+			if(%open = 1)
+			<
+				Click()
+				<
+					set(%open,0)
+				>
+			>
+
+		Draw:(White,@C,550,50,50,,#000000FF)
+			set(gel.vis,%open=0)
+			Handle(0.5,0.5)
+			Click()
+			<
+				set(%open,1)
+			>
+
+
+		Draw:(White,@C,@M,400,400,,#FFFFFFFF)
+			Layer(Debug)
+			LockLayer()
+			Handle(0.5,0.5)
+			set(gel.vis,%open=1)
+		{{
+			Clip:(@L,@T,@W,@H)
+			{
+				Rect:(@L,@T,@W,@H)
+					SwipePanel(Help,TopicsScroll,Help,TopicsScrollVel)
+
+				Draw:(White,0,0,@W,40,,#888888FF) ref:LeagueEntryTemplate
+					float(%id)
+					inherit(%open)
+					Click(setup.btn_ForceLeague,%id)
+					<
+						set(%open,0)
+					>
+					Handle(0.5,0)
+				{{
+					M_Text:(,@L,@T,@W,@H,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#000000FF,LeagueEntryTemplate)
+				}} Template
+
+				Rect:() ref:LeagueHook
+					ScrollingList(Help,TopicsScroll,@H,Help,TopicsScrollVel)
+					VerticalList(10) ref:VerticalList
+				{
+				}
+			}
+		}}
+	}
+}

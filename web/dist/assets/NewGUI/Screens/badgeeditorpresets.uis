@@ -1,0 +1,90 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(rgbslider.uih)
+Import:(badge_Macros.uih)
+
+//---------------------------------------------------------------------------------------------SETUP
+
+Rect:()
+	.set(twk(BadgeEditor,PresetScroll),0)
+	.set(twk(BadgeEditor,PresetScrollVel),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_PresetButton,?INDEX?)
+	M_PressOPEN:(0,0,360,500)
+		Cull:(0,0,360,500)
+		{
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			Draw:(Button_SilverSliced,0,0,@W,@H,,#EEEEEEFF)
+			
+			Draw:(White,30,430,@W-60,1,,#00000020FFFFFFFF)
+			
+			M_Text:("PRESET BADGE",@C,464,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+				set(gel.text,loc(Badge_PRESET) :: " " :: ?INDEX?)
+
+			Draw:(Badge_Shadow,@C,400,260,,,#00000040)
+				Handle(0.5,1)
+			M_Badge:(@C,200,HD,2,Preset?INDEX?)
+		}
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+		if(%clicked)
+		<
+		 	Message(badgeeditorpresets.btn_SelectedPreset,?INDEX?)
+		>
+EndM
+
+//--------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(Badge_CUSTOMISE_YOUR_BADGE),badgeeditorpresets)
+	
+	Dissolve:(0,50,@W,@H-45) ref:SwipePanels
+		SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,BadgeEditor,PresetScroll,BadgeEditor,PresetScrollVel) ref:SwipePanelPresets
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			Rect:(180,250+[@z/2],@W,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:PresetList
+					ScrollingListX(BadgeEditor,PresetScroll,@W,BadgeEditor,PresetScrollVel) ref:ScrollingListPresets
+					If:(?REALLYWIDECONTENT?)
+						ChildrenOffset(420+[@y/3],0,false)
+					Else
+						ChildrenOffset(420+[@y/6],0,false)
+					EndIf
+				{
+					M_PresetButton:(1)
+					M_PresetButton:(2)
+					M_PresetButton:(3)
+					M_PresetButton:(4)
+					M_PresetButton:(5)
+					M_PresetButton:(6)
+					M_PresetButton:(7)
+					M_PresetButton:(8)
+					M_PresetButton:(9)
+					M_PresetButton:(10)
+					M_PresetButton:(11)
+					M_PresetButton:(12)
+					M_PresetButton:(13)
+					M_PresetButton:(14)
+					M_PresetButton:(15)
+					M_PresetButton:(16)
+					M_PresetButton:(17)
+					M_PresetButton:(18)
+					M_PresetButton:(19)
+					M_PresetButton:(20)
+				}
+			}}
+			M_ScrollIndicatorAltH:(@B-5,@W,BadgeEditor,PresetScroll,PresetList,ScrollingListPresets,SwipePanels,SwipePanelPresets)
+		}}
+	}}
+
+M_NewDialogCLOSE:()

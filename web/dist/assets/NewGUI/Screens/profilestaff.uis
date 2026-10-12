@@ -1,0 +1,314 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Larger cells for 16:9
+Define:(?CELL1?=[[@w-312]/5])
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+M_NewDialogOPEN:(loc(profile_HEADER),profilestaff)
+// ----------------
+// ----------------
+
+	Rect:(@L,@T,@W,@H)
+		if(%state = "closing" and shell(GameScreen)="staff")
+		<
+			if(twk(ProfileStaff,Type)=?CSTAFFTYPE_SKILLSCOACH?)
+			<
+				CTRLSetSelected(RootTrainingGround1,staff)
+			>
+			elif(twk(ProfileStaff,Type)=?CSTAFFTYPE_FITNESSCOACH?)
+			<
+				CTRLSetSelected(RootFitnessCentre1,staff)
+			>
+			elif(twk(ProfileStaff,Type)=?CSTAFFTYPE_YOUTHCOACH?)
+			<
+				CTRLSetSelected(RootYouthAcademy,staff)
+			>
+			elif(twk(ProfileStaff,Type)=?CSTAFFTYPE_SCOUT?)
+			<
+				CTRLSetSelected(RootScoutOffice,staff)
+			>
+			elif(twk(ProfileStaff,Type)=?CSTAFFTYPE_PHYSIO?)
+			<
+				CTRLSetSelected(RootMedicalUnit,staff)
+			>>>>>
+		>
+	{{
+		// ---------------------------------HEADER -------------------------------------------------------------------------
+		
+		// Header Bar
+		Rect:()
+		{
+			Draw:(White,@f,0,@w,95,,#CC1618FF)
+				if(twk(ProfileStaff,IsPotentialHire) = 0)
+				<
+					set(gel.colour,twk(Player,HomeShirtCol1))
+				>
+				else
+				<
+					set(gel.colour,#404040FF)
+				>
+
+			Draw:(White,135,0,-1000,95)
+			Draw:(Fade_Right,135,0,1000,95)
+			Draw:(Banner_Star,@s,0,,95,,#FFFFFF20)
+				Handle(1,0)
+				
+			Draw:(Fade_Down,@f,95,@w,7,,#00000095)
+			Draw:(White,@f,95,@w,2)
+				if(twk(ProfileStaff,IsPotentialHire) = 0)
+				<
+					set(gel.colour,twk(Player,HomeShirtCol1))
+				>
+				else
+				<
+					set(gel.colour,#404040FF)
+				>
+				set(gel.alpha,0.5)
+		}
+
+
+		// Name
+		Rect:(220,0)
+		{{
+			M_Text:(,0,32,0,0,L,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,ref,ProfileStaff,FirstName)
+				set(%gfo,%gfw)
+			M_Text:(,0,32,0,0,L,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,ref,ProfileStaff,LastName)
+				M_Style:(Outline,#00000020)
+				set(gel.x,%gfo+16)
+		}}
+
+
+		// Role
+		Rect:(220,48)
+		{{
+			M_Text:(,0,0,0,50,L,C,Text,KNUL30,,0,0,#00000000,NoItalics,#505050FF,ref,ProfileStaff,TypeString)
+				set(%gfo,%gfw)
+
+			M_Text:(,0,0,0,50,L,C,Text,KNUL30,,0,0,#00000000,NoItalics,#505050FF,ref,ProfileStaff,AgeString)
+				// set(gel.text,"(" :: loc(generic_AGE_LC) :: " " :: twk(ProfileStaff,Age) :: ")")
+				set(gel.x,%gfo+10)
+		}}
+
+
+		// New Star ID
+		Rect:()
+			set(gel.vis,twk(ProfileStaff,IsPotentialHire) = 0)
+		{
+			M_Badge:(@R-60,52,HD,0.6,ClubBadge)
+			M_Text:("New Star",@R-115,50,0,0,R,C,Text,KNUL30,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				.set(gel.text,LTR(twk(Player,TeamName)))
+				.set(gel.colour,twk(Player,TeamTextCol))
+		}
+
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// --------------------------------- BODY --------------------------------------------------------------------------
+		
+		// Face
+		Rect:(140,150)
+			Card_Face_HD(ProfileStaff,,PU_MANAGER|SB_SKILLSCOACHING|SB_FITNESSCOACHING|SB_YOUTHCOACHING|SB_SCOUTING|SB_PHYSIO)
+
+		// Drop Card Slot
+		Rect:(0,0,@W,@H)
+			Card_AreaSlot(StaffProfileCardsArea,profilestaff.action_PlayCard,PU_MANAGER|SB_SKILLSCOACHING|SB_FITNESSCOACHING|SB_YOUTHCOACHING|SB_SCOUTING|SB_PHYSIO)
+		
+		Draw:(Fade_Down,@f,350,@w,-70,,#FFFFFFCC)
+
+
+		// ATTRIBUTES
+		Rect:()
+		{
+			// Rating - Fixed box
+			Rect:(328,120,1,150)
+			{{
+				M_Text:(generic_RATING,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(Profile_Star2,@C-70,20,140,140) ref:StarRatingImage_Staff
+				M_Text:(,@C,80,0,0,C,C,Text,KNUL35,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,ProfileStaff,Rating,DoLTR)
+					M_Style_StarRating:()
+					if(gel.text = 100)
+					<
+						set(gel.scale,0.85)
+						set(gel.x,@C-1)
+					>
+					else
+					<
+						set(gel.scale,1)
+						set(gel.x,@C)
+					>
+			}}
+		
+			// Adjusting content
+			Rect:(410,120,670+@y,140)
+			{{
+				// Morale
+				Rect:([@W/3]*0,0,[@W/3],140)
+				{{
+					Draw:(Separator,@L,50)
+					M_Text:(generic_HAPPINESS,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_MoraleWheel:(@C-35,46,ProfileStaff,Happiness)
+				}}
+
+				// Contract
+				Rect:([@W/3]*1,0,[@W/3],140)
+				{{
+					Draw:(Separator,@L,50)
+					M_Text:(generic_CONTRACT,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,80,0,0,C,C,Text,KNUL35,,1,1,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,LTR(twk(ProfileStaff,RemainingMatches) :: loc(generic_MATCHES_sla)))
+						if(twk(ProfileStaff,IsPotentialHire)=0)
+						<
+							if(twk(ProfileStaff,RemainingMatches) <= 5)
+							<
+								PulseAlpha(1,0,0.3,0.3,0.1,0.1)
+							>
+							else
+							<
+								:set(gel.alpha,1)
+							>
+						>
+				}}
+
+				// Value
+				Rect:([@W/3]*2,0,[@W/3],140)
+				{{
+					Draw:(Separator,@L,50)
+					M_Text:(generic_VALUE,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+
+					// Standard staff (available / hired)
+					Rect:()
+						set(gel.vis,not(twk(ProfileStaff,IsIAP)))
+					{
+						M_Text:(,40,80,0,0,L,C,Text,KNUL35,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfileStaff,Value)
+							set(gel.x,@C-[%gfw/2]+18)
+						{{
+							Draw:(Icon_Bux,-40,-22,40,40,,#FFFFFFFF)
+						}}
+					}
+
+					// IAP staff (available / hired)
+					Rect:()
+						set(gel.vis,twk(ProfileStaff,IsIAP))
+					{
+						M_Text:("",@C,80,0,0,C,C,Text,KNUL35,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							if(twk(ProfileStaff,IsPotentialHire) = 1)
+							<
+								set(gel.text,twk(ProfileStaff,Value))
+							>
+							else
+							<
+								set(gel.text,"-")
+							>
+					}
+
+					Draw:(Separator,@R,50)
+				}}
+			}}
+		}
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+		// --------------------------------- PAGING ------------------------------------------------------------------------
+		Rect:()
+			set(gel.vis,(twk(Negotiate,InProgress)=0) and(twk(Ftue,Enabled) = 0))
+		{
+
+			// Left Paging Control
+			Rect:(0,95,75,255)
+			{{
+				M_Button:(35,110,30,60,Button_SilverSliced,Icon_ArrowLR,@C-10,20,20,20,#252525FF,profilestaff.btn_Prev,StaffPrevButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%disabled,twk(ProfileStaff,LeftPagingEnabled) = 0)
+					M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,LB,StaffPrevButton)
+					CTRLPress(DOWN)
+					<
+						if(twk(ProfileStaff,Sku)="")
+						<
+							if(twk(ProfileStaff,IsPotentialHire) = 0)
+							<
+								CTRLSetSelected(StaffNegotiationSubButton)
+							>
+							else
+							<
+								CTRLSetSelected(StaffOtherNegotiationSubButton)
+							>
+						>
+						else
+						<
+							CTRLSetSelected(IAPStaffBuyButton)
+						>
+					>
+					M_ButtonZone:(0,0,@W,@H)
+
+			}}
+
+			// Right Paging Control
+			Rect:(@R-75,95,75,255)
+			{{
+				M_Button:(@R-35,110,30,60,Button_SilverSliced,Icon_ArrowLR,@C+10,20,-20,20,#252525FF,profilestaff.btn_Next,StaffNextButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%disabled,twk(ProfileStaff,RightPagingEnabled) = 0)
+					M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,RB,StaffNextButton)
+					.CTRLSetSelected(StaffNextButton)
+					CTRLPress(DOWN)
+					<
+						if(twk(ProfileStaff,Sku)="")
+						<
+							if(twk(ProfileStaff,IsPotentialHire) = 0)
+							<
+								CTRLSetSelected(StaffNegotiationAddButton)
+							>
+							else
+							<
+								CTRLSetSelected(StaffOtherNegotiationAddButton)
+							>
+						>
+						else
+						<
+							CTRLSetSelected(IAPStaffBuyButton)
+						>
+					>
+					M_ButtonZone:(0,0,@W,@H)
+			}}
+
+			M_SwitchButtonHint:(⛎,20,130)
+				set(gel.vis,twk(ProfileStaff,LeftPagingEnabled))
+			M_SwitchButtonHint:(⛏,@R-50,130)
+				set(gel.vis,twk(ProfileStaff,RightPagingEnabled))
+		}
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// --------------------------------- TABS AND CONTENT --------------------------------------------------------------
+		Draw:(White,@f,401,@w,235+@z,,#20204020FFFFFFFF)
+		Import:(profilestaff_iap.uih)
+		Import:(profilestaff_newstar.uih)
+		Import:(profilestaff_other.uih)
+		Import:(profile_contract.uih)
+		
+		M_ProfileContract:(profilestaff,ProfileStaff)
+		// -----------------------------------------------------------------------------------------------------------------
+	}}
+
+// ----------------
+// ----------------
+M_NewDialogCLOSE:()

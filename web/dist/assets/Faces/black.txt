@@ -1,0 +1,27 @@
+//DisableTransform
+
+// Not defined assets will be picked from default file
+
+// ------------------------------------- COLOURS
+SkinCol:(b19479,94683d,755445)
+HairCol:(333333,444444)
+EyesCol:(333333,444444)
+
+#Hair#
+	Imgs:(FaceHair,3,8,9,12,13,14,15,16,17,19)
+#Hair#End
+
+
+#Head#
+	Imgs:(FaceHead,1,2,3,4,5,7)
+#Head#End
+
+
+#Nose#
+	ScaleX:(1.1,1.25)
+#Nose#End
+
+#Mouth#
+	ScaleX:(1,1.2)
+	OffsetY:(0,0)
+#Mouth#End

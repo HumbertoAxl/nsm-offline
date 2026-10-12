@@ -1,0 +1,214 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Img:(BG_Blade,NewGUI/UI/Background/BG_Blade.png)
+Img:(BG_DustCloud,NewGUI/UI/Background/BG_DustCloud.png)
+Img:(BG_DustMote,NewGUI/UI/Background/BG_DustMote.png)
+Import:(splitspines.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+Img:(BG_Combined,NewGUI/UI/Background/BG_Combined.png)
+
+
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Cls:(#C0CFD7FF,true)
+
+Rect:()
+	if((shell(GameScreen) oneof("loading","home","matchengine","mainmenu")) and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		set(gel.vis,0)
+	>
+	else
+	<
+		set(gel.vis,1)
+	>
+{
+	// Background
+	Draw:(BG_Combined,@L,@T,@W,@H)
+		Blend(ONE,ZERO)
+
+	Spine:(NSM_BGFX01,@L+100,500,-25,BGFX01,Loop)
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+
+	Spine:(NSM_BGFX01,@R-150,@B-400,155,BGFX01,Loop) 
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+
+	// SingleStreak01
+	Spine:(NSM_BGFX02,@C-400,@M+200,65,BGFX02,Once) 
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(200,500))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF30)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.15)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(200,500))
+			>
+		>
+
+
+	// SingleStreak02
+	Spine:(NSM_BGFX02,@C,@M,65,BGFX02,Once) 
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(500,1000))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF30)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.2)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(500,1000))
+			>
+		>
+
+	// SingleStreak03
+	Spine:(NSM_BGFX02,@C+200,@M+200,65,BGFX02,Once) 
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(450,1200))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF50)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.1)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(450,1200))
+			>
+		>
+
+	// SingleStreak04
+	Spine:(NSM_BGFX02,@C+700,@M-300,65,BGFX02,Once) 
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(50,800))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF30)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.1)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(50,800))
+			>
+		>
+
+	// DustMote01
+	Spine:(NSM_BGFX_Dustmote,@C,@M,,BGFX_Dustmote,Once) 
+		Scale(2,2)
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(300,1500))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF30)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.3)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(300,1500))
+			>
+		>
+
+	// DustMote02
+	Spine:(NSM_BGFX_Dustmote,@C-60,@M+80,,BGFX_Dustmote,Once) 
+		Scale(1,1)
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(400,1200))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF30)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.5)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(400,1200))
+			>
+		>
+
+	// DustMote03
+	Spine:(NSM_BGFX_Dustmote,@C-420,@M+260,,BGFX_Dustmote,Once) 
+		Scale(0.6,0.6)
+		float(%t,%play,%r)
+		add(%t,FrameTime)
+		.set(%r,frand(200,800))
+		if(%t > %r)
+		<
+			:set(%play,1)
+		>
+		.set(gel.anim.speed,0)
+		.set(gel.colour,#FFFFFF40)
+		if(%play)
+		<
+			:set(gel.anim.normtime,0)
+			:set(gel.anim.speed,0.5)
+			if(gel.anim.normtime > 0.99)
+			<
+				:set(%play,0)
+				:set(%t,0)
+				:set(%r,frand(200,800))
+			>
+		>
+
+	Spine:(NSM_BGFX_DustClouds,@C,@M,,BGFX_DustClouds,Loop) 
+		.set(gel.anim.speed,0.1)
+		.set(gel.colour,#FFFFFF30)
+
+	Spine:(NSM_BGFX_DustClouds,@C+250,@M+150,,BGFX_DustClouds,Loop) 
+		.set(gel.anim.speed,0.15)
+		.set(gel.colour,#FFFFFF30)
+}

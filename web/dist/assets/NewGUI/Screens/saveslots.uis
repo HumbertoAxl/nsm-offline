@@ -1,0 +1,276 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+##IA
+//Summer Slot Images
+Img:(SaveSlot_Background,NewGUI/UI/SaveSlot/SaveSlot_Background.png) Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground01,NewGUI/UI/SaveSlot/SaveSlot_Foreground_01.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground02,NewGUI/UI/SaveSlot/SaveSlot_Foreground_02.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground03,NewGUI/UI/SaveSlot/SaveSlot_Foreground_03.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground04,NewGUI/UI/SaveSlot/SaveSlot_Foreground_04.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground05,NewGUI/UI/SaveSlot/SaveSlot_Foreground_05.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground06,NewGUI/UI/SaveSlot/SaveSlot_Foreground_06.png) FORCE Scale:0.5 Volatile:BGSaveSlotViews
+##P4N
+//Summer Slot Images HI
+Img:(SaveSlot_Background,NewGUI/UI/SaveSlot/SaveSlot_Background.png) Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground01,NewGUI/UI/SaveSlot/SaveSlot_Foreground_01.png) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground02,NewGUI/UI/SaveSlot/SaveSlot_Foreground_02.png) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground03,NewGUI/UI/SaveSlot/SaveSlot_Foreground_03.png) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground04,NewGUI/UI/SaveSlot/SaveSlot_Foreground_04.png) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground05,NewGUI/UI/SaveSlot/SaveSlot_Foreground_05.png) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground06,NewGUI/UI/SaveSlot/SaveSlot_Foreground_06.png) FORCE Volatile:BGSaveSlotViews
+
+//Winter Slot Images HI
+Img:(SaveSlot_Background_Winter,NewGUI/UI/SaveSlot/SaveSlot_Background_WINTER.nspng) Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground01_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_01_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground02_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_02_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground03_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_03_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground04_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_04_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground05_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_05_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground06_Winter,NewGUI/UI/SaveSlot/SaveSlot_Foreground_06_WINTER.nspng) FORCE Volatile:BGSaveSlotViews
+
+//Autumn Slot Images HI
+Img:(SaveSlot_Background_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Background_AUTUMN.nspng) Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground01_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_01_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground02_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_02_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground03_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_03_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground04_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_04_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground05_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_05_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground06_Autumn,NewGUI/UI/SaveSlot/SaveSlot_Foreground_06_AUTUMN.nspng) FORCE Volatile:BGSaveSlotViews
+
+//Spring Slot Images HI
+Img:(SaveSlot_Background_Spring,NewGUI/UI/SaveSlot/SaveSlot_Background_SPRING.nspng) Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground01_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_01_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground02_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_02_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground03_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_03_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground04_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_04_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground05_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_05_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+Img:(SaveSlot_Foreground06_Spring,NewGUI/UI/SaveSlot/SaveSlot_Foreground_06_SPRING.nspng) FORCE Volatile:BGSaveSlotViews
+##*
+
+Img:(SaveSlot_Quit,NewGUI/UI/SaveSlot/SaveSlot_Quit.png)
+Img:(Card_Star2,NewGUI/Cards/Person/Card_Star2.png) FORCE
+Img:(Card_Star3,NewGUI/Cards/Person/Card_Star3.png) FORCE
+
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_SaveSlotPanel,?X?,?Y?,?ID?)
+	Sheet:((0,0,1191),(0,-45,0),51.49,(1,1,1)) ref:Root?ID?
+	//FIXEDFOV
+	 	PinVP(?X?,?Y?)
+	 	.set(gel.alpha,0)
+	 	Delay(?ID?*0.15)
+	 	frlerp(gel.alpha,1,0.15)
+	 	frlerp(gel3d.roty,0,0.15)
+	 	:Post(sounds.cards_Swap)
+	{{	
+		Rect:(0,0,310,570) 
+			Handle(0.5,0.5)
+		{{			
+			Rect:(@L,@T,@W,@H)
+			{{
+				Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+				Draw:(FloorShadow,-12,@B-2,@W+24,11)
+				Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+				Draw:(NewStarShape,0,0,@W,570,,#C5C5C580FFFFFFFF)
+				Draw:(SaveSlot_Background,0,@B-90,@W,)
+					Handle(0,1)
+					 .if((twk(SaveSlots,SlotWeek?ID?) >= 5) and(twk(SaveSlots,SlotWeek?ID?) < 18))
+                    <
+                        set(gel.img,gel.img::"_Autumn")
+                    >
+                    .if((twk(SaveSlots,SlotWeek?ID?) >= 18) and(twk(SaveSlots,SlotWeek?ID?) < 31))
+                    <
+                        set(gel.img,gel.img::"_Winter")
+                    >
+                    .if((twk(SaveSlots,SlotWeek?ID?) >= 31) and(twk(SaveSlots,SlotWeek?ID?) < 43))
+                    <
+                        set(gel.img,gel.img::"_Spring")
+                    >
+
+
+
+				
+				//Foreground Images - set via ref from code
+				Draw:(SaveSlot_Foreground01,0,@B-90,@W,) ref:StadiumImage
+					Handle(0,1)
+					set(gel.vis,twk(SaveSlots,Slot?ID?Available) = 0)
+
+				Draw:(Header_Hexagons,0,0,@W,34)
+				Draw:(Fade_Left,10,96,40,147,,#00002020FFFFFFFF)
+				Draw:(White,50,96,@W-100,147,,#00002020FFFFFFFF)
+				Draw:(Fade_Right,@R-50,96,40,147,,#00002020FFFFFFFF)
+				Draw:(White,10,96,@W-20,1,,#000000AAFFFFFFFF)
+				Draw:(White,10,242,@W-20,1,,#000000AAFFFFFFFF)
+				
+				Draw:(White,0,34,@W,52,,#000000FFFFFFFFFF)
+				M_Text:(,20,0,@W-20,34,L,C,Text,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					M_Style:(Outline,#FFFFFF20)
+					:set(gel.text,loc(saveslot_HEADER) :: " " :: fmt(?ID?+1,X))
+					set(gel.alpha,1-[twk(SaveSlots,Slot?ID?Available)*0.75])
+
+				// Save Exists
+				Rect:()
+					set(gel.vis,twk(SaveSlots,Slot?ID?Available) = 0)
+				{
+					// Save Profile Name 
+					M_Text:(,@C-120,128,240,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+						.set(gel.text,LTR(twk(SaveSlots,SlotName?ID?)))
+						LineSpacing(0.8)
+
+					// Team Name
+					M_Text:(,0,170,@W,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+						.set(gel.text,LTR(twk(SaveSlots,SlotTeamName?ID?)))
+
+					//Last Save Year & Week 
+					M_Text:(,0,199,@W,0,C,C,Text,KNUL22,Upper,1,0,#00000000,NoItalics,#252525FF,ref)
+						.set(gel.text,loc(generic_YEAR_LC) :: " " :: LTR(twk(SaveSlots,SlotYear?ID?)) :: ", " :: loc(generic_WEEK_LC) :: " " :: LTR(twk(SaveSlots,SlotWeek?ID?)))
+						
+
+					// Country
+					M_Text:(,0,225,@W,0,C,C,Text,KNUL22,Upper,1,0,#00000000,NoItalics,#252525FF,ref,SaveSlots,SlotNation?ID?)
+
+
+					// Manager Level and XP
+					Rect:(0,35,@W,50)
+					{{
+						Draw:(Header_Manager_Male,0,0,50,50)
+							if(twk(SaveSlots,SlotGender?ID?) = 0)
+							<
+								.set(gel.img,"Header_Manager_Male")
+							>
+							else
+							<
+								.set(gel.img,"Header_Manager_Female")
+							>
+						Rect:(150,0,100,50,,#FFFFFFFFFFFFFFFF)
+							float(%width)
+							set(gel.w,%width)
+							set(gel.x,@C-[%width/2])
+						{{
+							M_Text:(home_top_LEVEL,0,26,0,0,L,C,TextLoc,KNUL30,,1,0,#666666FF000000FF,Italics,#666666FF,ref)
+								.add(%width,%gfw)
+								.set(%gfo,%gfw)
+							{
+								M_Text:(20,0,24,0,0,L,C,Text,KNUL40,,2,2,#00000060000000FF,NoItalics,#FFFFFFFF000000FF,ref)
+									.set(gel.text,LTR(twk(SaveSlots,SlotStarLevel?ID?)))
+									set(gel.x,%gfo+8)
+									.add(%width,%gfw+8)
+							}
+						}} 
+
+						Rect:(50,0,200,50)
+							float(%current)
+							.set(%current,twk(SaveSlots,SlotStarRating?ID?)/100)
+						{{
+							Draw:(Header_XP,0,0,@W,@H,,#FFFFFFFFFFFFFFFF)
+								Additive()
+								set(gel.scalex,%current)
+							Draw:(Header_XP,0,0,@W,@H,,#FFFFFFAAFFFFFFFF)
+								set(gel.scalex,%current)
+						}}
+
+						//Prestige Stars
+						Rect:(@R-45,5)
+							.set(gel.vis,twk(SaveSlots,SlotPrestige?ID?) > 0)
+						{{
+				            Tile:(Prestige_Star_BG,0,0,40,40)
+				            	Copies(1,1)
+				            	Spacing(-30,0)
+				            	set(gel.copies.x,clamp(twk(SaveSlots,SlotPrestige?ID?),0,3))
+				            Tile:(Prestige_Star_Silver,0,0,40,40)
+				            	if(twk(SaveSlots,SlotPrestige?ID?) > 3)
+				            	<
+				            		set(gel.img,"Prestige_Star_Gold")
+				            	>
+				            	else
+				            	<
+				            		set(gel.img,"Prestige_Star_Silver")
+				            	>
+				            	Copies(1,1)
+				            	Spacing(-30,0)
+				            	set(gel.copies.x,clamp(twk(SaveSlots,SlotPrestige?ID?),0,3))
+						}}
+					}}
+
+					Rect:()
+						float(%selected)
+						strvar(%hinttxt)
+					{
+						M_Button:(@C,@B-45,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,saveslots.loadSlot?ID?,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+							M_ButtonZone:(0,0,@W,@H)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+							.if((twk(SaveSlots,MostRecentSlot)=?ID?) and (twk(Settings,DemoVersion)=0))
+							<
+								CTRLSetSelected()
+							>
+							CTRLIsSelected()
+							<
+								set(%hinttxt,loc(settings_OKButton)::"  ")
+								set(%selected,1)
+							>
+							else
+							<
+								set(%hinttxt,"")
+								set(%selected,0)
+							>
+					
+						// Simple Image button
+						Draw:(SaveSlot_Quit,@R-76,0)
+						M_ImageButton:(@R-32,17,80,60,0,0,32,32,Icon_Recycle,#252525FF,saveslots.deleteSlot?ID?)
+							if(%selected)
+							<
+								M_CTRLButtonExtra:(Y,false)
+							>
+
+						M_SwitchButtonHint:(⛍,297,-10)
+							set(gel.vis,%selected=1)	
+					}					
+				}
+
+				// No Save
+				Rect:()
+					set(gel.vis,twk(SaveSlots,Slot?ID?Available) = 1)
+				{
+					M_Text:(saveslot_NEW,0,164,@W,0,C,C,TextLoc,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+					
+					Rect:()
+						strvar(%hinttxt)
+					{
+						M_Button:(@C,@B-45,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,saveslots.loadSlot?ID?,ref,loc(saveslot_START),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+							M_ButtonZone:(0,0,@W,@H)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+							CTRLIsSelected()
+							<
+								set(%hinttxt,loc(settings_OKButton)::"  ")
+								set(%selected,1)
+							>
+							else
+							<
+								set(%hinttxt,"")
+								set(%selected,0)
+							>
+					}
+				}
+			}}
+		}}
+	}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:() ref:DissolveRoot
+{
+	M_SaveSlotPanel:(@C-346,366,0)
+	M_SaveSlotPanel:(@C,366,1)
+	M_SaveSlotPanel:(@C+346,366,2)
+}

@@ -1,0 +1,545 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// Match State
+Img:(Com_Panel_Dark,NewGUI/UI/MatchCommentary/Com_Panel_Dark.png,20,20,20,20,0.5)
+Img:(Com_Panel_Light,NewGUI/UI/MatchCommentary/Com_Panel_Light.png,2,2,2,2)
+Img:(Icon_TimeStamp,NewGUI/UI/MatchCommentary/Icon_TimeStamp.png)
+//---------------------------------------------------------------------------------------------SETUP
+Define:(?COMW?=[490+@y])
+
+Define:(?COMH?=85)
+Define:(?COMH_L?=120)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_Tag,?TEXT?,?TYPE?)
+    Rect:(1,41,50,20) ref:Tag
+        Handle(0,0.5)
+        .set(gel.scale,3)
+        .set(gel.alpha,0)
+        frlerp(gel.scale,1,0.3)
+        frlerp(gel.alpha,1,0.3)
+    {{
+        Draw:(White,@L,@T,@W,@H,,#E21F1FFF)
+            .set(gel.vis,?TYPE?="NEG")
+        Draw:(White,@L,@T,@W,@H,,#43D42CFF)
+            .set(gel.vis,?TYPE?="POS")   
+        M_Text:(,@C,0,0,0,C,C,Text,KNUL30,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+            .set(gel.text,LTR(?TEXT?))
+            M_Style:(Outline,#FFFFFF60)
+            .set(gel.scale,0.55)
+            CharacterSpacing(2)
+    }}
+EndM
+
+Macro:(M_BaseComment,?REF?)
+    Rect:(@C,0,@W-100,@H) ref:?REF?
+        Handle(0.5,0)
+        .set(gel.scale,0.9)
+        .set(gel.alpha,0)
+        frlerp(gel.scale,1,0.2)
+        frlerp(gel.alpha,1,0.2)
+    {{
+        M_Text:(COMMENT,@L,0,@W,0,C,C,TextBoxAtt,KNUL24,,1,1,#252525FF,NoItalics,#252525FF,?REF?)
+
+    }}
+EndM
+
+Macro:(M_BaseHomeComment,?REF?)
+    Rect:(@C,0,@W-100,@H) ref:?REF?
+        Handle(0.5,0)
+        .set(gel.scale,0.9)
+        .set(gel.alpha,0)
+        frlerp(gel.scale,1,0.2)
+        frlerp(gel.alpha,1,0.2)
+    {{
+        M_Text:(COMMENT,@L,0,@W,0,C,C,TextBoxAtt,KNUL24,,1,1,#252525FF,NoItalics,#252525FF,?REF?)
+
+    }}
+EndM
+
+Macro:(M_BaseAwayComment,?REF?)
+    Rect:(@C,0,@W-100,@H) ref:?REF?
+        Handle(0.5,0)
+        .set(gel.scale,0.9)
+        .set(gel.alpha,0)
+        frlerp(gel.scale,1,0.2)
+        frlerp(gel.alpha,1,0.2)
+    {{
+        M_Text:(COMMENT,@L,0,@W,0,C,C,TextBoxAtt,KNUL24,,1,1,#252525FF,NoItalics,#252525FF,?REF?)
+
+    }}
+EndM
+
+Macro:(M_TimeStamp)
+    Draw:(Icon_TimeStamp,1,2,28,28,,#000000DD)
+        PulseAlpha(0.3,0.8,0.15,0.15,0.1,0.1,0.1,3)
+        Layer(Text)
+
+	M_Text:("45'",30,2,0,30,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#505050FF,TimeStamp)
+        M_Style:(Outline,#50505020)
+        CharacterSpacing(1)
+        Layer(Text)
+EndM
+
+
+// ----------------------------------------------------------------------------------------------------
+// ---------------------------------------- MATCH STATE COMMENTS --------------------------------------
+// ----------------------------------------------------------------------------------------------------
+Img:(DotMatrix_Boot,NewGUI/SpineAssets/DotMatrix_Boot.png)
+
+
+Macro:(M_MatchStateComment,?REF?,?SPINE?,?SCALE?,?TEXT?,?TEXTSIZE?,?TEXTJUS?,?TEXTPOS?,?SFX1?,?SFX2?)
+    Cull:(0,0,?COMW?,?COMH?) ref:?REF?
+    {{
+        Clip:(1,0,@W-2,@H)
+        {
+            Draw:(Com_Panel_Dark,-10,0,@W+20,@H)
+
+            // Dot Matrix
+            Rect:()
+                PulseAlpha(0.15,0.5,1,1,0,0,0)
+            {
+                Clip:(0,2,@W-9,@H)
+                {
+                     Tile:(DotMatrix_Tile,0,2)
+                        Copies(22,2)
+                        Additive()
+                }
+            }
+
+
+            // Dot Matrix
+            Rect:()
+                PulseAlpha(0.05,0.15,0.2,0.2,0,0,0)
+                :Post(?SFX1?)
+                :Post(?SFX2?)
+            {
+               Clip:(0,0,@W-1,@H)
+               {
+                   Rect:(@C,@M,@W,@H)
+                   Handle(0.5,0.5)
+                   {{
+                        Rect:(@L,@T,@W,@H)
+                        {{
+                            Spine:(NSM_DM_Comment,@R-380,42,0,NSM_DM_Streaks,Loop)
+                                Scale(0.6,0.6)
+                                .set(gel.anim.speed,1)
+                                .set(gel.colour,#FFBF6BFF)
+
+                            Spine:(NSM_DM_Comment,@C,44,0,?SPINE?,Clamp) ref:?SPINE?
+                                Scale(0.55,0.55)
+                                .set(gel.anim.speed,1)
+                                .set(gel.colour,#FFBF6BFF)
+                            {
+                                Rect:(@C,@M,@W,@H,,#FFFFFF00)
+                                {{
+                                 M_Text:(match_?TEXT?,?TEXTPOS?,0,0,0,?TEXTJUS?,C,TextLoc,KNUL64,Upper,0,0,#00000000,NoItalics,#FFBF6BFF,?REF?)
+                                    set(%gfw,[strwidth(gel.text,0)]*0.55)
+                                    Scale(?TEXTSIZE?,?TEXTSIZE?)
+                                    M_Style:(Outline,#FFCA5950)
+
+                                }}  
+                                     Slot(NSM_DM_TEXT)
+                            }
+                            Tile:(DotMatrix_Tile,9,2)
+                                Copies(22,2)
+                                Layer(Text) 
+                        }}
+                    }}
+                    Scale(?SCALE?,?SCALE?)             
+                }
+            }
+        }
+    }} Template
+EndM
+
+//-------------CameraSetup
+
+If:(?WIDECONTENT?)
+
+    M_MatchStateComment:(MSCommentCorner,NSM_DM_Corner,1,Corner,1.5,C,40)
+    M_MatchStateComment:(MSCommentExtraTime,NSM_DM_ExtraTime,1,ExtraTime,1.5,L,0)
+    M_MatchStateComment:(MSCommentFreeKick,NSM_DM_FreeKick,1,FreeKick,1.5,L,0)
+     M_MatchStateComment:(MSCommentFoul,NSM_DM_Penalty,1,Foul,1.5,L,0,PlayerTackle,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentFullTime,NSM_DM_FullTime,1,FullTime,1.5,C,0)
+    M_MatchStateComment:(MSCommentGoal,NSM_DM_Goal,1,Goal,1.5,R,0,sounds.match_KickLong)
+    M_MatchStateComment:(MSCommentGoalSaved,NSM_DM_GoalSaved,1,Saved,1.5,L,0)
+    M_MatchStateComment:(MSCommentHalfTime,NSM_DM_HalfTime,1,HalfTime,1.5,C,0,sounds.match_Whistle,sounds.match_CrowdCheer)
+    M_MatchStateComment:(MSCommentInjury,NSM_DM_Injury,1,Injury,1.5,C,0,PlayerTackle)
+    M_MatchStateComment:(MSCommentKickOff,NSM_DM_KickOff,1,KickOff,1.5,L,-20,sounds.match_Whistle,sounds.match_CrowdCheer)
+    M_MatchStateComment:(MSCommentOffside,NSM_DM_Offside,1,Offside,1.5,L,0)
+    M_MatchStateComment:(MSCommentPenalty,NSM_DM_Penalty,1,Penalty,1.5,L,0)
+    M_MatchStateComment:(MSCommentPenaltyShootout,NSM_DM_Penalty,1,Penalties,1.5,L,-20)
+    M_MatchStateComment:(MSCommentRedCard,NSM_DM_RedCard,1,RedCard,1.5,C,-10,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentSubstitution,NSM_DM_Substitution,1,Substitution,1.5,L,-65)
+    M_MatchStateComment:(MSCommentYellowCard,NSM_DM_YellowCard,1,YellowCard,1.5,L,-10,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentYellowRedCard,NSM_DM_YellowRedCard,1,RedCard,1.5,C,-10,sounds.match_CrowdBoo)
+Else
+
+    M_MatchStateComment:(MSCommentCorner,NSM_DM_Corner,0.9,Corner,1.5,C,40)
+    M_MatchStateComment:(MSCommentExtraTime,NSM_DM_ExtraTime,0.8,ExtraTime,1.5,L,0)
+    M_MatchStateComment:(MSCommentFreeKick,NSM_DM_FreeKick,0.8,FreeKick,1.5,L,0)
+    M_MatchStateComment:(MSCommentFoul,NSM_DM_Penalty,0.9,Foul,1.5,L,0,PlayerTackle,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentFullTime,NSM_DM_FullTime,0.9,FullTime,1.5,C,0)
+    M_MatchStateComment:(MSCommentGoal,NSM_DM_Goal,0.85,Goal,1.5,R,0,sounds.match_KickLong)
+    M_MatchStateComment:(MSCommentGoalSaved,NSM_DM_GoalSaved,0.9,Saved,1.5,L,0)
+    M_MatchStateComment:(MSCommentHalfTime,NSM_DM_HalfTime,0.9,HalfTime,1.5,C,0,sounds.match_CrowdCheer)
+    M_MatchStateComment:(MSCommentInjury,NSM_DM_Injury,0.95,Injury,1.5,C,0,PlayerTackle)
+    M_MatchStateComment:(MSCommentKickOff,NSM_DM_KickOff,0.8,KickOff,1.5,L,-20,sounds.match_CrowdCheer)
+    M_MatchStateComment:(MSCommentOffside,NSM_DM_Offside,1,Offside,1.5,L,0)
+    M_MatchStateComment:(MSCommentPenalty,NSM_DM_Penalty,0.9,Penalty,1.5,L,0)
+    M_MatchStateComment:(MSCommentPenaltyShootout,NSM_DM_Penalty,1,Penalties,1.5,L,-20)
+    M_MatchStateComment:(MSCommentRedCard,NSM_DM_RedCard,0.9,RedCard,1.5,C,-10,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentSubstitution,NSM_DM_Substitution,0.8,Substitution,1.5,L,-65)
+    M_MatchStateComment:(MSCommentYellowCard,NSM_DM_YellowCard,0.9,YellowCard,1.5,L,-10,sounds.match_CrowdBoo)
+    M_MatchStateComment:(MSCommentYellowRedCard,NSM_DM_YellowRedCard,1,RedCard,1.5,C,-10,sounds.match_CrowdBoo)
+
+EndIf
+   
+
+
+
+
+// ----------------------------------------------------------------------------------------------------
+// ---------------------------------------- CLOTH TEMPLATES -------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+Cull:(0,0,?COMW?,?COMH?) ref:HomeClothHeader
+{{
+    Rect:() $HIDE ref:Rounded
+    Rect:() $HIDE ref:Normal
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:HomeClothRepeatBody
+{{
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:HomeClothFooter
+    float(%count,%sy)
+    init(%count,1)
+    Layer(Sky)
+    .set(gel.y,%sy+[%count*?COMH?]-23)
+    frlerp(gel.y,%sy+[%count*?COMH?]-23,0.15)
+{{
+    Rect:() $HIDE ref:Rounded
+    Rect:() $HIDE ref:Normal
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AwayClothHeader
+{{
+    Rect:() $HIDE ref:Rounded
+    Rect:() $HIDE ref:Normal
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AwayClothRepeatBody
+{{
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AwayClothFooter
+    float(%count,%sy)
+    init(%count,1)
+    Layer(Sky)
+    .set(gel.y,%sy+[%count*?COMH?]-31)
+    frlerp(gel.y,%sy+[%count*?COMH?]-31,0.15)
+{{
+    Rect:() $HIDE ref:Rounded
+    Rect:() $HIDE ref:Normal
+}} Template
+
+
+// ----------------------------------------------------------------------------------------------------
+// ---------------------------------------- MATCH EVENT COMMENTS --------------------------------------
+// ----------------------------------------------------------------------------------------------------
+Cull:(0,0,?COMW?,?COMH?) ref:CommentBackground
+    float(%childHeight,%h)
+    .set(gel.h,%childHeight) ref:HeightAssign
+    .set(%h,%childHeight)
+    frlerp(%h,%childHeight,0.25)
+{{
+    M_TimeStamp:()
+
+    Draw:(Fade_Down,0,0,@W,20,,#00000030)
+        set(gel.y,%h)
+
+    Clip:(@L,@T,@W,@H)
+        set(gel.h,%h)
+    {
+        Draw:(Com_Panel_Light,0,0,@W,?COMH?) ref:CommentBackground
+            set(gel.h,%h)
+        {{
+            Rect:(0,0,@W,@H) $HIDE ref:HomeClothHook
+                .set(gel.colour,twk(Match,Team1Col))
+            {{
+                Draw:(White,2,2,@W-4,5,,#FFFFFFAAFFFFFFFF)
+            }}
+
+            Rect:(0,0,@W,@H) $HIDE ref:AwayClothHook
+                .set(gel.colour,twk(Match,Team2Col))
+            {{
+                Draw:(White,2,2,@W-4,5,,#FFFFFFAAFFFFFFFF)
+            }}
+        }}
+    }
+}} Template
+
+Rect:(0,0,?COMW?,0) ref:CommentSeparator
+{{
+    Draw:(White,@C,0,@W-100,1,,#00000040)
+        Handle(0.5,0.5)
+}} Template
+
+// ----------------------------------------------------------------------------------------------------
+// --------------------------------------- COMMENTARY TEMPLATES ---------------------------------------
+// ----------------------------------------------------------------------------------------------------
+
+
+// TEAM
+Cull:(0,0,?COMW?,?COMH?) ref:HomeComment
+{{
+    M_BaseHomeComment:(HomeComment)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AwayComment
+{{
+    M_BaseAwayComment:(AwayComment)
+}} Template
+
+
+// ASSISTANT
+Cull:(0,0,?COMW?,?COMH_L?) ref:AssistantComment
+{{
+    Draw:(Com_Panel_Light,0,0,@W,@H) ref:AssistantComment
+    Clip:(0,-50,@W,@H+50) ref:AssistantComment
+    {
+        M_AssistantFace:(AssistantSlotGameScreen,45,90,AssistantComment)
+            Scale(0.45,0.45)
+    }
+    M_Text:(,125,0,@W-135,@H,C,C,TextBoxAtt,KNUL25,,1,1,#252525FF,NoItalics,#252525FF,AssistantComment)   
+}} Template
+
+
+
+
+
+
+// SKILLS
+Cull:(0,0,?COMW?,?COMH?) ref:PaceNeg
+{{
+    M_BaseComment:(PaceNeg)
+    M_Tag:(PACE,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:PacePos
+{{    
+    M_BaseComment:(PacePos)
+    M_Tag:(PACE,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:StrengthNeg
+{{    
+    M_BaseComment:(StrengthNeg)
+    M_Tag:(STRN,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:StrengthPos
+{{    
+    M_BaseComment:(StrengthPos)
+    M_Tag:(STRN,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:TacklingNeg
+{{    
+    M_BaseComment:(TacklingNeg)
+    M_Tag:(TCKL,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:TacklingPos
+{{    
+    M_BaseComment:(TacklingPos)
+    M_Tag:(TCKL,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AgilityNeg
+{{    
+    M_BaseComment:(AgilityNeg)
+    M_Tag:(AGIL,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:AgilityPos
+{{    
+    M_BaseComment:(AgilityPos)
+    M_Tag:(AGIL,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:HandlingNeg
+{{    
+    M_BaseComment:(HandlingNeg)
+    M_Tag:(HNDL,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:HandlingPos
+{{    
+    M_BaseComment:(HandlingPos)
+    M_Tag:(HNDL,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:ReflexesNeg
+{{    
+    M_BaseComment:(ReflexesNeg)
+    M_Tag:(RFLX,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:ReflexesPos
+{{    
+    M_BaseComment:(ReflexesPos)
+    M_Tag:(RFLX,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:Unhappy
+{{    
+    M_BaseComment:(Unhappy)
+    M_Tag:(UNHP,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:ExperienceNeg
+{{
+    M_BaseComment:(ExperienceNeg)
+    M_Tag:(XP,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:ExperiencePos
+{{
+    M_BaseComment:(ExperiencePos)
+    M_Tag:(XP,POS)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:Tired
+{{
+    M_BaseComment:(Tired)
+    M_Tag:(NRG,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:Dislike
+{{
+    M_BaseComment:(Dislike)
+    M_Tag:(CHEM,NEG)
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:TraitNeg
+{{
+    M_BaseComment:(TraitNeg)
+    
+    Rect:(26,42,40,40) ref:Tag
+        Handle(0.5,0.5)
+        :set(gel.scale,2)
+        :set(gel.alpha,0)
+        frlerp(gel.scale,0.75,0.3)
+        frlerp(gel.alpha,1,0.3)
+    {{
+        Rect:(@L,@T,@W,@H)
+        {{
+            Draw:(RoundedPanel,0,0,40,35,,#DD1010FF)
+            Draw:(Icon_TraitTag,1,-1,40,40)
+        }}
+    }}
+}} Template
+
+Cull:(0,0,?COMW?,?COMH?) ref:TraitPos
+{{
+    M_BaseComment:(TraitPos)
+
+    Rect:(26,42,40,40) ref:Tag
+        Handle(0.5,0.5)
+        :set(gel.scale,2)
+        :set(gel.alpha,0)
+        frlerp(gel.scale,0.75,0.3)
+        frlerp(gel.alpha,1,0.3)
+    {{
+        Rect:(@L,@T,@W,@H)
+        {{
+            Draw:(RoundedPanel,0,0,40,35,,#138E1BFF)
+            Draw:(Icon_TraitTag,1,-1,40,40)
+        }}
+    }}
+}} Template
+
+
+// VERSUS
+Cull:(0,0,?COMW?,?COMH_L?) ref:VersusComment
+{{
+    Rect:(@W*0.25,45)
+    {{
+        Rect:()
+            .set(gel.scale,0.5)
+        {
+            DrawEmbedded:(MatchHomeTeamBadge)
+        }
+        Draw:(Badge_Shadow,-45,30,90,12,,#00000040)
+        M_Text:("",0,55,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,HomeTeam)
+    }}
+
+    Rect:(@W*0.75,45)
+    {{
+        Rect:()
+            .set(gel.scale,0.5)
+        {
+            DrawEmbedded:(MatchAwayTeamBadge)
+        }
+        Draw:(Badge_Shadow,-45,30,90,12,,#00000040)
+        M_Text:("",0,55,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,AwayTeam)
+    }}
+
+    // Versus Text
+    M_Text:(sla_versus,@C,50,0,0,C,C,TextLoc,KNUL40,,0,1,#252525FF,NoItalics,#252525FF,ref)
+
+}} Template
+
+
+// SCORE READOUT
+Cull:(0,0,?COMW?,?COMH_L?) ref:ScoreReadoutComment
+{{
+    Rect:(@W*0.25,45)
+    {{
+        Rect:()
+            .set(gel.scale,0.5)
+        {
+            DrawEmbedded:(MatchHomeTeamBadge)
+        }
+        Draw:(Badge_Shadow,-45,30,90,12,,#00000040)
+        M_Text:("",0,55,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,HomeTeam)
+    }}
+
+    Rect:(@W*0.75,45)
+    {{
+        Rect:()
+            .set(gel.scale,0.5)
+        {
+            DrawEmbedded:(MatchAwayTeamBadge)
+        }
+        Draw:(Badge_Shadow,-45,30,90,12,,#00000040)
+        M_Text:("",0,55,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,AwayTeam)
+    }}
+
+    M_Text:(,@C,50,0,0,C,C,Text,KNUL45,Upper,1,0,#252525FF,NoItalics,#252525FF,Score)
+}} Template
+
+
+
+
+
+
+
+
+// UNUSED
+Cull:(0,0,?COMW?,0) ref:VictoryComment
+{{
+}} Template
+
+Cull:(0,0,?COMW?,0) ref:DrawComment
+{{
+}} Template
+
+Cull:(0,0,?COMW?,0) ref:DefeatComment
+{{
+}} Template

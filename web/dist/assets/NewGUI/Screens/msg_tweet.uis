@@ -1,0 +1,295 @@
+
+//--------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Tweet_Speech,NewGUI/UI/Social/Tweet_Speech.png)
+
+Img:(Tweet_Icon1,NewGUI/UI/Social/Tweet_Icon1.png)
+Img:(Tweet_Icon2,NewGUI/UI/Social/Tweet_Icon2.png)
+Img:(Tweet_Icon3,NewGUI/UI/Social/Tweet_Icon3.png)
+Img:(Tweet_Icon4,NewGUI/UI/Social/Tweet_Icon4.png)
+Img:(Tweet_Icon5,NewGUI/UI/Social/Tweet_Icon5.png)
+
+Img:(Tweet_Verified,NewGUI/UI/Social/Tweet_Verified.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+//ThreeDotsdAnimation
+Animation:(30,Loop) ref:PendingAnim
+{
+    During:(0,09)
+    {
+        Draw:(Circle_50,0,0,13,,,#707070FF)
+        Draw:(Circle_50,20,0,13,,,#606060FF)
+        Draw:(Circle_50,40,0,13,,,#606060FF)
+    }
+
+    During:(10,19)
+    {
+        Draw:(Circle_50,0,0,13,,,#606060FF)
+        Draw:(Circle_50,20,0,13,,,#707070FF)
+        Draw:(Circle_50,40,0,13,,,#606060FF)
+    }
+
+    During:(20,29)
+    {
+        Draw:(Circle_50,0,0,13,,,#606060FF)
+        Draw:(Circle_50,20,0,13,,,#606060FF)
+        Draw:(Circle_50,40,0,13,,,#707070FF)
+    }
+}
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Rect:(@o,@T,@s,@H)
+	set(gel.vis,twk(Ftue,Enabled) = 0)
+{{
+
+	// Pending Tweet
+	Rect:(@R+20,@B-302,310,200,0,#909090FF) $HIDE
+		if(twk(Tweet,Pending))
+		<
+			:set(gel.vis,1)
+			:set(gel.x,[@R+20]-@f)
+			frlerp(gel.x,@R-318,0.2)
+		>
+		else
+		<
+			:set(gel.vis,0)
+		>
+	{{
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#000000AA000000FF)
+		Draw:(RoundedPanel,0,0,@W,@H)
+		Draw:(Tweet_Speech,@R-63,@B-10,60,60)
+		Draw:(Button_Shade,0,14,@W,-14)
+
+		Draw:(Circle_100,12,-3,90,,,#808080FF)
+		Draw:(Circle_100,16,1,82,,,#909090FF)
+		AnimInstance:(20,182,PendingAnim)
+	}}
+
+
+	// Delivered Tweet
+	Dissolve:(@R,@B-390) ref:DissolveRoot
+		colvar(%type)
+		float(%state,%PENDED)
+		.set(%state,1)
+		.set(gel.alpha,0)
+		if(twk(Tweet,BringOn))
+		<
+			set(%state,0)
+			set(twk(Tweet,OnScreen),1)
+			set(twk(Tweet,BringOn),0)
+			if(twk(Tweet,Pending))
+			<
+				set(%PENDED,1)
+			>
+			else
+			<
+				set(%PENDED,0)
+			>
+		>
+		if(%state = 0)
+		<
+			frlerp(gel.alpha,1,0.2)
+			:Post(UI_Swoosh)
+			:Delay(0.3)
+			:Post(UI_Tweet)
+			:Delay(twk(Tweet,DisplayTime))
+			set(%state,1)
+		>
+		if(%state = 1)
+		<
+			frlerp(gel.alpha,0,0.3)
+			if(gel.alpha < 0.01)
+			<
+				set(%state,2)
+				set(twk(Tweet,OnScreen),0)
+			>
+		>
+	{{
+		Spine:(NSM_SocialMsg,0,0,,NSM_Message_Appear,Once)
+			if(%state = 0)
+			<
+				:set(gel.vis,1)
+				if(%PENDED)
+				<
+					:set(gel.anim.normtime,0.2)
+				>
+				else
+				<
+					:set(gel.anim.normtime,0)
+				>
+				:set(gel.anim.speed,1)
+			>
+			if(%state = 2)
+			<
+				:set(gel.vis,0)
+			>
+
+		{
+			// Delivered Tweet
+			Rect:()
+				Slot(Message_Box)
+			{
+				Rect:(-171,-100,310,200)
+					func(ClickFunc)
+					<
+						set(%state,1)
+					>
+					Click()
+					<
+						call(ClickFunc)
+					>
+					CTRLClick(LSB,false)
+					<
+						call(ClickFunc)
+					>
+				{{
+					Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#000000AA000000FF)
+					Draw:(RoundedPanel,0,0,@W,@H)
+					Draw:(Tweet_Speech,@R-63,@B-10,60,60)
+
+					Draw:(Tweet_Icon1,4,@B-26,30,30,,#808080FF)
+					M_Text:("",32,@B-11,0,0,L,C,Text,KNUL18,,1,0,#80808040,NoItalics,#808080FF,ref)
+						M_Style:(Outline,#80808020)
+						if(%state = 0)
+						<
+							:set(gel.text,fmt(rand(0,50),X))
+						>
+					Draw:(Tweet_Icon2,94,@B-26,30,30,,#808080FF)
+					M_Text:("",121,@B-11,0,0,L,C,Text,KNUL18,,0,0,#00000000,NoItalics,#808080FF,ref)
+						M_Style:(Outline,#80808020)
+						if(%state = 0)
+						<
+							:set(gel.text,fmt(rand(0,50),X))
+						>
+					Draw:(Tweet_Icon3,184,@B-26,30,30,,#808080FF)
+					M_Text:("",212,@B-11,0,0,L,C,Text,KNUL18,,0,0,#00000000,NoItalics,#808080FF,ref)
+						M_Style:(Outline,#80808020)
+						if(%state = 0)
+						<
+							:set(gel.text,fmt(rand(0,100),X))
+						>
+					Draw:(Tweet_Icon4,@R-37,@B-26,30,30,,#808080FF)
+					Draw:(Tweet_Icon5,@R-37,@T+10,30,30,,#808080FF)
+						set(gel.vis,twk(ControllerInput,Enabled) = 0)
+
+					Rect:() $HIDE ref:Player
+					{
+						//Coloured Topbar
+						Draw:(Button_Shade,0,14,@W,-14)
+							set(%type,twk(Player,HomeShirtCol1))
+							set(gel.colour,twk(Player,HomeShirtCol1))
+
+						M_Text:("",120,40,0,0,L,C,Text,KNUL20,,1,0,#14171AFF,NoItalics,#14171AFF,ref)
+							set(gel.text,twk(Tweet,PlayerName))
+							set(%gfw,strwidth(gel.text,0)*0.5)
+							CharacterSpacing(1.5)
+						{{
+							Draw:(Tweet_Verified,0,-15,30,30,,#FFFFFFFF000000FF)
+								set(gel.x,%gfw+10)
+						}}
+						M_Text:(generic_PLAYER,120,65,0,0,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#808080FF,ref)
+					}	
+
+
+					Rect:() $HIDE ref:Fan
+					{
+						//Coloured Topbar
+						Draw:(Button_Shade,0,14,@W,-14)
+							set(%type,twk(Player,HomeShirtCol1))
+							set(gel.colour,twk(Player,HomeShirtCol1))
+						
+						M_Text:("",120,40,0,0,L,C,Text,KNUL20,,1,0,#14171AFF,NoItalics,#14171AFF,ref,Tweet,PlayerName)
+						M_Text:(generic_FANS,120,65,0,0,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#808080FF,ref)
+					}
+
+					Rect:() $HIDE ref:Press
+					{
+						Draw:(Button_Shade,0,14,@W,-14,,#006CCCFF)
+							set(%type,#006CCCFF)
+						M_Text:("",120,40,0,0,L,C,Text,KNUL20,,1,0,#14171AFF,NoItalics,#14171AFF,ref,Tweet,PlayerName)
+						M_Text:(generic_PRESS,120,65,0,0,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#808080FF,ref)
+					}
+						
+					Rect:() $HIDE ref:Sponsor
+					{
+						Draw:(Button_Shade,0,14,@W,-14,,#7D8F9AFF)
+							set(%type,#7D8F9AFF)
+						Draw:(Sponsor_40,153,55,410,150) ref:Logo
+							Handle(0.5,0.5)
+							Rearmable()							
+							if(%state = 0)
+							<
+								:set(gel.scale,0.2)
+								:set(gel.alpha,0.5)
+								:Delay(0.25)
+								frlerp(gel.scale,0.5,0.2)
+								frlerp(gel.alpha,1,0.2)
+							>
+					}
+
+					// Face
+					Draw:(Circle_200,59,49) ref:FaceRoot
+						Handle(0.5,0.5)
+						.set(gel.colour,%type)
+						Rearmable()
+						float(%amt,%rate,%framesize)
+						if(%state = 0)
+						<
+							:set(gel.colour,%type)
+							:set(gel.alpha,0)
+							:set(%amt,0)
+							:set(%rate,0)
+							:Delay(0.25)
+							frlerp(%amt,44,%rate)
+							frlerp(%rate,1,0.1)
+							frlerp(gel.alpha,1,0.2)
+						>
+						set(%framesize,%amt*2+10)
+						set(gel.w,%framesize)
+						set(gel.h,%framesize)
+						set(gel.hx,%framesize/2)
+						set(gel.hy,%framesize/2)
+					{{
+						Draw:(Circle_200,,,,,,#FFFFFFFF)
+							sub(%framesize,7)
+							set(gel.w,%framesize)
+							set(gel.h,%framesize)
+							set(gel.hx,%framesize/2)
+							set(gel.hy,%framesize/2)
+
+						UseShader:(Radius)
+							SetUniform4F(radius,gel.gx,gel.gy,%amt*%amt,0.5/(%amt+1))
+						{
+							Rect:(,,,,,#FFFFFFFF) $HIDE ref:Card
+								Card_Face(TweetMessage)
+								Handle(0.5,0.5)
+
+							// 2d Character
+							Rect:(,,,,,#FFFFFFFF) $HIDE ref:CharacterFace
+							{{
+								Draw:(Character_Fan,0,25,190,190,,#FFFFFFFF000000FF) ref:CharacterFace
+									Handle(0.5,0.5)
+							}}
+						}
+					}}
+
+					M_Text:(,5,136,300,0,C,C,TextBoxAtt,KNUL22,,1,0,#252525FF,NoItalics,#252525FF,ref,Tweet,Message)
+						LineSpacing(0.8)
+						CharacterSpacing(0.2)
+
+					// M_Text:(,0,-20,@W,0,C,C,Text,KNUL17,,0,0,#00000000,NoItalics,#252525FF,ref,Tweet,Tag)
+					// 	set(gel.vis,twk(Debug,Enabled))
+				}}
+
+				M_SwitchButtonHint:(✈,105,-84)
+			}
+		}
+	}}
+}}

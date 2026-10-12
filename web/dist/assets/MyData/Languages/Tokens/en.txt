@@ -1,0 +1,4 @@
+vowels				
+a	e	i	o	u
+Token vowel (Default)	Token Consonant			
+<an>	<a>			

@@ -1,0 +1,280 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_upsells.uih)
+//
+Img:(MatchSpeed_Frame,NewGUI/UI/MatchCommentary/MatchSpeed_Frame.png)
+Img:(MatchSpeed_Arrow,NewGUI/UI/MatchCommentary/MatchSpeed_Arrow.png)
+Img:(DotMatrix_Edge,NewGUI/UI/MatchCommentary/DotMatrix_Edge.png)
+Img:(DotMatrix_Tile,NewGUI/UI/MatchCommentary/DotMatrix_Tile.png)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Match,FF),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,StadiumMusic),0)
+
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(matchcomments.uih)
+Import:(match_formationMacros.uih)
+Import:(match_Macros.uih)
+Import:(badge_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%rootAlpha)
+	set(%rootAlpha,gel.alpha)
+{{
+	Rect:() ref:SubHeaderRoot
+		float(%cycle)
+	{
+		M_Text:(,@C,66,0,0,C,C,Text,KNUL21,,1,0,#000000FF,NoItalics,#000000FF,AggregateScore)
+			CharacterSpacing(2)
+			if(%cycle)
+			<
+				PulseAlpha(0,1,0.3,0.3,2,2.5,2.5)
+			>
+		M_Text:(,@C,66,0,0,C,C,Text,KNUL21,,1,0,#000000FF,NoItalics,#000000FF,PenaltyScore)
+			CharacterSpacing(2)
+			if(%cycle)
+			<
+				PulseAlpha(1,0,0.3,0.3,2,2.5,2.5)
+			>
+	}
+	// Left
+	Rect:(@L,[@z/2])
+	{{
+		PushOrigin:(-10,0)
+			Draw:(Squad_Pitch_Texture,-3,73,665,624)
+			M_MatchFormationPitch:(330,75)
+			
+			Draw:(Icon_Energy,570-19,618-55,43,43)
+			M_TeamEnergy:(570,618)
+
+			M_TeamButton:(145,605,140,50)
+			Rect:() #HIDE
+        	set(gel.vis,twk(Ftue,Enabled) = 0 or(twk(Ftue,Step) >= 84))
+       		{
+				M_SwitchButtonHint:(⛍,200,560)
+			}
+		PopOrigin
+	}}
+
+
+
+
+
+	// Timer Bar
+	Rect:(@L+642,@T+80,490+@y,60)
+		Layer(Text)
+	{{
+		M_MatchTimer:(0,0,@W,60)
+	}}
+
+
+
+
+
+	// Right Side
+	Rect:(@L+642,@T+130,490+@y,553+@z)
+		float(%parentH)
+		.set(%parentH,553+@z)
+		if((twk(Match,ShowNRGUpsell)) or(twk(Match,ShowRetriesUpsell)))
+		<
+			frlerp(%parentH,[553+@z]-130,0.15)
+		>
+		else
+		<
+			frlerp(%parentH,[553+@z],0.15)
+		>
+		set(gel.h,%parentH)
+	{{
+		Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+			set(gel.h,%parentH+6)
+		Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAA)
+		Draw:(Dialog_Fade,1,@B,@W-2,-300,,#FFFFFFAA)
+			set(gel.y,%parentH)
+
+		// COMMENTARY
+		CTRLSelectGroup:(0,10,@W,@H-10,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)  ref:CommentarySelect
+		{
+			Rect:(0,10,@W,@H-10)
+				SwipePanel(Match,CommentaryWindowScroll,Match,CommentaryWindowScrollVel)
+				set(gel.h,%parentH-10)
+			{{
+				//Clip:(0,0,@W,@H-10)
+					//set(gel.h,%parentH-10)
+				//{{
+					Clip:(0,0,@W,@H-10)
+						set(gel.h,%parentH-10)
+					{{
+						Rect:(0,0,@W,@H) ref:CommentaryTable
+							set(gel.h,%parentH)
+						  	ScrollingList(Match,CommentaryWindowScroll,%parentH-10,Match,CommentaryWindowScrollVel) ref:SList
+						   	VerticalList(10) ref:Offset
+						   	CTRLScrollList(SList) ref:CTRLScrollList
+					}}
+				//}}
+				Draw:(Fade_Down,0,-5,@W,30,,#00000000)
+					Layer(Text)
+					set(gel.vis,twk(Match,CommentaryWindowScroll) < 0)
+					set(gel.alpha,lerp(0,0.4,min(1,max(0,twk(Match,CommentaryWindowScroll)/-40))))
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+			CTRLHasSelectedGroup()
+			<
+				set(gel.vis,0)
+			>
+			else
+			<
+				CTRLScrollListIcon(CommentaryTable,CTRLScrollList)
+				if((twk(Match,ShowNRGUpsell) or(twk(Match,ShowRetriesUpsell))) = 0)
+				<
+					set(gel.y,@B-40)
+				>
+				else
+				<
+				 	set(gel.y,@B-165)
+				>
+			>
+
+		// NRG Upsell
+		Rect:() $HIDE
+			Layer(Text)
+			set(gel.vis,twk(Match,ShowNRGUpsell))
+		{
+			Clip:(@L,@B-120,@W,120)
+			{{
+				Draw:(Upsell_MatchBanner_01,@R,0)
+					Handle(1,0)
+				
+				If:(?WIDECONTENT?)
+					M_Text:(LOW_ENERGY,@C-160,60,350,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,loc(twk(Upsell,MatchNRGCardsTitle)))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(0.3,1,0.5,0.5)
+				
+					M_Button:(@R-120,65,160,90,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,match.btn_TacticsCardsTab,ref,loc(upsell_BOOSTTEAMENERGY),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+						M_ButtonZone:(0,0,@W,@H)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				Else
+					M_Text:(LOW_ENERGY,152,60,210,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,loc(twk(Upsell,MatchNRGCardsTitle)))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(0.3,1,0.5,0.5)
+				
+					M_Button:(@R-85,65,150,90,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,match.btn_TacticsCardsTab,ref,loc(upsell_BOOSTTEAMENERGY),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+						M_ButtonZone:(0,0,@W,@H)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				EndIf
+
+			}}
+			Draw:(UpSell_Cards_Energy,-10+[@y/8],@B-170,200,200)
+				.set(gel.img,twk(Upsell,MatchNRGCardsImage))
+				PulseAlpha(1,0,0.5,0.5,0,2,2)
+			Draw:(UpSell_Cards_TeamTalk,-10+[@y/8],@B-170,200,200)
+				.set(gel.img,twk(Upsell,MatchNRGCardsImage2))
+				PulseAlpha(0,1,0.5,0.5,0,2,2)
+		}
+
+		// Retries Upsell
+		Rect:() $HIDE
+			Layer(Text)
+			set(gel.vis,twk(Match,ShowRetriesUpsell))
+		{
+			Clip:(@L,@B-120,@W,120)
+			{{
+				Draw:(Upsell_MatchBanner_01,@R,0)
+					Handle(1,0)
+				
+				If:(?WIDECONTENT?)
+					M_Text:(EXTRA_RETRIES,@C-140,60,350,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,loc(twk(Upsell,RetryUpsellTitle)))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(1,0,0.3,0.3,1.5,1.5,1.5)
+					M_Text:(EXTRA_RETRIES_DURATION,@C-140,60,350,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,loc(twk(Upsell,RetryUpsellTitle)))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(0,1,0.3,0.3,1.5,1.5,1.5)
+
+					M_Button:(@R-95,65,110,90,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,match.btn_RetriesIAP,ref,loc(store_Buy),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+						M_ButtonZone:(0,0,@W,@H)
+				Else
+					M_Text:(EXTRA_RETRIES,167,60,220,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,loc(twk(Upsell,RetryUpsellTitle)))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(1,0,0.3,0.3,1.5,1.5,1.5)
+				
+					M_Text:(EXTRA_RETRIES_DURATION,167,60,220,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+						.set(gel.text,twk(Match,RetriesUpsellDesc))
+						.set(gel.scale,0.9)
+						CharacterSpacing(2)
+						PulseAlpha(0,1,0.3,0.3,1.5,1.5,1.5)
+
+					M_Button:(@R-65,65,110,90,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,match.btn_RetriesIAP,ref,loc(store_Buy),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+						M_ButtonZone:(0,0,@W,@H)
+				EndIf
+
+			}}
+			Draw:(UpSell_Retries,-10+[@y/8],@B-170,200,200)
+				.set(gel.img,twk(Upsell,RetryUpsellImage))
+		}
+	}}
+}}
+
+M_TickerTapeShower:(0)
+	set(gel.vis,(twk(Match,State) = ?STATE_OVER?) and(twk(Match,ResultsState) = 1))
+
+
+
+
+
+
+// // DEBUG BUTTONS FOR TRIGGERING COMMENTARY
+// Draw:(White,200,100,50,50)
+// 	Layer(Debug)
+// 	Click(match.debug_NewHomeComment)
+// {{
+// 	Text:("NH",@L,@T,@W,@H,,,#000000FF)
+// 		FontSize(2)
+// 		Italicise(0)
+// 		FontShadow(0,0)
+// }}
+// Draw:(White,260,100,50,50)
+// 	Layer(Debug)
+// 	Click(match.debug_ContinueHomeComment)
+// {{
+// 	Text:("CH",@L,@T,@W,@H,,,#000000FF)
+// 		FontSize(2)
+// 		Italicise(0)
+// 		FontShadow(0,0)
+// }}
+
+// Draw:(White,200,160,50,50)
+// 	Layer(Debug)
+// 	Click(match.debug_NewAwayComment)
+// {{
+// 	Text:("NA",@L,@T,@W,@H,,,#000000FF)
+// 		FontSize(2)
+// 		Italicise(0)
+// 		FontShadow(0,0)
+// }}
+// Draw:(White,260,160,50,50)
+// 	Layer(Debug)
+// 	Click(match.debug_ContinueAwayComment)
+// {{
+// 	Text:("CA",@L,@T,@W,@H,,,#000000FF)
+// 		FontSize(2)
+// 		Italicise(0)
+// 		FontShadow(0,0)
+// }}

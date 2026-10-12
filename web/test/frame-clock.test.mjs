@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createFrameGate} from '../dist/frame-clock.js';
+test('frame gate respects 60 and 30 Hz without additional timers',()=>{const gate=createFrameGate();assert.equal(gate(0),true);assert.equal(gate(8),false);assert.equal(gate(16.667),true);assert.equal(gate(24),false);assert.equal(gate(33.334,30),true);assert.equal(gate(50,30),false);assert.equal(gate(66.668,30),true);});
+test('a slow frame or resume produces one update without a catch-up burst',()=>{const gate=createFrameGate();assert.equal(gate(0),true);assert.equal(gate(10000),true);assert.equal(gate(10000),false);assert.equal(gate(10008),false);assert.equal(gate(10016.667),true);});

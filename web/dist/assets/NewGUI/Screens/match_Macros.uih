@@ -1,0 +1,273 @@
+Macro:(M_MatchTimer,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		Layer(AboveText)
+		LockLayer()
+	{{
+		Draw:(Com_Panel_Dark,0,0,@W,?H?)
+
+		// Match Time Readout
+		Rect:(@C,30,@W,@H)
+			Handle(0.5,0.5)
+			.set(gel.scale,0)
+			.set(gel.alpha,0)
+			if(twk(Match,Half) oneof(1,2,3,4))
+			<
+				frlerp(gel.scale,1,0.1)
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				frlerp(gel.scale,0,0.1)
+				frlerp(gel.alpha,0,0.1)
+			>
+		{{
+			Rect:(@L,@T,@W,@H)
+			{{
+				M_Text:(,@C,@M,0,0,C,C,Text,KNUL35,Upper,0,0,#00000000,NoItalics,#FFCA59FF,ref)
+					M_Style:(Outline,#FFCA5920)
+					CharacterSpacing(5)
+					set(gel.text,LTR(fmt(twk(Match,TimeMins),XX) :: ":" :: fmt(twk(Match,TimeSecs),XX)))
+					set(%gfw,strwidth(gel.text,0)*0.805)
+				{{
+					Draw:(TextGlow_Title,0,0,200,60,,#FFA86260)
+						Layer(Default)
+						set(gel.w,min(130,%gfw+85))
+						set(gel.hx,gel.w/2)
+						set(gel.hy,gel.h/2)
+				}}
+			}}
+		}}
+		
+		// Match State	
+		M_Text:("1st Half",10,30,150,0,L,C,TextBox,KNUL20,Upper,0,0,#00000000,NoItalics,#FFCA59FF,ref)
+			M_Style:(Outline,#FFCA5920)
+			CharacterSpacing(1)
+			set(gel.vis,twk(Match,Half) oneof(1,2,3,4))
+			if(twk(Match,Half) = 1)
+			<
+				.set(gel.text,loc(commentary_TOP_HALF1))
+			>
+			elif(twk(Match,Half) = 2)
+			<
+				.set(gel.text,loc(commentary_TOP_HALF2))
+			>
+			elif(twk(Match,Half) = 3)
+			<
+				.set(gel.text,loc(commentary_TOP_HALFET1))
+			>
+			elif(twk(Match,Half) = 4)
+			<
+				.set(gel.text,loc(commentary_TOP_HALFET2))
+			>>>>
+			ToUpperCase()
+			
+		// Match State Readout
+		Rect:(@C,30,@W,@H)
+			Handle(0.5,0.5)
+			.set(gel.scale,1)
+			if(twk(Match,Half) oneof(0,10,20,30,40,5))
+			<
+				frlerp(gel.scale,1,0.1)
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				frlerp(gel.scale,0,0.1)
+				frlerp(gel.alpha,0,0.1)
+			>
+		{{
+			Rect:(@L,@T,@W,@H)
+			{{
+				M_Text:(Half-Time,@C,@M,0,0,C,C,Text,KNUL35,Upper,0,0,#00000000,NoItalics,#FFCA59FF,ref)
+					M_Style:(Outline,#FFCA5920)
+					CharacterSpacing(5)
+					.set(gel.scale,1)
+
+					if(twk(Match,Half) = 0)
+					<
+						.set(gel.text,loc(commentary_TOP_KICKOFF))
+					>
+					elif(twk(Match,Half) = 10)
+					<
+						.set(gel.text,loc(commentary_MAIN_HALF1))
+					>
+					elif(twk(Match,Half) = 20)
+					<
+						.set(gel.text,loc(commentary_MAIN_HALF2))
+					>
+					elif(twk(Match,Half) = 30)
+					<
+						.set(gel.text,loc(commentary_MAIN_HALFET))
+					>
+					elif(twk(Match,Half) = 40)
+					<
+						.set(gel.text,loc(commentary_MAIN_HALF2))
+					>
+					elif(twk(Match,Half) oneof(4,5))
+					<
+						.set(gel.text,loc(commentary_MAIN_PENS))
+					>>>>>>
+					ToUpperCase()
+					set(%gfw,strwidth(gel.text,0)*0.805)
+				{{
+					Draw:(TextGlow_Title,0,0,200,60,,#FFA86260)
+						Layer(Default)
+						set(gel.w,%gfw+90)
+						set(gel.hx,gel.w/2)
+						set(gel.hy,gel.h/2)
+				}}
+			}}
+		}}
+
+
+
+		// Match Speed Button
+		Rect:(0,0,@W,@H)
+			float(%speed)
+			if(twk(Match,Speed) = 2000)
+			<
+				set(%speed,1)
+			>
+			elif(twk(Match,Speed) = 1250)
+			<
+				set(%speed,2)
+			>
+			elif(twk(Match,Speed) = 750)
+			<
+				set(%speed,3)
+			>>>
+
+			M_CTRLGenericClickableExtra:(X,false)
+			Press()
+			<
+				set(%pressed,1)
+			>
+			Click()
+			<
+				set(%clicked,1)
+			>
+			if(%clicked)
+			<
+				set(%pressed,1)
+				Post(UI_Select)
+				Post(UI_ClockSpeedUp)
+				Message(match.btn_Speed)
+			>
+			
+		{
+			Draw:(MatchSpeed_Frame,@R-35,30,60,60,,#D5912700)
+				Handle(0.5,0.5)
+				if(twk(Match,Half) oneof(1,2,3,4,5))
+				<
+					set(gel.alpha,1)
+				>
+				else
+				<
+					set(gel.alpha,0.5)
+				>
+				if(%pressed)
+				<
+					frlerp(gel.scale,1.1,0.3)
+				>
+				else
+				<
+					set(gel.scale,1)
+				>
+
+			Rect:(@R-45,20)
+				if(twk(Match,Half) oneof(1,2,3,4,5))
+				<
+					if(%speed = 1)
+					<
+						PulseAlpha(0.3,1,0.5,0.5,0.3,0.3)
+					>
+					elif(%speed = 2)
+					<
+						PulseAlpha(0.3,1,0.25,0.25,0.3,0.3)
+					>
+					else
+					<
+						PulseAlpha(0.3,1,0.1,0.1,0.3,0.3)
+					>>
+				>
+				else
+				<
+					set(gel.alpha,0.5)
+				>
+			{{
+				Draw:(MatchSpeed_Arrow,0,0,20,20,,#FFC362FFFFFFFFFF)
+					if(%speed = 1)
+					<
+						:set(gel.alpha,0)
+						:set(gel.x,-25)
+						frlerp(gel.x,0,0.1)
+					>
+					elif(%speed = 2)
+					<
+						frlerp(gel.x,7,0.1)
+					>
+					else
+					<
+						frlerp(gel.x,14,0.1)
+					>>
+					frlerp(gel.alpha,1,0.1)
+
+				Draw:(MatchSpeed_Arrow,0,0,20,20,,#FFC362FFFFFFFFFF)
+					if(%speed = 1)
+					<
+						set(gel.x,-2000)
+					>
+					if(%speed = 2)
+					<
+						:set(gel.alpha,0)
+						:set(gel.x,-25)
+						frlerp(gel.x,-7,0.1)
+					>
+					if(%speed = 3)
+					<
+						frlerp(gel.x,0,0.1)
+					>
+					frlerp(gel.alpha,1,0.1)
+				Draw:(MatchSpeed_Arrow,0,0,20,20,,#FFC362FFFFFFFFFF)
+					if(%speed oneof(1,2))
+					<
+						set(gel.x,-2000)
+					>
+					else
+					<
+						:set(gel.alpha,0)
+						:set(gel.x,-25)
+						frlerp(gel.x,-14,0.1)
+					>
+					frlerp(gel.alpha,1,0.1)
+			}}
+		}
+
+        //Dot Matrix Overlay
+        Rect:(0,0,@W,@H)
+            PulseAlpha(0.5,1,0.5,1,0,0,0)
+            Layer(AboveText)
+        {{
+            Draw:(DotMatrix_Edge,0,0,9,60)
+            	Additive()
+            Clip:(0,0,@W-9,60)
+            {
+                 Tile:(DotMatrix_Tile,9,0,32,60)
+                    Copies([@W/32]+1,1)
+                    Additive()
+            }
+            Draw:(DotMatrix_Edge,@R,0,-9,60)
+                Additive()
+        }}
+        ##P4N
+        Rect:() #HIDE
+        	set(gel.vis,twk(Ftue,Enabled) = 0 or(twk(Ftue,Step) >= 84))
+       	{
+			M_SwitchButtonHint:(⛌,@R-20,-5)
+		}
+		##*
+	}}
+
+	Rect:()
+	// 0 Kick Off | 1 1st Half | 10 Half-Time | 2 2nd Half | 20 Full Time | 3 1st Half ET | 30 ET Half-Time | 4 2nd Half ET | 40 ET Full Time | 4 or 5 Shoot Out
+EndM

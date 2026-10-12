@@ -1,0 +1,94 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(title_images.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+##P4N
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Volatile:BGPanorama
+##IA
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Scale:0.5 Volatile:BGPanorama
+##*
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(setup_Macros.uih)
+//-----------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+Dissolve:() ref:DissolveRoot
+{
+	//JF: Template Instances
+	M_ScrollingItemSheet:(ContinentItemSheet,Relocate,ContinentScroll)
+	M_ScrollingItemSheet:(LeagueItemSheet,Relocate,LeagueScroll)
+
+	Rect:(100,80,952,570)
+	{{
+		Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+		Draw:(FloorShadow,-12,@B-2,@W+24,11)
+		Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+		Draw:(BG_Panorama,0,34,@W,@H-34,,#FFFFFF80)
+
+		// Title
+		Draw:(Header_Hexagons,0,0,@W,34)
+		M_Text:("Selection Details",20,0,0,34,L,C,Text,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+		Rect:(0,0,[@W/2],@H)
+			.set(gel.vis,twk(Settings,AppVariant)!="Japan") // JB: Japan want continent lock
+		{{
+			M_Text:(Continent,20,50,0,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_ScrollingItemNormal:(@W-46,twk(Relocate,ScrollSpacing)*2,ContinentItemNormal,endseason_relocate.cmb_Continent,Relocate,ContinentScroll)
+				CTRLClick(?BTNOK?)
+				<
+					Post("endseason_relocate.SelectNationGroupElement")
+				>
+			CTRLSelectGroup:(26,96,@W-46,400,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+				.CTRLSetSelected()
+			{
+				M_ScrollingFields:(26,96,@W-46,400,ContinentHook,Relocate,ContinentScroll,1)
+			}
+		}}
+
+		Rect:(0,0,[@W/2],@H)
+			.set(gel.vis,twk(Settings,AppVariant)="Japan") // Filler for the Japan empty slot
+		{{
+			Draw:(Title_Badge,(@W/2)+5,@H/2,300,)
+				Handle(0.5,0.45)
+		}}
+
+		Rect:([@W/2],0,[@W/2],@H)
+		{{
+			M_Text:(League,20,50,0,40,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_ScrollingItemNormal:(@W-52,twk(Relocate,ScrollSpacing)*2,LeagueItemNormal,endseason_relocate.cmb_League,Relocate,LeagueScroll)
+				CTRLClick(?BTNOK?)
+				<
+					CTRLPopSelectGroup()
+					CTRLSetSelected(endSeasonContinueButton,sidemenu)
+				>
+			CTRLSelectGroup:(26,96,@W-52,400,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			{
+				Rect:()
+					OnPost("endseason_relocate.SelectNationGroupElement")
+					<
+						CTRLClearSelect()
+						CTRLClearSelectFlag()
+						CTRLPushSelectGroup()
+					>
+
+				M_ScrollingFields:(26,96,@W-52,400,LeagueHook,Relocate,LeagueScroll,3)
+			}
+		}}
+
+		Rect:() $HIDE ref:StaticLeagueWarning
+		{
+			Draw:(Icon_Warning,7,535,30,30,,#252525FF)
+			M_Text:(setup_NoPromotion,43,551,0,0,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}
+	}}
+}

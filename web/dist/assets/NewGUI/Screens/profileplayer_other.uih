@@ -1,0 +1,464 @@
+Img:(Shortlist_On,NewGUI/UI/Profiles/Shortlist_On.png)
+Img:(Shortlist_Off,NewGUI/UI/Profiles/Shortlist_Off.png)
+Img:(Shortlist_Star,NewGUI/UI/Profiles/Shortlist_Star.png)
+
+
+
+
+
+// ATTRIBUTES
+Rect:()
+	set(gel.vis,twk(ProfilePlayer,IsOthersTeam) = 1 or(twk(ProfilePlayer,IsScoutedPlayer) = 1))
+{{
+	// Rating - Fixed box
+	Rect:(328,120,1,150)
+	{{
+		M_Text:(generic_RATING,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		Draw:(Profile_Star2,@C-70,20,140,140) ref:StarRatingImage_Other
+		M_Text:(,@C,80,0,0,C,C,Text,KNUL35,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,ProfilePlayer,Rating,DoLTR)
+			M_Style_StarRating:()
+			if(gel.text = 100)
+			<
+				set(gel.scale,0.85)
+				set(gel.x,@C-1)
+			>
+			else
+			<
+				set(gel.scale,1)
+				set(gel.x,@C)
+			>
+	}}
+
+	// Adjusting content
+	Rect:(410,120,670+@y,140)
+	{{
+		// Potential
+		Rect:([@W/3]*0,0,@W/3,140)
+		{{
+			Draw:(Separator,@L,50)
+
+			// Unlocked at Scout Office level 3
+			Rect:()
+				set(gel.vis,twk(Facilities,ScoutsOfficeLevel) >= 3)
+			{
+				M_Text:(generic_POTENTIAL,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(Profile_Star2,@C-53,38,106,106) ref:PotentialStarRatingImage_Other
+				M_Text:(,@C,83,0,0,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,ProfilePlayer,SkillPotential,DoLTR)
+					M_Style_StarRating:()
+					if(gel.text = 100)
+					<
+						set(gel.scale,0.85)
+						set(gel.x,@C-1)
+					>
+					else
+					<
+						set(gel.scale,1)
+						set(gel.x,@C)
+					>
+			}
+
+			// Locked Hint
+			Rect:()
+				set(gel.vis,twk(Facilities,ScoutsOfficeLevel) < 3)
+			{
+				Rect:(@C,13)
+					float(%w)
+					set(gel.x,@C-[%w/2])
+				{{
+					Draw:(Icon_Locked,-4,-18,30,30,,#252525FF)
+					M_Text:(generic_POTENTIAL,30,0,0,0,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						.set(%w,%gfw+30)
+				}}
+				
+				M_Text:(,@C-[@W/2],76,@W,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(LockedScout) :: " 3")
+			}
+			
+		}}
+		
+		// Morale
+		Rect:([@W/3]*1,0,@W/3,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_HAPPINESS,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_MoraleWheel:(@C-35,46,ProfilePlayer,Happiness)
+		}}
+
+		// Value
+		Rect:([@W/3]*2,0,@W/3,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_VALUE,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:(,40,80,0,0,L,C,Text,KNUL35,,1,0,#252525FF,NoItalics,#252525FF,ref,)
+				set(gel.text,twk(ProfilePlayer,Value))
+				set(gel.x,@C-[%gfw/2]+18)
+			{{
+				Draw:(Icon_Bux,-40,-22,40,40,,#FFFFFFFF)
+			}}
+
+			Draw:(Separator,@R,50)
+		}}
+	}}
+}}
+
+
+
+
+
+
+// TAB CONTENT
+Rect:()
+	set(gel.vis,twk(Negotiate,InProgress) = 0 and(twk(ProfilePlayer,IsOthersTeam) = 1 or(twk(ProfilePlayer,IsScoutedPlayer) = 1)))
+{
+	// Shortlist Buttons To Locate
+	Rect:(0,0,90,95) ref:ShortlistButton
+		set(gel.vis,twk(ProfilePlayer,IsOthersTeam) = 1)
+		float(%animatestate)
+		func(Click)
+		<
+			Message(profileplayer.btn_ShortList)
+			set(%animatestate,1)
+			:Post(UI_Select)
+		>
+		Click()
+		<
+			call(Click)
+		>
+		CTRLClick(Y,false)
+		<
+			call(Click)
+		>	
+		func(Clicked)
+		<
+			set(%animatestate,1)
+		>
+	{{
+		Draw:(Shortlist_Off,20,20,42,59)
+		Draw:(Shortlist_On,20,20,42,59)
+			if(twk(ProfilePlayer,IsShortListed))
+			<
+				if(%animatestate)
+				<
+
+					frlerp(gel.alpha,1,0.15)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+				>
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		Draw:(Shortlist_Star,41.5,41,30,30)
+			Handle(0.5,0.5)
+			if(twk(ProfilePlayer,IsShortListed))
+			<
+				if(%animatestate)
+				<
+					frlerp(gel.alpha,1,0.15)
+					frlerp(gel.scale,1,0.15)
+					frlerp(gel.angle,0,0.15)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+					:set(gel.scale,1)
+					:set(gel.angle,0)
+				>
+			>
+			else
+			<
+				:set(gel.alpha,0)
+				:set(gel.scale,0)
+				:set(gel.angle,-50)
+			>
+
+			M_SwitchButtonHint:(⛍,53,11)
+	}}
+
+	
+	Rect:(0,350,@W,215+@z)
+		// Default to ACTIONS if we came from a New Star profile viewing STATS or CONCERNS
+		if(twk(ProfilePlayer,CurrentTab) oneof(2,3))
+		<
+			:set(twk(ProfilePlayer,CurrentTab),1)
+		>
+
+		CTRLClick(LT,false)
+		<
+			if(twk(ProfilePlayer,CurrentTab) = 4)
+			<
+				:set(twk(ProfilePlayer,CurrentTab),1)
+			>
+		>
+		CTRLClick(RT,false)
+		<
+			if(twk(ProfilePlayer,ActionsTabEnabled) = 1)
+			<
+				if(twk(ProfilePlayer,CurrentTab) = 1)
+				<
+					:set(twk(ProfilePlayer,CurrentTab),4)
+				>
+			>
+		>
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,220,50,profile_player_SKILLS,1,ProfilePlayer,CurrentTab,,5)
+		M_Tab:(250,0,220,50,profile_player_ACTIONS,4,ProfilePlayer,CurrentTab,,5)
+			set(gel.vis,twk(ProfilePlayer,ActionsTabEnabled) = 1)
+
+		Rect:()
+			set(gel.vis,twk(ProfilePlayer,ActionsTabEnabled) = 1)
+		{
+			M_SwitchButtonHint:(⛐,12,10)
+			M_SwitchButtonHint:(⛑,462,10)
+		}
+	}}
+
+
+
+
+
+	// TABS CONTENT
+	Rect:(0,401+[@z/2],@W,235)
+	{{
+		// TAB 1 SKILLS
+		Dissolve:()
+			if(twk(ProfilePlayer,CurrentTab) = 1)
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{
+			Rect:()
+				set(gel.vis,not(twk(Facilities,ScoutsOfficeLevel) >= 2))
+			{
+				Draw:(Icon_Locked,@C-20,50,40,40,,#252525FF)
+				M_Text:(,@C,@M,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(LockedScout) :: " 2")
+			}
+
+			Rect:(0,0,@W,@H)
+				set(gel.vis,twk(Facilities,ScoutsOfficeLevel) >= 2)
+			{{
+				Rect:(0,0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_HAND,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Handling_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_TACK,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Tackling_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Tackling)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5],0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_REFL,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Reflexes_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_TECH,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Technique_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Technique)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*2,0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_AGIL,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Agility_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_DRIB,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Dribbling_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Dribbling)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*3,0,[@W/5],@H)
+				{{
+					M_Text:(profile_player_SKILLS_PACE,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					Draw:(Icon_Skill_Pace_S,@C-30,28,60,60,,#252525FF)
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Pace)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*4,0,[@W/5],@H)
+				{{
+					M_Text:(profile_player_SKILLS_STRE,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					Draw:(Icon_Skill_Strength_S,@C-30,28,60,60,,#252525FF)
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Strength)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+			}}
+		}
+
+
+	
+
+
+		// TAB 4 ACTIONS
+		Dissolve:()
+			if(twk(ProfilePlayer,CurrentTab) = 4)
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.25)
+				if(gel.alpha < 0.01)
+				<
+					:set(gel.vis,0)
+				>
+			>
+		{	
+			// Locked - Hint
+			Rect:()
+				set(gel.vis,(twk(Facilities,ScoutsOfficeLevel) = 0) or(Player.scoutcount = 0))
+			{
+				Draw:(Icon_Locked,@C-20,50,40,40,,#252525FF)
+				M_Text:(,@C,@M,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(LockedScout) :: " 1 " :: loc(profile_player_SCOUTNEEDED1))
+					set(gel.vis,(twk(Facilities,ScoutsOfficeLevel) = 0) and(Player.scoutcount = 0))
+
+				M_Text:(profile_player_SCOUTNEEDED2,@C,@M,0,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(gel.vis,(twk(Facilities,ScoutsOfficeLevel) > 0) and(Player.scoutcount = 0))
+			}
+
+			// Unlocked
+			Rect:()
+				set(gel.vis,(twk(Facilities,ScoutsOfficeLevel) >= 1) and(Player.scoutcount = 1))
+			{
+				// Club Reluctance
+				Rect:(0,5,@W*0.3,@H)
+					set(gel.vis,not(twk(ProfilePlayer,IsScoutedPlayer)))
+				{{
+					M_Text:("",0,81,@W,0,C,T,TextBox,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref,ProfilePlayer,ClubReluctance)
+					M_Text:("-",@C,140,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						if(twk(ProfilePlayer,ClubReluctanceAmount) != 0)
+						<
+							set(gel.text,twk(ProfilePlayer,ClubReluctanceAmount) :: "%")
+						>
+						else
+						<
+							set(gel.text,"-")
+						>
+				}}
+
+
+				// Scout Reduction
+				Rect:(0,5,@W*0.3,@H)
+					set(gel.vis,twk(ProfilePlayer,IsScoutedPlayer))
+				{{
+					// Free Agent
+					Rect:()
+						set(gel.vis,not(twk(ProfilePlayer,IsFreeAgent)))
+					{
+						M_Text:(contract_ScoutReduction,0,90,@W,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:("-10%",@C,140,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						
+					}
+
+					// Scouted Player
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,IsFreeAgent))
+					{
+						M_Text:(contract_FreeAgent,0,90,@W,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					}
+				}}
+
+				
+				// Offer Breakdown
+				Rect:(@W*0.3,5,@W*0.4,@H)
+				{{
+					Tile:(White,0,15,@W,1,,#0000001A)
+						Copies(1,5)
+						Spacing(0,50)
+					M_Text:(profile_CONTRACTOFFER,0,40,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,0,40,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Negotiate,Increment,DoLTR)
+					
+					M_Button:(@R-190,45,80,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,profileplayer.btn_NegotiationSub,OtherPlayerNegotiationSubButton,"-",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						set(%disabled,twk(Negotiate,Increment) = 40)
+						CTRLBlock(LEFT,DOWN)
+
+					M_Button:(@R-90,45,80,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,profileplayer.btn_NegotiationAdd,OtherPlayerNegotiationAddButton,"+",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						set(%disabled,twk(Negotiate,Increment) = 100)
+						CTRLBlock(DOWN)
+
+					M_Text:(profile_VALUATION,0,90,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,0,90,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,"★ " :: commasfmt([twk(Negotiate,Demands)-twk(Negotiate,RawDemands)]))
+
+					M_Text:(profile_WAGEDEMANDS,0,140,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,0,140,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,"★ " :: commasfmt(twk(Negotiate,RawDemands)))
+
+					M_Text:(profile_STARTPRICE,0,190,0,0,L,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+					M_Text:(,0,190,@W,0,R,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,"★ " :: commasfmt(twk(Negotiate,Demands)))
+				}}
+				
+
+				// Shortlist
+				Rect:()
+					set(gel.vis,not(twk(ProfilePlayer,IsScoutedPlayer)))
+					strvar(%BUTTONTEXT)
+					init(%BUTTONTEXT,"")
+					if(twk(ProfilePlayer,IsShortListed))
+					<
+						:set(%BUTTONTEXT,loc(profile_player_SHORTLISTREMOVE))
+					>
+					else
+					<
+						:set(%BUTTONTEXT,loc(profile_player_SHORTLISTADD))
+					>
+				{
+					M_Button:(@R-140,73,220,85,Button_SilverSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_ShortList,ref,(%BUTTONTEXT),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						if(%clicked)
+						<
+							if(twk(ProfilePlayer,IsShortListed) = 0)
+							<
+								call(ShortlistButton,Clicked)
+							>
+						>
+				}
+
+				// Buy
+				M_Button:(@R-140,177,220,85,Button_GreenSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Negotiate,ref,loc(profile_player_BUYPLAYER),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					set(gel.vis,twk(Facilities,ScoutsOfficeLevel) >= 1 and(Player.scoutcount = 1))
+			}
+		}
+	}}
+}

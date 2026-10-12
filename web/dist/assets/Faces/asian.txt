@@ -1,0 +1,18 @@
+
+// Not defined assets will be picked from default file
+
+// ------------------------------------- COLOURS
+SkinCol:(b19479,6d4d2d,4f392f)
+HairCol:(333333,444444)
+EyesCol:(9cc3da,77afff,7bac34,5a3f00,8f6b00)
+
+#Head#
+	ScaleX:(0.95,1.0)
+	ScaleY:(0.90,1.0)
+#Head#End
+
+
+#Eyes#
+	ScaleX:(0.90,1)
+	ScaleY:(0.60,0.8)
+#Eyes#End

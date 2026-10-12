@@ -1,0 +1,353 @@
+Macro:(M_FontSize_KNUL64)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(1.2)
+	>
+	else
+	<
+		set(gel.text.fontsize,1)
+		set(gel.text.fontscale,1)
+		set(%gfw,strwidth(gel.text,1))
+	>
+EndM
+
+Macro:(M_FontSize_KNUL45)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.9)
+	>
+	else
+	<
+		set(gel.text.fontsize,1)
+		set(gel.text.fontscale,0.705)
+		set(%gfw,strwidth(gel.text,1)*0.705)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL40)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.8)
+	>
+	else
+	<
+		set(gel.text.fontsize,1)
+		set(gel.text.fontscale,0.635)
+		set(%gfw,strwidth(gel.text,1)*0.635)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL35)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.7)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.88)
+		set(%gfw,strwidth(gel.text,0)*0.88)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL30)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.6)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.76)
+		set(%gfw,strwidth(gel.text,0)*0.76)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL28)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.56)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.7)
+		set(%gfw,strwidth(gel.text,0)*0.7)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL25)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.5)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.64)
+		set(%gfw,strwidth(gel.text,0)*0.64)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL24)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.48)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.6)
+		set(%gfw,strwidth(gel.text,0)*0.6)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL23)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.46)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.575)
+		set(%gfw,strwidth(gel.text,0)*0.575)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL22)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.44)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.55)
+		set(%gfw,strwidth(gel.text,0)*0.55)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL21)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.42)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.525)
+		set(%gfw,strwidth(gel.text,0)*0.525)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL20)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.4)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.5)
+		set(%gfw,strwidth(gel.text,0)*0.5)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL18)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.36)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.45)
+		set(%gfw,strwidth(gel.text,0)*0.45)
+	>
+EndM
+
+Macro:(M_FontSize_KNUL17)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.34)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.425)
+		set(%gfw,strwidth(gel.text,0)*0.425)
+	>
+EndM
+
+Macro:(M_FontSize_CASH)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_CASH_IRAN_SCALED:(0.7)
+	>
+	else
+	< 
+		set(gel.text.fontsize,2)
+		set(gel.text.fontscale,0.76)
+		set(%gfw,strwidth(gel.text,3)*0.76)
+	> 
+EndM
+
+Macro:(M_FontSize_BEBAS60)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(1.2)
+	>
+	else
+	<
+		set(gel.text.fontsize,3)
+		set(gel.text.fontscale,1)
+		set(%gfw,strwidth(gel.text,3))
+	>
+EndM
+
+Macro:(M_FontSize_BEBAS50)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(1.0)
+	>
+	else
+	<
+		set(gel.text.fontsize,3)
+		set(gel.text.fontscale,0.85)
+		set(%gfw,strwidth(gel.text,3)*0.85)
+	>
+EndM
+
+Macro:(M_FontSize_BEBAS38)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.76)
+	>
+	else
+	<
+		set(gel.text.fontsize,3)
+		set(gel.text.fontscale,0.64)
+		set(%gfw,strwidth(gel.text,3)*0.64)
+	>
+EndM
+
+Macro:(M_FontSize_BEBAS28)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.48)
+	>
+	else
+	<
+		set(gel.text.fontsize,3)
+		set(gel.text.fontscale,0.5)
+		set(%gfw,strwidth(gel.text,3)*0.5)
+	>
+EndM
+
+Macro:(M_FontSize_FTUE)
+	if((TPlayerClass.languageId=13) or (TPlayerClass.languageId=14))
+	<
+		M_FontSize_IRAN_SCALED:(0.6)
+	>
+	else
+	<
+		set(gel.text.fontsize,0)
+		set(gel.text.fontscale,0.55)
+		set(%gfw,strwidth(gel.text,0)*0.55)
+	>
+EndM
+
+Macro:(M_FontSize_IRAN)
+	FontSize(4)
+	FontScale(0.5,0.5)
+	set(%gfw,strwidth(gel.text,4)*0.5)
+EndM
+
+
+Macro:(M_FontSize_IRAN_SCALED,?SCALE?)
+	set(gel.text.fontsize,4)
+	set(gel.text.fontscale,?SCALE?)
+	set(%gfw,strwidth(gel.text,4)*?SCALE?)
+EndM
+
+Macro:(M_FontSize_CASH_IRAN_SCALED,?SCALE?)
+	set(gel.text.fontsize,5)
+	set(gel.text.fontscale,?SCALE?)
+	set(%gfw,strwidth(gel.text,5)*?SCALE?)
+EndM
+
+
+
+Macro:(M_Text,?TEXT?,?X?,?Y?,?W?,?H?,?HALIGN?,?VALIGN?,?TYPE?,?SIZE?,?CASE?,?SHX?,?SHY?,?SHCOL?,?ITALICISE?,?COL?,?REF?,?CAT?,?VAR?,?DOLTR?)
+	PushOrigin:(?X?,?Y?)
+
+		If:(?TYPE?=Text)
+			Text:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+		Else
+			If:(?TYPE?=TextLoc)
+				TextLoc:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+			Else
+				If:(?TYPE?=TextAtt)
+					TextAtt:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+				Else
+					If:(?TYPE?=TextLocAtt)
+						TextLocAtt:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+					Else
+						If:(?TYPE?=TextBoxAtt)
+							TextBoxAtt:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+						Else
+							TextBox:(?TEXT?,0,0,?W?,?H?,?HALIGN?,?VALIGN?,?COL?FFFFFFFF) ref:?REF?
+						EndIf
+					EndIf
+				EndIf
+			EndIf
+		EndIf
+
+		If:(?CAT?)
+			If:(?DOLTR?=DoLTR)
+				set(gel.text,?CASE?(LTR(twk(?CAT?,?VAR?))))
+			Else
+				set(gel.text,?CASE?(twk(?CAT?,?VAR?)))
+			EndIf
+		Else
+			If:(?CASE?="Upper")
+				.ToUpperCase(1)
+			EndIf
+		EndIf
+				
+		FontShadow(?SHX?,?SHY?)
+		ShadowCol(?SHCOL?000000FF)
+		Layer(Text)
+	
+		Italicise(-0.2)
+
+		£M_FontSize_?SIZE?:()
+
+		If:(?ITALICISE?=NoItalics)
+			Italicise(0.0)
+		EndIf
+
+	PopOrigin
+EndM
+
+Macro:(M_TextMaxWidth,?WIDTH?)
+	.set(gel.scale,min(1,?WIDTH?/%gfw))
+EndM
+
+
+
+
+// Styles
+Macro:(M_Style,?TYPE?,?COL1?)
+	FontStyle(?COL1?000000FF,-1,1 ?COL1?000000FF,0,1 ?COL1?000000FF,1,1 ?COL1?000000FF,-1,0 ?COL1?000000FF,1,0 ?COL1?000000FF,-1,-1 ?COL1?000000FF,0,-1 ?COL1?000000FF,1,-1)
+EndM
+
+Macro:(M_Style_DoubleOutline,?COL1?,?COL2?)
+	FontStyle(?COL1?000000FF,-1,1 ?COL1?000000FF,0,1 ?COL1?000000FF,1,1 ?COL1?000000FF,-1,0 ?COL1?000000FF,1,0 ?COL1?000000FF,-1,-1 ?COL1?000000FF,0,-1 ?COL1?000000FF,1,-1 ?COL2?000000FF,-2,2 ?COL2?000000FF,0,2 ?COL2?000000FF,2,2 ?COL2?000000FF,-2,0 ?COL2?000000FF,2,0 ?COL2?000000FF,-2,-2 ?COL2?000000FF,0,-2 ?COL2?000000FF,2,-2)
+EndM
+
+Macro:(M_Style_StarRating)
+	M_Style_DoubleOutline:(#FFFFFF35,#00000025)
+	CharacterSpacing(1.75)
+EndM

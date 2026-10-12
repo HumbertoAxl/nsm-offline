@@ -1,0 +1,114 @@
+##IA
+Img:(OL_Character_Board,NewGUI/UI/Characters/Character_Board.png) FORCE Scale:0.5 Volatile:Character_Board
+Img:(OL_Character_Builder,NewGUI/UI/Characters/Character_Builder.png) FORCE Scale:0.5 Volatile:Character_Builder
+Img:(OL_Character_Fan,NewGUI/UI/Characters/Character_Fan.png) FORCE Scale:0.5 Volatile:Character_Fan
+Img:(OL_Character_Guru,NewGUI/UI/Characters/Character_Guru.png) FORCE Scale:0.5 Volatile:Character_Guru
+Img:(OL_Character_Press,NewGUI/UI/Characters/Character_Press.png) FORCE Scale:0.5 Volatile:Character_Press
+Img:(OL_Character_Psychologist,NewGUI/UI/Characters/Character_Psychologist.png) FORCE Scale:0.5 Volatile:Character_Psychologist
+Img:(OL_Character_Reporter,NewGUI/UI/Characters/Character_Reporter.png) FORCE Scale:0.5 Volatile:Character_Reporter0
+Img:(OL_Character_Reporter1,NewGUI/UI/Characters/Character_Reporter1.png) FORCE Scale:0.5 Volatile:Character_Reporter1
+Img:(OL_Character_Reporter2,NewGUI/UI/Characters/Character_Reporter2.png) FORCE Scale:0.5 Volatile:Character_Reporter2
+Img:(OL_Character_Sheikh,NewGUI/UI/Characters/Character_Sheikh.png) FORCE Scale:0.5 Volatile:Character_Sheikh
+Img:(OL_Character_Sponsor,NewGUI/UI/Characters/Character_Sponsor.png) FORCE Scale:0.5 Volatile:Character_Sponsor
+Img:(OL_Character_Squad,NewGUI/UI/Characters/Character_Squad.png) FORCE Scale:0.5 Volatile:Character_Squad
+Img:(OL_Character_Staff,NewGUI/UI/Characters/Character_Staff.png) FORCE Scale:0.5 Volatile:Character_Staff
+Img:(OL_FTUESimon,NewGUI/UI/Characters/FTUE_Simon.png) FORCE Scale:0.7 Volatile:Character_Ftue
+
+Img:(NL_Character_Board,NewLook/UI/Characters/Character_Board.png) FORCE Scale:0.5 Volatile:NL_Character_Board
+Img:(NL_Character_Builder,NewLook/UI/Characters/Character_Builder.png) FORCE Scale:0.5 Volatile:NL_Character_Builder
+Img:(NL_Character_Fan,NewLook/UI/Characters/Character_Fan.png) FORCE Scale:0.5 Volatile:NL_Character_Fan
+Img:(NL_Character_Guru,NewLook/UI/Characters/Character_Guru.png) FORCE Scale:0.5 Volatile:NL_Character_Guru
+Img:(NL_Character_Press,NewLook/UI/Characters/Character_Press.png) FORCE Scale:0.5 Volatile:NL_Character_Press
+Img:(NL_Character_Psychologist,NewLook/UI/Characters/Character_Psychologist.png) FORCE Scale:0.5 Volatile:NL_Character_Psychologist
+Img:(NL_Character_Reporter,NewLook/UI/Characters/Character_Reporter.png) FORCE Scale:0.5 Volatile:NL_Character_Reporter0
+Img:(NL_Character_Reporter1,NewLook/UI/Characters/Character_Reporter1.png) FORCE Scale:0.5 Volatile:NL_Character_Reporter1
+Img:(NL_Character_Reporter2,NewLook/UI/Characters/Character_Reporter2.png) FORCE Scale:0.5 Volatile:NL_Character_Reporter2
+Img:(NL_Character_Sheikh,NewLook/UI/Characters/Character_Sheikh.png) FORCE Scale:0.5 Volatile:NL_Character_Sheikh
+Img:(NL_Character_Sponsor,NewLook/UI/Characters/Character_Sponsor.png) FORCE Scale:0.5 Volatile:NL_Character_Sponsor
+Img:(NL_Character_Squad,NewLook/UI/Characters/Character_Squad.png) FORCE Scale:0.5 Volatile:NL_Character_Squad
+Img:(NL_Character_Staff,NewLook/UI/Characters/Character_Staff.png) FORCE Scale:0.5 Volatile:NL_Character_Staff
+Img:(NL_FTUESimon,NewLook/UI/Characters/FTUE_Simon.png) FORCE Scale:0.7 Volatile:NL_Character_Ftue
+##P4
+Img:(OL_Character_Board,NewGUI/UI/Characters/Character_Board.png) FORCE Volatile:Character_Board
+Img:(OL_Character_Builder,NewGUI/UI/Characters/Character_Builder.png) FORCE Volatile:Character_Builder
+Img:(OL_Character_Fan,NewGUI/UI/Characters/Character_Fan.png) FORCE Volatile:Character_Fan
+Img:(OL_Character_Guru,NewGUI/UI/Characters/Character_Guru.png) FORCE Volatile:Character_Guru
+Img:(OL_Character_Press,NewGUI/UI/Characters/Character_Press.png) FORCE Volatile:Character_Press
+Img:(OL_Character_Psychologist,NewGUI/UI/Characters/Character_Psychologist.png) FORCE Volatile:Character_Psychologist
+Img:(OL_Character_Reporter,NewGUI/UI/Characters/Character_Reporter.png) FORCE Volatile:Character_Reporter0
+Img:(OL_Character_Reporter1,NewGUI/UI/Characters/Character_Reporter1.png) FORCE Volatile:Character_Reporter1
+Img:(OL_Character_Reporter2,NewGUI/UI/Characters/Character_Reporter2.png) FORCE Volatile:Character_Reporter2
+Img:(OL_Character_Sheikh,NewGUI/UI/Characters/Character_Sheikh.png) FORCE Volatile:Character_Sheikh
+Img:(OL_Character_Sponsor,NewGUI/UI/Characters/Character_Sponsor.png) FORCE Volatile:Character_Sponsor
+Img:(OL_Character_Squad,NewGUI/UI/Characters/Character_Squad.png) FORCE Volatile:Character_Squad
+Img:(OL_Character_Staff,NewGUI/UI/Characters/Character_Staff.png) FORCE Volatile:Character_Staff
+Img:(OL_FTUESimon,NewGUI/UI/Characters/FTUE_Simon.png) FORCE Volatile:Character_Ftue
+
+Img:(NL_Character_Board,NewLook/UI/Characters/Character_Board.png) FORCE Volatile:NL_Character_Board
+Img:(NL_Character_Builder,NewLook/UI/Characters/Character_Builder.png) FORCE Volatile:NL_Character_Builder
+Img:(NL_Character_Fan,NewLook/UI/Characters/Character_Fan.png) FORCE Volatile:NL_Character_Fan
+Img:(NL_Character_Guru,NewLook/UI/Characters/Character_Guru.png) FORCE Volatile:NL_Character_Guru
+Img:(NL_Character_Press,NewLook/UI/Characters/Character_Press.png) FORCE Volatile:NL_Character_Press
+Img:(NL_Character_Psychologist,NewLook/UI/Characters/Character_Psychologist.png) FORCE Volatile:NL_Character_Psychologist
+Img:(NL_Character_Reporter,NewLook/UI/Characters/Character_Reporter.png) FORCE Volatile:NL_Character_Reporter0
+Img:(NL_Character_Reporter1,NewLook/UI/Characters/Character_Reporter1.png) FORCE Volatile:NL_Character_Reporter1
+Img:(NL_Character_Reporter2,NewLook/UI/Characters/Character_Reporter2.png) FORCE Volatile:NL_Character_Reporter2
+Img:(NL_Character_Sheikh,NewLook/UI/Characters/Character_Sheikh.png) FORCE Volatile:NL_Character_Sheikh
+Img:(NL_Character_Sponsor,NewLook/UI/Characters/Character_Sponsor.png) FORCE Volatile:NL_Character_Sponsor
+Img:(NL_Character_Squad,NewLook/UI/Characters/Character_Squad.png) FORCE Volatile:NL_Character_Squad
+Img:(NL_Character_Staff,NewLook/UI/Characters/Character_Staff.png) FORCE Volatile:NL_Character_Staff
+Img:(NL_FTUESimon,NewLook/UI/Characters/FTUE_Simon.png) FORCE Volatile:NL_Character_Ftue
+
+##*
+
+##N
+//AC: No option on Switch
+Img:(Character_Board,NewLook/UI/Characters/Character_Board.png) FORCE Volatile:NL_Character_Board
+Img:(Character_Builder,NewLook/UI/Characters/Character_Builder.png) FORCE Volatile:NL_Character_Builder
+Img:(Character_Fan,NewLook/UI/Characters/Character_Fan.png) FORCE Volatile:NL_Character_Fan
+Img:(Character_Guru,NewLook/UI/Characters/Character_Guru.png) FORCE Volatile:NL_Character_Guru
+Img:(Character_Press,NewLook/UI/Characters/Character_Press.png) FORCE Volatile:NL_Character_Press
+Img:(Character_Psychologist,NewLook/UI/Characters/Character_Psychologist.png) FORCE Volatile:NL_Character_Psychologist
+Img:(Character_Reporter,NewLook/UI/Characters/Character_Reporter.png) FORCE Volatile:NL_Character_Reporter0
+Img:(Character_Reporter1,NewLook/UI/Characters/Character_Reporter1.png) FORCE Volatile:NL_Character_Reporter1
+Img:(Character_Reporter2,NewLook/UI/Characters/Character_Reporter2.png) FORCE Volatile:NL_Character_Reporter2
+Img:(Character_Sheikh,NewLook/UI/Characters/Character_Sheikh.png) FORCE Volatile:NL_Character_Sheikh
+Img:(Character_Sponsor,NewLook/UI/Characters/Character_Sponsor.png) FORCE Volatile:NL_Character_Sponsor
+Img:(Character_Squad,NewLook/UI/Characters/Character_Squad.png) FORCE Volatile:NL_Character_Squad
+Img:(Character_Staff,NewLook/UI/Characters/Character_Staff.png) FORCE Volatile:NL_Character_Staff
+Img:(FTUESimon,NewLook/UI/Characters/FTUE_Simon.png) FORCE Volatile:NL_Character_Ftue
+##-
+//AC: Option on all other platforms
+If:(twk(SettingsGlobal,OldNewLook)=0)
+	ImgClone:(Character_Board,OL_Character_Board)
+	ImgClone:(Character_Builder,OL_Character_Builder)
+	ImgClone:(Character_Fan,OL_Character_Fan)
+	ImgClone:(Character_Guru,OL_Character_Guru)
+	ImgClone:(Character_Press,OL_Character_Press)
+	ImgClone:(Character_Psychologist,OL_Character_Psychologist)
+	ImgClone:(Character_Reporter,OL_Character_Reporter)
+	ImgClone:(Character_Reporter1,OL_Character_Reporter1)
+	ImgClone:(Character_Reporter2,OL_Character_Reporter2)
+	ImgClone:(Character_Sheikh,OL_Character_Sheikh)
+	ImgClone:(Character_Sponsor,OL_Character_Sponsor)
+	ImgClone:(Character_Squad,OL_Character_Squad)
+	ImgClone:(Character_Staff,OL_Character_Staff)
+	ImgClone:(FTUESimon,OL_FTUESimon)
+Else
+	ImgClone:(Character_Board,NL_Character_Board)
+	ImgClone:(Character_Builder,NL_Character_Builder)
+	ImgClone:(Character_Fan,NL_Character_Fan)
+	ImgClone:(Character_Guru,NL_Character_Guru)
+	ImgClone:(Character_Press,NL_Character_Press)
+	ImgClone:(Character_Psychologist,NL_Character_Psychologist)
+	ImgClone:(Character_Reporter,NL_Character_Reporter)
+	ImgClone:(Character_Reporter1,NL_Character_Reporter1)
+	ImgClone:(Character_Reporter2,NL_Character_Reporter2)
+	ImgClone:(Character_Sheikh,NL_Character_Sheikh)
+	ImgClone:(Character_Sponsor,NL_Character_Sponsor)
+	ImgClone:(Character_Squad,NL_Character_Squad)
+	ImgClone:(Character_Staff,NL_Character_Staff)
+	ImgClone:(FTUESimon,NL_FTUESimon)
+EndIf
+##*
+

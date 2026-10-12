@@ -1,0 +1,75 @@
+Macro:(M_PersonFace,?X?,?Y?,?DETAIL?,?CLIP?)
+
+	If:(?DETAIL?=SD)
+		DrawCached:($CARDS_ARRAY_SURF,?X?,?Y?,?CARD_W_SD?,?CARD_H_SD?) ref:PFace2
+	Else
+		DrawCached:($HDCARDS_ARRAY_SURF,?X?,?Y?,?CARD_W_HD?,?CARD_H_HD?) ref:PFace2
+	EndIf
+		float(%RDY)
+		if(%RDY=0)
+		<
+			if(%SEED=twk(CardPrep,Complete))
+			<
+				set(%RDY,1)
+			>
+			else
+			<
+				if(twk(CardPrep,Request)="")
+				<
+					set(twk(CardPrep,Request),%SEED)
+				>
+			>
+		>
+		else
+		<
+			if(DrawCached.Dirty!=0)
+			<
+				set(%RDY,0)
+			>
+		>
+		set(gel.vis,(%RDY=1))
+		Handle(0.5,0.5)
+	{
+		UseShader:(default)
+		{
+			Cls:(#00000000)
+			//Draw:(White,0,0,@W,@H)
+			//	Blend(ZERO,ZERO)
+		
+			Dissolve:()
+			{
+				If:(?DETAIL?=SD)
+					If:(?CLIP?="CLIP")
+						Clip:(29,0,120,115)
+					Else
+						Rect:()
+					EndIf
+					{
+						Draw:($HEADSTAGING,0,0,?CARD_W_SD?,?CARD_H_SD?)
+					}
+				Else
+					//Draw:($HEADSTAGINGLARGE,-5,3,120,155,,#00000030)
+					UseShader:(Downsample)
+					{
+						Draw:($HEADSTAGINGLARGE,0,0,?CARD_W_SD?,?CARD_H_SD?)
+					}
+				EndIf
+			}
+		}
+	}
+
+EndM
+
+
+Rect:() ref:StandaloneFace
+	strvar(%SEED)
+{
+	M_PersonFace:(0,22,SD,NOCLIP)
+} Template
+
+
+Rect:() ref:StandaloneFaceHD
+	strvar(%SEED)
+{
+	M_PersonFace:(0,60,HD,NOCLIP)
+} Template

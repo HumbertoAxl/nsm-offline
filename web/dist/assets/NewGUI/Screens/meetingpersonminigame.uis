@@ -1,0 +1,66 @@
+// //-------------------------------------------------------------------------------------------IMPORTS
+// Import:(Core.uih)
+// //
+// Import:(meeting_Macros.uih)
+// //----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// Img:(Icon_Meeting_Happy,NewGUI/UI/Meeting/Icon_Meeting_Happy.png) FORCE
+// Img:(Icon_Meeting_Angry,NewGUI/UI/Meeting/Icon_Meeting_Angry.png) FORCE
+// Img:(Icon_Meeting_Sad,NewGUI/UI/Meeting/Icon_Meeting_Sad.png) FORCE
+// Img:(Icon_Meeting_Skeptical,NewGUI/UI/Meeting/Icon_Meeting_Skeptical.png) FORCE
+// Img:(Icon_Meeting_VeryHappy,NewGUI/UI/Meeting/Icon_Meeting_VeryHappy.png) FORCE
+// Img:(Icon_Meeting_Star,NewGUI/UI/Meeting/Icon_Meeting_Star.png) FORCE
+// //---------------------------------------------------------------------------------------------SETUP
+// //----------------------------------------------------------------------------------------ANIMATIONS
+// //--------------------------------------------------------------------------------------------MACROS
+// Macro:(M_MeetingTokenTemplate)
+// 	Rect:(0,0,140,140) ref:MeetingGameTile
+// 		ConvergeTo(50,50) ref:Animator
+// 	{{
+// 		Draw:(Icon_Meeting_Sad,@W/2,@H/2,@W-35,@H-35) ref:Icon
+// 			Handle(0.5,0.5)
+// 	}} Template
+// EndM
+
+// M_MeetingTokenTemplate:()
+
+// //-------------------------------------------------------------------------------------------CONTENT
+
+
+
+// Rect:(@L,@T,@W,@H) ref:DissolveRoot
+// 	Layer(AboveText)
+// 	LockLayer()
+// 	Click()
+// 	SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+// {
+
+// 	M_Text:("Swipe matching faces together",0,@T+100,1152,50,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+// 	M_Text:("A successful meeting improves relationship",0,@B-65,1152,50,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+// 		Delay(3)
+// 		frlerp(gel.alpha,0,0.25)
+									
+
+// 	Rect:(325,180,500,500)
+// 	{{
+// 		Draw:(RoundedPanel,-5,-5,@W+10,@H+10,,#00000020)
+// 		Draw:(RoundedPanel,0,0,@W,@H)
+// 		Rect:(0,0,@W,@H) ref:MeetingGameBoard
+// 		{{
+// 			// ---- Top top
+// 			Draw:(White,0,0,@H/3,@H/3,,#00000080) ref:MeetingGameCell
+// 			Draw:(White,@H/3,0,@H/3,@H/3,,#00000001) ref:MeetingGameCell
+// 			Draw:(White,@H/3*2,0,@H/3,@H/3,,#00000010) ref:MeetingGameCell
+
+// 			// ---- Middle cells
+// 			Draw:(White,0,@H/3,@H/3,@H/3,,#00000001) ref:MeetingGameCell
+// 			Draw:(White,@H/3,@H/3,@H/3,@H/3,,#00000010) ref:MeetingGameCell
+// 			Draw:(White,@H/3*2,@H/3,@H/3,@H/3,,#00000001) ref:MeetingGameCell
+			
+// 			// ----- Bottom cells
+// 			Draw:(White,1,@H/3*2,@H/3,@H/3,,#00000010) ref:MeetingGameCell
+// 			Draw:(White,@H/3,@H/3*2,@H/3,@H/3,,#00000001) ref:MeetingGameCell
+// 			Draw:(White,@H/3*2,@H/3*2,@H/3,@H/3,,#00000010) ref:MeetingGameCell
+// 		}}
+// 	}}
+// }

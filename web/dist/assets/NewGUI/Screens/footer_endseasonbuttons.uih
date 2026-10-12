@@ -1,0 +1,47 @@
+Dissolve:(@o,@B-70,@s,70)
+	if((twk(Header,DialogState) = 1) or(twk(DynamicOverlay,CurrentTopOverlay) oneof("Message","Help","Settings","FTUEExit")))
+	<
+		frlerp(gel.alpha,0,0.25)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.vis,0)
+		>
+
+	>
+	else
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.25)
+	>
+{{
+	// Flow Buttons - using a shared set for now but can change later if need to make bespoke
+	Rect:()
+		M_ManualRearm:((shell(GameScreen) oneof("endseason_awards","endseason_clubawards","endseason_contracts","endseason_finances","endseason_table")))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,endseason.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+	Rect:()
+		M_ManualRearm:((shell(GameScreen) ="endseason_relocate"))
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,endseason_relocate.btn_Back,ref,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			:CTRLSetSelected()
+
+		Rect:()
+			set(gel.vis,twk(Relocate,LeagueSelected))
+		{
+			M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,endseason_relocate.btn_Continue,endSeasonContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+		}
+	}
+}}

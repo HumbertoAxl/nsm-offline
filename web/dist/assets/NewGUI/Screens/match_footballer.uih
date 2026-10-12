@@ -1,0 +1,110 @@
+Import:(match_common.uih)
+Import:(match_footballerTexture.uih)
+
+AnimModel:(FootballerModel,Footballer)
+
+Macro:(M_FootballerAnim,?SEQNAME?,?ANIMLENGTH?,?ANIMTYPE?,?SEQSTART?,?SEQEND?)
+	Animation:(?ANIMLENGTH?,?ANIMTYPE?) ref:Footballer?SEQNAME?
+	{
+		ModelSequence:(FootballerModel,?SEQNAME?,?SEQSTART?,?SEQEND?) ref:?SEQNAME?
+	}
+EndM
+
+
+
+M_FootballerAnim:(Run,48,Loop,0,15)
+M_FootballerAnim:(StandIdle,80,Loop,0,13)
+M_FootballerAnim:(ChestTrap,25,Clamp,0,19)
+M_FootballerAnim:(AngledFullKick,85,Clamp,0,25)
+M_FootballerAnim:(StraightFullKick,70,Clamp,0,25)
+M_FootballerAnim:(JumpNoHeader,75,Clamp,0,19)
+M_FootballerAnim:(JumpHeader,45,Clamp,6,19)
+M_FootballerAnim:(StandHeader,50,Clamp,0,19)
+M_FootballerAnim:(OverheadKick,100,Clamp,0,39)
+M_FootballerAnim:(RunVolley,120,Clamp,0,23)
+M_FootballerAnim:(ScissorKick,100,Clamp,0,39)
+M_FootballerAnim:(SideKick,40,Clamp,0,19)
+M_FootballerAnim:(SlideTackle,100,Clamp,0,29)
+M_FootballerAnim:(StandVolley,80,Clamp,0,23)
+M_FootballerAnim:(WallStand,80,Loop,0,13)
+M_FootballerAnim:(HighTrap,20,Clamp,0,19)
+M_FootballerAnim:(CelebrateRun,60,Loop,0,19)
+M_FootballerAnim:(CelebrateArmsRaisedStand,130,Clamp,0,20)
+M_FootballerAnim:(CelebrateKneeslide,80,Clamp,0,24)
+M_FootballerAnim:(CelebratePunchAir,100,Clamp,0,31)
+M_FootballerAnim:(CommiserationHandsHips,110,Clamp,0,28)
+M_FootballerAnim:(CommiserationHeadDown,120,Clamp,0,19)
+M_FootballerAnim:(CommiserationKneelHeadHands,80,Clamp,0,23)
+M_FootballerAnim:(DivingHeader,50,Clamp,0,23)
+M_FootballerAnim:(FootTrap,20,Clamp,0,19)
+M_FootballerAnim:(BlockTackle,40,Clamp,0,19)
+M_FootballerAnim:(Hurdle,60,Clamp,0,19)
+M_FootballerAnim:(Stumble,80,Clamp,0,24)
+M_FootballerAnim:(Turn180,60,Clamp,0,19)
+M_FootballerAnim:(TackleFallDown,60,Clamp,0,36)
+M_FootballerAnim:(TackleFallGetUp,47,Clamp,51,76)
+
+
+Macro:(M_Footballer,?ID?,?XSCALE?,?YSCALE?,?ZSCALE?)
+	Rect:() ref:Footballer
+		float(%x,%y,%z)
+	{
+		Rect:()
+			Layer(FootballerPrep)
+		{
+			ApplyModelAnim:(FootballerBuff?ID?,0,FootballerStandIdle,1) ref:Anim
+			ApplyModelAnim:(FootballerBuff?ID?,1,FootballerStandIdle,0) ref:Anim
+		}
+
+		M_CommonNonLocatorDraws:()
+
+		M_PlayerShadow:(FootballerBuff?ID?,$FOOTBALLERSHADOWSURF?ID?)
+
+		UseShader:(Anim3D)
+			inherit(%CX,%CY,%CZ)
+			//SetSampler(TexSamp1,RefMap)
+			SetUniform4F(campos,%CX,%CY,%CZ)
+			SetUniform4F(SpecParams,0.7)
+		{
+			Locator:((0,0,0),(0,0,0),(?XSCALE?,?YSCALE?,?ZSCALE?)) ref:Loc
+				Layer(Players)
+				set(gel3d.x,%x)
+				set(gel3d.y,%y)
+				set(gel3d.z,%z)
+			{
+				M_CommonLocatorDraws:()
+
+				DrawModel:(FootballerBuff?ID?,$FOOTBALLERTEXTURESURF?ID?)
+				{
+					//UseShader:(Static3D)
+					//	SetSampler(TexSamp1,RefMapBlur)
+					//	SetUniform4F(campos,%CX,%CY,%CZ,1)
+					//	SetUniform4F(SpecParams,1.2)
+					//{
+						// Centre Collider - needs to hit this to check other colliders
+						Locator:((0,0,-30),(0,0,0),(8,8,8),3) ref:Loc
+						{
+						  	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Left Foot
+						Locator:((0,0,0),(0,0,0),(1.2,1.2,1.2),0) ref:Loc
+						{
+							//DrawStaticModel:(Football_Low,White)
+						}
+						//Right Foot
+						Locator:((0,0,0),(0,0,0),(1.2,1.2,1.2),1) ref:Loc
+						{
+							//DrawStaticModel:(Football_Low,White)
+						}
+						// Middle Foot
+						Locator:((0,50,50),(0,0,0),(3.6,3.6,3.6),2) ref:Loc
+						{
+							//DrawStaticModel:(Football_Low,White)
+						}
+					//}
+				}
+			}
+		}
+	}
+EndM

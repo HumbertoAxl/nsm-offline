@@ -1,0 +1,350 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+
+Import:(Core.uih)
+Import:(ImageDefs_characters.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Help,TopicsScrollVel),0)
+	// Initial set to welcome
+	.set(twk(Help,TopicsScroll),0)
+	.set(twk(Help,HelpTopic),loc(FAQ_WELCOME))
+	.set(twk(Help,HelpTopicAlt),twk(Help,HelpTopic))
+	.set(twk(Help,SelectedTopic),"")
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_HelpTopic,?TEXT?)
+	M_PressOPEN:(130,0,200,50,,)
+		if(%clicked)
+		<
+			callparent(1,ClickFunc)
+		>
+		Cull:(0,0,@W,@H)
+		{
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			Draw:(Button_SilverSliced,0,0,@W,@H)
+			Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+			//Unselected topic
+			M_Text:(?TEXT?_TITLE,0,25,@W,0,C,C,TextLoc,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+				set(gel.vis,twk(Help,SelectedTopic)!=?TEXT?)
+
+			//Selected topic
+			Rect:()
+				set(gel.vis,twk(Help,SelectedTopic)=?TEXT?)
+			{
+				Draw:(Highlight_Round,0,0,@W,@H,,#FFFFFF80)
+				M_Text:(?TEXT?_TITLE,0,25,@W,0,C,C,TextLoc,KNUL18,Upper,1,0,#000000FF,NoItalics,#000000FF,ref)
+
+			}
+			
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+				Layer(AboveText)
+				Additive()
+				if(%pressed)
+				<
+					set(gel.colour,#60606060)
+				>
+				else
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+		}
+	M_PressCLOSE:()
+		set(gel.y,%yPos)
+		add(%yPos,gel.h+13)
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		if(%clicked)
+		<
+			M_SetTopic:(?TEXT?)
+		>
+EndM
+
+Macro:(M_ScreenCheck,?SCREEN?,?TEXT?)
+	.if(twk(Help,TopScreen) = ?SCREEN?)
+	<
+		set(twk(Help,TopicsScroll),min(0,[-gel.y-12]))
+		M_SetTopic:(?TEXT?)
+		CTRLSetSelected()
+	>
+EndM
+
+Macro:(M_ScreenCheckExp,?SCREEN?,?TEXT?,?EXP?,?VAL?)
+	.if((twk(Help,TopScreen) = ?SCREEN?) and(?EXP?=?VAL?))
+	<
+		set(twk(Help,TopicsScroll),min(0,[-gel.y-12]))
+		M_SetTopic:(?TEXT?)
+		CTRLSetSelected()
+	>
+EndM
+
+Macro:(M_SetTopic,?TEXT?)
+	set(twk(Help,HelpTopic),loc(?TEXT?))
+	set(twk(Help,SelectedTopic),?TEXT?)
+	if(loc(?TEXT?_ALT) startswith("@"))
+	<
+	 	set(twk(Help,HelpTopicAlt),twk(Help,HelpTopic))
+	>
+	else
+	<
+		set(twk(Help,HelpTopicAlt),loc(?TEXT?_ALT))
+	>
+EndM
+//-----------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:("",help)
+
+// ----------------
+// ----------------
+
+	Draw:(FTUESimon,155,@M-5,600,600)
+		Handle(0.5,0.5)
+
+	Rect:(345,5,[542+@y],@H)
+		float(%height)
+	{{
+		// Moved Content
+		Rect:(0,0,@W,@H-40)
+		{{
+			Rect:(0,0,@W,@H)
+				ScrollingList(Help,TextScroll,@H,Help,TextScrollVel)
+			{{
+				M_Text:(,0,@M+15,@W-20,0,A,C,TextBoxAtt,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					set(%height,[gel.bottom-gel.y]*2)
+					if(twk(ControllerInput,Enabled) = 1)
+					<
+						set(gel.text,twk(Help,HelpTopicAlt))
+					>
+					else
+					<
+						set(gel.text,twk(Help,HelpTopic))
+					>
+				Rect:(0,0,20,20)
+					set(gel.y,@M+[%height/2]-80)
+			}}
+		}}
+
+		Rect:(0,0,@W,@H)
+		if(%height > @H)
+		<
+			SwipePanel(Help,TextScroll,Help,TextScrollVel)
+		>
+	}}
+	
+
+	// Topics List
+	Rect:(@R-260,5,260,@H)
+	{{
+		Draw:(PanelAngled,-3,-3,@W+6,@H+6,,#FFFFFF70FFFFFFFF)
+		
+		// Clipped content
+		Clip:(0,0,@W,@H)
+		{{
+			// Moved Content
+			Rect:(0,0,@W,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:TopicsList
+					ScrollingList(Help,TopicsScroll,@H,Help,TopicsScrollVel) ref:ScrollingListTopics
+					CTRLScrollList(ScrollingListTopics) ref:CTRLScrollList
+					float(%yPos)
+					set(%yPos,45)
+				{{
+
+					// Match Controls
+					##P4N
+					M_HelpTopic:(FAQ_MATCH_CONTROLS)
+					##*
+
+					M_HelpTopic:(FAQ_PASSING_TO_PLAYER)
+						M_ScreenCheck:(match,FAQ_PASSING_TO_PLAYER)
+					M_HelpTopic:(FAQ_PASSING_TO_SPACE)
+					M_HelpTopic:(FAQ_SETTING_RUNS)
+					M_HelpTopic:(FAQ_DRIBBLING)
+					M_HelpTopic:(FAQ_SHOOTING)
+					M_HelpTopic:(FAQ_CURLING)
+					M_HelpTopic:(FAQ_BLOCK_TACKLE)
+					M_HelpTopic:(FAQ_SLIDE_TACKLING)
+					M_HelpTopic:(FAQ_FREE_KICKS)
+					M_HelpTopic:(FAQ_MOVING_CAMERA)
+					M_HelpTopic:(FAQ_RETRIES)
+					M_HelpTopic:(FAQ_WORK_RATE)
+					M_HelpTopic:(FAQ_FOCUS)
+					M_HelpTopic:(FAQ_SUBSTITUTIONS)
+					M_HelpTopic:(FAQ_ASS_COMMENTS)
+					M_HelpTopic:(FAQ_TEAMTALKS)
+
+
+					// Facilities
+					M_HelpTopic:(FAQ_STADIUM)
+						M_ScreenCheckExp:(home,FAQ_STADIUM,(twk(Home,CurrentFacility)),1)
+					M_HelpTopic:(FAQ_PITCH)
+						M_ScreenCheckExp:(home,FAQ_PITCH,(twk(FacilityView,Focused)),"Pitch")
+					M_HelpTopic:(FAQ_TRAINING_GROUND)
+						M_ScreenCheckExp:(home,FAQ_TRAINING_GROUND,(twk(Home,CurrentFacility)),7)
+					M_HelpTopic:(FAQ_FITNESS_CENTRE)
+						M_ScreenCheckExp:(home,FAQ_FITNESS_CENTRE,(twk(Home,CurrentFacility)),2)
+					M_HelpTopic:(FAQ_YOUTH_ACADEMY)
+						M_ScreenCheckExp:(home,FAQ_YOUTH_ACADEMY,(twk(Home,CurrentFacility)),6)
+					M_HelpTopic:(FAQ_MEDICAL_UNIT)
+						M_ScreenCheckExp:(home,FAQ_MEDICAL_UNIT,(twk(Home,CurrentFacility)),3)
+					M_HelpTopic:(FAQ_SCOUTS_OFFICE)
+						M_ScreenCheckExp:(home,FAQ_SCOUTS_OFFICE,(twk(Home,CurrentFacility)),4)
+					M_HelpTopic:(FAQ_CLUB_SHOP)
+						M_ScreenCheckExp:(home,FAQ_CLUB_SHOP,(twk(Home,CurrentFacility)),5)
+
+
+					// League Screen
+					M_HelpTopic:(FAQ_LEAGUE_RULES)
+						M_ScreenCheck:(league,FAQ_LEAGUE_RULES)
+					M_HelpTopic:(FAQ_PROMOTION)
+					M_HelpTopic:(FAQ_CUPS)
+
+
+					// Squad Screen
+					M_HelpTopic:(FAQ_SELECTION)
+						M_ScreenCheck:(formationmenu,FAQ_SELECTION)
+					M_HelpTopic:(FAQ_TEAM_RATING)
+					M_HelpTopic:(FAQ_TEAM_HAPPINESS)
+					M_HelpTopic:(FAQ_TEAM_ENERGY)
+					Rect:()
+						.set(gel.vis,twk(Settings,AppVariant)=Japan)
+					{
+						M_HelpTopic:(FAQ_PLAYER_POSITIONS)
+					}
+					M_HelpTopic:(FAQ_FORMATIONS)
+					M_HelpTopic:(FAQ_POSITIONS)
+					M_HelpTopic:(FAQ_PLAYER_QUALITY)
+					M_HelpTopic:(FAQ_PLAYER_TRAITS)
+					M_HelpTopic:(FAQ_PLAYER_CONCERNS)
+					M_HelpTopic:(FAQ_PLAYER_CONTRACTS)
+					M_HelpTopic:(FAQ_PLAYER_RETIREMENT)
+					M_HelpTopic:(FAQ_INJURIES)
+					M_HelpTopic:(FAQ_SUSPENSIONS)
+					M_HelpTopic:(FAQ_SQUAD_LIMIT)
+					M_HelpTopic:(FAQ_ROOKIES)
+
+
+					// Staff and HireList Screen
+					M_HelpTopic:(FAQ_HIRING_STAFF)
+						M_ScreenCheckExp:(staff,FAQ_HIRING_STAFF,(twk(Staff,PostMatchState)),0)
+						M_ScreenCheckExp:(staffhirelist,FAQ_HIRING_STAFF,(twk(Staff,PostMatchState)),0)
+					M_HelpTopic:(FAQ_IMPROVING_STAFF)
+					M_HelpTopic:(FAQ_STAFF_RETIREMENT)
+					M_HelpTopic:(FAQ_SKILLS_COACH)
+					M_HelpTopic:(FAQ_FITNESS_COACH)
+					M_HelpTopic:(FAQ_YOUTH_COACH)
+					M_HelpTopic:(FAQ_SCOUT)
+					M_HelpTopic:(FAQ_PHYSIO)
+
+
+					// Club Screen
+					M_HelpTopic:(FAQ_THE_BOARD,club,Club,CurrentTab,1)
+						M_ScreenCheckExp:(club,FAQ_THE_BOARD,(twk(Club,CurrentTab)),1)
+					M_HelpTopic:(FAQ_THE_FANS)
+					M_HelpTopic:(FAQ_THE_PRESS)
+					M_HelpTopic:(FAQ_SPONSORS)
+					M_HelpTopic:(FAQ_DATA_GRAPH,club,Club,CurrentTab,4)
+						M_ScreenCheckExp:(club,FAQ_DATA_GRAPH,(twk(Club,CurrentTab)),4)
+
+
+					// Store
+					##IA
+					M_HelpTopic:(FAQ_BUYING_RETRIES)
+						M_ScreenCheck:(store,FAQ_BUYING_RETRIES)
+					M_HelpTopic:(FAQ_BUYING_BUX)
+					M_HelpTopic:(FAQ_BUYING_PACKS)
+					##*
+
+
+					// Finances
+					M_HelpTopic:(FAQ_GATE_RECEIPTS,finances)
+						M_ScreenCheck:(finances,FAQ_GATE_RECEIPTS)
+					M_HelpTopic:(FAQ_BROADCASTING)
+					M_HelpTopic:(FAQ_SHOP_SALES)
+					M_HelpTopic:(FAQ_WIN_BONUS)
+					M_HelpTopic:(FAQ_SHAREHOLDER_CUT)
+
+
+					M_HelpTopic:(FAQ_COACHING_CARDS)
+						M_ScreenCheckExp:(staff,FAQ_COACHING_CARDS,(twk(Staff,PostMatchState)),1)
+
+
+					M_HelpTopic:(FAQ_COACHING_COOL)
+
+
+					M_HelpTopic:(FAQ_BUYING_PLAYERS)
+						M_ScreenCheck:(search,FAQ_BUYING_PLAYERS)
+					M_HelpTopic:(FAQ_TRANSFERS)
+					M_HelpTopic:(FAQ_SEARCHING)
+					M_HelpTopic:(FAQ_SHORTLISTING)
+					M_HelpTopic:(FAQ_SCOUTING)
+
+
+					M_HelpTopic:(FAQ_XP)
+						M_ScreenCheck:(manager,FAQ_XP)
+					M_HelpTopic:(FAQ_ACHIEVEMENTS)
+					M_HelpTopic:(FAQ_TROPHIES)
+					
+					##IAPN
+					M_HelpTopic:(FAQ_REPLAYS)
+					##*
+
+					M_HelpTopic:(FAQ_BOARD_TARGETS)
+						M_ScreenCheck:(boardtargets,FAQ_BOARD_TARGETS)
+
+
+					M_HelpTopic:(FAQ_INTERVIEWS)
+					
+
+					M_HelpTopic:(FAQ_DILEMMAS)
+						M_ScreenCheck:(dilemma,FAQ_DILEMMAS)
+
+
+					M_HelpTopic:(FAQ_INCIDENTS)
+					M_HelpTopic:(FAQ_SCANDALS)
+					M_HelpTopic:(FAQ_MESSAGES)
+					M_HelpTopic:(FAQ_AWARDS)
+					M_HelpTopic:(FAQ_CLUB_CONTRACTS)
+					M_HelpTopic:(FAQ_CLUB_FINANCES)
+					M_HelpTopic:(FAQ_PRESTIGING)
+					
+					##W
+					M_HelpTopic:(FAQ_WINDOWEDSTEAMWIN)
+					##*
+
+					##M
+					M_HelpTopic:(FAQ_WINDOWEDSTEAMMAC)
+					##*
+
+					##DT
+					M_HelpTopic:(FAQ_DEMO_VERSION)
+						M_ScreenCheckExp:(home,FAQ_DEMO_VERSION,twk(PlayerSaved,SeenDemoFAQ),0)
+						.set(twk(PlayerSaved,SeenDemoFAQ),1)
+					##*
+				}}
+				M_SwitchStickHint:(✃,@R-37,@B-53,Y)
+					CTRLScrollListIcon(TopicsList,CTRLScrollList)
+			}}
+			
+			Rect:(0,0,@W,@H) ref:SwipePanel
+				SwipePanel(Help,TopicsScroll,Help,TopicsScrollVel) ref:SwipePanelTopics
+			{{
+				Rect:(0,20,@W,@H-30)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,Help,TopicsScroll,TopicsList,ScrollingListTopics,SwipePanel,SwipePanelTopics)
+				}}
+			}}
+		}}
+	}}
+
+// ----------------
+// ----------------
+
+M_NewDialogCLOSE:()

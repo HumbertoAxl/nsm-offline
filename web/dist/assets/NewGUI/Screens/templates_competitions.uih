@@ -1,0 +1,168 @@
+Macro:(M_FormIndicator,?X?,?Y?,?REF?)
+	Rect:(?X?,?Y?,136,20) ref:?REF?
+		float(%matches,%alpha)
+		set(%alpha,gel.alpha)
+	{{
+		Rect:(56,12)
+			set(gel.x,56-[[%matches-1]*14])
+		{{
+			Rect:() ref:Form1
+				.set(gel.vis,%matches>=1)
+				if(%matches >= 3)
+				<
+					set(gel.colour,collerp(#FFFFFFFFFFFFFFFF,#FFFFFF66FFFFFFFF,1))
+				>
+			{
+				Draw:(RoundedPanel,0,0,24,24) ref:Form1
+				M_Text:(W,12,0,0,24,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Form1)
+			}
+
+			Rect:() ref:Form2
+				.set(gel.vis,%matches>=2)
+				if(%matches >= 3)
+				<
+					set(gel.colour,collerp(#FFFFFFFFFFFFFFFF,#FFFFFF8CFFFFFFFF,1))
+				>
+			{
+				Draw:(RoundedPanel,28,0,24,24) ref:Form2
+				M_Text:(W,40,0,0,24,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Form2)
+			}
+
+			Rect:() ref:Form3
+				.set(gel.vis,%matches>=3)
+				if(%matches >= 3)
+				<
+					set(gel.colour,collerp(#FFFFFFFFFFFFFFFF,#FFFFFFB3FFFFFFFF,1))
+				>
+			{
+				Draw:(RoundedPanel,56,0,24,24) ref:Form3
+				M_Text:(W,68,0,0,24,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Form3)
+			}
+
+			Rect:() ref:Form4
+				.set(gel.vis,%matches>=4)
+				if(%matches >= 3)
+				<
+					set(gel.colour,collerp(#FFFFFFFFFFFFFFFF,#FFFFFFD9FFFFFFFF,1))
+				>
+			{
+				Draw:(RoundedPanel,84,0,24,24) ref:Form4
+				M_Text:(W,96,0,0,24,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Form4)
+			}
+
+			Rect:() ref:Form5
+				.set(gel.vis,%matches>=5)
+			{
+				Draw:(RoundedPanel,112,0,24,24) ref:Form5
+				M_Text:(W,124,0,0,24,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Form5)
+			}
+		}}
+	}}
+EndM
+
+
+Macro:(M_CompetitionHeader)
+	Rect:(0,0,@W,60) ref:CompetitionHeader
+		float(%prestige)
+	{{
+		// Competition colour
+		Draw:(White,@f,0,@w,@H)
+			M_Prestige:(CompetitionColour)
+
+		// Competition Banner image
+		Draw:(White,0,0,500,60)
+			M_Prestige:(BannerImage)
+
+		// Competition Shield image
+		Draw:(Blank,20,-23,150,150)
+		 	M_Prestige:(ShieldImage)
+		 	Layer(AboveText2)
+
+		// Right Fade and Star Shape
+		Draw:(Banner_Fade,@f+@w-756,0,756,60)
+		Clip:(@f,0,@w,60)
+		{
+			Draw:(Banner_Star,@C,-20,,,,#FFFFFF33)
+		}
+
+		// Competition Trophy image
+		Draw:(Blank,@R-204,-45,225,225)
+		 	M_Prestige:(TrophyImage)
+		 	set(gel.vis,not(shell(GameScreen) oneof(animatedleague,endseason_table)))
+		 	Layer(AboveText2)
+
+		// Competition Name
+		M_Text:("",167,0,0,60,L,C,Text,BEBAS60,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,LeagueFixtures,CompName,DoLTR)
+	}}
+EndM
+
+
+Macro:(M_PreMatchCompetitionHeader)
+	Rect:(0,0,@W,60)
+	{{
+		//DropShadow
+		Draw:(Fade_Down,@f,60,@w,15,,#00000030)
+
+		// Competition colour
+		Draw:(White,@f,0,@w,@H)
+			M_PrestigeMatch:(CompetitionColour)
+
+		// Competition Banner image
+		Draw:(White,0,0,500,60)
+			M_PrestigeMatch:(BannerImage)
+
+		// Competition Shield image
+		Draw:(Blank,20,-23,150,150)
+		 	M_PrestigeMatch:(ShieldImage)
+
+		// Right Fade and Star Shape
+		Draw:(Banner_Fade,@f+@w-756,0,756,60)
+		Clip:(@f,0,@w,60)
+		{
+			Draw:(Banner_Star,@C,-20,,,,#FFFFFF33)
+		}
+
+		// Competition Trophy image
+		Draw:(Blank,@R-204,-45,225,225)
+		 	M_PrestigeMatch:(TrophyImage)
+			if(twk(MatchInterval,FormationCam) = 1)
+			<
+				frlerp(gel.alpha,0,0.1)
+			>
+
+		// Competition Name
+		M_Text:("",167,0,0,60,L,C,Text,BEBAS60,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,LeagueFixtures,CompName,DoLTR)
+	}}
+EndM
+
+
+Macro:(M_PostMatchCompetitionHeader)
+	Rect:(0,0,@W,60)
+	{{
+		// Competition colour
+		Draw:(White,@f,0,@w,@H)
+			M_PrestigeMatch:(CompetitionColour)
+
+		// Competition Banner image
+		Draw:(White,0,0,500,60)
+			M_PrestigeMatch:(BannerImage)
+
+		// Competition Shield image
+		Draw:(Blank,20,-23,150,150)
+		 	M_PrestigeMatch:(ShieldImage)
+
+		// Right Fade and Star Shape
+		Draw:(Banner_Fade,@f+@w-756,0,756,60)
+		Clip:(@f,0,@w,60)
+		{
+			Draw:(Banner_Star,@C,-20,,,,#FFFFFF33)
+		}
+
+		// Competition Trophy image
+		Draw:(Blank,@R-204,-45,225,225)
+		 	M_PrestigeMatch:(TrophyImage)
+
+		// Competition Name
+		M_Text:("",167,0,0,60,L,C,Text,BEBAS60,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,LeagueFixtures,CompName,DoLTR)
+	}}
+EndM

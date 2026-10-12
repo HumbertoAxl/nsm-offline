@@ -1,0 +1,200 @@
+Img:(Icon_Auction_A,NewGUI/UI/Icons/Icon_Auction_A.png) FORCE
+Img:(Icon_Auction_B,NewGUI/UI/Icons/Icon_Auction_B.png) FORCE
+
+Macro:(M_StatLine,?X?,?Y?,?STAT?,?TWK?,?PREFIX?)
+	Rect:(?X?,?Y?)
+	{{
+		M_Text:(?STAT?,0,0,350,50,L,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Text:(,0,0,350,50,R,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ref)
+			set(gel.text,twk(ProfilePlayer,?TWK?))
+	}}
+EndM
+
+
+Draw:(White,0,-1,2,2,,#FFFFFFFF) ref:BidEdge
+	Layer(Text)
+	Handle(0.5,0.5)
+{{
+}} Template
+
+Draw:(Circle_20,-2,-2,8,8,,#000000FF) ref:BidVertex
+	Layer(AboveText)
+	Handle(0.5,0.5)
+{{
+	Draw:(Circle_20,-3,-3,6,6,,#FFFFFFFF) ref:BidVertexColour
+		Layer(AboveText)
+}} Template
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Macro:(M_ProfileTransfer,?SCRN?,?TYPE?)
+	Rect:(0,350,@W,215+@z)
+		set(gel.vis,twk(Transfer,InProgress),1)
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+
+		M_Text:(generic_TRANSFER,@C,25,0,0,C,C,TextLoc,KNUL23,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+
+		Rect:(0,0,@W,@H)  ref:BidList
+			ScrollingList(Transfer,BiddingEventsScroll,@H,Transfer,BiddingEventsScrollVel) ref:ScrollingList
+			ChildrenOffset(0,65) ref:ChildrenOffset
+		{
+		}
+
+
+		// Bid Chart
+		Rect:(@L+30,70,@W-570,200)
+		{{
+			//BG
+			Draw:(White,0,0,@W,@H,,#FFFFFF40) ref:BidChart
+
+			//Horizontal lines
+			Tile:(White,0,20,@W,1,,#00000015)
+				Copies(1,9)
+				Spacing(0,20)
+
+			//Vertical Lines
+			Tile:(White,@L+[@W/10],0,2,@H,,#00000020)
+				Copies(9,1)
+				Spacing(@W/10,0)
+
+			// Value line
+			Draw:(White,0,@M-1,@W,2,,#138E1BFF)
+
+			//Top Line
+			Draw:(White,@L,@H-[@H+2],@W,2,,#808080FF)
+			//Left Line
+			Draw:(White,@L,0,2,@H,,#808080FF)
+			//Right Line
+			Draw:(White,@R-2,0,2,@H,,#808080FF)
+			//Bottom Line
+			Draw:(White,@L,@H-2,@W,2,,#808080FF)
+
+
+			// Time
+			Draw:(White,0,0,2,@H,,#0000FF60) ref:BidTime
+				set(gel.x,0 + [(twk(Auction,Step) * [@W/10]) + (twk(Auction,StepDelta) * [@W/10])]-[@W/10])
+
+			// Y axis values
+			M_Text:("1",-50,[@H/5]*0,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step6,Auction,YAxis5)
+			M_Text:("2",-50,[@H/5]*1,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step5,Auction,YAxis4)
+			M_Text:("3",-50,[@H/5]*2,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step4,Auction,YAxis3)
+			M_Text:("4",-50,[@H/5]*3,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step3,Auction,YAxis2)
+			M_Text:("5",-50,[@H/5]*4,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step2,Auction,YAxis1)
+			M_Text:("6",-50,[@H/5]*5,50,0,R,C,Text,KNUL18,,0,0,#00000000,NoItalics,#00000000,Step1,Auction,YAxis0)
+
+			//Bidding Team names to be displayed inline with associated bid entry point.
+			M_Text:("",@L+40,@H-15,0,0,C,C,Text,KNUL22,,1,0,#00000000,NoItalics,#FF0000FF,BidTeam0)
+			M_Text:("",@C,@H-[@H-15],0,0,C,C,Text,KNUL22,,1,0,#00000000,NoItalics,#FF00DDFF,BidTeam1)
+			M_Text:("",@R-40,@H-15,0,0,C,C,Text,KNUL22,,1,0,#00000000,NoItalics,#0000FFFF,BidTeam2)
+		}}
+
+
+		// Bid Title
+		Rect:(@R-510,68,480,130)
+		{{
+			//Divider
+			Tile:(Separator,0,60,,,,#FFFFFFFF)
+				Copies(2,1)
+				Spacing(@W,0)
+
+			//Bid State Text
+			Draw:(White,0,0,@W,30,,#FFFFFF40)
+			//TWK Transfer,BiddingStage 0:Inactive - 1:Bidding active - 2:Bidding ended & sold - 3:Bidding ended & not sold
+			M_Text:(,@C,16,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				if(twk(Transfer,BiddingState) = 0)
+				<
+					:set(gel.text,loc(transfer_AwaitingBids))
+				>
+				elif(twk(Transfer,BiddingState) = 1 and(twk(ProfilePlayer,BestOffer) != 0))
+				<
+					set(gel.text,loc(transfer_BestOffer) :: " ★ " :: commasfmt(twk(ProfilePlayer,BestOffer)))
+				>
+				elif(twk(Transfer,BiddingState) = 2)
+				<
+					:set(gel.text,loc(transfer_SoldFor) :: " ★ " :: commasfmt(twk(ProfilePlayer,BestOffer)))
+				>
+				elif(twk(Transfer,BiddingState) = 3)
+				<
+					:set(gel.text,loc(transfer_FailedToSell))
+				>>>>
+		}}
+
+
+		// Bid Event
+		Rect:(@R-520,68)
+		{{
+			Clip:(10,30,475,130) ref:BidEvent
+			{
+				Rect:(0,-130,475,130)
+					Rearmable()
+					:set(gel.y,-130)
+					frlerp(gel.y,-30,0.1)
+				{{
+					// Base Colour
+					Draw:(White,20,125,@W-20,-5,,#00000020)
+
+					M_Badge:(@R-35,80,HD,0.5,BidBadge)
+
+					// Auction Icon
+					Draw:(Icon_Auction_A,@C-35,50,80,80,,#252525FF)
+						set(gel.vis,(twk(Transfer,BiddingState) = 0) or(twk(Transfer,BiddingState) =2))
+
+						if(twk(Transfer,BiddingState) = 2)
+						<
+							set(gel.img,"Icon_Auction_B")
+						>
+						else
+						<
+							set(gel.img,"Icon_Auction_A")
+						>
+
+					// Bid Text
+					M_Text:(,20,80,@W-90,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#252525FF,BidText)
+						set(gel.vis,twk(Transfer,BiddingState) = 1)
+				}}	
+			}
+		}}
+
+
+		// Buttons
+		Rect:()
+			set(gel.vis,twk(Transfer,BiddingState) = 0)
+		{
+			// Cancel
+			M_Button:(@R-400,@B+30,220,60,Button_RedSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_TransferCancel,ref,loc(generic_CANCEL),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				:CTRLSetSelected()
+
+			// Start
+			M_Button:(@R-140,@B+30,220,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_TransferConfirm,ref,loc(generic_START),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		}
+
+		Rect:()
+			set(gel.vis,twk(Transfer,BiddingState) = 1)
+		{
+			// Accept
+			M_Button:(@R-140,@B+30,220,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_TransferConfirm,ref,loc(generic_ACCEPT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				set(%disabled,twk(ProfilePlayer,BestOffer) = 0)
+		}
+
+		Rect:()
+			set(gel.vis,twk(Transfer,BiddingState) oneof(2,3))
+		{
+			Rect:()
+				set(gel.vis,twk(Transfer,BiddingState) = 3)
+			{
+				// Release
+				M_Button:(@R-400,@B+30,220,60,Button_RedSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_TransferRelease,ref,loc(generic_RELEASE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			}
+
+			// Continue
+			M_Button:(@R-140,@B+30,220,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_TransferContinue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				:CTRLSetSelected()
+		}
+	}}
+EndM

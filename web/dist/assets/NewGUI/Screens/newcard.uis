@@ -1,0 +1,212 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+SplitSpine:(NSM_BGFX01,NSM_BGFX,BGFX01)
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	CTRLClearSelect()
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+//--------------------------------------------------------------------------------------------MACROS
+
+
+Macro:(M_RewardCard,?INDEX?)
+
+Rect:() ref:RewardCardFunc?INDEX? 
+	 	float(%flip,%state)
+		 	func(Flip)
+		 	<
+					// Post("FLIPDEBUG_DoingFlip state:"::%state::" and flip:"::%flip)
+		 		if(%state < 1 and(%flip < 2))
+		 		<
+		 			.set(%flip,1)
+					if(?INDEX? = 1)
+					<
+						.Post(UI_CardAppear)
+					>
+		 		>
+		 	>
+	 {
+
+		Sheet:(0,0,1191,0,0,0,51.49) ref:RewardCard?INDEX? //FIXEDFOV
+			.set(gel.vis,?INDEX?<=twk(NewCard,CardCount))
+		 	PinVP([@W/[twk(NewCard,CardCount) + 1]]*?INDEX?,@M)
+			
+
+		 	// Initial position
+		 	.set(gel.alpha,0)
+		 	.set(gel3d.x,0)
+		 	.set(gel3d.y,@B)
+		 	.set(gel3d.rotz,70)
+		 	frlerp(gel3d.y,0,0.15)
+		 	frlerp(gel3d.rotz,0,0.15)
+		 	frlerp(gel.alpha,1,0.15)
+		 	:Post(UI_Swoosh)
+
+			// Pulse
+			if(%flip = 0)
+			<
+				float(%t)
+				add(%t,FrameTime*5)
+				set(gel3d.z,lerp(1225,1191,[sin(%t)+1]/2))
+			>
+			
+			// Scale up
+			if(%flip = 1)
+			<
+				Delay(?INDEX?*0.25)
+				.set(gel3d.z,1500)
+				frlerp(gel3d.z,1000,0.075)
+				if(gel3d.z < 1005)
+				<
+					.set(gel3d.z,1000)
+					.set(%flip,2)
+				>
+			>
+			// Flip with slam
+			if(%flip = 2)
+			<
+				if(%state = 0)
+				<
+					frlerp(gel3d.roty,180,0.15)
+					:Post(sounds.cards_Swap)
+					:Post(UI_Success)
+				>
+				else
+				<
+					frlerp(gel3d.roty,0,0.15)
+					if(gel3d.roty >= -40)
+					<
+						frlerp(gel3d.z,1300,0.3)
+					>
+				>
+				if(gel3d.roty >= 90 and(%state = 0))
+				<
+					set(gel3d.roty,-90)
+					set(%state,1)
+				>
+			>
+		{{
+
+			Rect:(0,0,240,310)
+				Handle(0.5,0.5)
+			{{
+				// Back
+				Rect:()
+					set(gel.vis,%state = 0)
+				{
+					Draw:(CardBack,@L,@T,@W,@H)
+				}
+
+				// Front
+				Rect:()
+					set(gel.vis,%state = 1)
+				{
+					M_CardSlot:(0,0,NewCard?INDEX?,NONE,NONE,0,2,Slot)
+				}
+
+			}}
+		}}
+
+		Sheet:(0,0,1191,0,0,0,51.49) //FIXEDFOV
+			.set(gel.vis,?INDEX?<=twk(NewCard,CardCount))
+		 	PinVP([@W/[twk(NewCard,CardCount) + 1]]*?INDEX?,@M)
+		{{
+			AnimInstance:(0,0,CardBGFX) ref:FX?INDEX?
+				set(gel.anim.speed,0)
+				Delay(?INDEX?*0.25)
+				set(gel.anim.speed,0.3)
+
+			Instance:(NewCardSpots,0,0)
+
+			Instance:(NewCardEmitter,0,0) $HIDE
+	     		Delay(1)
+	   			set(gel.vis,1)
+
+		}}
+
+	 }
+	
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@l,@t,@w,@h)
+	Click()
+	Press()
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%claimedCount,%clickedCard,%close)
+	
+	// Auto-Collect
+	// Post("FLIPDEBUG_ScreenTransition", twk(ScreenTransition,Active))
+	if(twk(ScreenTransition,Active)=0)
+	<
+		// Post("FLIPDEBUG_CountCheck:"::%claimedCount::"vs"::twk(NewCard,CardCount))
+		if(%claimedCount < twk(NewCard,CardCount))
+		<
+			add(%claimedCount,1)
+			// Post("FLIPDEBUG_ClaimingCard RewardCardFunc"::fmt(%claimedCount,X))
+			call(RewardCardFunc::fmt(%claimedCount,X),Flip)
+		>
+	>
+
+	if(%claimedCount >= twk(NewCard,CardCount) and(%close = 1))
+	<
+		:Message(newcard.btn_CloseStart)
+		frlerp(gel.alpha,0,0.2)
+		if(gel.alpha < 0.05)
+		<
+			.set(gel.alpha,0)
+			.set(%close,0)
+			.Post(newcard.btn_Close)
+		>
+	>
+{{
+
+	// Background
+	Draw:(BG_Combined,@f,@T,@w,@H,,#A1A1A9FF)
+
+	Spine:(NSM_BGFX01,@f+100,500,-25,BGFX01,Loop)
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+	Spine:(NSM_BGFX01,@f+@w-150,@B-400,155,BGFX01,Loop) 
+		.set(gel.anim.speed,0.25)
+		.set(gel.colour,#FFFFFF30)
+
+
+	// Title
+	Draw:(Fade_Right,@C,@T+20,-500,1)
+	Draw:(Fade_Right,@C,@T+20,500,1)
+	Draw:(Fade_Right,@C,@T+70,-500,1)
+	Draw:(Fade_Right,@C,@T+70,500,1)
+	M_Text:(,@C,@T+45,0,0,C,C,Text,KNUL30,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Title)
+
+
+	// Reward Cards
+	M_RewardCard:(1)
+	M_RewardCard:(2)
+	M_RewardCard:(3)
+
+
+	//Continue Button
+	Rect:() $HIDE
+		Delay(2)
+		:set(gel.vis,1)
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,NewCardContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				set(%close,1)
+			>
+	}
+}}

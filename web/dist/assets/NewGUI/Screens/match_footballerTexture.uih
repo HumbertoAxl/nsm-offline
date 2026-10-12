@@ -1,0 +1,63 @@
+##IA
+Img:(FootballerBoots,NewGUI/Textures/Footballer/NSM_Player_Boots.png) FORCE Scale:0.5
+Img:(FootballerFace,NewGUI/Textures/Footballer/NSM_Player_Face.png) FORCE Scale:0.5
+Img:(FootballerHair,NewGUI/Textures/Footballer/NSM_Player_Hair.png) FORCE Scale:0.5
+Img:(FootballerShirt,NewGUI/Textures/Footballer/NSM_Player_Shirt.png) FORCE Scale:0.5
+Img:(FootballerShirtSleeves,NewGUI/Textures/Footballer/NSM_Player_Sleeves.png) FORCE Scale:0.5
+Img:(FootballerShirtStripesH,NewGUI/Textures/Footballer/NSM_Player_Shirt_H_Stripe.png) FORCE Scale:0.5
+Img:(FootballerShirtStripesV,NewGUI/Textures/Footballer/NSM_Player_Shirt_V_Stripe.png) FORCE Scale:0.5
+Img:(FootballerShirtQuarters,NewGUI/Textures/Footballer/NSM_Player_Shirt_Quarters.png) FORCE Scale:0.5
+Img:(FootballerShirtSash,NewGUI/Textures/Footballer/NSM_Player_Shirt_Sash.png) FORCE Scale:0.5
+Img:(FootballerShirtCentreStripe,NewGUI/Textures/Footballer/NSM_Player_Shirt_CentreStripe.png) FORCE Scale:0.5
+Img:(FootballerShirtVStripe,NewGUI/Textures/Footballer/NSM_Player_Shirt_VStripe.png) FORCE Scale:0.5
+Img:(FootballerShirtVerticalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_VerticalHalf.png) FORCE Scale:0.5
+Img:(FootballerShirtHorizontalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_HorizontalHalf.png) FORCE Scale:0.5
+Img:(FootballerShirtDiagonalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_DiagonalHalf.png) FORCE Scale:0.5
+Img:(FootballerShirtChecks,NewGUI/Textures/Footballer/NSM_Player_Shirt_Checks.png) FORCE Scale:0.5
+Img:(FootballerShorts,NewGUI/Textures/Footballer/NSM_Player_Shorts.png) FORCE Scale:0.5
+Img:(FootballerSocks,NewGUI/Textures/Footballer/NSM_Player_Socks.png) FORCE Scale:0.5
+##P4N
+Img:(FootballerBoots,NewGUI/Textures/Footballer/NSM_Player_Boots.png) FORCE
+Img:(FootballerFace,NewGUI/Textures/Footballer/NSM_Player_Face.png) FORCE
+Img:(FootballerHair,NewGUI/Textures/Footballer/NSM_Player_Hair.png) FORCE
+Img:(FootballerShirt,NewGUI/Textures/Footballer/NSM_Player_Shirt.png) FORCE
+Img:(FootballerShirtSleeves,NewGUI/Textures/Footballer/NSM_Player_Sleeves.png) FORCE
+Img:(FootballerShirtStripesH,NewGUI/Textures/Footballer/NSM_Player_Shirt_H_Stripe.png) FORCE
+Img:(FootballerShirtStripesV,NewGUI/Textures/Footballer/NSM_Player_Shirt_V_Stripe.png) FORCE
+Img:(FootballerShirtQuarters,NewGUI/Textures/Footballer/NSM_Player_Shirt_Quarters.png) FORCE
+Img:(FootballerShirtSash,NewGUI/Textures/Footballer/NSM_Player_Shirt_Sash.png) FORCE
+Img:(FootballerShirtCentreStripe,NewGUI/Textures/Footballer/NSM_Player_Shirt_CentreStripe.png) FORCE
+Img:(FootballerShirtVStripe,NewGUI/Textures/Footballer/NSM_Player_Shirt_VStripe.png) FORCE
+Img:(FootballerShirtVerticalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_VerticalHalf.png) FORCE
+Img:(FootballerShirtHorizontalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_HorizontalHalf.png) FORCE
+Img:(FootballerShirtDiagonalHalf,NewGUI/Textures/Footballer/NSM_Player_Shirt_DiagonalHalf.png) FORCE
+Img:(FootballerShirtChecks,NewGUI/Textures/Footballer/NSM_Player_Shirt_Checks.png) FORCE
+Img:(FootballerShorts,NewGUI/Textures/Footballer/NSM_Player_Shorts.png) FORCE
+Img:(FootballerSocks,NewGUI/Textures/Footballer/NSM_Player_Socks.png) FORCE
+##*
+
+Macro:(M_FootballerTexture,?ID?,?SKINCOL?,?HAIRCOL?,?KITSTYLE?,?KITCOL1?,?KITCOL2?,?SHORTSCOL?)
+	Surf:($FOOTBALLERTEXTURESURF?ID?,128,128,True)
+
+	View:($FOOTBALLERTEXTURESURF?ID?,256,256) ref:Texture
+		RTTOnce()
+	{
+		Sheet:()
+		{
+			Cls:(#000000FF)
+			Dissolve:()
+			{
+				Draw:(FootballerBoots,0,0,256,256,,#FFFFFFFF)
+				Draw:(FootballerFace,0,0,256,256,,?SKINCOL?)
+				Draw:(FootballerHair,0,0,256,256,,?HAIRCOL?)
+				Draw:(FootballerShirt,0,0,256,256,,?KITCOL1?)
+
+				Draw:(FootballerShirtStripesV,0,0,256,256,,?KITCOL2?)
+					M_KitStyleImageSwitch:(?KITSTYLE?,"FootballerShirtStripesV","FootballerShirtStripesH","FootballerShirtSleeves","FootballerShirtChecks","FootballerShirtDiagonalHalf","FootballerShirtHorizontalHalf","FootballerShirtVerticalHalf","FootballerShirtVStripe","FootballerShirtCentreStripe","FootballerShirtSash","FootballerShirtQuarters")
+
+				Draw:(FootballerShorts,0,0,256,256,,?SHORTSCOL?)
+				Draw:(FootballerSocks,0,0,256,256,,?SHORTSCOL?)
+			}
+		}
+	}
+EndM

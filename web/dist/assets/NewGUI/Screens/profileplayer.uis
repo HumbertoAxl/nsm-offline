@@ -1,0 +1,398 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_RewardedAd,NewGUI/UI/Profiles/Icon_RewardedAd.png)
+
+Img:(Icon_Skill_Agility_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Agility_S.png)
+Img:(Icon_Skill_Dribbling_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Dribbling_S.png)
+Img:(Icon_Skill_Handling_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Handling_S.png)
+Img:(Icon_Skill_Pace_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Pace_S.png)
+Img:(Icon_Skill_Reflexes_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Reflexes_S.png)
+Img:(Icon_Skill_Strength_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Strength_S.png)
+Img:(Icon_Skill_Tackling_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Tackling_S.png)
+Img:(Icon_Skill_Technique_S,NewGUI/UI/Profiles/Skills/Icon_Skill_Technique_S.png)
+
+Img:(Icon_StatusAlert,NewGUI/UI/Profiles/Icon_StatusAlert.png)
+
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//--------------------------------------------------------------------------------------------MACROS
+//-----------------------------------------------------------------------------------------TEMPLATES
+Rect:(0,0,0,0,0,#FFFFFFFF000000FF) ref:RoleMarker
+{{
+	Draw:(RoundedPanel,0,0,40,30) ref:RoleBackground
+	M_Text:(,20,0,0,30,C,C,Text,KNUL22,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,RoleText)
+}} Template
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(profile_HEADER),profileplayer)
+// ----------------
+// ----------------
+
+	Rect:(@L,@T,@W,@H)
+	{{
+
+		// ---------------------------------HEADER -------------------------------------------------------------------------
+		
+		// Header Bar
+		Rect:()
+		{
+			Draw:(White,@f,0,@w,95,,#CC1618FF)
+				if(twk(ProfilePlayer,IsOthersTeam) = 0)
+				<
+					set(gel.colour,twk(Player,HomeShirtCol1))
+				>
+				else
+				<
+					set(gel.colour,twk(ProfilePlayer,TeamCol1))
+				>
+
+			Draw:(White,135,0,-1000,95)
+			Draw:(Fade_Right,135,0,1000,95)
+			Draw:(Banner_Star,@s,0,,95,,#FFFFFF20)
+				Handle(1,0)
+
+			Draw:(Fade_Down,@f,95,@w,7,,#00000095)
+			Draw:(White,@f,95,@w,2,,#808080FF)
+			Draw:(White,@f,95,@w,2)
+				if(twk(ProfilePlayer,IsOthersTeam) = 0)
+				<
+					set(gel.colour,twk(Player,HomeShirtCol1))
+				>
+				else
+				<
+					set(gel.colour,twk(ProfilePlayer,TeamCol1))
+				>
+				set(gel.alpha,0.5)
+		}
+
+		// Name
+		Rect:(220,0)
+		{{
+			M_Text:(,0,32,0,0,L,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,FirstName)
+				set(%gfo,%gfw)
+			M_Text:(,0,32,0,0,L,C,Text,KNUL45,,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,LastName)
+				M_Style:(Outline,#00000020)
+				set(gel.x,%gfo+16)
+		}}
+
+
+		// Roles
+		Rect:(220,48,@W,@H)
+			float(%childX)
+			set(%childX,6)
+		{{
+			M_Text:(,0,0,500,50,L,C,TextLoc,KNUL30,,0,0,#252525FF,NoItalics,#505050FF,ref)
+				set(gel.text,twk(ProfilePlayer,Position))
+				:set(%gfw,strwidth(gel.text,0)*0.88)
+				add(%childX,%gfw+10)
+
+			Rect:(0,10) ref:RoleMarkerHook
+				set(gel.x,%childX)
+				add(%childX,gel.w+13)
+				ChildrenOffset(44,0) ref:ChildrenOffset
+
+			M_Text:(,0,0,500,50,L,C,Text,KNUL30,,1,0,#00000000,NoItalics,#505050FF,ref,ProfilePlayer,AgeString)
+				set(gel.x,%childX)
+				add(%childX,%gfw+10)
+		}}
+
+
+		// Club Badge
+		Rect:()
+			set(gel.vis,not(twk(ProfilePlayer,IsScoutedPlayer)))
+		{
+			M_Badge:(@R-60,52,HD,0.6,TeamBadge)
+			M_Text:(,@R-125,32,0,0,R,C,Text,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,ProfilePlayer,TeamName, DoLTR)
+				set(gel.colour,twk(ProfilePlayer,TeamTextCol))
+			M_Text:(,@R-125,68,0,0,R,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,ProfilePlayer,LeagueName, DoLTR)
+				set(gel.colour,twk(ProfilePlayer,TeamTextCol))
+		}
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// --------------------------------- BODY --------------------------------------------------------------------------
+		
+
+		// Face
+		Rect:(140,150)
+			Card_Face_HD(ProfilePlayer,,PU_MANAGER|PU_COACHING)
+			Scale(1,1)
+
+		// Drop Card Slot
+		Rect:(0,0,@W,@H)
+			Card_AreaSlot(PlayerProfileCardsArea,profileplayer.action_PlayCard,PU_MANAGER|PU_COACHING)
+		
+		Draw:(Fade_Down,@f,350,@w,-70,,#FFFFFFCC)
+
+
+
+		// Energy
+		Rect:(35,313)
+		{{
+			// Bar
+			Rect:(0,0,210,20)
+			{{
+				Draw:(White,-2,-2,@W+4,@H+4,,#FFFFFFFF)
+				Draw:(White,0,0,@W,@H,,#252525FFFFFFFFFF)
+				
+				Draw:(White,0,0,@W,@H)
+					set(gel.scalex,twk(ProfilePlayer,Energy)/100)
+					if(gel.scalex >= 0.75)
+			        <
+			        	set(gel.colour,#42BB00FFFFFFFFFF)
+			        >
+			        else
+			        <
+			            if(gel.scalex >= 0.50)
+			            <
+			            	set(gel.colour,#E0DE10FFFFFFFFFF)
+			            >
+			            else
+			            <
+			        		if(gel.scalex >= 0.25)
+			           		<
+			            		set(gel.colour,#E09E11FFFFFFFFFF)
+			            	>
+			            	else
+			            	<
+			            		set(gel.colour,#DD1010FFFFFFFFFF)
+			            	>
+			            >
+					>
+				Draw:(White,0,@M,@W,@H/2,,#00000015)
+				Draw:(White,[@W*0.25],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.5],0,1,@H,,#FFFFFFFF)
+				Draw:(White,[@W*0.75],0,1,@H,,#FFFFFFFF)
+			}}
+
+			// Icon
+			Draw:(Icon_Energy,-26,-15,53,53)
+				if(twk(ProfilePlayer,IsRaw) or(twk(ProfilePlayer,IsRookie)))
+				<
+					set(gel.colour,#009DFDFFFFFFFFFF)
+				>
+				elif(twk(ProfilePlayer,IsRetiring))
+				<
+					set(gel.colour,#BBBBBBFFFFFFFFFF)
+				>
+				else
+				<
+					set(gel.colour,#369900FFFFFFFFFF)
+				>
+		}}
+
+
+
+		// Status Info
+		Rect:(307,250)
+		{{
+			Rect:() $HIDE
+				set(gel.vis,(twk(ProfilePlayer,TransferOfferClub) != "") and(twk(ProfilePlayer,StatusInfo) != ""))
+			{
+				Draw:(Icon_StatusAlert,0,0,45,45,,#DD1010FF)
+				M_Text:(profile_player_BIDS,58,26,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					PulseAlpha(1,0,0.5,0.5,2,2,2)
+				M_Text:(,58,26,0,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,StatusInfo)
+					PulseAlpha(0,1,0.5,0.5,2,2,2)
+			}
+			
+			Rect:() $HIDE
+				set(gel.vis,(twk(ProfilePlayer,TransferOfferClub) != "") and(twk(ProfilePlayer,StatusInfo) = ""))
+			{
+				Draw:(Icon_StatusAlert,0,0,45,45,,#DD1010FF)
+				M_Text:(profile_player_BIDS,58,26,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+			}
+
+			Rect:() $HIDE
+				set(gel.vis,(twk(ProfilePlayer,TransferOfferClub) = "") and(twk(ProfilePlayer,StatusInfo) != ""))
+			{
+				Draw:(Icon_StatusAlert,0,0,45,45,,#DD1010FF)
+				M_Text:(,58,26,390+@y,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,StatusInfo)
+			}
+		}}
+
+
+		##IA
+		// Rewarded Ad Energy
+		Rect:()
+			set(gel.vis,0)
+			if((twk(ProfilePlayer,Energy) < twk(AdConfig,PlyNRGThresholdForBtn)) and(twk(AdConfigData,PlyNRGMatchesSinceLastRewarded) >= twk(AdConfig,PlyNRGCooldownGlobal)) and(twk(ProfilePlayer,MatchesSinceLastRewardedAd)>=twk(AdConfig,PlyNRGCooldownPersonal)) and(twk(ProfilePlayer,RewardedAdAvailable) = 1))
+			<
+				// if((twk(ProfilePlayer,IsInjured)=0) and (twk(ProfilePlayer,IsBanned)=0) and (twk(Settings,RewardedAdsEnabled)=1) )
+				
+				if((twk(ProfilePlayer,IsInjured)=0) and (twk(ProfilePlayer,IsBanned)=0) and (TPlayerClass.rewardedAdsEnabled=1))
+				<
+					if(twk(Match,InProgress)=0)
+					<
+						set(gel.vis,1)
+					>
+					// else
+					// <
+					// 	if(shell(GameScreen) = "formationmatch")
+					// 	<
+					// 		set(gel.vis,1)
+					// 	>
+					// >
+				>
+			>
+		{
+			M_Button:(@R-230,280,320,50,Button_GreenSliced,Icon_RewardedAd,12,10.5,30,30,#FFFFFFFF,profileplayer.btn_rewardedEnergy,ref,(loc(PlayerRewNRGButton) rep("$num",LTR(fmt(twk(AdConfig,PlyNRGRestored),X)))),15,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+		}
+		##*
+
+
+		// Trait
+		Rect:(310,305)
+		{{
+			// Unlock Tip
+			Rect:()
+				set(gel.vis,(twk(ProfilePlayer,IsOthersTeam) = 0 and(twk(Facilities,MedicalUnitLevel) < 2)) or(twk(ProfilePlayer,IsOthersTeam) = 1 and(twk(Facilities,MedicalUnitLevel) < 3)))
+			{
+				// Icon
+				Draw:(RoundedPanel,0,0,40,35,,#25252530)
+
+				Draw:(Icon_Locked,5,2,30,30,,#252525FF)
+				M_Text:(,55,18,0,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(profile_player_TRAIT) :: " - " :: loc(LockedMedical) :: " 2")
+					set(gel.vis,twk(ProfilePlayer,IsOthersTeam) = 0)
+
+				M_Text:(,55,18,0,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(profile_player_TRAIT) :: " - " :: loc(LockedMedical) :: " 3")
+					set(gel.vis,twk(ProfilePlayer,IsOthersTeam) = 1)
+			}
+
+
+			// Has Trait
+			Rect:() $HIDE
+				set(gel.vis,(twk(ProfilePlayer,IsOthersTeam) = 0 and(twk(Facilities,MedicalUnitLevel) >= 2)) or(twk(ProfilePlayer,IsOthersTeam) = 1 and(twk(Facilities,MedicalUnitLevel) >= 3)))
+			{
+				// Icon
+				Draw:(RoundedPanel,0,0,40,35)
+					if(twk(ProfilePlayer,TraitType) = -1)
+					<
+						:set(gel.colour,#DD1010FF)
+					>
+					elif(twk(ProfilePlayer,TraitType) = 0)
+					<
+						:set(gel.colour,#25252520)
+					>
+					else
+					<
+						:set(gel.colour,#138E1BFF)
+					>>
+				Draw:(Icon_TraitTag,0,-2,40,40)
+					if(twk(ProfilePlayer,TraitType) = 0)
+					<
+						:set(gel.alpha,0.6)
+					>
+					else
+					<
+						:set(gel.alpha,1)
+					>
+				// Title and Description
+				Rect:()
+					float(%w)
+				{
+					M_Text:(,55,18,0,0,L,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,Trait)
+						set(%gfo,%gfw)
+						if(twk(ProfilePlayer,TraitType) = -1)
+						<
+							:set(gel.colour,#DD1010FF)
+						>
+						elif(twk(ProfilePlayer,TraitType) = 0)
+						<
+							:set(gel.colour,#505050FF)
+							set(gel.text,loc(profile_player_NOTRAIT))
+						>
+						else
+						<
+							:set(gel.colour,#138E1BFF)
+						>>
+					{{
+						M_Text:(,150,0,1000,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref,ProfilePlayer,TraitDescription)
+							set(gel.x,%gfo+10)
+							set(gel.w,[@w-gel.gx]-20)
+					}}
+				}	
+			}
+		}}
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// --------------------------------- PAGING ------------------------------------------------------------------------
+		Rect:()
+			set(gel.vis,(twk(Negotiate,InProgress)=0) and(twk(Transfer,InProgress)=0))
+		{
+
+			// Left Paging Control
+			Rect:(0,95,75,255)
+			{{
+				M_Button:(35,110,30,60,Button_SilverSliced,Icon_ArrowLR,@C-10,20,20,20,#252525FF,profileplayer.btn_Prev,PlayerPrevButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%disabled,twk(ProfilePlayer,LeftPagingEnabled) = 0)
+					M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,LB,PlayerPrevButton)
+					M_ButtonZone:(0,0,@W,@H)	
+					if(twk(ProfilePlayer,CurrentTab) = 4)
+					<
+						CTRLPress(DOWN)
+						<
+							if(twk(ProfilePlayer,IsOthersTeam) = 0)
+							<
+								CTRLSetSelected(PlayerNegotiationSubButton)
+							>
+							else
+							<
+								CTRLSetSelected(OtherPlayerNegotiationSubButton)
+							>
+						>
+					>		
+			}}
+
+			// Right Paging Control
+			Rect:(@R-75,95,75,255)
+			{{
+				M_Button:(@R-35,110,30,60,Button_SilverSliced,Icon_ArrowLR,@C+10,20,-20,20,#252525FF,profileplayer.btn_Next,PlayerNextButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%disabled,twk(ProfilePlayer,RightPagingEnabled) = 0)
+					M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,RB,PlayerNextButton)
+					.CTRLSetSelected(PlayerNextButton)
+					M_ButtonZone:(0,0,@W,@H)
+			}}
+
+			M_SwitchButtonHint:(⛎,20,130)
+				set(gel.vis,twk(ProfilePlayer,LeftPagingEnabled))
+			M_SwitchButtonHint:(⛏,@R-50,130)
+				set(gel.vis,twk(ProfilePlayer,RightPagingEnabled))
+		}
+
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// --------------------------------- TABS AND CONTENT --------------------------------------------------------------
+		Draw:(White,@f,401,@w,235+@z,,#20204020FFFFFFFF)
+		Import:(profileplayer_newstar.uih)
+		Import:(profileplayer_other.uih)
+		Import:(profile_contract.uih)
+		Import:(profile_transfer.uih)
+		M_ProfileContract:(profileplayer,ProfilePlayer)
+		M_ProfileTransfer:(profileplayer,ProfilePlayer)
+		// -----------------------------------------------------------------------------------------------------------------
+	}}
+
+// ----------------
+// ----------------
+M_NewDialogCLOSE:()

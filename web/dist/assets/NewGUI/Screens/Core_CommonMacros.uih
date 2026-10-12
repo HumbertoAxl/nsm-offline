@@ -1,0 +1,735 @@
+Macro:(M_FTUEDisableButton,?POSTENABLE?,?POSTDISABLE?)
+	If:(?POSTDISABLE?)
+		OnPost(?POSTDISABLE?)
+		<
+			set(%disabled,1)
+		>
+	EndIf
+	If:(?POSTENABLE?)
+		OnPost(?POSTENABLE?)
+		<
+			set(%disabled,0)
+		>
+	EndIf
+EndM
+
+
+// Macro:(M_ScrollIndicator_Autofade,?CAT?,?VAR?)
+// 	##IA
+// 	// Over()
+// 	// <
+// 	// 	set(%pressed,1)
+// 	// >
+// 	// else
+// 	// <
+// 	// 	set(%pressed,0)
+// 	// >
+
+// 	.set(gel.alpha,0)
+// 	if(%pressed or ((twk(?CAT?,?VAR?Vel)*100 <-10)) or(twk(?CAT?,?VAR?Vel)*100 > 10))
+// 	<
+// 		:set(gel.alpha,0.75)
+// 	>
+// 	else
+// 	<
+// 		if((twk(?CAT?,?VAR?Vel)*100 >-10) and (twk(?CAT?,?VAR?Vel)*100 <10))
+// 		<
+// 			:Delay(0.2)
+// 			frlerp(gel.alpha,0,0.1)
+// 		>
+// 	>
+// 	##*
+// EndM
+
+
+Macro:(M_ScrollIndicator_Grabbable,?AXIS?)
+	SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+	set(%PUSH,0)
+	Grab()
+	<	
+		set(%pressed,1)
+		:if(Touch?AXIS?<%SIY)
+		<
+			set(%PUSH,%SIH)
+		>
+		:if(Touch?AXIS?>(%SIY+%SIH))
+		<
+			set(%PUSH,-%SIH)
+		>
+		:set(%dragstart,Touch?AXIS?)
+		if(%PUSH=0)
+		<
+			set(%PUSH,%dragstart-Touch?AXIS?)
+			if(%PUSH=0)
+			<
+				set(%PUSH,0.00000001)
+			>
+			set(%dragstart,Touch?AXIS?)
+		>
+	>
+EndM
+
+
+Macro:(M_ScrollIndicatorAltH,?Y?,?H?,?CAT?,?VAR?,?LIST?,?SCROLLINGLIST?,?PANEL?,?SWIPEPANEL?)
+	Rect:(-6,?Y?,40,?H?+12,90)
+		float(%SIY,%SIH,%pressed,%PUSH,%dragstart)
+		if(not(gel.vis))
+		<
+			:set(twk(?CAT?,?VAR?),0)
+			:set(twk(?CAT?,?VAR?Vel),0)
+		>
+	{{
+		Draw:(White,20,6,1,@H-12,,#00000030FFFFFFFF)
+		Draw:(ScrollBar2X,10,0,21,@H)
+			float(%pressed)
+			ScrollIndicatorBranch(?LIST?,?SCROLLINGLIST?,?PANEL?,?SWIPEPANEL?,true,80,%PUSH)
+			<
+				:set(%pressed,1)
+			>
+			else
+			<
+				:set(%pressed,0)
+			>
+			set(%SIY,gel.gx)
+			set(%SIH,gel.h)
+	}}
+		//M_ScrollIndicator_Autofade:(?CAT?,?VAR?)
+		M_ScrollIndicator_Grabbable:(X)
+EndM
+
+
+Macro:(M_ScrollIndicatorAlt,?X?,?H?,?CAT?,?VAR?,?LIST?,?SCROLLINGLIST?,?PANEL?,?SWIPEPANEL?)
+	Rect:(?X?-10,-1,40,?H?+2)
+		Layer(AboveText2)
+		float(%SIY,%SIH,%pressed,%PUSH,%dragstart)
+		if(not(gel.vis))
+		<
+			:set(twk(?CAT?,?VAR?),0)
+			:set(twk(?CAT?,?VAR?Vel),0)
+		>
+	{{
+		Draw:(White,20,6,1,@H-12,,#00000030FFFFFFFF)
+		Draw:(ScrollBar2X,10,0,21,@H)
+			ScrollIndicatorBranch(?LIST?,?SCROLLINGLIST?,?PANEL?,?SWIPEPANEL?,true,80,%PUSH)
+			<
+				:set(%pressed,1)
+			>
+			else
+			<
+				:set(%pressed,0)
+			>
+			set(%SIY,gel.gy)
+			set(%SIH,gel.h)
+	}}
+		//M_ScrollIndicator_Autofade:(?CAT?,?VAR?)
+		M_ScrollIndicator_Grabbable:(Y)
+EndM
+
+
+Macro:(M_Glint,?X?,?Y?,?LEFT?,?RIGHT?)
+	Draw:(Glint,?X?,?Y?,10,1,,#808080FFFFFFFFFF)
+		Shine(?LEFT?,?RIGHT?)
+		Scale(3,1)
+		Additive()
+EndM
+
+
+Macro:(M_Rect,?X?,?Y?,?W?,?H?,?ROT?)
+	Draw:(White,?X?,?Y?,?W?,?H?,?ROT?,#FF0000AA)
+EndM
+
+
+Macro:(M_FadingTabContent,?CAT?,?VAR?,?ID?)
+	if(twk(?CAT?,?VAR?) = ?ID?)
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.25)
+	>
+	else
+	<
+		frlerp(gel.alpha,0,0.25)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.vis,0)
+		>
+	>
+EndM
+
+
+Macro:(M_CellPress)
+	float(%pressed)
+	// Dummy Press to stop others triggering
+	Press()
+	set(%pressed,0)
+	if(TouchDown)
+	<
+		Over()
+		<
+			set(%pressed,1)
+		>
+	>
+EndM
+
+
+Macro:(M_CellPressHighlight)
+	Draw:(RoundedPanel,0,1,@W,@H-2,,#FFFFFF00)
+		Additive()
+		Layer(Text)
+		if((%pressed) and(twk(CardEngine,DraggingCard) = 0) and(shellvis(Combo) = false) and(shellvis(ComboOverlay) = false))
+		<
+			set(gel.colour,#60606060)
+		>
+		else
+		<
+			if(gel.alpha > 0.01)
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+		>
+EndM
+
+
+Macro:(M_CardApplyHighlight)
+	Draw:(RoundedPanel,0,1,@W,@H-2,,#FFFFFF00)
+		Additive()
+		Layer(Text)
+		if(twk(CardEngine,DraggingCard))
+		<
+			Over()
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				if(gel.alpha > 0.01)
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+			>
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+EndM
+
+
+Macro:(M_ONCE)
+	set(gel.vis,false)
+	Rearmable()
+	:set(gel.vis,true)
+EndM
+
+
+Macro:(M_AssistantFace,?SLOTID?,?X?,?Y?,?REF?)
+	Draw:(FTUESimon,?X?,?Y?,650,650) ref:?REF?
+		Handle(0.5,0.5)
+
+	//Rect:(?X?,?Y?)
+	//	Card_Face_HD(?SLOTID?) ref:CardFace
+	//	Scale(?SCALE?,?SCALE?)
+	//	Handle(0.5,0.5)
+EndM
+
+
+Macro:(M_ExclamationAlert,?X?,?Y?)
+	Rect:(?X?,?Y?)
+		Layer(Text)
+	{{
+		Draw:(Icon_Alert,0,0,50,50)		
+		Draw:(Icon_Exclamation,10.5,10,30,30,,#FFFFFFFFFFFFFFFF)
+			PulseAlpha(1,0.05,0.5,0.5,0.1,0.1)
+	}}
+EndM
+
+
+Macro:(M_NotificationAlert,?X?,?Y?,?VALUE?,?IMAGE?)
+	Rect:(?X?,?Y?)
+		Layer(Text)
+	{{
+		Draw:(?IMAGE?,0,0,50,50)
+		M_Text:(,25,25,0,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#000000FF,ref)
+			M_Style:(Outline,#00000035)
+			CharacterSpacing(1)
+			set(gel.text,LTR(fmt(?VALUE?,X)))
+			if(?VALUE? < 10)
+			<
+				set(gel.scale,1)
+			>
+			elif((?VALUE? >= 10) and(?VALUE? < 100))
+			<
+				set(gel.scale,0.85)
+			>
+			elif(?VALUE? >= 100)
+			<
+				set(gel.scale,0.72)
+			>>>
+	}}
+EndM
+
+
+Macro:(M_Vignette,?COL?,?SCALE?)
+	Rect:(@C,@M,@w,@H,,?COL?)
+		Handle(0.5,0.5)
+		If:(?SCALE?)
+			.set(gel.scale,?SCALE?)
+		Else
+			.set(gel.scale,1)
+		EndIf
+	{{
+		Rect:(@L,@T,@W,@H)
+		{{
+			Draw:(Vignette,@L,@T,@W/2,@H/2)
+			Draw:(Vignette,@R,@T,-@W/2,@H/2)
+			Draw:(Vignette,@L,@B,@W/2,-@H/2)
+			Draw:(Vignette,@R,@B,-@W/2,-@H/2)
+		}}
+	}}
+EndM
+
+
+Macro:(M_CircleGlow,?COL?,?SCALE?)
+	Rect:(@C,@M,1024,1024,,?COL?)
+		Handle(0.5,0.5)
+		.set(gel.scale,?SCALE?)
+	{{
+		Rect:(@L,@T,@W,@H)
+		{{
+			Draw:(Glow_Quarter,0,0,512,512)
+			Draw:(Glow_Quarter,1024,0,-512,512)
+			Draw:(Glow_Quarter,0,1024,512,-512)
+			Draw:(Glow_Quarter,1024,1024,-512,-512)
+		}}
+	}}
+EndM
+
+
+Define:(?PLAIN_KITSTYLE_ID?=0)
+Define:(?SLEEVES_KITSTYLE_ID?=10)
+Define:(?STRIPES_KITSTYLE_ID?=2)
+Define:(?HOOPS_KITSTYLE_ID?=8)
+
+Define:(?PLAIN_KEEPERKITSTYLE_ID?=0)
+Define:(?SLEEVES_KEEPERKITSTYLE_ID?=1)
+Define:(?COLLAR_KEEPERKITSTYLE_ID?=2)
+Define:(?SHOULDERS_KEEPERKITSTYLE_ID?=3)
+
+Macro:(M_KitRender,?X?,?Y?,?W?,?H?,?CAT?,?SHIRT1TWK?,?SHIRT2TWK?,?STYLETWK?,?SHORTSTWK?,?SCALE?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		Handle(0.5,0.5)
+		.set(gel.scale,?SCALE?)
+	{{		
+		Draw:(Badge_Shadow,60,386,200,,,#00000020FFFFFFFF)
+
+		//Plain
+		Draw:(ShirtBase,50,0,220,,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGB,twk(?CAT?,?SHIRT1TWK?))
+
+		//Type
+		Draw:(ShirtSleeves,50,0,220,,,#FFFFFFFFFFFFFFFF)
+		 	set(gel.colour.RGB,twk(?CAT?,?SHIRT2TWK?))
+		 	M_KitStyleImageSwitch:((twk(?CAT?,?STYLETWK?)),"ShirtStripes","ShirtHoops","ShirtSleeves","ShirtChecks","ShirtDiagonalHalf","ShirtHorizontalHalf","ShirtVerticalHalf","ShirtVStripe","ShirtCentreStripe","ShirtSash","ShirtQuarters")
+
+		Draw:(ShirtCollar,49,-1,220,,,#FFFFFFFFFFFFFFFF)
+
+		// Placeholder Badge 
+		Draw:(Shirt_Badge,168,50,30,30)
+
+		// Main Sponsors Logo 
+		Draw:(White,118,86,410,150)
+			// Handle(0.5,0.5)
+			Scale(0.2,0.2)
+			.set(gel.img,"Sponsor_"::twk(Club,Sponsor1Id))
+
+		//Shorts
+		Draw:(ShortsBase,88,224,150,,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGB,twk(?CAT?,?SHORTSTWK?))
+		Draw:(ShortsStripes,88,224,150,,,)
+	}}
+EndM
+
+
+Macro:(M_GoalieKitRender,?X?,?Y?,?W?,?H?,?CAT?,?SHIRT1TWK?,?SHIRT2TWK?,?STYLETWK?,?SHORTSTWK?,?SCALE?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		Handle(0.5,0.5)
+		.set(gel.scale,?SCALE?)
+	{{		
+		Draw:(Badge_Shadow,60,386,200,,,#00000020FFFFFFFF)
+
+		//Plain
+		Draw:(GoalieBase,18,0,282,,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGB,twk(?CAT?,?SHIRT1TWK?))
+			
+		//Type
+		Draw:(GoalieSleeves,18,0,282,,,#FFFFFFFFFFFFFFFF)
+		 	set(gel.colour.RGB,twk(?CAT?,?SHIRT2TWK?))
+		 	M_KeeperKitStyleImageSwitch:((twk(?CAT?,?STYLETWK?)),"GoalieSleeves","GoalieCollar","GoalieShoulders")
+
+		Draw:(GoalieCollar1,20,-1,280,,,#FFFFFFFFFFFFFFFF)
+
+		// Placeholder Badge 
+		Draw:(Shirt_Badge,168,50,30,30)
+
+		// Main Sponsors Logo 
+		Draw:(White,118,86,410,150)
+			// Handle(0.5,0.5)
+			Scale(0.2,0.2)
+			.set(gel.img,"Sponsor_"::twk(Club,Sponsor1Id))
+
+		//Shorts
+		Draw:(ShortsBase,88,224,150,,,#FFFFFFFFFFFFFFFF)
+			set(gel.colour.RGB,twk(?CAT?,?SHORTSTWK?))
+		Draw:(ShortsStripes,88,224,150,,,)
+	}}
+EndM
+
+
+Macro:(M_KitStyleImageSwitch,?STYLE?,?STRIPES?,?HOOPS?,?SLEEVES?,?CHECKS?,?DIAGONALHALF?,?HORIZONTALHALF?,?VERTICALHALF?,?VSTRIPE?,?CENTRESTRIPE?,?SASH?,?QUARTERS?)
+ 	if(?STYLE? = UIKitStyles.Plain)
+ 	<
+ 		:set(gel.vis,0)
+ 	>
+ 	else
+ 	<
+ 		:set(gel.vis,1)
+		if(?STYLE? = UIKitStyles.Stripes)
+		<
+			:set(gel.img,?STRIPES?)
+		>
+		elif(?STYLE? = UIKitStyles.Hoops)
+		<
+			:set(gel.img,?HOOPS?)
+		>
+		elif(?STYLE? = UIKitStyles.Sleeves)
+		<
+			:set(gel.img,?SLEEVES?)
+		>
+		elif(?STYLE? = UIKitStyles.Checks)
+		<
+			:set(gel.img,?CHECKS?)
+		>
+		elif(?STYLE? = UIKitStyles.DiagonalHalf)
+		<
+			:set(gel.img,?DIAGONALHALF?)
+		>
+		elif(?STYLE? = UIKitStyles.HorizontalHalf)
+		<
+			:set(gel.img,?HORIZONTALHALF?)
+		>
+		elif(?STYLE? = UIKitStyles.VerticalHalf)
+		<
+			:set(gel.img,?VERTICALHALF?)
+		>
+		elif(?STYLE? = UIKitStyles.VStripe)
+		<
+			:set(gel.img,?VSTRIPE?)
+		>
+		elif(?STYLE? = UIKitStyles.CentreStripe)
+		<
+			:set(gel.img,?CENTRESTRIPE?)
+		>
+		elif(?STYLE? = UIKitStyles.Sash)
+		<
+			:set(gel.img,?SASH?)
+		>
+		elif(?STYLE? = UIKitStyles.Quarters)
+		<
+			:set(gel.img,?QUARTERS?)
+		>>>>>>>>>>>
+	>
+EndM
+
+
+Macro:(M_KeeperKitStyleImageSwitch,?STYLE?,?SLEEVES?,?COLLAR?,?SHOULDERS?)
+ 	if(?STYLE? = UIKitStyles.KeeperPlain)
+ 	<
+ 		:set(gel.vis,0)
+ 	>
+ 	else
+ 	<
+ 		:set(gel.vis,1)
+		if(?STYLE? = UIKitStyles.KeeperSleeves)
+		<
+			:set(gel.img,?SLEEVES?)
+		>
+		elif(?STYLE? = UIKitStyles.KeeperCollar)
+		<
+			:set(gel.img,?COLLAR?)
+		>
+		elif(?STYLE? = UIKitStyles.KeeperShoulders)
+		<
+			:set(gel.img,?SHOULDERS?)
+		>>>
+	>
+EndM
+
+
+Macro:(M_StadTeamNameAndBadge,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?BADGEX?,?BADGEY?,?BADGESIZE?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?,?STAND?,?SHADECOL?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+		set(gel.vis,twk(Match,PlayerAtHome) =1)
+		If:(?STAND?)
+			set(gel.alpha,%currentFade?STAND?)
+		EndIf
+	{
+		UseShader:(?SHADER?)
+		{
+			//Frame
+			Draw:(White,0,0,?BGW?,?BGH?,,#DDDDDDFFFFFFFFFF)	
+				Handle(0,0)
+				Blend(ONE,INV_IMAGE_ALPHA)
+
+			//BG
+			Draw:(White,6,6,?BGW?-12,?BGH?-12,,#CC0010FFFFFFFFFF)	
+				Handle(0,0)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				set(gel.colour.RGBA,twk(Match,Team1Col))
+
+			//TeamBadge	
+			Draw:($STADBADGESURF,?BADGEX?,?BADGEY?,?BADGESIZE?,?BADGESIZE?,,#FFFFFFFFFFFFFFFF)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				Handle(0.5,0.5)	
+				
+			//TeamName
+			M_Text:("NEW STAR FC",?TEXTX?-8,[?BGH?/2],0,0,C,C,Text,BEBAS60,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				CharacterSpacing(5)
+				.set(gel.text,LTR(twk(Player,TeamName)))
+				.set(%gfw,strwidth(gel.text,3))
+				.set(gel.scale,min(1.4,[?BGW?-220]/%gfw))
+
+			//Highlight
+			Draw:(Fade_Down,0,0,?BGW?,?FADE1H?,,#FFFFFF35FFFFFFFF)	
+				Blend(ONE,INV_IMAGE_ALPHA)
+				Handle(0,0)							
+
+			//Lowlight
+			Draw:(Fade_Up,0,?BGH?,?BGW?,?FADE2H?,,#00000045FFFFFFFF)
+				Blend(ONE,INV_IMAGE_ALPHA)	
+				Handle(0,1)
+
+			//Adjustable dark overlay for signs in shade
+			Draw:(White,0,0,?BGW?,?BGH?,,#000000?SHADECOL?FFFFFFFF)	
+				Handle(0,0)
+				Blend(ONE,INV_IMAGE_ALPHA)	
+
+						
+		}
+	}
+EndM
+
+
+Macro:(M_TeamName,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BGW?,?BGH?,?TEXTX?,?TEXTY?,?TEXTW?,?FONTSIZE?,?FSCALE?,?FADE1X?,?FADE1Y?,?FADE1W?,?FADE1H?,?FADE2X?,?FADE2Y?,?FADE2W?,?FADE2H?,?SHADER?,?STAND?,?SHADECOL?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+		set(gel.vis,twk(Match,PlayerAtHome) =1)
+		If:(?STAND?)
+			set(gel.alpha,%currentFade?STAND?)
+		EndIf
+	{
+		UseShader:(?SHADER?)
+		{
+				//Frame
+				Draw:(White,0,0,?BGW?,?BGH?,,#DDDDDDFFFFFFFFFF)	
+					Handle(0,0)
+					Blend(ONE,INV_IMAGE_ALPHA)
+
+				//BG
+				Draw:(White,6,6,?BGW?-12,?BGH?-12,,#CC0010FFFFFFFFFF)	
+					Handle(0,0)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					set(gel.colour.RGBA,twk(Match,Team1Col))
+
+				//TeamName
+				Rect:()
+				{
+					// Using [?BGW?/2] and [?BGH?/2] so that text is always centred to the panel width/height
+					M_Text:("NEW STAR FC",[?BGW?/2],[?BGH?/2],0,0,C,C,Text,BEBAS60,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						CharacterSpacing(5)
+						.set(gel.text,LTR(twk(Player,TeamName)))
+						.set(%gfw,strwidth(gel.text,1))
+						.set(gel.scale,min(1.4,?BGW?/%gfw))
+				}
+
+				//Highlight
+				Draw:(Fade_Down,0,0,?BGW?,?FADE1H?,,#FFFFFF75FFFFFFFF)	
+					Blend(ONE,INV_IMAGE_ALPHA)
+					Handle(0,0)							
+
+				//Lowlight
+				Draw:(Fade_Up,0,?BGH?,?BGW?,?FADE2H?,,#00000045FFFFFFFF)
+					Blend(ONE,INV_IMAGE_ALPHA)	
+					Handle(0,1)
+
+			//Adjustable dark overlay for signs in shade
+			Draw:(White,0,0,?BGW?,?BGH?,,#000000?SHADECOL?FFFFFFFF)	
+				Handle(0,0)
+				Blend(ONE,INV_IMAGE_ALPHA)									
+		}
+	}
+EndM
+
+
+Macro:(M_StadTeamBadge,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?BADGESIZE?,?SHADER?,?STAND?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+		If:(?STAND?)
+			set(gel.alpha,%currentFade?STAND?)
+		EndIf
+	{
+		UseShader:(?SHADER?)
+		{
+			Draw:($STADBADGESURF,0,0,?BADGESIZE?,?BADGESIZE?,,#FFFFFFFFFFFFFFFF)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				Handle(0.5,0.5)	
+		}
+	}
+EndM
+
+
+Img:(Font_Arrow,NewGUI/UI/Controller/Font_Arrow.png)
+
+Macro:(M_SwitchButtonHint,?BUTTON?,?X?,?Y?,?DIR?)
+	##IA
+	Rect:(?X?,?Y?)
+		Layer(Debug)
+		LockLayer()
+	##P4N
+	Rect:(?X?,?Y?,,,,#FFFFFF00)
+		Layer(Debug)
+		LockLayer()
+		if(twk(ControllerInput,Enabled)=1)
+		<
+		 	frlerp(gel.alpha,1,0.1)
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.1)
+		>
+	{{
+		##N
+		Draw:(Circle_50,1,2,27,27)
+			set(gel.vis,"?BUTTON?" oneof("⛋","⛍","⛊","⛌","⛦","⛣","⛢"))
+		Draw:(Circle_50,1,7,22,22)
+			set(gel.vis,"?BUTTON?" = "✈")
+		Draw:(White,4,7,20,18)
+			set(gel.vis,"?BUTTON?" oneof("⛐","⛑","⛎","⛏"))
+		M_Text:(?BUTTON?,6,16,,,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FFFFFFFFFF,ref)
+
+		##P
+		Draw:(Circle_50,0,2,27,27)
+			set(gel.vis,"?BUTTON?" oneof("⛋","⛍","⛊","⛌","⛦"))
+		// Back / Start
+		Draw:(Circle_50,-2,3,30,24)
+			set(gel.vis,"?BUTTON?" oneof("⛣","⛢"))
+		Draw:(Circle_50,0,7,22,22)
+			set(gel.vis,"?BUTTON?" = "✈")
+		// LT / RT
+		Draw:(White,5,2,20,24)
+			set(gel.vis,"?BUTTON?" oneof("⛐","⛑"))
+		// LB / RB
+		Draw:(White,-1,7,32,20)
+			set(gel.vis,"?BUTTON?" oneof("⛎","⛏"))
+		M_Text:(?BUTTON?,6,16,,,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FFFFFFFFFF,ref)
+
+		##4
+		Draw:(Circle_50,1,2,27,27)
+			set(gel.vis,"?BUTTON?" oneof("⛋","⛍","⛊","⛌","⛦"))
+		Draw:(Circle_50,0,7,22,22)
+			set(gel.vis,"?BUTTON?" = "✈")
+		// L1 / R1
+		Draw:(White,5,10,25,18)
+			set(gel.vis,"?BUTTON?" oneof("⛎","⛏"))
+		// L2 / R2
+		Draw:(White,7,7,20,20)
+			set(gel.vis,"?BUTTON?" oneof("⛐","⛑"))
+
+		M_Text:(?BUTTON?,6,16,,,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FFFFFFFFFF,ref)
+			set(gel.vis,not("?BUTTON?" oneof("⛣","⛢")))
+	##P4N
+	}}
+	##*
+EndM
+
+Macro:(M_SwitchStickHint,?BUTTON?,?X?,?Y?,?DIR?)
+	##IA
+	Rect:(?X?,?Y?)
+		Layer(Debug)
+		LockLayer()
+	##P4N
+	Rect:(?X?,?Y?,,,,#FFFFFF00)
+		Layer(Debug)
+		LockLayer()
+		if(twk(ControllerInput,Enabled)=1)
+		<
+		 	frlerp(gel.alpha,1,0.1)
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.1)
+		>
+	{{
+		Draw:(Circle_50,1,2,27,27)
+
+		M_Text:(?BUTTON?,4,16,,,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FFFFFFFFFF,ref)
+
+		If:("?BUTTON?"="✂")
+			Define:(?STICK?=0)
+		EndIf
+		If:("?BUTTON?"="✃")
+			Define:(?STICK?=1)
+		EndIf
+
+		If:(?DIR?=X)
+			Draw:(Font_Arrow,-15,25,,,90,#505050FFFFFFFFFF)
+				if(JoyX?STICK? < -0.2)
+				<
+					PulseAlpha(1,0.1,0.25,0.25)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+				>
+			Draw:(Font_Arrow,43,5,,,-90,#505050FFFFFFFFFF)
+					if(JoyX?STICK? > 0.2)
+					<
+						PulseAlpha(1,0.1,0.25,0.25)
+					>
+					else
+					<
+						:set(gel.alpha,1)
+					>
+		EndIf
+		If:(?DIR?=Y)
+			Draw:(Font_Arrow,4,-14,,,,#505050FFFFFFFFFF)
+				if(JoyY?STICK? > 0.2)
+				<
+					PulseAlpha(1,0.1,0.25,0.25)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+				>
+			Draw:(Font_Arrow,4,44,,,,#505050FFFFFFFFFF)
+				Scale(1,-1)
+				if(JoyY?STICK? < -0.2)
+				<
+					PulseAlpha(1,0.1,0.25,0.25)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+				>
+		EndIf
+	}}
+	##*
+EndM
+
+
+Macro:(M_ManualRearm,?VALUE?)
+	if(?VALUE? = 1)
+	<
+		:set(%rearm,1)
+		set(gel.vis,1)
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+EndM

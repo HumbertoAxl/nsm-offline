@@ -1,0 +1,2879 @@
+//----------------------------------Import
+Import:(match_common.uih)
+Import:(FacilityConstruction.uis)
+Import:(Vehicles.uih)
+Import:(hoardings.uih)
+Import:(Crowd.uih)
+
+//----------------------------------------------------------------Goal Textures
+Img:(GoalPostsTexture,NewGUI\Textures\Goal_posts.png) FORCE
+Texture:(GoalNetTexture,Goal_net.png)
+Img:(GoalShadow2,NewGUI/Match/Goal_Shadow2.png)
+Img:(GoalShadow2Rev,NewGUI/Match/Goal_Shadow2_Rev.png)
+##P4N
+Img:(GoalShadowNight,NewGUI/Match/Goal_Shadow_Night.nspng)
+##*
+
+//----------------------------------------------------------------Pitch Textures
+Texture:(Facility_PitchLines,Stadium/Facility_PitchLines.png)
+##P4N
+Texture:(Facility_PitchLines_Night,Stadium/Facility_PitchLines_DUSK.nspng)
+##*
+
+Texture:(Stadium_PitchLines,Stadium/Stadium_PitchLines.png)
+
+Img:(LowerPitchPattern1,NewGUI/Match/Pitch_pattern1.png)
+Img:(LowerPitchPattern2,NewGUI/Match/Pitch_pattern2.png)
+Img:(LowerPitchPattern3,NewGUI/Match/Pitch_pattern3.png)
+Img:(LowerPitchPattern4,NewGUI/Match/Pitch_pattern4.png)
+Img:(LowerPitchPattern5,NewGUI/Match/Pitch_pattern5.png)
+Img:(LowerPitchPattern6,NewGUI/Match/Pitch_pattern6.png)
+Img:(LowerPitchPattern7,NewGUI/Match/Pitch_pattern7.png)
+Img:(LowerPitchPattern8,NewGUI/Match/Pitch_pattern8.png)
+
+//---------------------------------------------------------------Stadium Textures
+
+##IA
+Texture:(Stadium_Lv_3,Stadium/stadium_T3.png)
+##P4N
+Texture:(Stadium_Lv_3,Stadium/stadium_T3.pcpng)
+Texture:(Stadium_Lv_4,Stadium/stadium_T4.pcpng)
+Texture:(Stadium_Lv_5,Stadium/stadium_T5.pcpng)
+Texture:(Stadium_Lv_6,Stadium/stadium_T6.pcpng)
+
+//Night
+Texture:(Stadium_Lv_3_Night,Stadium/stadium_T3_DUSK.nspng)
+Texture:(Stadium_Lv_4_Night,Stadium/stadium_T4_DUSK.nspng)
+Texture:(Stadium_Lv_5_Night,Stadium/stadium_T5_DUSK.nspng)
+Texture:(Stadium_Lv_6_Night,Stadium/stadium_T6_DUSK.nspng)
+
+Texture:(Stadium_Adverts_Lv_3_Night,Stadium/Adverts_DUSK.nspng)
+Texture:(Stadium_Adboards_Lv_3_Night,Stadium/Adboard_bright_DUSK.nspng)
+
+//Winter
+Texture:(Stadium_Adverts_Lv_3_Winter,Stadium/Adverts_WINTER.nspng)
+Texture:(Stadium_Adboards_Lv_3_Winter,Stadium/Adboard_bright_WINTER.nspng)
+Texture:(Stadium_Lv_3_Winter,Stadium/stadium_T3_WINTER.nspng)
+Texture:(Stadium_Lv_4_Winter,Stadium/stadium_T4_WINTER.nspng)
+Texture:(Stadium_Lv_5_Winter,Stadium/stadium_T5_WINTER.nspng)
+Texture:(Stadium_Lv_6_Winter,Stadium/stadium_T6_WINTER.nspng)
+//Winter_DUSK
+Texture:(Stadium_Adverts_Lv_3_Night_Winter,Stadium/Adverts_WINTER_DUSK.nspng)
+Texture:(Stadium_Adboards_Lv_3_Night_Winter,Stadium/Adboard_bright_WINTER_DUSK.nspng)
+Texture:(Stadium_Lv_3_Night_Winter,Stadium/stadium_T3_WINTER_DUSK.nspng)
+Texture:(Stadium_Lv_4_Night_Winter,Stadium/stadium_T4_WINTER_DUSK.nspng)
+Texture:(Stadium_Lv_5_Night_Winter,Stadium/stadium_T5_WINTER_DUSK.nspng)
+Texture:(Stadium_Lv_6_Night_Winter,Stadium/stadium_T6_WINTER_DUSK.nspng)
+##*
+
+Texture:(Stadium_Litter_Lv_1,Stadium/Tier1_Litter.png)
+
+##P4N
+Texture:(Stadium_Litter_Lv_1_Night,Stadium/Tier1_Litter_DUSK.nspng)
+Texture:(GrassTexture,grass.nspng)
+##*
+
+##IA
+Texture:(GrassTexture,grass.png)
+##*
+
+Texture:(HatchTexture,black_10.png)
+Texture:(Adboard_Back,Stadium/Adboard_Back.png)
+Texture:(Stadium_Adboards_Lv_3,Stadium/Adboard_bright.png)
+Texture:(Stadium_Adverts_Lv_3,Stadium/Adverts.png)
+Texture:(Stadium_Lv_4,Stadium/stadium_T4.png)
+Texture:(Stadium_Lv_5,Stadium/stadium_T5.png)
+Texture:(Stadium_Lv_6,Stadium/stadium_T6.png,true,256,512)
+Texture:(Stadium_T6_Newstar,Stadium/Stadium_T6_Newstar.png)
+Texture:(WallShadow,Stadium/shadow.png,false)
+Texture:(Team_Logo,Stadium/NS_Logo.png)
+Texture:(Gradient,Stadium/Gradient.png)
+Texture:(Stadium_Light_Shadow,Stadium/shadowB.png)
+
+##IA
+Texture:(Stadium_T1_Shadows,Stadium/Stadium_shadows_T1_256.png,false)
+Texture:(Stadium_T2_Shadows,Stadium/stadium_shadows_T2_256.png,false)
+Texture:(Stadium_T3_Shadows,Stadium/stadium_shadows_T3_256.png,false)
+Texture:(Stadium_T4_Shadows,Stadium/stadium_shadows_T4_256.png,false)
+Texture:(Stadium_T5_Shadows,Stadium/stadium_shadows_T5_256.png,false)
+Texture:(Stadium_T6_Shadows,Stadium/stadium_shadows_T6_256.png,false)
+
+Texture:(pitch_mottle_1,Stadium/pitch_mottle_1.png)
+Texture:(pitch_mottle_2,Stadium/pitch_mottle_2.png)
+Texture:(pitch_mottle_3,Stadium/pitch_mottle_3.png)
+Texture:(pitch_mottle_4,Stadium/pitch_mottle_4.png)
+Texture:(pitch_mottle_5,Stadium/pitch_mottle_5.png)
+Texture:(pitch_mottle_6,Stadium/pitch_mottle_6.png)
+##P4N
+Texture:(Stadium_T1_Shadows,Stadium/Stadium_shadows_T1_512.pcpng,false)
+Texture:(Stadium_T2_Shadows,Stadium/stadium_shadows_T2_512.pcpng,false)
+Texture:(Stadium_T3_Shadows,Stadium/stadium_shadows_T3_512.pcpng,false)
+Texture:(Stadium_T4_Shadows,Stadium/stadium_shadows_T4_512.pcpng,false)
+Texture:(Stadium_T5_Shadows,Stadium/stadium_shadows_T5_512.pcpng,false)
+Texture:(Stadium_T6_Shadows,Stadium/stadium_shadows_T6_512.pcpng,false)
+
+Texture:(pitch_mottle_1,Stadium/pitch_mottle_1.pcpng)
+Texture:(pitch_mottle_2,Stadium/pitch_mottle_2.pcpng)
+Texture:(pitch_mottle_3,Stadium/pitch_mottle_3.pcpng)
+Texture:(pitch_mottle_4,Stadium/pitch_mottle_4.pcpng)
+Texture:(pitch_mottle_5,Stadium/pitch_mottle_5.pcpng)
+Texture:(pitch_mottle_6,Stadium/pitch_mottle_6.pcpng)
+##*
+
+##P4N
+//Snow Pitches
+Texture:(pitch_mottle_1_Winter,Stadium/pitch_mottle_1_WINTER.nspng)
+Texture:(pitch_mottle_2_Winter,Stadium/pitch_mottle_2_WINTER.nspng)
+Texture:(pitch_mottle_3_Winter,Stadium/pitch_mottle_3_WINTER.nspng)
+Texture:(pitch_mottle_4_Winter,Stadium/pitch_mottle_4_WINTER.nspng)
+Texture:(pitch_mottle_5_Winter,Stadium/pitch_mottle_5_WINTER.nspng)
+Texture:(pitch_mottle_6_Winter,Stadium/pitch_mottle_6_WINTER.nspng)
+##*
+
+
+//--------------------------------------------------------------------------------------Static Meshes
+
+##IA
+//-------------------------------------------Stadium Ground Base STANDARD
+StaticModel:(Stadium_Base_Lv_0,Stadium_Base_Lv_0)
+StaticModel:(Stadium_Base_Lv_1,Stadium_Base_Lv_1)
+StaticModel:(Stadium_Base_Lv_2,Stadium_Base_Lv_2)
+StaticModel:(Stadium_Base_Lv_3,Stadium_Base_Lv_3)
+StaticModel:(Stadium_Base_Lv_4,Stadium_Base_Lv_4)
+StaticModel:(Stadium_Base_Lv_5,Stadium_Base_Lv_5)
+StaticModel:(Stadium_Base_Lv_6,Stadium_Base_Lv_6)
+//-------------------------------------------Stadium Houses STANDARD
+StaticModel:(Stadium_Houses_Lv_0,Stadium_Houses_Lv_0)
+StaticModel:(Stadium_Houses_Lv_1,Stadium_Houses_Lv_1)
+StaticModel:(Stadium_Houses_Lv_2,Stadium_Houses_Lv_2)
+StaticModel:(Stadium_Houses_Lv_3,Stadium_Houses_Lv_3)
+//--------------------------------------------Stadium Trees STANDARD
+StaticModel:(Stadium_Trees_Lv_0,Stadium_Trees_Lv_0)
+StaticModel:(Stadium_Trees_Lv_1,Stadium_Trees_Lv_1)
+StaticModel:(Stadium_Trees_Lv_2,Stadium_Trees_Lv_2)
+StaticModel:(Stadium_Trees_Lv_3,Stadium_Trees_Lv_3)
+StaticModel:(Stadium_Trees_Lv_4,Stadium_Trees_Lv_4)
+StaticModel:(Stadium_Trees_Lv_5,Stadium_Trees_Lv_5)
+StaticModel:(Stadium_Trees_Lv_6,Stadium_Trees_Lv_6)
+//--------------------------------------------Stadium Tree Shadows STANDARD
+StaticModel:(Stadium_Trees_Shadow_Lv_0,Stadium_Trees_Shadow_Lv_0)
+StaticModel:(Stadium_Trees_Shadow_Lv_1,Stadium_Trees_Shadow_Lv_1)
+StaticModel:(Stadium_Trees_Shadow_Lv_2,Stadium_Trees_Shadow_Lv_2)
+StaticModel:(Stadium_Trees_Shadow_Lv_3,Stadium_Trees_Shadow_Lv_3)
+StaticModel:(Stadium_Trees_Shadow_Lv_4,Stadium_Trees_Shadow_Lv_4)
+StaticModel:(Stadium_Trees_Shadow_Lv_5,Stadium_Trees_Shadow_Lv_5)
+StaticModel:(Stadium_Trees_Shadow_Lv_6,Stadium_Trees_Shadow_Lv_6)
+//-------------------------------------------Stadium Ground Base HIGH DETAIL
+##P4N
+//Winter
+StaticModel:(Stadium_Base_HI_Lv_0_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_0_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_1_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_1_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_2_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_2_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_3_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_3_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_4_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_4_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_6_Winter,HIGH DETAIL/Winter/Stadium_Base_HI_Lv_6_WINTER.3DMH)
+//Summer
+StaticModel:(Stadium_Base_HI_Lv_0,HIGH DETAIL/Stadium_Base_HI_Lv_0.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_1,HIGH DETAIL/Stadium_Base_HI_Lv_1.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_2,HIGH DETAIL/Stadium_Base_HI_Lv_2.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_3,HIGH DETAIL/Stadium_Base_HI_Lv_3.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_4,HIGH DETAIL/Stadium_Base_HI_Lv_4.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_5,HIGH DETAIL/Stadium_Base_HI_Lv_5.3DMH)
+StaticModel:(Stadium_Base_HI_Lv_6,HIGH DETAIL/Stadium_Base_HI_Lv_6.3DMH)
+//-------------------------------------------Stadium Houses HIGH DETAIL
+//Winter
+StaticModel:(Stadium_Houses_HI_Lv_0_Winter,HIGH DETAIL/Winter/Stadium_Houses_HI_Lv_0_WINTER.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_1_Winter,HIGH DETAIL/Winter/Stadium_Houses_HI_Lv_1_WINTER.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_2_Winter,HIGH DETAIL/Winter/Stadium_Houses_HI_Lv_2_WINTER.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_3_Winter,HIGH DETAIL/Winter/Stadium_Houses_HI_Lv_3_WINTER.3DMH)
+//Summer
+StaticModel:(Stadium_Houses_HI_Lv_0,HIGH DETAIL/Stadium_Houses_HI_Lv_0.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_1,HIGH DETAIL/Stadium_Houses_HI_Lv_1.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_2,HIGH DETAIL/Stadium_Houses_HI_Lv_2.3DMH)
+StaticModel:(Stadium_Houses_HI_Lv_3,HIGH DETAIL/Stadium_Houses_HI_Lv_3.3DMH)
+
+StaticModel:(Stadium_Houses_Lights_HI_Lv_2,HIGH DETAIL/Stadium_Houses_Lights_HI_Lv_2.3DMH)
+StaticModel:(Stadium_Houses_Lights_HI_Lv_3,HIGH DETAIL/Stadium_Houses_Lights_HI_Lv_3.3DMH)
+//--------------------------------------------Stadium Trees HIGH DETAIL
+//Winter
+StaticModel:(Stadium_Trees_HI_Lv_0_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_0_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_1_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_1_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_2_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_2_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_3_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_3_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_4_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_4_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_6_Winter,HIGH DETAIL/Winter/Stadium_Trees_HI_Lv_6_WINTER.3DMH)
+//Summer
+StaticModel:(Stadium_Trees_HI_Lv_0,HIGH DETAIL/Stadium_Trees_HI_Lv_0.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_1,HIGH DETAIL/Stadium_Trees_HI_Lv_1.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_2,HIGH DETAIL/Stadium_Trees_HI_Lv_2.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_3,HIGH DETAIL/Stadium_Trees_HI_Lv_3.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_4,HIGH DETAIL/Stadium_Trees_HI_Lv_4.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_5,HIGH DETAIL/Stadium_Trees_HI_Lv_5.3DMH)
+StaticModel:(Stadium_Trees_HI_Lv_6,HIGH DETAIL/Stadium_Trees_HI_Lv_6.3DMH)
+//--------------------------------------------Stadium Tree Shadows HIGH DETAIL
+//Winter
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_0_Winter,HIGH DETAIL/Winter/Stadium_Trees_Shadow_HI_Lv_0_WINTER.3DMH)
+//Summer
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_0,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_0.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_1,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_1.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_2,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_2.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_3,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_3.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_4,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_4.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_5,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_5.3DMH)
+StaticModel:(Stadium_Trees_Shadow_HI_Lv_6,HIGH DETAIL/Stadium_Trees_Shadow_HI_Lv_6.3DMH)
+##*
+
+
+//--------------------------------------------Stadium General
+StaticModel:(GoalPosts,GoalPosts)
+StaticModel:(GoalNet,GoalNet)
+StaticModel:(Stadium_Pitch,Pitch)
+StaticModel:(Stadium_Litter_Lv_1,Stadium_Litter_Lv_1)
+StaticModel:(Stadium_PitchLines_Lv_1,Tier1_PitchLines)
+
+//---------------------------------------------Stadium Level 1
+StaticModel:(Stadium_Club_Lv_1,Stadium_Club_Lv_1)
+
+StaticModel:(Stadium_Seats_N_Lv_1,Stadium_Seats_N_Lv_1)
+StaticModel:(Stadium_Seats_E_Lv_1,Stadium_Seats_E_Lv_1)
+StaticModel:(Stadium_Seats_S_Lv_1,Stadium_Seats_S_Lv_1)
+StaticModel:(Stadium_Seats_W_Lv_1,Stadium_Seats_W_Lv_1)
+
+StaticModel:(Stadium_Wall_N_Lv_1,Stadium_Wall_N_Lv_1)
+StaticModel:(Stadium_Wall_E_Lv_1,Stadium_Wall_E_Lv_1)
+StaticModel:(Stadium_Wall_S_Lv_1,Stadium_Wall_S_Lv_1)
+StaticModel:(Stadium_Wall_W_Lv_1,Stadium_Wall_W_Lv_1)
+
+StaticModel:(Stadium_Wall_N_Shadow_Lv_1,Stadium_Wall_N_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_E_Shadow_Lv_1,Stadium_Wall_E_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_S_Shadow_Lv_1,Stadium_Wall_S_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_W_Shadow_Lv_1,Stadium_Wall_W_Shadow_Lv_1)
+
+StaticModel:(Stadium_Wall_NE_Lv_1,Stadium_Wall_NE_Lv_1)
+StaticModel:(Stadium_Wall_SE_Lv_1,Stadium_Wall_SE_Lv_1)
+StaticModel:(Stadium_Wall_SW_Lv_1,Stadium_Wall_SW_Lv_1)
+StaticModel:(Stadium_Wall_NW_Lv_1,Stadium_Wall_NW_Lv_1)
+
+StaticModel:(Stadium_Wall_NE_Shadow_Lv_1,Stadium_Wall_NE_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_SE_Shadow_Lv_1,Stadium_Wall_SE_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_SW_Shadow_Lv_1,Stadium_Wall_SW_Shadow_Lv_1)
+StaticModel:(Stadium_Wall_NW_Shadow_Lv_1,Stadium_Wall_NW_Shadow_Lv_1)
+
+StaticModel:(Stadium_WallSign_SW_Lv_1,Stadium_WallSign_SW_Lv_1)
+StaticModel:(Stadium_WallSign_SE_Lv_1,Stadium_WallSign_SE_Lv_1)
+StaticModel:(Stadium_WallSign_NE_Lv_1,Stadium_WallSign_NE_Lv_1)
+StaticModel:(Stadium_WallSign_NW_Lv_1,Stadium_WallSign_NW_Lv_1)
+
+StaticModel:(Stadium_WallSign_N_Lv_1,Stadium_WallSign_N_Lv_1)
+StaticModel:(Stadium_WallSign_E_Lv_1,Stadium_WallSign_E_Lv_1)
+StaticModel:(Stadium_WallSign_S_Lv_1,Stadium_WallSign_S_Lv_1)
+StaticModel:(Stadium_WallSign_W_Lv_1,Stadium_WallSign_W_Lv_1)
+
+StaticModel:(Stadium_StandSign_N_Lv_1,Stadium_StandSign_N_Lv_1)
+StaticModel:(Stadium_StandSign_E_Lv_1,Stadium_StandSign_E_Lv_1)
+StaticModel:(Stadium_StandSign_S_Lv_1,Stadium_StandSign_S_Lv_1)
+StaticModel:(Stadium_StandSign_W_Lv_1,Stadium_StandSign_W_Lv_1)
+
+StaticModel:(Stadium_Seats_N_Shadow_Lv_1,Stadium_Seats_N_Shadow_Lv_1)
+StaticModel:(Stadium_Seats_E_Shadow_Lv_1,Stadium_Seats_E_Shadow_Lv_1)
+StaticModel:(Stadium_Club_E_Shadow_Lv_1,Stadium_Club_E_Shadow_Lv_1)
+StaticModel:(Stadium_Seats_S_Shadow_Lv_1,Stadium_Seats_S_Shadow_Lv_1)
+StaticModel:(Stadium_Seats_W_Shadow_Lv_1,Stadium_Seats_W_Shadow_Lv_1)
+
+StaticModel:(Stadium_ClubSign_Lv_1,Stadium_HutSign_Lv_1)
+
+//------------------Level 1 Pitch stuff
+StaticModel:(Stadium_Light_SE_Lv_1,Stadium_Light_SE_Lv_1)
+StaticModel:(Stadium_Light_Shadow_Lv_1,Stadium_Light_Shadow_Lv_1)
+
+StaticModel:(Stadium_Dugout_Lv_1,Stadium_Dugout_Lv_1)
+StaticModel:(Stadium_Dugout_Shadow_Lv_1,Stadium_Dugout_Shadow_Lv_1)
+
+StaticModel:(Stadium_Bins_Lv_1,Stadium_Bins_Lv_1)
+
+
+
+//----------------------------------------------Stadium Level 2
+
+StaticModel:(Stadium_Club_Lv_2,Stadium_Club_Lv_2)
+
+StaticModel:(Stadium_Club_Signs_Lv_2,Stadium_Club_Signs_Lv_2)
+
+StaticModel:(Stadium_Roof_N_Lv_2,Stadium_Roof_N_Lv_2)
+StaticModel:(Stadium_Roof_E_Lv_2,Stadium_Roof_E_Lv_2)
+StaticModel:(Stadium_Roof_S_Lv_2,Stadium_Roof_S_Lv_2)
+StaticModel:(Stadium_Roof_W_Lv_2,Stadium_Roof_W_Lv_2)
+StaticModel:(Stadium_RoofSign_E_Lv_2,Stadium_RoofSign_E_Lv_2)
+
+StaticModel:(Stadium_Seats_N_Shadow_Lv_2,Stadium_Seats_N_Shadow_Lv_2)
+StaticModel:(Stadium_Seats_E_Shadow_Lv_2,Stadium_Seats_E_Shadow_Lv_2)
+StaticModel:(Stadium_Club_E_Shadow_Lv_2,Stadium_Club_E_Shadow_Lv_2)
+StaticModel:(Stadium_Seats_S_Shadow_Lv_2,Stadium_Seats_S_Shadow_Lv_2)
+StaticModel:(Stadium_Seats_W_Shadow_Lv_2,Stadium_Seats_W_Shadow_Lv_2)
+
+
+//----------------------------------------------Stadium Level 3
+StaticModel:(Stadium_Club_Lv_3,Stadium_Club_Lv_3)
+StaticModel:(Stadium_Club_Roof_Lv_3,Stadium_Club_Roof_Lv_3)
+##P4N
+StaticModel:(Stadium_Club_Roof_Lights_Lv_3,HIGH DETAIL/Stadium_Club_Roof_Lights_Lv_3.3DMH)
+##*
+StaticModel:(Stadium_WallSign_N_Lv_3,Stadium_WallSign_N_Lv_3)
+StaticModel:(Stadium_WallSign_E_Lv_3,Stadium_WallSign_E_Lv_3)
+StaticModel:(Stadium_WallSign_S_Lv_3,Stadium_WallSign_S_Lv_3)
+
+StaticModel:(Stadium_Seats_S_Lv_3,Stadium_Seats_S_Lv_3)
+
+StaticModel:(Stadium_Seats_N_Lv_3,Stadium_Seats_N_Lv_3)
+StaticModel:(Stadium_Seats_W_Lv_3,Stadium_Seats_W_Lv_3)
+StaticModel:(Stadium_Seats_E_Lv_3,Stadium_Seats_E_Lv_3)
+
+StaticModel:(Stadium_Seats_NE_Lv_3,Stadium_Seats_NE_Lv_3)
+StaticModel:(Stadium_Seats_NW_Lv_3,Stadium_Seats_NW_Lv_3)
+StaticModel:(Stadium_Seats_SW_Lv_3,Stadium_Seats_SW_Lv_3)
+StaticModel:(Stadium_Seats_SE_Lv_3,Stadium_Seats_SE_Lv_3)
+
+StaticModel:(Stadium_Club_Shadow_Lv_3,Stadium_Club_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_N_Shadow_Lv_3,Stadium_Seats_N_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_E_Shadow_Lv_3,Stadium_Seats_E_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_S_Shadow_Lv_3,Stadium_Seats_S_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_W_Shadow_Lv_3,Stadium_Seats_W_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_NW_Shadow_Lv_3,Stadium_Seats_NW_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_SW_Shadow_Lv_3,Stadium_Seats_SW_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_NE_Shadow_Lv_3,Stadium_Seats_NE_Shadow_Lv_3)
+StaticModel:(Stadium_Seats_SE_Shadow_Lv_3,Stadium_Seats_SE_Shadow_Lv_3)
+
+StaticModel:(Stadium_Roof_S_Lv_3,Stadium_Roof_S_Lv_3)
+StaticModel:(Stadium_Roof_N_Lv_3,Stadium_Roof_N_Lv_3)
+StaticModel:(Stadium_Roof_W_Lv_3,Stadium_Roof_W_Lv_3)
+StaticModel:(Stadium_Roof_E_Lv_3,Stadium_Roof_E_Lv_3)
+##P4N
+StaticModel:(Stadium_Roof_S_Lights_Lv_3,HIGH DETAIL/Stadium_Roof_S_Lights_Lv_3.3DMH)
+StaticModel:(Stadium_Roof_N_Lights_Lv_3,HIGH DETAIL/Stadium_Roof_N_Lights_Lv_3.3DMH)
+StaticModel:(Stadium_Roof_W_Lights_Lv_3,HIGH DETAIL/Stadium_Roof_W_Lights_Lv_3.3DMH)
+StaticModel:(Stadium_Roof_E_Lights_Lv_3,HIGH DETAIL/Stadium_Roof_E_Lights_Lv_3.3DMH)
+##*
+
+StaticModel:(Stadium_Roof_NE_Lv_3,Stadium_Roof_NE_Lv_3)
+StaticModel:(Stadium_Roof_NW_Lv_3,Stadium_Roof_NW_Lv_3)
+StaticModel:(Stadium_Roof_SW_Lv_3,Stadium_Roof_SW_Lv_3)
+StaticModel:(Stadium_Roof_SE_Lv_3,Stadium_Roof_SE_Lv_3)
+
+StaticModel:(Stadium_Signs_S_Lv_3,Stadium_Signs_S_Lv_3)
+StaticModel:(Stadium_Signs_N_Lv_3,Stadium_Signs_N_Lv_3)
+StaticModel:(Stadium_Signs_W_Lv_3,Stadium_Signs_W_Lv_3)
+StaticModel:(Stadium_Signs_E_Lv_3,Stadium_Signs_E_Lv_3)
+StaticModel:(Stadium_Signs_SW_Lv_3,Stadium_Signs_SW_Lv_3)
+
+//----------------------------------------------Stadium Level 4
+StaticModel:(Stadium_Seats_N_Shadow_Lv_4,Stadium_Seats_N_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_E_Shadow_Lv_4,Stadium_Seats_E_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_S_Shadow_Lv_4,Stadium_Seats_S_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_W_Shadow_Lv_4,Stadium_Seats_W_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_NW_Shadow_Lv_4,Stadium_Seats_NW_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_SW_Shadow_Lv_4,Stadium_Seats_SW_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_NE_Shadow_Lv_4,Stadium_Seats_NE_Shadow_Lv_4)
+StaticModel:(Stadium_Seats_SE_Shadow_Lv_4,Stadium_Seats_SE_Shadow_Lv_4)
+
+StaticModel:(Stadium_Roof_E_Lv_4,Stadium_Roof_E_Lv_4)
+StaticModel:(Stadium_Roof_N_Lv_4,Stadium_Roof_N_Lv_4)
+StaticModel:(Stadium_Roof_NE_Lv_4,Stadium_Roof_NE_Lv_4)
+StaticModel:(Stadium_Roof_NW_Lv_4,Stadium_Roof_NW_Lv_4)
+StaticModel:(Stadium_Roof_S_Lv_4,Stadium_Roof_S_Lv_4)
+StaticModel:(Stadium_Roof_SE_Lv_4,Stadium_Roof_SE_Lv_4)
+StaticModel:(Stadium_Roof_SW_Lv_4,Stadium_Roof_SW_Lv_4)
+StaticModel:(Stadium_Roof_W_Lv_4,Stadium_Roof_W_Lv_4)
+
+##P4N
+StaticModel:(Stadium_Roof_S_Lights_Lv_4,HIGH DETAIL/Stadium_Roof_S_Lights_Lv_4.3DMH)
+StaticModel:(Stadium_Roof_N_Lights_Lv_4,HIGH DETAIL/Stadium_Roof_N_Lights_Lv_4.3DMH)
+StaticModel:(Stadium_Roof_W_Lights_Lv_4,HIGH DETAIL/Stadium_Roof_W_Lights_Lv_4.3DMH)
+StaticModel:(Stadium_Roof_E_Lights_Lv_4,HIGH DETAIL/Stadium_Roof_E_Lights_Lv_4.3DMH)
+##*
+
+StaticModel:(Stadium_Seats_E_Lv_4,Stadium_Seats_E_Lv_4)
+StaticModel:(Stadium_Seats_N_Lv_4,Stadium_Seats_N_Lv_4)
+StaticModel:(Stadium_Seats_NE_Lv_4,Stadium_Seats_NE_Lv_4)
+StaticModel:(Stadium_Seats_NW_Lv_4,Stadium_Seats_NW_Lv_4)
+StaticModel:(Stadium_Seats_S_Lv_4,Stadium_Seats_S_Lv_4)
+StaticModel:(Stadium_Seats_SE_Lv_4,Stadium_Seats_SE_Lv_4)
+StaticModel:(Stadium_Seats_SW_Lv_4,Stadium_Seats_SW_Lv_4)
+StaticModel:(Stadium_Seats_W_Lv_4,Stadium_Seats_W_Lv_4)
+
+StaticModel:(Stadium_Signs_N_Lv_4,Stadium_Signs_N_Lv_4)
+StaticModel:(Stadium_Signs_E_Lv_4,Stadium_Signs_E_Lv_4)
+StaticModel:(Stadium_Signs_S_Lv_4,Stadium_Signs_S_Lv_4)
+StaticModel:(Stadium_Signs_W_Lv_4,Stadium_Signs_W_Lv_4)
+
+
+//T4 Roof and seat meshes with Winter UV
+##P4N
+StaticModel:(Stadium_Roof_W_Lv_4_Winter,HIGH DETAIL/Winter/Stadium_Roof_W_Lv_4_WINTER.3DMH)
+StaticModel:(Stadium_Seats_NW_Lv_4_Winter,HIGH DETAIL/Winter/Stadium_Seats_NW_Lv_4_WINTER.3DMH)
+StaticModel:(Stadium_Roof_NW_Lv_4_Winter,HIGH DETAIL/Winter/Stadium_Roof_NW_Lv_4_WINTER.3DMH)
+##*
+
+
+//----------------------------------------------Stadium Level 5
+StaticModel:(Stadium_Seats_N_Shadow_Lv_5,Stadium_Seats_N_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_E_Shadow_Lv_5,Stadium_Seats_E_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_S_Shadow_Lv_5,Stadium_Seats_S_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_W_Shadow_Lv_5,Stadium_Seats_W_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_NW_Shadow_Lv_5,Stadium_Seats_NW_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_SW_Shadow_Lv_5,Stadium_Seats_SW_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_NE_Shadow_Lv_5,Stadium_Seats_NE_Shadow_Lv_5)
+StaticModel:(Stadium_Seats_SE_Shadow_Lv_5,Stadium_Seats_SE_Shadow_Lv_5)
+
+
+StaticModel:(Stadium_Seats_N_Lv_5,Stadium_Seats_N_Lv_5)
+StaticModel:(Stadium_Seats_E_Lv_5,Stadium_Seats_E_Lv_5)
+StaticModel:(Stadium_Seats_S_Lv_5,Stadium_Seats_S_Lv_5)
+StaticModel:(Stadium_Seats_W_Lv_5,Stadium_Seats_W_Lv_5)
+StaticModel:(Stadium_Seats_NW_Lv_5,Stadium_Seats_NW_Lv_5)
+StaticModel:(Stadium_Seats_SW_Lv_5,Stadium_Seats_SW_Lv_5)
+StaticModel:(Stadium_Seats_NE_Lv_5,Stadium_Seats_NE_Lv_5)
+StaticModel:(Stadium_Seats_SE_Lv_5,Stadium_Seats_SE_Lv_5)
+
+StaticModel:(Stadium_Roof_N_Lv_5,Stadium_Roof_N_Lv_5)
+StaticModel:(Stadium_Roof_E_Lv_5,Stadium_Roof_E_Lv_5)
+StaticModel:(Stadium_Roof_S_Lv_5,Stadium_Roof_S_Lv_5)
+StaticModel:(Stadium_Roof_W_Lv_5,Stadium_Roof_W_Lv_5)
+StaticModel:(Stadium_Roof_NW_Lv_5,Stadium_Roof_NW_Lv_5)
+StaticModel:(Stadium_Roof_SW_Lv_5,Stadium_Roof_SW_Lv_5)
+StaticModel:(Stadium_Roof_NE_Lv_5,Stadium_Roof_NE_Lv_5)
+StaticModel:(Stadium_Roof_SE_Lv_5,Stadium_Roof_SE_Lv_5)
+
+##P4N
+StaticModel:(Stadium_Roof_S_Lights_Lv_5,HIGH DETAIL/Stadium_Roof_S_Lights_Lv_5.3DMH)
+StaticModel:(Stadium_Roof_N_Lights_Lv_5,HIGH DETAIL/Stadium_Roof_N_Lights_Lv_5.3DMH)
+StaticModel:(Stadium_Roof_W_Lights_Lv_5,HIGH DETAIL/Stadium_Roof_W_Lights_Lv_5.3DMH)
+StaticModel:(Stadium_Roof_E_Lights_Lv_5,HIGH DETAIL/Stadium_Roof_E_Lights_Lv_5.3DMH)
+##*
+
+StaticModel:(Stadium_Signs_N_Lv_5,Stadium_Signs_N_Lv_5)
+StaticModel:(Stadium_Signs_E_Lv_5,Stadium_Signs_E_Lv_5)
+StaticModel:(Stadium_Signs_S_Lv_5,Stadium_Signs_S_Lv_5)
+StaticModel:(Stadium_Signs_W_Lv_5,Stadium_Signs_W_Lv_5)
+
+//Winter Roof meshes with fixed UV for T5
+##P4N
+StaticModel:(Stadium_Roof_N_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_N_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_E_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_E_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_S_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_S_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_W_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_W_Lv_5_WINTER.3DMH)
+
+StaticModel:(Stadium_Roof_NW_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_NW_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_SE_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_SE_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_NE_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_NE_Lv_5_WINTER.3DMH)
+StaticModel:(Stadium_Roof_SW_Lv_5_Winter,HIGH DETAIL/Winter/Stadium_Roof_SW_Lv_5_WINTER.3DMH)
+##*
+
+
+//----------------------------------------------Stadium Level 6
+StaticModel:(Stadium_Outer_Lv_6,Stadium_Outer_Lv_6)
+StaticModel:(Stadium_Outer_Mid_Lv_6,Stadium_Outer_Mid_Lv_6)
+StaticModel:(Stadium_Outer_Roof_Lv_6,Stadium_Outer_Roof_Lv_6)
+StaticModel:(Stadium_Inner_Lv_6,Stadium_Inner_Lv_6)
+StaticModel:(Stadium_Inner_Mid_Lv_6,Stadium_Inner_Mid_Lv_6)
+StaticModel:(Stadium_Inner_Roof_Lv_6,Stadium_Inner_Roof_Lv_6)
+StaticModel:(Stadium_Signs_Lv_6,Stadium_Signs_Lv_6)
+StaticModel:(Stadium_Shadow_Lv_6,Stadium_Shadow_Lv_6)
+
+##P4N
+StaticModel:(Stadium_Outer_Lv_6_Night,HIGH DETAIL/Stadium_Outer_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Outer_Mid_Lv_6_Night,HIGH DETAIL/Stadium_Outer_Mid_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Outer_Roof_Lv_6_Night,HIGH DETAIL/Stadium_Outer_Roof_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Inner_Lv_6_Night,HIGH DETAIL/Stadium_Inner_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Inner_Mid_Lv_6_Night,HIGH DETAIL/Stadium_Inner_Mid_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Inner_Roof_Lv_6_Night,HIGH DETAIL/Stadium_Inner_Roof_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Roof_Logo_Lv_6_Night,HIGH DETAIL/Stadium_RoofLogo_DUSK_Lv_6.3DMH)
+StaticModel:(Stadium_Roof_Lights_Lv_6_Night,HIGH DETAIL/Stadium_RoofLights_DUSK_Lv_6.3DMH)
+
+
+//-------------Floodlight Beam and Glow Texture
+Texture:(Floodlight_Beam,Stadium/NSM_Floodlight_Beam.nspng)
+Texture:(Floodlight_Glow,Stadium/NSM_Floodlight_Glow.nspng)
+//-------------Floodlight Beam and Glow Meshes
+//Beam
+StaticModel:(Stadium_Lights_Beam,HIGH DETAIL/Stadium_Lights_Beam_Lv_1.3DMH)
+//Lv1
+StaticModel:(Stadium_Lights_Glow_Lv_1,HIGH DETAIL/Stadium_Lights_GlowB_Lv_1.3DMH)
+//LV3
+StaticModel:(Stadium_E_LightGlow_Lv_3,HIGH DETAIL/Stadium_E_LightGlow_Lv_3.3DMH)
+StaticModel:(Stadium_N_LightGlow_Lv_3,HIGH DETAIL/Stadium_N_LightGlow_Lv_3.3DMH)
+StaticModel:(Stadium_S_LightGlow_Lv_3,HIGH DETAIL/Stadium_S_LightGlow_Lv_3.3DMH)
+StaticModel:(Stadium_W_LightGlow_Lv_3,HIGH DETAIL/Stadium_W_LightGlow_Lv_3.3DMH)
+//LV4
+StaticModel:(Stadium_E_LightGlow_Lv_4,HIGH DETAIL/Stadium_E_LightGlow_Lv_4.3DMH)
+StaticModel:(Stadium_N_LightGlow_Lv_4,HIGH DETAIL/Stadium_N_LightGlow_Lv_4.3DMH)
+StaticModel:(Stadium_S_LightGlow_Lv_4,HIGH DETAIL/Stadium_S_LightGlow_Lv_4.3DMH)
+StaticModel:(Stadium_W_LightGlow_Lv_4,HIGH DETAIL/Stadium_W_LightGlow_Lv_4.3DMH)
+//LV5
+StaticModel:(Stadium_E_LightGlow_Lv_5,HIGH DETAIL/Stadium_E_LightGlow_Lv_5.3DMH)
+StaticModel:(Stadium_N_LightGlow_Lv_5,HIGH DETAIL/Stadium_N_LightGlow_Lv_5.3DMH)
+StaticModel:(Stadium_S_LightGlow_Lv_5,HIGH DETAIL/Stadium_S_LightGlow_Lv_5.3DMH)
+StaticModel:(Stadium_W_LightGlow_Lv_5,HIGH DETAIL/Stadium_W_LightGlow_Lv_5.3DMH)
+//LV6
+StaticModel:(Stadium_LightGlow_Lv_6,HIGH DETAIL/Stadium_LightGlow_Lv_6.3DMH)
+##*
+
+
+
+
+//---------------------------------------------General Pitch assets
+StaticModel:(Stadium_CornerFlags_Lv_1,Stadium_CornerFlags_Lv_1)
+StaticModel:(Stadium_CornerFlags_Shadows_Lv_1,Stadium_CornerFlags_Shadows_Lv_1)
+StaticModel:(Ad_Pitch,Ad_Pitch)
+StaticModel:(Ad_Pitch_Side,Ad_Pitch_Side)
+			
+//------------------------------------------Collision Tap Mesh
+StaticModel:(BoxCollider,TESTCUBE,True)
+
+
+//Make This Define Equal to a Texture Such as GoalNetTexture to show the colliders for the stadium
+Define:(?MATCH_STADIUM_SHOW_COLLIDERS?=) 
+
+
+
+//---------------------------------------Macros
+
+//AC: Needs to be after texture definitions.
+Import:(StadiumSteps.uih)
+
+//--------------------------------------------------------------------------------------------Home
+Macro:(M_StadiumBaseHome,?SCALE?)
+Locator:((0,0,0),(0,0,0),(?SCALE?,?SCALE?,?SCALE?))
+	{
+		Rect:()
+			Layer(Ground)
+		{
+			//-----------------------------------------------------Tier 0
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=0)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_0,GenBase)
+					DrawStaticModel:(Stadium_Houses_Lv_0,HouseA)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_0,Base_HI)
+						M_TextureSelectW:()
+
+					DrawStaticModel:(Stadium_Houses_HI_Lv_0,Buildings_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_0,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_0,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_0,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_0,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*				
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					Layer(Ground)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					Batch:(BatchedStandWT0Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						M_Vehicle:(-2200,-3650,Car,Car,-90,Green)
+						M_Vehicle:(-2200,-3350,Car,Car,-95,Black)
+						M_Vehicle:(-2200,-3050,Car,Car,90,Cyan)
+						M_Vehicle:(-1220,-3350,Car,Car,90,Red)
+						M_Vehicle:(-1220,-3050,Car,Car,-90,White)
+					}
+					Batch:(BatchedStandWT0Vans)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						M_Vehicle:(-1220,-3650,Van,Van,90,Green)
+					}
+					##P4N
+					Batch:(BatchedStandWT0CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						M_Vehicle_HI:(-2200,-3650,Car1_Type2,Car,-90)
+						M_Vehicle_HI:(-2200,-3350,Car2_Type1,Car,-95)
+						M_Vehicle_HI:(-2200,-3050,Car3_Type1,Car,90)
+						M_Vehicle_HI:(-1220,-3350,Car1_Type3,Car,90)
+						M_Vehicle_HI:(-1220,-3050,Car2_Type2,Car,-90)
+					}
+					M_Vehicle_HI_Single:(-1220,-3650,Van1_Type1,Van,90)
+					##*
+
+				}
+			}
+
+			//-----------------------------------------------------Tier 1
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=1)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_1,GenBase)
+					DrawStaticModel:(Stadium_Houses_Lv_1,HouseA)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_1,Base_HI)
+						M_TextureSelectW:()
+
+					DrawStaticModel:(Stadium_Houses_HI_Lv_1,Buildings_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_1,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_1,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_1,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_1,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+				{
+					##IA
+					Batch:(BatchedStandWT1Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						M_Vehicle:(-2200,-3050,Car,Car,0,Blue)
+						M_Vehicle:(-2040,-3050,Car,Car,182,Red)
+						M_Vehicle:(-1860,-3050,Car,Car,-2,White)
+
+						M_Vehicle:(-1325,-3650,Car,Car,0,Blue)
+						M_Vehicle:(-1170,-3650,Car,Car,180,Orange)
+					}
+
+					M_Vehicle:(-1500,-3050,Van,Van,0,Red)
+
+					##P4N
+					Batch:(BatchedStandWT1CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						M_Vehicle_HI:(-2200,-3050,Car1_Type2,Car,0)
+						M_Vehicle_HI:(-2040,-3050,Car2_Type1,Car,182)
+						M_Vehicle_HI:(-1860,-3050,Car1_Type1,Car,-2)
+
+						M_Vehicle_HI:(-1325,-3650,Car3_Type3,Car,0)
+						M_Vehicle_HI:(-1170,-3650,Car2_Type2,Car,180)
+					}
+					M_Vehicle_HI_Single:(-1500,-3050,Van1_Type2,Van,0)
+					##*
+
+				}
+			}
+			
+			//-----------------------------------------------------Tier 2
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=2)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_2,GenBase)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_2,Base_HI)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Houses
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Houses_Lv_2,HouseA)
+					##P4N
+					DrawStaticModel:(Stadium_Houses_HI_Lv_2,Buildings_HI)
+						M_TextureSelectW:()
+					Rect:() $HIDE
+						.set(gel.vis,twk(Facilities,Night)=1)
+					{
+						DrawStaticModel:(Stadium_Houses_Lights_HI_Lv_2,Buildings_HI_Night)
+					}
+					##*
+				}
+
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_2,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_2,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_2,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_2,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+				{
+					##IA
+					Batch:(BatchedStandWT2Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Back
+						M_Vehicle:(-1840,-3050,Car,Car,0,Blue)
+						M_Vehicle:(-2030,-3050,Car,Car,-182,Red)
+						M_Vehicle:(-2200,-3050,Car,Car,0,Cyan)
+						//Front
+						M_Vehicle:(-1152,-3650,Car,Car,0,Blue)
+						M_Vehicle:(-1000,-3650,Car,Car,5,Red)
+						M_Vehicle:(-850,-3650,Car,Car,180,Cyan)
+						M_Vehicle:(-680,-3650,Car,Car,180,Blue)
+						M_Vehicle:(-300,-3650,Car,Car,0,Orange)
+					}
+
+					M_Vehicle:(20,-3650,Van,Van,0,Red)
+
+					M_Coach:(150,-3050,Coach_White,NSM_CoachSheet,90,1)
+					
+					##P4N
+					Batch:(BatchedStandWT2CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Back
+						M_Vehicle_HI:(-1840,-3050,Car1_Type3,Car,0)
+						M_Vehicle_HI:(-2030,-3050,Car2_Type3,Car,-182)
+						M_Vehicle_HI:(-2200,-3050,Car3_Type1,Car,0)
+						//Front
+						M_Vehicle_HI:(-1152,-3650,Car2_Type2,Car,0)
+						M_Vehicle_HI:(-1000,-3650,Car1_Type2,Car,5)
+						M_Vehicle_HI:(-850,-3650,Car2_Type1,Car,180)
+						M_Vehicle_HI:(-680,-3650,Car3_Type3,Car,180)
+						M_Vehicle_HI:(-300,-3650,Car1_Type2,Car,0)
+					}
+
+					M_Vehicle_HI_Single:(20,-3650,Van1_Type1,Van,0)
+
+					//Batch:(BatchedStandWT2CoachesHI)
+					//	Blend(ONE,INV_IMAGE_ALPHA)
+					//{
+						//Left
+						M_Coach:(-850,-3050,Coach_HI,NSM_CoachSheet_HI,-90,0.8)
+				//	}
+					##*
+
+
+					//HotDog
+					M_FastFood:(-2260,-3950,HotDog,FastFood,90)
+
+				}
+			}		
+			//-----------------------------------------------------Tier 3
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=3)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_3,GenBase)
+					DrawStaticModel:(Stadium_Houses_Lv_3,HouseA)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_3,Base_HI)
+						M_TextureSelectW:()
+
+					DrawStaticModel:(Stadium_Houses_HI_Lv_3,Buildings_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				//Houses
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Houses_Lv_3,HouseA)
+					##P4N
+					DrawStaticModel:(Stadium_Houses_HI_Lv_3,Buildings_HI)
+						M_TextureSelectW:()
+					Rect:() $HIDE
+						.set(gel.vis,twk(Facilities,Night)=1)
+					{
+						DrawStaticModel:(Stadium_Houses_Lights_HI_Lv_3,Buildings_HI_Night)
+					}
+					##*
+				}
+
+				//Tree Shadow
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_3,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_3,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_3,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_3,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+				{
+					##IA
+					Batch:(BatchedStandWT3Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Back
+						M_Vehicle:(-1840,-3050,Car,Car,0,Blue)
+						M_Vehicle:(-2030,-3050,Car,Car,-182,Red)
+						M_Vehicle:(-2200,-3050,Car,Car,0,Cyan)
+						//Front
+						M_Vehicle:(-140,-3650,Car,Car,0,Blue)
+						M_Vehicle:(530,-3650,Car,Car,0,Orange)
+						M_Vehicle:(850,-3650,Car,Car,180,Blue)
+						M_Vehicle:(1070,-3650,Car,Car,0,White)
+						M_Vehicle:(1390,-3650,Car,Car,0,Black)
+						M_Vehicle:(1740,-3650,Car,Car,0,Purple)
+						M_Vehicle:(2050,-3650,Car,Car,180,Red)
+						M_Vehicle:(2400,-3650,Car,Car,170,White)
+						
+					}
+
+					M_Vehicle:(220,-3600,Van,Van,0,Red)
+					
+					##P4N
+					Batch:(BatchedStandWT3CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Back
+						M_Vehicle_HI:(-1840,-3050,Car1_Type2,Car,0)
+						M_Vehicle_HI:(-2030,-3050,Car2_Type3,Car,-182)
+						M_Vehicle_HI:(-2200,-3050,Car3_Type3,Car,0)
+						//Front
+						M_Vehicle_HI:(-140,-3650,Car2_Type2,Car,0)
+						M_Vehicle_HI:(530,-3650,Car1_Type1,Car,0)
+						M_Vehicle_HI:(850,-3650,Car3_Type2,Car,180)
+						M_Vehicle_HI:(1070,-3650,Car1_Type2,Car,0)
+						M_Vehicle_HI:(1390,-3650,Car2_Type1,Car,0)
+						M_Vehicle_HI:(1740,-3650,Car1_Type3,Car,0)
+						M_Vehicle_HI:(2050,-3650,Car2_Type2,Car,180)
+						M_Vehicle_HI:(2400,-3650,Car3_Type1,Car,170)
+						
+					}
+					M_Vehicle_HI_Single:(220,-3600,Van1_Type1,Van,0)
+					
+
+					M_Coach:(-900,-3650,Coach_HI,NSM_CoachSheet_HI,90,0.8)
+
+					
+					##*
+
+					M_Coach:(1800,-3050,Coach_White,NSM_CoachSheet,90,1)
+
+				}
+			}
+			//-----------------------------------------------------Tier 4
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=4)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_4,GenBase)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_4,Base_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_4,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_4,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_4,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_4,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+				{
+					##IA
+					Batch:(BatchedStandWT4Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Rightside
+						M_Vehicle:(-4350,-3210,Car,Car,-95,Red)
+						M_Vehicle:(-4350,-2850,Car,Car,90,Cyan)
+						M_Vehicle:(-4375,-2500,Car,Car,90,Black)
+						M_Vehicle:(-4365,-2180,Car,Car,-90,Purple)
+						M_Vehicle:(-4350,-1970,Car,Car,90,Blue)
+
+						M_Vehicle:(-4345,-1160,Car,Car,-90,White)
+						M_Vehicle:(-4350,-950,Car,Car,95,Orange)
+						M_Vehicle:(-4350,-620,Car,Car,90,Green)
+						M_Vehicle:(-4345,-300,Car,Car,-90,Blue)
+						M_Vehicle:(-4355,30,Car,Car,-95,Red)
+						M_Vehicle:(-4350,220,Car,Car,-90,Black)
+						
+						//Front
+						M_Vehicle:(-500,-3650,Car,Car,170,White)
+						M_Vehicle:(-150,-3650,Car,Car,0,Blue)
+						M_Vehicle:(540,-3650,Car,Car,0,Orange)
+						M_Vehicle:(860,-3650,Car,Car,180,Blue)
+						M_Vehicle:(1050,-3650,Car,Car,0,White)
+						M_Vehicle:(1390,-3650,Car,Car,0,Black)
+						M_Vehicle:(1740,-3650,Car,Car,0,Purple)
+						M_Vehicle:(2060,-3650,Car,Car,180,Red)		
+					}
+					Batch:(BatchedStandWT4Vans)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Front
+						M_Vehicle:(220,-3600,Van,Van,0,Red)
+
+						//RightSide
+						M_Vehicle:(-4350,550,Van,Van,90,Red)
+						M_Vehicle:(-4350,1650,Van,Van,95,White)
+						M_Vehicle:(-4350,2240,Van,Van,-92,Green)
+					}
+					##P4N
+					Batch:(BatchedStandWT4CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Rightside
+						M_Vehicle_HI:(-4350,-3210,Car1_Type3,Car,-95)
+						M_Vehicle_HI:(-4350,-2850,Car2_Type1,Car,90)
+						M_Vehicle_HI:(-4375,-2500,Car1_Type1,Car,90)
+						M_Vehicle_HI:(-4365,-2180,Car2_Type2,Car,-90)
+						M_Vehicle_HI:(-4350,-1970,Car3_Type1,Car,90)
+
+						M_Vehicle_HI:(-4345,-1160,Car1_Type1,Car,-90)
+						M_Vehicle_HI:(-4350,-950,Car2_Type1,Car,95)
+						M_Vehicle_HI:(-4350,-620,Car1_Type3,Car,90)
+						M_Vehicle_HI:(-4345,-300,Car2_Type2,Car,-90)
+						M_Vehicle_HI:(-4355,30,Car3_Type3,Car,-95)
+						M_Vehicle_HI:(-4350,220,Car3_Type1,Car,-90)
+						
+						//Front
+						M_Vehicle_HI:(-500,-3650,Car1_Type1,Car,170)
+						M_Vehicle_HI:(-150,-3650,Car3_Type1,Car,0)
+						M_Vehicle_HI:(540,-3650,Car2_Type1,Car,0)
+						M_Vehicle_HI:(860,-3650,Car1_Type2,Car,180)
+						M_Vehicle_HI:(1050,-3650,Car2_Type3,Car,0)
+						M_Vehicle_HI:(1390,-3650,Car1_Type3,Car,0)
+						M_Vehicle_HI:(1740,-3650,Car2_Type2,Car,0)
+						M_Vehicle_HI:(2060,-3650,Car3_Type1,Car,180)		
+					}
+					Batch:(BatchedStandWT4VansHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_VanSheet_HI)
+					{
+						//Front
+						M_Vehicle_HI:(220,-3600,Van1_Type1,Van,0)
+
+						//RightSide
+						M_Vehicle_HI:(-4350,550,Van1_Type1,Van,90)
+						M_Vehicle_HI:(-4350,1650,Van1_Type1,Van,95)
+						M_Vehicle_HI:(-4350,2240,Van1_Type2,Van,-92)
+					}
+
+						//Left
+						M_Coach:(3100,-3700,Coach_HI,NSM_CoachSheet_HI,90,0.8)
+
+					
+					##*
+
+						//Leftend
+						M_Coach:(3100,-3000,Coach_White,NSM_CoachSheet,90,1)
+					
+
+					//HotDog
+					M_FastFood:(-2540,-3950,HotDog,FastFood,90)
+
+					//HotDog
+					M_FastFood:(-3300,-3950,HotDog,FastFood,90)
+
+				}
+			}
+			//-----------------------------------------------------Tier 5
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=5)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_5,GenBase)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_5,Base_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_5,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_5,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_5,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_5,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+				{
+					##IA
+					Batch:(BatchedStandWT5Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Rightside
+						M_Vehicle:(-4900,-3210,Car,Car,-95,Red)
+						M_Vehicle:(-4900,-2850,Car,Car,90,Cyan)
+						M_Vehicle:(-4925,-2500,Car,Car,90,Black)
+						M_Vehicle:(-4915,-2180,Car,Car,-90,Purple)
+						M_Vehicle:(-4880,-1940,Car,Car,90,Blue)
+
+						M_Vehicle:(-4895,-1160,Car,Car,-90,White)
+						M_Vehicle:(-4900,-950,Car,Car,95,Orange)
+						M_Vehicle:(-4900,-620,Car,Car,90,Green)
+						M_Vehicle:(-4895,-300,Car,Car,-90,Blue)
+						M_Vehicle:(-4905,30,Car,Car,-95,Red)
+						M_Vehicle:(-4900,220,Car,Car,-90,Black)
+						
+						//Front
+						M_Vehicle:(-500,-3650,Car,Car,170,White)
+						M_Vehicle:(-150,-3650,Car,Car,0,Blue)
+						M_Vehicle:(540,-3650,Car,Car,0,Orange)
+						M_Vehicle:(860,-3650,Car,Car,180,Blue)
+						M_Vehicle:(1050,-3650,Car,Car,0,White)
+						M_Vehicle:(1390,-3650,Car,Car,0,Black)
+						M_Vehicle:(1740,-3650,Car,Car,0,Purple)
+						M_Vehicle:(2060,-3650,Car,Car,180,Red)	
+					}
+					Batch:(BatchedStandWT5Vans)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Front
+						M_Vehicle:(180,-3600,Van,Van,0,Red)
+
+						//RightSide
+						M_Vehicle:(-4870,560,Van,Van,90,Red)
+						M_Vehicle:(-4880,1590,Van,Van,95,White)
+						M_Vehicle:(-4880,2270,Van,Van,-92,Green)
+					}
+					##P4N
+					Batch:(BatchedStandWT5CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Rightside
+						M_Vehicle_HI:(-4900,-3210,Car1_Type3,Car,-95)
+						M_Vehicle_HI:(-4900,-2850,Car2_Type1,Car,90)
+						M_Vehicle_HI:(-4925,-2500,Car3_Type2,Car,90)
+						M_Vehicle_HI:(-4915,-2180,Car1_Type2,Car,-90)
+						M_Vehicle_HI:(-4880,-1940,Car3_Type1,Car,90)
+
+						M_Vehicle_HI:(-4895,-1160,Car2_Type2,Car,-90)
+						M_Vehicle_HI:(-4900,-950,Car1_Type3,Car,95)
+						M_Vehicle_HI:(-4900,-620,Car2_Type1,Car,90)
+						M_Vehicle_HI:(-4895,-300,Car1_Type2,Car,-90)
+						M_Vehicle_HI:(-4905,30,Car3_Type1,Car,-95)
+						M_Vehicle_HI:(-4900,220,Car1_Type3,Car,-90)
+						
+						//Front
+						M_Vehicle_HI:(-500,-3650,Car3_Type1,Car,170)
+						M_Vehicle_HI:(-150,-3650,Car1_Type1,Car,0)
+						M_Vehicle_HI:(540,-3650,Car2_Type3,Car,0)
+						M_Vehicle_HI:(860,-3650,Car1_Type2,Car,180)
+						M_Vehicle_HI:(1050,-3650,Car2_Type1,Car,0)
+						M_Vehicle_HI:(1390,-3650,Car1_Type3,Car,0)
+						M_Vehicle_HI:(1740,-3650,Car3_Type2,Car,0)
+						M_Vehicle_HI:(2060,-3650,Car2_Type1,Car,180)					
+					}
+					Batch:(BatchedStandWT5VansHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_VanSheet_HI)
+					{
+						//Front
+						M_Vehicle_HI:(180,-3600,Van1_Type1,Van,0)
+						//RightSide
+						M_Vehicle_HI:(-4870,560,Van1_Type1,Van,90)
+						M_Vehicle_HI:(-4880,1590,Van1_Type2,Van,95)
+						M_Vehicle_HI:(-4880,2270,Van1_Type1,Van,-92)
+					}
+
+						M_Coach:(3100,-3700,Coach_HI,NSM_CoachSheet_HI,90,0.8)
+
+					
+					##*
+
+
+						M_Coach:(3050,-3060,Coach_White,NSM_CoachSheet,92,1)
+						M_Coach:(3100,-3400,Coach_White,NSM_CoachSheet,-90,1)
+					
+
+					//HotDog
+					M_FastFood:(-2540,-3950,HotDog,FastFood,90)
+
+					//Burger
+					M_FastFood:(-1400,-4150,CheekyBurger,FastFood,180)
+				}
+			}
+			//-----------------------------------------------------Tier 6
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel)=6)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Base_Lv_6,GenBase)
+					##P4N
+					DrawStaticModel:(Stadium_Base_HI_Lv_6,Base_HI)
+						M_TextureSelectW:()
+					##*
+				}
+				
+				//Tree Shadows
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					##IA
+					DrawStaticModel:(Stadium_Trees_Shadow_Lv_6,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					##P4N
+					DrawStaticModel:(Stadium_Trees_Shadow_HI_Lv_6,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+					##*
+				}
+
+				//Trees STANDARD
+				##IA
+				UseShader:(ProjectedLight3DVColOneBit)
+					Layer(OneBit)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Stadium_Trees_Lv_6,GenTrees)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+				//Trees HIGH DETAIL
+				##P4N
+				UseShader:(ProjectedLight3DVColOneBit_Alt)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(OneBit)
+				{
+					DrawStaticModel:(Stadium_Trees_HI_Lv_6,Trees_HI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelectW:()
+				}
+				##*
+
+				//Vehicles
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+					Layer(Ground)
+					// PB This layer needs to go higher than Shadows layer used by the no Z write stadium tier 6. line #2369
+				{
+					##IA
+					Batch:(BatchedStandWT6Cars)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Rightside Middle
+						M_Vehicle:(-4995,-3730,Car,Car,-90,Blue)
+						M_Vehicle:(-5000,-3360,Car,Car,-95,Red)
+						M_Vehicle:(-5000,-3030,Car,Car,90,Cyan)
+						M_Vehicle:(-4995,-2700,Car,Car,90,Black)
+						M_Vehicle:(-5005,-2470,Car,Car,-90,Purple)
+						M_Vehicle:(-5000,-2150,Car,Car,90,Blue)
+
+						M_Vehicle:(-4995,-1330,Car,Car,-90,White)
+						M_Vehicle:(-5000,-950,Car,Car,95,Orange)
+						M_Vehicle:(-5000,-635,Car,Car,90,Green)
+						M_Vehicle:(-4995,-315,Car,Car,-90,Blue)
+						M_Vehicle:(-5005,-100,Car,Car,-95,Red)
+						M_Vehicle:(-5000,240,Car,Car,-90,Black)
+
+						//Rightside Near
+						M_Vehicle:(-4295,-2700,Car,Car,-90,Green)
+						M_Vehicle:(-4300,-2160,Car,Car,-92,White)
+						M_Vehicle:(-4295,-1300,Car,Car,90,Purple)
+						M_Vehicle:(-4295,-305,Car,Car,-90,Orange)
+						M_Vehicle:(-4300,220,Car,Car,-92,Cyan)
+						
+						//Front
+						M_Vehicle:(1900,-3600,Car,Car,180,Red)
+						M_Vehicle:(1745,-3600,Car,Car,0,Purple)
+						M_Vehicle:(1380,-3600,Car,Car,0,Black)		
+						M_Vehicle:(1210,-3600,Car,Car,0,White)
+						M_Vehicle:(860,-3600,Car,Car,180,Blue)
+						M_Vehicle:(550,-3600,Car,Car,0,Orange)
+						M_Vehicle:(-150,-3600,Car,Car,0,Blue)
+						M_Vehicle:(-470,-3600,Car,Car,170,White)					
+					}
+					Batch:(BatchedStandWT6Vans)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					{
+						//Front
+						M_Vehicle:(220,-3600,Van,Van,0,Red)
+
+						//RightSide
+						M_Vehicle:(-4300,550,Van,Van,90,Red)
+						M_Vehicle:(-4960,1630,Van,Van,95,White)
+						M_Vehicle:(-4960,2270,Van,Van,-92,Green)
+					}
+					##P4N
+					Batch:(BatchedStandWT6CarsHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//Rightside Far
+						M_Vehicle_HI:(-5995,-2730,Car1_Type1,Car,90)
+						M_Vehicle_HI:(-6000,-2360,Car2_Type2,Car,-95)
+						M_Vehicle_HI:(-6000,-2030,Car3_Type3,Car,-90)
+						M_Vehicle_HI:(-5995,-1700,Car1_Type2,Car,90)
+						M_Vehicle_HI:(-6005,-1470,Car1_Type3,Car,90)
+						M_Vehicle_HI:(-6000,-1150,Car3_Type1,Car,90)
+
+						M_Vehicle_HI:(-5995,-290,Car1_Type1,Car,90)
+						M_Vehicle_HI:(-6000,50,Car2_Type2,Car,-95)
+						M_Vehicle_HI:(-6000,405,Car3_Type1,Car,-90)
+						M_Vehicle_HI:(-5995,715,Car1_Type2,Car,-90)
+						M_Vehicle_HI:(-6005,900,Car2_Type3,Car,95)
+						M_Vehicle_HI:(-6000,1240,Car1_Type3,Car,90)
+						
+						//Rightside Middle
+						M_Vehicle_HI:(-4995,-3730,Car1_Type1,Car,-90)
+						M_Vehicle_HI:(-5000,-3360,Car2_Type2,Car,-95)
+						M_Vehicle_HI:(-5000,-3030,Car2_Type1,Car,90)
+						M_Vehicle_HI:(-4995,-2700,Car1_Type3,Car,90)
+						M_Vehicle_HI:(-5005,-2470,Car2_Type1,Car,-90)
+						M_Vehicle_HI:(-5000,-2150,Car3_Type2,Car,90)
+
+						M_Vehicle_HI:(-4995,-1330,Car1_Type3,Car,-90)
+						M_Vehicle_HI:(-5000,-950,Car2_Type1,Car,95)
+						M_Vehicle_HI:(-5000,-635,Car1_Type2,Car,90)
+						M_Vehicle_HI:(-4995,-315,Car2_Type1,Car,-90)
+						M_Vehicle_HI:(-5005,-100,Car1_Type2,Car,-95)
+						M_Vehicle_HI:(-5000,240,Car3_Type1,Car,-90)
+
+						//Rightside Near
+						M_Vehicle_HI:(-4295,-2700,Car1_Type2,Car,-90)
+						M_Vehicle_HI:(-4300,-2160,Car2_Type2,Car,-92)
+						
+						//Front
+						M_Vehicle_HI:(1900,-3600,Car3_Type1,Car,180)
+						M_Vehicle_HI:(1745,-3600,Car1_Type3,Car,0)
+						M_Vehicle_HI:(1380,-3600,Car2_Type1,Car,0)		
+						M_Vehicle_HI:(1210,-3600,Car1_Type2,Car,0)
+						M_Vehicle_HI:(860,-3600,Car2_Type1,Car,180)
+						M_Vehicle_HI:(550,-3600,Car3_Type2,Car,0)
+						M_Vehicle_HI:(-150,-3600,Car1_Type3,Car,0)
+						M_Vehicle_HI:(-470,-3600,Car2_Type3,Car,170)
+					}
+					Batch:(BatchedStandWT6VansHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:(NSM_VanSheet_HI)
+					{
+						//Front
+						M_Vehicle_HI:(220,-3600,Van1_Type1,Van,0)
+
+						//RightSide
+						M_Vehicle_HI:(-4960,1630,Van1_Type2,Van,95)
+						M_Vehicle_HI:(-4960,2270,Van1_Type1,Van,-92)
+					}
+					
+					//Batch:(BatchedStandWT6CoachesHI)
+						//Blend(ONE,INV_IMAGE_ALPHA)
+					//{
+						//Left
+						M_Coach:(3050,-4050,Coach_HI,NSM_CoachSheet_HI,90,0.8)
+
+						//Right
+						M_Coach:(-6200,2930,Coach_HI,NSM_CoachSheet_HI,-92,0.8)
+						M_Coach:(-6170,2420,Coach_HI,NSM_CoachSheet_HI,90,0.8)
+					//}
+
+						
+					//Vehicles in shadow of tier 6 stadium
+					Batch:(BatchedStandT6CarsInShadowHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						Layer(AboveSky)
+						M_TextureSelect:(NSM_CarSheet_HI)
+					{
+						//White Car
+						M_Vehicle_HI:(-4295,-1300,Car3_Type1,Car,90)
+						//Red Car
+						M_Vehicle_HI:(-4295,-305,Car2_Type3,Car,-90)
+						//White Car
+						M_Vehicle_HI:(-4300,220,Car1_Type1,Car,-92)		
+					}
+
+						//Ambulance
+						M_Ambulance:(-4300,1050,0,1)
+							Layer(AboveSky)
+							M_TextureSelect:(NSM_VanSheet_HI)
+								
+						//White van
+						Batch:(BatchedStandT6VansInShadowHI)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						Layer(AboveSky)
+						M_TextureSelect:(NSM_VanSheet_HI)
+						{
+							M_Vehicle_HI:(-4300,550,Van1_Type1,Van,90)
+							M_Vehicle_HI:(-4300,-620,Van1_Type1,Van,-90)
+						}
+
+						
+					
+					##*
+					Rect:()
+						Blend(ONE,INV_IMAGE_ALPHA)
+						Layer(AboveSky)
+					{
+						//Leftend
+						M_Coach:(3050,-3600,Coach_White,NSM_CoachSheet,92,1)
+
+						//RightSide
+						M_Coach:(-4250,2240,Coach_White,NSM_CoachSheet,0,1)
+						M_Coach:(-4600,2200,Coach_White,NSM_CoachSheet,182,1)
+					}
+
+					//HotDog
+					##IA
+					M_FastFood:(-1040,-3950,HotDog,FastFood,90)
+					M_FastFood:(-2540,-3950,HotDog,FastFood,90)
+					##P4N
+					M_FastFood:(-1040,-4450,HotDog,FastFood,90)
+					M_FastFood:(-2540,-4450,HotDog,FastFood,90)
+					##*
+
+					//Burger
+					M_FastFood:(3680,-2950,CheekyBurger,FastFood,180)
+				}
+			}
+		}
+	}
+EndM
+
+Macro:(M_PitchMow,?MOWTYPE?,?PITCHLEVEL?)
+	Draw:(LowerPitchPattern?MOWTYPE?,34,20,2990,4260,,#FFFFFFFF)
+		Handle(0.5,0.5)
+		if(twk(FacilityView,Focused) = "Pitch")
+		<
+			if(twk(Facilities,PitchLevel) = 6)
+			<
+				if(twk(FacilityUpgrade,FacilityCurrentLevel) = 6)
+				<
+					set(gel.vis,twk(Pitch,PitchPattern)=?MOWTYPE?)
+				>
+				else
+				<
+					set(gel.vis,twk(Facilities,PitchLevelPreview)=?PITCHLEVEL?)
+				>
+			>
+			elif(twk(FacilityUpgrade,FacilityCurrentLevel) >= 5)
+			<
+				set(gel.vis,twk(Pitch,PitchPattern)=?MOWTYPE?)
+			>
+			else
+			<
+				set(gel.vis,twk(Facilities,PitchLevelPreview)=?PITCHLEVEL?)
+			>>
+		>
+		else
+		<
+			set(gel.vis,twk(Pitch,PitchPattern)=?MOWTYPE?)
+		>
+EndM
+
+Macro:(M_3DPitchHome,?SCALE?)
+	Locator:((0,0,0),(0,0,-90),(?SCALE?,?SCALE?,?SCALE?))
+		Layer(Pitch)
+	{
+		UseShader:(ProjectedLight3DPitch)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+			##P4N
+				SetUniform1F(tileScale,0.5)
+			##IA
+				SetUniform1F(tileScale,1)
+			##*
+			float(%PITCHLEVEL)
+			if(twk(FacilityView,Focused) = "Pitch")
+			<
+				set(%PITCHLEVEL,twk(Facilities,PitchLevelPreview))
+				
+			>
+			else
+			<
+				set(%PITCHLEVEL,twk(Facilities,PitchLevel))
+			>
+				if(%PITCHLEVEL = 1)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_1_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_1)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_1)
+					##*
+				>
+				elif(%PITCHLEVEL = 2)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_2_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_2)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_2)
+					##*
+				>
+				elif(%PITCHLEVEL = 3)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_3_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_3)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_3)
+					##*
+				>
+				elif(%PITCHLEVEL = 4)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_4_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_4)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_4)
+					##*
+				>
+				elif(%PITCHLEVEL = 5)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_5_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_5)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_5)
+					##*
+				>
+				elif(%PITCHLEVEL = 6)
+				<
+					##P4N
+					if(Player.weatherSeason = 3)
+					<
+						SetSampler(TexSamp2,pitch_mottle_6_Winter)
+					>
+					else
+					<
+						SetSampler(TexSamp2,pitch_mottle_6)
+					>
+					##IA
+						SetSampler(TexSamp2,pitch_mottle_6)
+					##*
+				>>>>>>
+		{
+			Locator:((0,0,0),(0,0,90),(1,1,1))
+			{
+				DrawStaticModel:(Stadium_Pitch,GrassTexture)
+			}
+		}
+		
+		UseShader:(default)
+		{
+			//-----------------------------------------------------------Pitch Mows
+			//Hor 
+			M_PitchMow:(1,2)
+
+			//Ver
+			M_PitchMow:(2,3)
+			
+			//Cheque
+			M_PitchMow:(3,4)
+			
+			//Diag
+			M_PitchMow:(4,5)
+			
+			//Circles
+			M_PitchMow:(5,6)
+
+			//Star
+			M_PitchMow:(6,7)
+
+			//Arcs
+			M_PitchMow:(7,7)
+
+			//Ball
+			M_PitchMow:(8,7)
+		}
+
+		
+		UseShader:(Simple3D)
+		{
+			//-----------------------------------------------------------Pitch Lines
+			Locator:((0,0,-1),(0,0,0),(1,1,1))
+			{
+				DrawStaticModel:(Stadium_PitchLines_Lv_1,Stadium_PitchLines)
+					Blend(ONE,INV_IMAGE_ALPHA)
+			}
+		} 
+
+		//Bins
+		UseShader:(ProjectedLight3DVCol)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+			Layer(Ground)
+		{
+			Rect:()
+
+				set(gel.vis,twk(Facilities,PitchLevelVisible) oneof(0,1,2,3))
+				
+			{
+				Locator:((0,0,0),(0,0,90),(0.98,0.98,0.99))
+				{
+					DrawStaticModel:(Stadium_Bins_Lv_1,Stadium_Lv_3)
+						M_TextureSelectW:()
+				}
+			}
+			//-------------------------------------------------Basic Dugout Tier 2 and 3
+			Rect:()
+
+				set(gel.vis,twk(Facilities,PitchLevelVisible) oneof(2,3))
+
+			{	
+				//Dugout Shadow
+				Locator:((0,0,-1),(0,0,90),(1,1,1))
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Rect:()
+							.set(gel.vis,twk(Facilities,Night) = 0)
+						{
+							DrawStaticModel:(Stadium_Dugout_Shadow_Lv_1,WallShadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+					
+				Locator:((0,0,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Stadium_Dugout_Lv_1,Stadium_Lv_3)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						//M_TextureSelectW:()
+				}
+				
+			}
+			//---------------------------------------------------Standard Hoardings level 1 and 2
+			Rect:()
+
+				set(gel.vis,twk(Facilities,PitchLevelVisible)oneof(1,2))
+			{
+				//Adboard Shadow
+				Locator:((0,0,-1),(0,-90,90),(1,1,1))
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						Rect:()
+							.set(gel.vis,twk(Facilities,Night) = 0)
+						{
+							DrawStaticModel:(Stadium_SidelineAds_Shadow_Lv_1,WallShadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+				
+				Locator:((0,0,0),(0,-90,90),(1,1,1))
+				{
+					DrawStaticModel:(Stadium_SidelineAds_A_Lv_1,$Pitch_Hoarding1)
+					DrawStaticModel:(Stadium_SidelineAds_B_Lv_1,$Pitch_Hoarding2)
+				}
+			}
+
+			//---------------------------------------------------Standard Hoardings level 3 and 4
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchLevelVisible)oneof(3,4))	
+			{
+				//Adboard Shadow
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,0),(0,-90,90),(1,1,1))
+						{
+							DrawStaticModel:(Stadium_SidelineAds_Shadow_Lv_2,WallShadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+
+				Locator:((0,0,0),(0,-90,90),(1,1,1))
+				{
+					DrawStaticModel:(Stadium_SidelineAds_A_Lv_2,$Pitch_Hoarding1)
+					DrawStaticModel:(Stadium_SidelineAds_B_Lv_2,$Pitch_Hoarding2)
+					DrawStaticModel:(Stadium_SidelineAds_C_Lv_2,$Pitch_Hoarding3)
+				}				
+
+			}
+			//---------------------------------------------------Standard Hoardings level 5 and 6
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchLevelVisible)oneof(5,6))			
+			{
+				//Adboard Shadow
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,-1),(0,-90,90),(1,1,1))
+						{
+							DrawStaticModel:(Stadium_SidelineAds_Shadow_Lv_3,WallShadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+		
+				Locator:((0,0,0),(0,-90,90),(1,1,1))
+				{
+					DrawStaticModel:(Stadium_SidelineAds_A_Lv_3,$Pitch_HoardingDIG1)
+					DrawStaticModel:(Stadium_SidelineAds_Back_Lv_3,Adboard_Back)
+				}
+			}
+
+
+		}
+
+		UseShader:(ProjectedLight3DVColOneBit)
+			Layer(OneBit)
+		{
+			//---------------------------------------------------North and South end Pitch Drawn Ads
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchLevelVisible)oneof(5,6))
+				Layer(OneBit)
+			{	
+				//SouthEast
+				Locator:((-950,-2020,-5),(0,0,-90),(0.5,0.5,0.5))
+				{
+					DrawStaticModel:(Ad_Pitch,$Ad_Pitch)
+					DrawStaticModel:(Ad_Pitch_Side,White)
+				}
+				//SouthWest
+				Locator:((950,-2020,-5),(0,0,-90),(0.5,0.5,0.5))
+				{
+					DrawStaticModel:(Ad_Pitch,$Ad_Pitch)
+					DrawStaticModel:(Ad_Pitch_Side,White)
+				}
+				//NorthWest
+				Locator:((950,2020,-5),(0,0,90),(0.5,0.5,0.5))
+				{
+					DrawStaticModel:(Ad_Pitch,$Ad_Pitch)
+					DrawStaticModel:(Ad_Pitch_Side,White)
+				}
+				//NorthEast
+				Locator:((-950,2020,-5),(0,0,90),(0.5,0.5,0.5))
+				{
+					DrawStaticModel:(Ad_Pitch,$Ad_Pitch)
+					DrawStaticModel:(Ad_Pitch_Side,White)
+				}
+			}
+		}
+
+
+		UseShader:(ProjectedLight3DVColOneBit)
+				SetSampler(TexSamp1,$CLOUDSHADOW)
+		{
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchLevelVisible)oneof(1,2))
+				Layer(OneBit)
+			{	
+				//--------------------------------------------------litter level 1 and 2
+				DrawStaticModel:(Stadium_Litter_Lv_1,Stadium_Litter_Lv_1)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_DayNightLitter:()	
+			}
+		}
+
+		Rect:() 
+			set(gel.vis,not(shell(GameScreen) oneof(tapball)))
+		{
+			//CornerFlagsShadows
+			UseShader:(Simple3DNZW)
+				Layer(Shadows)
+			{
+				Locator:((-35,0,0),(0,0,90),(1,1,1))
+				{
+					DrawStaticModel:(Stadium_CornerFlags_Shadows_Lv_1,WallShadow)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+			}
+
+			//CornerFlags
+			UseShader:(ProjectedLight3DVCol)
+				SetSampler(TexSamp1,$CLOUDSHADOW)
+			{
+				Locator:((-35,0,0),(0,0,90),(1,1,1))
+				{
+					##IA
+					DrawStaticModel:(Stadium_CornerFlags_Lv_1,GenBase)
+						Layer(Ground)
+					##P4N
+					DrawStaticModel:(Stadium_CornerFlags_Lv_1,Buildings_HI)
+						Layer(Ground)
+					##*
+				}
+			}
+
+			//-----------------------------------------------------------Goals
+			Rect:()
+				set(gel.vis,not(shell(GameScreen) oneof("matchengine","tapball")))
+			{
+				M_Goal:(0,1950,0,0,1,1,AboveText)
+				M_Goal:(0,-1950,0,180,1,,AboveText)
+			}
+		}
+	
+	}
+		
+EndM
+
+
+Macro:(M_StadiumFadeCollisionBox,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALEX?,?SCALEY?,?SCALEZ?,?STAND?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(?SCALEX?,?SCALEY?,?SCALEZ?))
+	{
+		UseShader:(VertexLitFaded)
+			SetUniform1F(Fade,%currentFade?STAND?)
+		{
+			DrawCollisionModel:(BoxCollider,)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				StadiumModelFade(%targetFade?STAND?)
+		}
+	}
+EndM
+
+
+Macro:(M_LowerStadiumHome,?REF?,?SCALE?,?USE_COLLISION?)
+	Locator:((0,0,0),(0,0,-90),(?SCALE?,?SCALE?,?SCALE?))
+		Layer(Ground)
+		float(%currentFadeN,%currentFadeS,%currentFadeE,%currentFadeW,%currentFadeC,%currentFadeA,%currentFadeFE,%currentFadeFW)
+		float(%targetFadeN,%targetFadeS,%targetFadeE,%targetFadeW,%targetFadeC,%targetFadeA,%targetFadeFE,%targetFadeFW)
+		init(%currentFadeN,1)
+		init(%currentFadeS,1)
+		init(%currentFadeE,1)
+		init(%currentFadeW,1)
+		init(%currentFadeC,1)
+		init(%currentFadeA,1)
+		init(%currentFadeFE,1)
+		init(%currentFadeFW,1)
+		init(%targetFadeN,1)
+		init(%targetFadeS,1)
+		init(%targetFadeE,1)
+		init(%targetFadeW,1)
+		init(%targetFadeC,1)
+		init(%targetFadeA,1)
+		init(%targetFadeFE,1)
+		init(%targetFadeFW,1)
+		frlerp(%currentFadeN,%targetFadeN,0.1)
+		if(abs(%currentFadeN - %targetFadeN) <= 0.1)
+		<
+			set(%currentFadeN,%targetFadeN)
+		>
+		frlerp(%currentFadeS,%targetFadeS,0.1)
+		if(abs(%currentFadeS - %targetFadeS) <= 0.1)
+				<
+			set(%currentFadeS,%targetFadeS)
+		>
+		frlerp(%currentFadeE,%targetFadeE,0.1)
+		if(abs(%currentFadeE - %targetFadeE) <= 0.1)
+		<
+			set(%currentFadeE,%targetFadeE)
+		>
+		frlerp(%currentFadeW,%targetFadeW,0.1)
+		if(abs(%currentFadeW - %targetFadeW) <= 0.1)
+		<
+			set(%currentFadeW,%targetFadeW)
+		>
+		frlerp(%currentFadeC,%targetFadeC,0.1)
+		if(abs(%currentFadeC - %targetFadeC) <= 0.1)
+		<
+			set(%currentFadeC,%targetFadeC)
+		>
+		frlerp(%currentFadeA,%targetFadeA,0.1)
+		if(abs(%currentFadeA - %targetFadeA) <= 0.1)
+		<
+			set(%currentFadeA,%targetFadeA)
+		>
+		frlerp(%currentFadeFE,%targetFadeFE,0.1)
+		if(abs(%currentFadeFE - %targetFadeFE) <= 0.1)
+		<
+			set(%currentFadeFE,%targetFadeFE)
+		>
+		frlerp(%currentFadeFW,%targetFadeFW,0.1)
+		if(abs(%currentFadeFW - %targetFadeFW) <= 0.1)
+		<
+			set(%currentFadeFW,%targetFadeFW)
+		>
+		set(%targetFadeN,1)
+		set(%targetFadeS,1)
+		set(%targetFadeE,1)
+		set(%targetFadeW,1)
+		set(%targetFadeC,1)
+		set(%targetFadeA,1)
+		set(%targetFadeFE,1)
+		set(%targetFadeFW,1)
+	{
+		M_CrowdInit:()
+
+		//Stadium Selection Hint
+		Rect:()
+			float(%show)
+			set(%show,1)
+			set(%show,%show and (twk(Facilities,PitchStandNLevel)=0))
+			set(%show,%show and (twk(Facilities,PitchStandSLevel)=0))
+			set(%show,%show and (twk(Facilities,PitchStandELevel)=1))
+			set(%show,%show and (twk(Facilities,PitchStandWLevel)=0))
+			set(%show,%show and (twk(Facilities,PitchLevel)=1))
+			set(%show,%show and (twk(PitchStandNConstruction,CompletionTurn)<=twk(Construction,Turn)))
+			set(%show,%show and (twk(PitchStandSConstruction,CompletionTurn)<=twk(Construction,Turn)))
+			set(%show,%show and (twk(PitchStandEConstruction,CompletionTurn)<=twk(Construction,Turn)))
+			set(%show,%show and (twk(PitchStandWConstruction,CompletionTurn)<=twk(Construction,Turn)))
+			set(%show,%show and (twk(PitchConstruction,CompletionTurn)<=twk(Construction,Turn)))
+
+			set(gel.vis,%show)
+		{
+			//?POSX?,?POSY?,?POSZ?,?VAR?,?NAME?,?SCALEX?,?SCALEY?,?TX?,?TY?,?TROT?,?IMAGE?,?IMAGESIZEX?,?IMAGESIZEY?,?IMAGEPOSY?,?TANG?)
+			
+
+			Rect:()
+			set(gel.vis,(twk(ControllerInput,Enabled) = 0))
+			{
+				//Stadium Selection Hint W
+				M_StadiumAreaSelection:(1000,10,-2,1,WestStand,2.5,18.3,1150,-450,0,Stadium,420,350,,90)
+			
+				//Stadium Selection Hint S
+				M_StadiumAreaSelection:(-1295,-1335,-2,1,SouthStand,2.9,13,-1450,-800,90,Stadium,450,450,,-90)
+			
+				//Stadium Selection Hint N
+				M_StadiumAreaSelection:(-1320,1370,-2,1,NorthStand,2.9,13,-1450,1800,-90,Stadium,450,450,,-90)
+			}
+				//Stadium Selection Hint Pitch
+				M_AreaSelection:(0,0,-2,1,Pitch,13,19,0,400,-90,Stadium,620)
+				
+			
+		}
+
+		//Colliders for fading out Stadium pieces in Match
+		Rect:()
+			.set(gel.vis,shell(GameScreen) = "matchengine")
+		{
+			//--------------------------------------------------------East
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) = 1)
+			{
+				M_StadiumFadeCollisionBox:(-2040,15,-300,0,0,90,18.8,3.1,2.5,E)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) = 2)
+			{
+				M_StadiumFadeCollisionBox:(-2040,15,-350,0,0,90,18.8,3.5,2.5,E)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) = 3)
+			{
+				M_StadiumFadeCollisionBox:(-2040,15,-380,0,0,90,18.8,3.5,3.3,E)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) = 4)
+			{
+				M_StadiumFadeCollisionBox:(-2300,15,-460,0,0,90,18.8,4.9,3.5,E)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) = 5)
+			{
+				M_StadiumFadeCollisionBox:(-2300,15,-580,0,0,90,18.8,4.9,5,E)
+			}
+
+
+
+			//--------------------------------------------------------North
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevel) oneof(0,1))
+			{
+				M_StadiumFadeCollisionBox:(0,2840,-300,0,0,0,13,3.1,2.5,N)
+			}
+
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevel) = 2)
+			{
+				M_StadiumFadeCollisionBox:(0,2840,-350,0,0,0,13,3.5,2.5,N)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevel) = 3)
+			{
+				M_StadiumFadeCollisionBox:(0,2840,-380,0,0,0,13,3.5,3.3,N)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevel) = 4)
+			{
+				M_StadiumFadeCollisionBox:(10,2960,-460,0,0,0,13,4.1,3.5,N)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevel) = 5)
+			{
+				M_StadiumFadeCollisionBox:(10,3070,-580,0,0,0,13,4.4,5,N)
+			}
+
+
+			//--------------------------------------------------------West
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) oneof(0,1))
+			{
+				M_StadiumFadeCollisionBox:(2080,30,-300,0,0,90,18.8,3.1,2.5,W)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) = 2)
+			{
+				M_StadiumFadeCollisionBox:(2080,30,-350,0,0,90,18.8,3.5,2.5,W)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) = 3)
+			{
+				M_StadiumFadeCollisionBox:(2080,30,-380,0,0,90,18.8,3.5,3.3,W)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) = 4)
+			{
+				M_StadiumFadeCollisionBox:(2450,25,-460,0,0,90,18.8,6,3.5,W)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) = 5)
+			{
+				M_StadiumFadeCollisionBox:(2485,25,-580,0,0,90,18.8,6,5,W)
+			}
+			
+			//*NOTE* As tier 6 is all one ring element, NESW collisions are activated from W stand upgrade and use 'A' float.
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) = 6)
+			{
+				//North Side
+				M_StadiumFadeCollisionBox:(0,3250,-870,0,0,0,24.1,4.9,6.4,A)
+				//East Side
+				M_StadiumFadeCollisionBox:(-2430,0,-870,0,0,90,20.5,5.1,6.4,A)
+				//South Side
+				M_StadiumFadeCollisionBox:(0,-3250,-870,0,0,0,24.1,4.9,6.4,A)
+				//West Side
+				M_StadiumFadeCollisionBox:(2480,0,-870,0,0,90,20.5,4.8,6.4,A)	
+			}
+
+			//--------------------------------------------------------South
+
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandSLevel) oneof(0,1))
+			{
+				M_StadiumFadeCollisionBox:(40,-2800,-300,0,0,0,13,3.1,2.5,S)
+			}
+
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandSLevel) = 2)
+			{
+				M_StadiumFadeCollisionBox:(40,-2800,-350,0,0,0,13,3.5,2.5,S)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandSLevel) = 3)
+			{
+				M_StadiumFadeCollisionBox:(40,-2800,-380,0,0,0,13,3.5,3.3,S)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandSLevel) = 4)
+			{
+				M_StadiumFadeCollisionBox:(40,-2930,-460,0,0,0,13,4.1,3.5,S)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandSLevel) = 5)
+			{
+				M_StadiumFadeCollisionBox:(40,-3020,-580,0,0,0,13,4.4,5,S)
+			}
+
+			
+			//--------------------------------------------------------Corners
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchCornersLevel) = 3)
+			{
+				//NE
+				M_StadiumFadeCollisionBox:(-2150,2935,-450,0,0,90,4,4,3.1,C)
+				//NW
+				M_StadiumFadeCollisionBox:(2170,2940,-450,0,0,90,4,4,3.1,C)
+				//SE
+				M_StadiumFadeCollisionBox:(-2140,-2905,-450,0,0,90,4,4,3.1,C)
+				//SW
+				M_StadiumFadeCollisionBox:(2180,-2895,-450,0,0,90,4,4,3.1,C)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchCornersLevel) = 4)
+			{
+				//NE
+				M_StadiumFadeCollisionBox:(-2150,2935,-495,0,0,90,4,4,3.2,C)
+				//NW
+				M_StadiumFadeCollisionBox:(2170,2940,-495,0,0,90,4,4,3.2,C)
+				//SE
+				M_StadiumFadeCollisionBox:(-2140,-2905,-495,0,0,90,4,4,3.2,C)
+				//SW
+				M_StadiumFadeCollisionBox:(2180,-2895,-495,0,0,90,4,4,3.2,C)
+			}
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchCornersLevel) = 5)
+			{
+				//NE
+				M_StadiumFadeCollisionBox:(-2215,2985,-580,0,0,90,4.4,4.4,5,C)
+				//NW
+				M_StadiumFadeCollisionBox:(2210,3000,-580,0,0,90,4.4,4.4,5,C)
+				//SE
+				M_StadiumFadeCollisionBox:(-2185,-2955,-580,0,0,90,4.4,4.4,5,C)
+				//SW
+				M_StadiumFadeCollisionBox:(2230,-2950,-580,0,0,90,4.4,4.4,5,C)
+			}
+
+			//--------------------------------------------------------Floodlights
+			//EastSide
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandELevel) oneof(1,2))
+			{
+				//NE
+				M_StadiumFadeCollisionBox:(-1500,2140,-450,0,0,25,0.4,0.2,3,FE)
+
+				//SE
+				M_StadiumFadeCollisionBox:(-1500,-2140,-450,0,0,40,0.2,0.4,3,FE)
+			}
+			//WestSide
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandWLevel) oneof(0,1,2))
+			{
+				//NE
+				M_StadiumFadeCollisionBox:(1500,2140,-450,0,0,40,0.2,0.4,3,FW)
+
+				//SE
+				M_StadiumFadeCollisionBox:(1500,-2140,-450,0,0,25,0.4,0.2,3,FW)
+			}
+		}
+
+
+		UseShader:(ProjectedLight3DVCol)
+			Layer(Ground)
+			SetSampler(TexSamp1,$CLOUDSHADOW)
+		{
+			//------------------------------Stadium Construction Phases
+			Rect:()
+				//.set(gel.vis,shell(GameScreen) = "matchengine")
+				.set(twk(Populated,PitchStandE),1)
+				.set(twk(Populated,PitchStandW),1)
+				.set(twk(Populated,PitchStandS),1)
+				.set(twk(Populated,PitchStandN),1)
+				.set(twk(Populated,PitchCorners),1)
+				set(gel.vis,twk(Match,PlayerAtHome) = 1 and(twk(Facilities,PitchStandNLevel) !=6 and(twk(Facilities,PitchStandELevel) !=6) and(twk(Facilities,PitchStandSLevel) !=6 and(twk(Facilities,PitchStandWLevel) !=6))))
+			{			
+				Locator:((0,0,0),(0,0,90),(1,1,1))
+				{
+					If:(?HOMEORMATCH?=HOME)
+						//----------North Stand construction tiers
+
+							Rect:()
+								M_FacilityConstructionController:(PitchStandN,1,Yes)
+								{	
+								M_StandNConstruction1:(0)
+								M_StandNConstruction1:(1)
+								M_StandNConstruction1:(2)
+								M_StandNConstruction1:(3)
+								M_StandNConstruction4:(4)
+								M_StandNConstruction5:(5)
+							}
+						
+							Rect:()
+								M_FacilityConstructionController:(PitchStandS,1,Yes)
+							{
+								M_StandSConstruction1:(0)
+								M_StandSConstruction1:(1)
+								M_StandSConstruction1:(2)
+								M_StandSConstruction1:(3)
+								M_StandSConstruction4:(4)
+								M_StandSConstruction5:(5)
+							}
+
+							Rect:()
+								M_FacilityConstructionController:(PitchStandW,1,Yes)
+							{
+								M_StandWConstruction1:(0)
+								M_StandWConstruction1:(1)
+								M_StandWConstruction1:(2)
+								M_StandWConstruction1:(3)
+								M_StandWConstruction4:(4)
+								M_StandWConstruction4:(5)
+							}
+						
+							Rect:()
+								M_FacilityConstructionController:(PitchStandE,1,Yes)
+							{
+								Rect:() // Level 0
+								M_StandEConstruction1:(1)
+								M_StandEConstruction1:(2)
+								M_StandEConstruction1:(3)
+								M_StandEConstruction4:(4)
+								M_StandEConstruction4:(5)
+							}
+							Rect:()
+								M_FacilityConstructionController:(PitchCorners,1,Yes)
+							{
+								Rect:() // Level 0
+								Rect:() // Level 1
+								M_PitchCornersConstruction3:(2)
+								M_PitchCornersConstruction3:(3)
+								M_PitchCornersConstruction3:(4)
+								M_PitchCornersConstruction5:(5)
+							}					
+						
+					Else  //Use the cheaper match version
+
+						//----------North Stand construction tiers
+						UseShader:(ProjectedLight3DVColFaded)
+							SetSampler(TexSamp1,$CLOUDSHADOW)
+
+						{
+							Rect:()
+								M_FacilityConstructionController:(PitchStandN,1,Yes)
+								SetUniform1F(Fade,%currentFadeN)
+							{	
+								M_MatchStandNConstruction1:(0)
+								M_MatchStandNConstruction1:(1)
+								M_MatchStandNConstruction1:(2)
+								M_MatchStandNConstruction1:(3)
+								M_MatchStandNConstruction4:(4)
+								M_MatchStandNConstruction5:(5)
+							}
+						
+							Rect:()
+								M_FacilityConstructionController:(PitchStandS,1,Yes)
+								SetUniform1F(Fade,%currentFadeS)
+							{
+								M_MatchStandSConstruction1:(0)
+								M_MatchStandSConstruction1:(1)
+								M_MatchStandSConstruction1:(2)
+								M_MatchStandSConstruction1:(3)
+								M_MatchStandSConstruction4:(4)
+								M_MatchStandSConstruction5:(5)
+							}
+
+							Rect:()
+								M_FacilityConstructionController:(PitchStandW,1,Yes)
+								SetUniform1F(Fade,%currentFadeW)
+							{
+								M_MatchStandWConstruction1:(0)
+								M_MatchStandWConstruction1:(1)
+								M_MatchStandWConstruction1:(2)
+								M_MatchStandWConstruction1:(3)
+								M_MatchStandWConstruction4:(4)
+								M_MatchStandWConstruction4:(5)
+							}
+						
+							Rect:()
+								M_FacilityConstructionController:(PitchStandE,1,Yes)
+								SetUniform1F(Fade,%currentFadeE)
+							{
+								Rect:() // Level 0
+								M_MatchStandEConstruction1:(1)
+								M_MatchStandEConstruction1:(2)
+								M_MatchStandEConstruction1:(3)
+								M_MatchStandEConstruction4:(4)
+								M_MatchStandEConstruction4:(5)
+							}
+							Rect:()
+								M_FacilityConstructionController:(PitchCorners,1,Yes)
+								SetUniform1F(Fade,%currentFadeC)
+							{
+								Rect:() // Level 0
+								Rect:() // Level 1
+								M_MatchPitchCornersConstruction3:(2)
+								M_MatchPitchCornersConstruction3:(3)
+								M_MatchPitchCornersConstruction3:(4)
+								M_MatchPitchCornersConstruction5:(5)
+							}					
+						}
+					EndIf
+				}
+			}
+			
+			Import:(stand_east.uih)
+			Import:(stand_south.uih)
+			Import:(stand_west.uih)
+			Import:(stand_north.uih)
+			Import:(stand_corners.uih)
+
+			//----------------------------------------------------------------------Single upgrade Tier 6
+			Rect:()
+				set(gel.vis,twk(Facilities,PitchStandNLevelVisible)= 6)
+			{
+				//----------------------------------------------------------------Shadow ALL
+				Rect:()
+					.set(gel.vis,twk(Facilities,Night) = 0)
+				{
+					Locator:((0,0,3),(0,0,90),(1,1,1))
+					{
+						UseShader:(Simple3DNZW)
+							Layer(Shadows)
+						{
+							DrawStaticModel:(Stadium_Shadow_Lv_6,Stadium_T6_Shadows)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+				Locator:((0,0,0),(0,0,90),(1,1,1))
+				{
+					//----------------------------------------------------------------Day Assets
+					Rect:() $HIDE
+						set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						//Seats Base Tier
+						DrawStaticModel:(Stadium_Outer_Lv_6,Stadium_Lv_6)
+							Blend(ONE,INV_IMAGE_ALPHA)
+						DrawStaticModel:(Stadium_Inner_Lv_6,Stadium_Lv_6)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+
+					//----------------------------------------------------------------Night Assets
+					##P4N
+					Rect:() $HIDE
+						set(gel.vis,twk(Facilities,Night) = 1)
+					{
+						//Seats Base Tier
+						DrawStaticModel:(Stadium_Inner_Lv_6_Night, Stadium_Lv_6)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+						DrawStaticModel:(Stadium_Outer_Lv_6_Night,Stadium_Lv_6)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+					}
+					##*
+				}
+
+				//----------------------------------------------------------------Lower Ad Ring ALL
+				Locator:((0,0,0),(0,-90,90),(1,1,1))
+				{	
+					DrawStaticModel:(Stadium_Inner_Ad_A_Lv_6,$Pitch_Hoarding2)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					DrawStaticModel:(Stadium_Inner_Ad_B_Lv_6,$Pitch_Hoarding3)
+						Blend(ONE,INV_IMAGE_ALPHA)
+					DrawStaticModel:(Stadium_Inner_Ad_C_Lv_6,$Pitch_Hoarding1)
+						Blend(ONE,INV_IMAGE_ALPHA)
+				}
+
+				//-----------------------------------------------------------------Roof
+				Rect:()
+					if(shell(GameScreen) != "matchengine" or(twk(Pitch,Scale) < 1.85))
+					<
+						set(gel.vis,1)
+					>
+					else
+					<
+						set(gel.vis,0)
+					>
+					strvar(%rlayer)
+					if(%currentFadeA <1.0)
+					<
+						set(%rlayer,Text)
+					>
+					else
+					<
+						set(%rlayer,RoofSolid)
+					>
+				{
+					//Roof n Ads
+					UseShader:(ProjectedLight3DVColFaded)
+    					SetSampler(TexSamp1,$CLOUDSHADOW)
+    					SetUniform1F(Fade,%currentFadeA)
+    					set(gel.layer,%rlayer)
+					{
+						Locator:((0,0,0),(0,0,90),(1,1,1))
+						{
+							
+							//---------------------------------------------------------------Day Assets
+							Rect:() $HIDE
+							set(gel.vis,twk(Facilities,Night) = 0)
+							{
+								//Mid
+								DrawStaticModel:(Stadium_Outer_Mid_Lv_6,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Stadium_Inner_Mid_Lv_6,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								//Roof
+								DrawStaticModel:(Stadium_Outer_Roof_Lv_6,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								DrawStaticModel:(Stadium_Inner_Roof_Lv_6,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+
+							//Signs
+							DrawStaticModel:(Stadium_Signs_Lv_6,Stadium_Adverts_Lv_3)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						
+							//---------------------------------------------------------------Night Assets
+							##P4N
+							Rect:() $HIDE
+								set(gel.vis,twk(Facilities,Night) = 1)
+							{
+								//Mid
+								DrawStaticModel:(Stadium_Outer_Mid_Lv_6_Night,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+									M_TextureSelectW:()
+								DrawStaticModel:(Stadium_Inner_Mid_Lv_6_Night,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+									M_TextureSelectW:()
+								//Roof
+								DrawStaticModel:(Stadium_Outer_Roof_Lv_6_Night,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+									M_TextureSelectW:()
+								DrawStaticModel:(Stadium_Inner_Roof_Lv_6_Night,Stadium_Lv_6)
+									Blend(ONE,INV_IMAGE_ALPHA)
+									M_TextureSelectW:()
+								
+								//Floodlights
+								UseShader:(Simple3DNZW)
+									Layer(RoofSolid)
+								{
+									Rect:()
+										.set(gel.vis,(twk(Facilities,Night) = 1) and(shell(GameScreen) !="matchengine"))
+									{
+										DrawStaticModel:(Stadium_Roof_Lights_Lv_6_Night,Floodlight_Beam)
+											Blend(ONE,INV_IMAGE_ALPHA)
+									
+
+										DrawStaticModel:(Stadium_LightGlow_Lv_6,Floodlight_Glow)
+											Blend(ONE,INV_IMAGE_ALPHA)
+									}
+								}
+							}
+							##*
+						}
+
+						//Upper Ad Ring
+						Locator:((0,0,0),(0,-90,90),(1,1,1))
+						{
+							DrawStaticModel:(Stadium_Inner_Roof_Ad_A_Lv_6,$Pitch_Hoarding1)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							DrawStaticModel:(Stadium_Inner_Roof_Ad_B_Lv_6,$Pitch_Hoarding2)
+								Blend(ONE,INV_IMAGE_ALPHA)
+							DrawStaticModel:(Stadium_Inner_Roof_Ad_C_Lv_6,$Pitch_Hoarding3)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+
+			
+				//Front Sign - colour bg name and badge
+				//POSX,POSY,POSZ,ROTX,ROTY,ROTZ,BGW,BGH,BADGEX,BADGEY,BADGESIZE,TEXTX,TEXTY,TEXTW,FONTSIZE,FADE1X,FADE1Y,FADE1W,FADE1H,FADE2X,FADE2Y,FADE2W,FADE2H,SHADER
+				M_StadTeamNameAndBadge:(3025,457,-400,0,-90,-90,827,90,80,44,85,475,7,680,KNUL64,1,-1,-50,829,35,-1,50,829,45,ZSafeSprite,,40)
+					Layer(ZSprite)
+
+				Rect:()
+					set(gel.vis,(shell(GameScreen) != "matchengine" or(twk(Pitch,Scale) < 1.85)))
+				{
+					//Team Badge Left front
+					M_StadTeamBadge:(3105,60,-1030,0,-90,-90,330,ZSafeSprite,A)	
+						Layer(ZSprite)		
+
+					//Roof Sign South- colour bg name and badge
+					Locator:((-650,-3365,-1630),(3,0,0),(1,1,1))
+						set(gel.vis,%currentFadeA =1)
+					{
+						UseShader:(ZSafeSprite)
+						{
+							//TeamBadge	Home
+							Draw:($STADBADGESURF,-260,240,370,370,,#FFFFFFFFFFFFFFFF)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								Handle(0.5,0.5)
+								Layer(ZSprite)
+						}
+						//TeamName
+						UseShader:(ZSafeGradient)
+							SetUniformColour(gradbot,#606060FF)
+							SetUniformColour(gradtop,twk(Player,HomeShirtCol1))
+							SetUniform4F(gradposfade,120,260,%currentFadeA)
+						{
+							M_Text:(NEW STAR FC,950,145,,200,C,C,Text,Outline,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+								.set(gel.text,(twk(Player,TeamName)))
+								M_Style:(Outline,#BBBBBB60)
+								.set(gel.scale,min(1,300/%gfw))
+								FontScale(6,7.5)
+						}								
+					}
+
+					// Roof Sign North- Stad Name
+					Rect:()
+						set(gel.vis,(twk(Match,PlayerAtHome)=1) and (%currentFadeA =1))
+					{
+						Locator:((650,3465,-1630),(-3,0,180),(1,1,1))
+						{
+							//StadName
+							UseShader:(ZSafeGradient)
+								SetUniformColour(gradbot,#606060FF)
+								SetUniformColour(gradtop,twk(Player,HomeShirtCol1))
+								SetUniform4F(gradposfade,120,260,%currentFadeA)
+							{
+								M_Text:(NEW STAR FC,650,145,,200,C,C,Text,Outline,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+									.set(gel.text,(twk(Player,StadiumName)))
+									M_Style:(Outline,#BBBBBB60)
+									.set(gel.scale,min(1,300/%gfw))
+									FontScale(6,7.5)
+							}							
+						}
+					}
+				}
+				
+				//Crowd
+				M_Crowd_N_5:()
+				M_Crowd_S_5:()
+				M_Crowd_E_5:()
+				M_Crowd_W_5:()
+				M_Crowd_Corner_6:()
+				M_Crowd_6:()
+			}
+
+
+
+			//-------------------------------------------------------------Collision
+			If:(?USE_COLLISION?)
+				M_FacilitySectionHotArea:(0,-2800,-320,10.5,2.5,2.5,0,0,0,2,PitchStandS,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SouthStand ClickArea
+				M_FacilitySectionHotArea:(1900,-2700,-320,3,3,3,0,0,0,3,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SWCorner ClickArea
+				M_FacilitySectionHotArea:(2000,0,-320,2.5,17,2.5,0,0,0,4,PitchStandW,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //WestStand ClickArea
+				M_FacilitySectionHotArea:(1900,2700,-320,3,3,3,0,0,0,5,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NWCorner ClickArea
+				M_FacilitySectionHotArea:(0,2800,-320,10.5,2.5,2.5,0,0,0,6,PitchStandN,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NorthStand ClickArea
+				M_FacilitySectionHotArea:(-1900,2650,-320,3,3,3,0,0,0,7,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NECorner ClickArea
+				M_FacilitySectionHotArea:(-2000,-50,-320,2.5,17,2.5,0,0,0,8,PitchStandE,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //EastStand ClickArea
+				M_FacilitySectionHotArea:(-1900,-2700,-320,3,3,3,0,0,0,9,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SECorner ClickArea
+				M_FacilitySectionHotArea:(0,0,0,11,17,1,0,0,0,10,Pitch,1,?MATCH_STADIUM_SHOW_COLLIDERS?) ////Stadium Pitch
+			EndIf
+		}
+
+		Rect:() $HIDE ref:HoardingsColliders
+			Layer(AboveSky)
+		{
+			//-------------------------------------------------Hoardings Tier 1 and 2
+			// East Side
+			Locator:((-1393,-1280,5),(0,90,0),(1,1,1)) ref:Pi1Pi2
+			{
+				Draw:(White,0,0,50,557,0,#FF00FFAA)
+				Draw:(White,0,2025,50,557,0,#FF00FFAA)
+			}
+
+			// West Side
+			Locator:((1390,-1280,5),(0,90,0),(1,1,1)) ref:Pi1Pi2
+			{
+				Draw:(White,0,0,50,557,0,#FF00FFAA)
+				Draw:(White,0,1212,50,190,0,#FF00FFAA)
+				Draw:(White,0,2028,50,557,0,#FF00FFAA)
+			}
+
+			// North End
+			Locator:((-530,2110,5),(-90,0,0),(1,1,1)) ref:Pi1Pi2
+			{
+				Draw:(White,0,0,1108,50,0,#FF00FFAA)
+			}
+			
+			// South End
+			Locator:((-524,-2060,5),(-90,0,0),(1,1,1)) ref:Pi1Pi2
+			{
+				Draw:(White,0,0,1117,50,0,#FF00FFAA)
+			}
+
+			//-------------------------------------------------Dugout Tier 2 and 3
+			// East Side dugout
+			Locator:((-1400,-2040,0),(0,90,0),(1,1,1)) ref:Pi2Pi3
+			{
+				Draw:(White,0,1900,95,340,0,#FF00FFAA)
+			}
+
+			//--------------------------------------------- Hoardings 3 and 4
+			// East Side
+			Locator:((-1445,-2000,0),(0,90,0),(1,1,1)) ref:Pi3Pi4
+			{
+				Draw:(White,0,0,51,1800,0,#FF00FFAA)
+				Draw:(White,0,2560,51,1500,0,#FF00FFAA)
+			}
+			// West Side
+			Locator:((1500,-1850,0),(0,90,0),(1,1,1)) ref:Pi3Pi4
+			{
+				Draw:(White,0,0,51,3750,0,#FF00FFAA)
+			}
+			// North End
+			Locator:((-1270,2120,0),(-90,0,0),(1,1,1)) ref:Pi3Pi4
+			{
+				Draw:(White,0,0,2610,51,0,#FF00FFAA)
+			}
+			// South End
+			Locator:((-1270,-2120,0),(-90,0,0),(1,1,1)) ref:Pi3Pi4
+			{
+				Draw:(White,0,0,2610,51,0,#FF00FFAA)
+			}
+
+			//--------------------------------------------- Hoardings 5 and 6
+			// East Side
+			Locator:((-1425,-2000,0),(0,90,0),(1,1,1)) ref:Pi5Pi6
+			{
+				Draw:(White,0,210,51,1270,0,#FF00FFAA)
+				Draw:(White,0,2560,51,1300,0,#FF00FFAA)
+			}
+			// West Side
+			Locator:((1480,-1890,0),(0,90,0),(1,1,1)) ref:Pi5Pi6
+			{
+				Draw:(White,0,0,51,1800,0,#FF00FFAA)
+				Draw:(White,0,2015,51,1800,0,#FF00FFAA)
+			}
+			// North End
+			Locator:((-1230,2110,0),(-90,0,0),(1,1,1))  ref:Pi5Pi6
+			{
+				Draw:(White,0,0,2500,51,0,#FF00FFAA)
+			}
+			//Corner_NW
+			Locator:((1180,2150,0),(-45,90,-90),(1,1,1))  ref:Pi5Pi6 
+			{	
+				Draw:(White,0,0,450,51,0,#FF00FFAA)
+			}
+			//Corner_NE
+			Locator:((-1130,2150,0),(45,90,-90),(1,1,1))  ref:Pi5Pi6 
+			{
+				Draw:(White,0,0,450,51,0,#FF00FFAA) 
+			}
+			// South End 
+			Locator:((-1230,-2075,0),(-90,0,0),(1,1,1)) ref:Pi5Pi6
+			{
+				Draw:(White,0,0,2500,51,0,#FF00FFAA) 
+			}
+			//Corner_SE
+			Locator:((-1450,-1800,0),(-45,90,-90),(1,1,1)) ref:Pi5Pi6
+			{
+				Draw:(White,0,0,450,51,0,#FF00FFAA)
+			}
+			//Corner_SW
+			Locator:((1500,-1800,0),(45,90,-90),(1,1,1)) ref:Pi5Pi6
+			{
+				Draw:(White,0,0,450,51,0,#FF00FFAA)
+			}
+			
+		}
+
+		
+		Rect:() $HIDE ref:StadiumColliders
+			Layer(AboveSky)
+		{
+			//--------------------------------------------------------STADIUM COLLIDERS
+			Locator:((-1750,-3000,0),(0,90,0),(1,1,1)) ref:E1E2E3E4E5E6
+			{
+				Draw:(White,0,0,551,6000,0,#FF00FFAA)
+			}
+			Locator:((1750,-3000,0),(0,90,0),(1,1,1)) ref:W1W2W3W4W5W6
+			{
+				Draw:(White,0,0,551,6000,0,#FF00FFAA)
+			}
+			Locator:((-2000,2500,0),(-90,0,0),(1,1,1)) ref:N1N2N3N4N5N6
+			{
+				Draw:(White,0,0,4000,551,0,#FF00FFAA)
+			}
+			Locator:((-2000,-2500,0),(-90,0,0),(1,1,1)) ref:S1S2S3S4S5S6
+			{
+				Draw:(White,0,0,4000,551,0,#FF00FFAA)
+			}
+
+			//-------------------------------------------------------Freestanding Floodlights
+			//East Side South
+			Locator:((-1478,-2148,0),(-30,90,0),(1,1,1)) ref:E1E2
+			{
+				Draw:(White,0,0,551,30,0,#FF00FFAA)
+			}
+			//East Side North
+			Locator:((-1495,2110,0),(45,90,0),(1,1,1)) ref:E1E2
+			{
+				Draw:(White,0,0,551,30,0,#FF00FFAA)
+			}
+
+			//West Side South
+			Locator:((1483,-2148,0),(30,90,0),(1,1,1)) ref:W1W2
+			{
+				Draw:(White,0,0,551,30,0,#FF00FFAA)
+			}
+
+			//West Side North
+				Locator:((1490,2110,0),(-45,90,0),(1,1,1)) ref:W1W2
+			{
+				Draw:(White,0,0,551,30,0,#FF00FFAA)
+			}
+		}
+
+
+
+
+		Rect:()
+			Layer(AboveSky)
+		{
+			If:(?USE_COLLISION?)
+			M_FacilitySectionHotArea:(0,-2800,-320,11.5,2.5,2.5,0,0,0,2,PitchStandS,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SouthStand ClickArea
+			M_FacilitySectionHotArea:(1900,-2700,-320,3,3,3,0,0,0,3,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SWCorner ClickArea
+			M_FacilitySectionHotArea:(2000,0,-320,2.5,17.5,2.5,0,0,0,4,PitchStandW,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //WestStand ClickArea
+			M_FacilitySectionHotArea:(1900,2700,-320,3,3,3,0,0,0,5,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NWCorner ClickArea
+			M_FacilitySectionHotArea:(0,2800,-320,11.3,2.5,2.5,0,0,0,6,PitchStandN,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NorthStand ClickArea
+			M_FacilitySectionHotArea:(-1900,2650,-320,3,3,3,0,0,0,7,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //NECorner ClickArea
+			M_FacilitySectionHotArea:(-2000,-50,-320,2.5,17,2.5,0,0,0,8,PitchStandE,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //EastStand ClickArea
+			M_FacilitySectionHotArea:(-1900,-2700,-320,3,3,3,0,0,0,9,PitchCorners,1,?MATCH_STADIUM_SHOW_COLLIDERS?) //SECorner ClickArea
+			M_FacilitySectionHotArea:(0,0,0,11,17,1,0,0,0,10,Pitch,1,?MATCH_STADIUM_SHOW_COLLIDERS?) ////Stadium Pitch
+				EndIf
+		}
+		//-------------------------------------------------Crowd
+		M_Crowd:()
+
+	}
+EndM
+
+
+
+//---------------------------------------------------------------------------------------------------------------------Goal
+
+Macro:(M_Goal,?PX?,?PY?,?PZ?,?RZ?,?SCALE?,?REVSHADOW?,?LAYER?)
+	Rect:()
+		if(shell(GameScreen) = "match_interval" and(twk(MatchInterval,FormationCam) > 0 ))
+		<
+			.set(gel.vis,0)
+		>
+	{
+		UseShader:(Static3D)
+			SetUniform4F(SpecParams,0.7)
+		{
+			Locator:((?PX?,?PY?,?PZ?),(0,0,?RZ?),(?SCALE?,?SCALE?,?SCALE?))
+			{
+				UseShader:(ZSafeSprite)
+					Layer(ZSprite)
+				{
+					If:(?REVSHADOW?=1)
+						
+						Draw:(GoalShadow2Rev,250,-225,434,212,,#FFFFFF50)
+							.set(gel.vis,twk(Facilities,Night) = 0)
+							Scale(-1.32,1.48)
+						Draw:(GoalShadowNight,320,-225,492,333,,#FFFFFF50)
+							.set(gel.vis,twk(Facilities,Night) = 1)
+							Scale(-1.32,1.48)
+					Else
+						Draw:(GoalShadow2,-250,260,434,231,180,#FFFFFF50)
+							.set(gel.vis,twk(Facilities,Night) = 0)
+							Scale(-1.32,1.48)
+						Draw:(GoalShadowNight,320,-230,492,333,,#FFFFFF50)
+							.set(gel.vis,twk(Facilities,Night) = 1)
+							Scale(-1.32,1.48)
+					EndIf
+				}
+
+				DrawStaticModel:(GoalPosts,GoalPostsTexture)
+					Layer(?LAYER?)
+				DrawStaticModel:(GoalNet,GoalNetTexture)
+					Layer(?LAYER?)
+					Blend(ONE,INV_IMAGE_ALPHA)
+			}
+		}
+	}
+EndM

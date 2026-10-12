@@ -1,0 +1,14 @@
+M_FTUETraining:("matchengine",0,("ftue.createTraining",5),"TTouch.PassToPlayer","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALPASSING),320,-350,FTUE_Tap,,@l+20,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALPASSING_ALT)) ref:Trial_Passing //Begin Trial
+M_FTUETraining:("matchengine",0,("ftue.createTraining",6),"TTouch.PassToPoint","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALPASSTOSPACE),220,-220,FTUE_Tap_Marker,,@l+20,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALPASSTOSPACE_ALT)) ref:Trial_Pass_to_space
+M_FTUETraining:("matchengine",0,("ftue.createTraining",7),"hidemessage","TTouch.DragPathSet","TFootball.OffPitch",loc(CFTUE_TRIALRUNS1),420,-200,FTUE_Path,,@l+20,-@t+70,0,Retry,420,120,1,ABOVE,,,,,loc(CFTUE_TRIALRUNS1_ALT),0,412,-180) ref:Trial_Runs_1
+M_FTUETraining:("matchengine",0,("ftue.matchSetTouchControls","disable_taponspot:0"),"TTouch.PassToPoint","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALRUNS2),410,-80,FTUE_Tap_Marker,,@l+20,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALRUNS2_ALT)) ref:Trial_Runs_2
+M_DummyStep:("ftue.createTraining",9)
+M_FtueDribblingTutorial:(0.2) ref:Trial_Dribbling
+M_FTUETraining:("matchengine",0,("ftue.createTraining",11),"TTouch.KickingDragStarted","TapBall.Activated","TFootball.OffPitch",loc(CFTUE_TRIALSHOOTING1),130,-910,FTUE_Drag,,@l+20,-@t+70,0,Retry,160,-750,1,ABOVE,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),,,loc(CFTUE_TRIALSHOOTING1_ALT)) ref:Trial_Shooting_1 //20,80
+M_FTUETraining:("tapball",0,("initmessage"),"hidemessage","TFootball.GoalScored",("TFootball.OppScored",,"TFootball.ControlBall",,"TFootball.OffPitch",),loc(CFTUE_TRIALSHOOTING2),600,570,FTUE_Tap,,@l+20,-@t+70,0.8,1,,,0,ABOVE,,,,,loc(CFTUE_TRIALSHOOTING2_ALT)) ref:Trial_Shooting_2
+M_FTUE:(matchengine,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_STAGEDTACKLE1),@r-100,-@t+330,FTUE_Tap,,@r-520,-@t+70,NEXT,,,,,,,("ftue.createTraining",13),#00000000,ABOVERIGHT,,,loc(CFTUE_STAGEDTACKLE1_ALT)) ref:Tackling_explained
+M_FtueTacklingTutorial:() ref:Trial_Tackling
+M_FTUE:(matchengine,FULLSCREEN,ClickMessage,@C+10,@t+80,[@w-80]/2,@h-80,loc(CFTUETRAINING_TRIALCOMPLETE),@l+800,-@t+620,FTUE_Tap,,@l+310,-@t+350,NEXT,,,,,,,,#00000000,LEFT) ref:Trial_Complete
+
+// Should be the last thing to disable the FTUE after completion
+M_DummyStep:(ftue.trainingComplete)

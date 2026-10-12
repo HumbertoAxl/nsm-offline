@@ -1,0 +1,273 @@
+Import:(sort_Common.uih)
+
+// Need to add Average Rating
+
+// Larger cells for 16:9
+If:(@w > 1152)
+	Define:(?CELL4?=[[@s-572]/4])
+	Define:(?CELL5?=[[@s-572]/5])
+	Define:(?CELL6?=[[@s-572]/6])
+	Define:(?CELL7?=[[@s-572]/7])
+Else
+	Define:(?CELL4?=145)
+	Define:(?CELL5?=116)
+	Define:(?CELL6?=96.66)
+	Define:(?CELL7?=82.857)
+EndIf
+
+Macro:(M_DataListHeaders,?X?,?Y?,?W?,?H?,?TWKCAT?,?CONTEXT?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_SortIndicator:(0,0,47,@H,?SORT_SELECTIONNUMBER?,squaddata_SELECTIONSTATUS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_ASCENDING?)
+			M_SortIndicator:(47,0,225,@H,?SORT_NAME?,generic_PLAYER,75,0,L,?TWKCAT?,?CONTEXT?,?SORT_ASCENDING?)
+			M_SortIndicator:(272,0,80,@H,?SORT_RATING?,generic_RATING,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			M_SortIndicator:(352,0,80,@H,?SORT_ENERGY?,squaddata_NRG,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			M_SortIndicator:(432,0,80,@H,?SORT_HAPPINESS?,squaddata_HAPPINESS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+
+			// Covered by other views
+			Rect:()
+				set(gel.vis,twk(Squad,ViewComboSelected) = 1)
+			{
+				M_SortIndicator:(512 + [?CELL5?*0],0,?CELL5?,@H,?SORT_AGE?,generic_AGE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL5?*1],0,?CELL5?,@H,?SORT_CONTRACT?,generic_CONTRACT,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL5?*2],0,?CELL5?,@H,?SORT_VALUE?,generic_VALUE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL5?*3],0,?CELL5?,@H,?SORT_INJURED?,squaddata_INJURIES,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL5?*4],0,?CELL5?,@H,?SORT_BANNED?,squaddata_BANS,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			}
+
+			// Statistics
+			Rect:()
+				set(gel.vis,twk(Squad,ViewComboSelected) = 2)
+			{
+				M_SortIndicator:(512 + [?CELL7?*0],0,?CELL7?,@H,?SORT_STAT_APPS?,squaddata_APPEARANCES_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*1],0,?CELL7?,@H,?SORT_STAT_SUBS?,squaddata_SUBBED_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*2],0,?CELL7?,@H,?SORT_STAT_GOALS?,squaddata_GOALS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*3],0,?CELL7?,@H,?SORT_STAT_ASSISTS?,squaddata_ASSISTS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*4],0,?CELL7?,@H,?SORT_STAT_YCARDS?,squaddata_YELLOWS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*5],0,?CELL7?,@H,?SORT_STAT_RCARDS?,squaddata_REDS_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL7?*6],0,?CELL7?,@H,?SORT_STAT_AVERAGERATING?,squaddata_AVGRATING,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			}
+
+			// Skills
+			Rect:()
+				set(gel.vis,twk(Squad,ViewComboSelected) = 3)
+			{
+				M_SortIndicator:(512 + [?CELL6?*0],0,?CELL6?,@H,?SORT_POTENTIAL?,squaddata_SKILL_POTENTIAL,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*1],0,?CELL6?,@H,?SORT_SKILL_TACKLING?,squaddata_SKILL_TACKLING_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*2],0,?CELL6?,@H,?SORT_SKILL_TECHNIQUE?,squaddata_SKILL_TECHNIQUE_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*3],0,?CELL6?,@H,?SORT_SKILL_DRIBBLING?,squaddata_SKILL_DRIBBLING_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*4],0,?CELL6?,@H,?SORT_SKILL_PACE?,squaddata_SKILL_PACE_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(512 + [?CELL6?*5],0,?CELL6?,@H,?SORT_SKILL_STRENGTH?,squaddata_SKILL_STRENGTH_tla,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			}
+
+			// Concerns
+			Rect:()
+				set(gel.vis,twk(Squad,ViewComboSelected) = 4)
+			{
+				// Locked
+				Rect:() $HIDE
+					.set(gel.vis,(twk(Facilities,MedicalUnitLevel) = 0))
+				{
+					M_Text:(,817+[@y/2],0,0,@H,C,C,TextLoc,KNUL21,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						M_Style:(Outline,#FFFFFF20)
+						.set(gel.text,loc(LockedMedical) :: " 1")
+						set(%gfw,strwidth(gel.text,0)*0.525)
+						{{
+							Draw:(Icon_Locked,0,5,30,30,,#FFFFFFFF)
+								.set(gel.x,-[%gfw/2]-35)
+						}}
+				}
+
+				// Available with Medical Unit level > 1
+				Rect:() $HIDE
+					.set(gel.vis,(twk(Facilities,MedicalUnitLevel) > 0))
+				{
+					M_SortIndicator:(512 + [?CELL4?*0],0,?CELL4?,@H,?SORT_CONCERN_SELECTION?,profile_player_CONCERNS_MANAGEMENT,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+					M_SortIndicator:(512 + [?CELL4?*1],0,?CELL4?,@H,?SORT_CONCERN_TRAINING?,profile_player_CONCERNS_DEVELOPMENT,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+					M_SortIndicator:(512 + [?CELL4?*2],0,?CELL4?,@H,?SORT_CONCERN_CONTRACT?,profile_player_CONCERNS_CONTRACT,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+					M_SortIndicator:(512 + [?CELL4?*3],0,?CELL4?,@H,?SORT_CONCERN_FORM?,profile_player_CONCERNS_FORM,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+				}
+			}
+		}}
+	}}
+EndM
+
+
+
+Macro:(M_SquadListRow_CommonDoodads,?CONTEXT?)
+	float(%injured,%banned,%youth,%type)
+	CTRLSelect(CTRLBasicSelected,0,0,6,6)
+	func(ClickFunc)
+	<
+		Post(UI_Select)
+		Message(?CONTEXT?.btn_ViewPlayer) ref:ClickMessage
+	>
+	Click()
+	<
+		call(ClickFunc)	
+	>
+	CTRLClick(?BTNOK?)
+	<
+		call(ClickFunc)
+	>
+
+	if(twk(ControllerInput,Enabled))
+	<
+		CTRLPress(?BTNOK?)
+		<
+			set(%pressed,1)
+		>
+		else
+		<
+			set(%pressed,0)
+		>
+	>
+	else
+	<
+		M_CellPress:()
+	>
+	
+	OnPost("profileplayer.highlightPlayer") ref:OnPost
+	<
+		CTRLSetSelected(,,true)
+	>
+EndM
+
+
+
+//-------------------------------------------------------- Small rows with Player Face
+Macro:(M_SquadListRow_Common,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:Bg
+	{{
+		Draw:(Cell70,-3,-2,@W+6,74) ref:Cell
+
+		M_Text:("0",24,0,0,@H,C,C,Text,KNUL20,,0,0,#252525FF,NoItalics,#252525FF,Sel)
+		
+		Clip:(0,0,@W,@H-1)
+		{
+			Rect:(85,30) ref:Face
+				Card_Face(SquadListCard,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,false,true,300)
+				Scale(0.74,0.74)
+		}
+
+		Rect:(@L,@T,@W,@H) ref:CardArea
+			Card_AreaSlot(SquadListCardArea,squad.action_ApplyCard,PU_MANAGER|PU_COACHING,,SquadListCard)
+
+		Clip:(0,2,@W,65)
+		{
+			Draw:(Cell_Star0,262,-20,100,100)
+				.set(gel.img,"Cell_Star"::fmt(%type,X))
+		}
+
+		M_Text:(,130,-13,200,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+		
+		// Position
+		M_Text:(,136,17,200,@H,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,Pos)
+		{{
+			Draw:(RoleWhite,-5,24,50,22,,#505050FF) ref:RoleStrip
+				Layer(Default)
+				set(gel.w,%gfw+10)
+		}}
+
+		M_Text:(,272,0,80,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,Rating)
+			M_Style_StarRating:()
+		M_Text:(,352,0,80,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Energy)
+		M_Text:(,432,0,80,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Happiness)
+
+		M_CellPressHighlight:()
+		M_CardApplyHighlight:()
+	}}
+EndM
+
+Macro:(M_SquadListRow_ViewGeneral,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:RowViewGeneral
+		M_SquadListRow_CommonDoodads:(?CONTEXT?)
+	{{
+		M_SquadListRow_Common:(?TWKCAT?,?CONTEXT?)
+		M_Text:(,512 + [?CELL5?*0],0,?CELL5?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Age)
+		M_Text:(,512 + [?CELL5?*1],0,?CELL5?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Contract)
+		M_Text:(,512 + [?CELL5?*2],0,?CELL5?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Value)
+			
+		Rect:(512 + [?CELL5?*3],0,?CELL5?,@H)
+		{{
+			Draw:(Icon_Injured,@C-24,4,30,30)
+				set(gel.vis,%injured)
+			M_Text:(,@C+8,-15,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,InjuryDuration)
+			M_Text:(,@C,17,0,@H,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#505050FF,InjuryType)
+		}}
+
+		Rect:(512 + [?CELL5?*4],0,?CELL5?,@H)
+		{{
+			Draw:(Icon_RedCard,@C-24,20,30,30)
+				set(gel.vis,%banned)
+			M_Text:(,@C+8,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Banned)
+		}}
+
+
+	}} Template
+EndM
+
+Macro:(M_SquadListRow_ViewStats,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:RowViewStats
+		M_SquadListRow_CommonDoodads:(?CONTEXT?)
+	{{
+		M_SquadListRow_Common:(?TWKCAT?,?CONTEXT?)
+		M_Text:(Apps,512 + [?CELL7?*0],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Apps)
+		M_Text:(Subs,512 + [?CELL7?*1],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Subs)
+		M_Text:(Goals,512 + [?CELL7?*2],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Goals)
+		M_Text:(Assists,512 + [?CELL7?*3],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Assists)
+		M_Text:(YCards,512 + [?CELL7?*4],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,YCards)
+		M_Text:(RCards,512 + [?CELL7?*5],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,RCards)
+		M_Text:("Av. Rating",512 + [?CELL7?*6],0,?CELL7?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,AvRating)
+	}} Template
+EndM
+
+Macro:(M_SquadListRow_ViewSkill,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:RowViewSkills
+		float(%isGK)
+		M_SquadListRow_CommonDoodads:(?CONTEXT?)
+	{{
+		M_SquadListRow_Common:(?TWKCAT?,?CONTEXT?)
+
+		Draw:(Icon_Star) $HIDE ref:Trait
+		M_Text:(,512 + [?CELL6?*0],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Potential)
+		M_Text:(,512 + [?CELL6?*1],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill1)
+		M_Text:(,512 + [?CELL6?*2],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill2)
+		M_Text:(,512 + [?CELL6?*3],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill3)
+		M_Text:(,512 + [?CELL6?*4],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill4)
+		M_Text:(,512 + [?CELL6?*5],0,?CELL6?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Skill5)
+	}} Template
+EndM
+
+
+
+
+Macro:(M_SquadListRow_ViewConcerns,?TWKCAT?,?CONTEXT?)
+	Cull:(0,0,@W,70) ref:RowViewConcerns
+		M_SquadListRow_CommonDoodads:(?CONTEXT?)
+	{{
+		M_SquadListRow_Common:(?TWKCAT?,?CONTEXT?)
+
+		Rect:() $HIDE ref:LockedConcerns
+		{
+			M_Text:("-",512 + [?CELL4?*0],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Selection)
+			M_Text:("-",512 + [?CELL4?*1],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Training)
+			M_Text:("-",512 + [?CELL4?*2],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Contract)
+			M_Text:("-",512 + [?CELL4?*3],0,?CELL4?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Form)
+		}
+
+		M_SquadDataWheel:(512 + [?CELL4?*0]+[[?CELL4?-64]/2],3,Team,Happiness,SelectionPB,Concern_Selection)
+		M_SquadDataWheel:(512 + [?CELL4?*1]+[[?CELL4?-64]/2],3,Team,Happiness,TrainingPB,Concern_Development)
+		M_SquadDataWheel:(512 + [?CELL4?*2]+[[?CELL4?-64]/2],3,Team,Happiness,ContractPB,Concern_Contract)
+		M_SquadDataWheel:(512 + [?CELL4?*3]+[[?CELL4?-64]/2],3,Team,Happiness,FormPB,Concern_Form)
+	}} Template
+EndM
+
+
+
+Rect:(0,0,0,20) ref:RowSeparator
+{{
+	Text:() $HIDE ref:SeparatorText
+}}

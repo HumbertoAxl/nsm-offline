@@ -1,0 +1,4 @@
+6230	6	// Scottish prem 1 league continuation
+6240	6	// Scottish prem 2 league continuation
+5855	6	// Rom1 CH
+5856	8	// Rom1 REL

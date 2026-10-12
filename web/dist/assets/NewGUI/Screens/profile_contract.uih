@@ -1,0 +1,236 @@
+Img:(Icon_Contract_Lower,NewGUI/UI/Contract/Icon_Contract_Lower.png) Volatile:Contract
+Img:(Icon_Contract_Higher,NewGUI/UI/Contract/Icon_Contract_Higher.png) Volatile:Contract
+Img:(Contract_Shirt,NewGUI/UI/Contract/Contract_Shirt.png) Volatile:Contract
+Img:(contract_0,NewGUI/UI/Contract/contract_0.png) FORCE Volatile:Contract
+Img:(contract_1,NewGUI/UI/Contract/contract_1.png) FORCE Volatile:Contract
+Img:(contract_2,NewGUI/UI/Contract/contract_2.png) FORCE Volatile:Contract
+Img:(contract_3,NewGUI/UI/Contract/contract_3.png) FORCE Volatile:Contract
+Img:(contract_4,NewGUI/UI/Contract/contract_4.png) FORCE Volatile:Contract
+Img:(contract_5,NewGUI/UI/Contract/contract_5.png) FORCE Volatile:Contract
+Img:(contract_6,NewGUI/UI/Contract/contract_6.png) FORCE Volatile:Contract
+Img:(contract_7,NewGUI/UI/Contract/contract_7.png) FORCE Volatile:Contract
+Img:(contract_8,NewGUI/UI/Contract/contract_8.png) FORCE Volatile:Contract
+Img:(contract_9,NewGUI/UI/Contract/contract_9.png) FORCE Volatile:Contract
+Img:(contract_10,NewGUI/UI/Contract/contract_10.png) FORCE Volatile:Contract
+Img:(contract_11,NewGUI/UI/Contract/contract_11.png) FORCE Volatile:Contract
+
+Macro:(M_NegotiationDigit,?X?,?Y?,?INDEX?)
+	Rect:(?X?,?Y?)
+	{{
+		Draw:(Contract_Shirt,-15,-1,120,120)
+			Rearmable()
+			:set(gel.colour,#FFFFFFFF)
+			if(twk(Negotiate,FailedNumber) = 0 and(twk(Negotiate,CurrentNumber) >= ?INDEX?))
+			<
+				:set(gel.alpha,1)
+			>
+			else
+			<
+				if(twk(Negotiate,FailedNumber) > 0)
+				<	
+					:set(gel.alpha,1)
+				>
+				else
+				<
+					:set(gel.alpha,0.25)
+				>
+			>
+			if(twk(Negotiate,FailedNumber) > 0 and(twk(Negotiate,FailedNumber) < ?INDEX?))
+			<
+				:set(gel.colour,#990000FF)
+			>
+
+		Draw:(contract_0,24,33,40,40,,#FFFFFF00)
+			Rearmable()
+			:set(gel.colour,#FFFFFFFF)
+			:set(gel.img,contract_0)
+
+			if(twk(Negotiate,FailedNumber) > 0 and(twk(Negotiate,FailedNumber) < ?INDEX?))
+			<
+				:set(gel.colour,#DD1010FF)
+				:set(gel.img,contract_::twk(Negotiate,Number?INDEX?Value))
+			>
+			else
+			<
+				if((twk(Negotiate,CurrentNumber)>=?INDEX?) or (twk(Negotiate,FailedNumber)>=?INDEX?))
+				<
+					:set(gel.colour,#FFFFFFFF)
+					:set(gel.img,contract_::twk(Negotiate,Number?INDEX?Value))
+				>
+				else
+				<
+					if((twk(Negotiate,CurrentNumber)+1 >= ?INDEX?))
+					<
+						PulseAlpha(0,1,0.25,0.25,0.2,0.2)
+					>
+				>
+			>
+	}}
+EndM
+
+Macro:(M_ProfileContract,?SCRN?,?TYPE?)
+	Rect:(0,350,@W,215+@z)
+		set(gel.vis,twk(Negotiate,InProgress))
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+
+		// Negotiate
+		M_Text:(negotiate_HEADER,@C,26,0,0,C,C,TextLoc,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+			if((twk(Negotiate,FailedNumber) > 0) or(twk(Negotiate,CurrentNumber) = 5))
+			<
+				frlerp(gel.scale,0,0.15)
+				frlerp(gel.alpha,0,0.15)
+			>
+			else
+			<
+				:set(gel.scale,1)
+				:set(gel.alpha,1)
+			>
+
+		// Failed
+		M_Text:(negotiate_FAIL,@C,26,0,0,C,C,TextLoc,KNUL25,Upper,1,0,#CC1618FF,NoItalics,#CC161800,ref)
+			if(twk(Negotiate,FailedNumber) > 0)
+			<
+				:Delay(0.1)
+				frlerp(gel.scale,1,0.15)
+				frlerp(gel.alpha,1,0.15)
+				PulseAlpha(1,0.1,0.8,0.8)
+			>
+			else
+			<
+				:set(gel.scale,0)
+				:set(gel.alpha,0)
+			>
+
+		// Success
+		M_Text:(negotiate_SUCCESS,@C,26,0,0,C,C,TextLoc,KNUL25,Upper,1,0,#252525FF,NoItalics,#25252500,ref)
+			if(twk(Negotiate,CurrentNumber) = 5)
+			<
+				:Delay(0.1)
+				frlerp(gel.scale,1,0.3)
+				frlerp(gel.alpha,1,0.3)
+				PulseAlpha(1,0.1,0.35,0.35)
+			>
+			else
+			<
+				:set(gel.scale,0)
+				:set(gel.alpha,0)
+			>
+
+
+		// Shirts
+		Rect:(24+[@y/2],105)
+		{{
+			M_NegotiationDigit:(0,0,1)
+			M_NegotiationDigit:(120,0,2)
+			M_NegotiationDigit:(240,0,3)
+			M_NegotiationDigit:(360,0,4)
+			M_NegotiationDigit:(480,0,5)
+
+			Rect:()
+				set(gel.vis,twk(Negotiate,FailedNumber) = 0 and(twk(Negotiate,CurrentNumber) < 5))
+				Rearmable()
+				:set(gel.x,-130)
+				frlerp(gel.x,[twk(Negotiate,CurrentNumber)*120]-130,0.1)
+			{{
+				M_Button:(175,-20,100,40,Button_SilverSliced,Icon_Contract_Higher,30,0,40,40,#252525FF,?SCRN?.btn_NegotiationHigher,NegotiationHigherButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					set(%disabled,twk(Negotiate,HigherEnabled) = 0)
+
+				M_Button:(175,145,100,40,Button_SilverSliced,Icon_Contract_Lower,30,0,40,40,#252525FF,?SCRN?.btn_NegotiationLower,NegotiationLowerButton,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					set(%disabled,twk(Negotiate,LowerEnabled) = 0)
+			}}
+		}}
+
+
+
+		// Increase
+		M_Text:(,@R-400,90,0,0,C,C,Text,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			if(twk(ProfileStaff,IsPotentialHire) or (twk(ProfilePlayer,IsOthersTeam)))
+			<
+				set(gel.text,loc(negotiate_OFFER))
+			>
+			else
+			<
+				set(gel.text,loc(negotiate_INCREASE))
+			>
+		M_Text:(,@R-400,150,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+			Rearmable()
+			:set(gel.text,LTR(twk(Negotiate,Increment)) :: " " :: loc(negotiate_MATCHES))
+
+
+
+		Rect:()
+			Rearmable()
+			// Sequence
+			//:ConsolePrint(twk(Negotiate,Number1Value) :: "," :: twk(Negotiate,Number2Value) :: "," :: twk(Negotiate,Number3Value) :: "," :: twk(Negotiate,Number4Value) :: "," :: twk(Negotiate,Number5Value))
+			// Logic
+			float(%correct)
+			Rearmable()
+			:set(%correct,0)
+			
+			// Correct Logic
+			float(%currentNumber)
+
+			:set(%currentNumber,twk(Negotiate,CurrentNumber))
+			if(%currentNumber < twk(Negotiate,CurrentNumber))
+			<
+				set(%currentNumber,twk(Negotiate,CurrentNumber))
+				:set(%correct,1)
+			>
+			else
+			<
+				:set(%correct,0)
+			>
+		{
+			// Demands
+			M_Text:(negotiate_DEMANDS,@R-145,90,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+
+			M_Text:(,@R-145,150,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				float(%localAmount,%startAmount,%t)
+				Rearmable()
+				:set(gel.colour,#252525FF)
+				:set(%localAmount,twk(Negotiate,Demands))
+				if(%localAmount != twk(Negotiate,Demands))
+				<
+					:set(%t,0)
+					:set(%startAmount,%localAmount)
+					//:ConsolePrint(twk(Negotiate,Demands)-%startAmount)
+					add(%t,FrameTime*0.02)
+					set(%localAmount,lerp(%startAmount,twk(Negotiate,Demands),min(1,%t)))
+				>
+				else
+				<
+					frlerp(gel.scale,1,0.05)
+					if(twk(Negotiate,FailedNumber) = 0)
+					<
+						frlerp(gel.colour,#252525FF,0.05)
+					>
+				>
+				set(gel.text,"★ " :: commasfmt(%localAmount,0))
+				if(%correct)
+				<
+					:set(gel.scale,1.25)
+					:set(gel.colour,#10DD10FF)
+					
+				>
+				if(twk(Negotiate,FailedNumber) > 0)
+				<
+					:set(gel.colour,#DD1010FF)
+				>
+
+		}
+
+		M_Button:(@R-400,@B+25,220,60,Button_RedSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_NegotiationCancel,ref,loc(negotiate_CANCEL),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(UP)
+			M_FTUEDisableButton:("negotiate.CancelEnabled","negotiate.CancelDisabled")
+	
+		M_Button:(@R-140,@B+25,220,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,?SCRN?.btn_NegotiationAgreed,ref,loc(negotiate_AGREE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(UP)
+		
+	}}
+EndM
+

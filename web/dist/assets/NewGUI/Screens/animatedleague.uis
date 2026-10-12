@@ -1,0 +1,68 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(templates_league.uih)
+Import:(templates_combo.uih)
+Import:(templates_competitions.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	CTRLSelectGroup:(0,@T+181,@W,@H-251,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+	{
+		// Clipped content
+		Clip:(@L,@T+180,@W,@H-250)
+		{{
+			// Moved Content
+			Rect:(30,15,@W-60,@H-30)
+			{{
+				M_AnimatedStandingsRow:(PlayerTeamEntry,1)
+				M_AnimatedStandingsRow:(TeamEntry)
+				
+				Rect:(0,0,@W,@H) ref:TeamList
+						ScrollingList(AnimatedLeague,StandingsScroll,@H,AnimatedLeague,StandingsScrollVel) ref:ScrollingList
+						CTRLScrollList(ScrollingList) ref:CTRLScrollList
+					{{
+					}}
+			}}
+
+			// Swipe Panels
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				if(twk(AnimatedLeague,Animating) = 0)
+				<
+					SwipePanel(AnimatedLeague,StandingsScroll,AnimatedLeague,StandingsScrollVel) ref:SwipePanelStandings
+				>
+			{{
+				Rect:(0,10,@W,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,AnimatedLeague,StandingsScroll,TeamList,ScrollingList,SwipePanels,SwipePanelStandings)
+				}}
+			}}
+		}}
+	}
+	M_SwitchStickHint:(✃,@R-29,@B-115,Y)
+		CTRLScrollListIcon(TeamList,CTRLScrollList)
+
+
+	// Headers and Filters
+	Rect:(@L,@T+80,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,60,@w,44)
+		M_AnimatedStandingsHeader:(0,60,@W,44)
+		M_CompetitionHeader:()
+	}}
+
+	// Dropdown Combo
+	M_League_Combo:(@R-275,@T+80,250,60,animatedleague.btn_ToggleCombo,animatedleague.cmb_League,)
+		Layer(Text)
+}}

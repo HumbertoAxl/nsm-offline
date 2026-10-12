@@ -1,0 +1,288 @@
+// Local selection cube
+Macro:(M_FacilitySectionHotArea,?X?,?Y?,?Z?,?SIZE_X?,?SIZE_Y?,?SIZE_Z?,?ROT_X?,?ROT_Y?,?ROT_Z?,?SECTION?,?NAME?,?FACILITY?,?DEBUG_TEXTURE?)
+	Locator:((?X?,?Y?,?Z?),(?ROT_X?,?ROT_Y?,?ROT_Z?),(?SIZE_X?,?SIZE_Y?,?SIZE_Z?))
+		set(gel.vis,twk(Home,CurrentFacility)=?FACILITY?)
+	{
+		UseShader:(VertexLit)
+		{
+			DrawCollisionModel:(BoxCollider,?DEBUG_TEXTURE?) //if no texture if supplied then it will not render
+				Layer(ClickCollision)	
+				if(twk(FacilityView,Focused) = "NONE")
+				<
+					Click()
+					<
+						if(abs(%screenStartTX-%screenTX)<=50 and(abs(%screenStartTY-%screenTY) <= 50))
+						<
+							:set(twk(Home,CameraMode),?SECTION?)
+							:set(twk(FacilityView,Focused),?NAME?)
+							:Post(home.btn_Build,?NAME?)
+							:set(twk(Home,SpectatorMode),0)
+							:Post(UI_Select)
+							:Post(UI_Swoosh)
+							:set(twk(PlayerSaved,OpenedFacilityTouch),1)
+						>
+					>
+				>
+		}
+	}
+EndM
+
+Macro:(M_FacilityLocationHotArea,?X?,?Y?,?Z?,?SIZE_X?,?SIZE_Y?,?SIZE_Z?,?ROT_X?,?ROT_Y?,?ROT_Z?,?FACILITY?,?DEBUG_TEXTURE?)
+	Locator:((?X?,?Y?,?Z?),(?ROT_X?,?ROT_Y?,?ROT_Z?),(?SIZE_X?,?SIZE_Y?,?SIZE_Z?))
+		set(gel.vis,twk(Home,CurrentFacility)!=?FACILITY?)
+	{
+		UseShader:(VertexLit)
+		{
+			DrawCollisionModel:(BoxCollider,?DEBUG_TEXTURE?)
+				Layer(ClickCollision)
+				if(twk(FacilityView,Focused) = "NONE")
+				<
+					Click()
+					<
+						if(abs(%screenStartTX-%screenTX)<=10 and(abs(%screenStartTY-%screenTY) <= 10))
+						<
+							:set(twk(Home,CurrentFacility),?FACILITY?)
+							:set(twk(Home,CameraMode),1)
+							:Post(facility.btn_Back)
+						>
+					>
+				>
+		}
+	}
+
+EndM
+
+
+//Spring =0
+//Summer =1
+//Autumn =2
+//Winter =3
+
+//Change Season Textures inc day night.
+Macro:(M_TextureSelect,?TEX?)
+##P4N
+If:(?TEX?)
+	.set(gel.img,?TEX?)
+EndIf
+	.if(twk(Facilities,Night) = 1)
+	<
+		set(gel.img,gel.img::"_Night")
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>else<
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>
+##*
+EndM
+
+Macro:(M_SeasonW)
+	##P4N
+	.set(gel.vis,Player.weatherSeason = 3)
+	##*
+EndM
+
+Macro:(M_SeasonSSA)
+	##P4N
+	.set(gel.vis,Player.weatherSeason != 3)
+	##*
+EndM
+
+Macro:(M_SeasonSA)
+	##P4N
+	.set(gel.vis,Player.weatherSeason oneof(0,2))
+	##*
+EndM
+
+Macro:(M_SeasonS)
+	##P4N
+	.set(gel.vis,Player.weatherSeason = 1)
+	##*
+EndM
+
+
+//Change Season Textures inc day night and set winter model if one exists
+Macro:(M_TextureSelectW)
+##P4N
+	.if(twk(Facilities,Night) = 1)
+	<
+		set(gel.img,gel.img::"_Night")
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>else<
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>
+	.if(Player.weatherSeason = 3)
+	<
+		set(gel.model,gel.model::"_Winter")
+	>
+##*
+EndM
+
+//Change Season Textures inc day night and set winter or autumn model if one exists
+Macro:(M_TextureSelectAWS)
+##P4N
+	.if(twk(Facilities,Night) = 1)
+	<
+		set(gel.img,gel.img::"_Night")
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>else<
+		set(gel.img,gel.img::twk(Facilities,Season))
+	>
+	.if(Player.weatherSeason = 3)
+	<
+		set(gel.model,gel.model::"_Winter")
+	>
+	.if(Player.weatherSeason oneof(0,2))
+	<
+		set(gel.model,gel.model::"_Autumn")
+	>
+##*
+EndM
+
+//Set day or night texture
+Macro:(M_DayNightLitter)
+##P4N
+	.if(twk(Facilities,Night) = 1)
+	<
+		set(gel.img,gel.img::"_Night")
+	>
+##*
+EndM
+
+//------------------------------------------------------------------------------------
+
+// Macro:(M_TextureSelectWS)
+// 	.if(twk(Facilities,Night) = 1)
+// 	<
+// 		set(gel.img,gel.img::"_Night")
+// 		set(gel.img,gel.img::twk(Facilities,Season))
+// 	>else<
+// 		set(gel.img,gel.img::twk(Facilities,Season))
+// 	>
+// 	.if(Player.weatherSeason oneof(0,3))
+// 	<
+// 		set(gel.model,gel.model::"_Winter")
+// 	>
+// EndM
+
+
+// Macro:(M_DayNightTexture)
+// ##P4N
+// 	.if(Player.weatherSeason = 3)
+// 	<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Winter")
+// 		>else<
+// 			set(gel.img,gel.img::"_Winter")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+
+
+// Macro:(M_DayNightTextureAutumn)
+// ##P4N
+// 	.if(Player.weatherSeason = 2)
+// 	<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Autumn")
+// 		>else<
+// 			set(gel.img,gel.img::"_Autumn")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+
+// Macro:(M_DayNightTextureSpring)
+// ##P4N
+// 	.if(Player.weatherSeason = 0)
+// 	<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Spring")
+// 		>else<
+// 			set(gel.img,gel.img::"_Spring")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+
+
+// Macro:(M_DayNightTextureAndModel)
+// ##P4N
+// 	.if(Player.weatherSeason = 3)
+// 	<
+// 		set(gel.model,gel.model::"_Winter")
+
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Winter")
+// 		>else<
+// 			set(gel.img,gel.img::"_Winter")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+
+// Macro:(M_DayNightTextureAndModelAutumn)
+// ##P4N
+// 	.if(Player.weatherSeason = 2)
+// 	<
+// 		set(gel.model,gel.model::"_Autumn")
+
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Autumn")
+// 		>else<
+// 			set(gel.img,gel.img::"_Autumn")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+
+// Macro:(M_DayNightTextureAndModelSpring)
+// ##P4N
+// 	.if(Player.weatherSeason = 0)
+// 	<
+// 		set(gel.model,gel.model::"_Winter")
+
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night_Spring")
+// 		>else<
+// 			set(gel.img,gel.img::"_Spring")
+// 		>
+// 	>else<
+// 		.if(twk(Facilities,Night) = 1)
+// 		<
+// 			set(gel.img,gel.img::"_Night")
+// 		>
+// 	>
+// ##*
+// EndM
+

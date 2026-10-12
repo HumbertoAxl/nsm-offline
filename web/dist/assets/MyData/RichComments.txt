@@ -1,0 +1,22 @@
+// Comment Set Format
+// ------------------
+// Comment:(GadgetID,[SponsorCode])
+// 		EventName:ValueConditional:TextToDisplay1,TextToDisplay2:Priority:Title1,Title2
+// 		EventName:ValueConditional:TextToDisplay1,TextToDisplay2:Priority:Title1,Title2
+// EndComment// Triggered events:
+// -----------------
+// GoalDiff
+// KickOff
+// HalfTime
+// FullTime
+// MyTeamGoal
+// OppTeamGoal
+// OwnGoal
+
+// Commentary engine attributes
+AnticipationTime:3
+
+Comment:(GoalComment) 
+	GoalDiff.MyTeamGoal:>0:MyTeamGoalDescription1,MyTeamGoalDescription2:1:MyTeamGoalTitle1,MyTeamGoalTitle2
+	GoalDiff.OppTeamGoal:>0:OppTeamGoalDescription1,OppTeamGoalDescription2:1:OppTeamGoalTitle1,OppTeamGoalTitle2
+EndComment

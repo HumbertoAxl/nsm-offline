@@ -1,0 +1,189 @@
+
+Macro:(M_HeaderControl,?ENABLED?,?SHELL?,?SHELLID?,?TITLENAME?,?TITLE?,?HELP?,?MANAGER?,?SOCIAL?,?SEARCH?,?TARGETS?,?CARDS?,?BUX?,?ALLOWSTORE?,?MATCHSCORE?,?OPTIONS?)
+	Rect:()
+	{
+		Rect:()
+			float(%update)
+			set(%update,0)
+			if((shell(?SHELL?)="?SHELLID?"))
+			<
+				:set(%update,1)
+
+				if(shellvis(?SHELL?) = true)
+				<
+					set(%update,1)
+				>
+			>
+
+			if(%update)
+			<
+				// Enabled state
+				set(twk(Header,Enabled),?ENABLED?)
+
+				If:(?TITLENAME?)
+					:set(twk(Header,ScreenTitle),loc(?TITLENAME?))
+				EndIf
+
+				set(twk(Header,ShowScreenTitle),?TITLE?)
+				set(twk(Header,ShowHelp),?HELP?)
+				set(twk(Header,ShowManager),?MANAGER?)
+				set(twk(Header,ShowSocial),?SOCIAL?)
+				set(twk(Header,ShowSearch),?SEARCH?)
+				set(twk(Header,ShowTargets),?TARGETS?)
+				set(twk(Header,ShowCards),?CARDS?)
+				set(twk(Header,ShowBux),?BUX?)
+				##IA
+				set(twk(Header,AllowStore),?ALLOWSTORE?)
+				##P4N
+				set(twk(Header,AllowStore),0)
+				##*
+				if(twk(Settings,AppVariant)=Japan)
+				<
+					set(twk(Header,AllowStore),0)
+					set(twk(Header,AllowRedeem),?ALLOWSTORE?)
+				>
+				set(twk(Header,ShowMatchScore),?MATCHSCORE?)
+				set(twk(Header,ShowOptions),?OPTIONS?)
+			>
+	}
+EndM
+
+M_HeaderControl:(1,GameScreen,animatedleague,standings_HEADER,1,1)
+
+M_HeaderControl:(1,GameScreen,boardtargets,targets_HEADER,1,1,0,0,0,0,0,1,0,0)
+	set(gel.vis,twk(BoardTargets,MatchesRemaining) = 0)
+M_HeaderControl:(1,GameScreen,boardtargets,targets_HEADER,1,1,0,0,0,0,0,0,0)
+	set(gel.vis,twk(BoardTargets,MatchesRemaining) > 0)
+
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),manager,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),social,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),search,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),targets,"",0,1,1,1,1,1,1,1,1)
+
+
+
+
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),badgeeditor,customise_HEADER,1,1)
+M_HeaderControl:(1,GameScreen,choosesponsor,"",1,1,0,0,0,0,0,0,0,0)
+M_HeaderControl:(1,GameScreen,club,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),clubprofile,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(0,GameScreen,compaward,"")
+M_HeaderControl:(1,GameScreen,dilemma,dilemma_HEADER,1,1,0,0,0,0,0,1,0,0)
+M_HeaderControl:(0,GameScreen,endseason,"")
+M_HeaderControl:(1,GameScreen,endseason_table,seasonend_STANDINGS,1,1)
+M_HeaderControl:(1,GameScreen,endseason_finances,seasonend_FINANCES,1,1)
+M_HeaderControl:(1,GameScreen,endseason_awards,seasonend_AWARDS_LEAGUE,1,1)
+M_HeaderControl:(1,GameScreen,endseason_clubawards,seasonend_AWARDS_CLUB,1,1)
+M_HeaderControl:(1,GameScreen,endseason_contracts,seasonend_CONTRACTS,1,1)
+M_HeaderControl:(1,GameScreen,endseason_relocate,seasonend_PRESTIGE,1,1)
+M_HeaderControl:(1,GameScreen,finances,performance_HEADER,1,1,0,0,0,0,0,1,0,0)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),fixtureinfo,"",0,1)
+M_HeaderControl:(1,GameScreen,formationmatch,"",0,1,0,0,0,0,0,1,0)
+M_HeaderControl:(1,GameScreen,formationmenu,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,FTUEExit,ftueexitcareer,"",1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),help,help_HEADER,1,0)
+M_HeaderControl:(1,GameScreen,home,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,GameScreen,income,seasonend_INCOME,1,1,0,0,0,0,0,1,0,0)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),kiteditor,customise_HEADER,1,1)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),rename,customise_HEADER,1,1)
+M_HeaderControl:(1,GameScreen,league,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,GameScreen,leaguefixtures,fixtures_HEADER,1,1)
+M_HeaderControl:(1,GameScreen,mainmenu,"",0,1,0,0,0,0,0,0,0,0,1)
+M_HeaderControl:(1,Message,message,"",1)
+M_HeaderControl:(1,GameScreen,online,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,GameScreen,question,press_HEADER,1,0)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),matchreplayviewer,Replays,1,1,0,0,0,0,0,0,0,0)
+M_HeaderControl:(1,GameScreen,results,results_HEADER,1,1)
+M_HeaderControl:(1,GameScreen,saveslots,career_HEADER,1,1,0,0,0,0,0,0,0,0)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),settings,options_HEADER,1,0)
+M_HeaderControl:(1,GameScreen,setup,setup_HEADER,1,1,0,0,0,0,0,0,0,0)
+M_HeaderControl:(1,GameScreen,squad,"",0,1,1,1,1,1,1,1,1)
+M_HeaderControl:(1,GameScreen,teamtalk,teamtalk_HEADER,1,0)
+M_HeaderControl:(1,GameScreen,transfer,sell_HEADER,1,1)
+M_HeaderControl:(0,GameScreen,demo_end,"")
+
+// Store
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),store,"",0,1,1,1,1,1,1,1,1)
+	set(gel.vis,twk(Match,InProgress) = 0)
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),store,"",0,1,0,0,0,0,0,1,1)
+	set(gel.vis,twk(Match,InProgress) = 1)
+
+
+// Staff / Coaching
+M_HeaderControl:(1,GameScreen,staff,"",0,1,1,1,1,1,1,1,1)
+	set(gel.vis,twk(Staff,PostMatchState) = 0)
+M_HeaderControl:(1,GameScreen,staff,coaching_CHOOSE,1,1,0,0,0,0,1,1,0,0)
+	set(gel.vis,twk(Staff,PostMatchState) = 1)
+M_HeaderControl:(1,GameScreen,staffhirelist,"",0,1,1,1,1,1,1,1,1,0)
+
+
+// Profiles
+##J
+// No code access from profile screen for japan switch
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profileplayer,"",0,1,1,1,1,1,1,1,0,0)
+	set(gel.vis,(twk(Match,InProgress) = 0) and(shell(GameScreen) <> "dilemma"))
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profileplayer,"",0,1,0,0,0,0,0,0,0,0)
+	set(gel.vis,(twk(Match,InProgress) = 1) or(shell(GameScreen) = "dilemma"))
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profilestaff,"",0,1,1,1,1,1,1,1,0,0)
+	set(gel.vis,shell(GameScreen) <> "dilemma")
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profilestaff,"",0,1,0,0,0,0,0,0,0,0)
+	set(gel.vis,shell(GameScreen) = "dilemma")
+##-
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profileplayer,"",0,1,1,1,1,1,1,1,1,0)
+	set(gel.vis,(twk(Match,InProgress) = 0) and(shell(GameScreen) <> "dilemma"))
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profileplayer,"",0,1,0,0,0,0,0,0,0,0)
+	set(gel.vis,(twk(Match,InProgress) = 1) or(shell(GameScreen) = "dilemma"))
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profilestaff,"",0,1,1,1,1,1,1,1,1,0)
+	set(gel.vis,shell(GameScreen) <> "dilemma")
+M_HeaderControl:(1,(twk(DynamicOverlay,CurrentTopOverlay)),profilestaff,"",0,1,0,0,0,0,0,0,0,0)
+	set(gel.vis,shell(GameScreen) = "dilemma")
+##*
+
+// Match
+M_HeaderControl:(0,GameScreen,match_interval,"")
+M_HeaderControl:(1,GameScreen,match,"",0,1,0,0,0,0,0,0,0,1)
+M_HeaderControl:(1,GameScreen,matchengine,"",0,0,0,0,0,0,0,0,0,1)
+
+M_HeaderControl:(0,GameScreen,tapball,"",0)
+M_HeaderControl:(1,GameScreen,match_stats,"",0,1,0,0,0,0,0,0,0,1)
+
+
+// Negotiating Contract
+Rect:()
+	if(twk(Negotiate,InProgress))
+	<
+		:set(twk(Header,ScreenTitle),loc(offer_HEADER))
+		set(twk(Header,ShowScreenTitle),1)
+		set(twk(Header,ShowHelp),1)
+		set(twk(Header,ShowManager),0)
+		set(twk(Header,ShowSocial),0)
+		set(twk(Header,ShowSearch),0)
+		set(twk(Header,ShowTargets),0)
+		set(twk(Header,ShowCards),0)
+		set(twk(Header,ShowBux),1)
+		##IA
+		set(twk(Header,AllowStore),1)
+		##*
+	>
+
+
+// Transferring Player
+Rect:()
+	if(twk(Transfer,InProgress))
+	<
+		:set(twk(Header,ScreenTitle),loc(transfer_HEADER))
+		set(twk(Header,ShowScreenTitle),1)
+		set(twk(Header,ShowHelp),1)
+		set(twk(Header,ShowManager),0)
+		set(twk(Header,ShowSocial),0)
+		set(twk(Header,ShowSearch),0)
+		set(twk(Header,ShowTargets),0)
+		set(twk(Header,ShowCards),0)
+		set(twk(Header,ShowBux),1)
+		##IA
+		set(twk(Header,AllowStore),1)
+		##*
+	>
+
+M_HeaderControl:(0,GameScreen,test,"")
+M_HeaderControl:(0,GameScreen,preload,"")

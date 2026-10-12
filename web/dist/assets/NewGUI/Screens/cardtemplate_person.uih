@@ -1,0 +1,558 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(cardface.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Rect:()
+	PulseAlpha(0,1,0.6,0.3,0,0.15,0.15)
+	set(twk(Formation,AlertAlpha),gel.alpha)
+
+Macro:(M_PlayerCardTemplate,?SLOTID?,?ID?,?TYPE?,?DETAIL?)
+	M_Consts:()
+	M_SizeDefines:()
+	If:(?DETAIL?=SD)
+		Define:(?W?=?CARD_W_SD?)
+		Define:(?H?=?CARD_H_SD?)
+	Else
+		Define:(?W?=?CARD_W_HD?)
+		Define:(?H?=?CARD_H_HD?)
+	EndIf
+	
+	Rect:(0,0,?W?,?H?) ref:PlayerCard?ID??TYPE??DETAIL?
+		float(%dragging)
+		strvar(%SEED)
+		.set(%SEED,"?SLOTID?")
+	{
+		Rect:() ref:DetailsParent
+			float(%outOfPosition,%lowEnergy,%injured,%banned,%youth,%scouted,%raw,%rookie,%retiring,%transferOffer,%disabled,%selectionnumber,%trait)
+			if(twk(CardEngine,DraggingCard))
+			<
+				if(twk(Match,DraggingTeamTalkCard) = 1 and(%selectionnumber < 11))
+				<
+					if(twk(Team,Energy) > twk(Match,TeamTalkMaxEnergy))
+					<
+						:set(gel.colour,#AAAAAAFFFFFFFFFF)
+					>
+					else
+					<
+						:set(gel.colour,#FFFFFFFFFFFFFFFF)
+					>
+				>
+				else
+				<
+					CanApplyDraggedCard(?SLOTID?)
+					<
+						:set(gel.colour,#FFFFFFFFFFFFFFFF)
+					>
+					else
+					<
+						:set(gel.colour,#AAAAAAFFFFFFFFFF)
+					>
+				>
+			>
+			else
+			<
+				if(%disabled)
+				<
+					:set(gel.colour,#AAAAAAFFFFFFFFFF)
+				>
+				elif
+				<
+					:set(gel.colour,#FFFFFFFFFFFFFFFF)
+				>>
+			>
+		{
+			// CARD BASE
+			Rect:()
+			{
+				Draw:(Badge_Shadow,0,100,162,30,,#00000000FFFFFFFF)
+					Handle(0.5,0.5)
+					if(%selectionnumber < 11 and(not(%dragging)))
+					<
+						frlerp(gel.alpha,0.5,0.05)
+					>
+					else
+					<
+						:set(gel.alpha,0)
+					>
+				
+				Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+					Handle(0.5,0.5)
+					if(%selectionnumber>=11 and(not(%dragging)))
+					<
+						frlerp(gel.alpha,0.3,0.05)
+					>
+					else
+					<
+						:set(gel.alpha,0)
+					>
+
+				Draw:(PlayableCard_Base,0,0,122,157,,#FFFFFFFFFFFFFFFF)
+					Handle(0.5,0.5)
+			}
+
+
+			// NAME
+			M_Text:(,-(?W?*0.5),49,?W?,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+				M_Style:(Outline,#25252520)
+				TextModeFlag(Scale)
+				
+
+			// ROLE
+			Rect:(29,-12)
+				float(%width)
+			{{
+				Draw:(RoleWhite,0,0,42,22,,#FFFFFFFFFFFFFFFF) ref:RoleStrip
+					set(gel.w,max(42,%width))
+					set(gel.hx,gel.w/2)
+				M_Text:(MLRC,-1,0,0,22,C,C,Text,KNUL18,,0,0,#00000000,NoItalics,#FFFFFFFF,Role)
+					set(gel.colour,#FFFFFFFFFFFFFFFF)
+					M_Style:(Outline,#FFFFFF30)
+					if(%injured=0 and(%banned=0) and(%outOfPosition=1))
+					<
+						set(gel.alpha,twk(Formation,AlertAlpha))
+					>
+					set(%width,fmt([strwidth(gel.text,0)*0.425]+6),X)
+			}}
+
+
+			// STAR RATING
+			UseShader:(Region)
+				SetUniform4F(region,gel.gx-[54*bakedTrans.ix],gel.gy-[72*bakedTrans.jy],[108*bakedTrans.ix],[110*bakedTrans.jy])
+			{
+				Draw:(Card_Star5,-8,-83,74,74)
+			
+				If:(?TYPE?=Grey)
+					Draw:(Card_Star0,-1,-75,60,60)
+				EndIf
+				If:(?TYPE?=Bronze)
+					Draw:(Card_Star1,-1,-75,60,60)
+				EndIf
+				If:(?TYPE?=Silver)
+					Draw:(Card_Star2,-1,-75,60,60)
+				EndIf
+				If:(?TYPE?=Gold)
+					Draw:(Card_Star3,-1,-75,60,60)
+				EndIf
+				If:(?TYPE?=Black)
+					Draw:(Card_Star4,-1,-75,60,60)
+				EndIf
+				M_Text:(,29,-65,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,StarRating)
+					M_Style_StarRating:()
+					if(%injured=0 and(%banned=0) and(%outOfPosition=1))
+					<
+						set(gel.alpha,twk(Formation,AlertAlpha))
+					>
+					if(gel.text = 100)
+					<
+						set(gel.scale,0.85)
+						set(gel.x,28)
+						set(gel.y,-61)
+					>
+					else
+					<
+						set(gel.scale,1)
+						set(gel.x,29)
+						set(gel.y,-66)
+					>
+
+
+				Rect:() $HIDE ref:TacklingBoost
+				{
+					M_Text:("+",30,-51,0,50,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						M_Style_StarRating:()
+				}
+			}
+
+
+			// FACE
+			Rect:(0,0,?W?,?H?)
+				Handle(0.5,0.5)
+			{{
+				Rect:(@L,@T,@W,@H)
+				{{
+					M_PersonFace:(38,78,?DETAIL?,CLIP)
+				}}
+			}}
+
+
+			// TRANSFER OFFER
+			Draw:(Icon_Bux,32,-80,29,29)
+				.set(gel.vis,(%transferOffer) and(twk(Match,InProgress) = 0))
+
+
+			// YELLOW RED CARDS
+			Rect:(4,13)
+			{{
+				Draw:(Icon_YellowCard,0,0,24,24) $HIDE ref:PlayerCardStateYellow
+				Draw:(Icon_YellowRedCard,-4,0,24,24) $HIDE ref:PlayerCardStateYellowRed
+				Draw:(Icon_RedCard,0,0,24,24) $HIDE ref:PlayerCardStateRed
+			}}
+
+
+			// SUBSTITUTE
+			Draw:(Icon_SubOn,33,-79,30,31) $HIDE ref:PlayerCardStateSubOn
+
+
+			// ENERGY
+			Rect:(-47,58)
+			{{
+				Rect:(0,0,100,12) ref:Energy
+					float(%energy)
+					float(%current)
+					.set(%current,%energy/100)
+					frlerp(%current,[%energy/100],0.1)
+				{{
+					Draw:(White,0,0,@W,@H,,#B5C4CCFFFFFFFFFF)
+					
+					Draw:(White,0,0,@W,@H)
+						.set(gel.scalex,%current)
+						frlerp(gel.scalex,clamp(%current,0,1),0.05)
+						if(%energy >= 75)
+				        <
+				        	set(gel.colour,#42BB00FFFFFFFFFF)
+				        >
+				        else
+				        <
+				            if(%energy >= 50)
+				            <
+				            	set(gel.colour,#E0DE10FFFFFFFFFF)
+				            >
+				            else
+				            <
+				        		if(%energy >= 25)
+				           		<
+				            		set(gel.colour,#E09E11FFFFFFFFFF)
+				            	>
+				            	else
+				            	<
+				            		set(gel.colour,#DD1010FFFFFFFFFF)
+				            	>
+				            >
+						>
+					Draw:(White,0,@M,@W,[@H/2],,#00000015FFFFFFFF)
+
+					Draw:(White,25,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,50,0,1,@H,,#FFFFFFFFFFFFFFFF)
+					Draw:(White,75,0,1,@H,,#FFFFFFFFFFFFFFFF)
+				}}
+
+				Draw:(Circle_50,-10,-3,15,15,,#FFFFFFFFFFFFFFFF)
+				Draw:(Card_Energy,-13,-4,20,,,#FF0000FFFFFFFFFF)
+					if((%raw) or(%rookie))
+					<
+						:set(gel.colour,#009DFDFFFFFFFFFF)
+					>
+					elif(%retiring)
+					<
+						:set(gel.colour,#BBBBBBFFFFFFFFFF)
+					>
+					else
+					<
+						:set(gel.colour,#369900FFFFFFFFFF)
+					>
+			}}
+
+
+			// TRAIT
+			Rect:() $HIDE ref:Trait
+			{
+				Rect:(28,15)
+					set(gel.vis,(%injured = 0) and(%banned = 0))
+				{{
+					Draw:(RoundedPanel,0,0,20,20)
+						if(%trait = -1)
+						<
+							set(gel.colour,#DD1010FFFFFFFFFF)
+						>
+						elif(%trait = 1)
+						<
+							set(gel.colour,#138E1BFFFFFFFFFF)
+						>>
+					Draw:(Icon_TraitTag,0,0,20,20)
+				}}
+			}
+
+
+			// BANNED
+			Rect:(22,9) $HIDE ref:PlayerCardStateBanned
+			{{
+				Draw:(Icon_RedCard,0,0,32,32)
+				M_Text:(,0,0,32,32,C,C,Text,KNUL21,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					M_Style:(Outline,#FFFFFF30)
+					.set(gel.text,fmt(%banned,X))
+			}}
+
+
+			// INJURED
+			Rect:(20,8) $HIDE ref:PlayerCardStateInjured
+			{{
+				Draw:(Icon_Injured,0,0,35,35)
+				
+				Rect:(0,0,0,0,0,#FFFFFFFFFFFFFFFF)
+					.set(gel.vis,twk(Formation,EntryPoint) != "MATCH")
+					PulseAlpha(0,1,0.3,0.3,1,1.5,1.5)
+				{
+					Draw:(Circle_50,5,5,25,25,,#FF0000FFFFFFFFFF)
+					M_Text:(,0,0,35,35,C,C,Text,KNUL21,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+						M_Style:(Outline,#FFFFFF30)
+						.set(gel.text,fmt(%injured,X))				
+				}
+			}}
+
+			
+			// INJURED HIGHLIGHT
+			Rect:(0,0,0,0,0,#FFFFFFFFFFFFFFFF)
+				if((%injured) or(%banned))
+				<
+					:set(gel.vis,1)
+					set(gel.alpha,1-twk(Formation,AlertAlpha))
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+			{
+				Draw:(RoundedPanel,0,0,?W?,?H?,,#10101060FFFFFFFF)
+					Handle(0.5,0.5)
+					Layer(Text)
+			}
+			Draw:(CardRim,0,0,118,153,,#DD1010FF000000FF)
+				set(gel.vis,(%injured) or(%banned))
+				Handle(0.5,0.5)
+
+
+			// REMOVED
+			Draw:(Icon_SubOff,10000,0,32,32) $HIDE ref:PlayerCardStateSubOff
+			Rect:() ref:Stamina
+				float(%stamina)
+		}	
+	}
+EndM
+
+
+
+
+
+Macro:(M_StaffCardTemplate,?SLOTID?,?ID?,?TYPE?,?DETAIL?)
+	M_Consts:()
+	M_SizeDefines:()
+	If:(?DETAIL?=SD)
+		Define:(?W?=?CARD_W_SD?)
+		Define:(?H?=?CARD_H_SD?)
+	Else
+		Define:(?W?=?CARD_W_HD?)
+		Define:(?H?=?CARD_H_HD?)
+	EndIf
+
+	Rect:(0,0,?W?,?H?) ref:StaffCard?ID??TYPE??DETAIL?
+		float(%dragging)
+		strvar(%SEED)
+		.set(%SEED,"?SLOTID?")
+	{
+		Rect:() ref:DetailsParent
+			// Role: ?CSTAFFTYPE_SKILLSCOACH?=SkillsCoach ?CSTAFFTYPE_FITNESSCOACH?=FitnessCoach ?CSTAFFTYPE_YOUTHCOACH?=YouthCoach ?CSTAFFTYPE_SCOUT?=Scout ?CSTAFFTYPE_PHYSIO?=Physio
+			// Float Skill: -1=None 0=Skills 1=Fitness 2=Youth 3=Scout 4=Physio
+			float(%role,%skill,%construction)
+			init(%skill,-1)
+			if(twk(CardEngine,DraggingCard))
+			<
+				CanApplyDraggedCard(?SLOTID?)
+				<
+					:set(gel.colour,#FFFFFFFFFFFFFFFF)
+				>
+				else
+				<
+					:set(gel.colour,#AAAAAAFFFFFFFFFF)
+				>
+			>
+			else
+			<
+				:set(gel.colour,#FFFFFFFFFFFFFFFF)
+			>
+		{
+			Rect:()
+			{
+				// CARD BASE
+				Rect:()
+				{
+					Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+						Handle(0.5,0.5)
+						if(not(%dragging))
+						<
+							frlerp(gel.alpha,0.3,0.05)
+						>
+						else
+						<
+							:set(gel.alpha,0)
+						>
+
+					Draw:(PlayableCard_Base,0,0,122,157,,#FFFFFFFFFFFFFFFF)
+						Handle(0.5,0.5)
+				}
+
+
+				// NAME
+				M_Text:(,0,49,0,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+					M_Style:(Outline,#25252520)
+
+
+				// AGE
+				M_Text:("22",0,67,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#151515FF,Age)
+					.set(gel.text,gel.text rep("0","O") :: loc("staffcard_yearsold_sla"))
+
+
+				// STAR RATING
+				UseShader:(Region)
+					SetUniform4F(region,gel.gx-[54*bakedTrans.ix],gel.gy-[72*bakedTrans.jy],[108*bakedTrans.ix],[110*bakedTrans.jy])
+				{
+					Draw:(Card_Star5,-8,-83,74,74)
+
+
+					If:(?TYPE?=Grey)
+						Draw:(Card_Star0,-1,-75,60,60)
+					EndIf
+					If:(?TYPE?=Bronze)
+						Draw:(Card_Star1,-1,-75,60,60)
+					EndIf
+					If:(?TYPE?=Silver)
+						Draw:(Card_Star2,-1,-75,60,60)
+					EndIf
+					If:(?TYPE?=Gold)
+						Draw:(Card_Star3,-1,-75,60,60)
+					EndIf
+					If:(?TYPE?=Black)
+						Draw:(Card_Star4,-1,-75,60,60)
+					EndIf
+
+					M_Text:(,29,-66,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,StarRating)
+						M_Style_StarRating:()
+				}
+
+
+				// FACE
+					Rect:(0,0,?W?,?H?)
+						Handle(0.5,0.5)
+					{{
+						Rect:(@L,@T,@W,@H)
+						{{
+							M_PersonFace:(38,78,?DETAIL?,CLIP)
+						}}
+					}}
+			
+
+				// REMOVE
+				Rect:() ref:Energy
+					float(%energy,%current)
+			}
+		}
+	}
+EndM
+
+
+
+
+
+Macro:(M_CharacterCardTemplate,?SLOTID?,?DETAIL?)
+	M_Consts:()
+	M_SizeDefines:()
+	If:(?DETAIL?=SD)
+		Define:(?W?=?CARD_W_SD?)
+		Define:(?H?=?CARD_H_SD?)
+	Else
+		Define:(?W?=?CARD_W_HD?)
+		Define:(?H?=?CARD_H_HD?)
+	EndIf
+
+	Rect:(0,0,?W?,?H?) ref:StaffCard?DETAIL?
+		float(%dragging)
+		strvar(%SEED)
+		.set(%SEED,"?SLOTID?")
+	{
+		Rect:() ref:DetailsParent
+		{
+			Rect:()
+			{
+				// CARD BASE
+				Rect:()
+				{
+					Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+						Handle(0.5,0.5)
+						if(not(%dragging))
+						<
+							frlerp(gel.alpha,0.3,0.05)
+						>
+						else
+						<
+							:set(gel.alpha,0)
+						>
+
+					Draw:(PlayableCard_Base,0,0,122,157,,#FFFFFFFFFFFFFFFF)
+						Handle(0.5,0.5)
+				}
+
+				// NAME
+				M_Text:(,0,49,0,0,C,C,Text,KNUL17,Upper,0,0,#00000000,NoItalics,#252525FF,Name)
+					M_Style:(Outline,#25252520)
+
+				// AGE
+				M_Text:("22",0,67,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#151515FF,Age)
+					.set(gel.text,gel.text rep("0","O") :: loc("staffcard_yearsold_sla"))
+
+				M_Text:(,29,-66,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,StarRating)
+					M_Style:(Outline,#FFFFFF20)
+
+				// FACE
+				Rect:(0,0,?W?,?H?)
+					Handle(0.5,0.5)
+				{{
+					Rect:(@L,@T,@W,@H)
+					{{
+						M_PersonFace:(38,78,?DETAIL?,CLIP)
+					}}
+				}}
+			}
+		}
+	}
+EndM
+
+
+
+
+Rect:(0,0,?CARD_W_SD?,?CARD_H_SD?) ref:PlayerCardStoreInfo
+{
+	Rect:()
+	{
+		Draw:(Card_Reflection,0,88,122,,,#FFFFFF00FFFFFFFF)
+			Handle(0.5,0.5)
+			.set(gel.alpha,0.3)
+
+		Draw:(PlayableCard_Base,0,0,122,157,,#FFFFFFFFFFFFFFFF)
+			Handle(0.5,0.5)
+
+
+		// STAR RATING
+		UseShader:(Region)
+			SetUniform4F(region,gel.gx-[54*bakedTrans.ix],gel.gy-[72*bakedTrans.jy],[108*bakedTrans.ix],[111*bakedTrans.jy])
+		{
+			Draw:(Card_Star5,-8,-83,74,74)
+
+			// ROLE
+			Rect:(8,-12,42,22) $HIDE ref:RoleContainer
+			{{
+				Draw:(RoleWhite,0,0,42,22,,#FFFFFFFFFFFFFFFF) ref:RoleStrip
+				M_Text:(MLRC,@C,0,0,22,C,C,Text,KNUL18,,0,0,#00000000,NoItalics,#FFFFFFFF,Role)
+					M_Style:(Outline,#FFFFFF30)
+			}}
+
+			Draw:(Card_Star0,-1,-75,60,60) ref:StarRatingImage
+			M_Text:("75+",-10,-63,100,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,StarRating)
+				M_Style:(Outline,#FFFFFF40)
+				Scale(0.8,0.8)
+
+			Draw:(Card_Player,-103,-78,160,160)
+		}
+
+	}
+} Template

@@ -1,0 +1,494 @@
+Macro:(M_CarouselTab,?X?,?Y?,?INDEX?,?TYPE?)
+	Rect:(?X?,?Y?,100,91) ref:Tab?INDEX?
+		Layer(AboveText)
+		float(%pressed)
+		func(ClickFunc)
+		<
+			if(twk(CardsCarousel,CurrentTab) != ?INDEX?)
+			<
+				Post(carousel.btn_ChangeTab,?INDEX?)
+				Post(UI_ChangeTab)
+			>
+		>
+		If:(?INDEX? =1)
+     		CTRLBlock(UP)
+     	EndIf
+     	if(twk(CardsCarousel,CurrentTab) = 1)
+ 		<
+ 			if(twk(CardsCarousel,NumCoachingGroups) = 0)
+ 			<
+ 				CTRLBlock(RIGHT)
+ 			>
+ 		>
+     	elif(twk(CardsCarousel,CurrentTab) = 2)
+ 		<
+ 			if(twk(CardsCarousel,NumManagerGroups) = 0)
+ 			<
+ 				CTRLBlock(RIGHT)
+ 			>
+ 		>
+ 		elif(twk(CardsCarousel,CurrentTab) = 3)
+ 		<
+ 			if(twk(CardsCarousel,NumStaffGroups) = 0)
+ 			<
+ 				CTRLBlock(RIGHT)
+ 			>
+ 		>>>
+
+		CTRLSelect(CTRLSquareSelected,0,0,0,0)
+
+		CTRLClick(?BTNOK?)
+		<
+			call(ClickFunc)
+		>
+		Click()
+		<
+			call(ClickFunc)
+		>
+
+		Press()
+		<
+			:set(%pressed,1)
+		>
+		else
+		<
+			:set(%pressed,0)
+		>
+	{{
+		Draw:(Icon_CarouselPlayer,@C,@M,60,60,,#FFFFFFFF)
+			Handle(0.5,0.5)
+			if(twk(CardsCarousel,CurrentTab) = ?INDEX?)
+			<
+				frlerp(gel.alpha,1,0.25)
+				frlerp(gel.scale,1.1,0.25)
+			>
+			else
+			<
+				if(%pressed)
+				<
+					set(gel.alpha,1)
+				>
+				else
+				<
+					frlerp(gel.alpha,0.3,0.25)
+					set(gel.scale,1)
+				>
+			>
+			if(?INDEX?=1)
+			<
+				set(gel.img,"Icon_CarouselPlayer")
+			>
+			elif(?INDEX?=2)
+			<
+				if(twk(Player,Gender) = 0)
+	            <
+	                :set(gel.img,"Icon_CarouselManage_M")
+	            >
+	            else
+	            <
+	                :set(gel.img,"Icon_CarouselManage_F")
+	            >
+			>
+			elif(?INDEX?=3)
+			<
+				set(gel.img,"Icon_CarouselStaff")
+			>>>
+		//M_NotificationAlert:(@C,45,(twk(CardsCarousel,Num?TYPE?Cards)),Icon_Notification)
+	}}
+EndM
+
+
+Cull:(0,0,?CARD_W?,?CARD_H?) ref:CarouselCard
+	Handle(0.5,0.5)
+	Scale(1.15,1.15)
+	float(%flip,%state,%disable,%id,%clicked,%count)
+	strvar(%slotId)
+	if(%clicked)
+	<
+		Post(sounds.cards_Swap)
+		
+		if(%state = 0)
+		<
+			set(%flip,1)
+			set(twk(CardsCarousel,FlippedCardId),%id)
+		>
+		else
+		<
+			set(%flip,2)
+		>
+
+		set(%clicked,0)
+	>
+	if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = %slotId))
+	<
+		if(%count > 1)
+		<
+			:set(gel.vis,1)
+		>
+		else
+		<
+			:set(gel.vis,0)
+		>
+	>
+	else
+	<
+		:set(gel.vis,1)
+	>
+	if(twk(CardEngine,DraggingCard) = 0)
+	<
+		CTRLSelect(CTRLBasicSelected,[-?CARD_W?/2],[-?CARD_H?/2],6,6)
+		CTRLBlock(UP) 
+		CTRLPress(?BTNOK?)
+		<
+			Message("carousel.pressedSlot",%id)
+		>
+		CTRLPress(LEFT)
+		<
+			if(%id = 0)
+			<
+				set(twk(CardsCarousel,CarouselScroll),0)
+				if(twk(CardsCarousel,TabsEnabled))
+	  			<
+	  		     	if(twk(CardsCarousel,CurrentTab) = 1)
+	 		 		<
+	 		 			CTRLSetSelected(Tab1)
+	 		 		>
+	 		     	elif(twk(CardsCarousel,CurrentTab) = 2)
+	 		 		<
+	 		 			CTRLSetSelected(Tab2)	
+	 		 		>
+	 		 		elif(twk(CardsCarousel,CurrentTab) = 3)
+	 		 		<
+	 		 			CTRLSetSelected(Tab3)
+	 		 		>>>
+	 		 	>
+			>
+			else
+			<
+				CTRLSetSelected("CarouselCard_"::fmt(%id-1,X),,,CardHook)
+				Post(CTRLNavigate)
+			>
+		>
+		CTRLPress(RIGHT)
+		<
+			CTRLSetSelected("CarouselCard_"::fmt(%id+1,X),,,CardHook)
+			Post(CTRLNavigate)
+		>
+	>
+{{
+	Sheet:(0,0,1191,0,0,0,51.49) //FIXEDFOV
+	 	PinVP(@C,@M)
+	 	// Flip
+		if(%flip = 1)
+		<
+			if(%state = 0)
+			<
+				frlerp(gel3d.roty,180,0.15)
+			>
+			else
+			<
+				frlerp(gel3d.roty,0,0.15)
+			>
+			if(gel3d.roty >= 90 and(%state = 0))
+			<
+				set(gel3d.roty,-90)
+				set(%state,1)
+			>
+		>
+		if(%flip = 2)
+		<
+			if(%state = 1)
+			<
+				frlerp(gel3d.roty,180,0.15)
+			>
+			else
+			<
+				frlerp(gel3d.roty,0,0.15)
+			>
+			if(gel3d.roty >= 90 and(%state = 1))
+			<
+				set(gel3d.roty,-90)
+				set(%state,0)
+			>
+		>
+		if((%state = 1) and(twk(CardsCarousel,FlippedCardId) != %id))
+		<
+			:set(%state,0)
+			:set(%flip,-1)
+		>
+		if((%state = 1) and(twk(CardEngine,DraggingCard) = 1))
+		<
+			:set(%state,0)
+			:set(%flip,-1)
+		>
+	{{
+		// Front
+		Rect:()
+		{
+			// Card left behind when picked up
+			Rect:(0,0,?CARD_W?,?CARD_H?,,#FFFFFFFFFFFFFFFF) ref:CarouselCard
+				Handle(0.5,0.5)
+				Scale(1.15,1.15)
+				if(twk(CardEngine,DraggingCard) > 0)
+				<
+					Card_Slot(Empty,NONE,NONE,false,true,twk(CardEngine,PickupDelay),false) ref:CardSlot
+					if(%disable)
+					<
+						set(gel.colour,#808080FF)
+					>
+					Click()
+				>
+
+			// Visible card until picked up
+			Rect:(0,0,?CARD_W?,?CARD_H?,,#FFFFFFFFFFFFFFFF) ref:CarouselCard
+				Handle(0.5,0.5)
+				Scale(1.15,1.15)
+				Card_Slot(Empty,NONE,NONE,false,true,twk(CardEngine,PickupDelay),false) ref:CardSlot
+		}
+
+		// Back
+		Rect:() ref:CardBack
+			set(gel.vis,%state = 1)
+			Scale(1.15,1.15)
+		{
+		}
+	}}
+	
+	// Count
+	Rect:(-23,80)
+		.set(gel.vis,%count > 1)
+		Scale(0.85,0.85)
+		Layer(Debug)
+		LockLayer()
+	{{
+		Draw:(Icon_Notification,0,0,50,50)
+
+		M_Text:(,25,25,0,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#000000FF,ref)
+			M_Style:(Outline,#00000035)
+			if(%count < 10)
+			<
+				set(gel.scale,1)
+			>
+			elif((%count >= 10) and(%count < 100))
+			<
+				set(gel.scale,0.85)
+			>
+			elif(%count >= 100)
+			<
+				set(gel.scale,0.72)
+			>>>
+			if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot)=%slotId))
+			<
+				if(%count > 1)
+				<
+					:set(gel.text,LTR(fmt(%count-1,X)))
+				>
+			>
+			else
+			<
+				:set(gel.text,LTR(fmt(%count,X)))
+			>
+	}}
+}} Template
+
+
+Macro:(M_UpsellBurst,?X?,?Y?)
+	Rect:(?X?,?Y?)
+	{{
+		//Draw:(LightGlow,0,0,900,900)
+		//	Handle(0.5,0.5)
+		Draw:(Burst,0,0,400,400,,#FFFFFF08)
+			Handle(0.5,0.5)
+			Additive()
+			Rearmable()
+			:set(gel.angle,%angle1)
+			add(gel.angle,0.08)
+			set(%angle1,gel.angle)
+		Draw:(Burst,0,0,400,400,,#FFFFFF16)
+			Handle(0.5,0.5)
+			Additive()
+			Rearmable()
+			:set(gel.angle,%angle2)
+			add(gel.angle,-0.08)
+			set(%angle2,gel.angle)
+	}}
+EndM
+
+Macro:(M_ZeroInventoryUpsell)
+	Rect:()
+		.set(gel.vis,(twk(Ftue,Enabled)=0) and(twk(CardsCarousel,UpsellActive)=1))
+		float(%angle1,%angle2)
+		.set(%angle1,0)
+		.set(%angle2,0)
+	{
+		// Coaching Cards
+		Rect:() $HIDE
+			if(twk(CardsCarousel,CurrentTab) = 1)
+			<
+				set(gel.vis,twk(CardsCarousel,NumCoachingGroups) = 0)
+			>
+			elif((twk(CardsCarousel,CurrentTab) = -1) and(twk(CardsCarousel,PlayerScreenActive)))
+			<
+				set(gel.vis,twk(CardsCarousel,NumPlayerCombinedGroups) = 0)
+			>
+			else
+			<
+				set(gel.vis,0)
+			>>
+		{
+			M_UpsellBurst:(@C,@M)
+
+			M_Text:(,110,272,@W-220,0,C,C,TextBox,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				LineSpacing(0.9)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellCoachingZeroTitle)))
+
+			Draw:(Upsell_Carousel_Coaching,@C-250,37)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellCoachingZeroImage))
+
+			M_Button:(@C,218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+		}
+
+		// Manager Cards
+		Rect:() $HIDE
+			set(gel.vis,(twk(CardsCarousel,CurrentTab) = 2) and(twk(CardsCarousel,NumManagerGroups) = 0))
+		{
+			M_UpsellBurst:(@C,@M)
+
+			M_Text:(,110,272,@W-220,0,C,C,TextBox,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				LineSpacing(0.9)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellManagerZeroTitle)))
+
+			Draw:(Upsell_Carousel_Manager,@C-250,37)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellManagerZeroImage))
+
+			M_Button:(@C,218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+		}
+
+		// Staff Cards
+		Rect:() $HIDE
+			if(twk(CardsCarousel,CurrentTab) = 3)
+			<
+				set(gel.vis,twk(CardsCarousel,NumStaffGroups) = 0)
+			>
+			elif((twk(CardsCarousel,CurrentTab) = -1) and(twk(CardsCarousel,StaffScreenActive)))
+			<
+				set(gel.vis,twk(CardsCarousel,NumStaffCombinedGroups) = 0)
+			>
+			else
+			<
+				set(gel.vis,0)
+			>>
+		{
+			M_UpsellBurst:(@C,@M)
+
+			M_Text:(,110,272,@W-220,0,C,C,TextBox,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				LineSpacing(0.9)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellStaffBoostZeroTitle)))
+
+			Draw:(Upsell_Carousel_Staff,@C-250,37)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellStaffBoostZeroImage))
+
+			M_Button:(@C,218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+		}
+	}
+EndM
+
+
+Macro:(M_LowInventoryUpsell)
+	Rect:()
+		.set(gel.vis,(twk(Ftue,Enabled)=0) and(twk(CardsCarousel,UpsellActive)=1))
+		float(%angle1,%angle2)
+		.set(%angle1,0)
+		.set(%angle2,0)
+	{
+		// Coaching Cards
+		Rect:() $HIDE
+			if(twk(CardsCarousel,CurrentTab) = 1)
+			<
+				set(gel.vis,0 < twk(CardsCarousel,NumCoachingGroups) < 5)
+			>
+			elif((twk(CardsCarousel,CurrentTab) = -1) and(twk(CardsCarousel,PlayerScreenActive)))
+			<
+				set(gel.vis,0 < twk(CardsCarousel,NumPlayerCombinedGroups) < 5)
+			>
+			else
+			<
+				set(gel.vis,0)
+			>>
+		{
+			M_UpsellBurst:(@R-260,@M)
+
+			Draw:(Upsell_Carousel_CoachingMini,@R-435-[@y/4],43)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellCoachingLowImage))
+
+			M_Button:(@R-257-[@y/4],218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+			M_Text:(upsell_NEEDMORECARDS,@R-259-[@y/4],272,0,0,C,C,TextLoc,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellCoachingLowTitle)))
+		}
+
+		// Manager Cards
+		Rect:() $HIDE
+			set(gel.vis,(twk(CardsCarousel,CurrentTab) = 2) and(0 < twk(CardsCarousel,NumManagerGroups) < 5))
+		{
+			M_UpsellBurst:(@R-260,@M)
+
+			Draw:(Upsell_Carousel_CoachingMini,@R-435-[@y/4],43)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellManagerLowImage))
+
+			M_Button:(@R-257-[@y/4],218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+
+			M_Text:(upsell_NEEDMORECARDS,@R-259-[@y/4],272,0,0,C,C,TextLoc,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellManagerLowTitle)))
+		}
+
+		// Staff Cards
+		Rect:() $HIDE
+			if(twk(CardsCarousel,CurrentTab) = 3)
+			<
+				set(gel.vis,0 < twk(CardsCarousel,NumStaffGroups) < 5)
+			>
+			elif((twk(CardsCarousel,CurrentTab) = -1) and(twk(CardsCarousel,StaffScreenActive)))
+			<
+				set(gel.vis,0 < twk(CardsCarousel,NumStaffCombinedGroups) < 5)
+			>
+			else
+			<
+				set(gel.vis,0)
+			>>
+		{
+			M_UpsellBurst:(@R-260,@M)
+
+			Draw:(Upsell_Carousel_CoachingMini,@R-435-[@y/4],43)
+				.set(gel.img,twk(Upsell,CardsCarouselUpsellStaffBoostLowImage))
+
+			M_Button:(@R-257-[@y/4],218,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(store_HEADER),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+				if(%clicked)
+				<
+					Message(carousel.btn_Upsell)
+				>
+
+			M_Text:(upsell_NEEDMORECARDS,@R-259-[@y/4],272,0,0,C,C,TextLoc,KNUL23,,1,0,#FFFFFF80,Italics,#FFFFFFFF,ref)
+				.set(gel.text,loc(twk(Upsell,CardsCarouselUpsellStaffBoostLowTitle)))
+		}
+	}
+EndM

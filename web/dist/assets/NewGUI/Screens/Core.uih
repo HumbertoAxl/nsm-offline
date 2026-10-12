@@ -1,0 +1,131 @@
+If:(twk(Settings,ButtonFlip))
+Define:(?BTNOK?=B)
+Define:(?BTNCAN?=A)
+Define:(?ICONOK?=⛋)
+Define:(?ICONCAN?=⛊)
+Else
+Define:(?BTNOK?=A)
+Define:(?BTNCAN?=B)
+Define:(?ICONCAN?=⛋)
+Define:(?ICONOK?=⛊)
+EndIf
+
+
+//--------------------------------------------------------------------------------------------LAYERS
+// Facilities Layers
+UnsortedLayer:(FootballerPrep,-8)
+UnsortedLayer:(Pitch,-7)
+UnsortedLayer:(Ground,-6)
+UnsortedLayer:(Players,-5)
+UnsortedLayer:(Shadows,-4)
+UnsortedLayer:(OneBit,-3)
+UnsortedLayer:(RoofSolid,-2)
+UnsortedLayer:(ZSprite,-1)
+UnsortedLayer:(Sky,1)
+UnsortedLayer:(AboveSky,2)
+UnsortedLayer:(Text,3)
+UnsortedLayer:(AboveText,4)
+UnsortedLayer:(AboveText2,5)
+UnsortedLayer:(AboveText3,6)
+SortedLayer:(ClickCollision,7,HTL)
+UnsortedLayer:(Debug,20)
+
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core_ImageDefs.uih)
+Import:(Core_Fonts.uih)
+Import:(Core_Animations.uih)
+Import:(Core_Prestige.uih)
+Import:(Core_Bars.uih)
+Import:(Core_Dialog.uih)
+Import:(Core_Tabs.uih)
+Import:(Core_Emitters.uih)
+Import:(Core_CommonMacros.uih)
+Import:(Core_Consts.uih)
+
+Import:(ButtonMacros.uih)
+Import:(ChartMacros.uih)
+//---------------------------------------------------------------------------------IMAGE DEFINITIONS
+//------------------------------------------------------------------------------------------CRITICAL
+Rect:()
+	// set formation first time
+	.PasteCategory("Preset" :: twk(Formation,SelectedPresetId),PresetMaster)
+//---------------------------------------------------------------------------------------------SETUP
+
+Set:(@l=@L)
+Set:(@r=@R)
+Set:(@t=@T)
+Set:(@b=@B)
+Set:(@w=@W)
+Set:(@h=@H)
+
+If:(@w>1400)
+	Define:(?REALLYWIDECONTENT?=True)
+EndIf
+
+If:(@w>1152)
+	Define:(?WIDECONTENT?=True)
+EndIf
+
+If:(@h>768)
+	Define:(?TALLCONTENT?=True)
+EndIf
+
+
+
+
+// iPhoneX
+If:(?REALLYWIDECONTENT?)
+	// Modified Width
+	Set:(@s=[@W*0.9])
+	// Where to place enclosing rect
+	Set:(@o=@C-[@s/2])
+	// Where to put full width items that are inside enclosing rect
+	Set:(@f=@L-@o)
+
+	Set:(@y=[@s-1152])
+	Set:(@z=[@h-768])
+
+	//Define:(?MATCH_FOV?=25+[[@w-1500]*0.03]) //FIXEDFOV
+	// Define:(?TAPBALL_CAMERA_XOFFSET?=[15+[[@w-1500]*0.03]]) //20
+	// Define:(?TAPBALL_CAMERA_YOFFSET?=[15+[[@w-1500]*0.03]]) //20
+	// Define:(?TAPBALL_BALLCAMERA_XOFFSET?=[7+[[@w-1500]*0.03]]) //10
+	// Define:(?TAPBALL_BALLCAMERA_YOFFSET?=[7+[[@w-1500]*0.03]]) //10
+	// Define:(?TAPBALL_BALLCAMERA_ZOFFSET?=[0.7+[[@w-1500]*0.004]]) //1.5
+
+	Define:(?MATCH_FOV?=16.7)
+	Define:(?TAPBALL_CAMERA_XOFFSET?=0)
+	Define:(?TAPBALL_CAMERA_YOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_XOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_YOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_ZOFFSET?=0)
+
+Else
+	Set:(@s=@w)
+	Set:(@o=@L)
+	Set:(@f=0)
+
+	Set:(@y=[@w-1152])
+	Set:(@z=[@h-768])
+
+	Define:(?MATCH_FOV?=16.7)
+	Define:(?TAPBALL_CAMERA_XOFFSET?=0)
+	Define:(?TAPBALL_CAMERA_YOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_XOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_YOFFSET?=0)
+	Define:(?TAPBALL_BALLCAMERA_ZOFFSET?=0)
+EndIf
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------
+// Match States
+Define:(?STATE_PREMATCH?=0)
+Define:(?STATE_PLAYING?=1)
+Define:(?STATE_OVER?=2)
+Define:(?STATE_INCIDENT?=3)
+Define:(?STATE_PRESHOOTOUT?=4)
+Define:(?STATE_SHOOTOUT?=5)
+Define:(?STATE_PAUSED?=13)
+//--------------------------------------------------------------------------------------------------

@@ -1,0 +1,433 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_upsells.uih)
+//
+Img:(Icon_CarouselManage_F,NewGUI/UI/CardsCarousel/Icon_CarouselManage_F.png) FORCE
+Img:(Icon_CarouselManage_M,NewGUI/UI/CardsCarousel/Icon_CarouselManage_M.png) FORCE
+Img:(Icon_CarouselPlayer,NewGUI/UI/CardsCarousel/Icon_CarouselPlayer.png) FORCE
+Img:(Icon_CarouselStaff,NewGUI/UI/CardsCarousel/Icon_CarouselStaff.png) FORCE
+Img:(Tray_Pattern,NewGUI/UI/CardsCarousel/Tray_Pattern.png)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	CTRLClearSelect()
+	CTRLGlobalBlock(UP1,DOWN1)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(cardscarousel_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:() ref:Clicks
+	func(ClickFunc)
+	<
+		set(twk(CardsCarousel,State),0)
+	>
+{
+	// Click on Header area to close carousel
+	Rect:(@L,@T,@W,50)
+		set(gel.vis,twk(CardsCarousel,State) = 1)
+		Click(,,1)
+		<
+			callparent(1,ClickFunc)
+		>
+
+	// Click on screen area above carousel to close carousel
+	Rect:(@L,@T+50,@W,@H-50)
+		set(gel.vis,twk(CardsCarousel,State) = 1)
+		Click()
+		<
+			callparent(1,ClickFunc)
+		>
+}
+
+Clip:(@o,@T,@s,@H)
+{{
+	Rect:(@L,@B,@W,308) ref:CarouselRoot
+		float(%dragged,%keepOpen)
+		.set(twk(CardsCarousel,State),1)
+		.set(gel.y,@B+10)
+		if(twk(CardsCarousel,State) = 1)
+		<
+			:Post(UI_Swoosh)
+			frlerp(gel.y,@B-308,0.2)
+			
+			//reset the 'use some cards' match counter.
+			:set(twk(ContextHint,CardCarouselEnabled),0)
+			:set(twk(ContextHint,CardCarouselCount),0)
+			//Home Screen
+			:CTRLSetSelected(Tab1)
+			//Squad Screen
+		>
+		elif(twk(CardsCarousel,State) = 2)
+		<
+			frlerp(gel.y,@B-70,0.2)
+		>
+		else
+		<
+			:Post(UI_Swoosh)
+			frlerp(gel.y,@B+10,0.2)
+			if(gel.gy > [@t+@B])
+			<
+				:Post(carousel.btn_Close,1)
+				if(twk(CardsCarousel,WasSelected))
+				<
+					CTRLSetSelected(Header6,commonui)
+				>
+				:set(twk(CardsCarousel,WasSelected),0)
+			>
+		>>
+
+		if(twk(CardEngine,DraggingCard) = 1)
+		<
+			:set(%dragged,1)	
+			if(twk(CardEngine,DraggingCardY) < gel.gy)
+			<
+				if(%keepOpen = 0)
+				<
+					:set(twk(CardsCarousel,State),2)
+				>
+			>
+			else
+			<
+				:set(twk(CardsCarousel,State),1)
+			>
+		>
+		else
+		<
+			if(%dragged)
+			<
+				:set(%dragged,0)
+				if(twk(CardEngine,DraggingCardY) < gel.gy)
+				<
+					if(%keepOpen = 0)
+					<
+						Post(carousel.refresh)
+						set(twk(CardsCarousel,State),1)
+					>
+				>
+			>
+		>
+		OnPost("carousel.setKeepOpen",%keepOpen)
+		<
+		>
+	{{
+		Rect:(@f,0,@w,@H)
+			Press()
+			Click()
+			Click(,,1)
+
+		Draw:(Fade_Down,@f,0,@w,-10,,#00000000)
+			.set(gel.alpha,0)
+			if(twk(CardsCarousel,State) != 0)
+			<
+				frlerp(gel.alpha,0.3,0.1)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+
+		// Background
+		Draw:(White,@f,@T,@w,@H,,#000000F5)
+		//Draw:(BG_Combined,@f,@T,@w,@H)
+		//	Blend(ONE,ZERO)
+
+
+		// Minimised tray indicators
+		Rect:()
+			set(gel.vis,twk(CardsCarousel,State)=2)
+		{
+			Tile:(Tray_Pattern,@f,0,,,,#FFFFFF20)
+				Copies([fmt([@W/110],X)]+1,1)
+			Draw:(White,@C-50,10,100,2,,#505050FF)
+			Draw:(White,@C-50,15,100,2,,#505050FF)
+		}
+
+
+
+
+		// Content
+		Dissolve:()
+			if(twk(CardsCarousel,State) = 2)
+			<
+				frlerp(gel.alpha,0,0.2)
+			>
+			else
+			<
+				set(gel.alpha,1)
+			>
+		{
+			// Block Area
+			Rect:(0,0,@W,@H)
+				Card_AreaSlot(CarouselBlockArea,BlockAction,PU_MANAGER|PU_COACHING|SB_SKILLSCOACHING|SB_FITNESSCOACHING|SB_YOUTHCOACHING|SB_SCOUTING|SB_PHYSIO)
+
+			// Carousel Area
+			Clip:(0,34,@W,@H-34) ref:SwipePanels
+				.if(twk(CardsCarousel,TabsEnabled))
+				<
+					.set(gel.x,100)
+					.set(gel.w,@W-200)
+				>
+				else
+				<
+					.set(gel.x,0)
+					.set(gel.w,@W-100)
+				>
+				if(not(twk(CardEngine,DraggingCard)))
+				<
+					SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,CardsCarousel,CarouselScroll,CardsCarousel,CarouselScrollVel) ref:SwipePanelCards
+				>
+			{{
+				Tile:(Tray_Pattern,@f,0,,,,#FFFFFF20)
+					Copies([fmt([@W/110],X)]+1,1)
+
+				Rect:(0,117,@W,@H)
+				{{
+					Rect:(@L,@T,@W,@H) ref:CardHook
+						Layer(Text)
+						##4
+						##-
+						LockLayer()
+						##*
+						float(%width)
+						.if(twk(CardsCarousel,TabsEnabled) = 0)
+						<
+							set(%width,@W-75)
+						>
+						else
+						<
+							set(%width,@W-175)
+						>
+						set(gel.w,%width)
+						ScrollingListX(CardsCarousel,CarouselScroll,%width,CardsCarousel,CarouselScrollVel)	ref:ScrollingList
+						CTRLScrollList(ScrollingList) ref:CTRLScrollList
+						HorizontalList(25,,80,false) ref:Offset
+				}}
+
+				Rect:(25,270,@W-150,@H)
+					set(gel.vis,twk(CardsCarousel,TabsEnabled) = 0)
+				{{
+					M_ScrollIndicatorAltH:(0,@W,CardsCarousel,CarouselScroll,CardHook,ScrollingList,SwipePanels,SwipePanelCards)
+				}}
+
+				Rect:(25,270,@W-250,@H)
+					set(gel.vis,twk(CardsCarousel,TabsEnabled) = 1)
+				{{
+					M_ScrollIndicatorAltH:(0,@W,CardsCarousel,CarouselScroll,CardHook,ScrollingList,SwipePanels,SwipePanelCards)
+				}}
+
+				M_SwitchStickHint:(✃,@R-154,233,X)
+					if(twk(CardsCarousel,TabsEnabled) = 0)
+					<
+						CTRLScrollListIcon(CardHook,CTRLScrollList)
+					>
+					else
+					<
+						:set(gel.vis,0)
+					>
+
+				M_SwitchStickHint:(✃,@R-254,233,X)
+					if(twk(CardsCarousel,TabsEnabled) = 1)
+					<
+						:set(gel.vis,1)
+						CTRLScrollListIcon(CardHook,CTRLScrollList)
+					>
+					else
+					<
+						:set(gel.vis,0)
+					>
+			}}
+
+
+			// Upsells
+			Clip:(0,34,@W-100,@H-34)
+			{
+				M_ZeroInventoryUpsell:()
+				M_LowInventoryUpsell:()
+			}
+
+
+			// Left Side Tabs
+			Rect:()
+				.set(gel.vis,twk(CardsCarousel,TabsEnabled))
+			{
+				Draw:(Fade_Right,100,0,10,@H,,#00000040)
+				Draw:(White,100,0,-1,@H,,#252525FF)
+
+				Tile:(Fade_Left,0,125,100,1,,#252525FF)
+					Copies(1,2)
+					Spacing(0,91)
+
+				M_CarouselTab:(0,34,1,Player)
+				M_CarouselTab:(0,125,2,Manager)
+				M_CarouselTab:(0,216,3,Staff)
+			}
+
+
+			// Right Side Recycle Panel
+			Rect:()
+				float(%aboveSellArea)
+			{
+				Rect:(@W-50,@H/2,100,@H)
+					if(twk(Ftue,Enabled) = 0)
+					<
+						Card_SellAreaSlot(CarouselCardsArea,carousel.action_SellCard,PU_MANAGER|PU_COACHING|SB_SKILLSCOACHING|SB_FITNESSCOACHING|SB_YOUTHCOACHING|SB_SCOUTING|SB_PHYSIO,,0.75,0.1,-20,-20)
+						<
+							set(%aboveSellArea,1)
+						>
+						else
+						<
+							set(%aboveSellArea,0)
+						>
+					>
+					Handle(0.5,0.5)
+							
+
+				Rect:(@R-100,34,100,@H-34)
+				{{
+					Draw:(White,@L,@T,300,@H,,#000000CC)
+					
+					Spine:(NSM_Bin,50,134,0,Bin_FullAnim,Once)
+						Rearmable()
+						.set(twk(CardEngine,SoldCard),0)
+						:set(gel.anim.normtime,0)
+						:set(gel.anim.speed,0)
+						if(twk(CardEngine,DraggingCard))
+						<
+							:set(gel.anim.normtime,0)
+							:frlerp(gel.alpha,1,0.25)
+							:frlerp(gel.scale,0.7,0.25)
+						>
+						else
+						<
+							:set(gel.alpha,0.3)
+							:set(gel.scale,0.5)
+						>
+						
+						if(%aboveSellArea)	
+						<				
+							:set(gel.anim.speed,1)
+							if(gel.anim.normtime >= 0.36)
+							<
+								:set(gel.anim.speed,0)
+							>
+						>
+						else
+						<
+							if(twk(CardEngine,SoldCard)=1)	
+							<
+								:set(gel.anim.normtime,0.37)
+								:set(gel.anim.speed,1)
+							>
+							else	
+							<	
+								
+								lerp(gel.anim.normtime,0,0.1)	
+							>	
+						>
+
+
+
+			
+
+
+
+					M_Text:(carousel_SELL,0,20,100,0,C,C,TextLoc,KNUL23,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						if(twk(CardEngine,DraggingCard))
+						<
+							if(twk(CardEngine,FocusString) != "")
+							<
+								PulseAlpha(1,0,0.3,0.3,0.1,0.1)
+							>
+							else
+							<
+								set(gel.alpha,1)
+							>
+						>
+						else
+						<
+							:set(gel.alpha,0.3)
+						>
+
+					M_Text:(,@C,55,0,0,C,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,CardEngine,FocusString)
+						set(gel.vis,twk(CardEngine,DraggingCard))	
+				}}
+			}
+
+
+			// Top Bar
+			Rect:()
+			{
+				Draw:(White,@f,0,@w,34,,#CC1618FF)
+				Draw:(Dialog_Top,@f,0,@w,38)
+				M_Text:(,30,0,0,38,L,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					if(twk(CardsCarousel,CurrentTab) = 1)
+					<
+						set(gel.text,loc(carousel_COACHING))
+					>
+					elif(twk(CardsCarousel,CurrentTab) = 2)
+					<
+						set(gel.text,loc(carousel_MANAGER))
+					>
+					elif(twk(CardsCarousel,CurrentTab) = 3)
+					<
+						set(gel.text,loc(carousel_STAFF))
+					>
+					elif(twk(CardsCarousel,CurrentTab) = -1)
+					<
+						set(gel.text,loc(tactics_CARDS))
+					>>>>
+
+				Draw:(Dialog_Sheen,@f,3,,,,#808080FF)
+					Additive()
+					Handle(1,0)
+					if(gel.x < @w)
+					<
+						:Delay(1)
+						add(gel.x,2)
+						set(gel.alpha,lerp(0.4,0,gel.gx/[@w/2]))
+					>
+					else
+					<
+						:set(gel.x,@f)
+						:set(gel.alpha,0.5)
+					>
+					
+				Draw:(Dialog_CloseBG,@R,3,131-@f,31)
+					Delay(0.3)
+					frlerp(gel.x,@R-131,0.3)
+				{{
+					Draw:(Dialog_Hexagons,-297,0,,,,#00000000)
+						Delay(0.3)
+						frlerp(gel.alpha,0.25,0.01)
+				}}
+			
+				// Close Button
+				Rect:()
+					.set(gel.alpha,0)
+					Delay(0.3)
+					frlerp(gel.alpha,1,0.1)
+				{
+					##IAP
+					M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_Cross,#252525FF,null,BackButtonAudio)
+					##N4
+					M_ImageButton:(@R-60,19,120,60,0,0,40,40,Icon_DownArrow,#252525FF,null,BackButtonAudio)
+					##*
+						M_CTRLButtonExtra:(?BTNCAN?,false)
+						if(%clicked)
+						<
+							if(twk(Ftue,Enabled) = 0)
+							<
+								call(Clicks,ClickFunc)
+							>
+						>
+
+				}
+				M_SwitchButtonHint:(?ICONCAN?,@R-42,4)
+			}
+		}
+	}}
+}}

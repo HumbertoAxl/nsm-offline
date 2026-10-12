@@ -1,0 +1,487 @@
+Img:(Dropdown_Arrow,NewGUI/UI/Dropdown/Dropdown_Arrow.png)
+Img:(Dropdown_Left,NewGUI/UI/Dropdown/Dropdown_Left.png,24,0,24,24,0.5)
+Img:(Dropdown_Right,NewGUI/UI/Dropdown/Dropdown_Right.png,0,24,24,24,0.5)
+Img:(Dropdown_Panel,NewGUI/UI/Dropdown/Dropdown_Panel.png,39,39,39,39,0.5) FORCE
+Img:(Dropdown_Separator,NewGUI/UI/Dropdown/Dropdown_Separator.png) FORCE
+Img:(Dropdown_Split,NewGUI/UI/Dropdown/Dropdown_Split.png)
+
+Img:(Icon_Comp_Cup,NewGUI/UI/Dropdown/Icon_Comp_Cup.png)
+Img:(Icon_Comp_Continental,NewGUI/UI/Dropdown/Icon_Comp_Continental.png)
+Img:(Icon_Comp_League,NewGUI/UI/Dropdown/Icon_Comp_League.png)
+Img:(Icon_Comp_Participant,NewGUI/UI/Dropdown/Icon_Comp_Participant.png)
+
+
+
+
+Macro:(M_ComboSelected,?X?,?Y?,?W?,?H?,?CAT?,?TWK?,?MSG?,?REFPREFIX?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		float(%oldPressed)
+		init(%oldPressed,0)
+	{{
+		Rect:(0,0,@W,@H) ref:?REFPREFIX??TWK?ComboSelected
+			func(ComboClick)
+			<
+				Post(UI_Select)
+				set(twk(?CAT?,?TWK?Pressed),1)
+				Post(?MSG?,?TWK?Root)
+			>
+			if(twk(?CAT?,?TWK?Pressed) = 0)
+			<
+				if(%oldPressed)
+				<
+					CTRLSetSelected(,,true)
+				>
+				CTRLSelect(CTRLBasicSelected,0,0,-2,-6)
+				CTRLClick(?BTNOK?)
+				<
+					call(ComboClick)
+				>
+				Click()
+				<
+					call(ComboClick)
+				>
+			>
+			If:(?TWK?="PrestigeCombo")
+				CTRLPress(DOWN)
+				<
+					CTRLSetSelected(TrophiesSelectGroup,manager)
+					Post(CTRLNavigate)
+				>
+			EndIf
+			set(%oldPressed,twk(?CAT?,?TWK?Pressed))
+		{{
+			Rect:(4,6,@W-8,46)
+			{{
+				Draw:(Dropdown_Right,@R-60,0,60,48)
+				Draw:(Dropdown_Left,0,0,@W-50,48)
+				Draw:(Dropdown_Split,@R-50,2,30,45)
+				M_Text:(,12,25,500,0,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#151515FF,ref,?CAT?,?TWK?Readout)
+
+				Draw:(RoundedPanel,1,1,@W-2,@H,#00000020)
+					set(gel.colour(lerp(#00000000,#00000030,twk(?CAT?,?TWK?Pressed))))
+				Draw:(Dropdown_Arrow,@R-22,26,14,16)
+					Handle(0.5,0.5)
+					set(gel.angle,twk(?CAT?,?TWK?Pressed) * 180)
+				
+				Draw:(RoundedPanel,0,0,@W,@H+1,,#FFFFFFBB) $HIDE ref:Disabled
+					Layer(Text)
+					Click()
+			}}
+		}}
+	}}
+EndM
+
+Macro:(M_ComboOPEN,?X?,?Y?,?W?,?H?,?CAT?,?TWK?,?MSG?,?SCROLLABLE?)
+	Rect:() ref:?TWK?Root
+		float(%count,%height,%scrollable)
+		If:(?SCROLLABLE?=1)
+			init(%scrollable,1)
+		EndIf
+		CTRLClearSelect()
+		CTRLGlobalBlock(BACK,START,X,Y,LT,RT,RIGHT1,LEFT1,UP1,DOWN1)
+	{
+		Draw:(White,@f,@T,@w,@H,,#15151599)
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+			Rearmable()
+			CTRLClick(?BTNCAN?,false)
+			<
+				Post(UI_Select)
+				set(twk(?CAT?,?TWK?Pressed),1-twk(?CAT?,?TWK?Pressed))
+				Message(?MSG?)
+			>
+			Click(?MSG?)
+			<
+				Post(UI_Select)
+				set(twk(?CAT?,?TWK?Pressed),1-twk(?CAT?,?TWK?Pressed))
+			>
+			if(twk(?CAT?,?TWK?Pressed) <> 0)
+			<
+				OnPost("android-back-pressed")
+				<
+					set(twk(?CAT?,?TWK?Pressed),0)
+					Message(?MSG?)
+				>
+			>
+			if(twk(?CAT?,?TWK?Pressed))
+			<
+				:set(gel.alpha,0)
+				frlerp(gel.alpha,0.6,0.2)
+			>
+			else
+			<
+				:set(gel.alpha,0)
+			>
+
+		Rect:(?X?,?Y?,?W?,?H?)
+		{{
+			// Drop-down Content
+			Dissolve:(0,0,@W,640,,#FFFFFF00)
+				Rearmable()
+				if(twk(?CAT?,?TWK?Pressed) = 1)
+				<
+					:set(%height,0)
+					:set(gel.alpha,0)
+					frlerp(%height,20+[[%count+1]*?H?],0.25)
+					frlerp(gel.alpha,1,0.25)
+				>
+			{{
+				Draw:(Dropdown_Panel,-4,2,@W+8,@H)
+					set(gel.h,%height)
+
+				Clip:(0,54,?W?,?H?)
+					set(gel.h,%height-60)
+				{{
+					Rect:(0,0,?W?,?H?)
+						.set(twk(Combo,ComboScroll),0)
+						.set(twk(Combo,ComboScrollVel),0)
+						ScrollingList(Combo,ComboScroll,%height-60,Combo,ComboScrollVel)
+						VerticalList(0)
+					{{
+EndM
+
+
+Macro:(M_ComboCLOSE,?CAT?,?TWK?)
+					}}
+				}}
+			}}
+
+			Rect:(0,54,0,0)
+				.set(gel.w,@W)
+				set(gel.h,%height-60)
+				if((%scrollable=1) and(%count > 6))
+				<
+					SwipePanel(Combo,ComboScroll,Combo,ComboScrollVel)
+				>
+			M_ComboSelected:(0,0,@W,@H,?CAT?,?TWK?,,Template)
+		}}
+	} Template
+EndM
+
+
+Macro:(M_ComboEntry,?CAT?,?TWK?,?MSG?,?ID?,?READOUT?,?TEMPLATE?)
+	Rect:(0,0,@W,@H) ref:?TWK?Entry
+		float(%id,%pressed)
+		strvar(%readout)
+		init(%id,?ID?)
+		init(%readout,?READOUT?)
+		If:(?TEMPLATE?=1)
+			inherit(%count)
+		EndIf
+		.add(%count,1)
+		CTRLSelect(CTRLSquareSelected,0,0,0,0)
+		func(ComboClickFunc)
+		<
+			Post(UI_Select)
+			set(twk(?CAT?,?TWK?Selected),%id)
+			set(twk(?CAT?,?TWK?Readout),%readout)
+			set(twk(?CAT?,?TWK?Pressed),0)
+			Message(?MSG?,%id)
+		>
+		set(%pressed,0)
+		if(twk(?CAT?,?TWK?Pressed))
+		<
+			if(%id != twk(?CAT?,?TWK?Selected))
+			<
+				CTRLClick(?BTNOK?)
+				<
+					call(ComboClickFunc)
+				>
+				CTRLPress(?BTNOK?)
+				<
+					set(%pressed,1)
+				>
+				Click()
+				<
+					call(ComboClickFunc)
+				>
+				Press()
+				<
+					set(%pressed,1)
+				>
+			>
+		>
+	{{
+		Draw:(White,2,0,@W-4,@H-2,,#FFFFFF00)
+			if(%pressed)
+			<
+				frlerp(gel.alpha,0.75,0.2)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.2)
+			>
+
+		M_Text:(,16,0,@W,@H,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#151515FF,?TWK?Entry)
+			.set(gel.text,%readout)
+			if(%id = twk(?CAT?,?TWK?Selected))
+			<
+				set(gel.colour,#0097DEFF)
+			>
+			else
+			<
+				:set(gel.colour,#151515FF)
+			>
+		Draw:(Dropdown_Separator,3,@H-2,@W-6,2)
+
+	If:(?TEMPLATE?=1)
+		}} Template
+	Else
+		}}
+	EndIf
+EndM
+
+
+Macro:(M_CompetitionTemplate,?CAT?,?CLICK_MESSAGE?,?MESSAGE?)
+	Rect:(0,0,250,50) ref:CompetitionTemplate
+		float(%id,%pressed)
+		CTRLSelect(CTRLSquareSelected,0,0,0,0)
+		func(CompetitionClickFunc)
+		<
+			Post(UI_Select)
+			set(twk(?CAT?,LeagueComboPressed),0)
+			set(twk(?CAT?,DropdownLeague),%id)
+			set(twk(?CAT?,StandingsScroll),0)
+			set(twk(?CAT?,StandingsScrollVel),0)
+			Message(?MESSAGE?)
+			Message(?CLICK_MESSAGE?)
+		>
+		set(%pressed,0)
+		if(twk(?CAT?,LeagueComboPressed))
+		<	
+			if(%id != twk(?CAT?,DropdownLeague))
+			<
+				CTRLClick(?BTNOK?)
+				<
+					call(CompetitionClickFunc)
+				>
+				CTRLPress(?BTNOK?)
+				<
+					set(%pressed,1)
+				>
+				Click()
+				<
+					call(CompetitionClickFunc)
+				>
+				Press()
+				<
+					set(%pressed,1)
+				>
+			>
+		>
+	{{
+		Draw:(White,2,0,@W-4,@H-2,,#FFFFFF00)
+			if(%pressed)
+			<
+				frlerp(gel.alpha,0.75,0.2)
+			>
+			else
+			<
+				frlerp(gel.alpha,0,0.2)
+			>
+
+		M_Text:(,16,0,@W,@H,L,C,Text,KNUL24,,0,0,#00000000,NoItalics,#151515FF,CompetitionTemplate)
+			if(%id = twk(?CAT?,DropdownLeague))
+			<
+				set(gel.colour,#0097DEFF)
+			>
+			else
+			<
+				:set(gel.colour,#151515FF)
+			>
+		Draw:(Icon_Comp_Participant,@R-36,14,20,20) $HIDE ref:Participant
+		Draw:(Dropdown_Separator,3,@H-2,@W-6,2)
+	}} Template
+EndM
+
+
+Macro:(M_League_Combo,?X?,?Y?,?W?,?H?,?TOGGLE_COMBO_MESSAGE?,?SELECTION_MESSAGE?,?USE_SELECTED_VISIBLE_CONDITION?)
+    M_CompetitionTemplate:(League,?SELECTION_MESSAGE?,?TOGGLE_COMBO_MESSAGE?)
+    Define:(?LEAGUE_COMBO_MAXCOUNT?=8.5)
+
+    // Combo template
+    M_ComboOPEN:(?X?,?Y?,?W?,?H?,League,LeagueCombo,?TOGGLE_COMBO_MESSAGE?)
+
+        Rect:(0,55,@W,65)
+            Click()
+            set(%count,min(%count,?LEAGUE_COMBO_MAXCOUNT?))
+        {{
+            Draw:(Dropdown_Separator,82,50,40,2,90)
+            Draw:(Dropdown_Separator,164,50,40,2,90)
+
+            Rect:(0,0,83,65) ref:LeagueCompIcon
+            	CTRLSelect(CTRLSquareSelected,0,0,0,0,false)
+                if(twk(League,LeagueComboPressed))
+                <
+                	func(LeagueComboClick)
+                	<
+						Post(UI_Select)
+                        set(twk(League,CompetitionType),1)
+                	>
+                	CTRLClick(?BTNOK?)
+                	<
+                		call(LeagueComboClick)
+                	>
+                    Click()
+                    <
+                        call(LeagueComboClick)
+                    >
+                >
+            {{
+                Draw:(Icon_Comp_League,17,10,50,40)
+	                if(twk(League,CompetitionType) = 1)
+	                <
+	                    :set(gel.alpha,1)
+	                >
+	                else
+	                <
+	                    :set(gel.alpha,0.15)
+	                >
+            }}
+
+            Rect:(83,0,83,65) ref:CupCompIcon
+            	CTRLSelect(CTRLSquareSelected,0,0,0,0,false)
+                if(twk(League,LeagueComboPressed))
+                <
+                    func(CupComboClick)
+                    <
+                        Post(UI_Select)
+                        set(twk(League,CompetitionType),2)
+                    >
+                    CTRLClick(?BTNOK?)
+                    <
+                    	call(CupComboClick)
+                    >
+                    Click()
+                    <
+                    	call(CupComboClick)
+                    >
+                >
+            {{
+                Draw:(Icon_Comp_Cup,17,10,50,40)
+	                if(twk(League,CompetitionType) = 2)
+	                <
+	                    :set(gel.alpha,1)
+	                >
+	                else
+	                <
+	                    :set(gel.alpha,0.15)
+	                >
+            }}
+
+            Rect:(166,0,83,65) ref:ContCupCompIcon
+            	CTRLSelect(CTRLSquareSelected,0,0,0,0,false)
+                if(twk(League,LeagueComboPressed))
+                <
+                    func(ContCupComboClick)
+                    <
+                        Post(UI_Select)
+                        set(twk(League,CompetitionType),3)
+                    >
+                    CTRLClick(?BTNOK?)
+                    <
+                    	call(ContCupComboClick)
+                    >
+                    Click()
+                    <
+                    	call(ContCupComboClick)
+                    >
+                >
+            {{
+               	Draw:(Icon_Comp_Continental,17,10,50,40)
+               	    if(twk(League,CompetitionType) = 3)
+	                <
+	                    :set(gel.alpha,1)
+	                >
+	                else
+	                <
+	                    :set(gel.alpha,0.15)
+	                >
+            }}
+
+            Draw:(Dropdown_Separator,3,65,@W-6,2)
+        }}
+
+        Clip:(0,120,@W,@H)
+            float(%clippedHeight)
+            set(%clippedHeight,%height-123)
+            set(gel.h,%clippedHeight)
+        {
+        	// League
+			Rect:(0,120) ref:LeagueCompetition
+        		float(%personalCount)
+                ChildrenOffset(0,50) ref:ChildrenOffset
+
+                if(twk(League,CompetitionType) = 1)
+                <
+                    :set(gel.vis,1)
+                    :set(twk(Combo,LeagueComboScroll),0)
+                    :set(twk(Combo,LeagueComboScrollVel),0)
+                    // if(%personalCount > ?LEAGUE_COMBO_MAXCOUNT?)
+                    // <
+                        ScrollingList(Combo,LeagueComboScroll,%clippedHeight-10,Combo,LeagueComboScrollVel)
+                    // >
+                >
+                else
+                <
+                    :set(gel.vis,0)
+                >
+            {{
+            }}
+
+            // Cup
+			Rect:(0,120) ref:CupCompetition
+                float(%personalCount)
+                ChildrenOffset(0,50) ref:ChildrenOffset
+
+                if(twk(League,CompetitionType) = 2)
+                <
+                    :set(gel.vis,1)
+                    :set(twk(Combo,LeagueComboScroll),0)
+                    :set(twk(Combo,LeagueComboScrollVel),0)
+                    // if(%personalCount > ?LEAGUE_COMBO_MAXCOUNT?)
+                    // <
+                        ScrollingList(Combo,LeagueComboScroll,%clippedHeight-10,Combo,LeagueComboScrollVel)
+                    // >
+                >
+                else
+                <
+                    :set(gel.vis,0)
+                >
+            {{
+            }}
+
+            // Continental
+			Rect:(0,120) ref:ContinentalCompetition
+                float(%personalCount)
+                ChildrenOffset(0,50) ref:ChildrenOffset
+               
+                if(twk(League,CompetitionType) = 3)
+                <
+                    :set(gel.vis,1)
+                    :set(twk(Combo,LeagueComboScroll),0)
+                    :set(twk(Combo,LeagueComboScrollVel),0)
+                    // if(%personalCount > ?LEAGUE_COMBO_MAXCOUNT?)
+                    // <
+                        ScrollingList(Combo,LeagueComboScroll,%clippedHeight-10,Combo,LeagueComboScrollVel)
+                    // >
+                >
+                else
+                <
+                    :set(gel.vis,0)
+                >
+            {{
+            }}
+
+            Rect:(0,120,@W,400,,#000000FF)
+                set(gel.h,%clippedHeight)
+                SwipePanel(Combo,LeagueComboScroll,Combo,LeagueComboScrollVel)
+        }
+
+    M_ComboCLOSE:(League,LeagueCombo)
+
+    M_ComboSelected:(?X?,?Y?,?W?,?H?,League,LeagueCombo,?TOGGLE_COMBO_MESSAGE?)
+        .set(twk(League,LeagueComboPressed),0)
+    If:(?USE_SELECTED_VISIBLE_CONDITION?)
+        set(gel.vis,twk(League,CurrentTab) oneof(1,2,3))
+    EndIf
+EndM

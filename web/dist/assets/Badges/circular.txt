@@ -1,0 +1,23 @@
+{
+	"mask_id" : ["1"],
+	"colour" : "1",
+	"scale" : 0.95,
+	"next_layer_variations" : [
+		{ 
+			"design_id" : ["Circle"],  "colour" : "2",
+			"next_layer_variations" : [
+				{ "design_id" : ["Animal1","Animal2","Animal3","Animal4","Animal5","Animal6","Animal7","Animal8","Animal9","Animal11","Animal12"], "scale":0.45, "colour":"FFFFFF" },
+				{ "design_id" : ["Building1"], "scale":0.55, "colour":"FFFFFF" },
+				{ "design_id" : ["Ball1","Ball2","Ball3","Ball4","Ball5"], "scale":0.35, "colour":"FFFFFF" },
+				{ "design_id" : ["Star1","Star6"], "scale":0.35, "colour":"000000" },
+				{ "design_id" : ["Combat1","Combat2","Combat3","Combat4","Combat5","Combat6","Combat7"], "scale":0.45, "colour":"FFFFFF" }
+			]
+		}
+	],
+	"overlays" : [
+		{ "design_id" : [""] },
+		{ "design_id" : ["Star2","Star3"],  "colour" : "d6cc17", "scale":0.25, "y":65}
+	]
+
+
+}

@@ -1,0 +1,1127 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+
+//JF:Uncomment to force nighttime
+//Rect:()
+//.set(twk(Facilities,Night),1)
+//.set(twk(Match,Weather),1)
+
+##IA
+Cls:(#85CE29FF,True)
+	Layer(Pitch)
+
+##P4N
+Cls:(#68A222FF,True)
+	Layer(Pitch)
+	set(gel.vis,twk(Facilities,Night) = 0) 
+
+Cls:(#263418FF,True)
+	Layer(Pitch)
+	set(gel.vis,twk(Facilities,Night) = 1)
+##*
+
+
+Import:(match_weather.uih)
+Import:(facility_Macros.uih)
+Import:(FacilityConstruction.uis)
+Import:(match_common.uih)
+Import:(match_stadium.uih)
+Import:(home_construction.uih)
+Import:(home_ClubShop.uih)
+Import:(home_FitnessCentre.uih)
+Import:(home_MedicalCentre.uih)
+Import:(home_ScoutOffice.uih)
+Import:(home_TrainingGround.uih)
+Import:(home_YouthAcademy.uih)
+Import:(home_NSMWorld.uih)
+Import:(Freestanding_Ads.uih)
+Import:(CamAnim.uih)
+Import:(skydome.uih)
+Import:(ticker.uih)
+Import:(ConstructionTimer.uis)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_Home_Scout,NewGUI/UI/Icons/Icon_Home_Scout.png)
+Img:(Icon_Home_Stadium,NewGUI/UI/Icons/Icon_Home_Stadium.png)
+Img:(Icon_Home_Fitness,NewGUI/UI/Icons/Icon_Home_Fitness.png)
+Img:(Icon_Home_Training,NewGUI/UI/Icons/Icon_Home_Training.png)
+Img:(Icon_Home_Medical,NewGUI/UI/Icons/Icon_Home_Medical.png)
+Img:(Icon_Home_Youth,NewGUI/UI/Icons/Icon_Home_Youth.png)
+Img:(Icon_Home_Shop,NewGUI/UI/Icons/Icon_Home_Shop.png)
+Img:(Icon_Home_Frame,NewGUI/UI/Icons/Icon_Home_Frame.png)
+
+
+//-----------------------------------NSM Home Textures STANDARD DETAIL
+##IA
+Texture:(Grass,NSMWorld/grass_00.png)
+Texture:(HouseA,NSMWorld/House_A.png)
+Texture:(HouseB,NSMWorld/House_B.png)
+Texture:(HouseC,NSMWorld/House_C.png)
+Texture:(HouseD,NSMWorld/House_D.png)
+Texture:(GenBase,NSMWorld/NSM_World.png)
+Texture:(GenTrees,NSMWorld/NSM_World_ALPHA.png)
+Texture:(Tower,NSMWorld/Tower.png)
+//-----------------------------------NSM Home Textures HIGH DETAIL
+##P4N
+//------------------------BASES-----------------------
+//Base Summer
+Texture:(Base_HI,NSMWorld/NSM_World_NEW_2048.pcpng)
+//Base Summer Night
+Texture:(Base_HI_Night,NSMWorld/NSM_World_NEW_2048b_DUSK.nspng)
+//Base Winter
+Texture:(Base_HI_Winter,NSMWorld/NSM_World_NEW_2048_WINTER.nspng)
+//Base Winter Night
+Texture:(Base_HI_Night_Winter,NSMWorld/NSM_World_NEW_2048_WINTER_DUSK.nspng)
+//Base Autumn
+Texture:(Base_HI_Autumn,NSMWorld/NSM_World_NEW_2048_AUTUMN.nspng)
+//Base Autumn Night
+Texture:(Base_HI_Night_Autumn,NSMWorld/NSM_World_NEW_2048_AUTUMN_DUSK.nspng)
+//Base Spring
+Texture:(Base_HI_Spring,NSMWorld/NSM_World_NEW_2048_SPRING.nspng)
+//Base Spring Night
+Texture:(Base_HI_Night_Spring,NSMWorld/NSM_World_NEW_2048_SPRING_DUSK.nspng)
+
+//------------------------BUILDINGS-----------------------
+//Buildings Summer
+Texture:(Buildings_HI,NSMWorld/NSM_World_Buildings_2048.pcpng)
+//Buildings Summer Night
+Texture:(Buildings_HI_Night,NSMWorld/NSM_World_Buildings_2048_DUSK.nspng)
+//Buildings Winter
+Texture:(Buildings_HI_Winter,NSMWorld/NSM_World_Buildings_2048_WINTER.nspng)
+//Buildings Winter Night
+Texture:(Buildings_HI_Night_Winter,NSMWorld/NSM_World_Buildings_2048_WINTER_DUSK.nspng)
+
+//------------------------TREES-----------------------
+//Trees Summer
+Texture:(Trees_HI,NSMWorld/NSM_World_ALPHA_512b.pcpng)
+//Trees Summer Night
+Texture:(Trees_HI_Night,NSMWorld/NSM_World_ALPHA_512b_DUSK.nspng)
+//Trees Spring
+Texture:(Trees_HI_Spring,NSMWorld/NSM_World_ALPHA_512b_SPRING.nspng)
+//Trees Spring Night
+Texture:(Trees_HI_Night_Spring,NSMWorld/NSM_World_ALPHA_512b_SPRING_DUSK.nspng)
+//Trees Autumn
+Texture:(Trees_HI_Autumn,NSMWorld/NSM_World_ALPHA_512b_AUTUMN.nspng)
+//Trees Autumn Night
+Texture:(Trees_HI_Night_Autumn,NSMWorld/NSM_World_ALPHA_512b_AUTUMN_DUSK.nspng)
+//Trees Winter
+Texture:(Trees_HI_Winter,NSMWorld/NSM_World_ALPHA_512b_WINTER.nspng)
+//WinterNight
+Texture:(Trees_HI_Night_Winter,NSMWorld/NSM_World_ALPHA_512b_WINTER_DUSK.nspng)
+##*
+
+
+//-------------CameraSetup
+##IA
+If:(?TALLCONTENT?)
+	Rect:()
+ 		.set(twk(Home,CamMinDistance),[10000*0.85])
+  		.set(twk(Home,CamMaxDistance),[15000*0.85])
+Else
+	Rect:()
+ 		.set(twk(Home,CamMinDistance),10000)
+ 		.set(twk(Home,CamMaxDistance),15000)
+ 		.set(twk(Home,CamMinXA),-30)
+		.set(twk(Home,CamMaxXA),-60)	
+EndIf
+##P4N
+.set(twk(Home,CamMinDistance),7800)
+.set(twk(Home,CamMaxDistance),14200)
+.set(twk(Home,CamMinXA),-20)
+.set(twk(Home,CamMaxXA),-75)
+##*
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	inittwk(twk(Home,CurrentFacility),1)
+	##P4
+	.set(twk(FacilityView,Scale),0.5)
+	##N
+	.set(twk(FacilityView,Scale),0.75)
+	##*
+	.set(twk(Match,PlayerAtHome),1)
+	Rearmable()
+	.set(twk(Pitch,PitchPattern),twk(PlayerSaved,MowType))
+	set(twk(Debug,STX),TouchX)
+
+	.set(twk(Facilities,PitchLevelPreview),0)
+	.set(twk(Facilities,PitchStandNLevelPreview),0)
+	.set(twk(Facilities,PitchStandSLevelPreview),0)
+	.set(twk(Facilities,PitchStandWLevelPreview),0)
+	.set(twk(Facilities,PitchStandELevelPreview),0)
+	.set(twk(Facilities,PitchCornersLevelPreview),0)
+	.set(twk(Facilities,TrainingGroundLevelPreview),0)
+	.set(twk(Facilities,MedicalUnitLevelPreview),0)
+	.set(twk(Facilities,FitnessCentreLevelPreview),0)
+	.set(twk(Facilities,ScoutsOfficeLevelPreview),0)
+	.set(twk(Facilities,ClubShopLevelPreview),0)
+	.set(twk(Facilities,YouthAcademyLevelPreview),0)
+
+	set(twk(Facilities,PitchLevelVisible),max(twk(Facilities,PitchLevelPreview),twk(Facilities,PitchLevel)))
+	set(twk(Facilities,PitchStandNLevelVisible),max(twk(Facilities,PitchStandNLevelPreview),twk(Facilities,PitchStandNLevel)))
+	set(twk(Facilities,PitchStandSLevelVisible),max(twk(Facilities,PitchStandSLevelPreview),twk(Facilities,PitchStandSLevel)))
+	set(twk(Facilities,PitchStandWLevelVisible),max(twk(Facilities,PitchStandWLevelPreview),twk(Facilities,PitchStandWLevel)))
+	set(twk(Facilities,PitchStandELevelVisible),max(twk(Facilities,PitchStandELevelPreview),twk(Facilities,PitchStandELevel)))
+	set(twk(Facilities,PitchCornersLevelVisible),max(twk(Facilities,PitchCornersLevelPreview),twk(Facilities,PitchCornersLevel)))
+	set(twk(Facilities,TrainingGroundLevelVisible),max(twk(Facilities,TrainingGroundLevelPreview),twk(Facilities,TrainingGroundLevel)))
+	set(twk(Facilities,MedicalUnitLevelVisible),max(twk(Facilities,MedicalUnitLevelPreview),twk(Facilities,MedicalUnitLevel)))
+	set(twk(Facilities,FitnessCentreLevelVisible),max(twk(Facilities,FitnessCentreLevelPreview),twk(Facilities,FitnessCentreLevel)))
+	set(twk(Facilities,ScoutsOfficeLevelVisible),max(twk(Facilities,ScoutsOfficeLevelPreview),twk(Facilities,ScoutsOfficeLevel)))
+	set(twk(Facilities,ClubShopLevelVisible),max(twk(Facilities,ClubShopLevelPreview),twk(Facilities,ClubShopLevel)))
+	set(twk(Facilities,YouthAcademyLevelVisible),max(twk(Facilities,YouthAcademyLevelPreview),twk(Facilities,YouthAcademyLevel)))
+
+	if((twk(Facilities,PitchStandSLevelVisible)=6)or(twk(Facilities,PitchStandNLevelVisible)=6)or(twk(Facilities,PitchStandELevelVisible)=6)or(twk(Facilities,PitchStandWLevelVisible)=6))
+	<
+		set(twk(Facilities,PitchStandNLevelVisible),6)
+		set(twk(Facilities,PitchStandSLevelVisible),6)
+		set(twk(Facilities,PitchStandELevelVisible),6)
+		set(twk(Facilities,PitchStandWLevelVisible),6)
+		set(twk(Facilities,PitchCornersLevelVisible),6)
+	>
+	.set(twk(Match,StadTeamName),twk(Player,TeamName))
+	inittwk(twk(Match,Team1Col),twk(Player,HomeShirtCol1))
+
+	// Horizon
+	.set(twk(Match,Horizon),0)
+	{{
+		//	Setup sponsor data for home screen stadium
+		M_ChooseAllHoardingContents:()
+		M_ChooseAllFreestandingContents:()
+	}}
+
+	//Seasons
+	.if(Player.weatherSeason = 0)<
+		set(twk(Facilities,Season),"_Spring")
+	>
+	.if(Player.weatherSeason = 1)<
+		set(twk(Facilities,Season),"")
+	>
+	.if(Player.weatherSeason = 2)<
+		set(twk(Facilities,Season),"_Autumn")
+	>
+	.if(Player.weatherSeason = 3)<
+		set(twk(Facilities,Season),"_Winter")
+	>
+
+Import:(StadiumSteps.uih)
+
+// Audio
+Rect:()
+	set(twk(Audio,Ambient),"training")
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+//--------------------------------------------------------------------------------------------MACROS
+
+//Set this to a texture to show the colliders for selecting other facilities in the distance
+Define:(?SHOW_FACILITY_SELECTION_COLLIDERS?=) 
+
+
+Macro:(M_RotateAroundFacility_LocatorDef)
+	Locator:()
+		float(%POSX,%POSY,%DIST,%ROTX,%ROTZ,%BLEND)
+		float(%YA,%H,%V,%XO,%YO,%DX)
+EndM
+Macro:(M_RotateAroundFacility_LocatorUpdate,?CAT1?,?VAR1?,?ID1?,?CAT2?,?VAR2?,?ID2?)	    
+    if(twk(?CAT1?,?VAR1?) = ?ID1? and(twk(?CAT2?,?VAR2?) = ?ID2?))
+	<
+		if(twk(FacilityView,Rotated) = 0)
+		<
+			set(%YA,%ROTZ)
+		>
+
+	    if(twk(ControllerInput,Enabled) = 1)
+		<
+			if(abs(JoyX1) > 0.2)
+			<
+				:set(twk(FacilityView,Rotated),1)
+				set(%DX,JoyX1)
+			>
+		>
+		else
+		<
+		    if(TouchDown and(twk(FacilityView,Zooming)=0))
+		    <
+		    	float(%lastTX)
+		    	if(TouchY > [@T+50] and(TouchY < [@B-295]))
+		    	<
+					:set(%lastTX,TouchX)
+					:set(twk(FacilityView,Rotated),1)
+					set(%DX,min(10,max(-10,[TouchX-%lastTX]*0.15)))
+
+					set(%lastTX,TouchX)
+				>
+			>
+		>
+	    
+	    add(%YA,%DX)
+	    set(%DX,%DX*0.95)
+
+	    if(abs(%DX) < 0.01)
+	    <
+	    	if(twk(Home,ForceTargetUpdate) = 1)
+	    	<
+	    		:set(twk(Home,FacilityCamBlend),1)
+	    	>
+	    	else
+	    	<
+	    		set(twk(Home,FacilityCamBlend),%BLEND)
+	    	>
+	    >
+	    else
+	    <
+	    	:set(twk(Home,FacilityCamBlend),1)
+	    >
+
+	    // Calculate vertical length
+	    set(%V,%DIST*sin(%ROTX))
+	    // Calculate horizontal length
+	    set(%H,%DIST*cos(%ROTX))
+	    set(%XO,-%H*sin(%YA))
+	    set(%YO,%H*cos(%YA))
+
+	    set(gel3d.x,%POSX+%XO)
+	    set(gel3d.y,%POSY+%YO)
+	    set(gel3d.z,%V)
+	    set(gel3d.rotx,%ROTX)
+	    set(gel3d.rotz,-%YA)
+	    M_BlendCameraToLocator:((twk(Home,FacilityCamBlend)),(twk(Home,FacilityCamBlend)),40) //FIXEDFOV
+    >
+EndM
+
+
+Macro:(M_RotateAroundFacility,?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?,?BLEND?)
+	float(%YA,%H,%V,%XO,%YO,%DX)
+    :set(%YA,?ROTZ?)
+
+    if(TouchDown and(twk(FacilityView,Zooming)=0))
+    <
+    	float(%lastTX)
+    	if(TouchY > [@T+50] and(TouchY < [@B-295]))
+    	<
+			:set(%lastTX,TouchX)
+			set(%DX,min(10,max(-10,[TouchX-%lastTX]*0.15)))
+
+			set(%lastTX,TouchX)
+		>
+    >
+    
+    add(%YA,%DX)
+    set(%DX,%DX*0.95)
+    if(abs(%DX) < 0.01)
+    <
+    	if(twk(Home,ForceTargetUpdate) = 1)
+    	<
+    		:set(twk(Home,FacilityCamBlend),1)
+    	>
+    	else
+    	<
+    		:set(twk(Home,FacilityCamBlend),?BLEND?)
+    	>
+    >
+    else
+    <
+    	:set(twk(Home,FacilityCamBlend),1)
+    >
+
+    // Calculate vertical length
+    set(%V,?DIST?*sin(?ROTX?))
+    // Calculate horizontal length
+    set(%H,?DIST?*cos(?ROTX?))
+    set(%XO,-%H*sin(%YA))
+    set(%YO,%H*cos(%YA))
+
+    set(gel3d.x,?POSX?+%XO)
+    set(gel3d.y,?POSY?+%YO)
+    set(gel3d.z,%V)
+    set(gel3d.rotx,?ROTX?)
+    set(gel3d.rotz,-%YA)
+EndM
+Macro:(M_FacilityBuildingCam,?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?,?CAT1?,?VAR1?,?ID1?,?CAT2?,?VAR2?,?ID2?,?CAT3?,?VAR3?,?ID3?,?DELAY?,?BLEND?)
+	Locator:(?POSX?,?POSY?,?DIST?,?ROTX?,,?ROTZ?)
+		if(twk(?CAT1?,?VAR1?) = ?ID1? and(twk(?CAT2?,?VAR2?) = ?ID2? and(twk(?CAT3?,?VAR3?) = ?ID3?)))
+		<
+			//:Delay(?DELAY?)
+
+			M_RotateAroundFacility:(?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?,?BLEND?)
+			M_BlendCameraToLocator:((twk(Home,FacilityCamBlend)),(twk(Home,FacilityCamBlend)))
+		>
+EndM
+
+Macro:(M_FacilityBuildingCamAlt,?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?,?CAT1?,?VAR1?,?ID1?,?CAT2?,?VAR2?,?ID2?,?CAT3?,?VAR3?,?ID3?,?DELAY?,?BLEND?)
+	if(twk(?CAT1?,?VAR1?) = ?ID1? and(twk(?CAT2?,?VAR2?) = ?ID2? and(twk(?CAT3?,?VAR3?) = ?ID3?)))
+	<
+		//:Delay(?DELAY?)
+
+		if(twk(FacilityView,Rotated) = 0)
+		<
+			set(%POSX,?POSX?)
+			set(%POSY,?POSY?)
+			set(%ROTX,?ROTX?)
+			set(%ROTZ,?ROTZ?)
+			set(%BLEND,?BLEND?)
+		>
+		set(%DIST,?DIST?)
+	>
+EndM
+
+Macro:(M_StadiumSectionCam,?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?,?CAT1?,?VAR1?,?ID1?,?CAT2?,?VAR2?,?ID2?,?CAT3?,?VAR3?,?ID3?,?BLEND?)
+	Locator:(?POSX?,?POSY?,?DIST?,?ROTX?,,?ROTZ?)
+		if(twk(?CAT1?,?VAR1?) = ?ID1? and(twk(?CAT2?,?VAR2?) = ?ID2? and(twk(?CAT3?,?VAR3?) = ?ID3?)))
+		<
+			if(twk(Home,ForceTargetUpdate) = 1)
+    		<
+	    		set(twk(Home,FacilityCamBlend),1)
+    		>
+    		else
+    		<
+	    		set(twk(Home,FacilityCamBlend),?BLEND?)
+    		>
+			//:Delay(?DELAY?)
+			M_BlendCameraToLocator:((twk(Home,FacilityCamBlend)),(twk(Home,FacilityCamBlend)),60) //FIXEDFOV
+		>
+EndM
+
+
+Macro:(M_FacilityButton,?X?,?Y?,?IMAGE?,?TITLE?,?ID?,?VAR?,?FOCUS?)
+	Rect:(?X?,?Y?,120,84)
+		Handle(0.5,0.5)
+		Click()
+		<
+			if(twk(Home,CurrentFacility) != ?ID?)
+			<
+				Post(UI_Swoosh)
+			>
+			:set(twk(Home,CurrentFacility),?ID?)
+			:set(twk(Home,CameraMode),1)
+			Post(home.btn_FacilityPressed)
+		>
+	{{
+		Rect:()
+			float(%scale)
+			.set(gel.scale,0.82)
+			.set(gel.alpha,0.5)
+			if(twk(Home,CurrentFacility) = ?ID?)
+			<
+				set(%scale,1.2)
+				:Delay(0.2)
+				set(%scale,1)
+			>
+			else
+			<
+				set(%scale,0.82)
+			>
+			frlerp(gel.scale,%scale,0.15)
+			if(twk(Home,CurrentFacility) = ?ID?)
+			<
+				frlerp(gel.alpha,1,0.15)
+			>
+			else
+			<
+				:set(gel.alpha,0.5)
+			>
+		{{
+			// Icons
+		
+			Rect:()
+			##P4N
+				if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+				<
+					set(gel.colour,#1E3146FFFFFFFFFF)
+				>
+				else
+				<
+					set(gel.colour,#FFFFFFFFFFFFFFFF)
+				>
+			##IA
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			##*
+			{
+				Draw:(Icon_Home_Frame)
+					Scale(0.5,0.5)
+					Handle(0.5,0.5)
+
+				Draw:(?IMAGE?,0,0)
+					Handle(0.5,0.5)
+					Scale(0.4,0.4)
+			}
+
+		}}
+			Draw:(Fade_Right,35,2,150,25,,#20202090)
+				Handle(0,0.5)
+				Layer(Text)
+				if(twk(Home,CurrentFacility) = ?ID?)
+				<
+					##P4N
+					.if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+					<
+						set(gel.colour,#FFFFFF90)
+					>
+					else
+					<
+						set(gel.colour,#20202090)
+					>
+					##*
+
+					frlerp(gel.alpha,0.9,0.1)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+
+			Tile:(Fade_Right,35,-11,150,2,,#FFFFFF00)
+				Handle(0,0.5)
+				Copies(1,2)
+				Spacing(0,26)
+				Layer(Text)
+				if(twk(Home,CurrentFacility) = ?ID?)
+				<
+					##P4N
+					.if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+					<
+						set(gel.colour,#1E314600)
+					>
+					else
+					<
+						set(gel.colour,#FFFFFF00)
+					>
+					##*
+					frlerp(gel.alpha,0.65,0.1)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+				
+
+		Clip:(30,-15,400,30)
+		{
+			M_Text:(?TITLE?,0,2,0,0,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFF00,ref)
+				M_Style:(Outline,#FFFFFF30FFFFFFFF)
+				CharacterSpacing(1)
+				if(twk(Home,CurrentFacility) = ?ID?)
+				<
+					##P4N
+					.if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+					<
+						set(gel.colour,#1E314600)
+					>
+					else
+					<
+						set(gel.colour,#FFFFFF00)
+					>
+					##*
+					frlerp(gel.alpha,1,0.15)
+					frlerp(gel.x,17,0.15)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+					:set(gel.x,0)
+				>
+		}	
+
+	}}
+
+	If:(?VAR?)
+		Rect:(?X?,?Y?)
+			Layer(Debug)
+			LockLayer()
+		   	set(gel.vis,twk(?VAR?Construction,Alert))
+		{{
+			Draw:(Icon_Alert_Exclamation_BG,17,-42,36,36,,#FFFFFF90FFFFFFFF)
+			M_ExclamationAlert:(10,-49)
+		}}
+	EndIf
+
+	Rect:(?X?,?Y?,120,74) ref:?TITLE?
+		Handle(0.5,0.5)
+		CTRLSelect(CTRLCircleSelected,-60,-37,-46,1)
+		CTRLBlock(RIGHT)
+
+		CTRLClick(?BTNOK?)
+		<
+			if(twk(Home,CurrentFacility) != ?ID?)
+			<
+				Post(UI_Swoosh)
+				:set(twk(Home,CurrentFacility),?ID?)
+				:set(twk(Home,CameraMode),1)
+				Post(home.btn_FacilityPressed)
+			>
+			else
+			<
+				set(twk(Home,CameraMode),?FOCUS?)
+				set(twk(FacilityView,Focused),?VAR?)
+				Post(home.btn_Build,?VAR?)
+				set(twk(Home,SpectatorMode),0)
+				Post(UI_Select)
+				Post(UI_Swoosh)
+				set(twk(PlayerSaved,OpenedFacilityController),1)
+			>
+		>
+		OnPost("home.ForceHighlight"::?VAR?)
+		<
+			CTRLSetSelected()
+		>
+		CTRLIsSelected()
+		<
+			set(twk(Home,CurrentHighlightFacility),?ID?)
+		>
+
+		float(%scale)
+		if(twk(Home,CurrentFacility) = ?ID?)
+		<
+			set(%scale,1.45)
+			:Delay(0.2)
+			set(%scale,1.2)
+		>
+		else
+		<
+			set(%scale,1)
+		>
+		frlerp(gel.scale,%scale,0.15)
+	{{
+		Rect:() ref:CTRL_HighlightRef
+		{
+			M_SwitchButtonHint:(?ICONOK?,16,-35)
+		}
+			set(gel.vis,0)
+			if(twk(Home,CurrentFacility) = ?ID?)
+			<
+				CTRLIsSelected()
+				<
+					set(gel.vis,1)
+				>
+				else
+				<
+					set(twk(Home,CurrentHighlightFacility),-1)
+				>
+			>
+	}}
+EndM
+
+
+
+//---------------------------------------------------------------------------------------------CONTENT
+
+// Rect:(@L,@T,@W,520)
+// 	float(%stx,%sty)
+// 	if(TouchDown)
+// 	<
+// 		:set(%stx,TouchX)
+// 		:set(%sty,TouchY)
+// 	>
+// 	Click()
+// 	<
+// 		if(abs(%stx-TouchX)<=10 and(abs(%sty-TouchY) <= 10))
+// 		<
+// 			set(twk(FacilityView,Selected),0)
+// 			set(twk(Home,CameraMode),1)
+// 			Message(facility.btn_Back)
+// 		>
+// 	>
+
+
+
+
+//----------------------------------------------------------------------------------------Camera Positions
+
+Rect:() 
+   	M_CameraVariables:()
+   	float(%screenStartTX,%screenStartTY,%screenTX,%screenTY)
+   	if(TouchDown)
+   	<
+   		:set(%screenStartTX,TouchX)
+   		:set(%screenStartTY,TouchY)
+   		set(%screenTX,TouchX)
+   		set(%screenTY,TouchY)
+   	>
+{
+	//-------------------------------------------------------------Global Cam
+	Locator:(0,0,0,0,0,0) ref:GlobalCamLocator
+		if(twk(Home,CameraMode) = 1)
+		<
+			if(twk(Match,DebugCamera) = 2)
+			<
+				M_DebugCamControl:()
+			>
+			else
+			<
+				M_FreeCamControl:()
+			>
+			##IA
+			M_BlendCameraToLocator:((twk(Home,FreeCamPosBlend)),(twk(Home,FreeCamRotBlend)),40) //FIXEDFOV
+			##P4N
+			M_BlendCameraToLocator:((twk(Home,FreeCamPosBlend)),(twk(Home,FreeCamRotBlend)),57) //FIXEDFOV
+			##*
+		>
+		M_InitCameraHere:(40) //FIXEDFOV
+
+	//-------------------------------------------------------------Stadium Upgrade Cam Positions
+
+	//South
+	M_StadiumSectionCam:(850,0,-1300,-20,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,0,0.08)
+	M_StadiumSectionCam:(900,0,-1300,-20,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,1,0.08)
+	M_StadiumSectionCam:(950,0,-1300,-20,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,2,0.08)
+	M_StadiumSectionCam:(1000,0,-1300,-19,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,3,0.08)
+	M_StadiumSectionCam:(1050,0,-1300,-18,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,4,0.08)
+	M_StadiumSectionCam:(1150,0,-1400,-17,90,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,5,0.08)
+	M_StadiumSectionCam:(-5000,-4000,-6000,-40,230,Home,CurrentFacility,1,Home,CameraMode,2,Facilities,PitchStandSLevelVisible,6,0.08)
+
+	//SWCorner  (Only uses 0,3,4,5)
+	M_StadiumSectionCam:(-800,100,-700,-14,40,Home,CurrentFacility,1,Home,CameraMode,3,Facilities,PitchCornersLevelVisible,0,0.08)
+	M_StadiumSectionCam:(-700,200,-800,-14,40,Home,CurrentFacility,1,Home,CameraMode,3,Facilities,PitchCornersLevelVisible,3,0.08)
+	M_StadiumSectionCam:(-600,300,-850,-14,40,Home,CurrentFacility,1,Home,CameraMode,3,Facilities,PitchCornersLevelVisible,4,0.08)
+	M_StadiumSectionCam:(100,800,-1150,-15,40,Home,CurrentFacility,1,Home,CameraMode,3,Facilities,PitchCornersLevelVisible,5,0.08)
+
+	//West
+	M_StadiumSectionCam:(0,2450,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,0,0.08)
+	M_StadiumSectionCam:(0,2500,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,1,0.08)
+	M_StadiumSectionCam:(0,2550,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,2,0.08)
+	M_StadiumSectionCam:(0,2650,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,3,0.08)
+	M_StadiumSectionCam:(0,2700,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,4,0.08)
+	M_StadiumSectionCam:(0,2750,-1700,-20,0,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,5,0.08)
+	M_StadiumSectionCam:(-5000,-4000,-6000,-40,230,Home,CurrentFacility,1,Home,CameraMode,4,Facilities,PitchStandWLevelVisible,6,0.08)
+
+	//NWCorner  (Only uses 0,3,4,5)
+	M_StadiumSectionCam:(650,150,-700,-14,-45,Home,CurrentFacility,1,Home,CameraMode,5,Facilities,PitchCornersLevelVisible,2,0.08)
+	M_StadiumSectionCam:(550,250,-800,-14,-45,Home,CurrentFacility,1,Home,CameraMode,5,Facilities,PitchCornersLevelVisible,3,0.08)
+	M_StadiumSectionCam:(450,350,-850,-14,-45,Home,CurrentFacility,1,Home,CameraMode,5,Facilities,PitchCornersLevelVisible,4,0.08)
+	M_StadiumSectionCam:(250,750,-1150,-15,-45,Home,CurrentFacility,1,Home,CameraMode,5,Facilities,PitchCornersLevelVisible,5,0.08)
+	
+	//North
+	M_StadiumSectionCam:(-450,0,-1300,-20,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,0,0.08)
+	M_StadiumSectionCam:(-500,0,-1300,-20,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,1,0.08)
+	M_StadiumSectionCam:(-600,0,-1300,-20,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,2,0.08)
+	M_StadiumSectionCam:(-650,0,-1300,-19,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,3,0.08)
+	M_StadiumSectionCam:(-800,0,-1300,-18,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,4,0.08)
+	M_StadiumSectionCam:(-1500,0,-1400,-17,-90,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,5,0.08)
+	M_StadiumSectionCam:(-5000,-4000,-6000,-40,230,Home,CurrentFacility,1,Home,CameraMode,6,Facilities,PitchStandNLevelVisible,6,0.08)
+
+	//NECorner (Only uses 0,3,4,5)
+	M_StadiumSectionCam:(500,-100,-700,-14,230,Home,CurrentFacility,1,Home,CameraMode,7,Facilities,PitchCornersLevelVisible,2,0.08)
+	M_StadiumSectionCam:(400,-200,-800,-14,230,Home,CurrentFacility,1,Home,CameraMode,7,Facilities,PitchCornersLevelVisible,3,0.08)
+	M_StadiumSectionCam:(300,-300,-850,-14,230,Home,CurrentFacility,1,Home,CameraMode,7,Facilities,PitchCornersLevelVisible,4,0.08)
+	M_StadiumSectionCam:(-400,-800,-1150,-15,230,Home,CurrentFacility,1,Home,CameraMode,7,Facilities,PitchCornersLevelVisible,5,0.08)
+
+	//East
+	M_StadiumSectionCam:(0,-2300,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,0,0.08)
+	M_StadiumSectionCam:(0,-2300,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,1,0.08)
+	M_StadiumSectionCam:(0,-2450,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,2,0.08)
+	M_StadiumSectionCam:(0,-2500,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,3,0.08)
+	M_StadiumSectionCam:(0,-2750,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,4,0.08)
+	M_StadiumSectionCam:(0,-2750,-1700,-20,180,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,5,0.08)
+	M_StadiumSectionCam:(-5000,-4000,-6000,-40,230,Home,CurrentFacility,1,Home,CameraMode,8,Facilities,PitchStandELevelVisible,6,0.08)
+	
+	//SECorner (Only uses 0,3,4,5)
+	M_StadiumSectionCam:(-400,-750,-700,-14,135,Home,CurrentFacility,1,Home,CameraMode,9,Facilities,PitchCornersLevelVisible,2,0.08)
+	M_StadiumSectionCam:(-400,-750,-800,-14,135,Home,CurrentFacility,1,Home,CameraMode,9,Facilities,PitchCornersLevelVisible,3,0.08)
+	M_StadiumSectionCam:(-200,-850,-850,-14,135,Home,CurrentFacility,1,Home,CameraMode,9,Facilities,PitchCornersLevelVisible,4,0.08)
+	M_StadiumSectionCam:(100,-1150,-1150,-15,135,Home,CurrentFacility,1,Home,CameraMode,9,Facilities,PitchCornersLevelVisible,5,0.08)
+
+	//Pitch
+	Locator:(-1250,-6500,-4500,-40,0,190)
+		if(twk(Home,CurrentFacility) = 1 and(twk(Home,CameraMode) = 10))
+		<
+			if(twk(Home,ForceTargetUpdate) = 1)
+    		<
+	    		set(twk(Home,FacilityCamBlend),1)
+    		>
+    		else
+    		<
+	    		set(twk(Home,FacilityCamBlend),0.05)
+    		>
+			//M_RotateAroundFacility:(?POSX?,?POSY?,?DIST?,?ROTX?,?ROTZ?)
+			M_BlendCameraToLocator:((twk(Home,FacilityCamBlend)),(twk(Home,FacilityCamBlend)),60) //FIXEDFOV
+		>
+
+
+
+
+
+	//-------------------------------------------------------------FITNESS Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+	//Upgrade0
+		M_FacilityBuildingCamAlt:(700,14600,9000,-22,-195,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,0,0,0.08)
+		//Upgrade1
+		M_FacilityBuildingCamAlt:(700,15050,9000,-22,-200,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,1,0,0.08)
+		//Upgrade2
+		M_FacilityBuildingCamAlt:(700,15050,9000,-22,-210,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,2,0,0.08)
+		//Upgrade3
+		M_FacilityBuildingCamAlt:(700,14950,9000,-22,-215,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,3,0,0.08)
+		//Upgrade4
+		M_FacilityBuildingCamAlt:(700,14350,9000,-22,-220,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,4,0,0.08)
+		//Upgrade5
+		M_FacilityBuildingCamAlt:(900,14650,9500,-22,-225,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,5,0,0.08)
+		//Upgrade6
+		M_FacilityBuildingCamAlt:(900,14050,9800,-22,-230,Home,CurrentFacility,2,Home,CameraMode,11,Facilities,FitnessCentreLevelVisible,6,0,0.08)
+		// Needs to be done after the position is set by the above
+		M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,2,Home,CameraMode,11)
+
+
+	//-------------------------------------------------------------MEDICAL Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+		//Upgrade0
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-80,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,0,0,0.08)
+		//Upgrade1
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-90,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,1,0,0.08)
+		//Upgrade2
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-95,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,2,0,0.08)
+		//Upgrade3
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-100,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,3,0,0.08)
+		//Upgrade4
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-105,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,4,0,0.08)
+		//Upgrade5
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-110,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,5,0,0.08)
+		//Upgrade6
+		M_FacilityBuildingCamAlt:(-13200,-5900,9500,-22,-115,Home,CurrentFacility,3,Home,CameraMode,12,Facilities,MedicalUnitLevelVisible,6,0,0.08)
+		// Needs to be done after the position is set by the above
+		M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,3,Home,CameraMode,12)
+
+
+	//-------------------------------------------------------------SCOUT Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+	//Upgrade0
+	M_FacilityBuildingCamAlt:(-10100,8800,9000,-20,185,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,0,0,0.08)
+	//Upgrade1
+	M_FacilityBuildingCamAlt:(-10100,8800,9000,-20,180,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,1,0,0.08)
+	//Upgrade2
+	M_FacilityBuildingCamAlt:(-10100,8800,9000,-20,175,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,2,0,0.08)
+	//Upgrade3
+	M_FacilityBuildingCamAlt:(-10100,8800,9000,-20,170,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,3,0,0.08)
+	//Upgrade4
+	M_FacilityBuildingCamAlt:(-10000,8800,9000,-20,165,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,4,0,0.08)
+	//Upgrade5
+	M_FacilityBuildingCamAlt:(-9900,8800,9000,-20,160,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,5,0,0.08)
+	//Upgrade6
+	M_FacilityBuildingCamAlt:(-9700,8800,9000,-20,155,Home,CurrentFacility,4,Home,CameraMode,13,Facilities,ScoutsOfficeLevelVisible,6,0,0.08)
+	// Needs to be done after the position is set by the above
+	M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,4,Home,CameraMode,13)
+
+
+	//-------------------------------------------------------------SHOP Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+	//Upgrade0
+	M_FacilityBuildingCamAlt:(-1000,-8200,9000,-20,-95,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,0,0,0.08)
+	//Upgrade1
+	M_FacilityBuildingCamAlt:(-990,-8200,9100,-20,-90,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,1,0,0.08)
+	//Upgrade2
+	M_FacilityBuildingCamAlt:(-940,-8200,9200,-20,-85,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,2,0,0.08)
+	//Upgrade3
+	M_FacilityBuildingCamAlt:(-850,-8400,9300,-20,-80,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,3,0,0.08)
+	//Upgrade4
+	M_FacilityBuildingCamAlt:(-700,-9100,9600,-20,-70,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,4,0,0.08)
+	//Upgrade5
+	M_FacilityBuildingCamAlt:(-600,-8700,10000,-20,-60,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,5,0,0.08)
+	//Upgrade6
+	M_FacilityBuildingCamAlt:(300,-9300,12500,-20,-50,Home,CurrentFacility,5,Home,CameraMode,14,Facilities,ClubShopLevelVisible,6,0,0.08)
+	// Needs to be done after the position is set by the above
+	M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,5,Home,CameraMode,14)
+
+
+	//-------------------------------------------------------------YOUTH Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+	//Upgrade0
+	M_FacilityBuildingCamAlt:(11600,11500,8400,-26,205,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,0,0,0.08)
+	//Upgrade1
+	M_FacilityBuildingCamAlt:(11800,11500,8500,-26,200,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,1,0,0.08)
+	//Upgrade2
+	M_FacilityBuildingCamAlt:(12000,11500,8600,-26,195,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,2,0,0.08)
+	//Upgrade3
+	M_FacilityBuildingCamAlt:(12000,11500,8700,-26,190,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,3,0,0.08)
+	//Upgrade4
+	M_FacilityBuildingCamAlt:(12200,11200,8800,-26,185,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,4,0,0.08)
+	//Upgrade5
+	M_FacilityBuildingCamAlt:(12050,11250,8800,-26,180,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,5,0,0.08)
+	//Upgrade6
+	M_FacilityBuildingCamAlt:(11900,11300,8900,-26,175,Home,CurrentFacility,6,Home,CameraMode,15,Facilities,YouthAcademyLevelVisible,6,0,0.08)
+	// Needs to be done after the position is set by the above
+	M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,6,Home,CameraMode,15)
+
+
+	//-------------------------------------------------------------TRAINING Upgrade Cam Position
+	M_RotateAroundFacility_LocatorDef:()
+	//Upgrade0
+	M_FacilityBuildingCamAlt:(11000,-3000,6000,-20,35,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,0,0,0.08)
+	//Upgrade1
+	M_FacilityBuildingCamAlt:(11000,-3000,6500,-20,45,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,1,0,0.08)
+	//Upgrade2
+	M_FacilityBuildingCamAlt:(11000,-3900,7000,-20,50,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,2,0,0.08)
+	//Upgrade3
+	M_FacilityBuildingCamAlt:(10800,-4100,7000,-20,55,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,3,0,0.08)
+	//Upgrade4
+	M_FacilityBuildingCamAlt:(10000,-4400,7000,-20,60,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,4,0,0.08)
+	//Upgrade5
+	M_FacilityBuildingCamAlt:(9800,-5100,7500,-20,65,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,5,0,0.08)
+	//Upgrade6
+	M_FacilityBuildingCamAlt:(9300,-5000,8500,-20,70,Home,CurrentFacility,7,Home,CameraMode,16,Facilities,TrainingGroundLevelVisible,6,0,0.08)
+	// Needs to be done after the position is set by the above
+	M_RotateAroundFacility_LocatorUpdate:(Home,CurrentFacility,7,Home,CameraMode,16)
+
+
+
+
+//-----------------------------------------------------------------------------------------Cam Var
+  M_SetCameraVariablesFromTweaks:()
+
+//-----------------------------------------------------------------------------------------Camera
+	Camera:((0,0,0),(0,0,0),66.461,(0.01,0.01,0.01),,@w,@h) ref:Camera
+	//FIXEDFOV
+		float(%tx,%ty)
+	    M_PositionCamera:()
+	{	
+		Rect:()
+			if(TouchDown)
+			<
+				:set(%tx,TouchX)
+				:set(%ty,TouchY)
+			>
+
+		//Skydome
+		M_SkyMacro:(0,0,100,0,0,0,1,1,1,Simple3D)
+		
+		//SkyHorizon
+		M_HorizonMacro:(0,0,100,0,0,0,1,1,1)	
+
+		//-------------------------------------------------------Facility Location Click area
+		//STADIUM 
+		M_FacilityLocationHotArea:(0,0,-850,35,35,7,0,0,0,1,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//FITNESS 
+		M_FacilityLocationHotArea:(550,13800,-850,26,20,7,0,0,0,2,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//MEDICAL 
+		M_FacilityLocationHotArea:(-12300,-7000,-850,25.5,26,7,0,0,0,3,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//SCOUT 
+		M_FacilityLocationHotArea:(-11600,9700,-850,36,31,7,0,0,0,4,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//SHOP 
+		M_FacilityLocationHotArea:(-200,-8700,-850,20,24,7,0,0,0,5,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//YOUTH 
+		M_FacilityLocationHotArea:(11500,9200,-850,36,28,7,0,0,0,6,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+		//TRAINING 
+		M_FacilityLocationHotArea:(9500,-1000,-850,26,33,7,0,0,0,7,?SHOW_FACILITY_SELECTION_COLLIDERS?)
+
+			
+		//--------------------Fitness
+		M_FitnessCentre:(1)
+	
+		//---------------------Medical
+		M_MedicalUnit:(1)
+		
+		//---------------------Scout
+		M_ScoutsOffice:(1)
+
+		//---------------------ClubShop
+		M_ClubShop:(1)
+
+		//---------------------Youth
+		M_YouthAcademy:(1)
+
+		//--------------------Training
+		M_TrainingGround:(1)
+			
+
+
+		//-------------------------------------------------------Stadium and Facility Meshes
+		//Stadium
+		Locator:((0,0,0),(0,0,0),(1,1,1))
+		{
+			M_StadiumBaseHome:(1)
+			M_3DPitchHome:(1)
+			M_LowerStadiumHome:(Stadium,1,True)		
+		}
+
+
+
+		//-------------------------------------------------------Surrounding Enivironment
+		M_NSMWorld:(1)
+		
+		M_FreestandingAds:(1)
+		##IA
+		M_TrafficLights:(1)
+		##*
+
+
+		//--------------------------------------------------------Construction stopwatch timers
+		//Analogue_Match Timer
+		Rect:() 
+		{
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,TrainingGround)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,FitnessCentre)
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,YouthAcademy)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,ClubShop)
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,MedicalUnit)
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,ScoutsOffice)
+
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,PitchStandN)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,PitchStandE)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,PitchStandS)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,PitchStandW)	
+			M_ConstructionTimer:(0,90,0,1.3,0.3,2,PitchCorners)	
+		}
+
+		//Digital Real world Timer
+		Rect:()
+		{
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,TrainingGround)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,FitnessCentre)
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,YouthAcademy)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,ClubShop)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,MedicalUnit)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,ScoutsOffice)
+
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,PitchStandN)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,PitchStandE)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,PitchStandS)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,PitchStandW)	
+			M_ConstructionTimerDig:(0,90,0,1.6,0.3,2,PitchCorners)
+		}	
+	}
+
+
+	Rect:()
+		inittwk(twk(Home,ForceTargetUpdate),0)
+		if(twk(Home,CameraMode) = 1)
+		<
+			set(twk(Home,ResetForceTargetUpdate),0)
+		>
+		set(twk(Home,ForceTargetUpdate),twk(Home,ResetForceTargetUpdate))
+
+
+		//--------------------------------------------------------------------------------------
+
+}
+
+
+
+// Distance & Angle based fog
+Rect:()
+	if(shell(Facility) = "facility")
+	<
+		frlerp(gel.alpha,0,0.05)
+	>
+	else
+	<
+		:set(gel.alpha,1)
+	>
+{
+	Draw:(Fade_Down,@L,@T,@W,550,,#FFFFFFFFFFFFFFFF)
+		Layer(Debug)
+		Handle(0,0)
+		##IA
+		if(twk(Facilities,Night)=1)
+		<
+			set(gel.colour,#603090FF)
+		>
+		##P4N
+		if(twk(Facilities,Night)=1)
+		<
+			set(gel.colour,#603090FF)
+		>
+		elif(Player.weatherSeason = 0)
+		<
+			set(gel.colour,#B5F6FCFF)
+		>
+		elif(Player.weatherSeason = 2)
+		<
+			set(gel.colour,#FFD2BEFF)
+		>
+		elif(Player.weatherSeason = 3)
+		<
+			set(gel.colour,#FFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#FFFFFFFF)
+		>>>>
+		##*
+		float(%rate)
+		set(%rate,[1-[[twk(Home,CamMinXA)-twk(Cam,RX)]/[twk(Home,CamMinXA)-twk(Home,CamMaxXA)]]]*[1-twk(FacilityView,Scale)])
+		set(gel.h,lerp(300,0,[twk(Home,CamMinXA)-twk(Cam,RX)]/[twk(Home,CamMinXA)-twk(Home,CamMaxXA)]))
+		set(gel.alpha,lerp(0,0.4,%rate))
+}
+
+// Camera control hints
+Rect:(@R-195,@T+80,,,,#FFFFFF00)
+	float(%maxWidth)
+	Layer(Debug)
+	if(twk(ControllerInput,Enabled)=1)
+	<
+		frlerp(gel.alpha,1,0.1)
+	>
+	else
+	<
+		frlerp(gel.alpha,0,0.1)
+	>
+{{
+	// Rotate
+	Rect:()
+		set(gel.vis,not(twk(FacilityView,Focused) oneof("PitchCorners","Pitch","PitchStandW","PitchStandS","PitchStandE","PitchStandN")))
+	{
+		M_SwitchStickHint:(✃,37,0)
+		M_Text:(home_camrotate,80,0,0,33,L,C,TextLoc,KNUL23,,1,0,#FFFFFFFF,NoItalics,#FFFFFF00,ref)
+			M_Style:(Outline,#FFFFFF30FFFFFFFF)
+			.set(%maxWidth,max(%maxWidth,%gfw))
+			##P4N
+			if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+			<
+				set(gel.colour,#1E3146FFFFFFFFFF)
+			>
+			else
+			<
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			>
+			##IA
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			##*
+	}
+
+	// Zoom
+	Rect:()
+		set(gel.vis,twk(FacilityView,Focused) = "NONE")
+	{
+		M_SwitchButtonHint:(⛐,0,40)
+		M_SwitchButtonHint:(⛑,37,40)
+		M_Text:(home_camzoom,80,40,0,33,L,C,TextLoc,KNUL23,,1,0,#FFFFFFFF,NoItalics,#FFFFFF00,ref)
+			M_Style:(Outline,#FFFFFF30FFFFFFFF)
+			.set(%maxWidth,max(%maxWidth,%gfw))
+			##P4N
+			if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+			<
+				set(gel.colour,#1E3146FFFFFFFFFF)
+			>
+			else
+			<
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			>
+			##IA
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			##*
+	}
+}}
+	set(gel.x,@R-%maxWidth-124)
+
+
+//-----------------------------------------------------------------------------------------Facility Selection Buttons
+Rect:() ref:DissolveRoot
+
+Rect:(@o,@T+[@z/2],@s,@H)
+	Layer(Debug)
+{{
+	Rect:(0,100) $HIDE
+		if((twk(Ftue,Enabled) = 0) or(twk(Ftue,Step) > 5))
+		<
+			set(gel.vis,twk(Home,CameraMode) = 1)
+		>
+	{{
+		M_FacilityButton:(60,0,Icon_Home_Stadium,home_side_STADIUM,1,Pitch,10)
+		M_FacilityButton:(60,85,Icon_Home_Training,home_side_TRAINING,7,TrainingGround,16)
+		M_FacilityButton:(60,170,Icon_Home_Fitness,home_side_FITNESS,2,FitnessCentre,11)
+		M_FacilityButton:(60,255,Icon_Home_Youth,home_side_YOUTH,6,YouthAcademy,15)
+		M_FacilityButton:(60,340,Icon_Home_Medical,home_side_MEDICAL,3,MedicalUnit,12)
+		M_FacilityButton:(60,425,Icon_Home_Scout,home_side_SCOUT,4,ScoutsOffice,13)
+		M_FacilityButton:(60,510,Icon_Home_Shop,home_side_STORE,5,ClubShop,14)
+	}}
+}}
+
+M_Rain:(66.46) //FIXEDFOV
+M_Snow:(66.46) //FIXEDFOV

@@ -1,0 +1,36 @@
+Import:(match_common.uih)
+Import:(Shaders.uih)
+
+StaticModel:(Football_Low,Football_Low)
+
+Img:(FootballTexture_Low,NewGUI/Textures/Football_Low.png) FORCE
+
+Macro:(M_Football)
+	Rect:() ref:Football
+		Layer(Pitch)
+		float(%x,%y,%z)
+		.set(twk(Match,BallState),0)
+		set(gel.vis,twk(Match,BallState)=0)
+	{
+		Draw:(Circle_20,0,0,15,15,,#00000030)
+			Handle(0.5,0.5)
+			set(gel.x,%x)
+			set(gel.y,%y)
+
+		Draw:(Circle_20,0,0,20,20,,#FFD80065) ref:BounceSpot
+			Handle(0.5,0.5)
+
+		UseShader:(Static3D)
+			SetUniform4F(SpecParams,0.7)
+		{
+			Locator:((0,0,0),(0,0,0),(0.17,0.17,0.17)) ref:Loc
+				Layer(Players)
+				set(gel3d.x,%x)
+				set(gel3d.y,%y)
+				set(gel3d.z,-%z)
+			{
+				DrawStaticModel:(Football_Low,FootballTexture_Low)
+			}
+		}
+	}
+EndM

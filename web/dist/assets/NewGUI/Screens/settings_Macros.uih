@@ -1,0 +1,623 @@
+Img:(Button_ToggleBG,NewGUI/UI/Buttons/Button_ToggleBG.png,20,20,20,20,0.5)
+Img:(Button_Toggle,NewGUI/UI/Buttons/Button_Toggle.png)
+Img:(Button_Volume,NewGUI/UI/Buttons/Button_Volume.png)
+Img:(Volume_Notch,NewGUI/UI/Buttons/Volume_Notch.png)
+
+Macro:(M_ToggleCustomOnOff,?X?,?Y?,?CAT?,?VAR?,?MESSAGE?,?REF?,?ONVALUE?,?OFFVALUE?)
+	Rect:(?X?,?Y?,210,60)
+		Handle(0.5,0)
+		func(ClickFunc)
+		<
+			Message(?MESSAGE?)
+			if(twk(?CAT?,?VAR?) = ?OFFVALUE?)
+			<
+				Post(UI_Back)
+			>
+			else
+			<
+				Post(UI_Select)
+			>
+		>
+		Click()
+		<
+			call(ClickFunc)
+		>
+	{{
+		Rect:(@R-150,@T,150,@H) ref:?REF?
+			CTRLSelect(CTRLBasicSelected,0,0,6,-12)
+			CTRLClick(?BTNOK?)
+			<	
+				callparent(1,ClickFunc)
+			>
+			CTRLBlock(LEFT,RIGHT)
+		{{
+			M_Text:(options_OFF,-15,2,0,@H,R,C,TextLoc,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				frlerp(gel.alpha,twk(?CAT?,?VAR?)=?OFFVALUE?,0.25)
+			M_Text:(options_ON,-15,2,0,@H,R,C,TextLoc,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				frlerp(gel.alpha,twk(?CAT?,?VAR?)=?ONVALUE?,0.25)
+
+			Draw:(Button_ToggleBG,0,10,@W,40,,#BCC1C4FFFFFFFFFF)
+			Draw:(Button_ToggleBG,0,10,@W,40,,#679F2AFFFFFFFFFF)
+				.set(gel.alpha,twk(?CAT?,?VAR?)=?ONVALUE?)
+				frlerp(gel.alpha,twk(?CAT?,?VAR?)=?ONVALUE?,0.15)
+
+			Clip:(0,0,@W,50)
+			{
+				Draw:(Button_Toggle,0,8)
+					Scale(0.5,0.5)
+					.set(gel.x,[[twk(?CAT?,?VAR?) = ?ONVALUE?] * 74]-12)
+					frlerp(gel.x,[[twk(?CAT?,?VAR?) = ?ONVALUE?] * 74]-12,0.25)
+			}
+		}}
+	}}
+EndM
+Macro:(M_Toggle,?X?,?Y?,?CAT?,?VAR?,?MESSAGE?,?REF?)
+	M_ToggleCustomOnOff:(?X?,?Y?,?CAT?,?VAR?,?MESSAGE?,?REF?,1,0)
+EndM
+
+
+Macro:(M_VolumeSlider,?X?,?Y?,?W?,?H?,?CAT?,?TWEAK?,?MSG?,?REF?)
+    Rect:(?X?,?Y?,?W?,?H?,,#FFFFFFFFFFFFFFFF) ref:?REF?
+    {{
+    	Draw:(Button_ToggleBG,0,10,@W,40,,#BCC1C4FFFFFFFFFF)
+    	
+    	Tile:(Volume_Notch,20,20,1,20,,#00000020)
+    		Copies(10,1)
+    		Spacing([@W-10]/10,0)
+
+    	Clip:(0,0,@W,@H)
+    		set(gel.w,clamp(twk(?CAT?,?TWEAK?)*@W,10,@W-10))
+    	{
+    		Draw:(Button_ToggleBG,0,10,@W,40,,#679F2AFFFFFFFFFF)
+    		Tile:(Volume_Notch,20,20,1,20,,#FFFFFF40)
+	    		Copies(10,1)
+	    		Spacing([@W-10]/10,0)
+    	}
+
+		Rect:(0,10,@W,40) ref:CTRLSelect
+			float(%grabbed)
+			if(twk(ControllerInput,Enabled) = 0)
+			<
+				if(TouchDown)
+				<
+					:set(%grabbed,0)
+					:Over()
+					<
+						set(%grabbed,1)
+						Post(UI_Select,0.1)
+					>
+				>
+				else
+				<
+					set(%grabbed,0)
+				>
+			>
+			CTRLSelect(CTRLBasicSelected)
+			if(twk(ControllerInput,Enabled))
+			<
+				set(%grabbed,0)
+				CTRLIsSelected()
+				<
+					set(%grabbed,abs(JoyX0)>0.5)
+				>
+				if(%grabbed)
+				<
+					CTRLBlock(LEFT,RIGHT,UP,DOWN)
+				>
+			>
+		{
+			Rect:(25,0,@W-30,40)
+				if(%grabbed)
+				<
+					if(twk(ControllerInput,Enabled))
+					<
+						if(%grabbed)
+						<
+							set(twk(?CAT?,?TWEAK?),clamp(twk(?CAT?,?TWEAK?)+[JoyX0*0.03],0,1))
+						>
+					>
+					else
+					<
+						set(twk(?CAT?,?TWEAK?),clamp([TouchX-gel.gx]/gel.w,0,1))
+					>
+					Message(?MSG?)
+				>
+			{{
+				Draw:(Button_Volume,0,0,93,128)
+					Scale(0.5,0.5)
+					Handle(0.5,0)
+					set(gel.x,(twk(?CAT?,?TWEAK?)*(@W+15)-15))
+					Layer(AboveText3)
+			}}
+		}
+    }}
+EndM
+
+
+Img:(Language13,NewGUI/Languages/Language13.png) FORCE
+Img:(Language14,NewGUI/Languages/Language14.png) FORCE
+
+Macro:(M_LanguageEntry,?ID?,?TYPE?)
+	M_PressOPEN:(0,0,510,80,link,Language?ID?,ForwardButtonAudio)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#0000008000000000)
+		Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF00000000)
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		// Unselected
+		Rect:()
+			set(gel.vis,twk(Player,Language) != loc(Language?ID?))
+		{
+			M_Text:(Language?ID?,@C,0,0,@H,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#606060FF00000000,textref)
+				.set(gel.vis,?TYPE?=Text)
+
+			// 300x150 Source Images drawn half scale
+			Draw:(Blank,@C-75,@M-40,150,75,,#606060FF00000000)
+				set(gel.img,"Language"::?ID?)
+				.set(gel.vis,?TYPE?=Image)
+		}
+
+		// Selected
+		Rect:()
+			set(gel.vis,twk(Player,Language) = loc(Language?ID?))
+		{
+			Draw:(Highlight_Round,0,0,@W,@H,,#FFFFFFAA)
+
+			M_Text:(Language?ID?,@C,0,0,@H,C,C,TextLoc,KNUL28,Upper,1,0,#000000FF,NoItalics,#000000FF00000000,textref)
+				.set(gel.vis,?TYPE?=Text)
+
+			// 300x150 Source Images drawn half scale
+			Draw:(Blank,@C-75,@M-40,150,75,,#000000FF00000000)
+				set(gel.img,"Language"::?ID?)
+				.set(gel.vis,?TYPE?=Image)
+		}
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+		
+
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		set(%disabled,twk(Player,Language) = loc(Language?ID?))
+		Rearmable()
+		:if(twk(Player,Language)=loc(Language?ID?))
+		<
+			CTRLSetSelected()
+		>
+		if(%clicked)
+		<
+			Post(language.setLanguage,?ID?)
+		>
+EndM
+
+
+Macro:(M_ClipboardCopy)
+	Rect:(@C+80,@T+195,400,300)
+		.set(twk(Debug,Clipboard),0)
+		set(gel.vis,twk(Debug,Clipboard)>9)
+		Layer(AboveText)
+		LockLayer()
+		Click()
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#000000EE)
+		M_Button:(@C,50,300,50,Button_RedSliced,Blank,14,8,20,40,#FFFFFFFF,link,ref,"Clipboard Save 1",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				Message(player.savetoclipboard,"0")
+			>
+
+		M_Button:(@C,120,300,50,Button_RedSliced,Blank,14,8,20,40,#FFFFFFFF,link,ref,"Clipboard Save 2",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				Message(player.savetoclipboard,"1")
+			>
+
+		M_Button:(@C,190,300,50,Button_RedSliced,Blank,14,8,20,40,#FFFFFFFF,link,ref,"Clipboard Save 3",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				Message(player.savetoclipboard,"2")
+			>
+		M_Text:("Click to copy a save to the device's clipboard",0,235,@W-20,0,C,T,TextBox,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}}
+EndM
+
+
+Macro:(M_Settings_Music,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+	 	Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+	 	M_Text:(options_MUSIC,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		
+	 	##IAN
+	 	M_Toggle:(@R-125,5,SettingsGlobal,MusicEnabled,settings.toggleMusic,settingsmusictoggle)
+	 	##P4
+		M_VolumeSlider:(@R-230,5,210,60,SettingsGlobal,MusicEnabled,settings.sliderMusic,settingsmusicslider)
+		##*
+	}}
+EndM
+
+
+Macro:(M_Settings_Sound,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_SOUND,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		
+		##IAN
+		M_Toggle:(@R-125,5,Settings,Sound,settings.toggleSound)
+		##P4
+		M_VolumeSlider:(@R-230,5,210,60,Settings,Sound,settings.sliderSound)
+		##*
+	}}
+EndM
+
+
+Macro:(M_Settings_MatchControls,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_MATCHCONTROLS,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Toggle:(@R-125,5,SettingsGlobal,CTRLShowMatchControls,settings.toggleMatchControls,ref)
+	}}
+EndM
+
+Macro:(M_Settings_OldNewLook,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_NEWLOOK,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Toggle:(@R-125,5,SettingsGlobal,OldNewLook,settings.toggleOldNewLook,ref)
+	}}
+EndM
+
+
+Macro:(M_Settings_Distance,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_DIST,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+
+		M_Button:(@R-125,38,210,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,settings.toggleDistance,ref,(%BUTTONTEXT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(LEFT,RIGHT)
+			if(twk(Settings,Distance) = 0)
+			<
+				:set(%BUTTONTEXT,loc(options_YARDS))
+			>
+			else
+			<
+				:set(%BUTTONTEXT,loc(options_METRES))
+			>
+			if(%clicked)
+			<
+				add(twk(Debug,Clipboard),1)
+			>
+	}}
+EndM
+
+
+Macro:(M_Settings_Leaderboards,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_LEADERBOARDS,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			LineSpacing(0.9)
+		M_Button:(@R-125,38,210,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,settings.manageLeaderboards,ref,loc(options_MANAGE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+	}}
+EndM
+
+
+Macro:(M_Settings_RewardedAds,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_REWARDEDADS,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			LineSpacing(0.9)
+		M_Toggle:(@R-125,5,Settings,RewardedAdsEnabled,settings.toggleRewardedAds)
+	}}
+EndM
+
+
+Macro:(M_Settings_EcoMode,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_ECOMODE,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Toggle:(@R-160,5,SettingsGlobal,EcoModeEnabled,settings.toggleEcoMode)
+	}}
+EndM
+
+
+Macro:(M_Settings_DataConsent,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+		.set(gel.vis,twk(Consent,ConsentButtonEnabled))
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_DataConsent,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Button:(@R-125,38,210,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,settings.manageConsent,ref,loc(options_MANAGE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+	}}
+EndM
+
+
+Macro:(M_Settings_ExitCareer,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_EXITCAREER,20,1,240,@H,L,C,TextBox,KNUL25,,1,0,#00000000,NoItalics,#252525FF,ref)
+		M_Button:(@R-125,38,210,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,settings.btn_ExitCareer,ref,loc(options_EXIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(LEFT,RIGHT)
+	}}
+EndM
+
+
+Macro:(M_Settings_QuitToDesktop,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_QUITTODESKTOP,20,1,240,@H,L,C,TextBox,KNUL25,,1,0,#00000000,NoItalics,#252525FF,ref)
+		M_Button:(@R-125,38,210,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,settings.btn_QuitToDesktop,ref,loc(options_QUIT2),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(LEFT,RIGHT)
+	}}
+EndM
+
+
+Macro:(M_Settings_VersionNumber,?X?,?Y?)
+	M_Text:(,?X?,?Y?,0,0,R,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+		if(twk(EconomyBalance,Cohort) = "")
+		<
+			:set(gel.text,loc(options_BUILD) :: (LTR(twk(Settings,VersionNumber) :: "_" :: twk(Cloud,CohortTag))))
+			// :set(gel.text,loc(options_BUILD) :: (LTR(twk(Settings,VersionNumber))))
+		>
+		else
+		<
+			:set(gel.text,loc(options_BUILD) :: (LTR(twk(Settings,VersionNumber) :: ".12" :: "_" :: twk(EconomyBalance,Cohort))))
+		>
+EndM
+
+
+Macro:(M_Settings_DebugButton,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+		.set(gel.vis,twk(Debug,DevBuild))
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:("Debug:",10,0,0,@H,L,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_Toggle:(@R-125,5,Debug,Enabled,debug.toggle)
+	}}
+EndM
+
+Macro:(M_Settings_FTUETraining,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+		.set(gel.vis,twk(Settings,FtueTrainingEnabled))
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_FTUETraining,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+
+		M_Button:(@R-125,38,210,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,settings.playFTUETraining,ref,loc(Play),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(LEFT,RIGHT)
+	}}
+EndM
+
+
+StaticModel:(CreditsBall,CreditsBall)
+StaticModel:(CreditsBall_Overlay,CreditsBall_Overlay)
+Texture:(CreditsBall_Texture,CreditsBall/CreditsBall.png)
+Texture:(CreditsBall_Overlay_Texture,CreditsBall/CreditsBall_Overlay.png,false)
+
+View:(CreditsBall_Overlay_Texture,512,512)
+{
+Sheet:()
+		##4
+		##-
+		Delay(0.5)
+		set(gel.vis,false)
+		##*
+	{
+		Draw:(White,0,10,135,70,,#000000FF)
+			Blend(ZERO,ZERO)
+
+		M_Text:(options_CONCEPTBY,-2,57,135,0,C,C,TextBox,KNUL18,,1,0,#808080FF,NoItalics,#808080FF,ref)
+			LineSpacing(0.9)
+	}
+}
+
+
+Macro:(M_Settings_Credits,?X?,?Y?)
+	Rect:(@C,270,540,540)
+		Handle(0.5,0.5)
+		float(%lastTX,%lastTY,%DX,%DY,%grabbed)
+		if(TouchDown)
+	    <
+	    	:Over()
+	    	<
+	    		if([[gel.gx-TouchX]*[gel.gx-TouchX]]+[[gel.gy-TouchY]*[gel.gy-TouchY]] < [270*270])
+	    		<
+	    			set(%grabbed,1)
+	    		>
+	    	>
+	    >
+	    else
+	    <
+    		:set(%grabbed,0)
+	    >
+	    if(%grabbed)
+	    <
+	    	:set(%lastTX,TouchX)
+	    	:set(%lastTY,TouchY)
+			set(%DX,min(15,max(-15,[TouchX-%lastTX]*-0.15)))
+			set(%DY,min(15,max(-15,[TouchY-%lastTY]*0.15)))
+
+			set(%lastTX,TouchX)
+			set(%lastTY,TouchY)
+	    >
+	    else
+	    <
+	    	:Delay(1.5)
+	    	add(%DX,0.01)
+	    >
+    	set(%DX,%DX*0.95)
+    	set(%DY,%DY*0.95)
+    {
+		Camera:((0,0,0),(0,0,0),26.66,(1,1,1),,,) //FIXEDFOV
+			PinVP(0,0,0)
+		{
+			Locator:((0,-450,0),(5,0,180),(80,80,80))
+				Layer(Text)
+				add(gel3d.rotz,%DX)
+				add(gel3d.rotx,%DY)
+				set(gel3d.rotx,clamp(gel3d.rotx,-10,15))
+				if(not(%grabbed))
+				<
+					:Delay(1.5)
+					frlerp(gel3d.rotx,5,0.01)
+				>
+			{
+				UseShader:(CreditsBall3D)
+					SetUniform4F(SpecParams,0.9)
+				{
+					DrawStaticModel:(CreditsBall,CreditsBall_Texture)
+					Locator:((0,0,0),(0,0,0),(1.001,1.001,1.001))
+					{
+						DrawStaticModel:(CreditsBall_Overlay,CreditsBall_Overlay_Texture)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+			}
+			Locator:((0,-450,96),(5,180,180),(80,80,80))
+				sub(gel3d.rotz,%DX)
+				add(gel3d.rotx,%DY)
+				set(gel3d.rotx,clamp(gel3d.rotx,-10,15))
+				if(not(%grabbed))
+				<
+					:Delay(1.5)
+					frlerp(gel3d.rotx,5,0.01)
+				>
+			{
+				UseShader:(Simple3D)
+				{
+					Locator:((0,0,0),(0,0,0),(1,1,1))
+					{
+						DrawStaticModel:(CreditsBall,CreditsBall_Texture)
+						DrawStaticModel:(CreditsBall_Overlay,CreditsBall_Overlay_Texture)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+			}
+		}
+
+	}
+EndM
+
+
+Macro:(M_Resolution,?ID?)
+	Rect:(0,0,250,100)
+		CTRLClick(?BTNOK?)
+		<
+			if(twk(Player,Resolution) != "?ID?")
+			<
+				Post(graphics.setResolution,"?ID?")
+			>
+		>
+		Rearmable()
+		:if(twk(Player,Resolution) = "?ID?")
+		<
+			CTRLSetSelected()
+		>
+	{{
+		// Selected Resolution
+		Rect:(-125,-40,250,80)
+			set(gel.vis,twk(Graphics,Resolution) = "?ID?")
+		{{
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#0000001A00000000)
+			Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF00000000)
+			M_Text:(,50,47,150,0,C,C,TextBox,KNUL30,,0,0,#00000040,NoItalics,#000000FF,textref)
+				set(gel.text,"?ID?")
+			Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+		}}
+
+		// Unselected Resolution
+		Rect:()
+			set(gel.vis,twk(Graphics,Resolution) != "?ID?")
+		{
+			M_PressOPEN:(0,0,250,80,link,"?ID?",ForwardButtonAudio)
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#0000008000000000)
+				Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF00000000)
+				M_Text:(,50,44,150,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#505050FF,textref)
+					set(gel.text,"?ID?")
+				Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+				Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+					Layer(AboveText)
+					Additive()
+					if(%pressed)
+					<
+						set(gel.colour,#60606060)
+					>
+					else
+					<
+						frlerp(gel.colour,#00000000,0.05)
+					>
+			M_PressCLOSE:()
+				if(%clicked)
+				<
+					set(twk(Graphics,Resolution),"?ID?")
+					Post(graphics.setResolution,"?ID?")
+				>
+		}
+	}}
+		CTRLSelect(CTRLBasicSelected,-125,-50,12,-10)
+EndM
+
+
+Macro:(M_Settings_Fullscreen,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_FULLSCREEN,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+
+		M_Button:(@R-125,38,210,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,,ref,(%BUTTONTEXT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			if(twk(Graphics,FullScreen) = 1)
+			<
+				:set(%BUTTONTEXT,loc(generic_YES))
+			>
+			else
+			<
+				:set(%BUTTONTEXT,loc(generic_NO))
+			>
+			M_CTRLButtonExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6)
+
+			if(%clicked)
+			<
+				set(twk(Graphics,FullScreen),1-twk(Graphics,FullScreen))
+				Post(graphics.setResolution,twk(Graphics,Resolution))
+			>
+	}}
+EndM
+
+
+Macro:(M_Settings_InvertCamera,?AXIS?,?X?,?Y?)
+	Rect:(?X?,?Y?,@W,70)
+	{{	
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60FFFFFFFF)
+		M_Text:(options_INVERTCAMERA?AXIS?,20,1,240,@H,L,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		M_ToggleCustomOnOff:(@R-125,5,SettingsGlobal,InvertCamera?AXIS?,settings.toggleInvertCamera?AXIS?,ref,1,-1)
+	}}
+EndM

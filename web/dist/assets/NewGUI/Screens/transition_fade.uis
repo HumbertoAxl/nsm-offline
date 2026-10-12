@@ -1,0 +1,6 @@
+Import:(Core.uih)
+
+Dissolve:(@L,@T,@W,@H,,#FFFFFF00) ref:DissolveRoot
+{
+	Draw:(White,@L,@T,@W,@H,,#000000FF)
+}

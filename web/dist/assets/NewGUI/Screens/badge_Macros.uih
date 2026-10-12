@@ -1,0 +1,112 @@
+Define:(?BADGE_SIZE?=280)
+
+Import:(badge_Templates.uih)
+
+Img:(Badge_Sheen,NewGUI/UI/Badge/Badge_Sheen.png)
+
+Surf:($BIGBADGESSURF, 1024, 1024)
+SubSurfaceArray:($BIGBADGE_ARRAY_SURF,$BIGBADGESSURF,0,0,512,512,?BADGE_SIZE?,?BADGE_SIZE?,2,2,FIFO)
+
+##IA
+Surf:($SMALLBADGESSURF, 1024, 512)
+SubSurfaceArray:($SMALLBADGE_ARRAY_SURF,$SMALLBADGESSURF,0,0,64,64,?BADGE_SIZE?,?BADGE_SIZE?,16,8,FIFO)
+##P4N
+Surf:($SMALLBADGESSURF, 2048, 1024)
+SubSurfaceArray:($SMALLBADGE_ARRAY_SURF,$SMALLBADGESSURF,0,0,128,128,?BADGE_SIZE?,?BADGE_SIZE?,16,8,FIFO)
+##*
+
+Macro:(M_ClubBadge,?SIZE?)
+	Rect:() ref:BadgeRoot
+	{
+		Cls:(#00000000)
+
+		Clip:([@W/2],@H/2,@W-2,@H-2) ref:BadgeInnerLayers
+			Handle(0.5,0.5)
+		{
+			Draw:(White,@W/2,@H/2,@W,@H,,#888888FF) ref:BadgeBgColour
+				Handle(0.5,0.5)
+			
+			Rect:(@W/2,@H/2) ref:Layer
+			Rect:(@W/2,@H/2) ref:Layer
+			Rect:(@W/2,@H/2) ref:Layer
+			Draw:(Badge_Sheen,0,0,280,280)
+		}
+
+		Draw:(BadgeMask3,@W/2,@H/2,@W,@H) ref:BadgeMask
+			Handle(0.5,0.5)
+			Blend(SCREEN_COLOUR,ZERO)
+		{{
+
+			##IA
+			If:(?SIZE?=HD)
+				Draw:(BadgeMask1Frame,0,0,@W,@H) ref:BadgeFrame
+					Handle(0.5,0.5)
+			EndIf
+			##P4N
+				Draw:(BadgeMask1Frame,0,0,@W,@H) ref:BadgeFrame
+					Handle(0.5,0.5)
+			##*
+
+			// Left hand edge
+			Draw:(White,@C-140,@M,140,280,,#FFFFFF01)
+				Handle(1,0.5)
+				Blend(SCREEN_COLOUR,ZERO)
+				
+			// Right hand edge
+			Draw:(White,@C+140,@M,140,280,,#FFFFFF01)
+				Handle(0,0.5)
+				Blend(SCREEN_COLOUR,ZERO)
+
+			// Top edge
+			Draw:(White,@C,@M-140,280,140,,#FFFFFF01)
+				Handle(0.5,1)
+				Blend(SCREEN_COLOUR,ZERO)
+
+			// Bottom edge
+			Draw:(White,@C,@M+140,280,140,,#FFFFFF01)
+				Handle(0.5,0)
+				Blend(SCREEN_COLOUR,ZERO)
+		}}
+
+		Rect:(@W/2,@H/2) ref:Layer
+	}
+EndM
+
+
+
+
+Macro:(M_Badge,?X?,?Y?,?SIZE?,?SCALE?,?REF?)
+	Rect:(?X?,?Y?) ref:?REF?
+		If:(?SIZE?=SD)
+			.set(%gfs,48)
+		EndIf
+		If:(?SIZE?=HD)
+			.set(%gfs,140)
+		EndIf
+		.set(gel.w,%gfs)
+		.set(gel.h,%gfs)
+		.set(gel.hx,%gfs/2)
+		.set(gel.hy,%gfs/2)
+	{{
+		Rect:(@L,@T)
+			.set(gel.x,-%gfs/2)
+			.set(gel.y,-%gfs/2)
+		{{
+			If:(?SIZE?=SD)
+				DrawCached:($SMALLBADGE_ARRAY_SURF,0,0,48,48) $HIDE ref:BadgeCache
+			EndIf
+			If:(?SIZE?=HD)
+				DrawCached:($BIGBADGE_ARRAY_SURF,0,0,140,140) $HIDE ref:BadgeCache
+			EndIf
+			{
+				Dissolve:()
+				{
+					M_ClubBadge:(?SIZE?)
+				}
+			}
+
+			Rect:() ref:SpawnedBadgeHook
+		}}
+	}}
+		.set(gel.scale,?SCALE?)
+EndM

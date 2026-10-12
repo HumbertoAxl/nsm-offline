@@ -1,0 +1,507 @@
+Img:(Stat_Highlight,NewGUI/UI/Bars/Stat_Highlight.png)
+
+Macro:(M_BadgeBackground,?POSX?,?POSY?,?ANG?,?SHIELDCOLOUR?)
+	Rect:(?POSX?,?POSY?)
+	{{
+		Rect:()
+		{
+			PushOrigin:(0,0)
+				Rect:()
+				{
+					Draw:(White,-190,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+							Spinner(1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+						
+					Draw:(White,0,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,190,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+						
+					Draw:(White,380,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,570,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,760,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,950,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1140,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+	
+					Draw:(Club_Shield,1330,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,1520,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1710,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,1900,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,2090,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2280,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,2470,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+
+					Draw:(White,2660,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2850,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,3040,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+				}
+				Mover(-0.1,0)
+				WrapX(-1710,0)
+			PopOrigin
+
+			PushOrigin:(190,180)
+				Rect:()
+				{
+					Draw:(White,-190,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+						
+					Draw:(White,0,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,190,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+						
+					Draw:(White,380,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,570,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,760,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,950,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1140,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+	
+					Draw:(Club_Shield,1330,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,1520,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1710,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,1900,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,2090,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2280,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,2470,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+
+					Draw:(White,2660,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2850,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,3040,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+				}
+				Mover(0.1,0)
+				WrapX(-2090,0)
+			PopOrigin
+
+			PushOrigin:(0,360)
+				Rect:()
+				{
+					Draw:(White,-190,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+						
+					Draw:(White,0,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,190,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+						
+					Draw:(White,380,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,570,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,760,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,950,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1140,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+	
+					Draw:(Club_Shield,1330,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,1520,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,1710,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,1900,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+					
+					Draw:(White,2090,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2280,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					Draw:(Club_Shield,2470,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+
+					Draw:(White,2660,0,160,40,,?SHIELDCOLOUR?)		
+						Handle(0.5,0.5)
+						if(twk(Club,Sponsor1Id) <= 0)
+						<
+							set(gel.img,"MSG_News_NSAdvertiser_Right")
+							set(gel.y,75)
+							set(gel.scaley,1)
+						>
+						else
+						<
+							set(gel.img,"Sponsor_" :: twk(Club,Sponsor1Id))
+							set(gel.y,75)
+							set(gel.scaley,1.55)
+						>
+					Draw:(White,2850,75,150,150,,?SHIELDCOLOUR?)
+						M_PrestigeMatch:(ShieldImage)
+						Handle(0.5,0.5)
+					
+					
+					Draw:(Club_Shield,3040,75,120,120,,?SHIELDCOLOUR?)
+						Handle(0.5,0.5)
+				}
+				Mover(-0.1,0)
+				WrapX(-2090,0)
+			PopOrigin
+		}
+		Angle(?ANG?)
+	}}
+EndM
+
+
+
+
+
+Macro:(M_StatisticRow,?X?,?Y?,?TITLE?,?CAT?)
+	Rect:(?X?,?Y?,650,40) ref:?CAT?
+		float(%homeStat,%awayStat)
+	{{
+		M_Text:(?TITLE?,@C,-13,0,0,C,C,TextLoc,KNUL23,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+
+		M_Text:("",@C-355,5,0,0,C,C,Text,KNUL30,,1,0,#000000FF,NoItalics,#000000FF,ref)
+			.set(gel.text,LTR(fmt(%homeStat,X)))
+
+		M_Text:("",@C+355,5,0,0,C,C,Text,KNUL30,,1,0,#000000FF,NoItalics,#000000FF,ref)
+			.set(gel.text,LTR(fmt(%awayStat,X)))
+
+		Draw:(White,-1,-1,@W+2,16,,#252525CCFFFFFFFF)
+
+		// Away Bar
+		Draw:(White,0,0,@W,14,,#FFFFFFFFFFFFFFFF)
+			.set(gel.colour.RGBA,twk(Match,Team2ShirtCol1))
+
+		Clip:(0,-10,@W,30)
+		{
+			Draw:(Stat_Highlight,0,0,-650,14,,#FFFFFF80FFFFFFFF)
+				Handle(0.5,0)
+				if((%homeStat = 0) and(%awayStat = 0))
+				<
+					.set(gel.x,[@W/2])
+					.set(gel.scalex,0.5)
+				>
+				else
+				<
+					.set(gel.x,[@W/[%homeStat+%awayStat]]*%homeStat)
+					.set(gel.scalex,[1.5/[%homeStat+%awayStat]]*%awayStat)
+				>
+		}
+
+		// Home Bar
+		Clip:(0,-10,@W,30)
+			.set(gel.w,[@W/2])
+			if(%homeStat=0 and(%awayStat=0))
+			<
+				.set(gel.w,[@W/2])
+			>
+			else
+			<
+				.set(gel.w,[@W/[%homeStat+%awayStat]]*%homeStat)
+			>
+		{
+			Draw:(White,0,0,@W,14,,#FFFFFFFFFFFFFFFF)
+				.set(gel.colour.RGBA,twk(Match,Team1ShirtCol1))
+
+			Draw:(Stat_Highlight,0,0,-650,14,,#FFFFFF80FFFFFFFF)
+				Handle(0.5,0)
+				if((%homeStat = 0) and(%awayStat = 0))
+				<
+					.set(gel.x,[@W/2])
+					.set(gel.scalex,0.5)
+				>
+				else
+				<
+					.set(gel.x,[@W/[%homeStat+%awayStat]]*%homeStat)
+					.set(gel.scalex,[1.5/[%homeStat+%awayStat]]*%homeStat)
+				>
+		}
+
+		// Centre Line
+		Draw:(White,0,0,2,14,,#252525FFFFFFFFFF)
+			if((%homeStat = 0) and(%awayStat = 0))
+			<
+				.set(gel.x,[@W/2]-1)
+			>
+			elif((%homeStat = 0) or(%awayStat = 0))
+			<
+				set(gel.vis,0)
+			>
+			else
+			<
+				.set(gel.x,fmt([@W/[%homeStat+%awayStat]]*%homeStat,X)-1)
+			>>
+			
+		// Inner shadow
+		Draw:(Fade_Down,0,0,@W,5,,#00000040FFFFFFFF)
+		Draw:(Fade_Down,0,14,@W,-5,,#00000040FFFFFFFF)
+	}}
+EndM

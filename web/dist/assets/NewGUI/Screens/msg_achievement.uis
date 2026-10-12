@@ -1,0 +1,75 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_Notification_Achievement,NewGUI/UI/Icons/Icon_Notification_Achievement.png)
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+Dissolve:(@C,@B-150)
+	Delay(0.5)
+	.Post(UI_Swoosh)
+	Delay(0.7)
+	.Post(UI_ResultsStarRating)
+	Delay(2.5)
+	frlerp(gel.alpha,0,0.15)
+	if(gel.alpha < 0.01)
+	<
+		.set(gel.alpha,0)
+		.set(shell(OverlayBottom),"")
+	>
+{{
+	Draw:(White,@C,0,50,0.1,,#000000EE)
+		Handle(0.5,1)
+		Delay(0.2)
+		if(gel.h < 70)
+		<
+			add(gel.h,3.5)
+		>
+		if(gel.h > 69)
+		<
+			frlerp(gel.w,500,0.08)
+		>
+		set(gel.hx,gel.w/2)
+	{{
+		Draw:(Icon_Notification_Achievement,-220,35,60,60,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.2)
+			Delay(1)
+			frlerp(gel.scale,1,0.1)
+			frlerp(gel.alpha,1,0.1)
+
+		Clip:(0,0,0,70)
+			set(gel.w,gel.parent.w)
+			set(gel.x,-gel.w/2)
+		{
+			Draw:(Fade_Left,-500,-100,200,200,-30)
+				Delay(0.2)
+				frlerp(gel.x,800,0.005)
+				frlerp(gel.alpha,0.1,0.02)
+		}
+	}}
+
+
+
+	M_Text:(achievement_COMPLETE,@C,-5,0,40,C,C,TextLoc,KNUL20,Upper,0,0,#FFFFFF00,NoItalics,#FFFFFF00,ref)
+        float(%spacing)
+        Delay(0.6)
+        frlerp(gel.alpha,1,0.03)
+        .set(%spacing,30)
+        set(%spacing,max(5,%spacing - [FrameTime*0.6]))
+        CharacterSpacing(%spacing)
+
+	M_Text:(,0,45,@W,0,C,C,Text,KNUL22,,1,0,#00B4FF00,NoItalics,#00B4FF00,ref,QuickMessage,AchievementName)
+		Handle(0.5,0.5)
+		Scale(0.2,0.2)
+		Delay(1.2)
+		frlerp(gel.scale,1,0.05)
+		frlerp(gel.alpha,1,0.05)
+}}

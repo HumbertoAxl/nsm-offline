@@ -1,0 +1,351 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(ImageDefs_upsells.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+##IA
+Img:(LevelUp_ChromeRing,NewGUI/UI/LevelUp/ChromeRing.png) FORCE Scale:0.5 Volatile:Manager
+##P4N
+Img:(LevelUp_ChromeRing,NewGUI/UI/LevelUp/ChromeRing.png) FORCE Volatile:Manager
+##*
+
+Img:(LevelUp_Manager_Male,NewGUI/UI/LevelUp/LevelUp_Manager_Male.png) FORCE Volatile:Manager
+Img:(LevelUp_Manager_Female,NewGUI/UI/LevelUp/LevelUp_Manager_Female.png) FORCE Volatile:Manager
+Img:(LevelUp_CentreShine,NewGUI/UI/LevelUp/CentreShine.png) FORCE Volatile:Manager
+Img:(LevelUp_Background,NewGUI/UI/LevelUp/LevelUp_Background.png) FORCE Volatile:Manager
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+    CTRLClearSelect()
+    CTRLGlobalBlockExcept(?BTNOK?)
+
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+Animation:(100,Clamp) ref:LevelUpCircularBar
+{
+    Draw:(Circle_200,125,125,270,270,,#193A54FF)
+        Handle(0.5,0.5)
+
+    During:(0,37,>)
+    {
+        Clip:(125,0,250,250)
+        {
+            Draw:(Relationship_InnerFill,125,125,250,250,0,#43C3EDFF)
+                Handle(0.5,0.5)
+                TweenAngle(-180)
+        }   
+    }
+
+    During:(38,74)
+    {
+        Draw:(Relationship_InnerFill,125,125,250,250,180,#43C3EDFF)
+            Handle(0.5,0.5)
+        Draw:(Relationship_InnerFill,125,125,250,250,-180,#43C3EDFF)
+            Handle(0.5,0.5)
+            TweenAngle(-360)
+    }
+
+    During:(75,89)
+    {
+    	Draw:(Circle_200,125,125,200,200,,#FFFFFFFF)
+         	Handle(0.5,0.5)
+         	TweenSize(370,370,100,100)
+         	TweenAlpha(0,0.7)
+
+     	Draw:(Circle_200,125,125,200,200,,#43C3EDFF)
+         	Handle(0.5,0.5)
+         	TweenSize(300,300,100,100)
+         	TweenAlpha(0,0.6)
+    }
+    	
+    During:(0,89)
+    {
+        Draw:(Glow_Quarter,125,125,200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,200,-200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,-200,,#FFFFFF80)
+            Handle(1,1)
+
+    	Draw:(Circle_200,125,125,200,200,,#FFFFFFFF)
+         	Handle(0.5,0.5)   
+
+        Draw:(LevelUp_Background,125,125,175,175,,#FFFFFFFF)
+            Handle(0.5,0.5)
+
+        Draw:(LevelUp_Manager_Male,125,125,175,175,,#FFFFFFFF)
+            if(twk(Player,Gender) = 0)
+            <
+                :set(gel.img,"LevelUp_Manager_Male")
+            >
+            else
+            <
+                :set(gel.img,"LevelUp_Manager_Female")
+            >
+			Handle(0.5,0.5)
+
+        Draw:(LevelUp_CentreShine,125,125,205,59,,#FFFFFFFF)
+            Handle(0.5,0.5)
+
+        Draw:(LevelUp_ChromeRing,125,125,320,320,,#FFFFFFFF)
+            Handle(0.5,0.5)
+	}
+
+    During:(75,90)
+    {
+    	Draw:(Glow_Quarter,125,125,200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,200,-200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,-200,,#FFFFFF80)
+            Handle(1,1)
+
+        Draw:(Circle_200,125,125,270,270,,#193A54FF)
+        	Handle(0.5,0.5)
+        	TweenSize(300,300,135,135)
+
+    	Draw:(Circle_200,125,125,250,250,,#43C3EDFF)
+    	   Handle(0.5,0.5)
+    	   TweenSize(280,280,125,125)
+
+    	Draw:(Circle_200,125,125,200,200,,#FFFFFFFF)
+         	Handle(0.5,0.5)   
+         	TweenSize(230,230,100,100)  
+
+        Draw:(LevelUp_Background,125,125,175,175,,#FFFFFFFF)
+            Handle(0.5,0.5)
+            TweenSize(205,205,87.5,87.5)  
+
+        Draw:(LevelUp_Manager_Male,125,125,175,175,,#FFFFFFFF)
+            if(twk(Player,Gender) = 0)
+            <
+                :set(gel.img,"LevelUp_Manager_Male")
+            >
+            else
+            <
+                :set(gel.img,"LevelUp_Manager_Female")
+            >
+			Handle(0.5,0.5)
+			TweenSize(205,205,87.5,87.5)  
+
+        Draw:(LevelUp_CentreShine,125,125,205,59,,#FFFFFFFF)
+            Handle(0.5,0.5)
+
+        Draw:(LevelUp_ChromeRing,125,125,320,320,,#FFFFFFFF)
+            Handle(0.5,0.5)
+            TweenSize(350,350,160,160)   
+    }
+
+	During:(91,99)
+    {
+        Draw:(Glow_Quarter,125,125,200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,200,-200,,#FFFFFF80)
+            Handle(1,1)
+        Draw:(Glow_Quarter,125,125,-200,-200,,#FFFFFF80)
+            Handle(1,1)
+
+        Draw:(Circle_200,125,125,300,300,,#193A54FF)
+        	Handle(0.5,0.5)
+        	TweenSize(270,270,150,150)
+
+    	Draw:(Circle_200,125,125,280,280,,#43C3EDFF)
+    	   Handle(0.5,0.5)
+    	   TweenSize(250,250,140,140)
+
+    	Draw:(Circle_200,125,125,230,230,,#FFFFFFFF)
+         	Handle(0.5,0.5)   
+         	TweenSize(200,200,115,115)    
+        
+        Draw:(LevelUp_ChromeRing,125,125,350,350,,#FFFFFFFF)
+            Handle(0.5,0.5)
+            TweenSize(320,320,175,175)     
+
+        Draw:(LightGlow,-8,90,50,50,,#FFFFFF00)
+            Handle(25,25)
+            TweenCol(#FFFFFFFF)
+
+        Draw:(Sparkle,-5,90,40,40,,#FFFFFF00)
+            Additive()
+            Spinner(0.3)
+            Handle(0.5,0.5)
+            TweenCol(#FFFFFF20)
+
+        Draw:(LightGlow,258,150,50,50,,#FFFFFF00)
+            Handle(25,25)
+            TweenCol(#FFFFFF80)
+
+        Draw:(Sparkle,258,150,40,40,,#FFFFFF00)
+            Additive()
+            Spinner(0.3)
+            Handle(0.5,0.5)
+            TweenCol(#FFFFFF20)
+
+        Draw:(LevelUp_Background,125,125,205,205,,#FFFFFFFF)
+            Handle(0.5,0.5)
+            TweenSize(175,175,102.5,102.5)  
+
+        Draw:(LevelUp_Manager_Male,125,125,205,205,,#FFFFFFFF)
+            if(twk(Player,Gender) = 0)
+            <
+                :set(gel.img,"LevelUp_Manager_Male")
+            >
+            else
+            <
+                :set(gel.img,"LevelUp_Manager_Female")
+            >
+			Handle(0.5,0.5)
+			TweenSize(175,175,102.5,102.5)  
+
+        Draw:(LevelUp_CentreShine,125,125,205,59,,#FFFFFFFF)
+            Handle(0.5,0.5)
+	}
+
+    // Prestige Stars
+    Rect:(95,236)
+        .set(gel.vis,twk(Manager,PrestigeCount) > 0)
+        if(twk(Manager,PrestigeCount) = 1)
+        <
+            .set(gel.x,95)
+        >
+        elif(twk(Manager,PrestigeCount) = 2)
+        <
+            .set(gel.x,65)
+        >
+        elif(twk(Manager,PrestigeCount) >= 3)
+        <
+            .set(gel.x,35)
+        >>>
+    {{
+        Tile:(Prestige_Star_BGL,0,0,60,60)
+            Copies(1,1)
+            Spacing(60,0)
+            set(gel.copies.x,clamp(twk(Manager,PrestigeCount),0,3))
+        Tile:(Prestige_Star_SilverL,0,0,60,60)
+            if(twk(Manager,PrestigeCount) > 3)
+            <
+                set(gel.img,"Prestige_Star_GoldL")
+            >
+            else
+            <
+                set(gel.img,"Prestige_Star_SilverL")
+            >
+            Copies(1,1)
+            Spacing(60,0)
+            set(gel.copies.x,clamp(twk(Manager,PrestigeCount),0,3))
+    }}
+}
+
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H)
+    Click(levelup.btn_Back)
+    SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+{
+}
+
+
+Draw:(White,@L,@T,@W,@H,,#191D1F00)
+	frlerp(gel.alpha,0.9,0.1)
+
+
+M_Text:("LevelUp_Hint",@C,100,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+Rect:(@C,@M-170)
+    float(%change)
+{{
+    AnimInstance:(0,125,CardBGFX)
+        set(gel.scale,0.7)
+        set(gel.anim.speed,0.28)
+
+    Instance:(NewCardEmitter,0,125) $HIDE
+        Delay(1.25)
+        set(gel.vis,1)
+
+    AnimInstance:(-125,0,LevelUpCircularBar)
+        float(%playSound)
+        if(gel.anim.normtime<=0.7)
+        <
+            :set(%playSound,1)
+            if(%playSound = 1)
+            <
+                Post(UI_ResultsScoreLoop)
+                set(%playSound,0)
+            >
+            else
+            <
+                :Delay(0.1)
+                set(%playSound,1)
+            > 
+        >
+        if(gel.anim.normtime >= 0.8)
+        <
+            :Post(UI_Success)
+            .set(%change,1)
+        >
+
+    M_Text:(levelup_LEVEL,0,320,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+    M_Text:("1",@C,370,0,0,C,C,Text,KNUL64,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+        float(%scale)
+        .set(%scale,1)
+        .set(gel.text,LTR(fmt((twk(Player,StarLevel)-1),X)))
+        if(%change = 0)
+        <
+            frlerp(gel.scale,1.25,0.02)
+        >
+        if(%change = 1)
+        <
+            .set(gel.alpha,1)
+            .set(gel.text,LTR(twk(Player,StarLevel)))
+            .set(%scale,1.75)
+            :Delay(0.2)
+            .set(%scale,1)
+        >
+        if(%change = 1)
+        <
+            frlerp(gel.scale,%scale,0.4)
+        >
+    M_Text:("LevelUp_Hint",0,320,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+        Handle(0.5,0.5)
+        .set(gel.alpha,0)
+        .set(gel.scale,0)
+        if(%change)
+        <
+            .set(gel.alpha,1)
+            .set(gel.text,LTR(twk(Player,StarLevel)))
+            frlerp(gel.alpha,0,0.1)
+            frlerp(gel.scale,20,0.1)
+            if(gel.alpha < 0.01)
+            <
+                :set(gel.vis,0)
+            >
+        >
+}}
+
+
+//Text and image tip on collecting rewards
+Rect:()
+    .set(gel.vis,twk(PcParityGlobal,Enabled))
+{
+    M_Text:(LevelUp_Collect,@R-210,@B-365,180,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+    // Pack Image 
+    Rect:(@R-220,@B-330) 
+    {{
+        Draw:(Pack_Reflection,0,416)
+        Draw:(Pack_Default,0,25,360,420) ref:PackBottom
+        Draw:(Pack_Top)
+    }}
+    Scale(0.55,0.55)
+
+    M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,levelup.btn_Back,ref,loc(generic_COLLECT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+    M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+}

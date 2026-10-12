@@ -1,0 +1,661 @@
+Import:(formation_Navigation.uih)
+
+Img:(Squad_Pitch_Texture,NewGUI/UI/Squad/Squad_Pitch_Texture.png)
+Img:(FormationButton_Pitch,NewGUI/UI/Squad/FormationButton_Pitch.png)
+Img:(FormationButton_Counter,NewGUI/UI/Squad/FormationButton_Counter.png)
+
+Img:(Icon_TeamMorale,NewGUI/UI/Icons/Team/Icon_TeamMorale.png)
+Img:(Icon_RatingStar,NewGUI/UI/Icons/Team/Icon_RatingStar.png)
+Img:(Icon_RatingStarLit,NewGUI/UI/Icons/Team/Icon_RatingStarLit.png)
+
+
+Macro:(M_SubMarker,?X?,?Y?,?TEXT?)
+	Rect:(?X?,?Y?)
+		Layer(Default)
+		LockLayer()
+	{{
+		Draw:(RoundedPanel,0,0,30,20,,#252525FFFFFFFFFF)
+		M_Text:(?TEXT?,15,10.5,0,0,C,C,Text,KNUL18,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			.set(gel.text,loc(squad_SUBS_sla)::?TEXT?)
+			M_Style:(Outline,#FFFFFF20)
+			CharacterSpacing(2)
+	}}
+EndM
+
+
+Macro:(M_SubbedMarker,?X?,?Y?,?INDEX?)
+	Rect:(?X?,?Y?) ref:SubbedMarker?INDEX?
+		Layer(Default)
+		LockLayer()
+	{{
+		Rect:() $HIDE ref:Made
+		{
+			Draw:(Icon_SubOff,-15,-25,32,32)
+			M_Text:(,0,11,0,0,C,C,Text,KNUL17,,0,0,#25252580,NoItalics,#252525FF,PlayerName)
+				M_Style:(Outline,#25252520)
+		}
+
+		Rect:() ref:NotMade
+		{
+			M_SubMarker:(-12,0,?INDEX?)
+		}
+	}}
+EndM
+
+
+Macro:(M_AutoPickSlideExpression,?XOFFSET?,?YOFFSET?)
+	float(%autoPicked,%autoPickStartX,%autoPickStartY)
+	if(%autoPicked)
+	<
+		if(twk(Formation,AutoPickState) = 2)
+		<
+			set(%autoPicked,0)
+		>
+
+		set(gel.gx,lerp(%autoPickStartX,gel.parent.gx + ?XOFFSET?,twk(Formation,AutoPickTimer)))
+		set(gel.gy,lerp(%autoPickStartY,gel.parent.gy + ?YOFFSET?,twk(Formation,AutoPickTimer)))
+		:Post(sounds.cards_Swap)
+		Click()
+	>
+EndM
+
+
+Macro:(M_FormationEmptyCard,?REF?)
+	Rect:() ref:?REF?
+	{
+	}
+EndM
+
+
+Macro:(M_FormationSubCard,?X?,?Y?,?ID?,?FILTER?,?COMBINATION?,?DELAY?,?SCALE?)
+	Cull:(?X?,?Y?,?CARD_W?,?CARD_H?) ref:?ID?
+		Handle(0.5,0.5)
+	{{
+	}}
+		.set(gel.scale,?SCALE?)
+		M_AutoPickSlideExpression:(?X?,?Y?)
+		Card_Slot(?ID?,?FILTER?,?COMBINATION?,false,true,twk(CardEngine,PickupDelay)) ref:CardSlot
+		If:(?ID?="Substitute7")
+			CTRLBlock(RIGHT)
+		EndIf
+		OnPost("profileplayer.highlightPlayer"::?ID?)
+		<
+			CTRLSetSelected(,,true)
+		>
+EndM
+
+Macro:(M_FormationMatchSubCard,?X?,?Y?,?ID?,?FILTER?,?COMBINATION?,?DELAY?,?SCALE?)
+	M_SubbedMarker:(?X?,?Y?-105,?ID?)
+	M_CardSlot:(?X?,?Y?,Substitute?ID?,?FILTER?,?COMBINATION?,?DELAY?,?SCALE?)
+		OnPost("profileplayer.highlightPlayerSubstitute"::?ID?)
+		<
+			CTRLSetSelected(,,true)
+		>
+EndM
+
+
+Macro:(M_FormationReserveCard,?ID?)
+	M_SizeDefines:()
+
+	Rect:(0,0,?CARD_W_SD?,?CARD_H_SD?) ref:ReserveCard_?ID?
+		Handle(0.5,0.5)
+	{
+		Cull:(0,0,?CARD_W_SD?,?CARD_H_SD?) ref:?ID?
+			Handle(0.5,0.5)
+		{{
+		}}
+			M_AutoPickSlideExpression:(0,0)
+			Card_Slot(?ID?,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,false,true,twk(CardEngine,PickupDelay)) ref:CardSlot
+			// In case we want to block any directional input from code.
+			CTRLBlock() ref:CTRLBlock
+			OnPost("profileplayer.highlightPlayer"::?ID?)
+			<
+				CTRLSetSelected(,,true)
+			>
+	}
+EndM
+
+
+Macro:(M_SquadCard,?INDEX?,?FILTER?,?COMBINATION?)
+	Rect:(0,0,?CARD_W?,?CARD_H?) ref:Formation?INDEX?
+		Handle(0.5,0.5)
+		Layer(AboveText)
+		LockLayer()
+	{{
+		Draw:(Circle_50,@C,@M,50,50,,#000000CC)
+			Handle(0.5,0.5)
+ 		M_Text:("DC",0,0,0,50,C,C,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,RoleText)
+ 			M_Style:(Outline,#FFFFFF20)
+ 			Handle(0.5,0.5)
+	}}
+		M_AutoPickSlideExpression:((twk(PresetMaster,Sel?INDEX?_X)),([twk(PresetMaster,Sel?INDEX?_Y)*1.05]))
+		else
+		<
+			.set(gel.x,twk(PresetMaster,Sel?INDEX?_X))
+			.set(gel.y,twk(PresetMaster,Sel?INDEX?_Y)*1.05)
+			if(%delay)
+			<
+				:Delay(%delay)
+				set(%delay,0)
+			>
+			else
+			<
+				frlerp(gel.x,twk(PresetMaster,Sel?INDEX?_X),0.25)
+				frlerp(gel.y,twk(PresetMaster,Sel?INDEX?_Y)*1.05,0.25)
+			>
+		>
+		Card_Slot(Formation?INDEX?,?FILTER?,?COMBINATION?,false,true,twk(CardEngine,PickupDelay)) ref:CardSlot
+		OnPost("profileplayer.highlightPlayerFormation"::?INDEX?)
+		<
+			CTRLClearSelectFlag()
+			CTRLSetSelected(,,true)
+		>
+		£M_FormationNavigation_?INDEX?:(Formation,SelectedPresetId,Formation)
+EndM
+
+
+Macro:(M_FormationSquad,?X?,?Y?)
+	CTRLSelectGroup:(40,88,580,564,,CTRLPitchSelected,,,,,,1,CTRLGroupPitch) ref:FormationSquadGroup
+		if(twk(Formation,CurrentTab) = 1)
+		<
+			:if(%ctrlSelectedType=?CTRL_SELECTED_TYPE_LEFT?)
+			<
+				CTRLSetSelected()
+			>
+		>
+		CTRLPress(RIGHT)
+		<
+		 	if(shell(GameScreen)="formationmenu")
+			<	
+			 	if(twk(Formation,CurrentTab) = 1)
+				<
+					CTRLSetSelected(SubsSelectGroup,formationmenu)
+				>
+				if(twk(Formation,CurrentTab) = 2)
+				<
+					Post("CTRLCardCarouselDown")
+				>
+				if(twk(Formation,CurrentTab) = 3)
+				<
+					CTRLSetSelected(squaddatabutton,formationmenu)
+				>
+			>
+
+			if(shell(GameScreen)="formationmatch")
+			<	
+			 	if(twk(Formation,CurrentTab) = 1)
+				<
+					CTRLSetSelected(SubsSelectGroup,formationmatch)
+				>
+				if(twk(Formation,CurrentTab) = 2)
+				<
+					Post("CTRLCardCarouselDown")
+				>
+				if(twk(Formation,CurrentTab) = 3)
+				<
+					if(twk(Match,NRG25CardsCount) > 0)
+					<
+						CTRLSetSelected(Energy25CardSlot,formationmatch)
+					>
+					elif(twk(Match,NRG50CardsCount) > 0)
+					<
+						CTRLSetSelected(Energy50CardSlot,formationmatch)
+					>
+					elif(twk(Match,NRG75CardsCount) > 0)
+					<
+						CTRLSetSelected(Energy75CardSlot,formationmatch)
+					>
+					elif(twk(Match,TeamTalkCount) > 0)
+					<
+						CTRLSetSelected(TeamTalkSlot,formationmatch)
+					>>>>
+				>
+			>
+		>
+		CTRLIsSelected()
+		<
+			set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_LEFT?)
+			CTRLSetSelected(Formation0,formationmenu)
+		>
+	{	
+		Rect:(?X?,?Y?) ref:Formation
+			CTRLHasSelectedGroup(0,true)
+			<
+				set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_LEFT?)
+			>
+		{
+			M_SquadCard:(10,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(9,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(8,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(7,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(6,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(5,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(4,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(3,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(2,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(1,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+			M_SquadCard:(0,PLAYER|STARTER,PU_MANAGER|PU_COACHING)
+		}
+
+		Rect:()
+			//JF: Back the player out of the group when they use auto pick (so that it doesn't mess with cards sliding) - needs to be after we process the cards
+			if(twk(Formation,AutoPickClicked))
+			<
+				CTRLHasSelectedGroup(0,true)
+				<
+					CTRLClearSelectFlag()
+					CTRLPopSelectGroup()
+					CTRLSetSelected(FormationSquadGroup)
+				>
+			>
+	}
+EndM
+
+
+Macro:(M_FormationDot,?INDEX?,?SELINDEX?,?SCALE?)
+	Rect:(0,0,25,25)
+		if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 1)
+		<
+			.set(gel.x,twk(Preset?INDEX?,Sel?SELINDEX?_X)*[@W/650])
+		>
+		if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 2)
+		<
+			.set(gel.x,twk(Preset?INDEX?,Sel?SELINDEX?_X)*[@W/750])
+		>
+		if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 3)
+		<
+			.set(gel.x,twk(Preset?INDEX?,Sel?SELINDEX?_X)*[@W/850])
+		>
+
+		.set(gel.y,twk(Preset?INDEX?,Sel?SELINDEX?_Y)*0.27)
+
+	{{
+		Draw:(FormationButton_Counter,12.5,12.5,25,25)
+			Handle(0.5,0.5)
+			if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 1)
+			<
+				:set(gel.scale,0.9)
+			>
+			if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 2)
+			<
+				:set(gel.scale,0.8)
+			>
+			if(twk(Preset?INDEX?,Sel?SELINDEX?_Type) = 3)
+			<
+				:set(gel.scale,0.7)
+			>
+	}}
+EndM
+
+
+Macro:(M_FormationSlab,?X?,?Y?,?W?,?H?,?INDEX?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		M_PressOPEN:(0,-5,@W,@H)
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+				if(twk(Formation,SelectedPresetId) = ?INDEX?)
+				<
+					:set(gel.alpha,0.5)
+				>
+				else
+				<
+					:set(gel.alpha,0.1)
+				>
+
+			Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+
+			Clip:(0,0,@W,@H-27)
+			{
+				Draw:(FormationButton_Pitch,@C,@B-12,@W+25,,#FFFFFFFFFFFFFFFF)
+					Handle(0.5,1)
+					if(twk(Formation,SelectedPresetId) = ?INDEX?)
+					<
+						set(gel.colour,#FFFFFFFFFFFFFFFF)
+					>
+					else
+					<
+						set(gel.colour,#FFFFFF99FFFFFFFF)
+					>
+			}
+
+			Draw:(White,2,@B-25,@W-4,1,,#00000020FFFFFFFF)
+			Clip:(2,0,@W-4,@H)
+			{
+				Draw:(Glint,3,@B-25,10,1,,#808080FFFFFFFFFF)
+					Shine(0,@W)
+					Scale(3,1)
+					Additive()
+					set(gel.vis,twk(Formation,SelectedPresetId) = ?INDEX?)
+			}
+
+			M_Text:(,0,@B-12,@W,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref,Preset?INDEX?,Name,DoLTR)
+				set(gel.vis,twk(Formation,SelectedPresetId) != ?INDEX?)
+				CharacterSpacing(5)
+			M_Text:(,@C,@B-12,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref,Preset?INDEX?,Name,DoLTR)
+				CharacterSpacing(5)
+				Handle(0.5,0.5)
+				if(twk(Formation,SelectedPresetId) = ?INDEX?)
+				<
+					:set(gel.scale,0.5)
+					:set(gel.vis,1)
+					frlerp(gel.scale,1,0.25)
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+				Layer(AboveText)
+				Additive()
+				if(%pressed)
+				<
+					set(gel.colour,#60606080)
+				>
+				else
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+
+			// Formation Counters
+			Rect:(@C-12,-10,@W,@H)
+			{{
+				M_FormationDot:(?INDEX?,1)
+				M_FormationDot:(?INDEX?,2)
+				M_FormationDot:(?INDEX?,3)
+				M_FormationDot:(?INDEX?,4)
+				M_FormationDot:(?INDEX?,5)
+				M_FormationDot:(?INDEX?,6)
+				M_FormationDot:(?INDEX?,7)
+				M_FormationDot:(?INDEX?,8)
+				M_FormationDot:(?INDEX?,9)
+				M_FormationDot:(?INDEX?,10)
+			}}
+		M_PressCLOSE:()
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(twk(Formation,CurrentTab) = 2)
+			<
+				:if((%ctrlSelectedType=?CTRL_SELECTED_TYPE_RIGHT?) and(twk(Formation,SelectedPresetId) = ?INDEX?))
+				<
+					CTRLSetSelected()
+				>
+			>
+			CTRLIsSelected()
+			<
+				set(%ctrlSelectedType,?CTRL_SELECTED_TYPE_RIGHT?)
+			>
+			OnPost("CTRLCardCarouselDown")
+			<
+				if(twk(Formation,SelectedPresetId)= ?INDEX?)
+				<
+					CTRLSetSelected()
+				>
+			>
+			if(twk(Formation,CurrentTab) = 2)
+			<
+				if(%clicked)
+				<
+					if(twk(Formation,SelectedPresetId) != ?INDEX?)
+					<
+						set(twk(Formation,SelectedPresetId),?INDEX?)
+						PasteCategory(Preset?INDEX?,PresetMaster)
+						Message(tactics.btn_Preset,?INDEX?)
+					>
+				>
+			>
+	}}
+EndM
+
+
+Macro:(M_FormationEnergyCard,?X?,?Y?,?SLOT?,?VAR?,?REF?)
+	Draw:(RoundedPanel,?X?,?Y?,?CARD_W?,?CARD_H?,,#00000010FFFFFFFF)
+		Handle(0.5,0.5)
+
+	Rect:(?X?,?Y?) ref:?REF?
+		if(twk(Match,NRGCardsEnabled) = 0)
+		<
+			set(gel.colour,#AAAAAAFFFFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#FFFFFFFFFFFFFFFF)
+		>
+		if(twk(Match,?VAR?) > 0)
+		<
+			if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = ?SLOT?))
+			<
+				set(gel.vis,twk(Match,?VAR?) > 1)
+			>
+			else
+			<
+				set(gel.vis,1)
+			>
+		>
+		else
+		<
+			set(gel.vis,0)
+		>
+	{{
+		Rect:(0,0,?CARD_W?,?CARD_H?) 
+			Handle(0.5,0.5)
+			.set(gel.scale,1)
+			Card_Slot(?SLOT?,MATCHCARD|PU_MANAGER|NRGCARD,PU_MANAGER)
+			Click()
+			set(gel.vis,twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = ?SLOT?))
+
+		Rect:(0,0,?CARD_W?,?CARD_H?) ref:?REF?Slot
+			Handle(0.5,0.5)
+			.set(gel.scale,1)
+			Card_Slot(?SLOT?,MATCHCARD|PU_MANAGER|NRGCARD,PU_MANAGER)
+			if(twk(Match,TeamTalkCount) > 0)
+			<
+				CTRLPress(DOWN)
+				<
+					CTRLSetSelected(TeamTalkSlot)
+				>
+			>
+
+		Rect:(-23,60)
+			Layer(Debug)
+			LockLayer()
+		{{
+			Draw:(Icon_Notification,0,0,50,50)
+			M_Text:(,0,0,50,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#000000FF,CardCount)
+				M_Style:(Outline,#00000030)
+				if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = ?SLOT?))
+				<
+					if(twk(Match,?VAR?) > 1)
+					<
+						set(gel.text,LTR(fmt(twk(Match,?VAR?)-1,X)))
+					>	
+					else
+					<
+						set(gel.text,"")
+					>
+				>
+				else
+				<
+					set(gel.text,LTR(fmt(twk(Match,?VAR?),X)))
+				>
+		}}
+	}}
+EndM
+
+Macro:(M_FormationTeamTalkCard,?X?,?Y?)
+	Draw:(RoundedPanel,?X?,?Y?,?CARD_W?,?CARD_H?,,#00000010FFFFFFFF)
+		Handle(0.5,0.5)
+
+	Rect:(?X?,?Y?)
+		if(twk(Match,TeamTalkEnabled) = 0)
+		<
+			set(gel.colour,#AAAAAAFFFFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#FFFFFFFFFFFFFFFF)
+		>
+		if(twk(Match,TeamTalkCount) > 0)
+		<
+			if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = "TeamTalkSlot"))
+			<
+				set(gel.vis,twk(Match,TeamTalkCount) > 1)
+			>
+			else
+			<
+				set(gel.vis,1)
+			>
+		>
+		else
+		<
+			set(gel.vis,0)
+		>
+	{{
+		Rect:(0,0,?CARD_W?,?CARD_H?,,#FFFFFFFFFFFFFFFF)
+			Handle(0.5,0.5)
+			.set(gel.scale,1)
+			Card_Slot(TeamTalkSlot,MATCHCARD|TEAMTALKCARD)
+			Click()
+			set(gel.vis,twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = "TeamTalkSlot"))
+
+		Rect:(0,0,?CARD_W?,?CARD_H?,,#FFFFFFFFFFFFFFFF) ref:TeamTalkSlot
+			Handle(0.5,0.5)
+			.set(gel.scale,1)
+			Card_Slot(TeamTalkSlot,MATCHCARD|TEAMTALKCARD)
+
+		Rect:(-23,60)
+			Layer(Debug)
+			LockLayer()
+		{{
+			Draw:(Icon_Notification,0,0,50,50)
+			M_Text:(,0,0,50,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#000000FF,CardCount)
+				M_Style:(Outline,#00000030)
+				if(twk(CardEngine,DraggingCard) > 0 and(twk(CardEngine,DraggingSlot) = "TeamTalkSlot"))
+				<
+					if(twk(Match,TeamTalkCount) > 1)
+					<
+						set(gel.text,LTR(fmt(twk(Match,TeamTalkCount)-1,X)))
+					>	
+					else
+					<
+						set(gel.text,"")
+					>
+				>
+				else
+				<
+					set(gel.text,LTR(fmt(twk(Match,TeamTalkCount),X)))
+				>
+		}}
+	}}
+EndM
+
+
+
+
+
+Macro:(M_TeamRatingStars,?X?,?Y?,?CAT?,?VAR?,?ALIGN?)
+	Rect:(?X?,?Y?)
+		float(%rating,%stars)
+		set(%rating,twk(?CAT?,?VAR?))
+		set(%stars,fmt([[%rating-0.01]/20]+1,X))
+	{{
+		Rect:()
+			If:(?ALIGN?)
+				set(gel.x,-[47+[[%stars-1]*20]]/2)
+			EndIf
+		{{
+			Draw:(Icon_RatingStar,0,0,64,64)
+			{{
+				Clip:(8,0,20,64)
+					set(gel.w,[clamp(%rating,0,20)/20]*47)
+				{{
+					Draw:(Icon_RatingStarLit,-8,0,64,64)
+				}}
+			}}
+			Draw:(Icon_RatingStar,20,0,64,64)
+				set(gel.vis,%rating > 20)
+			{{
+				Clip:(8,0,20,64)
+					set(gel.w,[clamp(%rating-20,0,20)/20]*47)
+				{{
+					Draw:(Icon_RatingStarLit,-8,0,64,64)
+				}}
+			}}
+			Draw:(Icon_RatingStar,40,0,64,64)
+				set(gel.vis,%rating > 40)
+			{{
+				Clip:(8,0,20,64)
+					set(gel.w,[clamp(%rating-40,0,20)/20]*47)
+				{{
+					Draw:(Icon_RatingStarLit,-8,0,64,64)
+				}}
+			}}
+			Draw:(Icon_RatingStar,60,0,64,64)
+				set(gel.vis,%rating > 60)
+			{{
+				Clip:(8,0,20,64)
+					set(gel.w,[clamp(%rating-60,0,20)/20]*47)
+				{{
+					Draw:(Icon_RatingStarLit,-8,0,64,64)
+				}}
+			}}
+			Draw:(Icon_RatingStar,80,0,64,64)
+				set(gel.vis,%rating > 80)
+			{{
+				Clip:(8,0,20,64)
+					set(gel.w,[clamp(%rating-80,0,20)/20]*47)
+				{{
+					Draw:(Icon_RatingStarLit,-8,0,64,64)
+				}}
+			}}
+		}}
+	}}
+EndM
+
+
+
+
+Macro:(M_TeamStatReadout,?X?,?Y?,?CAT?,?VAR?)
+	Rect:(?X?,?Y?)
+	{{
+		M_Text:(,0,0,0,0,C,C,Text,KNUL23,,0,0,#0000000,Italics,#FFFFFFFF,ref)
+			M_Style:(Outline,#FFFFFF20)
+			float(%current,%rating)
+			Rearmable()
+			set(%rating,twk(?CAT?,?VAR?))
+			.set(%current,%rating)
+			if(fmt(%current,X.X) != fmt(%rating,X.X))
+			<
+				frlerp(%current,%rating,0.15)
+				set(gel.scale,1.2)
+			>
+			else
+			<
+				:Delay(0.5)
+				frlerp(gel.scale,1,0.1)
+			>
+			set(gel.text,LTR(fmt(%current,X.X)))
+			CharacterSpacing(2)
+	}}
+EndM
+
+
+Macro:(M_FormationStatistics,?X?,?Y?,?CAT?)
+	Rect:(?X?,?Y?)
+	{{
+		M_TeamStatReadout:(0,0,?CAT?,StartersRating)
+		{{
+			M_TeamRatingStars:(-5,-60,?CAT?,StartersRating,CENTRED)
+				Scale(0.8,0.8)
+		}}
+
+		M_TeamStatReadout:(74,0,?CAT?,Happiness)
+		{{
+			Draw:(Icon_TeamMorale,-19,-54,40,40)
+		}}
+			
+		M_TeamStatReadout:(129,0,?CAT?,Energy)
+		{{
+			Draw:(Icon_Energy,-19,-53,43,43)
+		}}
+	}}
+EndM

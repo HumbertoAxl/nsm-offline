@@ -1,0 +1,28 @@
+Added to #IA & #P4N
+Img:(Hair_Shaven,NewGUI/Faces/Hair_shaven_UV.png) Scale:0.5
+StaticModel:(Hair_Parted_FlopF,HairPartedFlopF) - flipped version of hair parted flop
+
+Commented out a bunch of areas;
+#306 - #338 - mainly to keep the skintones bright , all the blending and multiplying were darkening the skins and this was the best area to get them bright
+
+#354 - #374 - random lines , mainly to keep faces clean, but lines were black and also applied lines in the base textures
+
+	- random amount of unshaven chin , moved it to a beard type (was thinking of adding a few copies of it to get more unshaven)
+	(moved it also cause of the unshaven was getting multiplied with beards and again was getting darker areas than wanted from clean appoach)
+
+#376 Random Beards
+	added unshaven, i think everything reamined same
+
+#460 - 486 - removed freckles,lines, necklines, cleft, shaved head as all part of the base textures in some form and the black lines multiplying again made the 	faces look messy , not blending nicely
+
+#492 - think i slightly adjust the pupil size , so didnt reduce as much , japanese style tend to be big but wanted some variation but not alot
+	- think i also added a eye4 and maybe dupped eye1 to be more brown
+
+#511 - #527 - removed the blending of eye colors, so just to keep the 4 main colours and to keep them bright, again keeping it simple
+
+#634 - added a new colour range to hair from a brown to a yellowish, as others seemed more grey and black
+
+#639 - added the Shaved head, duped to get it more often, added the parted flop flipped
+
+
+NB: Cardprep_MOD2.uis i messed with the hair a bit more , moving receding and shaven into the center and adjusting lines #166 - #172 for the MIN & MAX values so white guys and black guys shared the receding and shaven heads, but i didnt have this feature in cardprep.uis

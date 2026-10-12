@@ -1,0 +1,162 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Rain,NewGUI/FX/Rain.png)
+Img:(Splash,NewGUI/FX/Splash.png)
+Img:(Streak,NewGUI/FX/Streak.png)
+
+Img:(Snow_01,NewGUI/FX/Snow_01.png)
+Img:(Snow_02,NewGUI/FX/Snow_02.png)
+Img:(Snow_03,NewGUI/FX/Snow_03.png)
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+    .set(twk(EM_Rain,Rate)(0.5),(5))
+    .set(twk(EM_Snow,Rate)(0.5),(5))
+
+    // Set resolution dependant left and right of rain particles
+    .set(twk(EM_Rain,XStart)(0),(@f))
+    .set(twk(EM_Rain,XStart)(1),(@f+@w))
+    // Set resolution dependant left and right of snow particles
+    .set(twk(EM_Snow,XStart)(0),(@f))
+    .set(twk(EM_Snow,XStart)(1),(@f+@w))
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+//--------------------------------------------------------------------Rain
+
+Draw:(Rain,0,0,0,0,0,#CCCCCCAA000000FF) ref:RainParticleDay
+    EmitPlacer()
+    EmitSize()
+    EmitLifetime()
+    EmitMover()
+    frlerp(gel.h,100,0.1)
+    :Delay(0.2)
+    frlerp(gel.alpha,0,0.1)
+{
+} Template
+
+Draw:(Rain,0,0,0,0,0,#3B576E65000000FF) ref:RainParticleNight
+    EmitPlacer()
+    EmitSize()
+    EmitLifetime()
+    EmitMover()
+    frlerp(gel.h,100,0.1)
+    :Delay(0.2)
+    frlerp(gel.alpha,0,0.1)
+{
+} Template
+
+Emitter:(EM_Rain,RainParticleDay) ref:RainEmitterDay
+Emitter:(EM_Rain,RainParticleNight) ref:RainEmitterNight
+
+Macro:(M_Rain,?FOV?)
+    Sheet:(0,0,0,0,0,0,?FOV?)
+        Layer(AboveSky)
+        Pin(0,@t,550)
+        set(twk(Audio,Rain),(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN))
+        ##IAP
+        set(gel.vis,(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN))
+        ##P4N
+        set(gel.vis,(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN) and(Player.weatherSeason != 3))
+        ##*
+        if(shell(GameScreen) ="home")
+        <
+            set(gel.alpha,lerp(1,0.3,[twk(Cam,RX)+30]/-60))
+            // Avoid changing these numbers or Home,CamMinXA or CamMaxXA or this will need rewriting
+            set(gel3d.rotx,lerp(15,90,[twk(Cam,RX)+30]/-60))
+        >
+        elif(shell(GameScreen) oneof("match_interval","match_stats"))
+        <
+            set(gel.alpha,lerp(1,0.3,twk(Cam,RX)/-90))
+            // Min and max is roughly -0 to -90
+            set(gel3d.rotx,lerp(5,70,twk(Cam,RX)/-90))
+        >
+        elif(shell(GameScreen) = "matchengine")
+        <
+            set(gel.alpha,lerp(1,0.3,[twk(Pitch,CameraXRotation)+25]/-65))
+            // Set up for coded CameraXRotation min and max rotation limits
+            set(gel3d.rotx,lerp(15,90,[twk(Pitch,CameraXRotation)+25]/-65))
+        >>>
+    {
+        Instance:(RainEmitterDay,0,0) $HIDE
+            set(gel.vis,twk(Facilities,Night) = 0)
+        Instance:(RainEmitterNight,0,0) $HIDE
+            set(gel.vis,twk(Facilities,Night) = 1)     
+    }
+EndM
+
+
+//--------------------------------------------------------------------Snow
+Draw:(Snow_01) ref:SnowParticle
+	set(twk(Audio,Snow),(Player.weatherSeason = 3))
+    :set(gel.img,"Snow_0"::fmt(rand(1,3),X))
+    :set(gel.angle,rand(0,360))
+    EmitPlacer()
+    EmitSize()
+    .set(gel.h,gel.w)
+    frlerp(gel.scale,0,0.006)
+
+    EmitLifetime()
+    EmitMover()
+    EmitSpinner()
+
+    float(%a)
+    :set(%a,frand(-2,2))
+    add(gel.hx,%a/gel.y)
+    add(gel.hy,%a/gel.y)
+{
+} Template
+
+Emitter:(EM_Snow,SnowParticle) ref:SnowEmitter
+    if((twk(Facilities,Night) = 1) and(shell(GameScreen)="home"))
+    <
+        set(gel.colour,#C8C7F965)
+    >
+    else
+    <
+        set(gel.colour,#FFFFFFFF)
+    >
+
+Macro:(M_Snow,?FOV?)
+    Sheet:(0,0,0,0,0,0,?FOV?)
+        Layer(AboveSky)
+        Pin(0,@t,550)
+        set(gel.vis,Player.weatherSeason = 3)
+    {
+        ##P4N
+        Instance:(SnowEmitter,0,0)
+        ##*
+    }
+EndM
+
+
+//--------------------------------------------------------------------Rain Splash
+Draw:(Splash,100,100,,,,#FFFFFF40) ref:RainSplash
+    Handle(2.5,2.5)
+    EmitPlacer()
+    EmitLifetime()
+    EmitMover()
+    EmitSpinner()
+    EmitSize()
+    Fader(2,#FFFFFF00)
+{
+} Template
+
+Emitter:(EM_RainSplashes,RainSplash)  ref:RainSplashesEmitter
+
+
+//--------------------------------------------------------------------Rain Streak
+Draw:(Streak,100,100,,,,#FFFFFF40) ref:RainStreak
+    Handle(0,0.5)
+    EmitPlacer()
+    EmitLifetime()
+    EmitMover()
+    EmitSize()
+    Fader(2,#FFFFFF00)
+{
+} Template
+
+Emitter:(EM_RainStreaks,RainStreak)  ref:RainStreaksEmitter

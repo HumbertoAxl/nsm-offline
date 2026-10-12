@@ -1,0 +1,189 @@
+//--------------------------------------------------------------------------------------------IMPORT
+Import:(Core.uih)
+Import:(badge_Macros.uih)
+Import:(message_Macros.uih)
+//--------------------------------------------------------------------------------------------IMGS
+
+Img:(upsell_bg_b,NewGUI/Demo/upsell_bg_b.png)
+Img:(upsell_bg_t,NewGUI/Demo/upsell_bg_t.png)
+Img:(upsell_banner_globe,NewGUI/Demo/upsell_banner_globe.png)
+
+##J
+Img:(upsell_screen_title3,NewGUI/Demo/upsell_screen_title3_ja.png)
+##-
+Img:(upsell_screen_title3,NewGUI/Demo/upsell_screen_title3.png)
+##*
+
+Img:(upsell_matchshot1,NewGUI/Demo/upsell_matchshot1.png)
+Img:(upsell_matchshot2,NewGUI/Demo/upsell_matchshot2.png)
+Img:(upsell_matchshot3,NewGUI/Demo/upsell_matchshot3.png)
+Img:(upsell_matchshot4,NewGUI/Demo/upsell_matchshot4.png)
+Img:(upsell_tablet_sheen,NewGUI/Demo/upsell_tablet_sheen.png)
+
+//--------------------------------------------------------------------------------------------Animation
+
+##D
+
+Animation:(30,Loop) ref:Title
+{
+	Sequence:(upsell_screen_title#,1,2,3)
+		Handle(0,0)
+}
+
+Animation:(30,Loop) ref:MatchShots
+{
+	Sequence:(upsell_matchshot#,1,2,3,4)
+		Handle(0,0)
+}
+//---------------------------------------------------------------------------------------------SETUP
+	
+Rect:()
+	set(twk(Audio,Rain),0)
+	if(twk(Settings,DemoVersion)=0)<
+		.Message(demo_end.upgradepurchased)
+	>
+
+//---------------------------------------------------------------------------------------------CONTENT
+Cls:(#FFFFFF00)
+
+Rect:(@C,@M,@W,@H) ref:DissolveRoot
+{{
+	Draw:(upsell_bg_b,0,0,@W,@H,,#FFFFFFFF)
+		Handle(0.5,0.5)
+	Draw:(upsell_bg_t,0,0,@W,@H,,#FFFFFFFF)
+		Handle(0.5,0.5)
+}}
+
+
+Dissolve:()
+	.set(gel.alpha,0)
+	Delay(0.6)
+	frlerp(gel.alpha,1,0.015)
+{
+	Sheet:(-100,-50,1191,-25,-2,-12,51.49) //FIXEDFOV
+		PinVP(@C,@M)
+		{{
+			//Base
+			Draw:(White,-5,-10,1080,620,,#606060FF)
+				Handle(0.5,0.5)
+
+			//Header
+			Draw:(White,-5,-320,1080,130,,#FFFFFFFF)
+				Handle(0.5,0)
+
+			//Banner
+			Draw:(White,-5.5,-305,1081,80,,#CD1010FF)
+				Handle(0.5,0)
+
+			Draw:(upsell_banner_globe,428,-305,,80,,#FFFFFF60)
+				Handle(0.5,0)
+
+			
+			//Text box bg
+			Draw:(White,-530,-113,635,265,,#F5F6F7FF)
+				Handle(0,0)
+			//Red Banner
+			Draw:(White,-530,-175,636,62,,#CD0A0AFF)
+				Handle(0,0)
+
+
+			// InGame Screenshot Slideshow
+			Rect:(-530,-113,635,160)
+				float(%cycle)
+				:Delay(0.5)
+				set(%cycle,(%cycle+(FrameTime*0.2)) fmod 480)
+			{{
+				Draw:(upsell_matchshot1,0,0,@W,@H)
+					frlerp(gel.alpha,(%cycle < 120),0.01)
+					Handle(0,0)	
+
+				Draw:(upsell_matchshot2,0,0,@W,@H,,#FFFFFF00)
+					frlerp(gel.alpha,(120 < %cycle < 240),0.01)
+					Handle(0,0)	
+
+				Draw:(upsell_matchshot3,0,0,@W,@H,,#FFFFFF00)
+					frlerp(gel.alpha,(240 < %cycle < 360),0.01)
+					Handle(0,0)	
+
+				Draw:(upsell_matchshot4,0,0,@W,@H,,#FFFFFF00)
+					frlerp(gel.alpha,(360 < %cycle < 480),0.01)
+					Handle(0,0)	
+			}}
+
+			//Main Headline text - WHAT NEXT FOR NEW STAR FC MANAGER?
+			M_Text:(demo_main_HEADLINE,-520,-219,620,150,L,C,TextBox,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,HEADLINE)
+			//Main Body text  - After taking charge of a struggling NEW STAR FC 12 games ago  the club are starting to see a turnaround in their fortunes  including a surprise 6 1 result against OX CITY  and a 7 goal hot streak for Steve Striker
+			M_Text:(demo_main_BODY,-525,-53,620,300,L,C,TextBox,KNUL20,Lower,1,0,#000000FF,NoItalics,#000000FFFFFFFFFF,BODY)
+
+
+			//Text box bg
+			Draw:(White,-530,152,635,125,,#F5F6F7FF)
+				Handle(0,0)
+			//Red Banner
+			Draw:(White,-530,152,635,25,,#CD0A0AFF)
+				Handle(0,0)
+			//Top Story text
+			M_Text:(demo_top_HEADLINE,-520,90,620,150,L,C,TextBox,KNUL21,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,HEADLINE)
+
+			//Save Headline text - SCIENTISTS MAKE EXCITING DISCOVERY IN SAVE GAME TECHNOLOGY
+			M_Text:(demo_savehelp_HEADLINE,-530,128,620,150,C,C,TextBox,KNUL24,Upper,1,0,#000000FF,NoItalics,#000000FFFFFFFFFF,HEADLINE)
+			//Save Body text - Save data from the demo version of NEW STAR MANAGER can be carried over to the full version
+			M_Text:(demo_savehelp_BODY,-525,175,620,150,L,C,TextBox,KNUL20,Lower,1,0,#000000FF,NoItalics,#000000FFFFFFFFFF,BODY)
+
+
+			//Text box bg
+			Draw:(White,125,-175,390,452,,#F5F6F7FF)
+				Handle(0,0)
+
+			//Red Banner
+			Draw:(White,125,-175,390,25,,#CD0A0AFF)
+				Handle(0,0)
+
+			//Latest News text
+			M_Text:(demo_latest_HEADLINE,140,-237,390,150,L,C,TextBox,KNUL21,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,HEADLINE)
+
+			//Title Screen Image
+			Draw:(upsell_screen_title3,125,-50)
+
+			//Shop help Headline text - HOT RELEASE FOR SPORTS GAME SUPREMOS
+			M_Text:(demo_shophelp_HEADLINE,130,-175,360,150,C,C,TextBox,KNUL28,Upper,1,0,#000000FF,NoItalics,#000000FFFFFFFFFF,HEADLINE)
+			//Shop help Headline text - The full version of the critcially acclaimed NEW STAR MANAGER is available for download from the Nintendo eShop
+			M_Text:(demo_shophelp_BODY,140,25,380,350,L,C,TextBox,KNUL22,Lower,1,0,#000000FF,NoItalics,#000000FFFFFFFFFF,BODY)
+
+			Draw:(MSG_News_NSN_Right,100,-265,420,,,#FFFFFFFF)
+				frlerp(gel.x,0,0.02)
+				Handle(0,0.5)
+
+			// TEAM BADGE
+			M_Badge:(25,-33,HD,1,TeamBadge)
+		}}
+}
+
+//Sheen
+Sheet:(-100,-50,1191,-25,-2,-12,51.49) //FIXEDFOV
+	PinVP(@C,@M)
+{{
+					
+		Draw:(upsell_tablet_sheen,0,0,1420,,-1,#FFFFFF15)
+			Handle(0.5,0.5)
+			Additive()
+			Layer(Debug)
+}}
+
+
+//-----------------------------------------------------Buttons
+
+
+	//Go to Eshop
+	M_Button:(@R-156,@B-55,280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,demo_end.btn_Eshop,EshopButton,loc(demo_controls_SHOP),0,3,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,,1)
+		Layer(Debug)
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+		:CTRLSetSelected()
+
+	//Back to title
+	M_Button:(@R-520,@B-55,280,60,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,demo_end.btn_Back,demoendBackButton,loc(demo_controls_BACK),0,3,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+		Layer(Debug)
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+##*
+

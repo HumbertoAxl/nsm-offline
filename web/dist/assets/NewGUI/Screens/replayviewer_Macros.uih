@@ -1,0 +1,190 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(badge_Macros.uih)
+Import:(matchengine_common.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_Replay,NewGUI/UI/Icons/Icon_Replay.png)
+Img:(Replay_Shadow,NewGUI/Replays/Replay_Shadow.png)
+Img:(Replay_Panel,NewGUI/Replays/Replay_Panel.png)
+Img:(Replay_Highlight,NewGUI/Replays/Replay_Highlight.png)
+Img:(Replay_Reflection,NewGUI/Replays/Replay_Reflection.png,40,40,0,0)
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_ReplayButton,?ID?,?SCRN?,?CAT?)
+	Rect:() ref:Replay?ID?
+	{
+		Draw:(Replay_Reflection,-160,280,320,100,,#FFFFFF60)
+
+		Rect:(0,240,300,240)
+			float(%lerpAmt,%selected)
+			Handle(0.5,1)
+			set(%lerpAmt,[[@y/2]+gel.gx-[@w/2]]/[@w/2])
+			set(gel.scale,lerp(1,0.8,min(1,abs(%lerpAmt))))
+			if(abs(%lerpAmt) < 0.25)
+			<
+				:set(twk(?CAT?,SelectedReplay),?ID?)
+				:Message(?SCRN?.selectedReplay,?ID?)
+			>
+			if(twk(?CAT?,SelectedReplay) = ?ID?)
+			<
+				set(%badgeLerp,lerp(0,1,%lerpAmt/0.25))
+			>
+			M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLReplaySelected,4,-116,10,10)
+			if(%clicked)
+			<
+				Message(?SCRN?.btn_Replay,?ID?)
+			>
+			CTRLIsSelected()
+			<
+				set(%selected,1)
+			>
+			else
+			<
+				set(%selected,0)
+			>
+		{{
+			Cull:(@L,@T,@W,@H)
+				Click(?SCRN?.btn_Replay,?ID?)
+			{{
+				// Empty
+				Draw:(Replay_Shadow,-20,38,,,,#FFFFFFBB)
+				Draw:(Replay_Panel,-10,-10)
+			
+				// Replay Exists
+				Rect:() $HIDE ref:ScreenshotRoot
+				{
+					Draw:(Replay_Panel,-10,-2,320,255)
+					Draw:(Replay_Shadow,-20,38,,,,#FFFFFFBB)
+					Draw:(Replay_Panel,-10,-10)
+
+					//Screenshot
+					Draw:($MATCHSCREENSHOT?ID?_STATIC,@C,35,275,180)
+						Handle(0.5,0)
+						if(twk(?CAT?,SelectedReplay) = ?ID?)
+						<
+							float(%timer,%frame)
+							:set(%timer,0)
+							:set(%frame,0)
+
+							add(%timer,FrameTime*0.03)
+
+							if(%timer >= 1)
+							<
+								:add(%frame,1)
+								:fmod(%frame,4)
+								:Message(?SCRN?.renderMotionScreenshot,%frame)
+
+								if(%frame = 0)
+								<
+									set(%timer,0)
+									set(gel.img,$MATCHSCREENSHOT?ID?_STATIC)
+								>
+								else
+								<
+									if(%frame <= twk(?CAT?,ReplayMotionFramesSet))
+									<
+										set(%timer,0)
+										set(gel.img,"$MATCHSCREENSHOT"::fmt(%frame,X)::"_MOTION")
+									>
+								>
+							>
+						>
+						else
+						<
+							:set(gel.img,$MATCHSCREENSHOT?ID?_STATIC)
+						>
+					{{
+						//Icon
+						Draw:(Icon_Replay,@C,@M,90,90,,#FFFFFF60)
+							set(gel.vis,twk(Match,InProgress) = 0)
+							Handle(0.5,0.5)
+						
+						Draw:(Replay_Highlight,-160,-46)
+						M_Button:(@R-30,10,60,60,Button_SilverSliced,Icon_Recycle,10,10,40,40,#252525FF,(?SCRN?.btn_DeleteReplay,?ID?),ref,"",0,0,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+							if(%selected)
+							<
+								M_CTRLButtonExtra:(Y,false)
+							>
+						M_SwitchButtonHint:(⛍,@R-15,-25)
+							set(gel.vis,%selected)
+					}}
+				}
+			}}
+		}}
+	}
+EndM
+
+
+Macro:(M_ReplayViewerTab,?X?,?Y?,?W?,?H?,?SCRN?,?CAT?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		float(%badgeLerp)
+	{{
+		Rect:() $HIDE ref:ScreenshotManager
+		{
+			Surf:($MATCHSCREENSHOT0_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT1_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT2_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT3_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT4_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT5_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT6_STATIC,512,256)
+			##IAP4
+			Surf:($MATCHSCREENSHOT7_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT8_STATIC,512,256)
+			Surf:($MATCHSCREENSHOT9_STATIC,512,256)
+			##*
+
+			Surf:($MATCHSCREENSHOT1_MOTION,512,256)
+			Surf:($MATCHSCREENSHOT2_MOTION,512,256)
+			Surf:($MATCHSCREENSHOT3_MOTION,512,256)
+
+			M_MatchScreenshot:($MATCHSCREENSHOT0_STATIC,?SCRN?,512)
+		}
+
+
+		Rect:(0,-240,@W,@H) ref:ReplaysList
+			ChildrenOffset([@w/1.9]/2,0)
+			SnappingListX(?CAT?,ReplaysScroll,@W,?CAT?,ReplaysScrollVel,SwipePanels,SwipePanelReplays,15,0.1,true) ref:ScrollingList
+			CTRLScrollList(ScrollingList) ref:CTRLScrollList
+		{{
+			M_ReplayButton:(0,?SCRN?,?CAT?)
+			M_ReplayButton:(1,?SCRN?,?CAT?)
+			M_ReplayButton:(2,?SCRN?,?CAT?)
+			M_ReplayButton:(3,?SCRN?,?CAT?)
+			M_ReplayButton:(4,?SCRN?,?CAT?)
+			M_ReplayButton:(5,?SCRN?,?CAT?)
+			M_ReplayButton:(6,?SCRN?,?CAT?)
+			##IAP4
+			M_ReplayButton:(7,?SCRN?,?CAT?)
+			M_ReplayButton:(8,?SCRN?,?CAT?)
+			M_ReplayButton:(9,?SCRN?,?CAT?)
+			##*
+
+			Rect:(0,0,@w*0.75,0)
+		}}
+
+
+		Rect:(0,0) ref:ReplayInfo
+		{{
+			M_Text:(New string,0,38,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+				if((twk(ControllerInput,Enabled) = 1) and(twk(Manager,ReplayHint) != "") and (%controlstate>=2))
+		   		<
+	   				set(gel.text,loc(settings_OKButton) :: "  " :: twk(Manager,ReplayHint))
+		    	>
+		    	else
+		    	<
+					set(gel.text,"")
+				>
+
+			M_Text:("Time",0,111,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FF,TimeStamp)
+			M_Text:("Teams",0,158,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,FixtureInfo)		
+
+			Rect:(0,0,0,0,0,#FFFFFFFFFFFFFFFF)
+				set(gel.alpha,lerp(1,0,min(1,abs(%badgeLerp))*%rootAlpha))
+			{
+				M_Badge:(-300,136,HD,1,HomeTeamBadge)	
+				M_Badge:(300,136,HD,1,AwayTeamBadge)
+			}
+		}}
+	}}
+EndM

@@ -1,0 +1,327 @@
+
+Macro:(M_North_012_WallSigns)
+	//Tier 0 to 2 wall and signs
+	//WallShadow
+	Locator:((0,0,-1),(0,0,90),(1,1,1))
+	{
+		UseShader:(Simple3DNZW)
+			Layer(Shadows)
+		{
+			DrawStaticModel:(Stadium_Wall_N_Shadow_Lv_1,WallShadow)
+				Blend(ONE,INV_IMAGE_ALPHA)
+		}
+	}	
+
+	//wall and Ads
+	Locator:((0,0,0),(0,0,90),(1,1,1))
+		//set(gel.vis,twk(PitchStandNConstruction,LastConstructionLevel) != 0)
+	{
+		DrawStaticModel:(Stadium_Wall_N_Lv_1,Stadium_Lv_3)
+			M_TextureSelectW:()
+		DrawStaticModel:(Stadium_WallSign_N_Lv_1,Stadium_Adverts_Lv_3)
+			M_TextureSelectW:()
+	}
+EndM
+
+			//---------------------------------------------------------------------------------------------------------North Stand
+
+			Rect:()
+				Layer(Ground)
+				strvar(%rlayer)
+				if(%currentFadeN <1.0)
+				<
+					set(%rlayer,Text)
+				>
+				else
+				<
+					set(%rlayer,RoofSolid)
+				>
+				selectchild(twk(Facilities,PitchStandNLevelVisible))
+			{
+
+				Rect:()	// Tier 0
+				{
+					M_North_012_WallSigns:()
+				}
+
+				//Tier 1 Stand
+				Rect:()
+				{
+					//Shadow
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,-2),(0,0,90),(1,1,1))
+							//set(gel.vis,twk(PitchStandNConstruction,LastConstructionLevel) != 0)
+						{
+							UseShader:(Simple3DNZW)
+								Layer(Shadows)
+							{
+								DrawStaticModel:(Stadium_Seats_N_Shadow_Lv_1,Stadium_T1_Shadows)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+					}
+
+					//Seats and Ads
+					Locator:((0,0,0),(0,0,90),(1,1,1))
+						//set(gel.vis,twk(PitchStandNConstruction,LastConstructionLevel) != 0)
+					{
+						DrawStaticModel:(Stadium_Seats_N_Lv_1,Stadium_Lv_3)
+							M_TextureSelectW:()
+						DrawStaticModel:(Stadium_StandSign_N_Lv_1,Stadium_Adverts_Lv_3)
+							M_TextureSelectW:()
+					}
+
+					M_North_012_WallSigns:()
+					M_Crowd_N_12:()
+				}
+
+				//Tier 2 Stand
+				Rect:()
+				{
+					//Shadow
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,1),(0,0,90),(1,1,1))
+						{
+							UseShader:(Simple3DNZW)
+								Layer(Shadows)
+							{
+								DrawStaticModel:(Stadium_Seats_N_Shadow_Lv_2,Stadium_T2_Shadows)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+					}
+
+					//Seats and Ads
+					Locator:((0,0,0),(0,0,90),(1,1,1))
+					{
+						DrawStaticModel:(Stadium_Seats_N_Lv_1,Stadium_Lv_3)
+							M_TextureSelectW:()
+						DrawStaticModel:(Stadium_StandSign_N_Lv_1,Stadium_Adverts_Lv_3)
+							M_TextureSelectW:()
+
+						UseShader:(ProjectedLight3DVColFaded)
+							SetSampler(TexSamp1,$CLOUDSHADOW)
+							SetUniform1F(Fade,%currentFadeN)
+							set(gel.layer,%rlayer)
+						{
+							
+							DrawStaticModel:(Stadium_Roof_N_Lv_2,Stadium_Lv_3)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+
+					}
+					M_North_012_WallSigns:()
+					M_Crowd_N_12:()
+				}
+		
+
+				//Tier 3
+				Rect:()
+				{
+					//Shadow
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,1),(0,0,90),(1,1,1))
+						{
+							UseShader:(Simple3DNZW)
+								Layer(Shadows)
+							{
+								DrawStaticModel:(Stadium_Seats_N_Shadow_Lv_3,Stadium_T3_Shadows)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+								
+						}
+					}
+					
+					//Seats
+					Locator:((0,0,0),(0,0,90),(1,1,1))
+					{					
+						DrawStaticModel:(Stadium_Seats_N_Lv_3,Stadium_Lv_3)
+							M_TextureSelectW:()
+
+						DrawStaticModel:(Stadium_Signs_N_Lv_3,Stadium_Adverts_Lv_3)
+							M_TextureSelectW:()
+
+						Locator:((-135,0,0),(0,0,0),(1,1,1))
+						{					
+							DrawStaticModel:(Stadium_WallSign_N_Lv_3,Stadium_Adverts_Lv_3)
+								M_TextureSelectW:()
+						}
+						
+						UseShader:(ProjectedLight3DVColFaded)
+							SetSampler(TexSamp1,$CLOUDSHADOW)
+							SetUniform1F(Fade,%currentFadeN)
+							set(gel.layer,%rlayer)
+						{
+							
+							DrawStaticModel:(Stadium_Roof_N_Lv_3,Stadium_Lv_3)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+						}
+
+
+						##P4N
+						//RoofLight----------------------------------Beams
+						Rect:()
+							.set(gel.vis,(twk(Facilities,Night) = 1) and(shell(GameScreen) !="matchengine"))
+						{
+							UseShader:(Simple3DNZW)
+								Layer(AboveSky)
+							{
+								DrawStaticModel:(Stadium_Roof_N_Lights_Lv_3,Floodlight_Beam)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						
+							//Rooflight----------------------------------Glows
+							UseShader:(Simple3DNZW)
+								Layer(AboveSky)
+							{
+								DrawStaticModel:(Stadium_N_LightGlow_Lv_3,Floodlight_Glow) 
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+						##*
+
+					}
+					M_Crowd_N_3:()
+				}
+
+				//Tier 4
+				Rect:()
+				{
+					//Shadow
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,1),(0,0,90),(1,1,1))
+						{
+							UseShader:(Simple3DNZW)
+								Layer(Shadows)
+							{
+								DrawStaticModel:(Stadium_Seats_N_Shadow_Lv_4,Stadium_T4_Shadows)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+
+						}
+					}
+
+					//Seats
+					Locator:((0,0,0),(0,0,90),(1,1,1))
+					{										
+						DrawStaticModel:(Stadium_Seats_N_Lv_4,Stadium_Lv_4)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+
+						DrawStaticModel:(Stadium_Signs_N_Lv_4,Stadium_Adverts_Lv_3)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+
+						UseShader:(ProjectedLight3DVColFaded)
+							SetSampler(TexSamp1,$CLOUDSHADOW)
+							SetUniform1F(Fade,%currentFadeN)
+							set(gel.layer,%rlayer)
+						{
+								
+							DrawStaticModel:(Stadium_Roof_N_Lv_4,Stadium_Lv_4)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+
+						}
+					}
+					##P4N
+					//Roof Light--------------------------------
+					Rect:()
+						.set(gel.vis,(twk(Facilities,Night) = 1) and(shell(GameScreen) !="matchengine"))
+					{
+						UseShader:(Simple3DNZW)
+							Layer(AboveSky)
+						{
+							Locator:((0,0,0),(0,0,90),(1,1,1))
+							{
+								//Beams	
+								DrawStaticModel:(Stadium_Roof_N_Lights_Lv_4,Floodlight_Beam)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								
+								//Glows
+								DrawStaticModel:(Stadium_N_LightGlow_Lv_4,Floodlight_Glow) 
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+					}
+					##*
+					M_Crowd_N_4:()
+				}
+
+				//Tier 5
+				Rect:()
+				{
+					//Shadow
+					Rect:()
+						.set(gel.vis,twk(Facilities,Night) = 0)
+					{
+						Locator:((0,0,1),(0,0,90),(1,1,1))
+						{
+							UseShader:(Simple3DNZW)
+								Layer(Shadows)
+							{
+								DrawStaticModel:(Stadium_Seats_N_Shadow_Lv_5,Stadium_T5_Shadows)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+
+						}
+					}
+					
+					//Seats
+					Locator:((0,0,0),(0,0,90),(1,1,1))
+					{
+						DrawStaticModel:(Stadium_Seats_N_Lv_5,Stadium_Lv_5)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelectW:()
+
+						UseShader:(ProjectedLight3DVColFaded)
+							SetSampler(TexSamp1,$CLOUDSHADOW)
+							SetUniform1F(Fade,%currentFadeN)
+							set(gel.layer,%rlayer)
+						{
+							DrawStaticModel:(Stadium_Roof_N_Lv_5,Stadium_Lv_5)
+								Blend(ONE,INV_IMAGE_ALPHA)
+								M_TextureSelectW:()
+
+						}
+
+						DrawStaticModel:(Stadium_Signs_N_Lv_5,Stadium_Adverts_Lv_3)
+							M_TextureSelectW:()
+					}
+					##P4N
+					//Roof Light--------------------------------
+					Rect:()
+						.set(gel.vis,(twk(Facilities,Night) = 1) and(shell(GameScreen) !="matchengine"))
+					{
+						UseShader:(Simple3DNZW)
+							Layer(AboveSky)
+						{
+							Locator:((0,0,0),(0,0,90),(1,1,1))
+							{
+								//Beams	
+								DrawStaticModel:(Stadium_Roof_N_Lights_Lv_5,Floodlight_Beam)
+									Blend(ONE,INV_IMAGE_ALPHA)
+								
+								//Glows
+								DrawStaticModel:(Stadium_N_LightGlow_Lv_5,Floodlight_Glow) 
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+					}
+					##*
+					M_Crowd_N_5:()
+				}
+			}
+
+
+

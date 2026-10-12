@@ -1,0 +1,78 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+
+// -------------------- PLAYER CARD
+
+M_CardSlot:(250,425,FaceEdit,NONE,NONE,1,Slot)
+	Scale(3,3)
+
+
+// -------------------- RIGHT PANEL
+
+Macro:(M_Picker,?INDEX?,?VAR?,?MAX?)
+	Draw:(White,50,?INDEX?*55,@W/2-80,40)
+	{{
+		Draw:(RoundedPanel,0,0,40,40,,#CCCCCCFF)
+		M_Text:("-",0,0,40,40,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		Click()
+		<
+			set(twk(FaceEdit,?VAR?),twk(FaceEdit,?VAR?)-1)
+			if(twk(FaceEdit,?VAR?)<1)
+			<
+				set(twk(FaceEdit,?VAR?),?MAX?)
+			>
+		>
+
+		M_Text:(,0,0,@W,@H,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+				set(gel.text,"?VAR?"::" : "::twk(FaceEdit,?VAR?))
+
+		Draw:(RoundedPanel,210,0,40,40,,#CCCCCCFF)
+		M_Text:("+",210,0,40,40,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		Click()
+		<
+			set(twk(FaceEdit,?VAR?),twk(FaceEdit,?VAR?)+1)
+			if(twk(FaceEdit,?VAR?)>?MAX?)
+			<
+				set(twk(FaceEdit,?VAR?),1)
+			>
+		>
+	}}
+EndM
+
+Rect:(425,137,650,528)
+{{
+		M_Picker:(1,Head,40)
+		M_Picker:(2,Hair,40)
+		M_Picker:(3,EyeSocket,30)
+		M_Picker:(4,Nose,39)
+		M_Picker:(5,Mouth,40)
+		M_Picker:(6,Ears,20)
+
+
+		PushOrigin:(@W/2,0)
+			M_Picker:(1,Beard,20)
+			M_Picker:(2,Brows,25)
+		PopOrigin
+
+		Rect:(50,400,250,50)
+			Click(faceedit.btn_Refresh)
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:(Refresh,0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+}}
+
+M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,faceedit.btn_Close,ref,"EXIT",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)

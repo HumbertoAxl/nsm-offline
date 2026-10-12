@@ -1,0 +1,100 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_CardFaceGenSlot,?X?,?Y?,?ID?,?FILTER?,?COMBINATION?)
+	Cull:(?X?,?Y?,?CARD_W?,?CARD_H?)	
+		Handle(0.5,0.5)
+	{{
+
+		Rect:(0,0,?CARD_W?,?CARD_H?)
+			Handle(0.5,0.5)
+		{{
+			Draw:(RoundedPanel,0,0,@W+8,@H+8,,#00ffff)
+				Handle(0.5,0.5)
+				Card_Highlight(?ID?)
+			
+		}}
+			Card_Slot(?ID?,?FILTER?,?COMBINATION?)
+			Scale(1.2,1.2)
+
+		
+		Rect:(-@W/2,-@H/2,@W*2,@H*2) $HIDE ref:?ID?Info
+		{{
+			Draw:(White,0,0,@W,@H,,#00000088)
+			
+			TextBox:("Comp1|Comp2|Comp3",0,0,@W,@H,C) ref:?ID?Info
+				FontSize(2)
+		}}
+			Scale(0.5,0.5)
+
+
+		Draw:(White,-55,-15,15,15)
+			Click(facegen.showinfo,?ID?)
+		
+		Draw:(White,-55,0,15,15)
+			Click(facegen.showedit,?ID?)
+	
+	}}
+
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+
+
+
+Draw:(White,@L,@B-80,@W,75,,#00000055)
+
+
+
+Rect:(85,180)
+{{
+	M_CardFaceGenSlot:(0,0,Generated1,NONE,NONE)
+	M_CardFaceGenSlot:(140,0,Generated2,NONE,NONE)
+	M_CardFaceGenSlot:(280,0,Generated3,NONE,NONE)
+	M_CardFaceGenSlot:(420,0,Generated4,NONE,NONE)
+	M_CardFaceGenSlot:(560,0,Generated5,NONE,NONE)
+	M_CardFaceGenSlot:(700,0,Generated6,NONE,NONE)
+	M_CardFaceGenSlot:(840,0,Generated7,NONE,NONE)
+	M_CardFaceGenSlot:(980,0,Generated8,NONE,NONE)
+}}
+
+Rect:(85,380)
+{{
+	M_CardFaceGenSlot:(0,0,Generated9,NONE,NONE)
+	M_CardFaceGenSlot:(140,0,Generated10,NONE,NONE)
+	M_CardFaceGenSlot:(280,0,Generated11,NONE,NONE)
+	M_CardFaceGenSlot:(420,0,Generated12,NONE,NONE)
+	M_CardFaceGenSlot:(560,0,Generated13,NONE,NONE)
+	M_CardFaceGenSlot:(700,0,Generated14,NONE,NONE)
+	M_CardFaceGenSlot:(840,0,Generated15,NONE,NONE)
+	M_CardFaceGenSlot:(980,0,Generated16,NONE,NONE)
+}}
+
+Rect:(85,580)
+{{
+	M_CardFaceGenSlot:(0,0,Generated17,NONE,NONE)
+	M_CardFaceGenSlot:(140,0,Generated18,NONE,NONE)
+	M_CardFaceGenSlot:(280,0,Generated19,NONE,NONE)
+	M_CardFaceGenSlot:(420,0,Generated20,NONE,NONE)
+	M_CardFaceGenSlot:(560,0,Generated21,NONE,NONE)
+	M_CardFaceGenSlot:(700,0,Generated22,NONE,NONE)
+	M_CardFaceGenSlot:(840,0,Generated23,NONE,NONE)
+	M_CardFaceGenSlot:(980,0,Generated24,NONE,NONE)
+}}
+
+
+
+
+
+M_Button:(@C,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,facegen.btn_Switch,ref,"SWITCH",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+M_Button:(@R-120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,facegen.btn_Refresh,ref,"REFRESH",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,facegen.btn_Quit,ref,"EXIT",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)

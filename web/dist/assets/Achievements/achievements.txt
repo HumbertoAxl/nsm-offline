@@ -1,0 +1,2581 @@
+{
+	"UpgradeTrainingGround":[
+		41,
+		"Type_Standard",
+		1,
+		"ACHIEVEMENT_1",
+		"ACHIEVEMENT_1_EXTRA",
+		"AchievementsTracking",
+		"UpgradedTrainingGround",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.test.external.string.id.1", 
+			"Apple", "com.test.external.string.id.2"
+		]
+	],
+
+	"HireSkillsCoach":[
+		12,
+		"Type_Standard",
+		2,
+		"ACHIEVEMENT_57",
+		"ACHIEVEMENT_57_EXTRA",
+		"AchievementsTracking",
+		"HiredSkillsCoach",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"HireFitnessCoach":[
+		9,
+		"Type_Standard",
+		3,
+		"ACHIEVEMENT_58",
+		"ACHIEVEMENT_58_EXTRA",
+		"AchievementsTracking",
+		"HiredFitnessCoach",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"HireYouthCoach":[
+		13,
+		"Type_Standard",
+		4,
+		"ACHIEVEMENT_59",
+		"ACHIEVEMENT_59_EXTRA",
+		"AchievementsTracking",
+		"HiredYouthCoach",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "021",
+			"Quality", "B"
+		]
+	],
+
+	"AdjustFormation":[
+		0,
+		"Type_Standard",
+		5,
+		"ACHIEVEMENT_3",
+		"ACHIEVEMENT_3_EXTRA",
+		"AchievementsTracking",
+		"AdjustedFormation",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "001",
+			"Quality", "B"
+		]
+	],
+
+	"PlayMatch":[
+		17,
+		"Type_Standard",
+		6,
+		"ACHIEVEMENT_4",
+		"ACHIEVEMENT_4_EXTRA",
+		"AchievementsTracking",
+		"PlayedMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "002",
+			"Quality", "B"
+		]
+
+	],
+
+	"UseSkillCard":[
+		48,
+		"Type_Standard",
+		7,
+		"ACHIEVEMENT_5",
+		"ACHIEVEMENT_5_EXTRA",
+		"AchievementsTracking",
+		"SkillCardUsed",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+
+		]
+	],
+
+	"UseFitnessCard":[
+		45,
+		"Type_Standard",
+		8,
+		"ACHIEVEMENT_6",
+		"ACHIEVEMENT_6_EXTRA",
+		"AchievementsTracking",
+		"FitnessCardUsed",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"CompleteBoardTargets":[
+		2,
+		"Type_Standard",
+		9,
+		"ACHIEVEMENT_7",
+		"ACHIEVEMENT_7_EXTRA",
+		"AchievementsTracking",
+		"BoardTargetsCompleted",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AdjustTicketPrice":[
+		1,
+		"Type_Standard",
+		10,
+		"ACHIEVEMENT_8",
+		"ACHIEVEMENT_8_EXTRA",
+		"AchievementsTracking",
+		"AdjustedTicketPrice",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "003",
+			"Quality", "B"
+		]
+	],
+
+	"UpgradeStadium":[
+		40,
+		"Type_Standard",
+		11,
+		"ACHIEVEMENT_9",
+		"ACHIEVEMENT_9_EXTRA",
+		"AchievementsTracking",
+		"UpgradedStadium",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeClubShop":[
+		35,
+		"Type_Standard",
+		12,
+		"ACHIEVEMENT_10",
+		"ACHIEVEMENT_10_EXTRA",
+		"AchievementsTracking",
+		"UpgradedClubShop",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeMedicalUnit":[
+		37,
+		"Type_Standard",
+		13,
+		"ACHIEVEMENT_11",
+		"ACHIEVEMENT_11_EXTRA",
+		"AchievementsTracking",
+		"UpgradedMedicalUnit",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"HirePhysio":[
+		10,
+		"Type_Standard",
+		14,
+		"ACHIEVEMENT_12",
+		"ACHIEVEMENT_12_EXTRA",
+		"AchievementsTracking",
+		"HiredPhysio",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "004",
+			"Quality", "B"
+		]
+	],
+
+	"UpgradeScoutsOffice":[
+		39,
+		"Type_Standard",
+		15,
+		"ACHIEVEMENT_13",
+		"ACHIEVEMENT_13_EXTRA",
+		"AchievementsTracking",
+		"UpgradedScoutsOffice",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"HireScout":[
+		11,
+		"Type_Standard",
+		16,
+		"ACHIEVEMENT_14",
+		"ACHIEVEMENT_14_EXTRA",
+		"AchievementsTracking",
+		"HiredScout",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "005",
+			"Quality", "B"
+		]
+	],
+
+	"UpgradeFitnessCentre":[
+		36,
+		"Type_Standard",
+		17,
+		"ACHIEVEMENT_15",
+		"ACHIEVEMENT_15_EXTRA",
+		"AchievementsTracking",
+		"UpgradedFitnessCentre",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"SuccessfulPressConf":[
+		33,
+		"Type_Standard",
+		18,
+		"ACHIEVEMENT_16",
+		"ACHIEVEMENT_16_EXTRA",
+		"AchievementsTracking",
+		"PressConfSuccessful",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeYouthAcademy":[
+		42,
+		"Type_Standard",
+		19,
+		"ACHIEVEMENT_17",
+		"ACHIEVEMENT_17_EXTRA",
+		"AchievementsTracking",
+		"UpgradedYouthAcademy",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradePitch":[
+		38,
+		"Type_Standard",
+		20,
+		"ACHIEVEMENT_18",
+		"ACHIEVEMENT_18_EXTRA",
+		"AchievementsTracking",
+		"UpgradedPitch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinLeagueGame":[
+		55,
+		"Type_Standard",
+		21,
+		"ACHIEVEMENT_19",
+		"ACHIEVEMENT_19_EXTRA",
+		"AchievementsTracking",
+		"WonLeagueGame",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinCupGame":[
+		53,
+		"Type_Standard",
+		22,
+		"ACHIEVEMENT_20",
+		"ACHIEVEMENT_20_EXTRA",
+		"AchievementsTracking",
+		"WonCupGame",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinCupTournament":[
+		54,
+		"Type_Standard",
+		23,
+		"ACHIEVEMENT_21",
+		"ACHIEVEMENT_21_EXTRA",
+		"AchievementsTracking",
+		"WonCupTournament",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "006",
+			"Quality", "B"
+		]
+	],
+
+	"WinContClubMatch":[
+		51,
+		"Type_Standard",
+		24,
+		"ACHIEVEMENT_22",
+		"ACHIEVEMENT_22_EXTRA",
+		"AchievementsTracking",
+		"WonContClubMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinContClubTournament":[
+		52,
+		"Type_Standard",
+		25,
+		"ACHIEVEMENT_23",
+		"ACHIEVEMENT_23_EXTRA",
+		"AchievementsTracking",
+		"WonContClubTournament",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "007",
+			"Quality", "S"
+		]
+	],
+
+	"Score1GoalMatch":[
+		20,
+		"Type_Standard",
+		26,
+		"ACHIEVEMENT_24",
+		"ACHIEVEMENT_24_EXTRA",
+		"AchievementsTracking",
+		"1GoalScoredMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score3GoalsMatch":[
+		23,
+		"Type_Standard",
+		27,
+		"ACHIEVEMENT_25",
+		"ACHIEVEMENT_25_EXTRA",
+		"AchievementsTracking",
+		"3GoalsScoredMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinMatchBy5Goals":[
+		57,
+		"Type_Standard",
+		28,
+		"ACHIEVEMENT_26",
+		"ACHIEVEMENT_26_EXTRA",
+		"AchievementsTracking",
+		"WonByFiveGoals",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "008",
+			"Quality", "B"
+		]
+	],
+
+	"Make10PassesIn1Match":[
+		14,
+		"Type_Standard",
+		29,
+		"ACHIEVEMENT_27",
+		"ACHIEVEMENT_27_EXTRA",
+		"AchievementsTracking",
+		"10PassesMadeMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Make20PassesIn1Match":[
+		15,
+		"Type_Standard",
+		30,
+		"ACHIEVEMENT_28",
+		"ACHIEVEMENT_28_EXTRA",
+		"AchievementsTracking",
+		"20PassesMadeMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "009",
+			"Quality", "B"
+		]
+	],
+
+	"GetPromoted":[
+		7,
+		"Type_Standard",
+		31,
+		"ACHIEVEMENT_29",
+		"ACHIEVEMENT_29_EXTRA",
+		"AchievementsTracking",
+		"GotPromoted",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "010",
+			"Quality", "B"
+		]
+	],
+
+	"WinLeagueTitle":[
+		56,
+		"Type_Standard",
+		32,
+		"ACHIEVEMENT_30",
+		"ACHIEVEMENT_30_EXTRA",
+		"AchievementsTracking",
+		"WonLeagueTitle",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "011",
+			"Quality", "B"
+		]
+	],
+
+	"UnbeatenInLeague":[
+		34,
+		"Type_Standard",
+		33,
+		"ACHIEVEMENT_31",
+		"ACHIEVEMENT_31_EXTRA",
+		"AchievementsTracking",
+		"UnbeatenInLeague",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "012",
+			"Quality", "S"
+		]
+	],
+
+	"DoTheTreble":[
+		3,
+		"Type_Standard",
+		34,
+		"ACHIEVEMENT_32",
+		"ACHIEVEMENT_32_EXTRA",
+		"AchievementsTracking",
+		"DoneTheTreble",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "013",
+			"Quality", "G"
+		]
+	],
+
+	"SignSponsorship":[
+		31,
+		"Type_Standard",
+		35,
+		"ACHIEVEMENT_33",
+		"ACHIEVEMENT_33_EXTRA",
+		"AchievementsTracking",
+		"SignedSponsorship",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"SignScoutedPlayer":[
+		30,
+		"Type_Standard",
+		36,
+		"ACHIEVEMENT_34",
+		"ACHIEVEMENT_34_EXTRA",
+		"AchievementsTracking",
+		"SignedScoutedPlayer",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "014",
+			"Quality", "B"
+		]
+	],
+
+	"SignYouthPlayer":[
+		32,
+		"Type_Standard",
+		37,
+		"ACHIEVEMENT_35",
+		"ACHIEVEMENT_35_EXTRA",
+		"AchievementsTracking",
+		"SignedYouthPlayer",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "015",
+			"Quality", "B"
+		]
+	],
+
+	"UseNRGCard":[
+		46,
+		"Type_Standard",
+		38,
+		"ACHIEVEMENT_36",
+		"ACHIEVEMENT_36_EXTRA",
+		"AchievementsTracking",
+		"UsedNRGCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"HavePlayerMeeting":[
+		8,
+		"Type_Standard",
+		39,
+		"ACHIEVEMENT_37",
+		"ACHIEVEMENT_37_EXTRA",
+		"AchievementsTracking",
+		"HadPlayerMeeting",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UsePhysioCard":[
+		47,
+		"Type_Standard",
+		40,
+		"ACHIEVEMENT_38",
+		"ACHIEVEMENT_38_EXTRA",
+		"AchievementsTracking",
+		"UsedPhysioCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UseContractCard":[
+		44,
+		"Type_Standard",
+		41,
+		"ACHIEVEMENT_39",
+		"ACHIEVEMENT_39_EXTRA",
+		"AchievementsTracking",
+		"UsedContractCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UseTeamTalkCard":[
+		50,
+		"Type_Standard",
+		42,
+		"ACHIEVEMENT_40",
+		"ACHIEVEMENT_40_EXTRA",
+		"AchievementsTracking",
+		"UsedTeamTalkCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UseBanAppealCard":[
+		43,
+		"Type_Standard",
+		43,
+		"ACHIEVEMENT_41",
+		"ACHIEVEMENT_41_EXTRA",
+		"AchievementsTracking",
+		"UsedBanAppealCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UseStaffCard":[
+		49,
+		"Type_Standard",
+		44,
+		"ACHIEVEMENT_42",
+		"ACHIEVEMENT_42_EXTRA",
+		"AchievementsTracking",
+		"UsedStaffCard",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"FullBoardRelationship":[
+		4,
+		"Type_Standard",
+		45,
+		"ACHIEVEMENT_43",
+		"ACHIEVEMENT_43_EXTRA",
+		"AchievementsTracking",
+		"FullBoardRel",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "016",
+			"Quality", "B"
+		]
+	],
+
+	"FullFansRelationship":[
+		5,
+		"Type_Standard",
+		46,
+		"ACHIEVEMENT_44",
+		"ACHIEVEMENT_44_EXTRA",
+		"AchievementsTracking",
+		"FullFanRel",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "017",
+			"Quality", "B"
+		]
+	],
+
+	"FullSponsorRelationship":[
+		6,
+		"Type_Standard",
+		47,
+		"ACHIEVEMENT_45",
+		"ACHIEVEMENT_45_EXTRA",
+		"AchievementsTracking",
+		"FullSponsorRel",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "018",
+			"Quality", "B"
+		]
+	],
+
+	"Play10Seasons":[
+		16,
+		"Type_Incremental",
+		48,
+		"ACHIEVEMENT_46",
+		"ACHIEVEMENT_46_EXTRA",
+		"AchievementsTracking",
+		"SeasonsPlayed",
+		10,
+		"Reward_Star_Rating",
+		10,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "019",
+			"Quality", "S"
+		]
+	],
+
+	"Score20Goals":[
+		21,
+		"Type_Incremental",
+		49,
+		"ACHIEVEMENT_47",
+		"ACHIEVEMENT_47_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		20,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score50Goals":[
+		25,
+		"Type_Incremental",
+		50,
+		"ACHIEVEMENT_48",
+		"ACHIEVEMENT_48_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score100Goals":[
+		19,
+		"Type_Incremental",
+		51,
+		"ACHIEVEMENT_49",
+		"ACHIEVEMENT_49_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score250Goals":[
+		22,
+		"Type_Incremental",
+		52,
+		"ACHIEVEMENT_50",
+		"ACHIEVEMENT_50_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		250,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score500Goals":[
+		24,
+		"Type_Incremental",
+		53,
+		"ACHIEVEMENT_51",
+		"ACHIEVEMENT_51_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		500,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score1000Goals":[
+		18,
+		"Type_Incremental",
+		54,
+		"ACHIEVEMENT_52",
+		"ACHIEVEMENT_52_EXTRA",
+		"AchievementsTracking",
+		"GoalsScored",
+		1000,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "020",
+			"Quality", "B"
+		]
+	],
+
+	"ScoreGoal6Yards":[
+		29,
+		"Type_Standard",
+		55,
+		"ACHIEVEMENT_53",
+		"ACHIEVEMENT_53_EXTRA",
+		"AchievementsTracking",
+		"ScoreGoal6Yards",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ScoreGoal20Yards":[
+		26,
+		"Type_Standard",
+		56,
+		"ACHIEVEMENT_54",
+		"ACHIEVEMENT_54_EXTRA",
+		"AchievementsTracking",
+		"ScoreGoal20Yards",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ScoreGoal30Yards":[
+		27,
+		"Type_Standard",
+		57,
+		"ACHIEVEMENT_55",
+		"ACHIEVEMENT_55_EXTRA",
+		"AchievementsTracking",
+		"ScoreGoal30Yards",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ScoreGoal40Yards":[
+		28,
+		"Type_Standard",
+		58,
+		"ACHIEVEMENT_56",
+		"ACHIEVEMENT_56_EXTRA",
+		"AchievementsTracking",
+		"ScoreGoal40Yards",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "035",
+			"Quality", "B"
+		]
+	],
+
+    "MoveLeagueOnce":[
+	    58,
+	    "Type_Standard",
+	    59,
+	    "ACHIEVEMENT_115",
+	    "ACHIEVEMENT_115_EXTRA",
+	    "AchievementsTracking",
+	    "MoveLeagueOnce",
+	    "Reward_Star_Rating",
+	    10,
+    	[
+            "Google", "com.external.id.test.1",
+            "Apple", "com.external.id.test.2"
+    	]
+    ],
+
+    "MoveLeagueTwice":[
+	    59,
+	    "Type_Standard",
+	    60,
+	    "ACHIEVEMENT_116",
+	    "ACHIEVEMENT_116_EXTRA",
+	    "AchievementsTracking",
+	    "MoveLeagueTwice",
+	    "Reward_Star_Rating",
+	    10,
+	    [
+	        "Google", "com.external.id.test.1",
+	    	"Apple", "com.external.id.test.2"
+	    ]
+    ],
+
+    "MoveLeagueThreeTimes":[
+	    60,
+	    "Type_Standard",
+	    61,
+	    "ACHIEVEMENT_117",
+	    "ACHIEVEMENT_117_EXTRA",
+	    "AchievementsTracking",
+	    "MoveLeagueThreeTimes",
+	    "Reward_Star_Rating",
+	    10,
+	    [
+	        "Google", "com.external.id.test.1",
+	        "Apple", "com.external.id.test.2",
+	        "PS4", "042",
+			"Quality", "S"
+	    ]
+    ],
+
+	"ScoreFromOwnHalf":[
+		61,
+		"Type_Standard",
+		62,
+		"ACHIEVEMENT_63",
+		"ACHIEVEMENT_63_EXTRA",
+		"AchievementsTracking",
+		"ScoreFromOwnHalf",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "024",
+			"Quality", "B"
+		]
+	],
+
+	"ComeBackFrom3DownWin":[
+		62,
+		"Type_Standard",
+		63,
+		"ACHIEVEMENT_64",
+		"ACHIEVEMENT_64_EXTRA",
+		"AchievementsTracking",
+		"ComeBackFrom3DownWin",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "025",
+			"Quality", "B"
+		]
+	],
+
+	"WinManagerOfYear":[
+		63,
+		"Type_Standard",
+		64,
+		"ACHIEVEMENT_65",
+		"ACHIEVEMENT_65_EXTRA",
+		"AchievementsTracking",
+		"WinManagerOfYear",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "026",
+			"Quality", "S"
+		]
+	],
+
+	"WinMatchWith10Men":[
+		64,
+		"Type_Standard",
+		65,
+		"ACHIEVEMENT_66",
+		"ACHIEVEMENT_66_EXTRA",
+		"AchievementsTracking",
+		"WinMatchWith10Men",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"WinMatchWith9Men":[
+		65,
+		"Type_Standard",
+		66,
+		"ACHIEVEMENT_67",
+		"ACHIEVEMENT_67_EXTRA",
+		"AchievementsTracking",
+		"WinMatchWith9Men",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "027",
+			"Quality", "B"
+		]
+	],
+
+	"Score5GoalsInMatch":[
+		66,
+		"Type_Standard",
+		67,
+		"ACHIEVEMENT_68",
+		"ACHIEVEMENT_68_EXTRA",
+		"AchievementsTracking",
+		"Score5GoalsInMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score10GoalsInMatch":[
+		67,
+		"Type_Standard",
+		68,
+		"ACHIEVEMENT_69",
+		"ACHIEVEMENT_69_EXTRA",
+		"AchievementsTracking",
+		"Score10GoalsInMatch",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "028",
+			"Quality", "B"
+		]
+	],
+
+	"Make500Passes":[
+		68,
+		"Type_Incremental",
+		69,
+		"ACHIEVEMENT_70",
+		"ACHIEVEMENT_70_EXTRA",
+		"AchievementsTracking",
+		"PassesMade",
+		500,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Make5000Passes":[
+		69,
+		"Type_Incremental",
+		70,
+		"ACHIEVEMENT_71",
+		"ACHIEVEMENT_71_EXTRA",
+		"AchievementsTracking",
+		"PassesMade",
+		5000,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Make10000Passes":[
+		70,
+		"Type_Incremental",
+		71,
+		"ACHIEVEMENT_72",
+		"ACHIEVEMENT_72_EXTRA",
+		"AchievementsTracking",
+		"PassesMade",
+		10000,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "029",
+			"Quality", "B"
+		]
+	],
+
+	"Score10Penalties":[
+		71,
+		"Type_Incremental",
+		72,
+		"ACHIEVEMENT_73",
+		"ACHIEVEMENT_73_EXTRA",
+		"AchievementsTracking",
+		"PenaltiesScored",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score50Penalties":[
+		72,
+		"Type_Incremental",
+		73,
+		"ACHIEVEMENT_74",
+		"ACHIEVEMENT_74_EXTRA",
+		"AchievementsTracking",
+		"PenaltiesScored",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score100Penalties":[
+		73,
+		"Type_Incremental",
+		74,
+		"ACHIEVEMENT_75",
+		"ACHIEVEMENT_75_EXTRA",
+		"AchievementsTracking",
+		"PenaltiesScored",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "030",
+			"Quality", "B"
+		]
+	],
+
+	"Score10Headers":[
+		74,
+		"Type_Incremental",
+		75,
+		"ACHIEVEMENT_76",
+		"ACHIEVEMENT_76_EXTRA",
+		"AchievementsTracking",
+		"HeadersScored",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score50Headers":[
+		75,
+		"Type_Incremental",
+		76,
+		"ACHIEVEMENT_77",
+		"ACHIEVEMENT_77_EXTRA",
+		"AchievementsTracking",
+		"HeadersScored",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Score100Headers":[
+		76,
+		"Type_Incremental",
+		77,
+		"ACHIEVEMENT_78",
+		"ACHIEVEMENT_78_EXTRA",
+		"AchievementsTracking",
+		"HeadersScored",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "031",
+			"Quality", "B"
+		]
+	],
+
+
+	"Win3LeagueTitles":[
+		77,
+		"Type_Incremental",
+		78,
+		"ACHIEVEMENT_79",
+		"ACHIEVEMENT_79_EXTRA",
+		"AchievementsTracking",
+		"LeagueTitlesWon",
+		3,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win5LeagueTitles":[
+		78,
+		"Type_Incremental",
+		79,
+		"ACHIEVEMENT_80",
+		"ACHIEVEMENT_80_EXTRA",
+		"AchievementsTracking",
+		"LeagueTitlesWon",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win10LeagueTitles":[
+		79,
+		"Type_Incremental",
+		80,
+		"ACHIEVEMENT_81",
+		"ACHIEVEMENT_81_EXTRA",
+		"AchievementsTracking",
+		"LeagueTitlesWon",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "032",
+			"Quality", "B"
+		]
+	],
+
+	"Win3CupTrophies":[
+		80,
+		"Type_Incremental",
+		81,
+		"ACHIEVEMENT_82",
+		"ACHIEVEMENT_82_EXTRA",
+		"AchievementsTracking",
+		"CupTrophiesWon",
+		3,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win5CupTrophies":[
+		81,
+		"Type_Incremental",
+		82,
+		"ACHIEVEMENT_83",
+		"ACHIEVEMENT_83_EXTRA",
+		"AchievementsTracking",
+		"CupTrophiesWon",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win10CupTrophies":[
+		82,
+		"Type_Incremental",
+		83,
+		"ACHIEVEMENT_84",
+		"ACHIEVEMENT_84_EXTRA",
+		"AchievementsTracking",
+		"CupTrophiesWon",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win3ContClubTournaments":[
+		83,
+		"Type_Incremental",
+		84,
+		"ACHIEVEMENT_85",
+		"ACHIEVEMENT_85_EXTRA",
+		"AchievementsTracking",
+		"ContClubTournamentsWon",
+		3,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win5ContClubTournaments":[
+		84,
+		"Type_Incremental",
+		85,
+		"ACHIEVEMENT_86",
+		"ACHIEVEMENT_86_EXTRA",
+		"AchievementsTracking",
+		"ContClubTournamentsWon",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "033",
+			"Quality", "B"
+		]
+	],
+
+	"Win10ContClubTournaments":[
+		85,
+		"Type_Incremental",
+		86,
+		"ACHIEVEMENT_87",
+		"ACHIEVEMENT_87_EXTRA",
+		"AchievementsTracking",
+		"ContClubTournamentsWon",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "034",
+			"Quality", "S"
+		]
+	],
+
+	"GetMaximumAddictedRating":[
+		86,
+		"Type_Standard",
+		87,
+		"ACHIEVEMENT_88",
+		"ACHIEVEMENT_88_EXTRA",
+		"AchievementsTracking",
+		"GetMaximumAddictedRating",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win3GamesInARow":[
+		87,
+		"Type_Incremental",
+		88,
+		"ACHIEVEMENT_89",
+		"ACHIEVEMENT_89_EXTRA",
+		"AchievementsTracking",
+		"GamesInARowWon",
+		3,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win5GamesInARow":[
+		88,
+		"Type_Incremental",
+		89,
+		"ACHIEVEMENT_90",
+		"ACHIEVEMENT_90_EXTRA",
+		"AchievementsTracking",
+		"GamesInARowWon",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win10GamesInARow":[
+		89,
+		"Type_Incremental",
+		90,
+		"ACHIEVEMENT_91",
+		"ACHIEVEMENT_91_EXTRA",
+		"AchievementsTracking",
+		"GamesInARowWon",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win20GamesInARow":[
+		90,
+		"Type_Incremental",
+		91,
+		"ACHIEVEMENT_92",
+		"ACHIEVEMENT_92_EXTRA",
+		"AchievementsTracking",
+		"GamesInARowWon",
+		20,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "036",
+			"Quality", "S"
+		]
+	],
+
+
+	"Go10GamesUnbeaten":[
+		91,
+		"Type_Incremental",
+		92,
+		"ACHIEVEMENT_93",
+		"ACHIEVEMENT_93_EXTRA",
+		"AchievementsTracking",
+		"GamesUnbeaten",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Go20GamesUnbeaten":[
+		92,
+		"Type_Incremental",
+		93,
+		"ACHIEVEMENT_94",
+		"ACHIEVEMENT_94_EXTRA",
+		"AchievementsTracking",
+		"GamesUnbeaten",
+		20,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Go40GamesUnbeaten":[
+		93,
+		"Type_Incremental",
+		94,
+		"ACHIEVEMENT_95",
+		"ACHIEVEMENT_95_EXTRA",
+		"AchievementsTracking",
+		"GamesUnbeaten",
+		40,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "037",
+			"Quality", "S"
+		]
+	],
+
+	"Generate1MillionInPlayerSales":[
+		94,
+		"Type_Incremental",
+		95,
+		"ACHIEVEMENT_96",
+		"ACHIEVEMENT_96_EXTRA",
+		"AchievementsTracking",
+		"PlayerSalesGenerated",
+		1,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Generate5MillionInPlayerSales":[
+		95,
+		"Type_Incremental",
+		96,
+		"ACHIEVEMENT_97",
+		"ACHIEVEMENT_97_EXTRA",
+		"AchievementsTracking",
+		"PlayerSalesGenerated",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Generate10MillionInPlayerSales":[
+		96,
+		"Type_Incremental",
+		97,
+		"ACHIEVEMENT_98",
+		"ACHIEVEMENT_98_EXTRA",
+		"AchievementsTracking",
+		"PlayerSalesGenerated",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Generate50MillionInPlayerSales":[
+		97,
+		"Type_Incremental",
+		98,
+		"ACHIEVEMENT_99",
+		"ACHIEVEMENT_99_EXTRA",
+		"AchievementsTracking",
+		"PlayerSalesGenerated",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Generate100MillionInPlayerSales":[
+		98,
+		"Type_Incremental",
+		99,
+		"ACHIEVEMENT_100",
+		"ACHIEVEMENT_100_EXTRA",
+		"AchievementsTracking",
+		"PlayerSalesGenerated",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "038",
+			"Quality", "B"
+		]
+	],
+
+	"Spend1MillionOnTransferFees":[
+		99,
+		"Type_Incremental",
+		100,
+		"ACHIEVEMENT_101",
+		"ACHIEVEMENT_101_EXTRA",
+		"AchievementsTracking",
+		"TransferFeesSpent",
+		1,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Spend5MillionOnTransferFees":[
+		100,
+		"Type_Incremental",
+		101,
+		"ACHIEVEMENT_102",
+		"ACHIEVEMENT_102_EXTRA",
+		"AchievementsTracking",
+		"TransferFeesSpent",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Spend10MillionOnTransferFees":[
+		101,
+		"Type_Incremental",
+		102,
+		"ACHIEVEMENT_103",
+		"ACHIEVEMENT_103_EXTRA",
+		"AchievementsTracking",
+		"TransferFeesSpent",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Spend50MillionOnTransferFees":[
+		102,
+		"Type_Incremental",
+		103,
+		"ACHIEVEMENT_104",
+		"ACHIEVEMENT_104_EXTRA",
+		"AchievementsTracking",
+		"TransferFeesSpent",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Spend100MillionOnTransferFees":[
+		103,
+		"Type_Incremental",
+		104,
+		"ACHIEVEMENT_105",
+		"ACHIEVEMENT_105_EXTRA",
+		"AchievementsTracking",
+		"TransferFeesSpent",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "039",
+			"Quality", "B"
+		]
+	],
+
+	"Sign10Players":[
+		104,
+		"Type_Incremental",
+		105,
+		"ACHIEVEMENT_106",
+		"ACHIEVEMENT_106_EXTRA",
+		"AchievementsTracking",
+		"PlayersSigned",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Sign50Players":[
+		105,
+		"Type_Incremental",
+		106,
+		"ACHIEVEMENT_107",
+		"ACHIEVEMENT_107_EXTRA",
+		"AchievementsTracking",
+		"PlayersSigned",
+		50,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Sign100Players":[
+		106,
+		"Type_Incremental",
+		107,
+		"ACHIEVEMENT_108",
+		"ACHIEVEMENT_108_EXTRA",
+		"AchievementsTracking",
+		"PlayersSigned",
+		100,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "040",
+			"Quality", "B"
+		]
+	],
+
+	"Win5Trophies":[
+		107,
+		"Type_Incremental",
+		108,
+		"ACHIEVEMENT_109",
+		"ACHIEVEMENT_109_EXTRA",
+		"AchievementsTracking",
+		"TrophiesWon",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win10Trophies":[
+		108,
+		"Type_Incremental",
+		109,
+		"ACHIEVEMENT_110",
+		"ACHIEVEMENT_110_EXTRA",
+		"AchievementsTracking",
+		"TrophiesWon",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Win20Trophies":[
+		109,
+		"Type_Incremental",
+		110,
+		"ACHIEVEMENT_111",
+		"ACHIEVEMENT_111_EXTRA",
+		"AchievementsTracking",
+		"TrophiesWon",
+		20,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "041",
+			"Quality", "S"
+		]
+	],
+
+	"PlayFor7ConsecutiveDays":[
+		110,
+		"Type_Incremental",
+		111,
+		"ACHIEVEMENT_112",
+		"ACHIEVEMENT_112_EXTRA",
+		"AchievementsTracking",
+		"ConsecutiveDaysPlayed",
+		7,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"PlayFor14ConsecutiveDays":[
+		111,
+		"Type_Incremental",
+		112,
+		"ACHIEVEMENT_113",
+		"ACHIEVEMENT_113_EXTRA",
+		"AchievementsTracking",
+		"ConsecutiveDaysPlayed",
+		14,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"PlayFor30ConsecutiveDays":[
+		112,
+		"Type_Incremental",
+		113,
+		"ACHIEVEMENT_114",
+		"ACHIEVEMENT_114_EXTRA",
+		"AchievementsTracking",
+		"ConsecutiveDaysPlayed",
+		30,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ScoreLastMinuteEqualiser":[
+		113,
+		"Type_Standard",
+		114,
+		"ACHIEVEMENT_60",
+		"ACHIEVEMENT_60_EXTRA",
+		"AchievementsTracking",
+		"ScoreLastMinuteEqualiser",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ScoreLastMinuteWinner":[
+		114,
+		"Type_Standard",
+		115,
+		"ACHIEVEMENT_61",
+		"ACHIEVEMENT_61_EXTRA",
+		"AchievementsTracking",
+		"ScoreLastMinuteWinner",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "022",
+			"Quality", "B"
+		]
+	],
+
+	"ScoreDirectFromCorner":[
+		115,
+		"Type_Standard",
+		116,
+		"ACHIEVEMENT_62",
+		"ACHIEVEMENT_62_EXTRA",
+		"AchievementsTracking",
+		"ScoreDirectFromCorner",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "023",
+			"Quality", "G"
+		]
+	],
+
+	"AllSquadBronzeOrHigher":[
+		116,
+		"Type_Standard",
+		117,
+		"ACHIEVEMENT_118",
+		"ACHIEVEMENT_118_EXTRA",
+		"AchievementsTracking",
+		"AllSquadBronzeOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllSquadSilverOrHigher":[
+		117,
+		"Type_Standard",
+		118,
+		"ACHIEVEMENT_119",
+		"ACHIEVEMENT_119_EXTRA",
+		"AchievementsTracking",
+		"AllSquadSilverOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllSquadGoldOrHigher":[
+		118,
+		"Type_Standard",
+		119,
+		"ACHIEVEMENT_120",
+		"ACHIEVEMENT_120_EXTRA",
+		"AchievementsTracking",
+		"AllSquadGoldOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllSquadBlackOrHigher":[
+		119,
+		"Type_Standard",
+		120,
+		"ACHIEVEMENT_121",
+		"ACHIEVEMENT_121_EXTRA",
+		"AchievementsTracking",
+		"AllSquadBlackOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "043",
+			"Quality", "B"
+		]
+	],
+
+	"AllStaffBronzeOrHigher":[
+		120,
+		"Type_Standard",
+		121,
+		"ACHIEVEMENT_122",
+		"ACHIEVEMENT_122_EXTRA",
+		"AchievementsTracking",
+		"AllStaffBronzeOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllStaffSilverOrHigher":[
+		121,
+		"Type_Standard",
+		122,
+		"ACHIEVEMENT_123",
+		"ACHIEVEMENT_123_EXTRA",
+		"AchievementsTracking",
+		"AllStaffSilverOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllStaffGoldOrHigher":[
+		122,
+		"Type_Standard",
+		123,
+		"ACHIEVEMENT_124",
+		"ACHIEVEMENT_124_EXTRA",
+		"AchievementsTracking",
+		"AllStaffGoldOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"AllStaffBlackOrHigher":[
+		123,
+		"Type_Standard",
+		124,
+		"ACHIEVEMENT_125",
+		"ACHIEVEMENT_125_EXTRA",
+		"AchievementsTracking",
+		"AllStaffBlackOrHigher",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "044",
+			"Quality", "B"
+		]
+	],
+
+	"SaveAReplay":[
+		124,
+		"Type_Incremental",
+		125,
+		"ACHIEVEMENT_126",
+		"ACHIEVEMENT_126_EXTRA",
+		"AchievementsTracking",
+		"ReplaysSaved",
+		1,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Save5Replays":[
+		125,
+		"Type_Incremental",
+		126,
+		"ACHIEVEMENT_127",
+		"ACHIEVEMENT_127_EXTRA",
+		"AchievementsTracking",
+		"ReplaysSaved",
+		5,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"Save10Replays":[
+		126,
+		"Type_Incremental",
+		127,
+		"ACHIEVEMENT_128",
+		"ACHIEVEMENT_128_EXTRA",
+		"AchievementsTracking",
+		"ReplaysSaved",
+		10,
+		"Reward_Star_Rating",
+		20,
+		"Use_Value_Zero_As_Start",
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"ShareAReplay":[
+		127,
+		"Type_Standard",
+		128,
+		"ACHIEVEMENT_129",
+		"ACHIEVEMENT_129_EXTRA",
+		"AchievementsTracking",
+		"ShareAReplay",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "045",
+			"Quality", "B"
+		]
+	],
+
+	"SellAPlayer":[
+		128,
+		"Type_Standard",
+		129,
+		"ACHIEVEMENT_130",
+		"ACHIEVEMENT_130_EXTRA",
+		"AchievementsTracking",
+		"SellAPlayer",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"FullyConcludeNegotiation":[
+		129,
+		"Type_Standard",
+		130,
+		"ACHIEVEMENT_131",
+		"ACHIEVEMENT_131_EXTRA",
+		"AchievementsTracking",
+		"FullyConcludeNegotiation",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"SellAGoldPlayer":[
+		130,
+		"Type_Standard",
+		131,
+		"ACHIEVEMENT_132",
+		"ACHIEVEMENT_132_EXTRA",
+		"AchievementsTracking",
+		"SellAGoldPlayer",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"SellABlackPlayer":[
+		131,
+		"Type_Standard",
+		132,
+		"ACHIEVEMENT_133",
+		"ACHIEVEMENT_133_EXTRA",
+		"AchievementsTracking",
+		"SellABlackPlayer",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "046",
+			"Quality", "B"
+		]
+	],
+
+	"UpgradeAPlayerToBronze":[
+		132,
+		"Type_Standard",
+		133,
+		"ACHIEVEMENT_134",
+		"ACHIEVEMENT_134_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAPlayerToBronze",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAPlayerToSilver":[
+		133,
+		"Type_Standard",
+		134,
+		"ACHIEVEMENT_135",
+		"ACHIEVEMENT_135_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAPlayerToSilver",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAPlayerToGold":[
+		134,
+		"Type_Standard",
+		135,
+		"ACHIEVEMENT_136",
+		"ACHIEVEMENT_136_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAPlayerToGold",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAPlayerToBlack":[
+		135,
+		"Type_Standard",
+		136,
+		"ACHIEVEMENT_137",
+		"ACHIEVEMENT_137_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAPlayerToBlack",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "047",
+			"Quality", "B"
+		]
+	],
+
+	"UpgradeAStaffToBronze":[
+		136,
+		"Type_Standard",
+		137,
+		"ACHIEVEMENT_138",
+		"ACHIEVEMENT_138_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAStaffToBronze",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAStaffToSilver":[
+		137,
+		"Type_Standard",
+		138,
+		"ACHIEVEMENT_139",
+		"ACHIEVEMENT_139_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAStaffToSilver",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAStaffToGold":[
+		138,
+		"Type_Standard",
+		139,
+		"ACHIEVEMENT_140",
+		"ACHIEVEMENT_140_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAStaffToGold",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"UpgradeAStaffToBlack":[
+		139,
+		"Type_Standard",
+		140,
+		"ACHIEVEMENT_141",
+		"ACHIEVEMENT_141_EXTRA",
+		"AchievementsTracking",
+		"UpgradeAStaffToBlack",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "048",
+			"Quality", "B"
+		]
+	],
+
+	"FullPressRelationship":[
+		140,
+		"Type_Standard",
+		141,
+		"ACHIEVEMENT_142",
+		"ACHIEVEMENT_142_EXTRA",
+		"AchievementsTracking",
+		"FullPressRelationship",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "049",
+			"Quality", "B"
+		]
+	],
+
+	"5000HomeAttendance":[
+		141,
+		"Type_Standard",
+		142,
+		"ACHIEVEMENT_143",
+		"ACHIEVEMENT_143_EXTRA",
+		"AchievementsTracking",
+		"5000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"10000HomeAttendance":[
+		142,
+		"Type_Standard",
+		143,
+		"ACHIEVEMENT_144",
+		"ACHIEVEMENT_144_EXTRA",
+		"AchievementsTracking",
+		"10000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"20000HomeAttendance":[
+		143,
+		"Type_Standard",
+		144,
+		"ACHIEVEMENT_145",
+		"ACHIEVEMENT_145_EXTRA",
+		"AchievementsTracking",
+		"20000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"30000HomeAttendance":[
+		144,
+		"Type_Standard",
+		145,
+		"ACHIEVEMENT_146",
+		"ACHIEVEMENT_146_EXTRA",
+		"AchievementsTracking",
+		"30000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"40000HomeAttendance":[
+		145,
+		"Type_Standard",
+		146,
+		"ACHIEVEMENT_147",
+		"ACHIEVEMENT_147_EXTRA",
+		"AchievementsTracking",
+		"40000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"50000HomeAttendance":[
+		146,
+		"Type_Standard",
+		147,
+		"ACHIEVEMENT_148",
+		"ACHIEVEMENT_148_EXTRA",
+		"AchievementsTracking",
+		"50000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2"
+		]
+	],
+
+	"60000HomeAttendance":[
+		147,
+		"Type_Standard",
+		148,
+		"ACHIEVEMENT_149",
+		"ACHIEVEMENT_149_EXTRA",
+		"AchievementsTracking",
+		"60000HomeAttendance",
+		"Reward_Star_Rating",
+		10,
+		[
+			"Google", "com.external.id.test.1",
+			"Apple", "com.external.id.test.2",
+			"PS4", "050",
+			"Quality", "S"
+		]
+	]
+}

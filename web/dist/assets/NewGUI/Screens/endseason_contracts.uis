@@ -1,0 +1,191 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//Import:(sort_Common.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Larger cells for 16:9
+If:(@w > 1152)
+	Define:(?CELL?=[[@s-592]/4])
+Else
+	Define:(?CELL?=148)
+EndIf
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-----------------------------------------------------------------------------------------TEMPLATES
+
+
+Macro:(M_EndSeasonContractsHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			// Sortable headers
+			//M_SortIndicator:(100,0,200,@H,?SORT_NAME?,seasonend_CONTRACTS_NAME,10,0,L,?TWKCAT?,?CONTEXT?,?SORT_ASCENDING?)
+			//M_SortIndicator:(300,0,200,@H,?SORT_SELECTIONNUMBER?,seasonend_CONTRACTS_ROLE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_ASCENDING?)
+			//M_SortIndicator:(500 + [?CELL?*0],0,?CELL?,@H,?SORT_AGE?,generic_AGE,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			//M_SortIndicator:(500 + [?CELL?*1],0,?CELL?,@H,?SORT_RATING?,generic_RATING,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			//M_SortIndicator:(500 + [?CELL?*2],0,?CELL?,@H,?SORT_HAPPINESS?,generic_HAPPINESS,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+			//M_SortIndicator:(500 + [?CELL?*3],0,?CELL?,@H,?SORT_CONTRACT?,generic_CONTRACT,0,0,C,?TWKCAT?,?CONTEXT?,?SORT_DESCENDING?)
+
+			M_Text:(seasonend_CONTRACTS_NAME,100,0,200,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(seasonend_CONTRACTS_ROLE,300,0,200,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(generic_AGE,500+[?CELL?*0],0,?CELL?,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(generic_RATING,500+[?CELL?*1],0,?CELL?,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(generic_HAPPINESS,500+[?CELL?*2],0,?CELL?,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(generic_CONTRACT,500+[?CELL?*3],0,?CELL?,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+Macro:(M_EndSeasonContractsRow,?REF?)
+	Cull:(0,0,@W,70) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Message(?CONTEXT?.btn_ViewPlayer) ref:ClickMessage
+		>
+		Click()
+		<
+			call(ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell70,-3,-2,@W+6,74) ref:Cell
+		
+		Clip:(0,0,@W,@H-1)
+		{
+			Rect:(55,30) ref:Face
+				Card_Face(SquadListCard,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,false,true,300) ref:CardFace
+				Scale(0.74,0.74)
+		}
+
+		Clip:(0,2,@W,65)
+		{
+			Draw:(Cell_Star0,500 + [?CELL?*1]+[[?CELL?-100]/2],-20,100,100) ref:RatingStar
+		}
+
+		M_Text:("Andy Lonergan",100,0,200,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+		M_Text:("Rookie Midfielder",300,0,200,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Pos)
+		M_Text:("53",500+[?CELL?*0],0,?CELL?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Age)
+		M_Text:("53",500+[?CELL?*1],0,?CELL?,@H,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Rating)
+		M_Text:("53",500+[?CELL?*2],0,?CELL?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Morale)
+		M_Text:("53",500+[?CELL?*3],0,?CELL?,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Contract)
+
+		M_CellPressHighlight:()
+		M_CardApplyHighlight:()
+	}} Template
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+		Layer(Text)
+	{{
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,220,60,seasonend_CONTRACTS_PLAYERS,1,EndSeasonContract,CurrentTab)
+		M_Tab:(250,0,220,60,seasonend_CONTRACTS_STAFF,2,EndSeasonContract,CurrentTab)
+		M_Tab:(470,0,220,60,seasonend_CONTRACTS_RETIRING,3,EndSeasonContract,CurrentTab)
+
+		M_SwitchTabs:(3,EndSeasonContract,12,15,682,15)
+	}}
+
+
+	CTRLSelectGroup:(0,@T+180,@W,@H-250,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+	{
+		// Clipped Content
+		Clip:(@L,@T+180,@W,@H-250)
+		{{
+			// Moved Content
+			Rect:(30,10,@W-60,@H-25)
+			{{
+				M_EndSeasonContractsRow:(ContractsRow)
+
+				// Players
+				Rect:(0,0,@W,@H) ref:PlayersList
+					M_FadingTabContent:(EndSeasonContract,CurrentTab,1)
+					ScrollingList(EndSeasonContract,PlayersScroll,@H,EndSeasonContract,PlayersScrollVel) ref:ScrollingListPlayers
+					CTRLScrollList(ScrollingListPlayers) ref:CTRLScrollList
+					VerticalList(5) ref:VerticalList
+					{{
+					}}
+
+				// Staff
+				Rect:(0,0,@W,@H) ref:StaffList
+					M_FadingTabContent:(EndSeasonContract,CurrentTab,2)
+					ScrollingList(EndSeasonContract,StaffScroll,@H,EndSeasonContract,StaffScrollVel) ref:ScrollingListStaff
+					CTRLScrollList(ScrollingListStaff) ref:CTRLScrollList
+					VerticalList(5) ref:VerticalList
+					{{
+					}}
+
+				// Retiring
+				Rect:(0,0,@W,@H) ref:RetiringList
+					M_FadingTabContent:(EndSeasonContract,CurrentTab,3)
+					ScrollingList(EndSeasonContract,RetiringScroll,@H,EndSeasonContract,RetiringScrollVel) ref:ScrollingListRetiring
+					CTRLScrollList(ScrollingListRetiring) ref:CTRLScrollList
+					VerticalList(5) ref:VerticalList
+					{{
+					}}
+			}}
+
+			// Swipe Panels
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				if(twk(EndSeasonContract,CurrentTab)=1)
+				<
+					SwipePanel(EndSeasonContract,PlayersScroll,EndSeasonContract,PlayersScrollVel) ref:SwipePanelPlayers
+				>
+				if(twk(EndSeasonContract,CurrentTab)=2)
+				<
+					SwipePanel(EndSeasonContract,StaffScroll,EndSeasonContract,StaffScrollVel) ref:SwipePanelStaff
+				>
+				if(twk(EndSeasonContract,CurrentTab)=3)
+				<
+					SwipePanel(EndSeasonContract,RetiringScroll,EndSeasonContract,RetiringScrollVel) ref:SwipePanelRetiring
+				>
+			{{
+				Rect:(0,10,@W,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,EndSeasonContract,PlayersScroll,PlayersList,ScrollingListPlayers,SwipePanels,SwipePanelPlayers)
+						set(gel.vis,twk(EndSeasonContract,CurrentTab)=1)
+					M_ScrollIndicatorAlt:(@R-25,@H,EndSeasonContract,StaffScroll,StaffList,ScrollingListStaff,SwipePanels,SwipePanelStaff)
+						set(gel.vis,twk(EndSeasonContract,CurrentTab)=2)
+					M_ScrollIndicatorAlt:(@R-25,@H,EndSeasonContract,RetiringScroll,RetiringList,ScrollingListRetiring,SwipePanels,SwipePanelRetiring)
+						set(gel.vis,twk(EndSeasonContract,CurrentTab)=3)
+				}}
+			}}
+		}}
+	}
+	M_SwitchStickHint:(✃,@R-29,@B-115,Y)
+		if(twk(EndSeasonContract,CurrentTab) = 1)
+		<
+			CTRLScrollListIcon(PlayersList,CTRLScrollList)
+		>
+		elif(twk(EndSeasonContract,CurrentTab) = 1)
+		<
+			CTRLScrollListIcon(StaffList,CTRLScrollList)
+		>
+		elif(twk(EndSeasonContract,CurrentTab) = 1)
+		<
+			CTRLScrollListIcon(RetiringList,CTRLScrollList)
+		>>>
+
+
+	// Headers and Filters
+	Rect:(@L,@T+140,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,0,@w,44)
+		M_EndSeasonContractsHeader:(0,0,@W,@H)
+	}}
+}}

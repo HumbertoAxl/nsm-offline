@@ -1,0 +1,180 @@
+Import:(templates_league.uih)
+Import:(sort_Common.uih)
+
+Define:(?SORT_ONLINE_POINTS_POS?=2)
+Define:(?SORT_ONLINE_POINTS_TEAM?=1)
+Define:(?SORT_ONLINE_POINTS_PLD?=3)
+Define:(?SORT_ONLINE_POINTS_W?=4)
+Define:(?SORT_ONLINE_POINTS_D?=5)
+Define:(?SORT_ONLINE_POINTS_L?=6)
+Define:(?SORT_ONLINE_POINTS_GF?=7)
+Define:(?SORT_ONLINE_POINTS_GA?=8)
+Define:(?SORT_ONLINE_POINTS_GD?=9)
+Define:(?SORT_ONLINE_POINTS_POINTS?=10)
+Define:(?SORT_ONLINE_POINTS_FORM?=11)
+
+Define:(?SORT_ONLINE_FINANCIAL_POS?=2)
+Define:(?SORT_ONLINE_FINANCIAL_TEAM?=1)
+Define:(?SORT_ONLINE_FINANCIAL_FACILITIES?=3)
+Define:(?SORT_ONLINE_FINANCIAL_SQUAD?=4)
+Define:(?SORT_ONLINE_FINANCIAL_STAFF?=5)
+Define:(?SORT_ONLINE_FINANCIAL_CARDS?=6)
+Define:(?SORT_ONLINE_FINANCIAL_CASH?=7)
+Define:(?SORT_ONLINE_FINANCIAL_TOTAL?=8)
+
+// Larger cells for 16:9
+If:(@w > 1152)
+	Define:(?CELL6?=[[@s-380]/6])
+	Define:(?CELL8?=[[@s-552]/8])
+Else
+	Define:(?CELL6?=128.66)
+	Define:(?CELL8?=75)
+EndIf
+//--------------------------------------------------------------------------------------------LEAGUE
+
+// Headers
+Macro:(M_OnlineHeaders,?X?,?Y?,?W?,?H?,?TWKCAT?,?CONTEXT?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			// Covered by other tabs
+			Rect:()
+				set(gel.vis,twk(Online,CurrentTab) = 1)
+			{
+				M_SortIndicator:(5,0,50,@H,?SORT_ONLINE_POINTS_POS?,league_TABLE_POSITION_tla,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(55,0,265,@H,?SORT_ONLINE_POINTS_TEAM?,standings_TEAM,85,0,L,?TWKCAT?Points,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*0],0,?CELL8?,@H,?SORT_ONLINE_POINTS_PLD?,standings_PLAYED_tla,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*1],0,?CELL8?,@H,?SORT_ONLINE_POINTS_W?,standings_WON_sla,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*2],0,?CELL8?,@H,?SORT_ONLINE_POINTS_D?,standings_DREW_sla,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*3],0,?CELL8?,@H,?SORT_ONLINE_POINTS_L?,standings_LOST_sla,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*4],0,?CELL8?,@H,?SORT_ONLINE_POINTS_GF?,standings_FOR_2la,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*5],0,?CELL8?,@H,?SORT_ONLINE_POINTS_GA?,standings_AGAINST_2la,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*6],0,?CELL8?,@H,?SORT_ONLINE_POINTS_GD?,standings_DIFF_2la,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL8?*7],0,?CELL8?,@H,?SORT_ONLINE_POINTS_POINTS?,standings_POINTS,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(@R-172,0,172,@H,?SORT_ONLINE_POINTS_FORM?,standings_FORM,0,0,C,?TWKCAT?Points,?CONTEXT?,?SORT_DESCENDING?)
+			}
+
+			Rect:()
+				set(gel.vis,twk(Online,CurrentTab) = 2)
+			{
+				M_SortIndicator:(5,0,50,@H,?SORT_ONLINE_FINANCIAL_POS?,league_TABLE_POSITION_tla,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(55,0,265,@H,?SORT_ONLINE_FINANCIAL_TEAM?,standings_TEAM,85,0,L,?TWKCAT?Financial,?CONTEXT?,?SORT_ASCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*0],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_FACILITIES?,club_FACILITIES,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*1],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_SQUAD?,home_bottom_SQUAD,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*2],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_STAFF?,home_bottom_STAFF,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*3],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_CARDS?,tactics_CARDS,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*4],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_CASH?,standings_CASH,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+				M_SortIndicator:(320 + [?CELL6?*5],0,?CELL6?,@H,?SORT_ONLINE_FINANCIAL_TOTAL?,standings_TOTAL,0,0,C,?TWKCAT?Financial,?CONTEXT?,?SORT_DESCENDING?)
+			}
+
+		}}
+	}}
+EndM
+
+
+// Cells
+Macro:(M_OnlinePointsRow,?REF?,?PLAYER?)
+	Cull:(0,0,@W,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(league.row_team,0) ref:Post
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		If:(?PLAYER?)
+			.CTRLSetSelected()
+		EndIf
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell55Dark,-3,-2,@W+6,59)
+			M_Glint:(0,0,0,@W)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Pos)
+			M_Text:(,140,0,180,@H,L,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(,320 + [?CELL8?*0],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Played)
+			M_Text:(,320 + [?CELL8?*1],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Won)
+			M_Text:(,320 + [?CELL8?*2],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Drawn)
+			M_Text:(,320 + [?CELL8?*3],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Lost)
+			M_Text:(,320 + [?CELL8?*4],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsFor)
+			M_Text:(,320 + [?CELL8?*5],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsAgainst)
+			M_Text:(,320 + [?CELL8?*6],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsDifference)
+			M_Text:(,320 + [?CELL8?*7],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Points)
+		Else
+			Draw:(Cell55,-3,-2,@W+6,59)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Pos)
+			M_Text:(,140,0,180,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(,320 + [?CELL8?*0],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Played)
+			M_Text:(,320 + [?CELL8?*1],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Won)
+			M_Text:(,320 + [?CELL8?*2],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Drawn)
+			M_Text:(,320 + [?CELL8?*3],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Lost)
+			M_Text:(,320 + [?CELL8?*4],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,GoalsFor)
+			M_Text:(,320 + [?CELL8?*5],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,GoalsAgainst)
+			M_Text:(,320 + [?CELL8?*6],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,GoalsDifference)
+			M_Text:(,320 + [?CELL8?*7],0,?CELL8?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Points)
+		EndIf
+
+		Draw:(White,320 + [?CELL8?*7],3,?CELL8?,49,,#00000010FFFFFFFF)
+		M_Badge:(110,@M,SD,1,TeamBadge)
+
+		// Change indicator
+		Draw:(Icon_PosUp,50,17,20,20) $HIDE ref:MovedUp
+		Draw:(Icon_PosDown,50,17,20,20) $HIDE ref:MovedDown
+		Draw:(Icon_PosSame,50,17,20,20) $HIDE ref:NotMoved
+		
+		M_FormGroup:(@R-150-[@y*0.2])
+		
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_OnlineFinancialRow,?REF?,?PLAYER?)
+	Cull:(0,0,@W,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(league.row_team,0) ref:Post
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		If:(?PLAYER?)
+			.CTRLSetSelected()
+		EndIf
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell55Dark,-3,-2,@W+6,59)
+			M_Glint:(0,0,0,@W)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Pos)
+			M_Text:(,140,0,180,@H,L,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(,320 + [?CELL6?*0],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Facilities)
+			M_Text:(,320 + [?CELL6?*1],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Squad)
+			M_Text:(,320 + [?CELL6?*2],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Staff)
+			M_Text:(,320 + [?CELL6?*3],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Cards)
+			M_Text:(,320 + [?CELL6?*4],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Cash)
+			M_Text:(,320 + [?CELL6?*5],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Total)
+		Else
+			Draw:(Cell55,-3,-2,@W+6,59)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Pos)
+			M_Text:(,140,0,180,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(,320 + [?CELL6?*0],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Facilities)
+			M_Text:(,320 + [?CELL6?*1],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Squad)
+			M_Text:(,320 + [?CELL6?*2],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Staff)
+			M_Text:(,320 + [?CELL6?*3],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Cards)
+			M_Text:(,320 + [?CELL6?*4],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Cash)
+			M_Text:(,320 + [?CELL6?*5],0,?CELL6?,@H,C,C,Text,KNUL28,Upper,1,0,#252525FF,NoItalics,#252525FF,Total)
+		EndIf
+
+		Draw:(White,320 + [?CELL6?*5],3,?CELL6?,49,,#00000010FFFFFFFF)
+		M_Badge:(110,@M,SD,1,TeamBadge)
+		
+		M_CellPressHighlight:()
+	}} Template
+EndM

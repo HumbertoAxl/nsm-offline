@@ -1,0 +1,4 @@
+id	shortname
+123	Mexico
+200	USA
+//

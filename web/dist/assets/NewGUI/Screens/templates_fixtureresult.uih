@@ -1,0 +1,285 @@
+Import:(badge_Macros.uih)
+
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_FixturesHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+			set(gel.vis,twk(LeagueFixtures,CompType) != 4)
+		{{
+			M_Text:(results_HOME,@C-300,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(results_AWAY,@C+300,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(,@C,0,0,@H,C,C,Text,KNUL22,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				if(twk(League,LeagueType) = 1)
+				<
+					set(gel.text,loc(generic_WEEK) :: " " :: LTR( twk(LeagueFixtures,WeekNumber)))
+				>
+				else
+				<
+					if(twk(LeagueFixtures,CompType) = 5)
+					<
+						if(twk(LeagueFixtures,LegNumber) = 1)
+						<
+							:set(gel.text,loc("LEG_1"))
+						>
+						elif(twk(LeagueFixtures,LegNumber) = 2)
+						<
+							:set(gel.text,loc("LEG_2"))
+						>
+						else
+						<
+							:set(gel.text,loc("LEG_NUM") rep("$num",twk(LeagueFixtures,LegNumber)))
+						>>
+					>
+					else
+					<
+						set(gel.text,loc(league_FIXTURES_ROUND) :: " " :: twk(LeagueFixtures,RoundNumber))
+					>
+				>
+				ToUpperCase()
+		}}
+	}}
+EndM
+
+Macro:(M_FixtureCell,?REF?)
+	Cull:(0,0,@s-60,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(leaguefixtures.btn_MatchInfo) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell55,-3,-2,@W+6,59)
+
+		M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,HomePosition)
+		M_Text:("",20,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,HomeCompetition)
+
+		M_Text:("TEAM A",@C-160,0,0,@H,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		Draw:(Cell_Fixture_Separator,@C-80,3)
+		M_Text:(league_FIXTURES_VERSUS_sla,@C,0,0,@H,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		Draw:(Cell_Fixture_Separator,@C+80,3)
+
+		M_Text:("TEAM B",@C+160,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AwayPosition)
+		M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,AwayCompetition)
+
+		M_Badge:(@C-120,@M,SD,1,TeamHomeBadge)
+		M_Badge:(@C+120,@M,SD,1,TeamAwayBadge)
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_FixtureCell_Double,?REF?)
+	Cull:(0,0,@s-60,85) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(leaguefixtures.btn_MatchInfo) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell85,-3,-2,@W+6,89)
+
+		// Delete
+		Rect:() $HIDE
+		{
+			Draw:(Blank) ref:CellHomeColour
+			Draw:(Blank) ref:CellAwayColour
+			Text:() ref:HomeStrength
+			Text:() ref:AwayStrength
+		}
+
+		M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,HomePosition)
+		M_Text:("",20,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,HomeCompetition)
+
+		M_Text:("TEAM A",@C-180,0,0,@H,R,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			if(@w=1152)
+			<
+				M_TextMaxWidth:(240)
+			>
+
+		M_Text:(league_FIXTURES_VERSUS_sla,@C,0,0,@H,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		M_Text:("TEAM B",@C+180,0,0,@H,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			if(@w=1152)
+			<
+				M_TextMaxWidth:(240)
+			>
+
+		M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AwayPosition)
+		M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,AwayCompetition)
+
+		M_Badge:(@C-120,@M,HD,0.55,TeamHomeBadge)
+		M_Badge:(@C+120,@M,HD,0.55,TeamAwayBadge)
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_ResultCell,?REF?,?CLICK_MESSAGE?)
+	Cull:(0,0,@s-60,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(?CLICK_MESSAGE?) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell55,-3,-2,@W+6,59)
+
+		M_Text:("1st",20,0,0,@H,L,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		M_Text:("TEAM A",@C-160,0,0,@H,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		Draw:(Cell_Fixture_Separator,@C-80,3)
+		M_Text:("1-1",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			
+		Draw:(Cell_Fixture_Separator,@C+80,3)
+
+		M_Text:("TEAM B",@C+160,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		M_Text:("2nd",@R-20,0,0,@H,R,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		M_Badge:(@C-120,@M,SD,1,TeamHomeBadge)
+		M_Badge:(@C+120,@M,SD,1,TeamAwayBadge)
+
+		// Not used
+		M_Text:("",@C,-12,0,@H,C,C,Text,KNUL28,,1,0,#00000000,NoItalics,#00000000,AggregateScore)
+		M_Text:("",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#00000000,NoItalics,#00000000,AggregateTotal)
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_ResultCell_Double,?REF?,?CLICK_MESSAGE?)
+	Cull:(0,0,@s-60,85) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(?CLICK_MESSAGE?) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell85,-3,-2,@W+6,89)
+
+		M_Text:("1st",20,0,0,@H,L,C,TextLoc,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		M_Text:("TEAM A",@C-180,0,0,@H,R,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			if(@w=1152)
+			<
+				M_TextMaxWidth:(240)
+			>
+
+		M_Text:("1-1",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		M_Text:("TEAM B",@C+180,0,0,@H,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			if(@w=1152)
+			<
+				M_TextMaxWidth:(240)
+			>
+
+		M_Text:("2nd",@R-20,0,0,@H,R,C,TextLoc,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+
+		M_Text:("1 - 1",@C,23,0,0,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AggregateScore)
+		M_Text:("(agg 3-4)",@C,63,0,0,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AggregateTotal)
+
+		M_Badge:(@C-120,@M,SD,1,TeamHomeBadge)
+		M_Badge:(@C+120,@M,SD,1,TeamAwayBadge)
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_ResultCell_Player_Single,?REF?)
+	Rect:(0,0,@W-60,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(results.btn_MatchInfo) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell55Dark,-3,-2,@W+6,59)
+		M_Glint:(0,0,0,@W)
+
+		M_Badge:(@C-120,@M,SD,1,TeamHomeBadge)
+		M_Badge:(@C+120,@M,SD,1,TeamAwayBadge)
+
+		M_Text:("1st",20,0,0,@H,L,C,TextLoc,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		M_Text:("TEAM A",@C-160,0,0,@H,R,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+
+		M_Text:("3 - 1",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+
+		M_Text:("TEAM B",@C+160,0,0,@H,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		M_Text:("2nd",@R-20,0,0,@H,R,C,TextLoc,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+
+		// Not used
+		M_Text:("",@C,-12,0,0,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AggregateScore)
+		M_Text:("",@C,0,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,AggregateTotal)
+		
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_ResultCell_Player_Double,?REF?)
+	Rect:(0,0,@W-60,85) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Message(results.btn_MatchInfo) ref:ClickMessage
+			Post(UI_Select)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	{{
+		Draw:(Cell85Dark,-3,-2,@W+6,89)
+		M_Glint:(0,0,0,@W)
+
+		M_Badge:(@C-120,@M,HD,0.55,TeamHomeBadge)
+		M_Badge:(@C+120,@M,HD,0.55,TeamAwayBadge)
+
+		M_Text:("TEAM A",@C-180,0,0,@H,R,C,Text,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		M_Text:("3 - 1",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		M_Text:("TEAM B",@C+180,0,0,@H,L,C,Text,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		M_Text:("Agg 1-1",@C,23,0,0,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AggregateScore)
+		M_Text:("Agg 1-1",@C,63,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,AggregateTotal)
+		
+		M_Text:("1st",20,0,0,@H,L,C,TextLoc,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,HomeCompetition)
+		M_Text:("2nd",@R-20,0,0,@H,R,C,TextLoc,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AwayCompetition)
+		M_CellPressHighlight:()
+	}}
+EndM
+
+Macro:(M_Result_Separator,?REF?)
+	Rect:(0,0,0,20) ref:?REF?
+	{{
+	}} Template
+EndM

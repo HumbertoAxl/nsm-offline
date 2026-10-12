@@ -1,0 +1,237 @@
+Animation:(100,Clamp) ref:KitSwap
+{
+    During:(0,49)
+    {       
+        // Player Kit 
+		M_KitRender:(0,0,385,575,KitEditorSaved,ShirtColour1,ShirtColour2,KitStyle,ShortsColour,1)	
+            Handle(0.5,0.5)
+            Scale(0.8,0.8)
+            TweenScale(0.8,0.8,-1,0)
+            TweenPos(-50,0,0,-1)
+        
+        // Goalie Kit
+        M_GoalieKitRender:(100,10,385,575,KitEditorSaved,GoalieShirtColour1,GoalieShirtColour2,GoalieKitStyle,GoalieShortsColour,1)
+            Handle(0.5,0.5)
+            Scale(0.9,0.9)
+            TweenScale(0.8,0.8,-1,0)
+            TweenPos(150,0,0,-1)
+    }
+
+    // Reverse the order of rendering 
+    During:(50,100)
+    {
+        // Goalie Kit
+        M_GoalieKitRender:(150,0,385,575,KitEditorSaved,GoalieShirtColour1,GoalieShirtColour2,GoalieKitStyle,GoalieShortsColour,1)
+            Handle(0.5,0.5)
+            Scale(0.8,0.8)
+            TweenScale(0.8,0.8,0,-1)
+            TweenPos(120,0,-1,0)
+
+        // Player Kit 
+		M_KitRender:(-50,0,385,575,KitEditorSaved,ShirtColour1,ShirtColour2,KitStyle,ShortsColour,1)	
+            Handle(0.5,0.5)
+            Scale(0.8,0.8)
+            TweenScale(0.9,0.9,0,-1)
+            TweenPos(0,10,-1,0)
+    }
+}
+
+
+Macro:(M_ShirtPatternButton,?INDEX?,?DESIGN?,?TEXT?)
+	M_PressOPEN:(0,0,230,460,,ShirtPattern?INDEX?)
+		Cull:(0,0,@W,@H)
+		{
+			Rect:()
+			{
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+					set(gel.vis,twk(KitEditorSaved,KitStyle) = ?INDEX?)
+				Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+
+				Draw:(ShirtBase,26,44,174,,,#909090FFFFFFFFFF)
+				Draw:(ShortsBase,56,222,120,,,#909090FFFFFFFFFF)
+				Draw:(ShortsStripes,56,222,120,,,#FFFFFFFFFFFFFFFF)
+				If:(?DESIGN?)
+					Draw:(Shirt?DESIGN?,26,44,174,,,#FFFFFFFFFFFFFFFF)
+				EndIf
+				Draw:(ShirtCollar,25,44,176,,,#FFFFFFFFFFFFFFFF)
+			}
+				if(twk(KitEditorSaved,KitStyle) = ?INDEX?)
+				<
+					set(gel.colour,#FFFFFFFFFFFFFFFF)
+				>
+				else
+				<
+					set(gel.colour,#FFFFFF99FFFFFFFF)
+				>
+
+			Draw:(Badge_Shadow,18,380,200,,,#00000040)
+			Draw:(White,10,420,@W-20,1,,#00000020FFFFFFFF)
+
+			M_Text:(?TEXT?,0,440,@W,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				set(gel.vis,twk(KitEditorSaved,KitStyle) != ?INDEX?)
+			
+			M_Text:(?TEXT?,@C,440,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+				Handle(0.5,0.5)
+				if(twk(KitEditorSaved,KitStyle) = ?INDEX?)
+				<
+					:set(gel.scale,0.5)
+					:set(gel.vis,1)
+					frlerp(gel.scale,1,0.25)
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+		}
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		.if(twk(KitEditorSaved,KitStyle) = ?INDEX?)
+		<
+			CTRLSetSelected()
+		>
+		if(%clicked)
+		<
+			set(twk(KitEditorSaved,KitStyle),?INDEX?)
+			Message(kiteditor.btn_KitStyle,?INDEX?)
+		>
+EndM
+
+
+Macro:(M_GoalieShirtPatternButton,?INDEX?,?DESIGN?,?TEXT?)
+	M_PressOPEN:(0,0,230,460,,GoalieShirtPattern?INDEX?)
+		Cull:(0,0,@W,@H)
+		{
+			Rect:()
+			{
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+					set(gel.vis,twk(KitEditorSaved,GoalieKitStyle) = ?INDEX?)
+				Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+
+				Draw:(GoalieBase,4,45,220,,,#909090FFFFFFFFFF)
+				Draw:(ShortsBase,56,222,120,,,#909090FFFFFFFFFF)
+				Draw:(ShortsStripes,56,222,120,,,#FFFFFFFFFFFFFFFF)
+				If:(?DESIGN?)
+					Draw:(Goalie?DESIGN?,4,45,220,,,#FFFFFFFFFFFFFFFF)
+				EndIf
+				Draw:(GoalieCollar1,5,44,218,,,#FFFFFFFFFFFFFFFF)
+			}
+				if(twk(KitEditorSaved,GoalieKitStyle) = ?INDEX?)
+				<
+					set(gel.alpha,1)
+				>
+				else
+				<
+					set(gel.alpha,0.5)
+				>
+
+			Draw:(Badge_Shadow,18,380,200,,,#00000040)
+			Draw:(White,10,420,@W-20,1,,#00000020FFFFFFFF)
+
+			M_Text:(?TEXT?,0,440,@W,0,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				set(gel.vis,twk(KitEditorSaved,GoalieKitStyle) != ?INDEX?)
+			
+			M_Text:(?TEXT?,@C,440,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+				Handle(0.5,0.5)
+				if(twk(KitEditorSaved,GoalieKitStyle) = ?INDEX?)
+				<
+					:set(gel.scale,0.5)
+					:set(gel.vis,1)
+					frlerp(gel.scale,1,0.25)
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+		}
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		.if(twk(KitEditorSaved,GoalieKitStyle) = ?INDEX?)
+		<
+			CTRLSetSelected()
+		>
+		if(%clicked)
+		<
+			set(twk(KitEditorSaved,GoalieKitStyle),?INDEX?)
+			Message(kiteditor.btn_KitStyle,?INDEX?)
+		>
+EndM
+
+
+Macro:(M_ShirtColourButton,?X?,?Y?,?W?,?H?,?INDEX?,?TEXT?,?COLOURTWK?,?PREFIX?)
+	M_PressOPEN:(?X?,?Y?,?W?,?H?)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			set(gel.vis,twk(KitEditor,?PREFIX?SelectedLayer) = ?INDEX?)
+		Rect:()
+			if(twk(KitEditor,?PREFIX?SelectedLayer) = ?INDEX?)
+			<
+				set(gel.colour,#FFFFFFFFFFFFFFFF)
+			>
+			else
+			<
+				set(gel.colour,#FFFFFF99FFFFFFFF)
+			>
+		{
+			Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+			Draw:(RoundedPanel,15,15,?W?-30,40)
+				set(gel.colour,twk(KitEditorSaved,?COLOURTWK?))
+		}
+
+		Draw:(White,10,65,@W-20,1,,#00000020FFFFFFFF)
+
+		M_Text:(?TEXT?,0,@B-20,@W,0,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+			set(gel.vis,twk(KitEditor,?PREFIX?SelectedLayer) != ?INDEX?)
+		
+		M_Text:(?TEXT?,@C,@B-20,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+			Handle(0.5,0.5)
+			if(twk(KitEditor,?PREFIX?SelectedLayer) = ?INDEX?)
+			<
+				:set(gel.scale,0.5)
+				:set(gel.vis,1)
+				frlerp(gel.scale,1,0.25)
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>
+
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		if(%clicked)
+		<
+			set(twk(KitEditor,?PREFIX?SelectedLayer),?INDEX?)
+			Message(kiteditor.btn_ShirtColourTab)
+		>
+EndM
+
+
+Macro:(M_KitHistoryButton,?X?,?Y?,?W?,?H?,?INDEX?,?TEXT?,?COLOURTWK?,?PREFIX?)
+	M_PressOPEN:(?X?,?Y?,?W?,?H?)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+		Draw:(Button_SilverSliced,0,0,@W,@H,,#FFFFFFFF000000FF)
+		Draw:(RoundedPanel,15,8,@W-30,20)
+			set(gel.colour,twk(KitEditor,?COLOURTWK?))
+
+		Draw:(White,10,35,?W?-20,1,,#00000020FFFFFFFF)
+
+		M_Text:(?TEXT?,0,50,@W,0,C,C,TextLoc,KNUL18,,0,0,#00000000,NoItalics,#505050FF,ref)
+			set(gel.vis,twk(KitEditor,?PREFIX?SelectedLayer) != ?INDEX?)
+		
+		M_Text:(?TEXT?,@C,50,0,0,C,C,TextLoc,KNUL20,,1,0,#252525FF,NoItalics,#252525FFFFFFFFFF,ref)
+			Handle(0.5,0.5)
+			if(twk(KitEditor,?PREFIX?SelectedLayer) = ?INDEX?)
+			<
+				:set(gel.scale,0.5)
+				:set(gel.vis,1)
+				frlerp(gel.scale,1,0.25)
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		if(%clicked)
+		<
+			Message(kiteditor.btn_SetColour,twk(KitEditor,?COLOURTWK?))
+		>
+EndM

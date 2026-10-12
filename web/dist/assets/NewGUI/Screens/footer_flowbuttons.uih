@@ -1,0 +1,476 @@
+Dissolve:(@o,@B-70,@s,70)
+	float(%rearm)
+	set(%rearm,0)
+	if(shell(Facility) = "facility" or(twk(Home,SpectatorMode) = 1) or(twk(Header,DialogState) = 1) or(twk(DynamicOverlay,CurrentTopOverlay) oneof("Message","Help","Settings","FTUEExit")))
+	<
+		frlerp(gel.alpha,0,0.25)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.vis,0)
+		>
+
+	>
+	else
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.25)
+	>
+{{
+	// Setup
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "setup"))
+		strvar(%hinttxt)
+	{
+		Rect:()
+			set(gel.vis,twk(Ftue,Enabled) = 0)
+		{
+			M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,setup.btn_Back,setupBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+				if(twk(Setup,FocusedItem) = 0)
+				<
+					M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,)
+				>
+				CTRLHasSelectedGroup()
+				<
+					set(%hinttxt,"")
+				>
+				else
+				<
+					set(%hinttxt,"?ICONCAN?  ")
+				>
+		}
+
+		Rect:()
+			set(gel.vis,twk(Setup,NationSelected))
+		{
+			M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,setup.btn_Continue,setupContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				CTRLHasSelectedGroup()
+				<
+					set(gel.vis,0)
+				>
+				else
+				<
+					set(gel.vis,1)
+				>
+		}
+	}
+
+
+	// Save Slots
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "saveslots"))
+		strvar(%hinttxt)
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,saveslots.btn_Back,saveslotsBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,saveslotsBackButton)
+			if(twk(Settings,DemoVersion)=0)<
+				CTRLBlock(RIGHT)
+			>
+			CTRLHasSelectedGroup()
+			<
+				set(%hinttxt,"")
+			>
+			else
+			<
+				set(%hinttxt,"?ICONCAN?  ")
+			>
+
+
+			//Go to Eshop
+			M_Button:(@R-156,@B-33,280,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,demo_end.btn_Eshop,EshopButton,loc(demo_controls_SHOP),0,3,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,,1)
+				set(gel.vis,twk(Settings,DemoVersion))
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+				if(twk(Settings,DemoVersion))<
+					:CTRLSetSelected()
+				>
+
+
+	}
+
+
+	// Home
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "formationmenu" and(twk(Formation,EntryPoint)="IDLE")) or(shell(GameScreen) = "staff" and(twk(Staff,PostMatchState) = 0)) or(shell(GameScreen) oneof(home,league,club,online)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,home.btn_Play,HomeContinueButton,twk(Menu,HomeContinueText),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+			if(shell(GameScreen) = "home")
+			<
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(home_side_STORE,home)
+					Post(CTRLNavigate)
+				>
+			>
+			if(shell(GameScreen)="formationmenu" and(twk(Formation,CurrentTab) = 2))
+			<	
+				CTRLPress(UP)
+				<
+					Post("CTRLCardCarouselDown")
+				>
+			>
+	}
+
+
+	// Formation Pre-Match
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "formationmenu") and(twk(Formation,EntryPoint) = "PREMATCH"))
+		strvar(%hinttxt)
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,formation.btn_Back,formationmenuBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,staffhirelistBackButton)
+			CTRLHasSelectedGroup()
+			<
+				set(%hinttxt,"")
+			>
+			else
+			<
+				set(%hinttxt,"?ICONCAN?  ")
+			>
+
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,formation.btn_Confirm,FormationPMContinueButton,loc(squad_CONFIRM),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm and(twk(Ftue,Enabled) = 0))
+			<
+				CTRLSetSelected()
+			>
+			if(shell(GameScreen)="formationmatch" and(twk(Formation,CurrentTab) = 2))
+			<	
+				CTRLPress(UP)
+				<
+					Post("CTRLCardCarouselDown")
+				>
+			>
+	}
+
+
+	// Formation Match
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "formationmatch"))
+	{
+		// Undo
+		Rect:() $HIDE
+			set(gel.vis,twk(Formation,ChangesMade) = 1)
+		{
+			M_Button:(@R-355,@B-33,250,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,formation.btn_Cancel,ref,loc(tactics_UNDO),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,BackButtonAudio)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				CTRLBlock(LEFT)
+				if(shell(GameScreen)="formationmatch")
+				<	
+					if(twk(Formation,CurrentTab) = 1)
+					<
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(SubsSelectGroup,formationmatch)
+							Post(CTRLNavigate)
+						>
+					>
+					if(twk(Formation,CurrentTab) = 2)
+					<
+						CTRLPress(UP)
+						<
+							Post("CTRLCardCarouselDown")
+						>
+					>
+				>
+		}
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,formation.btn_Confirm,FormationMatchResumeButton,loc(tactics_RESUME),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(twk(Formation,ChangesMade) = 0)
+			<
+				CTRLBlock(LEFT)
+			>
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+			if(shell(GameScreen)="formationmatch")
+			<	
+				if(twk(Formation,CurrentTab) = 1)
+				<
+					CTRLPress(UP)
+					<
+						CTRLSetSelected(SubsSelectGroup,formationmatch)
+						Post(CTRLNavigate)
+					>
+				>
+				if(twk(Formation,CurrentTab) = 2)
+				<
+					CTRLPress(UP)
+					<
+						Post("CTRLCardCarouselDown")
+					>
+				>
+			>
+	}
+	
+
+	// Dilemma
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "dilemma") and(twk(Dilemma,ContinueEnabled)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,dilemma.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Press Conference
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "question") and(twk(Question,TimedQuestion)) and((twk(Question,SelectedAnswer) > -1) or(twk(Question,InProgress) < 1)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,question.btn_Continue,questionContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Hire List
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "staffhirelist"))
+		strvar(%hinttxt)
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,staffhirelist.btn_Back,staffhirelistBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,staffhirelistBackButton)
+			CTRLBlock(RIGHT)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+			if(%clicked)
+			<
+				if(twk(StaffHireList,CurrentTab)=1)
+				<
+					CTRLSetSelected(RootTrainingGround1,staff)
+				>
+				elif(twk(StaffHireList,CurrentTab)=2)
+				<
+					CTRLSetSelected(RootFitnessCentre1,staff)
+				>
+				elif(twk(StaffHireList,CurrentTab)=3)
+				<
+					CTRLSetSelected(RootYouthAcademy,staff)
+				>
+				elif(twk(StaffHireList,CurrentTab)=4)
+				<
+					CTRLSetSelected(RootScoutOffice,staff)
+				>
+				elif(twk(StaffHireList,CurrentTab)=5)
+				<
+					CTRLSetSelected(RootMedicalUnit,staff)
+				>>>>>
+			>
+			CTRLHasSelectedGroup()
+			<
+				set(%hinttxt,"")
+			>
+			else
+			<
+				set(%hinttxt,"?ICONCAN?  ")
+			>
+	}
+
+
+
+	// League Fixtures
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "leaguefixtures"))
+		strvar(%hinttxt)
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,leaguefixtures.btn_Back,leaguefixturesBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,leaguefixturesBackButton)
+			CTRLHasSelectedGroup()
+			<
+				set(%hinttxt,"")
+			>
+			else
+			<
+				set(%hinttxt,"?ICONCAN?  ")
+			>
+
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,leaguefixtures.btn_Play,LeagueFixContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Squad
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "squad"))
+		strvar(%hinttxt)
+	{
+		M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,squadlist.btn_Back,squadBackButton,loc(generic_BACK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio,%hinttxt)
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?BTNCAN?,squadBackButton)
+			CTRLBlock(RIGHT)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+			CTRLHasSelectedGroup()
+			<
+				set(%hinttxt,"")
+			>
+			else
+			<
+				set(%hinttxt,"?ICONCAN?  ")
+			>
+	}
+
+
+	// Results
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "results"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,results.continue,ResultsContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Staff PostMatch
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "staff" and(twk(Staff,PostMatchState) = 1) and(twk(Staff,EnablePostMatchContinue))))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,staff.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Board Targets New
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "boardtargets") and(twk(BoardTargets,IntroMsgClosed) = 1) and(twk(BoardTargets,MatchesRemaining) > 0) and(twk(BoardTargets,ContinueEnabled)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,boardtargets.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Board Targets Review
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "boardtargets") and(twk(BoardTargets,IntroMsgClosed) = 1) and(twk(BoardTargets,MatchesRemaining) = 0) and(twk(BoardTargets,ContinueEnabled)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,boardtargets.animation_End2,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Choose Sponsor
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "choosesponsor") and(twk(ChooseSponsor,Complete) = 1))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,choosesponsor.btn_Select,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Animated League
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "animatedleague"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,animatedleague.btn_Continue,AnimatedLeagueContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Finances
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "finances"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,finances.btn_Continue,FinancesContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Income
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "income"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,income.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// TeamTalk
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "teamtalk") and(twk(TeamTalk,ContinueEnabled)))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,teamtalk.btn_Continue,TeamTalkContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Post Match Stats 
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "match_stats"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,matchstats.btn_Continue,MatchStatsContinueButton,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+
+
+	// Comp Award
+	Rect:() $HIDE
+		M_ManualRearm:((shell(GameScreen) = "compaward"))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,compaward.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,ForwardButtonAudio)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%rearm)
+			<
+				CTRLSetSelected()
+			>
+	}
+}}

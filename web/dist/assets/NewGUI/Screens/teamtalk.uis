@@ -1,0 +1,263 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(BG_LockerRoom,NewGUI/UI/ImageBG/BG_LockerRoom.png) Volatile:BGLockerRoom
+//---------------------------------------------------------------------------------------------SETUP
+// TeamTalk,State: 0:Entry 1:Started 2:Failed 3:Expired 4:Success
+
+Rect:()
+	.set(twk(TeamTalk,NormTimeRemaining),1)
+	.set(twk(TeamTalk,AnsweredCorrect),0)
+	if(twk(TeamTalk,State) oneof(2,3,4))
+	<
+		:Post(UI_KeyMomentHeartbeatStop)
+	>
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_TalkButton,?TEXT?,?INDEX?,?ROW?,?COLUMN?,?NUMCOLUMNS?)
+	Rect:(?COLUMN?*[[[[@s-100]-[[?NUMCOLUMNS?-1]*20]]/?NUMCOLUMNS?]+20],?ROW?*80,[[@s-100]-[[?NUMCOLUMNS?-1]*20]]/?NUMCOLUMNS?,70) ref:Button?INDEX?
+		float(%clicked,%state)
+		if((%clicked = 0) and(twk(TeamTalk,ContinueEnabled) = 0) and(twk(TeamTalk,ButtonsEnabled) = 1))
+		<
+			if(twk(ControllerInput,Enabled) = 0)
+			<
+				M_CellPress:()
+			>
+		>
+		if(twk(TeamTalk,ButtonsEnabled) = 1)
+		<
+			Click()
+			<
+				set(%clicked,1)
+			>
+			if(%clicked)
+			<
+				.Post(UI_Select)
+				.Message(teamtalk.btn_Txt,?INDEX?)
+				if(%state = 1)
+				<
+					add(twk(TeamTalk,AnsweredCorrect),1)
+				>
+				else
+				<
+					set(twk(TeamTalk,AnsweredCorrect),0)
+				>	
+			>
+			if(twk(ControllerInput,Enabled) = 1)
+			<
+				CTRLSelect(CTRLBasicSelected,0,0,6,6)
+				CTRLClick(?BTNOK?,true)
+				<
+					set(%clicked,1)
+				>
+				If:(?INDEX?=1)
+				.if(twk(Ftue,Enabled))
+				<
+					CTRLSetSelected()
+				>
+				EndIf
+			>
+		>
+	{{
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+		Draw:(Button_SilverSliced,0,0,@W,@H)
+			if(twk(TeamTalk,ButtonsEnabled) = 1)
+			<
+				.set(gel.alpha,1)
+			>
+			else
+			<
+				.set(gel.alpha,0.5)
+			>
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		// Separate overlay to indicate Correct/Incorrect state
+		Draw:(RoundedPanel,0,0,@W,@H+1)
+			set(gel.vis,%state oneof(-1,1))
+			// Correct style
+			if(%state = 1)
+			<
+				:set(gel.colour,#00FF00AA)
+			>
+			// Incorrect style
+			if(%state = -1)
+			<
+				:set(gel.colour,#FF0000AA)
+			>
+
+		// Not Clicked
+		M_Text:(,10,34,@W-20,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			.set(gel.text,?TEXT?)
+			set(gel.vis,not(%clicked) and(%state oneof(-1,0,1)))
+		
+		// Clicked and Incorrect
+		M_Text:(,10,34,@W-20,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			.set(gel.text,?TEXT?)
+			set(gel.vis,(%clicked) and(%state oneof(-1,0)))
+
+		// Clicked and Correct
+		M_Text:(,10,34,@W-20,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			.set(gel.text,?TEXT?)
+			set(gel.vis,(%clicked) and(%state = 1))
+			M_Style:(Outline,#25252520)
+
+		M_CellPressHighlight:()
+	}}
+		ConvergeTo(0,0) ref:MoveTo
+
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	.set(gel.alpha,0)
+	frlerp(gel.alpha,1,0.1)
+{{
+
+
+	// Background
+	If:(?TALLCONTENT?)
+		Draw:(BG_LockerRoom,@C,50,,320+@z)
+		 	Handle(0.5,0)
+	Else
+		Draw:(BG_LockerRoom,@C,50,@w,320)
+			Handle(0.5,0)
+	EndIf
+	// Can delete and incorporate into image
+	Draw:(Fade_Down,@o,50,@w,150,,#FFFFFFAA)
+	Draw:(Fade_Up,@o,266+@z,@w,100,,#FFFFFFAA)
+
+
+
+
+
+	// Team Talk Instructions 
+	Rect:(@L+30,@T+80,@W-60,60)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#00000000)
+			frlerp(gel.alpha,0.75,0.025)
+
+		Clip:(0,0,@W,@H)
+			.set(gel.w,0)
+			if(gel.w < @W)
+			<
+				add(gel.w,15)
+			>
+		{{
+			M_Text:(teamtalk_Instructions,@C,30,0,0,C,C,TextLocAtt,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+
+
+
+
+
+	// Speech Panel
+	Rect:(@C-545,@B-615-[@z/2],1090,140)
+	{{
+		Draw:(Bubble_Shadow,-38,-9,@W+47,@H+19)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF40)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		{{
+			Draw:(Bubble_Speech,-30,83,,,,#FFFFFF00FFFFFFFF)
+				Delay(twk(Question,QuestionDelay))
+				frlerp(gel.alpha,0.95,0.1)
+		}}
+
+		// Speech Marks
+		Draw:(Speech_L,@C-250,70,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C-470,0.1)
+			frlerp(gel.scale,0.5,0.1)
+			
+		Draw:(Speech_R,@C+250,70,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C+470,0.1)
+			frlerp(gel.scale,0.5,0.1)
+	}}
+
+
+
+
+
+	// Answer Panel
+	Rect:(@L,@B-402,@W,402)
+	{{
+		// Red Panel
+		Draw:(White,@f,0,@w,76,,#CC1618FF)
+		Draw:(White,@f,38,@w,38,,#00000009)
+		Draw:(Fade_Down,@f,38,@w,18,,#00000020)
+
+		// Answer Panel
+		Draw:(White,@f,82,@w,320,,#00000080)
+		Draw:(White,@f,76,@w,6,,#D6D6D6FF)
+		Draw:(Fade_Right,@C,76,[@w/2]-100,6,,#707070FF)
+		Draw:(Fade_Right,@C,76,-[[@w/2]-100],6,,#707070FF)
+
+		//Energy Boost
+		M_Text:(,@C,38,0,0,C,C,Text,KNUL40,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Style:(Outline,#FFFFFF20)
+			float(%boostText)
+			.set(gel.alpha,0)
+			.set(%boostText,twk(TeamTalk,EnergyBoost))
+			if(twk(TeamTalk,AnsweredCorrect) > 0)
+			<
+				frlerp(gel.alpha,1,0.1)
+				frlerp(gel.scale,1,0.1)
+				set(gel.text,loc(teamtalk_SUCCESS) :: LTR(twk(TeamTalk,EnergyBoost)))
+			>
+			if(%boostText != twk(TeamTalk,EnergyBoost) and(twk(TeamTalk,State) = 1))
+			<
+				:set(gel.alpha,0)
+				:set(gel.scale,0)
+				:set(%boostText,twk(TeamTalk,EnergyBoost))
+			>
+			if(twk(TeamTalk,State) = 2)
+			<
+				set(gel.vis,0)
+			>
+
+		M_Text:(teamtalk_FAIL,@C,38,0,0,C,C,TextLoc,KNUL40,,0,0,#FFFFFFFF,NoItalics,#FFFFFF00,ref)
+			M_Style:(Outline,#FFFFFF20)
+			if((twk(TeamTalk,State) oneof(2,3)) and(twk(TeamTalk,AnsweredCorrect) = 0))
+			<
+				.set(gel.scale,1.5)
+				frlerp(gel.scale,1,0.05)
+				frlerp(gel.alpha,0.5,0.05)
+			>
+
+		Rect:(50,90,900,450) ref:ButtonHook
+		{
+			M_Text:(,@C-400,-223-[@z/2],800,160,C,C,TextBox,KNUL35,,0,0,#00000000,NoItalics,#606060FF,ref)
+				set(gel.text,twk(TeamTalk,BuiltText))
+		}
+
+	}}
+
+
+
+
+
+	// Timer
+	M_CircleTimer:(@R-90,@B-402,TeamTalk)
+		if(twk(TeamTalk,ButtonsEnabled))
+		<
+			.set(%enabled,1)
+		>
+}}

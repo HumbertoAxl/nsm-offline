@@ -1,0 +1,43 @@
+
+//DisableTransform
+
+// Not defined assets will be picked from default file
+
+// ------------------------------------- COLOURS
+//SkinCol:()
+//SkinCol:(ffffff,eeeeee,dddddd)
+//SkinCol:(dfae9b,dcbfb9,ffcfb5,dfae9b)
+SkinCol:(ffd1c5,f4cdc2,ffdac2,eebdaa,dfae9b)
+
+//HairCol:()
+//HairCol:(ffffff,cccccc,999999,666666)
+//HairCol:(efd778,dd902d,5d390b,444444,3e2f1b,baae80)
+HairCol:(5f3e1c,3c250d,32291f,8a6844,c38d53,cbb677,c9bd97,5f3e1c,3c250d,32291f)
+
+//EyesCol:()
+EyesCol:(ffffff,cccccc,999999,666666)
+//EyesCol:(9cc3da,77afff,7bac34,5a3f00,8f6b00)
+
+MouthCol:(ffffff)
+
+#Hair#
+	Imgs:(FaceHair,1,2,3,4,5,6,7,9,10,11,14,16,19,21)
+#Hair#End
+
+
+#Head#
+	Imgs:(FaceHead,1,2,3,4,5,6,7)
+#Head#End
+
+
+#Nose#
+	ImgRange:(FaceNose,1,9)
+	//Imgs:(FaceNose,1,2,3,4,5,6,7,8,9)
+	ScaleX:(1,1.1)
+#Nose#End
+
+#Mouth#
+	Imgs:(FaceMouth,1,2,3,4,5,6)
+	//ScaleX:(1,1.2)
+	//OffsetY:(0,0)
+#Mouth#End

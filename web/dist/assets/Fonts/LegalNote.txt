@@ -1,0 +1,7 @@
+Despite the internal Filename, the .ttf listed as IRANSANS is in fact
+
+Noto Sans Arabic 
+"NotoSansArabic-VariableFont_wdth,wght.ttf"
+
+by Google, licensed under the Open Font Licese; see - 
+https://fonts.google.com/noto/specimen/Noto+Sans+Arabic/about

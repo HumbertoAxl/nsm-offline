@@ -1,0 +1,63 @@
+##IA
+Img:(TrainingGround1_Background,NewGUI/UI/Staff/Training1_Background.png) FORCE Scale:0.5 Volatile:Facility_Training1
+Img:(TrainingGround2_Background,NewGUI/UI/Staff/Training2_Background.png) FORCE Scale:0.5 Volatile:Facility_Training2
+Img:(TrainingGround3_Background,NewGUI/UI/Staff/Training3_Background.png) FORCE Scale:0.5 Volatile:Facility_Training3
+Img:(TrainingGround4_Background,NewGUI/UI/Staff/Training4_Background.png) FORCE Scale:0.5 Volatile:Facility_Training4
+Img:(TrainingGround5_Background,NewGUI/UI/Staff/Training5_Background.png) FORCE Scale:0.5 Volatile:Facility_Training5
+Img:(TrainingGround6_Background,NewGUI/UI/Staff/Training6_Background.png) FORCE Scale:0.5 Volatile:Facility_Training6
+Img:(FitnessCentre1_Background,NewGUI/UI/Staff/Fitness1_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness1
+Img:(FitnessCentre2_Background,NewGUI/UI/Staff/Fitness2_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness2
+Img:(FitnessCentre3_Background,NewGUI/UI/Staff/Fitness3_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness3
+Img:(FitnessCentre4_Background,NewGUI/UI/Staff/Fitness4_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness4
+Img:(FitnessCentre5_Background,NewGUI/UI/Staff/Fitness5_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness5
+Img:(FitnessCentre6_Background,NewGUI/UI/Staff/Fitness6_Background.png) FORCE Scale:0.5 Volatile:Facility_Fitness6
+Img:(MedicalUnit1_Background,NewGUI/UI/Staff/Medical1_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical1
+Img:(MedicalUnit2_Background,NewGUI/UI/Staff/Medical2_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical2
+Img:(MedicalUnit3_Background,NewGUI/UI/Staff/Medical3_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical3
+Img:(MedicalUnit4_Background,NewGUI/UI/Staff/Medical4_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical4
+Img:(MedicalUnit5_Background,NewGUI/UI/Staff/Medical5_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical5
+Img:(MedicalUnit6_Background,NewGUI/UI/Staff/Medical6_Background.png) FORCE Scale:0.5 Volatile:Facility_Medical6
+Img:(ScoutsOffice1_Background,NewGUI/UI/Staff/Scout1_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts1
+Img:(ScoutsOffice2_Background,NewGUI/UI/Staff/Scout2_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts2
+Img:(ScoutsOffice3_Background,NewGUI/UI/Staff/Scout3_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts3
+Img:(ScoutsOffice4_Background,NewGUI/UI/Staff/Scout4_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts4
+Img:(ScoutsOffice5_Background,NewGUI/UI/Staff/Scout5_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts5
+Img:(ScoutsOffice6_Background,NewGUI/UI/Staff/Scout6_Background.png) FORCE Scale:0.5 Volatile:Facility_Scouts6
+Img:(YouthAcademy1_Background,NewGUI/UI/Staff/Youth1_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth1
+Img:(YouthAcademy2_Background,NewGUI/UI/Staff/Youth2_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth2
+Img:(YouthAcademy3_Background,NewGUI/UI/Staff/Youth3_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth3
+Img:(YouthAcademy4_Background,NewGUI/UI/Staff/Youth4_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth4
+Img:(YouthAcademy5_Background,NewGUI/UI/Staff/Youth5_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth5
+Img:(YouthAcademy6_Background,NewGUI/UI/Staff/Youth6_Background.png) FORCE Scale:0.5 Volatile:Facility_Youth6
+##P4N
+Img:(TrainingGround1_Background,NewGUI/UI/Staff/Training1_Background.png) FORCE Volatile:Facility_Training1
+Img:(TrainingGround2_Background,NewGUI/UI/Staff/Training2_Background.png) FORCE Volatile:Facility_Training2
+Img:(TrainingGround3_Background,NewGUI/UI/Staff/Training3_Background.png) FORCE Volatile:Facility_Training3
+Img:(TrainingGround4_Background,NewGUI/UI/Staff/Training4_Background.png) FORCE Volatile:Facility_Training4
+Img:(TrainingGround5_Background,NewGUI/UI/Staff/Training5_Background.png) FORCE Volatile:Facility_Training5
+Img:(TrainingGround6_Background,NewGUI/UI/Staff/Training6_Background.png) FORCE Volatile:Facility_Training6
+Img:(FitnessCentre1_Background,NewGUI/UI/Staff/Fitness1_Background.png) FORCE Volatile:Facility_Fitness1
+Img:(FitnessCentre2_Background,NewGUI/UI/Staff/Fitness2_Background.png) FORCE Volatile:Facility_Fitness2
+Img:(FitnessCentre3_Background,NewGUI/UI/Staff/Fitness3_Background.png) FORCE Volatile:Facility_Fitness3
+Img:(FitnessCentre4_Background,NewGUI/UI/Staff/Fitness4_Background.png) FORCE Volatile:Facility_Fitness4
+Img:(FitnessCentre5_Background,NewGUI/UI/Staff/Fitness5_Background.png) FORCE Volatile:Facility_Fitness5
+Img:(FitnessCentre6_Background,NewGUI/UI/Staff/Fitness6_Background.png) FORCE Volatile:Facility_Fitness6
+Img:(MedicalUnit1_Background,NewGUI/UI/Staff/Medical1_Background.png) FORCE Volatile:Facility_Medical1
+Img:(MedicalUnit2_Background,NewGUI/UI/Staff/Medical2_Background.png) FORCE Volatile:Facility_Medical2
+Img:(MedicalUnit3_Background,NewGUI/UI/Staff/Medical3_Background.png) FORCE Volatile:Facility_Medical3
+Img:(MedicalUnit4_Background,NewGUI/UI/Staff/Medical4_Background.png) FORCE Volatile:Facility_Medical4
+Img:(MedicalUnit5_Background,NewGUI/UI/Staff/Medical5_Background.png) FORCE Volatile:Facility_Medical5
+Img:(MedicalUnit6_Background,NewGUI/UI/Staff/Medical6_Background.png) FORCE Volatile:Facility_Medical6
+Img:(ScoutsOffice1_Background,NewGUI/UI/Staff/Scout1_Background.png) FORCE Volatile:Facility_Scouts1
+Img:(ScoutsOffice2_Background,NewGUI/UI/Staff/Scout2_Background.png) FORCE Volatile:Facility_Scouts2
+Img:(ScoutsOffice3_Background,NewGUI/UI/Staff/Scout3_Background.png) FORCE Volatile:Facility_Scouts3
+Img:(ScoutsOffice4_Background,NewGUI/UI/Staff/Scout4_Background.png) FORCE Volatile:Facility_Scouts4
+Img:(ScoutsOffice5_Background,NewGUI/UI/Staff/Scout5_Background.png) FORCE Volatile:Facility_Scouts5
+Img:(ScoutsOffice6_Background,NewGUI/UI/Staff/Scout6_Background.png) FORCE Volatile:Facility_Scouts6
+Img:(YouthAcademy1_Background,NewGUI/UI/Staff/Youth1_Background.png) FORCE Volatile:Facility_Youth1
+Img:(YouthAcademy2_Background,NewGUI/UI/Staff/Youth2_Background.png) FORCE Volatile:Facility_Youth2
+Img:(YouthAcademy3_Background,NewGUI/UI/Staff/Youth3_Background.png) FORCE Volatile:Facility_Youth3
+Img:(YouthAcademy4_Background,NewGUI/UI/Staff/Youth4_Background.png) FORCE Volatile:Facility_Youth4
+Img:(YouthAcademy5_Background,NewGUI/UI/Staff/Youth5_Background.png) FORCE Volatile:Facility_Youth5
+Img:(YouthAcademy6_Background,NewGUI/UI/Staff/Youth6_Background.png) FORCE Volatile:Facility_Youth6
+//##*

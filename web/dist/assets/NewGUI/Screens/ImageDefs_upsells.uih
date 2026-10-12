@@ -1,0 +1,134 @@
+// Upsell Message Banner
+Img:(BannerFade_L,NewGUI/IAP/Upsell/BannerFade_L.png) FORCE Volatile:UpsellArt
+Img:(BannerFade_R,NewGUI/IAP/Upsell/BannerFade_R.png) FORCE Volatile:UpsellArt
+Img:(UpSell_BannerLines,NewGUI/IAP/Upsell/UpSell_BannerLines.png) FORCE Volatile:UpsellArt
+Img:(Upsell_MatchBanner_01,NewGUI/IAP/Upsell/Upsell_MatchBanner_01.png) FORCE Volatile:UpsellArt
+
+// Cards Carousel
+Img:(Upsell_Carousel_Coaching,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_Coaching.png) FORCE Volatile:UpsellCarouselArt
+Img:(Upsell_Carousel_Manager,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_Manager.png) FORCE Volatile:UpsellCarouselArt
+Img:(Upsell_Carousel_Staff,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_Staff.png) FORCE Volatile:UpsellCarouselArt
+
+Img:(Upsell_Carousel_CoachingMini,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_CoachingMini.png) FORCE Volatile:UpsellCarouselArt
+//Img:(Upsell_Carousel_ManagerMini,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_ManagerMini.png) FORCE Volatile:UpsellCarouselArt
+//Img:(Upsell_Carousel_StaffMini,NewGUI/IAP/Upsell/CardsCarousel/Upsell_Carousel_StaffMini.png) FORCE Volatile:UpsellCarouselArt
+
+// Products------------------------------------------------------------------------------------------------------------------------------------------
+
+##IA
+Img:(UpSell_Bux,NewGUI/IAP/Upsell/Products/UpSell_Bux.png) FORCE Scale:0.5 Volatile:UpSell_Bux
+Img:(UpSell_Bux500,NewGUI/IAP/Upsell/Products/UpSell_Bux500.png) FORCE Scale:0.5 Volatile:UpSell_Bux500
+Img:(UpSell_Bux1000,NewGUI/IAP/Upsell/Products/UpSell_Bux1000.png) FORCE Scale:0.5 Volatile:UpSell_Bux1000
+Img:(UpSell_Cards_Appeal,NewGUI/IAP/Upsell/Products/UpSell_Cards_Appeal.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Appeal
+Img:(UpSell_Cards_Coaching,NewGUI/IAP/Upsell/Products/UpSell_Cards_Coaching.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Coaching
+Img:(UpSell_Cards_Contract,NewGUI/IAP/Upsell/Products/UpSell_Cards_Contract.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Contract
+Img:(UpSell_Cards_Energy,NewGUI/IAP/Upsell/Products/UpSell_Cards_Energy.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Energy
+Img:(UpSell_Cards_Meeting,NewGUI/IAP/Upsell/Products/UpSell_Cards_Meeting.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Meeting
+Img:(UpSell_Cards_TeamTalk,NewGUI/IAP/Upsell/Products/UpSell_Cards_TeamTalk.png) FORCE Scale:0.5 Volatile:UpSell_Cards_TeamTalk
+Img:(UpSell_Cards_Treatment,NewGUI/IAP/Upsell/Products/UpSell_Cards_Treatment.png) FORCE Scale:0.5 Volatile:UpSell_Cards_Treatment
+Img:(UpSell_Pack_Coaching,NewGUI/IAP/Upsell/Products/UpSell_Pack_Coaching.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Coaching
+Img:(UpSell_Pack_Management,NewGUI/IAP/Upsell/Products/UpSell_Pack_Management.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Management
+Img:(UpSell_Retries,NewGUI/IAP/Upsell/Products/UpSell_Retries.png) FORCE Scale:0.5 Volatile:UpSell_Retries
+
+Img:(OL_UpSell_Pack_ATT,NewGUI/IAP/Upsell/Products/UpSell_Pack_ATT.png) FORCE Scale:0.5 Volatile:UpSell_Pack_ATT_OL
+Img:(OL_UpSell_Pack_Black,NewGUI/IAP/Upsell/Products/UpSell_Pack_Black.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Black_OL
+Img:(OL_UpSell_Pack_DEF,NewGUI/IAP/Upsell/Products/UpSell_Pack_DEF.png) FORCE Scale:0.5 Volatile:UpSell_Pack_DEF_OL
+Img:(OL_UpSell_Pack_GK,NewGUI/IAP/Upsell/Products/UpSell_Pack_GK.png) FORCE Scale:0.5 Volatile:UpSell_Pack_GK_OL
+Img:(OL_UpSell_Pack_Gold,NewGUI/IAP/Upsell/Products/UpSell_Pack_Gold.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Gold_OL
+Img:(OL_UpSell_Pack_MID,NewGUI/IAP/Upsell/Products/UpSell_Pack_MID.png) FORCE Scale:0.5 Volatile:UpSell_Pack_MID_OL
+Img:(OL_UpSell_Pack_Players,NewGUI/IAP/Upsell/Products/UpSell_Pack_Players.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Players_OL
+
+Img:(NL_UpSell_Pack_Black,NewLook/IAP/Upsell/Products/UpSell_Pack_Black.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Black_NL
+Img:(NL_UpSell_Pack_Gold,NewLook/IAP/Upsell/Products/UpSell_Pack_Gold.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Gold_NL
+
+If:("?VARIANT?"="JAPAN")
+Img:(NL_UpSell_Pack_ATT,NewLook/IAP/Upsell/Products/UpSell_Pack_ATT_Ja.png) FORCE Scale:0.5 Volatile:UpSell_Pack_ATT_NL
+Img:(NL_UpSell_Pack_DEF,NewLook/IAP/Upsell/Products/UpSell_Pack_DEF_Ja.png) FORCE Scale:0.5 Volatile:UpSell_Pack_DEF_NL
+Img:(NL_UpSell_Pack_GK,NewLook/IAP/Upsell/Products/UpSell_Pack_GK_Ja.png) FORCE Scale:0.5 Volatile:UpSell_Pack_GK_NL
+Img:(NL_UpSell_Pack_MID,NewLook/IAP/Upsell/Products/UpSell_Pack_MID_Ja.png) FORCE Scale:0.5 Volatile:UpSell_Pack_MID_NL
+Img:(NL_UpSell_Pack_Players,NewLook/IAP/Upsell/Products/UpSell_Pack_Players_Ja.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Players_NL
+Else
+Img:(NL_UpSell_Pack_ATT,NewLook/IAP/Upsell/Products/UpSell_Pack_ATT.png) FORCE Scale:0.5 Volatile:UpSell_Pack_ATT_NL
+Img:(NL_UpSell_Pack_DEF,NewLook/IAP/Upsell/Products/UpSell_Pack_DEF.png) FORCE Scale:0.5 Volatile:UpSell_Pack_DEF_NL
+Img:(NL_UpSell_Pack_GK,NewLook/IAP/Upsell/Products/UpSell_Pack_GK.png) FORCE Scale:0.5 Volatile:UpSell_Pack_GK_NL
+Img:(NL_UpSell_Pack_MID,NewLook/IAP/Upsell/Products/UpSell_Pack_MID.png) FORCE Scale:0.5 Volatile:UpSell_Pack_MID_NL
+Img:(NL_UpSell_Pack_Players,NewLook/IAP/Upsell/Products/UpSell_Pack_Players.png) FORCE Scale:0.5 Volatile:UpSell_Pack_Players_NL
+EndIf
+
+##P4N
+Img:(UpSell_Bux,NewGUI/IAP/Upsell/Products/UpSell_Bux.png) FORCE Volatile:UpSell_Bux
+Img:(UpSell_Bux500,NewGUI/IAP/Upsell/Products/UpSell_Bux500.png) FORCE Volatile:UpSell_Bux500
+Img:(UpSell_Bux1000,NewGUI/IAP/Upsell/Products/UpSell_Bux1000.png) FORCE Volatile:UpSell_Bux1000
+Img:(UpSell_Cards_Appeal,NewGUI/IAP/Upsell/Products/UpSell_Cards_Appeal.png) FORCE Volatile:UpSell_Cards_Appeal
+Img:(UpSell_Cards_Coaching,NewGUI/IAP/Upsell/Products/UpSell_Cards_Coaching.png) FORCE Volatile:UpSell_Cards_Coaching
+Img:(UpSell_Cards_Contract,NewGUI/IAP/Upsell/Products/UpSell_Cards_Contract.png) FORCE Volatile:UpSell_Cards_Contract
+Img:(UpSell_Cards_Energy,NewGUI/IAP/Upsell/Products/UpSell_Cards_Energy.png) FORCE Volatile:UpSell_Cards_Energy
+Img:(UpSell_Cards_Meeting,NewGUI/IAP/Upsell/Products/UpSell_Cards_Meeting.png) FORCE Volatile:UpSell_Cards_Meeting
+Img:(UpSell_Cards_TeamTalk,NewGUI/IAP/Upsell/Products/UpSell_Cards_TeamTalk.png) FORCE Volatile:UpSell_Cards_TeamTalk
+Img:(UpSell_Cards_Treatment,NewGUI/IAP/Upsell/Products/UpSell_Cards_Treatment.png) FORCE Volatile:UpSell_Cards_Treatment
+Img:(UpSell_Pack_Coaching,NewGUI/IAP/Upsell/Products/UpSell_Pack_Coaching.png) FORCE Volatile:UpSell_Pack_Coaching
+Img:(UpSell_Pack_Management,NewGUI/IAP/Upsell/Products/UpSell_Pack_Management.png) FORCE Volatile:UpSell_Pack_Management
+Img:(UpSell_Retries,NewGUI/IAP/Upsell/Products/UpSell_Retries.png) FORCE Volatile:UpSell_Retries
+
+##P4
+
+Img:(OL_UpSell_Pack_ATT,NewGUI/IAP/Upsell/Products/UpSell_Pack_ATT.png) FORCE Volatile:UpSell_Pack_ATT_OL
+Img:(OL_UpSell_Pack_Black,NewGUI/IAP/Upsell/Products/UpSell_Pack_Black.png) FORCE Volatile:UpSell_Pack_Black_OL
+Img:(OL_UpSell_Pack_DEF,NewGUI/IAP/Upsell/Products/UpSell_Pack_DEF.png) FORCE Volatile:UpSell_Pack_DEF_OL
+Img:(OL_UpSell_Pack_GK,NewGUI/IAP/Upsell/Products/UpSell_Pack_GK.png) FORCE Volatile:UpSell_Pack_GK_OL
+Img:(OL_UpSell_Pack_Gold,NewGUI/IAP/Upsell/Products/UpSell_Pack_Gold.png) FORCE Volatile:UpSell_Pack_Gold_OL
+Img:(OL_UpSell_Pack_MID,NewGUI/IAP/Upsell/Products/UpSell_Pack_MID.png) FORCE Volatile:UpSell_Pack_MID_OL
+Img:(OL_UpSell_Pack_Players,NewGUI/IAP/Upsell/Products/UpSell_Pack_Players.png) FORCE Volatile:UpSell_Pack_Players_OL
+
+Img:(NL_UpSell_Pack_ATT,NewLook/IAP/Upsell/Products/UpSell_Pack_ATT.png) FORCE Volatile:UpSell_Pack_ATT_NL
+Img:(NL_UpSell_Pack_Black,NewLook/IAP/Upsell/Products/UpSell_Pack_Black.png) FORCE Volatile:UpSell_Pack_Black_NL
+Img:(NL_UpSell_Pack_DEF,NewLook/IAP/Upsell/Products/UpSell_Pack_DEF.png) FORCE Volatile:UpSell_Pack_DEF_NL
+Img:(NL_UpSell_Pack_GK,NewLook/IAP/Upsell/Products/UpSell_Pack_GK.png) FORCE Volatile:UpSell_Pack_GK_NL
+Img:(NL_UpSell_Pack_Gold,NewLook/IAP/Upsell/Products/UpSell_Pack_Gold.png) FORCE Volatile:UpSell_Pack_Gold_NL
+Img:(NL_UpSell_Pack_MID,NewLook/IAP/Upsell/Products/UpSell_Pack_MID.png) FORCE Volatile:UpSell_Pack_MID_NL
+Img:(NL_UpSell_Pack_Players,NewLook/IAP/Upsell/Products/UpSell_Pack_Players.png) FORCE Volatile:UpSell_Pack_Players_NL
+
+
+##*
+
+// Bonus pack extra
+##P4N
+Img:(UpSell_Pack_Bonus_Male,NewGUI/IAP/Upsell/Products/UpSell_Pack_Bonus_Male.png) FORCE Volatile:UpSell_Pack_Bonus_Male
+Img:(UpSell_Pack_Bonus_Female,NewGUI/IAP/Upsell/Products/UpSell_Pack_Bonus_Female.png) FORCE Volatile:UpSell_Pack_Bonus_Female
+Img:(Pack_Bonus_Female,NewGUI/IAP/CardPacks/Pack_Bonus_Female.png) FORCE Volatile:Pack_Bonus_Female
+Img:(Pack_Bonus_Male,NewGUI/IAP/CardPacks/Pack_Bonus_Male.png) FORCE Volatile:Pack_Bonus_Male
+##*
+
+##N
+
+//AC: No option on Switch
+Img:(UpSell_Pack_ATT,NewLook/IAP/Upsell/Products/UpSell_Pack_ATT.png) FORCE Volatile:UpSell_Pack_ATT_NL
+Img:(UpSell_Pack_Black,NewLook/IAP/Upsell/Products/UpSell_Pack_Black.png) FORCE Volatile:UpSell_Pack_Black_NL
+Img:(UpSell_Pack_DEF,NewLook/IAP/Upsell/Products/UpSell_Pack_DEF.png) FORCE Volatile:UpSell_Pack_DEF_NL
+Img:(UpSell_Pack_GK,NewLook/IAP/Upsell/Products/UpSell_Pack_GK.png) FORCE Volatile:UpSell_Pack_GK_NL
+Img:(UpSell_Pack_Gold,NewLook/IAP/Upsell/Products/UpSell_Pack_Gold.png) FORCE Volatile:UpSell_Pack_Gold_NL
+Img:(UpSell_Pack_MID,NewLook/IAP/Upsell/Products/UpSell_Pack_MID.png) FORCE Volatile:UpSell_Pack_MID_NL
+Img:(UpSell_Pack_Players,NewLook/IAP/Upsell/Products/UpSell_Pack_Players.png) FORCE Volatile:UpSell_Pack_Players_NL
+
+##-
+//AC: Option on all other platforms
+If:(twk(SettingsGlobal,OldNewLook))
+ImgClone:(UpSell_Pack_ATT,NL_UpSell_Pack_ATT)
+ImgClone:(UpSell_Pack_Black,NL_UpSell_Pack_Black)
+ImgClone:(UpSell_Pack_DEF,NL_UpSell_Pack_DEF)
+ImgClone:(UpSell_Pack_GK,NL_UpSell_Pack_GK)
+ImgClone:(UpSell_Pack_Gold,NL_UpSell_Pack_Gold)
+ImgClone:(UpSell_Pack_MID,NL_UpSell_Pack_MID)
+ImgClone:(UpSell_Pack_Players,NL_UpSell_Pack_Players)
+Else
+ImgClone:(UpSell_Pack_ATT,OL_UpSell_Pack_ATT)
+ImgClone:(UpSell_Pack_Black,OL_UpSell_Pack_Black)
+ImgClone:(UpSell_Pack_DEF,OL_UpSell_Pack_DEF)
+ImgClone:(UpSell_Pack_GK,OL_UpSell_Pack_GK)
+ImgClone:(UpSell_Pack_Gold,OL_UpSell_Pack_Gold)
+ImgClone:(UpSell_Pack_MID,OL_UpSell_Pack_MID)
+ImgClone:(UpSell_Pack_Players,OL_UpSell_Pack_Players)
+EndIf
+
+##*
+

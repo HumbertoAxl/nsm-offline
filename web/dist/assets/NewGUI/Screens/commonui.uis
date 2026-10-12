@@ -1,0 +1,531 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(badge_Macros.uih)
+Import:(Core_ScreenControl.uih)
+Import:(splitspines.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Header_BG,NewGUI/UI/Header/Header_BG.png)
+Img:(Header_HT,NewGUI/UI/Header/Header_HT.png)
+
+Img:(Header_Manager_Male,NewGUI/UI/Header/Header_Manager_Male.png) FORCE
+Img:(Header_Manager_Female,NewGUI/UI/Header/Header_Manager_Female.png) FORCE
+
+Img:(Header_Cards,NewGUI/UI/Header/Header_Cards.png)
+Img:(Header_Help,NewGUI/UI/Header/Header_Help.png)
+Img:(Header_Messages,NewGUI/UI/Header/Header_Messages.png)
+Img:(Header_Options,NewGUI/UI/Header/Header_Options.png)
+Img:(Header_Search,NewGUI/UI/Header/Header_Search.png)
+Img:(Header_Shop,NewGUI/UI/Header/Header_Shop.png)
+Img:(Header_CodeRedeem,NewGUI/UI/Header/Header_CodeRedeem.png)
+Img:(Header_Targets,NewGUI/UI/Header/Header_Targets.png)
+Img:(Header_XP,NewGUI/UI/Header/Header_XP.png)
+
+Img:(Header_Coin,NewGUI/UI/Header/Header_Coin.png)
+Img:(Header_Hex,NewGUI/UI/Header/Header_Hex.png)
+Img:(Header_HexAdditive,NewGUI/UI/Header/Header_HexAdditive.png)
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(commonui_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+Rect:(@o,@T,@s,50)
+	Click()
+	SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+	float(%rearm)
+	if(not(twk(Header,Enabled)))
+	<
+		:set(%rearm,1)
+		set(gel.vis,0)
+	>
+	else
+	<
+		set(gel.vis,1)
+	>
+{{
+	// BACKGROUND
+	Rect:()
+		if((shell(GameScreen) = "matchengine") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+		<
+			set(gel.vis,0)
+		>
+		else
+		<
+			set(gel.vis,1)
+		>
+	{
+		Tile:(Header_BG,@f,0,150,54)
+			Copies([@w/150]+1,1)
+	}
+
+
+
+
+
+	// MATCH SCORE PANEL
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Header,ShowMatchScore))
+		<
+			frlerp(gel.alpha,1,0.15)
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.15)
+		>
+		if(twk(MatchHUD,ShowReplay) = 1)
+		<
+			:set(gel.y,-55)
+		>
+		if(shell(GameScreen) = "match")
+		<
+			:set(gel.y,0)
+		>
+		if(shell(GameScreen) = "matchengine")
+		<
+			if(twk(MatchHUD,IsReplay) = 1 or(twk(Match,PenaltyShootout) = 1) or(twk(Ftue,TrainingEnabled) = 1))
+			<
+				:set(gel.y,-55)
+			>
+			else
+			<
+				if(twk(MatchHUD,GoalDistance) != "")
+				<
+					:set(gel.y,0)
+				>
+				else
+				<
+					:set(gel.y,0)
+					:Delay(2.5)
+					frlerp(gel.y,-55,0.1)
+				>
+			>
+		>
+	{
+		Tile:(Header_BG,@f,0,150,54)
+			Copies([@w/150]+1,1)
+
+		// Debug Victory
+		Rect:()
+			Layer(Debug)
+			set(gel.vis,shell(GameScreen) = "match" and(twk(Debug,Enabled) = 1))
+		{
+			Rect:(@L,0,@W/2,50)
+				Click(match.homeTeamWin)
+			Rect:(@C,0,@W/2,50)
+				Click(match.awayTeamWin)
+		}
+
+		// Home Team
+		Rect:(@C,2,1,50)
+			float(%width)
+			set(gel.x,@C-260-[%width/2]-[@y/2])
+		{{
+			M_Text:("",35,0,0,50,L,C,Text,KNUL35,Upper,0,0,#00000000,NoItalics,#EEEEEEFF,ref,Match,Team1Name)
+				set(%width,%gfw+60)
+			
+			Rect:(0,25,@W,@H)
+				.set(gel.scale,0.35)
+			{{
+				DrawEmbedded:(MatchHomeTeamBadge)
+					Layer(Text)
+			}}
+		}}
+
+		// Away Team
+		Rect:(@C,2,1,50)
+			float(%width)
+			set(gel.x,@C+260+[%width/2]+[@y/2])
+		{{
+			M_Text:("",-35,0,0,50,R,C,Text,KNUL35,Upper,0,0,#00000000,NoItalics,#EEEEEEFF,ref,Match,Team2Name)
+				set(%width,%gfw+60)
+			
+			Rect:(0,25,@W,@H)
+				.set(gel.scale,0.35)
+			{{
+				DrawEmbedded:(MatchAwayTeamBadge)
+					Layer(Text)
+			}}
+		}}
+
+		// Score
+		M_TeamScore:(@C-50,26,1)
+		M_Text:("-",@C,26,0,0,C,C,Text,KNUL40,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_TeamScore:(@C+50,26,2)
+	}
+
+
+
+
+
+	// Screen Title
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(%rearm)
+		<
+			:set(gel.alpha,0)
+		>
+		if(twk(ScreenTransition,Active) = 1)
+		<
+			set(gel.alpha,0)
+		>
+		else
+		<
+			frlerp(gel.alpha,twk(Header,ShowScreenTitle),0.15)
+		>
+	{
+		M_Text:(,@C,0,0,@H,C,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,Header,ScreenTitle)
+		{{
+			Draw:(TextGlow_Title,0,-2,0,53,,#DDDDDD00)
+				Handle(0.5,0)
+				Layer(Default)
+				set(gel.w,%gfw+40)
+				set(gel.hx,gel.w/2)
+				Delay(0.5)
+				frlerp(gel.alpha,0.25,0.02)
+		}}
+	}
+
+
+
+
+
+	// HELP
+	M_HeaderZoneOPEN:(-1,0,120,50,Header,ShowHelp,help,commonui.btn_Help,1,Header,ShowHelp)
+		
+		// PS4: No hint icon and help icon only shown on main menu
+		##4
+		Draw:(Header_Help,@C-30,-5,60,60)
+			set(gel.vis,shell(GameScreen) = "mainmenu")
+		M_SwitchButtonHint:(,@C-53,10)
+			if(twk(Header,ShowHelp))
+			<
+				CTRLClick(BACK,false)
+				<
+					.set(twk(CardsCarousel,State),0)
+					Post(UI_Select)
+					Post(commonui.btn_Help)
+				>
+			>
+		##-
+
+		Draw:(Header_Help,@C-30,-5,60,60)
+		M_SwitchButtonHint:(⛣,@C-53,10)
+			if(twk(Header,ShowHelp))
+			<
+				CTRLClick(BACK,false)
+				<
+					.set(twk(CardsCarousel,State),0)
+					Post(UI_Select)
+					Post(commonui.btn_Help)
+				>
+			>
+		##*
+
+	M_HeaderZoneCLOSE:()
+
+
+
+	// MANAGER
+	M_HeaderZoneOPEN:(120,0,275,50,Header,ShowManager,manager,commonui.btn_Manager,2,Header,ShowManager)
+		Draw:(Header_Manager_Male,0,0,50,50)
+            if(twk(Player,Gender) = 0)
+            <
+                :set(gel.img,"Header_Manager_Male")
+            >
+            else
+            <
+                :set(gel.img,"Header_Manager_Female")
+            >
+
+		Rect:(163,0,100,50,,#FFFFFFFF)
+			float(%width,%w1)
+			// super duper important never ever ever ever ever remove please.
+			if(%zoneRearm)
+			<
+				:set(%width,0)
+			>
+			set(gel.x,163-[%width/2])
+		{{
+			M_Text:(home_top_LEVEL,0,26,0,0,L,C,TextLoc,KNUL30,,1,0,#666666FF000000FF,Italics,#666666FF,ref)
+				if(%zoneRearm)
+				<
+					:add(%width,%gfw)
+					:set(%w1,%gfw)
+				>
+			{
+				M_Text:(,0,24,0,0,L,C,Text,KNUL40,,2,2,#00000060000000FF,NoItalics,#FFFFFFFF000000FF,ref)
+					set(gel.text, LTR(twk(Player,StarLevel)))
+					set(gel.x,%w1+8)
+					if(%zoneRearm)
+					<
+						:add(%width,%gfw+8)
+					>
+			}
+		}}
+
+		Rect:(50,0,225,50)
+			float(%current)
+			.set(%current,twk(Player,StarRating)/100)
+			frlerp(%current,twk(Player,StarRating)/100,0.1)
+			set(twk(StarRating,SparklesTargetX),gel.gx+[%current*gel.w])
+			.set(twk(StarRating,SparklesTargetY),gel.gy+25)
+		{{
+			Draw:(Header_XP,0,0,@W,@H,,#FFFFFFFF)
+				Additive()
+				set(gel.scalex,%current)
+			Draw:(Header_XP,0,0,@W,@H,,#FFFFFFAA)
+				set(gel.scalex,%current)
+		}}
+
+		M_NotificationAlert:(45,-5,(twk(Achievements,UnclaimedCount)),Icon_Notification)
+			set(gel.vis,twk(Achievements,UnclaimedCount) > 0)
+	M_HeaderZoneCLOSE:()
+		M_Navigation_Manager:()
+
+
+
+
+	// SOCIAL
+	M_HeaderZoneOPEN:(395,0,120,50,Header,ShowSocial,social,commonui.btn_Social,3,Header,ShowSocial)
+		Draw:(Header_Messages,@C-30,-5,60,60)
+
+		M_NotificationAlert:(@R-42,-5,([twk(Assistant,UnreadMediumMessages)+twk(Assistant,UnreadLowMessages)]),Icon_Notification)
+			set(gel.vis,twk(Assistant,UnreadHighMessages) = 0 and([twk(Assistant,UnreadMediumMessages) + twk(Assistant,UnreadLowMessages)] > 0))
+
+		M_ExclamationAlert:(@R-42,-5)
+			set(gel.vis,twk(Assistant,UnreadHighMessages) > 0)
+	M_HeaderZoneCLOSE:()
+		M_Navigation_Social:()
+
+
+
+
+
+	// SEARCH
+	M_HeaderZoneOPEN:(515,0,120,50,Header,ShowSearch,"",commonui.btn_Search,4,Header,ShowSearch)
+		Draw:(Header_Search,@C-30,-5,60,60)
+		
+		M_ExclamationAlert:(@R-42,-5)
+			set(gel.vis,twk(PlayerSaved,NewScoutedPlayerFound) = 1)
+	M_HeaderZoneCLOSE:()
+		M_Navigation_Search:()
+
+
+
+
+
+	// TARGETS
+	Rect:()
+		set(gel.vis,twk(BoardTargets,TargetsExist))
+	{
+		M_HeaderZoneOPEN:(635,0,120,50,Header,ShowTargets,"",commonui.btn_Targets,5,Header,ShowTargets)
+			Draw:(Header_Targets,@C-30,-5,60,60)
+			M_NotificationAlert:(@R-42,-5,(twk(BoardTargets,MatchesRemaining)),Icon_Count)
+		M_HeaderZoneCLOSE:()
+			M_Navigation_Targets:()
+	}
+
+
+
+
+
+	// CARDS
+	M_HeaderZoneOPEN:(@R-397,0,120,50,Header,ShowCards,cardscarousel,commonui.btn_Carousel,6,Header,ShowCards)
+		
+		// Nudged central for PS4 only
+		Rect:()
+			##4
+			.set(gel.x,-15)
+			##*
+		{
+			Draw:(Header_Cards,@C-30,-5,60,60)
+
+			M_SwitchButtonHint:(⛌,@C+25,10)
+				if(twk(Header,ShowCards))
+				<
+					CTRLClick(X,false)
+					<
+						Post(UI_Select)
+						Post(commonui.btn_Carousel)
+						set(twk(CardsCarousel,WasSelected),0)
+					>
+				>
+		}
+
+	M_HeaderZoneCLOSE:()
+		M_Navigation_Cards:()
+		if(%clicked)
+		<
+			set(twk(CardsCarousel,WasSelected),1)
+		>
+
+	// PS4 only. Use a green arrow to highlight the Cards Carousel header item during the ftue.
+	##4
+	Spine:(NSM_TapMarkerSelect,@R-335,75,,FTUE_Select_N,Loop)
+		set(gel.vis,(twk(Ftue,Enabled) = 1) and(twk(Ftue,Step) = 75))
+		set(gel.angle,180)
+		set(gel.scale,0.5)
+	##*
+
+
+
+	// BUX
+	##IA
+	M_HeaderZoneOPEN:(@R-277,0,277,50,Header,ShowBux,store,store.btn_BuxStore,7,Header,ShowBux)
+		Draw:(Header_Shop,227,0,50,50)
+	##P4N
+	M_HeaderZoneOPEN:(@R-277,0,277,50,Header,ShowBux,"",redeemcode.btn_Open,7,Header,AllowRedeem)
+		Draw:(Header_CodeRedeem,227,0,50,50)
+			set(gel.vis,twk(Header,AllowRedeem))
+	##*
+		Draw:(Header_Coin,27,25,50,50)
+			float(%add)
+			Handle(0.5,0.5)
+			
+			frlerp(gel.scale,1,0.3)
+			if(twk(Money,TargetReached) = 1)
+			<
+				:set(%add,1)
+				set(gel.scale,1.3)
+				:Delay(0.01)
+				set(twk(Money,TargetReached),0)
+			>
+			if(gel.scale <= 1.01)
+			<
+				set(%add,0)
+			>
+		{{
+			Draw:(Header_HexAdditive,0,0,50,50)
+				Handle(0.5,0.5)
+				Additive()
+				.set(gel.alpha,0)
+				if(%add)
+				<
+					set(gel.alpha,0.4)
+				>
+				else
+				<
+					Delay(0.1)
+					frlerp(gel.alpha,0,0.1)
+				>
+		}}
+
+		Clip:(0,0,200,50)
+		{
+			AnimInstance:(0,0,CoinSting)
+				.set(gel.anim.speed,0)
+				.set(gel.anim.normtime,1)
+				float(%t)
+				if(gel.anim.normtime >= 1)
+				<
+					add(%t,FrameTime)
+					if(%t > 900)
+					<
+						:set(gel.anim.normtime,0)
+						:set(gel.anim.speed,0.9)
+						:set(%t,0)	
+					>
+				>
+		}
+
+		M_CurrencyReadout:(135,0)
+
+	M_HeaderZoneCLOSE:()
+		M_Navigation_CodeRedeem:()
+
+
+
+
+
+	// OPTIONS
+	Rect:()
+		set(gel.vis,shell(GameScreen) = "mainmenu")
+		if(twk(Header,ShowOptions))
+		<
+			CTRLClick(START,false)
+			<
+				.set(twk(CardsCarousel,State),0)
+				Post(UI_Select)
+				Post(commonui.btn_Options)
+			>
+		>
+	{
+		M_HeaderZoneOPEN:(@R-120,0,120,50,Header,ShowOptions,"",commonui.btn_Options,8,Header,ShowOptions)
+			Draw:(Header_Options,@C-30,-5,60,60)
+			
+			M_SwitchButtonHint:(⛢,@C+25,10)
+		M_HeaderZoneCLOSE:()
+	}
+
+
+
+
+
+	// Replace PS4 buttons with text
+	##4
+	Rect:()
+		set(gel.vis,(shell(GameScreen) = "mainmenu") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	{
+		M_Text:("dualshock_touchpad_text",@L+130,27,0,0,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:("dualshock_options_text",@R-130,27,0,0,R,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+	##*
+
+
+
+	// MUST BE THE LAST THING
+	Rect:()
+		set(%rearm,0)
+}}
+
+
+
+
+
+// COIN EMITTER
+Rect:() ref:CoinEmitterHook
+	.set(twk(Money,BuxEmitterState),0)
+	if(twk(Money,BuxEmitterState) = 1)
+	<
+		set(twk(EM_EarningsCoin,Count)(0.5),max(1,sqrt(sqrt(sqrt(twk(Money,BuxIncrease))))*8))
+		set(twk(Money,BuxEmitterState),0)
+
+		Message(commonui.spawnCoinEmitter)
+		Post(UI_MoneyFly)
+		set(twk(Money,BuxIncrease),0)
+	>
+
+
+
+
+
+// XP EMITTER
+Rect:() ref:SparklesEmitterHook
+	.set(twk(StarRating,SparklesEmitterState),0)
+	set(gel.vis,twk(StarRating,SparklesEmitterState) =1)
+	if(twk(StarRating,SparklesEmitterState) = 1)
+	<
+		:set(twk(EM_StarRatingSparkles,Count)(0.5),min(25,max(1,twk(StarRating,StarRatingIncrease))))
+	>
+	if(twk(StarRating,StarRatingIncrease) >0)
+	<
+		Message(commonui.spawnSparklesEmitter)
+		Post(UI_MoneyFly)
+		set(twk(StarRating,StarRatingIncrease),0)
+	>
+
+
+
+
+
+// CARD USED EMITTER
+Rect:() ref:CardUsedHook
+
+
+
+
+
+//Import:(debug.uih)
+//Import:(contentgrid.uih)

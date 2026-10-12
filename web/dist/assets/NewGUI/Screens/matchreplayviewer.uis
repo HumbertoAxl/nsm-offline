@@ -1,0 +1,36 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(replayviewer_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+M_NewDialogOPEN:(loc(viewer_HEADER),matchreplayviewer)
+
+	Rect:(0,5,@W,@H) ref:SwipePanels
+		float(%rootAlpha)
+		intvar(%controlstate)
+		.set(%controlstate,3)	// ensure save hint is present.
+		set(%rootAlpha,%dissolveAlpha)
+		SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,MatchReplayViewer,ReplaysScroll,MatchReplayViewer,ReplaysScrollVel) ref:SwipePanelReplays
+	{{
+		M_ReplayViewerTab:(@C,360,@W,@H,matchreplayviewer,MatchReplayViewer)
+		Draw:(White,0,340,@W,1,,#FFFFFF20)
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_ScrollIndicatorAltH:(@B-5,@W,MatchReplayViewer,ReplaysScroll,ReplaysList,ScrollingList,SwipePanels,SwipePanelReplays)
+			M_SwitchStickHint:(✃,@R-29,@B-41,X)
+				CTRLScrollListIcon(ReplaysList,CTRLScrollList)
+		}}
+
+	}}
+
+M_NewDialogCLOSE:()

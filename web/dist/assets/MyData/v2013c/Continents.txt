@@ -1,0 +1,8 @@
+﻿id	name	tla	continentality	federationname	federationshortname	strength
+1	Asia	ASI	Asian	Asian Football Confederation	AFC	60
+2	Africa	AFR	African	Confédération Africaine de Football	CAF	70
+3	North America	NAM	North American	Confederation of North; Central American and Caribbean Association Football	CONCACAF	50
+4	South America	SAM	South American	Confederación Sudamericana de Fútbol	CONMEBOL	80
+5	Oceania	OCE	Oceanic	Oceania Football Confederation	OFC	50
+6	Europe	EUR	European	Union of European Football Associations	UEFA	90
+//

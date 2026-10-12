@@ -1,0 +1,63 @@
+ImgSeq:(RunRight#,NewGUI/Footballer/Run/Run_East/FootballerRUN_E####.png,1,16)
+ImgSeq:(RunLeft#,NewGUI/Footballer/Run/Run_West/FootballerRUN_W####.png,1,16)
+ImgSeq:(RunUp#,NewGUI/Footballer/Run/Run_North/FootballerRUN_N####.png,1,16)
+ImgSeq:(RunDown#,NewGUI/Footballer/Run/Run_South/FootballerRUN_S####.png,1,16)
+
+ImgSeq:(RunUpRight#,NewGUI/Footballer/Run/Run_NorthEast/FootballerRUN_NE####.png,1,16)
+ImgSeq:(RunUpLeft#,NewGUI/Footballer/Run/Run_NorthWest/FootballerRUN_NW####.png,1,16)
+ImgSeq:(RunDownRight#,NewGUI/Footballer/Run/Run_SouthEast/FootballerRUN_SE####.png,1,16)
+ImgSeq:(RunDownLeft#,NewGUI/Footballer/Run/Run_SouthWest/FootballerRUN_SW####.png,1,16)
+
+Expose:(MatchPlayer)
+
+Animation:(60,Loop) ref:Run0
+{
+	Sequence:(RunRight#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+		Rect(0,0,164,614)
+}
+
+Animation:(60,Loop) ref:Run1
+{
+	Sequence:(RunDownRight#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+Animation:(60,Loop) ref:Run2
+{
+	Sequence:(RunDown#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+Animation:(60,Loop) ref:Run3
+{
+	Sequence:(RunDownLeft#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+Animation:(60,Loop) ref:Run4
+{
+	Sequence:(RunLeft#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+Animation:(60,Loop) ref:Run5
+{
+	Sequence:(RunUpLeft#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+Animation:(60,Loop) ref:Run6
+{
+	Sequence:(RunUp#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+Animation:(60,Loop) ref:Run7
+{
+	Sequence:(RunUpRight#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+		Handle(0.5,0.63)
+}
+
+
+AnimInstance:(0,0) ref:Footballer
+	Colour(FFFFFFFF)

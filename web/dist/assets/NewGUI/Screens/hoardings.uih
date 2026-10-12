@@ -1,0 +1,346 @@
+//-----------------------Images
+
+Img:(Sponsor_Default1,NewGUI/Sponsors/Sponsor_Default1.png)
+Img:(Sponsor_Default2,NewGUI/Sponsors/Sponsor_Default2.png)
+##IAP4
+Img:(Sponsor_Default3a,NewGUI/Sponsors/Sponsor_Default3a.png)
+Img:(Sponsor_Default3b,NewGUI/Sponsors/Sponsor_Default3b.png)
+##N
+Img:(Sponsor_Default3a,NewGUI/Sponsors/Sponsor_Default3c.png)
+Img:(Sponsor_Default3b,NewGUI/Sponsors/Sponsor_Default3d.png)
+##*
+Img:(Sponsor_Default5,NewGUI/Sponsors/Sponsor_Default5.png)
+Img:(Sponsor_Default6,NewGUI/Sponsors/Sponsor_Default6.png)
+Img:(Sponsor_Halftone,NewGUI/Sponsors/Sponsor_Halftone.png)
+Img:(Sponsor_Ball,NewGUI/Sponsors/Sponsor_Ball.png)
+
+// Img:(Sponsor_Streak,NewGUI/Sponsors/Sponsor_Streak.png)
+// Img:(Sponsor_Streak_Fade,NewGUI/Sponsors/Sponsor_Streak_Fade.png)
+
+//----------------------------------------------------------------------------Meshes
+//-----------------Type 1 hoardings
+//StaticModel:(Stadium_SidelineAds_Lv_1,Stadium_SidelineAds_Lv_1)
+StaticModel:(Stadium_SidelineAds_A_Lv_1,Stadium_SidelineAds_A_Lv_1)
+StaticModel:(Stadium_SidelineAds_B_Lv_1,Stadium_SidelineAds_B_Lv_1)
+StaticModel:(Stadium_SidelineAds_Shadow_Lv_1,Stadium_SidelineAds_Shadow_Lv_1)
+
+//-----------------Type 2 hoardings
+StaticModel:(Stadium_SidelineAds_A_Lv_2,Stadium_SidelineAds_A_Lv_2)
+StaticModel:(Stadium_SidelineAds_B_Lv_2,Stadium_SidelineAds_B_Lv_2)
+StaticModel:(Stadium_SidelineAds_C_Lv_2,Stadium_SidelineAds_C_Lv_2)
+StaticModel:(Stadium_SidelineAds_Shadow_Lv_2,Stadium_SidelineAds_Shadow_Lv_2)
+
+
+//-----------------Type 3 hoardings
+StaticModel:(Stadium_SidelineAds_A_Lv_3,Stadium_SidelineAds_A_Lv_3)
+StaticModel:(Stadium_SidelineAds_Back_Lv_3,Stadium_SidelineAds_Back_Lv_3)
+StaticModel:(Stadium_SidelineAds_Shadow_Lv_3,Stadium_SidelineAds_Shadow_Lv_3)
+
+
+//-----------------Tier 6 Stadium hoardings
+StaticModel:(Stadium_Inner_Ad_A_Lv_6,Stadium_Inner_Ad_A_Lv_6)
+StaticModel:(Stadium_Inner_Ad_B_Lv_6,Stadium_Inner_Ad_B_Lv_6)
+StaticModel:(Stadium_Inner_Ad_C_Lv_6,Stadium_Inner_Ad_C_Lv_6)
+
+StaticModel:(Stadium_Inner_Roof_Ad_A_Lv_6,Stadium_Inner_Roof_Ad_A_Lv_6)
+StaticModel:(Stadium_Inner_Roof_Ad_B_Lv_6,Stadium_Inner_Roof_Ad_B_Lv_6)
+StaticModel:(Stadium_Inner_Roof_Ad_C_Lv_6,Stadium_Inner_Roof_Ad_C_Lv_6)
+
+//----------------------------------------------------------------------------Macros
+
+Macro:(M_ChooseHoardingContents,?SLOT?,?TYPE?,?DEFAULT?)
+	Rect:()
+		.if(twk(Match,PlayerAtHome)=0)
+		<
+			// Away match, random sponsor in the valid sponsor range. E.g: Sponsor_32
+			set(twk(Club,Hoarding?SLOT??TYPE?Content), "Sponsor_" :: fmt(rand(1,55),X))
+		>
+		else
+		<
+			//	Home match
+			if((twk(Club,SpecialEffect) = 1) and(twk(Club,DisabledSponsor) = ?SLOT?))
+			<
+				//	This slot scheduled for a special effect sponsor, so one of the 2 in valid range. E.g: Sponsor_56
+				set(twk(Club,Hoarding?SLOT??TYPE?Content), "Sponsor_" :: fmt(rand(56,57),X))
+			>
+			else
+			<
+				//	Normal player sponsor slot
+				if(twk(Club,HasSponsor?SLOT?))
+				<
+					// If we have a sponsor use it.
+					set(twk(Club,Hoarding?SLOT??TYPE?Content), "Sponsor_" :: twk(Club,Sponsor?SLOT?Id))
+				>
+				else
+				<
+					//	Or mark as Fallback if we have nothing in here
+					if(?DEFAULT?="")
+					<
+						set(twk(Club,Hoarding?SLOT??TYPE?Content), "Fallback")
+					>
+					else
+					<
+						set(twk(Club,Hoarding?SLOT??TYPE?Content), ?DEFAULT?)
+					>
+				>
+			>
+		>
+EndM
+
+Macro:(M_ChooseAllHoardingContents)
+	Rect:()
+	{{
+		M_ChooseHoardingContents:(1,Dynamic,Sponsor_Default1)
+		M_ChooseHoardingContents:(2,Dynamic,Sponsor_Default2)
+		M_ChooseHoardingContents:(3,Dynamic,Sponsor_Default3a)
+		M_ChooseHoardingContents:(1,Static,Sponsor_1)
+		M_ChooseHoardingContents:(2,Static,Sponsor_2)
+		M_ChooseHoardingContents:(3,Static,Sponsor_3)
+	}}
+EndM
+
+
+
+//---------------------------------------------------------------------------Animation
+Animation:(2100,Loop) ref:Hoarding3AAnim
+{
+	//Ad1 ON
+	During:(0,600)
+	{
+		//Ad 1
+		Rect:(0,0,256,256,#FFFFFFFFFFFFFFFF)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding1DynamicContent))
+		}}
+	}
+
+
+	//Ball On
+	Rect:()
+		set(gel.vis(twk(Club,Hoarding1DynamicContent) = Sponsor_Default1))	
+	{
+		During:(0,20)
+		{
+			Draw:(Sponsor_Ball,32,0,30,256,,#FFFFFFFFFFFFFFFF)
+				TweenPos(32,128,0,1)
+				Handle(0.5,0.5)
+		}
+		During:(21,27)
+		{
+			Draw:(Sponsor_Ball,32,128,30,256,,#FFFFFFFFFFFFFFFF)
+				TweenPos(32,100,0,1)
+				Handle(0.5,0.5)
+		}
+		During:(28,34)
+		{
+			Draw:(Sponsor_Ball,32,100,30,256,,#FFFFFFFFFFFFFFFF)
+				TweenPos(32,128,0,1)
+				Handle(0.5,0.5)
+		}
+		During:(35,601)
+		{
+			Draw:(Sponsor_Ball,32,128,30,256,,#FFFFFFFFFFFFFFFF)
+				Handle(0.5,0.5)
+		}
+	}
+
+
+	//Ad1 to Ad2 transition
+	During:(601,700)
+	{
+		//Ad1
+		Rect:(0,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding1DynamicContent))
+
+			Rect:()
+				set(gel.vis,(twk(Club,Hoarding1DynamicContent) = Sponsor_Default1))
+			{							
+				Draw:(Sponsor_Ball,32,128,30,256,,#FFFFFFFFFFFFFFFF)
+				Handle(0.5,0.5)
+				Draw:(Sponsor_Default1,78,0,100,256,,#FFFFFFFFFFFFFFFF)
+			}	
+		}}
+			
+		//------------Ad2 
+		Rect:(256,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding2DynamicContent))
+		}}
+	}
+	
+	//Ad2 on (701,1300,00,600)
+	During:(701,1300)
+	{
+		Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+			set(gel.img, twk(Club,Hoarding2DynamicContent))
+	}
+
+	//Ad2 to Ad3 transition (1331,1429)
+	During:(1331,1429)
+	{
+		//Ad3
+		Rect:(256,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Rect:()
+				set(gel.vis(twk(Club,Hoarding3DynamicContent) = Sponsor_Default3a))	
+			{
+				Draw:(Sponsor_Default3b,78,0,100,256,,#FFFFFFFFFFFFFFFF)
+			}
+		}}
+	}
+	During:(1301,1399)
+	{
+		//Ad2
+		Rect:(0,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding2DynamicContent))
+		}}
+		
+		//Ad3
+		Rect:(256,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding3DynamicContent))	
+		}}
+	}
+		During:(1301,1399)
+	{
+		//Ad3
+		Rect:(256,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding3DynamicContent))		
+		}}
+	}
+
+	//Ad3b on
+	During:(1430,1999)
+	{
+		Draw:(Sponsor_Default3b,78,0,100,256,,#FFFFFFFFFFFFFFFF)
+			set(gel.vis(twk(Club,Hoarding3DynamicContent) = Sponsor_Default3a))		
+	}
+	//Ad3a on
+	During:(1400,1999)
+	{
+		Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+			set(gel.img, twk(Club,Hoarding3DynamicContent))		
+	}
+
+
+	//Ad3 to Ad1 transition
+	During:(2000,2099)
+	{
+		//Ad3
+		Rect:(0,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(-256,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img, twk(Club,Hoarding3DynamicContent))		
+			Rect:()
+				set(gel.vis(twk(Club,Hoarding3DynamicContent) = Sponsor_Default3a))	
+			{
+				Draw:(Sponsor_Default3b,78,0,100,256,,#FFFFFFFFFFFFFFFF)
+			}
+		}}
+		
+		//Ad1
+		Rect:(256,0,256,256,#FFFFFFFFFFFFFFFF)
+			TweenPos(0,0,0,-1)
+		{{
+			Draw:(White,64,0,90,256,,#FFFFFFFFFFFFFFFF)
+				set(gel.img,twk(Club,Hoarding1DynamicContent))		
+		}}
+	}
+
+} 
+
+
+//---------------------------------------------------------------------------Surfaces
+
+Surf:($Ad_Pitch,256,256)
+
+View:($Ad_Pitch,256,256)
+{
+	Sheet:() 
+	{
+		Cls:(#FFFFFFFF)	
+		Draw:(White,5,10,246,236,,#FFFFFFFF)
+			set(gel.img,twk(Club,Hoarding1StaticContent))		
+
+		Draw:(Fade_Down,0,270,256,-100,,#00000040)
+
+	}
+}
+
+
+Surf:($Pitch_Hoarding1,256,64,False,True)
+
+View:($Pitch_Hoarding1,256,256)
+{
+	Sheet:() 
+	{
+		Cls:(#DDDDDDFF)
+		Draw:(White,5,0,246,256,,#DDDDDDFF)
+			set(gel.img,twk(Club,Hoarding1StaticContent))		
+
+		Draw:(Fade_Down,0,270,256,-100,,#00000085)
+	}
+}
+
+Surf:($Pitch_Hoarding2,256,64,False,True)
+
+View:($Pitch_Hoarding2,256,256)
+{
+	Sheet:() 
+	{
+		Cls:(#DDDDDDFF)
+		Draw:(White,5,0,246,256,,#DDDDDDFF)
+			set(gel.img,twk(Club,Hoarding2StaticContent))		
+
+		Draw:(Fade_Down,0,270,256,-100,,#00000085)
+	}
+}
+
+Surf:($Pitch_Hoarding3,256,64,False,True)
+
+View:($Pitch_Hoarding3,256,256)
+{
+	Sheet:() 
+	{
+		Cls:(#DDDDDDFF)
+		Draw:(White,5,0,246,256,,#DDDDDDFF)
+			set(gel.img,twk(Club,Hoarding3StaticContent))		
+
+		Draw:(Fade_Down,0,270,256,-100,,#00000085)
+	}
+}
+
+##IA
+	Surf:($Pitch_HoardingDIG1,256,256)
+##P4N
+	Surf:($Pitch_HoardingDIG1,512,512)
+##*
+
+View:($Pitch_HoardingDIG1,256,256)
+{
+	Sheet:() 
+	{
+		Cls:(#303030FF)
+		AnimInstance:(0,0,Hoarding3AAnim)
+
+		//Draw:(Fade_Down,0,270,256,-100,,#00000085)
+		Draw:(Sponsor_Halftone,0,0,128,256,,#FFFFFF20)
+		Draw:(Sponsor_Halftone,128,0,128,256,,#FFFFFF20)
+	}
+}

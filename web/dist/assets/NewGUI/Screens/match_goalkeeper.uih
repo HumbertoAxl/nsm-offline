@@ -1,0 +1,201 @@
+Import:(match_common.uih)
+Import:(match_goalkeeperTexture.uih)
+
+AnimModel:(GoalkeeperModel,Goalkeeper)
+
+
+Macro:(M_GoalkeeperAnim,?SEQNAME?,?ANIMLENGTH?,?ANIMTYPE?,?SEQSTART?,?SEQEND?)
+	Animation:(?ANIMLENGTH?,?ANIMTYPE?) ref:Goalkeeper?SEQNAME?
+	{
+		ModelSequence:(GoalkeeperModel,?SEQNAME?,?SEQSTART?,?SEQEND?) ref:?SEQNAME?
+	}
+EndM
+Macro:(M_GoalkeeperAnimCustomName,?ANIMNAME?,?SEQNAME?,?ANIMLENGTH?,?ANIMTYPE?,?SEQSTART?,?SEQEND?)
+	Animation:(?ANIMLENGTH?,?ANIMTYPE?) ref:Goalkeeper?ANIMNAME?
+	{
+		ModelSequence:(GoalkeeperModel,?SEQNAME?,?SEQSTART?,?SEQEND?) ref:?ANIMNAME?
+	}
+EndM
+
+
+M_GoalkeeperAnim:(Run,42,Loop,0,15)
+M_GoalkeeperAnim:(StandCasual,90,Loop,0,19)
+M_GoalkeeperAnim:(StandReady,60,Loop,0,15)
+M_GoalkeeperAnim:(StandCollectKnees,50,Clamp,0,21)
+M_GoalkeeperAnim:(StandWithBall,90,Loop,0,15)
+M_GoalkeeperAnim:(CollectBallKnees,60,Clamp,0,21)
+M_GoalkeeperAnim:(CollectBallStand,60,Clamp,0,29)
+M_GoalkeeperAnimCustomName:(DiveHigh_Dive,DiveHigh,60,Clamp,0,17)
+M_GoalkeeperAnimCustomName:(DiveHigh_GetUp,DiveHigh,51,Clamp,17,41)
+M_GoalkeeperAnimCustomName:(DiveLow_Dive,DiveLow,39,Clamp,0,17)
+M_GoalkeeperAnimCustomName:(DiveLow_GetUp,DiveLow,51,Clamp,17,41)
+M_GoalkeeperAnim:(JumpUpFall,84,Clamp,3,41)
+M_GoalkeeperAnim:(JumpUpDown,64,Clamp,4,19)
+M_GoalkeeperAnim:(JumpUpDownFail,64,Clamp,4,19)
+M_GoalkeeperAnim:(CatchHeadHeight,35,Clamp,0,19)
+
+M_GoalkeeperAnim:(CollectLow,35,Clamp,0,20)
+M_GoalkeeperAnimCustomName:(DiveTipOver_Dive,DiveTipOver,62,Clamp,0,25)
+M_GoalkeeperAnimCustomName:(DiveTipOver_GetUp,DiveTipOver,28,Clamp,25,40)
+M_GoalkeeperAnimCustomName:(DropDiveCatch_Dive,DropDiveCatch,41,Clamp,0,23)
+M_GoalkeeperAnimCustomName:(DropDiveCatch_GetUp,DropDiveCatch,19,Clamp,23,35)
+M_GoalkeeperAnimCustomName:(DropDiveCatchFail_Dive,DropDiveCatchFail,41,Clamp,0,23)
+M_GoalkeeperAnimCustomName:(DropDiveCatchFail_GetUp,DropDiveCatchFail,19,Clamp,23,35)
+M_GoalkeeperAnimCustomName:(PointBlank_Dive,PointBlank,37,Clamp,0,17)
+M_GoalkeeperAnimCustomName:(PointBlank_GetUp,PointBlank,23,Clamp,17,28)
+
+
+Macro:(M_Goalkeeper,?ID?,?XSCALE?,?YSCALE?,?ZSCALE?)
+	Rect:() ref:Goalkeeper
+		float(%x,%y,%z)
+	{		
+		Rect:()
+			Layer(FootballerPrep)
+		{
+		  	ApplyModelAnim:(GoalkeeperBuff?ID?,0,GoalkeeperStandReady,1) ref:Anim
+		  	ApplyModelAnim:(GoalkeeperBuff?ID?,1,GoalkeeperStandReady,0) ref:Anim
+		}
+
+		M_CommonNonLocatorDraws:()
+
+		M_PlayerShadow:(GoalkeeperBuff?ID?,$GOALKEEPERSHADOWSURF?ID?)
+
+		UseShader:(Anim3D)
+			inherit(%CX,%CY,%CZ)
+			SetSampler(TexSamp1,RefMap)
+			SetUniform4F(campos,%CX,%CY,%CZ)
+			SetUniform4F(SpecParams,0.7)
+		{
+			Locator:((0,0,0),(0,0,0),(?XSCALE?,?YSCALE?,?ZSCALE?)) ref:Loc
+				Layer(Players)
+				set(gel3d.x,%x)
+				set(gel3d.y,%y)
+				set(gel3d.z,%z)
+			{
+				M_CommonLocatorDraws:()
+
+				DrawModel:(GoalkeeperBuff?ID?,$GOALKEEPERTEXTURESURF?ID?)
+				{
+					UseShader:(Static3D)
+						SetUniform4F(SpecParams,0.7)
+					{
+						Locator:((0,0,0),(0,0,0),([1/?XSCALE?]*0.17,[1/?YSCALE?]*0.17,[1/?ZSCALE?]*0.17),0) ref:BallLoc
+							set(gel.vis,twk(Match,BallState)=1)
+						{
+						  	DrawStaticModel:(Football_Low,FootballTexture_Low)
+						}
+
+						// Centre Collider - needs to hit this to check other colliders
+						Locator:((0,0,-30),(0,0,0),(12,12,12),10) ref:Loc
+						{
+						  	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Head Locator
+						Locator:((0,0,15),(0,0,0),(1.9,1.9,1.9),1) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Chest Locator
+						Locator:((0,0,10),(0,0,0),(1.7,1.7,1.7),10) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Left Arm
+						// Left Shoulder Locator
+						Locator:((0,0,0),(0,0,0),(1.1,1.1,1.1),2) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Left Upper Arm Locator
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),3) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Left Lower Arm Locator
+						Locator:((0,0,0),(0,0,0),(0.5,0.5,0.5),4) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Left Hand Locator
+						Locator:((0,0,0),(0,0,0),(0.6,0.6,0.6),5) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Right Arm
+						// Right Shoulder Locator
+						Locator:((0,0,0),(0,0,0),(1.1,1.1,1.1),6) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Upper Arm Locator
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),7) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Lower Arm Locator
+						Locator:((0,0,0),(0,0,0),(0.5,0.5,0.5),8) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Hand Locator
+						Locator:((0,0,0),(0,0,0),(0.6,0.6,0.6),9) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Left Leg
+						// Left Thigh
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),11) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Left Calf
+						Locator:((0,0,0),(0,0,0),(0.7,0.7,0.7),12) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Left Foot
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),13) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+
+						// Right Leg
+						// Right Thigh
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),14) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Calf
+						Locator:((0,0,0),(0,0,0),(0.7,0.7,0.7),15) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Foot
+						Locator:((0,0,0),(0,0,0),(0.8,0.8,0.8),16) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+
+
+						// Animation Specific Colliders
+						// Dive Tip
+						// Left Hand Locator
+						Locator:((0,0,0),(0,0,0),(1.5,1.5,1.5),5) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+						// Right Hand Locator
+						Locator:((0,0,0),(0,0,0),(1.5,1.5,1.5),9) ref:Loc
+						{
+						 	//DrawStaticModel:(Football_Low,White)
+						}
+					}
+				}
+			}
+		}
+	}
+EndM

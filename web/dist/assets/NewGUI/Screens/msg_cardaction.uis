@@ -1,0 +1,100 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,50,,#FFFFFF00) $HIDE ref:DissolveRoot
+	float(%active,%close,%flashBg)
+	// Checking against CardsCarousel State to only show Card Action header warning when carousel is minimised. Remove check if we ever decide to repurpose.
+	if((%active) and(twk(CardsCarousel,State) oneof(0,2)))
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.15)
+	>
+	else
+	<
+		:Delay(0.1)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.vis,0)
+			if(%close = 1)
+			<
+				:Post(msg_cardaction.btn_Close)
+			>
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.15)
+		>
+	>
+{{
+
+	// Background
+	Draw:(White,@f,0,@w,50,,#202020FF)
+		if(%flashBg)
+		<
+			PulseColour(#202020FF,#DD1010FF,0.3,0.3,0.2,0.2)
+		>
+		else
+		<
+			:set(gel.colour,#202020FF)
+		>
+
+
+	Rect:() ref:CardAction
+		Rearmable()
+		:set(gel.alpha,0)
+		frlerp(gel.alpha,1,0.06)
+	{
+		M_Text:(ROSS CHADWICK,@L+20,0,0,@H,L,C,Text,KNUL22,,0,0,#00000000,Italics,#FFFFFFFF,Name)
+			M_Style:(Outline,#FFFFFF20)
+			ToUpperCase()
+
+		// Applicable
+		Rect:() ref:Applicable
+		{
+			M_Text:(,@C,0,0,@H,C,C,Text,KNUL24,Upper,0,0,#00000000,Italics,#FFFFFFFF000000FF,Card)
+				M_Style:(Outline,#FFFFFF20)
+				ToUpperCase()
+		}
+
+
+
+		// Extras for Skill Cards
+		Rect:() $HIDE ref:SkillExtras
+		{
+			M_Text:(,@R-20,0,0,@H,R,C,Text,KNUL24,,0,0,#00000000,Italics,#FFFFFFFF,DevelopmentConcern)
+		}
+
+		// Extras for Player Cards
+		Rect:() $HIDE ref:PlayerExtras
+		{
+			M_Text:(,@R-20,0,0,@H,R,C,Text,KNUL24,,0,0,#00000000,Italics,#FFFFFFFF,Concern)
+		}
+
+		// Extras for Staff Cards
+		Rect:() $HIDE ref:StaffExtras
+		{
+			M_Text:(,@R-20,0,0,@H,R,C,Text,KNUL24,,0,0,#00000000,Italics,#FFFFFFFF,Concern)
+		}
+
+		// Warning
+		Rect:() $HIDE ref:Warning
+		{
+			Draw:(White,@f,0,@w,50,,#DD1010FF)
+				Layer(Text)
+			M_Text:("PLAYER NOT SUSPENDED",@C,0,0,@H,C,C,Text,KNUL24,Upper,0,0,#00000000,Italics,#FFFFFFFF,Warning)
+				M_Style:(Outline,#FFFFFF20)
+				ToUpperCase()
+				PulseAlpha(0.2,1,0.3,0.3,0.2,0.2)
+		}
+	}
+}}

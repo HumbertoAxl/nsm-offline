@@ -1,0 +1,502 @@
+Img:(Sparkle,NewGUI/UI/Anims/Sparkle.png)
+ImgSeq:(StarSpin#,NewGUI/UI/Anims/StarSpin/StarSpin_##.png,1,16)
+
+// - ROTATING COIN -------------------------------------------------------------------------------------------------
+Rect:()
+    .set(twk(Money,BuxTargetX),@R-250+@f)
+    .set(twk(Money,BuxTargetY),@T+25)
+
+ImgSeq:(CoinSpin#,NewGUI/UI/Anims/CoinSpin/CoinSpin_##.png,1,16)
+
+// Image Sequence
+Animation:(35,Loop) ref:CoinSpinAnim
+{
+	During:(0,35)
+	{
+		Sequence:(CoinSpin#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+	}
+}
+
+// Particle
+AnimInstance:(0,0,CoinSpinAnim) ref:EarningsCoin
+	Scale(0.6,0.6)
+	Handle(0.5,0.5)
+	Layer(AboveText)
+	EmitPlacer()
+	EmitSpinner()
+	EmitMover()
+	EmitLifetime()
+	float(%lerp_time)
+	Delay(0.75)
+	if(%lerp_time < 1)
+	<
+		add(%lerp_time,0.003)
+	>
+	frlerp(gel.gx,twk(Money,BuxTargetX),%lerp_time)
+	frlerp(gel.gy,twk(Money,BuxTargetY),%lerp_time)
+	if(abs(twk(Money,BuxTargetX) - gel.gx) < 25 and(abs(twk(Money,BuxTargetY) - gel.gy) < 25))
+	<
+		:set(twk(Money,TargetReached),1)
+        frlerp(gel.alpha,0,0.1)
+        frlerp(gel.scale,0,0.1)
+        inherit(%playTargetSound)
+        :if(%playTargetSound = 0)
+        <
+            set(%playTargetSound,1)
+        >
+	>
+{
+} Template
+
+// Emitter
+Emitter:(EM_EarningsCoin,EarningsCoin) ref:EarningsEmitter
+    float(%playTargetSound)
+    if(%playTargetSound = 1)
+    <
+        Post(UI_EarningsScoreLoop)
+        set(%playTargetSound,2)
+    >
+    elif(%playTargetSound = 2)
+    <
+        :Delay(0.1)
+        set(%playTargetSound,0)
+    >>
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - XP SPARKLES ---------------------------------------------------------------------------------------------------
+// Particle
+Draw:(Sparkle,0,0,30,30,,#808080FF) ref:StarRatingSparkles
+	Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+	EmitPlacer()
+	EmitSpinner()
+	EmitMover()
+	EmitLifetime()
+    add(gel.angle,10)
+    float(%lerp_time)
+	Delay(0.75)
+	if(%lerp_time < 1)
+	<
+		add(%lerp_time,0.003)
+	>
+    
+	frlerp(gel.gx,twk(StarRating,SparklesTargetX),%lerp_time)
+    float(%yOffset)
+    .set(%yOffset,frand(-20,20))
+	frlerp(gel.gy,twk(StarRating,SparklesTargetY)+%yOffset,%lerp_time)
+
+	if(abs(twk(StarRating,SparklesTargetX) -gel.gx) < 25 and(abs(twk(StarRating,SparklesTargetY) - gel.gy) < 25))
+	<
+		:set(twk(StarRating,TargetReached),1)
+        frlerp(gel.alpha,0,0.1)
+        frlerp(gel.scale,0,0.1)
+        inherit(%playTargetSound)
+        :if(%playTargetSound = 0)
+        <
+            set(%playTargetSound,1)
+        >
+	>
+	{
+	} Template
+
+// Emitter
+Emitter:(EM_StarRatingSparkles,StarRatingSparkles) ref:SparklesEmitter
+    float(%playTargetSound)
+    if(%playTargetSound = 1)
+    <
+        //Post(UI_Select)
+        set(%playTargetSound,2)
+    >
+    elif(%playTargetSound = 2)
+    <
+        :Delay(0.1)
+        set(%playTargetSound,0)
+    >>
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - SHORTLIST STAR ------------------------------------------------------------------------------------------------
+// Particle
+Draw:(Icon_Star,0,0,20,20,,#FFCC00FF) ref:ShortlistStar
+    Handle(0.5,0.5)
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    add(gel.angle,10)
+    float(%lerp_time)
+    Delay(0.5)
+    if(%lerp_time < 1)
+    <
+        add(%lerp_time,0.003)
+    >
+    
+    frlerp(gel.gx,twk(Search,ShortlistStarTargetX),%lerp_time)
+    frlerp(gel.gy,twk(Search,ShortlistStarTargetY),%lerp_time)
+
+    if(abs(twk(Search,ShortlistStarTargetX) -gel.gx) < 25 and(abs(twk(Search,ShortlistStarTargetX) - gel.gy) < 25))
+    <
+        frlerp(gel.alpha,0,0.1)
+        frlerp(gel.scale,0,0.1)
+    >
+    {
+    } Template
+
+// Emitter
+Emitter:(EM_ShortlistStar,ShortlistStar) ref:ShortlistStarEmitter
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - TICKERTAPE GOAL------------------------------------------------------------------------------------------------
+ImgSeq:(TickerTape#,NewGUI/UI/Anims/TickerTape/Tickertape##.png,1,16)
+
+// Image Sequence
+Animation:(40,Loop) ref:Anim_TickerTapeGoal
+{
+    Sequence:(TickerTape#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+}
+
+// Particle
+AnimInstance:(0,0,Anim_TickerTapeGoal) ref:Particle_GoalTickerTape
+    Layer(AboveText)
+    float(%col)
+    :set(%col,rand(1,2))
+    if(%col = 1)
+    <
+        :set(gel.colour,twk(Player,HomeShirtCol1))
+    >
+    else
+    <
+        :set(gel.colour,#FFFFFFFFFFFFFFFF)
+    >
+    :set(gel.angle,rand(0,360))
+    :set(gel.scale,frand(0.4,1.1))
+    EmitPlacer()
+    EmitLifetime()
+    EmitMover()
+    EmitSpinner()
+
+    float(%lerp_time)
+    :Delay(frand(0.25,0.75))
+    float(%r)
+    :set(%r,frand(0.02,0.1))
+    if(%lerp_time < 4)
+    <
+        add(%lerp_time,%r)
+    >
+    add(gel.y,%lerp_time)
+    frlerp(gel.scale,0.2,0.002)
+    Delay(frand(1.5,2))
+    frlerp(gel.alpha,0,0.1)
+{
+} Template
+
+// Emitter
+Emitter:(EM_TickerTapeGoal,Particle_GoalTickerTape) ref:TickerTapeGoalShower
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - ACHIEVEMENT STARS ---------------------------------------------------------------------------------------------
+// Particle
+Draw:(Sparkle,0,0,40,40,,#808080FF) ref:Particle_Sparkle
+    Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    float(%lerp_time)
+    if(%lerp_time < 5)
+    <
+        add(%lerp_time,0.05)
+    >
+    Delay(0.1)
+    add(gel.y,%lerp_time)
+    frlerp(gel.alpha,0,0.05)
+    frlerp(gel.scale,0,0.05)
+{
+} Template
+
+// Emitter
+Emitter:(EM_AchievementSparkles,Particle_Sparkle) ref:AchievementEmitter
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - NEW CARD ANIM AND EMITTERS ------------------------------------------------------------------------------------
+// Animation
+Animation:(25,Clamp) ref:CardBGFX
+{
+    During:(0,20)
+    {
+         //Spinner01 scale in
+        Draw:(CardFX_BG,0,0,1000,1000,-50,#FFFFFF00)
+            Handle(0.5,0.5)
+            TweenSize(600,600,500,500,-1,-1)
+            TweenCol(#FFFFFFFF)  
+            TweenAngle(360)  
+  
+        //Spinner02 scale in
+        Draw:(CardFX_BG,0,0,1100,1110,0,#FFFFFF00)
+            Handle(0.5,0.5)
+            TweenSize(700,700,550,550,-1,-1)
+            TweenCol(#FFFFFF70)  
+            TweenAngle(80)  
+    }
+    
+    During:(14,17)
+    {
+        //Glow Grow
+        Draw:(CardFX_Glow,0,0,0,1,1,#FFFFFF00)
+            Handle(0.5,0.5)
+                TweenCol(#FFFFFF80)  
+            TweenSize(1000,1000,0.5,0.5,-1,-1)
+    }
+
+    During:(19,24)
+    {
+        //Spinner01 scale out
+        Draw:(CardFX_BG,0,0,600,600,0,#FFFFFFFF)
+            Handle(0.5,0.5)
+            TweenSize(1300,1300,300,300,-1,-1)
+            TweenCol(#FFFFFF00)  
+            TweenAngle(360)
+ 
+
+        //Spinner02 scale out
+        Draw:(CardFX_BG,0,0,700,700,-50,#FFFFFF70)
+            Handle(0.5,0.5)
+            TweenSize(1450,1450,350,350,-1,-1)
+            TweenCol(#FFFFFF00)  
+            TweenAngle(80)
+    }
+
+  
+    During:(16,18)
+    {
+        //Glow static
+        Draw:(CardFX_Glow,0,0,1000,1000,0,#FFFFFF80)
+            Handle(0.5,0.5)
+    }
+    
+   
+    During:(19,22)
+    {
+         //Glow Shrink
+        Draw:(CardFX_Glow,0,0,1000,1000,0,#FFFFFF80)
+            Handle(0.5,0.5)
+            TweenCol(#FFFFFF00)  
+            TweenSize(0,0,500,500,-1,-1)
+    }
+}
+
+// Particle
+Draw:(Sparkle,0,0,40,40,,#808080FF) ref:Particle_CardSparkle
+    Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    float(%lerp_time)
+    if(%lerp_time < 5)
+    <
+        add(%lerp_time,0.05)
+    >
+    Delay(0.1)
+    add(gel.y,%lerp_time)
+    frlerp(gel.alpha,0,0.025)
+    frlerp(gel.scale,0,0.05)
+{
+} Template
+
+// Emitter
+Emitter:(EM_NewCardTwinkle,Particle_CardSparkle) ref:NewCardEmitter
+
+// Particle
+Draw:(LightGlow,0,0,40,40,,#808080FF) ref:Particle_LightGlow
+    Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    float(%lerp_time)
+    if(%lerp_time < 5)
+    <
+        add(%lerp_time,0.05)
+    >
+    Delay(0.1)
+    add(gel.y,%lerp_time)
+    frlerp(gel.alpha,0,0.025)
+    frlerp(gel.scale,0,0.05)
+{
+} Template
+
+// Emitter
+Emitter:(EM_NewCardBrightSpots,Particle_LightGlow) ref:NewCardSpots
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - CARD USED ANIM  -----------------------------------------------------------------------------------------------
+Img:(CardFX_DROP,NewGUI/Cards/CardFX_DROP.png)
+// Animation
+Animation:(30,Clamp) ref:CardUSEDFX
+{
+    During:(0,29)
+    {
+        Draw:(CardFX_DROP,0,0,5,5,,#00FF0030)
+            Handle(0.5,0.5)
+            TweenSize(200,230,2.5,2.5)
+            TweenCol(#FFFFFF00)
+    }
+     During:(3,21)
+    {
+        Draw:(CardFX_DROP,0,0,10,10,,#30FF3060)
+            Handle(0.5,0.5)
+            TweenSize(300,300,5,5)
+            TweenCol(#FFFFFF00)
+    }
+    During:(0,29)
+    {
+        //Glow Grow
+        Draw:(CardFX_Glow,0,0,15,15,,#DDFFDD30)
+            Handle(0.5,0.5)
+            TweenCol(#00FF0000)  
+            TweenSize(400,400,0.5,0.5,-1,-1)
+    }
+}
+
+// Particle
+Draw:(LightGlow,0,0,40,40,,#808080FF) ref:Particle_UsedCardSpots
+    Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    frlerp(gel.alpha,0,0.025)
+    frlerp(gel.scale,0,0.05)
+{
+} Template
+
+// Emitter
+Emitter:(EM_CardUsed,Particle_UsedCardSpots) ref:UsedCardSpots
+
+// Template
+Rect:() ref:CardUsed
+    Lifetime(1)
+{
+    //Dropped Card FX
+    AnimInstance:(0,0,CardUSEDFX,,0.9)
+
+    Instance:(UsedCardSpots,0,0)
+} Template
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - TICKERTAPE SHOWER ---------------------------------------------------------------------------------------------
+// Animation Sequence
+Animation:(50,Loop) ref:Anim_TickerTape
+{
+    Sequence:(TickerTape#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+    SpreadOver(0,50)
+    Handle(0.5,0.5)
+}
+
+
+Macro:(M_TickerTapeShower,?COUNT?)
+    Rect:()
+    {
+        If:(?COUNT?)
+            Rect:()
+                .set(twk(EM_TickerTape,Count)(0.5),?COUNT?)
+        EndIf
+
+        //AnimInstance
+        AnimInstance:(0,0,Anim_TickerTape) ref:AIRef_TickerTapeEffect
+            Layer(AboveText)
+            EmitPlacer()
+            EmitLifetime()
+            EmitMover()
+            EmitSpinner()
+            :set(gel.scale,frand(0.6,1.2))
+
+            float(%col)
+            :set(%col,rand(1,2))
+            if(%col = 1)
+            <
+                :set(gel.colour,twk(Player,HomeShirtCol1))
+            >
+            else
+            <
+                :set(gel.colour,#FFFFFFFFFFFFFFFF)
+            >
+            if(gel.y > @T)
+            <
+                frlerp(gel.scale,0.2,0.004)
+            >
+            if(gel.y > 650)
+            <
+                frlerp(gel.alpha,0,0.1)
+            >
+        {
+        } Template
+
+        // Emitter
+        Emitter:(EM_TickerTape,AIRef_TickerTapeEffect) ref:TickerTapeShower
+
+        Instance:(TickerTapeShower,0,0) 
+            .Post(UI_ResultsConfetti)
+            .Post(sounds.match_CrowdGoal)
+            Delay(2)
+            .Post(sounds.match_CrowdCheer)
+
+    }
+EndM
+// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// - TRANSFER OFFER ------------------------------------------------------------------------------------------------
+Animation:(150,Loop) ref:TransferAnim
+{
+    Draw:(Badge_Shadow,-5,6,80,80,,#00000070)
+    During:(0,110)
+    {
+        Draw:(CoinSpin1)
+    }
+
+    Sequence:(CoinSpin#,1,2,3,4,5,6,6,6,6,6,5,4,3,2,1,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1)
+        SpreadOver(110,150)
+}
+// -----------------------------------------------------------------------------------------------------------------

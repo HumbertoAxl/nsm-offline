@@ -1,0 +1,496 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+Import:(formation_Macros.uih)
+Import:(templates_competitions.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(NSSM_Pitch,NewGUI/UI/FixtureInfo/NSSM_Pitch.png) Volatile:FixtureInfo
+Img:(NSSM_Stand,NewGUI/UI/FixtureInfo/NSSM_Stand.png) Volatile:FixtureInfo
+Img:(Counter_Shape,NewGUI/UI/FixtureInfo/Counter_Shape.png) Volatile:FixtureInfo
+Img:(Counter_Shading,NewGUI/UI/FixtureInfo/Counter_Shading.png) Volatile:FixtureInfo
+Img:(Counter_Persp,NewGUI/UI/FixtureInfo/Counter_Persp.png) Volatile:FixtureInfo
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(FixtureInfo,Scroll),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_IncidentTitle,?TITLE?)
+	Rect:(0,0,@w,50) ref:Root
+	{{
+		M_Text:(?TITLE?,@C,5,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+	}}
+EndM
+
+Macro:(M_IncidentPlayerName,?HOME?,?NAME?,?COLOUR?)
+	If:(?HOME? = 1)
+		M_Text:(?NAME?,@C-80,0,0,40,R,C,Text,KNUL28,,0,0,#00000000,NoItalics,?COLOUR?,PlayerName)
+	Else
+		M_Text:(?NAME?,@C+80,0,0,40,L,C,Text,KNUL28,,0,0,#00000000,NoItalics,?COLOUR?,PlayerName)
+	EndIf
+EndM
+
+Macro:(M_IncidentIcon,?HOME?,?NAME?,?IMAGE?)
+	Rect:(0,0,@w,40) ref:Root
+	{{
+		Tile:(White,@C,0,1,1,,#000000FF)
+			Spacing(0,5)
+			Copies(1,8)
+		Draw:(?IMAGE?,90,20,32,32)
+			Handle(0.5,0.5)
+			If:(?HOME? = 1)
+				.set(gel.x,@C-40)
+			Else
+				.set(gel.x,@C+40)
+			EndIf
+
+		M_IncidentPlayerName:(?HOME?,?NAME?,#252525FF)
+	}}
+EndM
+
+Macro:(M_IncidentNoIcon,?HOME?,?NAME?,?COLOUR?)
+	Rect:(0,0,@w,40) ref:Root
+	{{
+		Tile:(White,@C,0,1,1,,#000000FF)
+			Spacing(0,5)
+			Copies(1,8)
+
+		M_IncidentPlayerName:(?HOME?,?NAME?,?COLOUR?)
+	}}
+EndM
+
+Macro:(M_GoalIncident,?HOME?,?NAME?)
+	M_IncidentIcon:(?HOME?,?NAME?,Icon_Goal)
+EndM
+
+Macro:(M_AssistIncident,?HOME?,?NAME?)
+	M_IncidentNoIcon:(?HOME?,?NAME?,#808080FF)
+EndM
+
+Macro:(M_YellowCardIncident,?HOME?,?NAME?)
+	M_IncidentIcon:(?HOME?,?NAME?,Icon_YellowCard)
+EndM
+
+Macro:(M_YellowRedCardIncident,?HOME?,?NAME?)
+	M_IncidentIcon:(?HOME?,?NAME?,Icon_YellowRedCard)
+EndM
+
+Macro:(M_RedCardIncident,?HOME?,?NAME?)
+	M_IncidentIcon:(?HOME?,?NAME?,Icon_RedCard)
+EndM
+
+Macro:(M_ManOfTheMatch,?PLAYERNAME?,?TEAMNAME?)
+	// Man of the Match
+	Rect:(@f,0,@w,200) ref:Root
+		//Click(fixtureinfo.btn_ViewMOTMProfile)
+	{{
+		M_Text:(ManOfTheMatch_Long,@C,5,0,50,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+		M_Text:(?PLAYERNAME?,@C,60,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+		M_Text:(LTR(?TEAMNAME?),@C,90,0,0,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		// Rect:()
+		// 	Card_Face(ManOfTheMatch)
+	}}
+EndM
+
+Macro:(M_FormationCounter,?CAT?,?INDEX?,?TEAM?)
+	Rect:(0,0,40,40)
+		.set(gel.x,twk(?CAT?,Sel0_X)*0.7)
+		.set(gel.y,twk(?CAT?,Sel0_Y)*0.445)
+		if(?INDEX? > 0)
+		<
+			.set(gel.alpha,0)
+		>
+		Delay(0.1)
+		frlerp(gel.alpha,1,0.1)
+		frlerp(gel.x,twk(?CAT?,Sel?INDEX?_X)*0.68,0.05)
+		frlerp(gel.y,twk(?CAT?,Sel?INDEX?_Y)*0.445,0.05)
+		if(?TEAM?="Away")
+		<
+			.set(gel.angle,-90)
+		>
+		else
+		<
+			.set(gel.angle,90)
+		>
+	{{
+		Draw:(Counter_Shape,0,0,35,80)
+			Handle(0.5,0.5)
+			if(?INDEX?=0)
+			<
+				.set(gel.colour,#39C813FF)
+			>
+			else
+			<
+				.set(gel.colour,twk(FixtureInfo,Team?TEAM?Col1))
+			>
+		Draw:(Counter_Shading,0,0,35,80)
+			Handle(0.5,0.5)
+	}}
+EndM
+
+
+Macro:(M_TopScorerFace,?X?,?Y?,?INDEX?)
+	Cull:(?X?,?Y?,110,140) ref:TopScorer?INDEX?
+		Handle(0.5,0.5)
+		if((twk(FixtureInfo,Team?INDEX?TopScorerName) != "") and(%showFaceSelection))
+		<
+			CTRLSelect(CTRLButtonSelected,15,3,30,6)
+		>
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Message(fixtureinfo.btn_ViewTopScorer?INDEX?Profile)
+		>
+		CTRLClick(?BTNOK?)
+		<
+			callparent(0,ClickFunc)
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+	{{
+		Rect:(0,-20)
+			Card_Face(TopScorer?INDEX?)
+	}}
+EndM
+//--------------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:() ref:CompetitionHeader
+	float(%prestige,%showFaceSelection)
+	strvar(%TITLE)
+	if(twk(FixtureInfo,Result))
+	<
+		:set(%TITLE,loc(results_MATCHRESULT))
+	>
+	else
+	<
+		:set(%TITLE,loc(matchpreview_HEADER))
+	>
+{
+	M_NewDialogOPEN:(%TITLE,fixtureinfo)
+
+	// ----------------
+	// ----------------
+
+		// Match Number
+		M_Text:(,@C,87,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			set(gel.vis,twk(FixtureInfo,CompType) != 4)
+			if(twk(FixtureInfo,CompType) = 1)
+			<
+				set(gel.text,loc(matchpreview_MATCH) :: " " :: LTR(twk(FixtureInfo,RoundNumber) :: " / " :: twk(FixtureInfo,RoundTotal)))
+			>
+			if(twk(FixtureInfo,CompType) = 2)
+			<
+				set(gel.text,loc("Cup"))
+			>
+			if(twk(FixtureInfo,CompType) = 3)
+			<
+				set(gel.text,loc("Continental"))
+			>
+			ToUpperCase()
+			.set(%gfw,strwidth(gel.text,0)*0.64)
+		{{
+			Draw:(White,8,-15,0,28,,#46A74DFF)
+				Layer(Default)
+				.set(gel.w,%gfw)
+				.set(gel.x,-[%gfw/2])
+		}}
+
+		// Versus Text
+		Rect:(@C,150)
+			set(gel.vis,not(twk(FixtureInfo,Result)))
+		{{
+			M_Text:(sla_versus,0,0,0,0,C,C,TextLoc,KNUL64,Upper,0,1,#252525FF,NoItalics,#252525FF,ref)
+		}}
+		
+		//Result
+		Rect:()
+			set(gel.vis,twk(FixtureInfo,Result))
+		{
+			M_Text:(,@C,154,0,50,C,C,Text,KNUL64,,1,0,#000000FF,NoItalics,#000000FF,ref)
+				Handle(0.5,0.5)
+				.set(gel.text,LTR(twk(FixtureInfo,TeamHomeScore) :: " - " :: twk(FixtureInfo,TeamAwayScore)))
+		}
+
+		//---------------------------------------------------------Home
+		//Home Team Badge
+		M_Badge:(@C-170,151,HD,1,HomeTeamBadge)
+		Draw:(Badge_Shadow,@C-170,230,,,,#00000040)
+			Handle(0.5,0.5)
+
+		//Home Team Rating
+		Rect:(@C-400-[@y/4],15,1,250)
+		{{
+			M_Text:(,0,85,0,0,C,C,Text,KNUL35,Upper,1,0,#000000FF,NoItalics,#000000FF,ref,FixtureInfo,TeamHomeName,DoLTR)
+			M_Text:(,0,184,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#252525FF,ref,FixtureInfo,TeamHomeLeague,DoLTR)
+			M_Text:(,0,209,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref,FixtureInfo,TeamHomeLeaguePosition)
+			M_TeamRatingStars:(-8,102,FixtureInfo,TeamHomeStrength,CENTRED)
+		}}
+
+		//---------------------------------------------------------Away
+		//Away Team Badge
+		M_Badge:(@C+170,151,HD,1,AwayTeamBadge)
+		Draw:(Badge_Shadow,@C+170,230,,,,#00000040)
+			Handle(0.5,0.5)
+
+		//Away Team Rating
+		Rect:(@C+400+[@y/4],15,1,250)
+		{{
+			M_Text:(,0,85,0,0,C,C,Text,KNUL35,Upper,1,0,#000000FF,NoItalics,#000000FF,ref,FixtureInfo,TeamAwayName,DoLTR)
+			M_Text:(,0,184,0,0,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#252525FF,ref,FixtureInfo,TeamAwayLeague,DoLTR)
+			M_Text:(,0,209,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref,FixtureInfo,TeamAwayLeaguePosition)
+			M_TeamRatingStars:(-8,102,FixtureInfo,TeamAwayStrength,CENTRED)
+		}}
+
+		//Baselines
+		Rect:()
+			Layer(Text)
+		{
+			Draw:(White,@f,242,@w,2,,#CC1618FF)
+			Draw:(Dialog_Bottom,@f,242,@w,6)
+		}
+
+
+		//----------League SubHeader
+		Rect:(@f,0,@w,60)
+		{{
+			Draw:(White,@L,0,@W,60)
+				M_Prestige:(CompetitionColour)
+			Draw:(White,0,0,500,60)
+				M_Prestige:(BannerImage)
+			// Right Fade and Star Shape
+			Draw:(Banner_Fade,@R-756,0,756,60)
+
+
+			Clip:(@f,0,@w,60)
+			{
+				Draw:(Banner_Star,@C,-20,,,,#FFFFFF33)
+			}
+
+			M_Text:(,@C,34,0,0,C,C,Text,BEBAS50,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,FixtureInfo,CompName,DoLTR)
+		}}
+		Draw:(Fade_Down,@f,60,@w,7,,#00000080)
+
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		// ---------------------------------BODY ---------------------------------------------------------------------------
+		Rect:() $HIDE
+			set(gel.vis,not(twk(FixtureInfo,Result)))
+		{
+			Rect:()
+				CTRLSelect(CTRLBlank)
+
+			// Clipped Content
+			Clip:(0,244,@W,@H-241)
+			{{
+				// Moved Content
+				Rect:(0,0,@W,@H)
+				{{
+					Rect:(@C,0,@W,@H) ref:FixturePreview
+						ScrollingList(FixtureInfo,Scroll,@H,FixtureInfo,ScrollVel) ref:ScrollingListFixturePreview
+						CTRLScrollList(ScrollingListFixturePreview) ref:CTRLScrollList
+						if(abs(JoyY1) > 0.2)
+						<
+							set(%showFaceSelection,0)
+						>
+						elif((abs(JoyX0) > 0.2) or(abs(JoyY0) > 0.2))
+						<
+							set(%showFaceSelection,1)
+						>>
+					{{
+						Draw:(NSSM_Stand,-360,-78)
+						Draw:(NSSM_Pitch,-533,190,533,213)
+						Draw:(NSSM_Pitch,533,190,-533,213)
+						
+						Sheet:(-574,137,1850,-88.5,0,0,35.217)
+							PinVP(0,0)
+						{
+							Rect:(-6,0,,,-90)
+							{{
+								M_FormationCounter:(Team1Formation,0,Home)
+								M_FormationCounter:(Team1Formation,1,Home)
+								M_FormationCounter:(Team1Formation,2,Home)
+								M_FormationCounter:(Team1Formation,3,Home)
+								M_FormationCounter:(Team1Formation,4,Home)
+								M_FormationCounter:(Team1Formation,5,Home)
+								M_FormationCounter:(Team1Formation,6,Home)
+								M_FormationCounter:(Team1Formation,7,Home)
+								M_FormationCounter:(Team1Formation,8,Home)
+								M_FormationCounter:(Team1Formation,9,Home)
+								M_FormationCounter:(Team1Formation,10,Home)
+							}}
+
+							Rect:(6,0,,,90)
+							{{
+								M_FormationCounter:(Team2Formation,0,Away)
+								M_FormationCounter:(Team2Formation,1,Away)
+								M_FormationCounter:(Team2Formation,2,Away)
+								M_FormationCounter:(Team2Formation,3,Away)
+								M_FormationCounter:(Team2Formation,4,Away)
+								M_FormationCounter:(Team2Formation,5,Away)
+								M_FormationCounter:(Team2Formation,6,Away)
+								M_FormationCounter:(Team2Formation,7,Away)
+								M_FormationCounter:(Team2Formation,8,Away)
+								M_FormationCounter:(Team2Formation,9,Away)
+								M_FormationCounter:(Team2Formation,10,Away)
+							}}
+						}
+						
+						// Dividers
+						Tile:(White,0,320,760,1,,#0000001A)
+							Handle(0.5,0.5)
+							Copies(1,7)
+							Spacing(0,40)
+
+						// Titles
+						M_Text:(matchpreview_FORMATION,0,380,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(matchpreview_FORM,0,420,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(matchpreview_NRG,0,460,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(generic_HAPPINESS_LC,0,500,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(matchpreview_TOPSCORER,0,540,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+						
+						// Home Stats
+						M_Text:(,[@W*-0.25],380,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,FixtureInfo,TeamHomeFormation)
+						M_FormIndicator:([@W*-0.25]-68,395,HomeFormIndicator)
+						M_Text:(,[@W*-0.25],460,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							.set(gel.text,LTR(fmt(twk(FixtureInfo,TeamHomeEnergy),X.X)))
+							.set(%gfw,strwidth(gel.text,0)*0.64)
+							.set(gel.x,[@W*-0.25]-[[%gfw+16]/2])
+						{{
+							Draw:(Icon_Energy_Small,0,-16,32,32,,#FFFFFFFF)
+								.set(gel.x,%gfw-4)
+						}}
+						M_Text:(,[@W*-0.25],500,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							.set(gel.text,LTR(fmt(twk(FixtureInfo,TeamHomeHappiness),X.X) :: "%"))
+						
+						// Top Scorer
+						M_Text:(,[@W*-0.25],540,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,FixtureInfo,TeamHomeTopScorerName)
+							if(twk(FixtureInfo,TeamHomeTopScorerName) = "")
+							<
+								.set(gel.text,"-")
+							>
+							else
+							<
+								.set(gel.text,twk(FixtureInfo,TeamHomeTopScorerName))
+							>
+						M_TopScorerFace:([@W*-0.25],635,Home)
+							CTRLBlock(LEFT,UP,DOWN)
+
+
+
+						// Away Stats
+						M_Text:(,[@W*0.25],380,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,FixtureInfo,TeamAwayFormation)
+						M_FormIndicator:([@W*0.25]-68,395,AwayFormIndicator)
+						M_Text:(,0,460,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							.set(gel.text,LTR(fmt(twk(FixtureInfo,TeamAwayEnergy),X.X)))
+							.set(%gfw,strwidth(gel.text,0)*0.64)
+							.set(gel.x,[@W*0.25]-[[%gfw+16]/2])
+						{{
+							Draw:(Icon_Energy_Small,0,-16,32,32,,#FFFFFFFF)
+								.set(gel.x,%gfw-4)
+						}}
+						
+						M_Text:(,[@W*0.25],500,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							.set(gel.text,LTR(fmt(twk(FixtureInfo,TeamAwayHappiness),X.X) :: "%"))
+						
+						
+						// Top Scorer
+						M_Text:(,[@W*0.25],540,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							if(twk(FixtureInfo,TeamAwayTopScorerName) = "")
+							<
+								.set(gel.text,"-")
+							>
+							else
+							<
+								.set(gel.text,twk(FixtureInfo,TeamAwayTopScorerName))
+							>
+						M_TopScorerFace:([@W*0.25],635,Away)
+							CTRLBlock(RIGHT,UP,DOWN)
+						
+						Draw:(White,0,725,760,1,,#0000001A)
+							Handle(0.5,0.5)
+					}}
+				}}
+		
+				
+				// Swipe Panels
+				Rect:(0,0,@W,@H) ref:SwipePanels
+					SwipePanel(FixtureInfo,Scroll,FixtureInfo,ScrollVel) ref:SwipePanelFixturePreview
+				{{
+					Rect:(0,10,@W,@H-20)
+					{{
+						M_ScrollIndicatorAlt:(@R-25,@H,FixtureInfo,Scroll,FixturePreview,ScrollingListFixturePreview,SwipePanels,SwipePanelFixturePreview)
+					}}
+				}}
+
+			}}
+			M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+				CTRLScrollListIcon(FixturePreview,CTRLScrollList)
+		}
+
+
+
+
+
+		Rect:() $HIDE
+			set(gel.vis,twk(FixtureInfo,Result))
+		{
+			Rect:()
+				CTRLSelect(CTRLBlank)
+
+			// Clipped Content
+			Clip:(0,244,@W,@H-246)
+			{{
+				// Moved Content
+				Rect:(0,0,@W,@H)
+				{{
+					Rect:(0,0,@W,@H) ref:FixtureResult
+						ScrollingList(FixtureInfo,Scroll,@H,FixtureInfo,ScrollVel) ref:ScrollingListFixtureResult
+						CTRLScrollList(ScrollingListFixtureResult) ref:CTRLScrollList
+					{{
+						M_Text:(,@C,5,0,50,C,C,Text,KNUL25,,1,0,#505050FF,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(halfTime_Abb) :: ": " :: twk(FixtureInfo,HalfTimeTeamHomeScore) :: " - " :: twk(FixtureInfo,HalfTimeTeamAwayScore))
+							.set(gel.vis,twk(FixtureInfo,ExtraDataValid) = 1)
+
+						M_Text:(fixtureInfo_InvalidExtraData,50,5,@W-100,50,C,C,TextBox,KNUL25,Lower,1,0,#505050FF,NoItalics,#505050FF,ref)
+							.set(gel.vis,twk(FixtureInfo,ExtraDataValid) = 0)
+
+						Rect:(@f,60,@W,@H) ref:Incidents
+						{{
+						}}
+					}}
+				}}
+
+				// Swipe Panels
+				Rect:(0,0,@W,@H) ref:SwipePanels
+					SwipePanel(FixtureInfo,Scroll,FixtureInfo,ScrollVel) ref:SwipePanelFixtureResult
+				{{
+					Rect:(0,10,@W,@H-20)
+					{{
+						M_ScrollIndicatorAlt:(@R-25,@H,FixtureInfo,Scroll,FixtureResult,ScrollingListFixtureResult,SwipePanels,SwipePanelFixtureResult)
+					}}
+				}}
+			}}
+			M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+				CTRLScrollListIcon(FixtureResult,CTRLScrollList)
+		}
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+	// ----------------
+	// ----------------
+	M_NewDialogCLOSE:()
+}

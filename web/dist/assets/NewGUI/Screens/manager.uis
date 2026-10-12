@@ -1,0 +1,563 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(settings_Macros.uih)
+Import:(templates_combo.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Manager,TrophiesScroll),0)
+	.set(twk(Manager,TrophiesScrollVel),0)
+	.set(twk(Manager,AchievementsScroll),0)
+	.set(twk(Manager,AchievementsScrollVel),0)
+	.set(twk(Manager,ReplaysScroll),0)
+	.set(twk(Manager,ReplaysScrollVel),0)
+
+##4
+Define:(?REPLAYTAB?=999)
+Define:(?SETTINGSTAB?=4)
+##-
+Define:(?REPLAYTAB?=4)
+Define:(?SETTINGSTAB?=5)
+##*
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(manager_Macros.uih)
+Import:(replayviewer_Macros.uih)
+Import:(settings_Macros.uih)
+//-----------------------------------------------------------------------------------------TEMPLATES
+// Combo template Prestige
+Rect:(@o,@T,@s,@H)
+{{
+	Rect:(0,0,250,50)
+	{{
+		M_ComboEntry:(Manager,PrestigeCombo,manager.cmb_PrestigeSelected,1,"",1)
+	}}
+
+	M_ComboOPEN:(@R-275,@T+80+83,250,60,Manager,PrestigeCombo,manager.cmb_PrestigeClose)
+		Rect:(0,0,300,100) ref:ItemHook
+			ChildrenOffset(0,50) ref:Offset
+		{{
+		}}
+	M_ComboCLOSE:(Manager,PrestigeCombo)
+}}
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(manager_HEADER),manager)
+
+// ----------------
+// ----------------
+	
+	// Tabs
+	Rect:(0,0,@W,40)
+		Layer(AboveText2)
+		LockLayer()
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,218,50,manager_PROFILE,1,Manager,CurrentTab,manager.btn_Tab,5)
+		M_Tab:(248,0,218,50,manager_ACHIEVEMENTS,2,Manager,CurrentTab,manager.btn_Tab,5)
+		M_Tab:(466,0,218,50,manager_TROPHIES,3,Manager,CurrentTab,manager.btn_Tab,5)
+		##4
+		M_Tab:(684,0,219,50,options_HEADER,4,Manager,CurrentTab,manager.btn_Tab,5)
+		M_SwitchTabs:(4,Manager,11,15,894,15,manager.btn_Tab)
+		##-
+		M_Tab:(684,0,218,50,manager_REPLAYS,4,Manager,CurrentTab,manager.btn_Tab,5)
+		M_Tab:(902,0,219,50,options_HEADER,5,Manager,CurrentTab,manager.btn_Tab,5)
+		M_SwitchTabs:(5,Manager,11,15,1112,15,manager.btn_Tab)
+		##*
+
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 1: Manager Profile 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE
+		M_FadingTabContent:(Manager,CurrentTab,1)
+	{{
+		Rect:(30,0,@W-60,260)
+		{{
+			Rect:(0,0,[@W/7],@H)
+			{{
+				Draw:(White,28,28,54,54,,#808080FF)
+				Draw:(Header_Manager_Male,30,30,50,50)
+		            if(twk(Player,Gender) = 0)
+		            <
+		                :set(gel.img,"Header_Manager_Male")
+		            >
+		            else
+		            <
+		                :set(gel.img,"Header_Manager_Female")
+		            >
+
+				M_Text:(,95,56,340+[@y/2],0,L,C,TextBox,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,ref,Player,FullName,DoLTR)
+
+				Rect:()
+					float(%w1,%w2)
+				{
+					M_Text:(manager_PROFILE_LEVEL,20,110,300,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						.set(%w1,%gfw)
+				
+					M_Text:(,0,110,300,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Player,StarLevel,DoLTR)
+						.set(%w2,%gfw)
+						.set(gel.x,%w1+30)
+
+					// Prestige Stars
+					Rect:(0,88)
+						.set(gel.x,%w1+%w2+30)
+						.set(gel.vis,twk(Manager,PrestigeCount) > 0)
+					{{
+			            Tile:(Prestige_Star_BG,0,0,40,40)
+			            	Copies(1,1)
+			            	Spacing(30,0)
+			            	set(gel.copies.x,clamp(twk(Manager,PrestigeCount),0,3))
+			            Tile:(Prestige_Star_Silver,0,0,40,40)
+			            	if(twk(Manager,PrestigeCount) > 3)
+			            	<
+			            		set(gel.img,"Prestige_Star_Gold")
+			            	>
+			            	else
+			            	<
+			            		set(gel.img,"Prestige_Star_Silver")
+			            	>
+			            	Copies(1,1)
+			            	Spacing(30,0)
+			            	set(gel.copies.x,clamp(twk(Manager,PrestigeCount),0,3))
+					}}
+				}
+
+
+
+				M_Text:(manager_PROFILE_CLUB,20,145,300,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					.set(%gfo,%gfw)
+				{{
+					M_Text:("New Star",0,0,300,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						.set(gel.x,%gfo+10)
+						.set(gel.text,LTR(twk(Player,TeamName)))
+				}}
+
+				M_Text:(manager_PROFILE_TIME,20,180,300,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					.set(%gfo,%gfw)
+				{{
+					M_Text:(,0,0,300,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,LTR(fmt(twk(CareerAnalyticsData,TimePlayedDays),X)::" : "::fmt(twk(CareerAnalyticsData,TimePlayedHours),XX)::" : "::fmt(twk(CareerAnalyticsData,TimePlayedMinutes),XX)::" : "::fmt(twk(CareerAnalyticsData,TimePlayedSeconds),XX)))
+						.set(gel.x,%gfo+10)
+				}}
+
+				M_Text:(,20,229,480+[@y/2],0,L,C,TextBox,KNUL24,,1,0,#25252580,Italics,#252525FF,ref)
+					LineSpacing(0.9)
+					CharacterSpacing(0.5)
+					set(gel.text,"“ " :: twk(Manager,StatAddictedRating) :: " ”")
+			
+			}}
+
+			Rect:([@W/7]*3,0,[@W/7],@H)
+			{{
+				M_Text:(profile_seasonsplayed,0,30,@W,0,C,T,TextBox,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				M_Text:(,@C,94,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatSeasonsPlayed,DoLTR)
+
+				M_Text:(profile_trophieswon,0,163,@W,0,C,T,TextBox,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				M_Text:(,@C,227,0,0,C,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatTrophiesWon,DoLTR)
+				Draw:(Separator,@R,38)
+			}}
+			Rect:([@W/7]*4,0,[@W/7],@H)
+			{{
+				M_Text:(manager_PROFILE_LEAGUE,0,37,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(Trophy_Manager_02,@C-215,-55,430,430)
+				M_Text:(,@C,82,0,50,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref,Manager,TrophiesLeagueCount,DoLTR)
+				
+				Draw:(Separator,@R,38)
+			}}
+			Rect:([@W/7]*5,0,[@W/7],@H)
+			{{
+				M_Text:(manager_PROFILE_CUP,0,37,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(Trophy_Manager_02,@C-215,-55,430,430)
+				M_Text:(,@C,82,0,50,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref,Manager,TrophiesCupCount,DoLTR)
+				
+				Draw:(Separator,@R,38)
+			}}
+			Rect:([@W/7]*6,0,[@W/7],@H)
+			{{
+				M_Text:(manager_PROFILE_CONTINENTAL,0,37,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(Trophy_Manager_02,@C-215,-55,430,430)
+				M_Text:(,@C,82,0,50,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref,Manager,TrophiesCupContCount,DoLTR)
+				Draw:(Separator,@R,38)
+			}}
+
+			Rect:(0,272,@W,70)
+			{{
+				Draw:(PanelAngled,-3,-3,@W+6,@H+6)
+				Draw:(White,1,@M,@W-2,@M-1,,#D6D6E680)
+				Rect:(0,0,[@W/5],@H)
+				{{
+					M_Text:(manager_PROFILE_MATCHES,0,19,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,53,0,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGamesPlayed,DoLTR)
+					Draw:(Separator,@R,5)
+				}}
+				Rect:(@W*0.2,0,@W/5,@H)
+				{{
+					M_Text:(manager_PROFILE_WON,0,19,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,53,0,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGamesWon,DoLTR)
+					Draw:(White,@C-64,33,128,2,,#06FF00FF)
+					Draw:(Separator,@R,5)
+				}}
+				Rect:(@W*0.4,0,@W/5,@H)
+				{{
+					M_Text:(manager_PROFILE_DREW,0,19,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,53,0,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGamesDrawn,DoLTR)
+					Draw:(White,@C-64,33,128,2,,#006CFFFF)
+					Draw:(Separator,@R,5)
+				}}
+				Rect:(@W*0.6,0,@W/5,@H)
+				{{
+					M_Text:(manager_PROFILE_LOST,0,19,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,53,0,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGamesLost,DoLTR)
+					Draw:(White,@C-64,33,128,2,,#FF0000FF)
+					Draw:(Separator,@R,5)
+				}}
+				Rect:(@W*0.8,0,@W/5,@H)
+				{{
+					M_Text:(manager_PROFILE_RATIO,0,19,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,53,0,0,C,C,Text,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGamesWonPercent,DoLTR)
+				}}
+			}}
+
+			Tile:(White,18,361,@W-36,1,,#0000001A)
+				Copies(1,7)
+				Spacing(0,35)
+			M_Text:(manager_PROFILE_GOALSFOR,20,354,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,354,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGoalsFor,DoLTR)
+
+			M_Text:(manager_PROFILE_GOALSAGAINST,20,389,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,389,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatGoalsAgainst,DoLTR)
+
+			M_Text:(manager_PROFILE_BIGGESTWIN,20,424,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,424,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatBiggestWin)
+
+			M_Text:(manager_PROFILE_BIGGESTLOSS,20,459,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,459,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatBiggestLoss)
+
+			M_Text:(manager_PROFILE_LONGESTWON,20,494,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,494,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatLongestWinningStreak)
+
+			M_Text:(manager_PROFILE_LONGESTNOLOSS,20,529,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("-",20,529,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatLongestUnbeatenStreak)
+
+			M_Text:(manager_PROFILE_BOUGHTTOTAL,@C+30,354,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,354,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatPlayersBought,DoLTR)
+
+			M_Text:(manager_PROFILE_SOLDTOTAL,@C+30,389,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,389,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,Manager,StatPlayersSold,DoLTR)
+
+			M_Text:(manager_PROFILE_BOUGHTMOST,@C+30,424,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,424,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				if(twk(Manager,StatRecordSigningPrice) = "")
+				<
+					.set(gel.text,"-")
+				>
+				else
+				<
+					.set(gel.text,"★ " :: commasfmt(twk(Manager,StatRecordSigningPrice)))
+				>
+			
+			M_Text:(manager_PROFILE_SOLDMOST,@C+30,459,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,459,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				if(twk(Manager,StatRecordSalePrice) = "")
+				<
+					.set(gel.text,"-")
+				>
+				else
+				<
+					.set(gel.text,"★ " :: commasfmt(twk(Manager,StatRecordSalePrice)))
+				>
+
+			M_Text:(manager_PROFILE_TRANSFERIN,@C+30,494,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,494,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				if(twk(Manager,StatTransfersOut) = 0)
+				<
+					.set(gel.text,"-")
+				>
+				else
+				<
+					.set(gel.text,"★ " :: commasfmt(twk(Manager,StatTransfersOut)))
+				>
+
+			M_Text:(manager_PROFILE_TRANSFEROUT,@C+30,529,0,50,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:("",@C+30,529,[@W-100]/2,50,R,C,Text,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				if(twk(Manager,StatTransfersIn) = 0)
+				<
+					.set(gel.text,"-")
+				>
+				else
+				<
+					.set(gel.text,"★ " :: commasfmt(twk(Manager,StatTransfersIn)))
+				>
+		}}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 2: Achievements 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:AnimatedCardHook
+		M_FadingTabContent:(Manager,CurrentTab,2)
+		if(twk(Manager,CurrentTab) = 2)
+		<
+			SwipePanel(Manager,AchievementsScroll,Manager,AchievementsScrollVel) ref:SwipePanelAchievements
+		>
+	{{
+		Rect:() ref:TotalAchievementProgress
+
+		CTRLSelectGroup:(0,@T,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+		{
+			Clip:(0,0,@W,@H-2)
+			##4
+				set(gel.vis,twk(Settings,DemoVersion)=0)
+			##*
+			{
+				Rect:(30,10,@W-60,@H-25)
+				{{
+					Rect:(0,0,@W,@H) ref:AchievementList
+						ScrollingList(Manager,AchievementsScroll,@H,Manager,AchievementsScrollVel) ref:ScrollingList
+						CTRLScrollList(ScrollingList) ref:CTRLScrollList
+						VerticalList(5) ref:ChildOffset
+						float(%listElement)
+					{{
+					}}
+				}}
+				Rect:(30,10,@W-60,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R+5,@H,Manager,AchievementsScroll,AchievementList,ScrollingList,AnimatedCardHook,SwipePanelAchievements)
+				}}
+			}
+			##4
+			Clip:(0,0,@W,@H-2)
+				set(gel.vis,twk(Settings,DemoVersion)=1)
+			{
+				Draw:(Icon_Padlock,@C,@M*0.5,140,140)
+					Handle(0.5,0.5)
+	    			Layer(Text)
+	   				set(gel.vis,twk(Settings,DemoVersion)=1) 
+
+				Rect:(30,10,@W-30,@H-25)
+				{{
+					M_Text:(manager_ACHIEVEMENTS_LOCKED,@L+30,@M-200,@W-60,400,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+				}}
+			}
+			##*
+		}
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 3: Trophies 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:SwipePanels
+		M_FadingTabContent:(Manager,CurrentTab,3)
+		if(twk(Manager,CurrentTab) = 3)
+		<
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Manager,TrophiesScroll,Manager,TrophiesScrollVel) ref:SwipePanelTrophies
+		>
+	{{
+		// Prestige Combo
+		M_ComboSelected:(@R-275,3,250,60,Manager,PrestigeCombo,manager.cmb_PrestigeOpen)
+			.set(gel.vis,twk(Manager,PrestigeCount) > 0)
+
+		CTRLSelectGroup:(0,@T,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:TrophiesSelectGroup
+			if(twk(Manager,PrestigeCount) > 0)
+			<
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(PrestigeComboComboSelected,manager)
+					Post(CTRLNavigate)
+				>
+			>
+		{
+			Draw:(White,0,340,@W,1,,#FFFFFF20)
+			Rect:(30,0,@W-60,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:TrophiesList
+					SnappingListX(Manager,TrophiesScroll,@W,Manager,TrophiesScrollVel,SwipePanels,SwipePanelTrophies,15,0.1,true) ref:SnappingList
+					ChildrenOffset(280+[@y/3],0,false) ref:ChildOffset
+					CTRLScrollList(SnappingList) ref:CTRLScrollList
+				{
+				}
+				M_ScrollIndicatorAltH:(@B-5,@W,Manager,TrophiesScroll,TrophiesList,SnappingList,SwipePanels,SwipePanelTrophies)
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-58,@B-40,X)
+			CTRLScrollListIcon(TrophiesList,CTRLScrollList)
+	}}
+
+	//-----------------------------------------------------------------------------------------PAGE 4: Replays 
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:SwipePanels
+		float(%rootAlpha)
+		.set(%rootAlpha,1)
+		if(twk(Manager,CurrentTab) = ?REPLAYTAB? or(twk(Manager,CameBackFromReplay)=1))
+		<
+			:set(twk(Manager,CameBackFromReplay),0)
+			:set(twk(Manager,CurrentTab),?REPLAYTAB?)
+			:set(gel.vis,1)
+			frlerp(%rootAlpha,1,0.25)
+			SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,Manager,ReplaysScroll,Manager,ReplaysScrollVel) ref:SwipePanelReplays
+		>
+		else
+		<
+			frlerp(%rootAlpha,0,0.25)
+			if(%rootAlpha < 0.01)
+			<
+				:set(gel.vis,0)
+			>
+		>
+		set(gel.alpha,%rootAlpha)
+	{{
+		
+		CTRLSelectGroup:(0,@T,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			intvar(%controlstate)
+		{
+			M_ReplayViewerTab:(@C,315,@W,@H,manager,Manager)
+			Draw:(White,0,340,@W,1,,#FFFFFF20)
+			Rect:(30,0,@W-60,@H)
+			{{
+				M_ScrollIndicatorAltH:(@B-5,@W,Manager,ReplaysScroll,ReplaysList,ScrollingList,SwipePanels,SwipePanelReplays)
+			}}
+		}
+
+		M_SwitchStickHint:(✃,@R-58,@B-40,X)
+	}}
+
+
+	//-----------------------------------------------------------------------------------------PAGE 5: Settings
+
+	Dissolve:(0,50,@W,@H-45) $HIDE ref:SwipePanels
+		M_FadingTabContent:(Manager,CurrentTab,?SETTINGSTAB?)
+	{{
+		// Left Side
+		Clip:(0,0,@W,@H)
+		{{
+			Rect:(@C-546,15,516,@H-30)
+			{{
+				Rect:(0,0,@W,@H)
+				{{
+					Rect:(0,0,@W,@H) ref:OptionsList
+						ScrollingList(Settings,OptionsScroll,@H,Settings,OptionsScrollVel) ref:ScrollingListOptions
+						CTRLScrollList(ScrollingListOptions) ref:CTRLScrollList
+					{{
+						##IA
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_Distance:(0,185)
+						M_Settings_DataConsent:(0,270)
+						M_Settings_RewardedAds:(0,355)
+						//M_Settings_EcoMode:()
+						M_Settings_ExitCareer:(0,440)
+						M_Settings_DebugButton:(0,525)
+
+						##P4
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_MatchControls:(0,185)
+
+						Rect:()
+							.set(gel.h,[85*7]+200)
+						{
+							M_Settings_InvertCamera:(X,0,270)
+							M_Settings_InvertCamera:(Y,0,355)
+							M_Settings_Distance:(0,440)
+							M_Settings_FTUETraining:(0,525)
+							M_Settings_ExitCareer:(0,610)
+							##P
+							M_Settings_QuitToDesktop:(0,695)
+							##P4
+							M_Settings_DebugButton:(0,780)
+
+
+							Rect:(0,865,100,0)
+							Rect:(0,950,100,0)
+						}
+						
+						##N
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_MatchControls:(0,185)
+
+						Rect:()
+							.set(gel.h,[85*6]+200)
+						{
+							M_Settings_InvertCamera:(X,0,270)
+							M_Settings_InvertCamera:(Y,0,355)
+							M_Settings_Distance:(0,440)
+							M_Settings_FTUETraining:(0,525)
+							M_Settings_ExitCareer:(0,610)
+
+							Rect:(0,695,100,0)
+							Rect:(0,780,100,0)
+						}
+						##*
+					}}
+
+					// Swipe Panels
+					Rect:(0,0,@W,@H) ref:SwipePanels
+						SwipePanel(Settings,OptionsScroll,Settings,OptionsScrollVel) ref:SwipePanelOptions
+						.set(twk(Settings,OptionsScroll),0)
+						.set(twk(Settings,OptionsScrollVel),0)
+					{{
+						Rect:(0,-5,@W,@H+10)
+						{{
+							M_ScrollIndicatorAlt:(@R+10,@H,Settings,OptionsScroll,OptionsList,ScrollingListOptions,SwipePanels,SwipePanelOptions)
+						}}
+					}}
+					M_SwitchStickHint:(✃,@R+7,@B-30,Y)
+						CTRLScrollListIcon(OptionsList,CTRLScrollList)
+				}}
+			}}
+		}}
+
+
+		// Right Side
+		Rect:(@C+15+[@y/4],15+[@z/2],530,[@H-30]-[@z/2])
+		{{
+			M_Settings_Credits:(0,0,530,@H)
+			##4
+				set(gel.vis,twk(Manager,CurrentTab)=4)
+			##-
+				set(gel.vis,(twk(Manager,CurrentTab)=5) and (twk(Settings,AppVariant)!="China" ))
+			##*
+
+			M_Settings_VersionNumber:(@R,@B-10)
+		}}
+		Draw:(Fade_Down,@f,@B,@w,-100-[@z/2],,#FFFFFFAA00000000)
+	}}
+	
+	Rect:() $HIDE
+		set(gel.vis,twk(Manager,CurrentTab) = 2)
+	{
+		M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+			CTRLScrollListIcon(AchievementList,CTRLScrollList)
+	}
+
+// ----------------
+// ----------------
+
+M_NewDialogCLOSE:()
+	if(%state = "closing")
+	<
+		call(AchievementsAlert,Hide)
+	>
+
+
+// Notifications
+Rect:() ref:AchievementsAlert
+	Layer(AboveText3)
+	LockLayer()
+	.set(gel.alpha,0)
+	.Delay(0.4)
+	frlerp(gel.alpha,1,0.1)
+	func(Hide)
+	<
+		set(gel.vis,0)
+	>
+{
+	M_NotificationAlert:(@o+425,@T+89,(twk(Achievements,UnclaimedCount)),Icon_Notification)
+		set(gel.vis,twk(Achievements,UnclaimedCount) > 0)
+}

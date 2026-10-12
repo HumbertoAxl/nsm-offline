@@ -1,0 +1,505 @@
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_Stat_Appearances,NewGUI/UI/Profiles/Stats/Icon_Stat_Appearances.png)
+Img:(Icon_Stat_Assist,NewGUI/UI/Profiles/Stats/Icon_Stat_Assist.png)
+Img:(Icon_Stat_AvRating,NewGUI/UI/Profiles/Stats/Icon_Stat_AvRating.png)
+Img:(Icon_Stat_CleanSheet,NewGUI/UI/Profiles/Stats/Icon_Stat_CleanSheet.png)
+Img:(Icon_Stat_Goal,NewGUI/UI/Profiles/Stats/Icon_Stat_Goal.png)
+Img:(Icon_Stat_MoM,NewGUI/UI/Profiles/Stats/Icon_Stat_MoM.png)
+Img:(Icon_Stat_RedCard,NewGUI/UI/Profiles/Stats/Icon_Stat_RedCard.png)
+Img:(Icon_Stat_Starts,NewGUI/UI/Profiles/Stats/Icon_Stat_Starts.png)
+Img:(Icon_Stat_Sub,NewGUI/UI/Profiles/Stats/Icon_Stat_Sub.png)
+Img:(Icon_Stat_YellowCard,NewGUI/UI/Profiles/Stats/Icon_Stat_YellowCard.png)
+
+
+Macro:(M_Stat,?ICON?,?TEXT?,?VAR?)
+	Rect:(0,0,@W,@H)
+	{
+		M_Text:(?TEXT?,0,25,@W,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		Draw:(?ICON?,@C-30,28,60,60)
+		M_Text:(,0,96,@W,0,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,Stat?VAR?,DoLTR)
+	}
+EndM
+
+
+
+
+
+// ATTRIBUTES
+Rect:()
+	set(gel.vis,twk(ProfilePlayer,IsOthersTeam) = 0 and(twk(ProfilePlayer,IsScoutedPlayer) = 0))
+{
+	// Rating - Fixed box
+	Rect:(328,120,1,150)
+	{{
+		M_Text:(generic_RATING,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+		Draw:(Profile_Star2,@C-70,20,140,140) ref:StarRatingImage_NewStar
+		M_Text:(,@C,80,0,0,C,C,Text,KNUL35,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,ProfilePlayer,Rating,DoLTR)
+			M_Style_StarRating:()
+			if(gel.text = 100)
+			<
+				set(gel.scale,0.85)
+				set(gel.x,@C-1)
+			>
+			else
+			<
+				set(gel.scale,1)
+				set(gel.x,@C)
+			>
+	}}
+
+	// Adjusting content
+	Rect:(410,120,670+@y,140)
+	{{
+		// Potential
+		Rect:([@W/4]*0,0,@W/4,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_POTENTIAL,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(Profile_Star2,@C-53,38,106,106) ref:PotentialStarRatingImage_NewStar
+			M_Text:(,@C,83,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,ProfilePlayer,SkillPotential,DoLTR)
+				M_Style_StarRating:()
+				if(gel.text = 100)
+				<
+					set(gel.scale,0.85)
+					set(gel.x,@C-1)
+				>
+				else
+				<
+					set(gel.scale,1)
+					set(gel.x,@C)
+				>
+		}}
+		
+		// Morale
+		Rect:([@W/4]*1,0,@W/4,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_HAPPINESS,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_MoraleWheel:(@C-35,46,ProfilePlayer,Happiness)
+		}}
+
+		// Contract
+		Rect:([@W/4]*2,0,@W/4,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_CONTRACT,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:(,@C,80,0,0,C,C,Text,KNUL35,,1,1,#252525FF,NoItalics,#252525FF,ref)
+				set(gel.text,LTR(twk(ProfilePlayer,RemainingMatches)) :: loc(generic_MATCHES_sla))
+				if(twk(ProfilePlayer,RemainingMatches) <= 5)
+				<
+					PulseAlpha(1,0,0.3,0.3,0.1,0.1)
+				>
+				else
+				<
+					:set(gel.alpha,1)
+				>
+		}}
+
+		// Value
+		Rect:([@W/4]*3,0,@W/4,140)
+		{{
+			Draw:(Separator,@L,50)
+			M_Text:(generic_VALUE,@C,13,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:(,40,80,0,0,L,C,Text,KNUL35,,1,0,#252525FF,NoItalics,#252525FF,ref,)
+				set(gel.text,twk(ProfilePlayer,Value))
+				set(gel.x,@C-[%gfw/2]+18)
+			{{
+				Draw:(Icon_Bux,-40,-22,40,40,,#FFFFFFFF)
+			}}
+			Draw:(Separator,@R,50)
+		}}
+	}}
+
+
+}
+
+
+
+
+
+
+// TAB CONTENT
+Rect:()
+	set(gel.vis,twk(Negotiate,InProgress) = 0 and(twk(Transfer,InProgress) = 0 and(twk(ProfilePlayer,IsOthersTeam) = 0 and(twk(ProfilePlayer,IsScoutedPlayer) = 0))))
+{
+	// TABS
+	Rect:(@f,350,@w,215)
+		// Default to ACTIONS tab if SKILLS are not unlocked
+		if(twk(Facilities,TrainingGroundLevel) = 0 and(twk(ProfilePlayer,ActionsTabEnabled) = 1))
+		<
+			.set(twk(ProfilePlayer,CurrentTab),4)
+		>
+	{{
+		Draw:(Tab_BG50,0,-2,@W,58)
+		M_Tab:(30,0,220,50,profile_player_SKILLS,1,ProfilePlayer,CurrentTab,,5)
+		M_Tab:(250,0,220,50,profile_player_STATS,2,ProfilePlayer,CurrentTab,,5)
+		M_Tab:(470,0,220,50,profile_player_CONCERNS,3,ProfilePlayer,CurrentTab,,5)
+		
+		Rect:()
+			set(gel.vis,twk(ProfilePlayer,ActionsTabEnabled) = 1)
+		{
+			M_Tab:(690,0,220,50,profile_player_ACTIONS,4,ProfilePlayer,CurrentTab,,5)
+				set(%disabled,twk(ProfilePlayer,IsRetired))
+
+			AnimInstance:(872,9,TransferAnim)
+				set(gel.vis,twk(ProfilePlayer,TransferOfferClub) != "")
+				Scale(0.5,0.5)
+		}
+		
+		M_SwitchTabs:(3,ProfilePlayer,11,10,682,10)
+			set(gel.vis,twk(ProfilePlayer,ActionsTabEnabled) = 0)
+
+		M_SwitchTabs:(4,ProfilePlayer,11,10,901,10)
+			set(gel.vis,twk(ProfilePlayer,ActionsTabEnabled) = 1)
+	}}
+
+
+
+
+
+	// TABS CONTENT
+	Rect:(0,401+[@z/2],@W,235)
+	{{
+		// TAB 1 SKILLS
+		Dissolve:()
+			M_FadingTabContent:(ProfilePlayer,CurrentTab,1)
+		{
+			Rect:()
+				set(gel.vis,not(twk(Facilities,TrainingGroundLevel) >= 1))
+			{
+				Draw:(Icon_Locked,@C-20,@M-60,40,40,,#252525FF)
+				M_Text:(,@C,@M,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(LockedTraining) :: " 1")
+			}
+
+			Rect:(0,0,@W,@H)
+				set(gel.vis,twk(Facilities,TrainingGroundLevel) >= 1)
+			{{
+				Rect:(0,0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_HAND,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Handling_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_TACK,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Tackling_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Tackling)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5],0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_AGIL,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Agility_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_TECH,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Technique_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Technique)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*2,0,[@W/5],@H)
+				{{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+					{
+						M_Text:(profile_player_SKILLS_GK_REFL,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Reflexes_S,@C-30,28,60,60,,#252525FF)
+					}
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,PositionType) > 0)
+					{
+						M_Text:(profile_player_SKILLS_DRIB,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+						Draw:(Icon_Skill_Dribbling_S,@C-30,28,60,60,,#252525FF)
+					}
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Dribbling)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*3,0,[@W/5],@H)
+				{{
+					M_Text:(profile_player_SKILLS_PACE,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					Draw:(Icon_Skill_Pace_S,@C-30,28,60,60,,#252525FF)
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Pace)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				Rect:([@W/5]*4,0,[@W/5],@H)
+				{{
+					M_Text:(profile_player_SKILLS_STRE,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					Draw:(Icon_Skill_Strength_S,@C-30,28,60,60,,#252525FF)
+					M_SkillPotentialWheel:(@C-58,80,ProfilePlayer,Strength)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+
+				M_Text:(,@C,220,0,0,C,C,TextLoc,KNUL20,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,SkillTacklingBoostInfo)
+			}}
+		}
+
+		// TAB 2 STATS
+		Dissolve:()
+			M_FadingTabContent:(ProfilePlayer,CurrentTab,2)
+		{
+			Rect:(0,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_Appearances,profile_player_STATS_APPS,Apps)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.11,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_Starts,profile_player_STATS_STARTS,Starts)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.22,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_Sub,profile_player_STATS_SUB,Subs)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.33,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_Goal,profile_player_STATS_GOALS,Goals)
+					set(gel.vis,twk(ProfilePlayer,PositionType) oneof(1,2,3))
+
+				M_Stat:(Icon_Stat_Goal,profile_player_STATS_GK_CONCEDED,GoalsConceded)
+					set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.44,0,[@W/9],@H)
+			{{
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,PositionType) oneof(1,2,3))
+				{
+					M_Stat:(Icon_Stat_Assist,profile_player_STATS_ASST,Assists)
+				}
+
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,PositionType) = 0)
+				{
+					M_Stat:(Icon_Stat_CleanSheet,profile_player_STATS_GK_CLEAN,CleanSheets)
+				}
+					
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.55,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_YellowCard,profile_player_STATS_YELC,YCards)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.66,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_RedCard,profile_player_STATS_REDC,RCards)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.77,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_MoM,profile_player_STATS_MOM,MOTM)
+				Draw:(White,@R,15,1,@H-100,,#FFFFFF80)
+			}}
+			Rect:(@W*0.88,0,[@W/9],@H)
+			{{
+				M_Stat:(Icon_Stat_AvRating,profile_player_STATS_RATING,AvRating)
+			}}
+
+			M_Text:(profile_player_STATS_FORM,@C,150,0,50,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			M_Text:(,@C,185,0,50,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				set(gel.text,twk(ProfilePlayer,Form) rep("-"," - "))
+		}
+
+		// TAB 3 CONCERNS
+		Dissolve:()
+			M_FadingTabContent:(ProfilePlayer,CurrentTab,3)
+		{
+			Rect:()
+				set(gel.vis,not(twk(Facilities,MedicalUnitLevel) >= 1))
+			{
+				Draw:(Icon_Locked,@C-20,@M-60,40,40,,#252525FF)
+				M_Text:(,@C,@M,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					.set(gel.text,loc(LockedMedical) :: " 1")
+			}
+
+
+			Rect:(0,0,@W,@H)
+				set(gel.vis,twk(Facilities,MedicalUnitLevel) >= 1)
+			{{
+				//Selection Stat
+				Rect:(0,0,[@W/4],@H)
+				{{
+					M_Text:(profile_player_CONCERNS_MANAGEMENT,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_ConcernWheel:(@C-58,80,ProfilePlayer,SelectionConcernsVal,Icon_Concern_Management)
+					M_Text:("-",0,53,@W,0,C,C,TextBox,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,SelectionConcerns)
+						LineSpacing(0.8)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				//Development Stat
+				Rect:(@W*0.25,0,[@W/4],@H)
+				{{
+					M_Text:(profile_player_CONCERNS_DEVELOPMENT,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_ConcernWheel:(@C-58,80,ProfilePlayer,DevelopmentConcernsVal,Icon_Concern_Development)
+					M_Text:("-",0,53,@W,0,C,C,TextBox,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,DevelopmentConcerns)
+						LineSpacing(0.8)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				//Contract Stat
+				Rect:(@W*0.5,0,[@W/4],@H)
+				{{
+					M_Text:(profile_player_CONCERNS_CONTRACT,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_ConcernWheel:(@C-58,80,ProfilePlayer,ContractConcernsVal,Icon_Concern_Contract)
+					M_Text:("-",0,53,@W,0,C,C,TextBox,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,ContractConcerns)
+						LineSpacing(0.8)
+					Draw:(White,@R,15,1,@H-30,,#FFFFFF80)
+				}}
+				//Team Form Stat
+				Rect:(@W*0.75,0,[@W/4],@H)
+				{{
+					M_Text:(profile_player_CONCERNS_FORM,@C,25,0,0,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_ConcernWheel:(@C-58,80,ProfilePlayer,FormConcernsVal,Icon_Concern_Form)
+					M_Text:("-",0,53,@W,0,C,C,TextBox,KNUL23,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,FormConcerns)
+						LineSpacing(0.8)
+				}}
+			}}
+		}
+
+
+
+
+		// TAB 4 ACTIONS
+		Dissolve:()
+			M_FadingTabContent:(ProfilePlayer,CurrentTab,4)
+		{
+			// Contracts
+			Rect:(30,5,[@W/2]-60,@H)
+			{{
+				Tile:(White,0,15,@W,1,,#0000001A)
+					Copies(1,3)
+					Spacing(0,50)
+				
+				// Normal Player
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,IsRetiring) = 0)
+				{
+					M_Text:(profile_NEWCONTRACT,0,40,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					
+					M_Button:(@R-190,45,80,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,profileplayer.btn_NegotiationSub,PlayerNegotiationSubButton,"-",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						set(%disabled,twk(Negotiate,Increment) = 40)
+						CTRLBlock(LEFT)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(PlayerPrevButton)
+							Post(CTRLNavigate)
+						>
+					
+					M_Button:(@R-90,45,80,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,profileplayer.btn_NegotiationAdd,PlayerNegotiationAddButton,"+",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						set(%disabled,twk(Negotiate,Increment) = 100)
+						CTRLBlock(RIGHT)
+
+					M_Text:(,0,40,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Negotiate,Increment,DoLTR)
+					M_Text:(profile_WAGEDEMANDS,0,90,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,0,90,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,"★ " :: commasfmt(twk(Negotiate,RawDemands)))
+					
+					M_Button:(@C,177,220,85,Button_GreenSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Negotiate,ref,loc(profile_RENEWOFFER),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+						CTRLBlock(LEFT)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(PlayerNegotiationSubButton)
+							Post(CTRLNavigate)
+						>
+				}
+
+				// Retiring Player
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,IsRetiring))
+				{
+					M_Text:(profile_NEWCONTRACT,0,40,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#50505080,ref)
+					M_Button:(@R-190,45,80,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,profileplayer.btn_NegotiationSub,ref,"-",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						.set(%disabled,1)
+					M_Button:(@R-90,45,80,40,Button_SilverSliced,,10,-5,64,64,#FFFFFFFF,profileplayer.btn_NegotiationAdd,ref,"+",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+						.set(%disabled,1)
+					M_Text:(,0,40,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#25252580,ref,Negotiate,Increment,DoLTR)
+					M_Text:(profile_WAGEDEMANDS,0,90,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#50505080,ref)
+					M_Text:(,0,90,@W,0,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#25252580,ref)
+						set(gel.text,"★ " :: commasfmt(twk(Negotiate,RawDemands)))
+					M_Button:(@C,177,220,85,Button_GreenSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Negotiate,ref,loc(profile_RENEWOFFER),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+						.set(%disabled,1)
+				}
+			}}
+
+			Draw:(White,@C,15,1,@H-30,,#FFFFFF80)
+
+			//-------------------------------------------------------Transfers
+			Rect:(@C+30,5,[@W/2]-60,@H)
+			{{
+				Tile:(White,0,15,@W,1,,#0000001A)
+					Copies(1,3)
+					Spacing(0,50)
+
+				//---------------------------Normal Player
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,IsRetiring)=0)
+				{
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,TransferOfferClub) = "")
+					{
+						M_Text:(profile_player_NOBIDS,@C,40,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						M_Text:(,@C,90,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,TransferOfferMsg)
+						
+						
+						M_Button:(@C,177,220,85,Button_SilverSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Sell,ref,loc(profile_player_AUCTION),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+							CTRLBlock(RIGHT)
+							CTRLPress(UP)
+							<
+								CTRLSetSelected(PlayerNextButton)
+								Post(CTRLNavigate)
+							>
+					}
+
+					Rect:()
+						set(gel.vis,twk(ProfilePlayer,TransferOfferClub) != "")
+					{
+						M_Text:(,@C,40,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							set(gel.text,twk(ProfilePlayer,TransferOfferClub)::" ":: loc(profile_player_OFFERED) :: " " :: cashfmt(twk(ProfilePlayer,TransferOfferAmount), true))
+						M_Text:(,@C,90,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,ProfilePlayer,TransferOfferMsg)
+
+						//----------------------------Reject
+						M_Button:(@C-200,177,130,85,Button_RedSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_RejectTransferOffer,ref,loc(profile_player_REJECTBID),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+						//----------------------------Accept
+						M_Button:(@C-50,177,130,85,Button_GreenSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_AcceptTransferOffer,ref,loc(profile_player_ACCEPTBID),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+						//----------------------------Sell
+						M_Button:(@C+150,177,220,85,Button_SilverSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Sell,ref,loc(profile_player_AUCTION),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					}
+					
+				}
+
+				//-------------------------------------------Retiring Player
+				Rect:()
+					set(gel.vis,twk(ProfilePlayer,IsRetiring))
+				{
+					M_Text:(,-10,32,@W+20,0,C,T,TextBox,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,twk(ProfilePlayer,Name) :: " " :: loc(profile_player_RETIRING))
+					
+					M_Button:(@C,177,220,85,Button_RedSliced,Blank,20,2,50,50,#252525FF,profileplayer.btn_Release,ref,loc(profile_player_RELEASE),0,3,C,C,TextBox,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+						M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				}
+			}}
+		}
+	}}
+}

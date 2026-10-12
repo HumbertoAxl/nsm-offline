@@ -1,0 +1,218 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(club_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_Sponsor,?ID?)
+	Rect:(10,60,@W-20,560)
+	{{
+		M_Text:(club_SPONSOR_NEW,@C,262+100,0,0,C,C,TextLoc,KNUL30,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+			set(gel.vis,twk(Club,Sponsor?ID?Signed))
+			float(%state)
+			if(twk(Club,Sponsor?ID?Signed))
+			<
+				if(%state = 0)
+				<
+					frlerp(gel.alpha,1,0.1)
+					frlerp(gel.y,262,0.1)
+					Delay(1.5)
+					set(%state,1)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.1)
+					frlerp(gel.y,262-100,0.1)
+					Delay(1.5)
+					set(twk(Club,Sponsor?ID?Signed),0)
+				>
+			>
+		Rect:(0,0,0,0,0,#FFFFFF00FFFFFFFF)
+			set(gel.vis,twk(Club,HasSponsor?ID?))
+			.set(gel.alpha,1)
+			if(twk(Club,Sponsor?ID?Signed) = 1)
+			<
+				.set(gel.alpha,0)
+				.set(gel.y,50)
+				Delay(1.75)
+				frlerp(gel.y,0,0.1)
+				frlerp(gel.alpha,1,0.1)
+			>
+		{
+			// Logo
+			Draw:(Sponsor_1,@C,80)
+				Handle(0.5,0.5)
+				Scale(0.75,0.75)
+				set(gel.img,"Sponsor_" :: twk(Club,Sponsor?ID?Id))
+
+			// Contract
+			Rect:(0,184,@W,95)
+			{{
+				M_Text:(generic_CONTRACT_LC,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+				Draw:(White,0,0,@W,95,,#00000010FFFFFFFF)
+				Draw:(White,0,47,@W,1,,#D0D0D0FFFFFFFFFF)
+				Draw:(White,0,0,@W,1,,#808080FFFFFFFFFF)
+				Draw:(White,0,94,@W,1,,#808080FFFFFFFFFF)
+
+				M_Text:(,@C,25,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+					if(?ID? = 1)
+					<
+						set(gel.text,loc(sponsor_SEASON))
+						ToUpperCase()
+					>
+					else
+					<
+						set(gel.text,LTR(twk(Club,Sponsor?ID?Term)) :: " " :: loc(sponsor_SHORT))
+						ToUpperCase()
+					>
+				M_Text:(,@C,71,0,0,C,C,Text,KNUL28,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					.set(gel.text,"★ " :: commasfmt(twk(Club,Sponsor?ID?Upfront)))
+			}}
+
+
+			// Bonuses
+			Rect:(0,327,@W,95)
+			{{
+				// Normal
+				Rect:()
+					set(gel.vis,twk(Club,Sponsor?ID?Id) != twk(CurrentSponsor,Id))
+				{
+					M_Text:(sponsor_MATCHBONUS,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+				}
+
+				// Loyalty Bonus
+				Rect:()
+					set(gel.vis,twk(Club,Sponsor?ID?Id) = twk(CurrentSponsor,Id))
+				{
+					M_Text:(sponsor_MATCHBONUS,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+						PulseAlpha(1,0,0.3,0.3,2,1.5,1.5)
+					M_Text:(sponsor_LOYALBONUS,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,Italics,#505050FF,ref)
+						PulseAlpha(0,1,0.3,0.3,2,1.5,1.5)
+				}
+
+				Draw:(White,0,0,@W,95,,#00000010FFFFFFFF)
+				Draw:(White,0,47,@W,1,,#D0D0D0FFFFFFFFFF)
+				Draw:(White,0,0,@W,1,,#808080FFFFFFFFFF)
+				Draw:(White,0,94,@W,1,,#808080FFFFFFFFFF)
+
+				M_Text:(sponsor_WINBONUS,20,24,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_Text:(,@R-20,24,0,0,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					.set(gel.text,"★ " :: commasfmt(twk(Club,Sponsor?ID?WinBonus)))
+
+				M_Text:(sponsor_GOALBONUS,20,71,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+				M_Text:(,@R-20,71,0,0,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					.set(gel.text,"★ " :: commasfmt(twk(Club,Sponsor?ID?GoalBonus)))
+			}}
+
+
+			// Fan Approval
+			Rect:(0,456,@W,95)
+			{{
+				M_Text:(sponsor_FANBONUS,@C,,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#505050FF,ref)
+			
+				PushOrigin:(@C-100,15)
+
+					Tile:(FanStar_Unlit,0,0,40,40,,#80808080FFFFFFFF)
+						Copies(5,1)
+						Spacing(40,0)
+
+					UseShader:(Region)
+					{
+						Draw:(FanStar_Lit,0,0,40,40)
+							SetUniform4F(region,gel.gx,gel.gy,[twk(Club,Sponsor?ID?FanApproval)*20],40)
+						Draw:(FanStar_Lit,40,0,40,40)
+							SetUniform4F(region,gel.gx,gel.gy,-40+[twk(Club,Sponsor?ID?FanApproval)*20],40)
+						Draw:(FanStar_Lit,80,0,40,40)
+							SetUniform4F(region,gel.gx,gel.gy,-80+[twk(Club,Sponsor?ID?FanApproval)*20],40)
+						Draw:(FanStar_Lit,120,0,40,40)
+							SetUniform4F(region,gel.gx,gel.gy,-120+[twk(Club,Sponsor?ID?FanApproval)*20],40)
+						Draw:(FanStar_Lit,160,0,40,40)
+							SetUniform4F(region,gel.gx,gel.gy,-160+[twk(Club,Sponsor?ID?FanApproval)*20],40)
+					}
+
+				PopOrigin
+			}}
+		}
+
+		Rect:()
+			set(gel.vis,twk(Club,HasSponsor?ID?) = 0)
+		{
+			M_Text:(,0,250,@W,0,C,C,TextBox,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+				If:(?ID?=1)
+					if(twk(Club,HasSponsor?ID?) = 0)
+					<
+						.set(gel.text,loc("Sponsor_Alert_Shirt"))
+					>
+					else
+					<
+						.set(gel.text,"")
+					>
+				EndIf
+				If:(?ID?=2)
+					if(twk(Facilities,ClubShopLevel) < 2)
+					<
+						.set(gel.text,loc("Sponsor_Alert_Unlock1"))
+					>
+					elif(twk(Club,HasSponsor?ID?) = 0)
+					<
+						.set(gel.text,loc("Sponsor_Alert_Sleeves"))
+					>
+				EndIf
+				If:(?ID?=3)
+					if(twk(Facilities,ClubShopLevel) < 4)
+					<
+						.set(gel.text,loc("Sponsor_Alert_Unlock2"))
+					>
+					elif(twk(Club,HasSponsor?ID?) = 0)
+					<
+						.set(gel.text,loc("Sponsor_Alert_Hoardings"))
+					>
+				EndIf
+		}
+	}}
+EndM
+//-----------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(Sponsors),sponsors)
+
+// ----------------
+// ----------------
+
+	Draw:(ColumnHeader,@f,@T+5,@w,44)
+
+	Rect:(30,0,@W-60,@H)
+	{{
+		Rect:([@W/3]*0,0,[@W/3],@H)
+		{{
+			M_Text:(club_SPONSOR_SHIRT,@C,25,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Sponsor:(1,club_SPONSOR_SHIRT)
+		}}
+
+		Rect:([@W/3]*1,0,[@W/3],@H)
+		{{
+			M_Text:(club_SPONSOR_SLEEVE,@C,25,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Sponsor:(2,club_SPONSOR_SLEEVE)
+		}}
+
+		Rect:([@W/3]*2,0,[@W/3],@H)
+		{{
+			M_Text:(club_SPONSOR_HOARDING,@C,25,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Sponsor:(3,club_SPONSOR_HOARDING)
+		}}
+
+		// Dividers
+		Draw:(Fade_Edged,[@W/3]*1,10,1,32,,#FFFFFFFF)
+		Draw:(Fade_Edged,[@W/3]*2,10,1,32,,#FFFFFFFF)	
+	}}
+
+// ----------------
+// ----------------
+
+M_NewDialogCLOSE:()

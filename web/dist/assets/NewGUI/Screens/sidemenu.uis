@@ -1,0 +1,259 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_FooterClub,NewGUI/UI/Footer/Icon_FooterClub.png) FORCE
+Img:(Icon_FooterHome,NewGUI/UI/Footer/Icon_FooterHome.png) FORCE
+Img:(Icon_FooterLeague,NewGUI/UI/Footer/Icon_FooterLeague.png) FORCE
+Img:(Icon_FooterOnline,NewGUI/UI/Footer/Icon_FooterOnline.png) FORCE
+Img:(Icon_FooterSquad,NewGUI/UI/Footer/Icon_FooterSquad.png) FORCE
+Img:(Icon_FooterStaff,NewGUI/UI/Footer/Icon_FooterStaff.png) FORCE
+
+Img:(Footer_BG,NewGUI/UI/Footer/Footer_BG.png)
+Img:(Footer_Tab,NewGUI/UI/Footer/Footer_Tab.png,15,15,0,0)
+Img:(Footer_TabFade,NewGUI/UI/Footer/Footer_TabFade.png)
+Img:(Icon_FooterNSM,NewGUI/UI/Footer/Icon_FooterNSM.png)
+//---------------------------------------------------------------------------------------------SETUP
+//Footer controls
+Rect:()
+	// Turn off by default
+	set(twk(Footer,NavigationEnabled),0)
+
+	// Turn on cases
+	if(shell(GameScreen) = "formationmenu" and(twk(Formation,EntryPoint)="IDLE"))
+	<
+		set(twk(Footer,NavigationEnabled),1)
+	>
+
+	if(shell(GameScreen) oneof(league,club,online))
+	<
+		set(twk(Footer,NavigationEnabled),1)
+	>
+
+	if(shell(GameScreen) = "home" and(twk(Home,SpectatorMode) = 0))
+	<
+		set(twk(Footer,NavigationEnabled),1)
+	>
+
+	if(shell(GameScreen) = "staff" and(twk(Staff,PostMatchState) = 0))
+	<
+		set(twk(Footer,NavigationEnabled),1)
+	>
+	
+	// Otherwise
+	if(twk(Header,DialogState) or(twk(DynamicOverlay,CurrentTopOverlay) oneof("Message","Help","Settings","FTUEExit")))
+	<
+		set(twk(Footer,NavigationEnabled),0)
+	>
+
+
+
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_FooterTab,?X?,?Y?,?SCREEN?,?SCREENNAME?,?LINK?,?ICON?)
+	Rect:(?X?,?Y?,?FOOTERWIDTH?,70) ref:FooterTab?SCREEN?
+		float(%pressed,%selected)
+		set(%selected,shell(GameScreen)=?SCREEN?)
+		if((twk(Footer,NavigationEnabled)) and(not(%selected)))
+		<
+			Click()
+			<
+				Post(UI_ChangeTab)
+				set(shell(Overlay),"")
+				set(%pressed,0)
+				Post(?LINK?)
+			>
+			Press()
+			<
+				set(%pressed,1)
+			>
+			else
+			<
+				set(%pressed,0)
+			>
+		>
+		if(twk(Footer,NavigationEnabled))
+		<
+			CTRLSelect(CTRLSquareSelected,0,0,0,0)
+			if(shell(GameScreen) = "home") 
+			<
+				if("?SCREEN?" = "home")
+				<
+					CTRLBlock(LEFT)
+				> 
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(home_side_STORE,home)
+					Post(CTRLNavigate)
+				>
+			>
+			if(shell(GameScreen) = "formationmenu" and(twk(Formation,CurrentTab) = 2)) 
+			<
+				if("?SCREEN?" oneof("formationmenu","staff","club")) 
+				<
+					CTRLPress(UP)
+					<
+						Post("CTRLCardCarouselDown")
+					>
+				>
+			>
+
+			if(not(%selected))
+			<
+				CTRLClick(?BTNOK?)
+				<
+					Post(UI_ChangeTab)
+					set(shell(Overlay),"")
+					set(%pressed,0)
+					Post(?LINK?)
+				>
+			>
+		>
+	{{
+		Draw:(Fade_Down,@L,@T,1,60,,#AAAAAAFF)
+		Draw:(Fade_Down,@R,@T,1,60,,#AAAAAAFF)
+
+		Draw:(Footer_Tab,0,0,@W+1,@H)
+			if(%selected)
+			<
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				if(%pressed)
+				<
+					frlerp(gel.alpha,1,0.15)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.3)
+				>
+			>
+		Draw:(Footer_TabFade,0,0,@W+1,37,,#FFFFFF00)
+			if(%selected)
+			<
+				frlerp(gel.alpha,0.35,0.05)
+			>
+			else
+			<
+				if(%pressed)
+				<
+					frlerp(gel.alpha,0.35,0.05)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+			>
+
+		Draw:(?ICON?,@C,25,60,60)
+			Handle(0.5,0.5)
+			if(%selected)
+			<
+				frlerp(gel.scale,1,0.25)
+			>
+			else
+			<
+				:set(gel.scale,0.9)
+			>
+
+		M_Text:(?SCREENNAME?,0,56,@W,0,C,C,TextLoc,KNUL18,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Style:(Outline,#25252520)
+
+		// Glint
+		Draw:(Glint,0,1,10,1,,#808080FFFFFFFFF)
+			Shine(0,130)
+			Additive()
+			set(gel.vis,%selected)
+	}}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+Rect:(@L,@B-70,@W,70)
+	SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+	Click()
+	if(twk(DynamicOverlay,CurrentTopOverlay) oneof("Message","FTUEExit"))
+	<
+		:set(gel.vis,1)
+	>
+	elif(twk(DynamicOverlay,CurrentTopOverlay) oneof("Help","Settings"))
+	<
+		:set(gel.vis,0)
+	>
+	elif(shell(GameScreen) oneof(animatedleague,boardtargets,choosesponsor,club,dilemma,endseason_awards,endseason_clubawards,endseason_contracts,endseason_finances,endseason_relocate,endseason_table,finances,formationmatch,formationmenu,home,income,league,leaguefixtures,match,online,question,results,saveslots,search,settings,setup,squad,staff,staffhirelist,teamtalk,transfer,match_stats))
+	<
+		:set(gel.vis,1)
+	>
+	else
+	<
+		:set(gel.vis,0)
+	>>>
+	if(gel.vis)
+	<
+		if(shell(Facility) = "facility" or(twk(Home,SpectatorMode) = 1) or(twk(Header,DialogState) = 1))
+		<
+			frlerp(gel.alpha,0,0.15)
+		>
+		else
+		<
+			frlerp(gel.alpha,1,0.15)
+		>
+	>
+{{
+	Draw:(Footer_BG,0,-28,@W,98)
+}}
+
+
+Dissolve:(@o,@B-70,@s,70)
+	.set(gel.alpha,0)
+	if(shell(Facility) = "facility" or(twk(Footer,NavigationEnabled) = 0))
+	<
+		frlerp(gel.alpha,0,0.15)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.alpha,0)
+			:set(gel.vis,0)
+		>
+	>
+	else
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.15)
+	>
+{{
+	Draw:(Icon_FooterNSM,@L+28,@B-60,150,50,,#FFFFFF99)
+
+	//##IAP4
+	//Define:(?FOOTERWIDTH?=118)
+	//Rect:(@C-[?FOOTERWIDTH?*3],0,@W,@H)
+	//##N
+	Define:(?FOOTERWIDTH?=130)
+	Rect:(@C-[?FOOTERWIDTH?*2.5],0,@W,@H)
+	//##*
+	{{
+		M_FooterTab:([?FOOTERWIDTH?*0],0,home,home_bottom_MAIN,commonui.btn_Home,Icon_FooterHome)
+		M_FooterTab:([?FOOTERWIDTH?*1],0,league,home_bottom_LEAGUE,commonui.btn_League,Icon_FooterLeague)
+		M_FooterTab:([?FOOTERWIDTH?*2],0,formationmenu,home_bottom_SQUAD,commonui.btn_Squad,Icon_FooterSquad)
+		M_FooterTab:([?FOOTERWIDTH?*3],0,staff,home_bottom_STAFF,commonui.btn_Staff,Icon_FooterStaff)
+		M_FooterTab:([?FOOTERWIDTH?*4],0,club,home_bottom_CLUB,commonui.btn_Club,Icon_FooterClub)
+
+		// Enable when online is live
+		// ##IAP4
+		// M_FooterTab:([?FOOTERWIDTH?*5],0,online,home_bottom_ONLINE,commonui.btn_Online,Icon_FooterOnline)
+		// 	M_ExclamationAlert:(665,-8)
+		// 		set(gel.vis,twk(Online,ShowAlert) > 0)
+
+		// Rect:()
+		// 	OnPost(commonui.btn_Online)
+		// 	<
+		// 	>
+		// ##*
+	}}
+
+}}
+
+
+Import:(footer_flowbuttons.uih)
+Import:(footer_matchbuttons.uih)
+Import:(footer_endseasonbuttons.uih)

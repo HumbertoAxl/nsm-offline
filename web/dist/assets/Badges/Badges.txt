@@ -1,0 +1,6 @@
+{
+	"badges" : [
+		"test.txt",
+		"circular.txt"
+	]
+}

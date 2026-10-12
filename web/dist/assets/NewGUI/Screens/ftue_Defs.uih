@@ -1,0 +1,159 @@
+M_FTUE:(mainmenu,,mainmenu.btn_Continue,@l,@t,@w,@h,,,,,,,,) ref:Play
+M_FTUE:(home,FULLSCREEN,ClickMessage,@l,@t,@w,@h,(FTUEText.Welcome_),@l+800-@f,-@t+620,FTUE_Tap,,@l+310-@f,-@t+350,NEXT,,,,,,,,#00000000,LEFT,,,(FTUEText.WelcomeAlt_)) ref:Welcome
+M_FTUE:(home,FULLSCREEN,ClickMessage,@l,@t,@w,@h,(FTUEText.TrialExplained_),@l+800-@f,-@t+620,FTUE_Tap,,@l+310-@f,-@t+350,NEXT,,,,,,,,#00000000,LEFT,,,(FTUEText.TrialExplainedAlt_)) ref:Trial_explained
+M_DummyStep:("",) ref:MatchDummyStep
+M_FTUETraining:("matchengine",0,("ftue.createTraining"),"TTouch.PassToPlayer","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALPASSING),320,-350,FTUE_Tap,,@l+20-@f,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALPASSING_ALT)) ref:Trial_Passing //Begin Trial
+M_FTUETraining:("matchengine",0,("ftue.createTraining"),"TTouch.PassToPoint","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALPASSTOSPACE),220,-220,FTUE_Tap_Marker,,@l+20-@f,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALPASSTOSPACE_ALT)) ref:Trial_Pass_to_space
+M_FTUETraining:("matchengine",0,("ftue.createTraining"),"hidemessage","TTouch.DragPathSet","TFootball.OffPitch",loc(CFTUE_TRIALRUNS1),420,-200,FTUE_Path,,@l+20-@f,-@t+70,0,Retry,420,120,1,ABOVE,,,,,loc(CFTUE_TRIALRUNS1_ALT),0,412,-180) ref:Trial_Runs_1
+M_FTUETraining:("matchengine",0,("ftue.matchSetTouchControls","disable_taponspot:0"),"TTouch.PassToPoint","TFootball.ControlBall","TFootball.OffPitch",loc(CFTUE_TRIALRUNS2),410,-80,FTUE_Tap_Marker,,@l+20-@f,-@t+70,0.8,Retry,,,1,ABOVE,,,,,loc(CFTUE_TRIALRUNS2_ALT)) ref:Trial_Runs_2
+M_DummyStep:("ftue.createTraining")
+M_FtueDribblingTutorial:(0.2) ref:Trial_Dribbling
+M_FTUETraining:("matchengine",0,("ftue.createTraining"),"TTouch.KickingDragStarted","TapBall.Activated","TFootball.OffPitch",loc(CFTUE_TRIALSHOOTING1),130,-910,FTUE_Drag,,@l+20-@f,-@t+70,0,Retry,160,-750,1,ABOVE,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),,,loc(CFTUE_TRIALSHOOTING1_ALT)) ref:Trial_Shooting_1 //20,80
+M_FTUETraining:("tapball",0,("initmessage"),"hidemessage","TFootball.GoalScored",("TFootball.OppScored",,"TFootball.ControlBall",,"TFootball.OffPitch",),loc(CFTUE_TRIALSHOOTING2),600,570,FTUE_Tap,,@l+20-@f,-@t+70,0.8,1,,,0,ABOVE,,,,,loc(CFTUE_TRIALSHOOTING2_ALT)) ref:Trial_Shooting_2
+M_FTUE:(matchengine,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_STAGEDTACKLE1),@r-100+@f,-@t+330,FTUE_Tap,,@r-520+@f,-@t+70,NEXT,,,,,,,"ftue.createTraining",#00000000,ABOVERIGHT,,,loc(CFTUE_STAGEDTACKLE1_ALT)) ref:Tackling_explained
+M_FtueTacklingTutorial:() ref:Trial_Tackling
+M_FTUE:(matchengine,FULLSCREEN,ClickMessage,@C+10,@t+80,[@w-80]/2,@h-80,loc(CFTUE_TRIALCOMPLETE),@l+800-@f,-@t+620,FTUE_Tap,,@l+310-@f,-@t+350,NEXT,,,,,,,("ftue.matchSetTouchControls","disable_all"),#00000000,LEFT) ref:Trial_Complete
+M_FTUE:(setup,FULLSCREEN,ClickMessage,@l+30,@t+80,[@w-80]/2,@h-180,loc(CFTUE_COMPLETEPROFILE),@r-310+@f,-@t+620,FTUE_Tap,,@r-800+@f,-@t+350,NEXT,"setup.inp_NameF_HIT",,,,,,(ftue.jumpToSetUp,,Match_AmbienceTrainingFadeOut,,FadeInMusic),#00000060,RIGHT,,,loc(CFTUE_COMPLETEPROFILE_ALT)) ref:CompleteProfile
+M_DummyPause:(,GameScreen,home,,("UP","DOWN","LEFT","RIGHT","A","B","X","Y","RT","LT"),FirstName,setup) ref:DummyStepPause
+M_FTUE:(home,,message.btn_Ok,0,0,0,0,,0,0,,,,,,,,,,,,("ftue.showMessage_NSM")) ref:IM_NewStarManager
+M_FTUE:(home,FULLSCREEN,ClickMessage,-@l+942+@f,-@t+706,180,50,(FTUEText.AssIntroduction_),@l+800-@f,-@t+620,FTUE_Tap,,@l+310-@f,-@t+350,NEXT,,,,,,,,#00000000,LEFT,,,,,?BTNOK?) ref:Ass_Introduction
+M_FTUE:(home,WINDOW,home.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_MATCH1),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+350,,,,,,,,,#00000000,LEFT,HomeContinueButton,sidemenu,,,?BTNOK?) ref:First_Match
+M_FTUE:(leaguefixtures,WINDOW,leaguefixtures.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,LeagueFixContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Play_Button
+M_FTUE:(formationmenu,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_FORMATIONEXPLAINED),@r-280+@f,-@t+660,FTUE_Tap,,@r-770+@f,-@t+380,NEXT,,,,,,,,#00000060,RIGHT,,,loc(CFTUE_FORMATIONEXPLAINED_ALT),,?BTNOK?) ref:Formation_Explained
+M_FTUE:(formationmenu,WINDOW,formationmenu.playersSwapped,@l+266-@f,534,126,158,loc(CFTUE_DRAGINJUREDOUT),@l+340-@f,660,FTUE_DragHold,,@r-770+@f,-@t+380,,,@l+740-@f,330,,,,("formation.force_drag","Formation0|Substitute1"),#00000000,RIGHT,Formation0,formationmenu,loc(CFTUE_DRAGINJUREDOUT_ALT),,?BTNOK?) ref:DRAG_Injured_out 
+M_FTUE:(formationmenu,WINDOW,formation.btn_AutoPick,@l+75-@f,575,140,50,loc(CFTUE_AUTOPICK),@l+210-@f,670,FTUE_Tap,,@r-770+@f,-@t+380,,,,,,,,"formation.disable_all",#00000000,RIGHT,DummyCTRLSelect,ftue,loc(CFTUE_AUTOPICK_ALT),,Y) ref:TAP_AutoPick_Button
+M_DummyStepDelay:(1.25) ref:DummyStepDelay
+M_FTUE:(formationmenu,WINDOW,formation.btn_Confirm,-@l+942+@f,-@t+706,180,50,loc(CFTUE_CONFIRMLINEUP),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,,#00000000,LEFT,FormationPMContinueButton,sidemenu,,,?BTNOK?) ref:Confirm_LineUp
+M_FTUE:(match_interval,WINDOW,matchinterval.btn_Confirm,@l,@t,@w,@h,,-@l+1040,-@t+760,,,,,,,,,,,,"match.WorkRateDisabled",#00000000) ref:TAP_Start_Match1
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_MATCHSCREEN),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,("match.WorkRateDisabled",,"match.FocusDisabled",,"match.TacticsDisabled"),#00000000,LEFT,PlayPauseButton,sidemenu,loc(CFTUE_MATCHSCREEN_ALT),,?BTNOK?) ref:Commentary_Screen //Match 1: WorkRate, Focus, Tactics Disabled
+M_DummyBlock:(("ftue.trackingChanceFailsStart",twk(Ftue,Step)+1),GameScreen,matchengine,) ref:UIDummyStep 
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_manualkick:1","ftue.matchHUDSetPostChanceButtonsEnabled",0),"TTouch.KickingDragStarted","TapBall.Activated","failmessages",loc(CFTUE_STAGEDPENALTY),30,-980,FTUE_Drag,,@l+20-@f,-@t+70,0,Retry,45,-750,1,ABOVE,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),,,loc(CFTUE_STAGEDPENALTY_ALT)) ref:UI_Penalty
+M_FTUETraining:("tapball",1,("initmessage"),"hidemessage","TapBall.Tapped","failmessages",loc(CFTUE_TRIALSHOOTING2),590,540,,,@l+20-@f,-@t+70,0,1,,,0,ABOVE,,,,,loc(CFTUE_TRIALSHOOTING2_ALT)) ref:UI_FPBall
+M_DummyStepMatchOnPost:("initmessage","initparam","TMatch.ChanceEnded",("TFootball.OffPitch",,"TFootball.ControlBall"),2,0) ref:MatchDummyStep
+M_DummyBlock:(("ftue.trackingChanceFailsStart",twk(Ftue,Step)+1),GameScreen,matchengine,?BTNOK?) ref:UIDummyStep 
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_taponspotx:195|force_taponspoty:-860","ftue.matchHUDSetPostChanceButtonsEnabled",0),"hidemessage","TTouch.PassToPoint",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDPASS),210,-780,FTUE_Tap_Marker,,@l+20-@f,-@t+70,0,Match,130,-700,1,ABOVE,,,0,2,loc(CFTUE_STAGEDPASS_ALT)) ref:UI_Pass
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_manualkick:1"),"TTouch.KickingDragStarted","TapBall.Activated",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDCHIP1),410,-660,,,@r-520+@f,-@t+70,0,Match,440,-630,1,ABOVERIGHT,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),1,1,loc(CFTUE_STAGEDCHIP1_ALT)) ref:UI_Chip
+M_DummyStepMatchOnPost:("initmessage","initparam","TMatch.ChanceEnded",("TFootball.OffPitch",,"TFootball.ControlBall"),2,0) ref:MatchDummyStep
+M_DummyBlock:(("ftue.trackingChanceFailsStart",twk(Ftue,Step)+1),GameScreen,matchengine,?BTNOK?) ref:UIDummyStep 
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_taponplayer:7","ftue.matchHUDSetPostChanceButtonsEnabled",0),"TTouch.PassToPlayer","TFootball.TeammateControlBall",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_EXTENDEDPASS),-620,-890,FTUE_Tap_Marker,,@r-520+@f,-@t+70,0,Match,,,1,ABOVERIGHT,,,0,3,loc(CFTUE_EXTENDEDPASS_ALT)) ref:Extended_Pass
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_taponspotx:-20|force_taponspoty:-1020"),"hidemessage","TTouch.PassToPoint",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_EXTENDEDPASS2),0,-950,FTUE_Tap_Marker,,@l+20-@f,-@t+70,0,Match,,,1,ABOVE,,,1,2,loc(CFTUE_EXTENDEDPASS2_ALT)) ref:Extended_Pass2
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_manualkick:1"),"TTouch.KickingDragStarted","TapBall.Activated",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDSWERVE),70,-820,,,@l+20-@f,-@t+70,0,Match,130,-700,1,ABOVE,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),2,1,loc(CFTUE_STAGEDSWERVE_ALT)) ref:UI_Swerve
+M_DummyStepMatchOnPost:("initmessage","initparam","TMatch.ChanceEnded",("TFootball.OffPitch",,"TFootball.ControlBall"),3,0) ref:MatchDummyStep
+M_FTUE:(match,FULLSCREEN,,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,Half)),10,,,#00000000,,,,,,?BTNOK?) ref:First_Match_Halftime
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_FIRSTMATCHHALFTIME),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+350,,,,,,,,,#00000000,LEFT,PlayPauseButton,sidemenu,,,?BTNOK?) ref:First_Match_Halftime
+M_DummyBlock:(("ftue.trackingChanceFailsStart",twk(Ftue,Step)+1),GameScreen,matchengine,) ref:UIDummyStep 
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_dragtopointx:0|force_dragtopointy:-700|force_taponplayer:10|disable_taponplayer:1","ftue.matchHUDSetPostChanceButtonsEnabled",0),"hidemessage","TTouch.DragPathSet",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDRUN1),-170,-280,FTUE_Path,,@r-520+@f,-@t+70,0,Match,100,-700,1,ABOVERIGHT,,,0,3,loc(CFTUE_STAGEDRUN1_ALT),220,-155,-500) ref:UI_Run
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_taponspotx:100|force_taponspoty:-700"),"hidemessage","TTouch.PassToPoint",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDRUN2),120,-620,FTUE_Tap_Marker,,@r-520+@f,-@t+70,0,Match,,,1,ABOVERIGHT,,,1,2,loc(CFTUE_STAGEDRUN2_ALT)) ref:UI_Pass_into_run
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|force_manualkick:1"),"TTouch.KickingDragStarted","TapBall.Activated",("TFootball.OffPitch",,"TFootball.OpponentControlBall"),loc(CFTUE_STAGEDSWERVE),70,-820,,,@l+20-@f,-@t+70,0,Match,130,-700,1,ABOVE,,("TTouch.ResetTouchPlayer",,"TTouch.ShootArrowReset"),2,1,loc(CFTUE_STAGEDSWERVE_ALT)) ref:UI_Swerve
+M_DummyStepMatchOnPost:("initmessage","initparam","TMatch.ChanceEnded",("TFootball.OffPitch",,"TFootball.ControlBall"),3,0) ref:MatchDummyStep
+M_DummyBlock:(,GameScreen,matchengine,?BTNOK?) ref:UIDummyStep 
+M_FTUETraining:("matchengine",1,("ftue.matchSetTouchControls","disable_all|disable_dribbling:0","ftue.matchHUDSetPostChanceButtonsEnabled",1),"hidemessage","TTouch.DribblingStarted","TFootball.OffPitch",loc(CFTUE_STAGEDDRIBBLE),,,,,@l+20-@f,-@t+70,0,Retry,130,-700,1,ABOVE,,,,,loc(CFTUE_STAGEDDRIBBLE_ALT)) ref:UI_Dribble
+M_DummyStepOnPost:("ftue.matchSetTouchControls","enable_allnoncamera","TMatch.ChanceEnded",?BTNOK?) ref:MatchDummyStep
+M_DummyBlock:(,GameScreen,matchengine,) ref:UIDummyStep 
+M_FTUE:(matchengine,WINDOW,("TTouch.CameraRotated",,"TTouch.CameraZoomed"),@l,@t,@w,@h,loc(CFTUE_CAMERACONTROLS),@l+90,-@t+300,FTUE_Drag,,@r-520+@f,-@t+70,,,@l+90,-@t+600,(twk(Match,TouchDown)),1,,("ftue.disableChanceAutoEnd",,"ftue.matchSetTouchControls","disable_allnoncamera"),,ABOVERIGHT,,,loc(CFTUE_CAMERACONTROLS_ALT)) ref:Camera_Controls
+M_DummyStep:("ftue.matchSetTouchControls","enable_all") ref:MatchDummyStep
+M_DummyBlock:(,GameScreen,matchengine) ref:UIDummyStep 
+M_FTUE:(matchengine,WINDOW,ClickMessage,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,TouchDown)),0,,,,) ref:Wait_For_Release
+M_DummyStep:("ftue.matchSetTouchControls","disable_all") ref:MatchDummyStep
+M_DummyBlock:(,GameScreen,matchengine) ref:UIDummyStep 
+M_FTUE:(matchengine,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_SUMMARY),@r-120+@f,-@t+350,FTUE_Tap,,@r-520+@f,-@t+70,NEXT,,,,(twk(Match,TouchDown)),1,,,#00000000,ABOVERIGHT,,,loc(CFTUE_SUMMARY_ALT)) ref:Controls_Summary
+M_FTUE:(matchengine,WINDOW,ClickMessage,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,TouchDown)),0,,,,) ref:Wait_For_Release
+M_DummyStepOnPostMulti:(("ftue.matchSetTouchControls","enable_all","ftue.enableChanceAutoEnd"),"TMatch.ChanceEnded",?BTNOK?) ref:MatchDummyStep
+M_FTUE:(match,FULLSCREEN,,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,Half)),20,,,#00000000,,,,,,?BTNOK?) ref:First_Match_Fulltime
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,PlayPauseButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button 
+M_FTUE:(match_stats,WINDOW,matchstats.btn_Continue,@l,@t,@w,@h,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,MatchStatsContinueButton,sidemenu,,,(?BTNOK?,LT,RT)) ref:TAP_Continue_Button 
+M_FTUE:(results,WINDOW,results.continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,ResultsContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button    
+M_FTUE:(animatedleague,WINDOW,animatedleague.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,AnimatedLeagueContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_FTUE:(finances,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_MANAGERXP),@l+800-@f,-@t+660,FTUE_Tap,,@l+310-@f,-@t+385,NEXT,,,,,,,("player.ForceQueueSaveCareer",,"finances.allowNextStage",0),#00000000,LEFT) ref:Relationships_explained
+M_FTUE:(finances,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_FINANCESEXPLAINED2),@l+800-@f,-@t+660,FTUE_Tap,,@l+310-@f,-@t+385,NEXT,,,,,,,("finances.allowNextStage",1),#00000000,LEFT) ref:Finances_explained
+M_FTUE:(finances,WINDOW,finances.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,FinancesContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_FTUE:(staff,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_COACHINGEXPLAINED),@r-280+@f,-@t+660,FTUE_Tap,,@r-770+@f,-@t+380,NEXT,,,,,,,"player.ForceQueueQuickSave",#00000000,RIGHT,,,,,?BTNOK?) ref:Coaching_explained
+M_FTUE:(staff,WINDOW,staff.btn_GenerateCard,@l+80+[@y/2]-@f,@t+80+[@z/2],300,280,loc(CFTUE_COACHINGEXPLAINED2),@l+320+[@y/6]-@f,@t+320+[@z/2],FTUE_Tap,,@r-520+@f,-@t+70,,,,,,,,,#00000000,ABOVERIGHT,CoachingRootTrainingGround1,staff,loc(CFTUE_COACHINGEXPLAINED2_ALT),,?BTNOK?) ref:TAP_Begin_Coaching_Button
+M_DummyStepDelay:(2)
+M_FTUE:(newcard,WINDOW,newcard.btn_Close,-@l+942+@f,-@t+706,180,50,loc(CFTUE_GOTSKILLCARD),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,NewCard,,#00000000,LEFT,NewCardContinueButton,newcard,,,?BTNOK?) ref:Skill_card_generated
+//##IAP4
+//M_FTUE:(home,WINDOW,commonui.btn_Squad,462,-@t+700,110,100,,577,-@t+770,FTUE_TapAngled,,330,150,,,,,,,,"player.ForceQueueQuickSave",#00000000,,FooterTabformationmenu,sidemenu,,,?BTNOK?) ref:Tap_Squad_Button
+//##N
+M_FTUE:(home,WINDOW,commonui.btn_Squad,515,-@t+700,120,100,loc(CFTUE_NEW_SQUAD),630,-@t+770,FTUE_TapAngled,,@l+310-@f,-@t+300,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,FooterTabformationmenu,sidemenu,loc(CFTUE_NEW_SQUAD_ALT),,?BTNOK?) ref:Tap_Squad_Button
+//##*
+M_FTUE:(formationmenu,WINDOW,commonui.btn_Carousel,-@l+761+@f,@t,110,50,loc(CFTUE_CARDSEXPLAINED),@r-288+@f,@t+110,FTUE_Tap,,@r-770+@f,-@t+380,,,,,,,,,#00000000,RIGHT,Header6,commonui,loc(CFTUE_CARDSEXPLAINED_ALT),,X) ref:Skill_cards_explained
+M_FTUE:(formationmenu,WINDOW,"formationmenu.cardApplied",@l,@B-285,@w,285,loc(CFTUE_APPLYSKILLCARD),@l+100-@f,-@t+680,FTUE_DragHold,,@r-520+@f,-@t+70,,,@l+120-@f,350,,1,,("carousel.setKeepOpen",1,"formation.force_combine","Formation5"),#00000000,ABOVERIGHT,CarouselCard_0,cardscarousel,loc(CFTUE_APPLYSKILLCARD_ALT),CardHook,?BTNOK?) ref:DRAG_Card_onto_player
+M_FTUE:(formationmenu,WINDOW,formation.btn_AutoPick,@l+79-@f,575,130,50,loc(CFTUE_TRAININGEXPLAINED),@l+210-@f,670,FTUE_Tap,,@r-770+@f,-@t+380,,,@l+1090+[@y/2],@t+330,,,,"carousel.btn_Close",#00000000,RIGHT,,,loc(CFTUE_TRAININGEXPLAINED_ALT),,Y) ref:SWAP_Tired_out
+M_FTUE:(formationmenu,WINDOW,home.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_MATCH2),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,,#00000000,LEFT,HomeContinueButton,sidemenu,,,?BTNOK?) ref:Time_for_Match2
+M_FTUE:(leaguefixtures,WINDOW,leaguefixtures.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,LeagueFixContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Play_Button
+M_FTUE:(formationmenu,WINDOW,formation.btn_Confirm,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,FormationPMContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Confirm_Button
+M_DummyPause:(,GameScreen,match,,("?BTNOK?","X"))
+M_FTUE:(match,WINDOW,match.btn_Focus,@l+562-@f,-@t+706,50,50,loc(CFTUE_INCREASEFOCUSSLIDER),@l+610-@f,-@t+790,FTUE_TapAngled,,@r-770+@f,-@t+380,,,,,,,,("match.WorkRateDisabled",,"match.TacticsDisabled"),#00000000,RIGHT,FocusUpButton,sidemenu,loc(CFTUE_INCREASEFOCUSSLIDER_ALT),,?BTNOK?) ref:Increase_Focus_slider //Match 2: WorkRate, Focus used but disabled, Tactics Disabled 
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,("match.WorkRateDisabled",,"match.FocusDisabled",,"match.TacticsDisabled"),#00000000,,PlayPauseButton,sidemenu,,,?BTNOK?) ref:Commentary_Screen
+M_FTUE:(match,WINDOW,,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,Half)),10,,"match.FocusDisabled",#00000000,,,,,,) ref:Second_Match_Halftime
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_DRAGTIREDOUT),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,@l+1070,-@t+330,,,,,#00000000,LEFT,PlayPauseButton,sidemenu,,,?BTNOK?) ref:TAP_Resume_Button
+M_FTUE:(match_stats,WINDOW,matchstats.btn_Continue,@l,@t,@w,@h,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,MatchStatsContinueButton,sidemenu,,,(?BTNOK?,LT,RT)) ref:TAP_Continue_Button
+M_FTUE:(results,WINDOW,results.continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,ResultsContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button  
+M_FTUE:(animatedleague,WINDOW,animatedleague.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,AnimatedLeagueContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button  
+M_FTUE:(finances,WINDOW,finances.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,"player.ForceQueueSaveCareer",#00000000,,FinancesContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_FTUE:(staff,WINDOW,staff.btn_GenerateCard,@r-385-[@y/2]+@f,@t+384+[@z/2],300,280,loc(CFTUE_RESTDAYS),@r-100-[@y/2]+@f,-@t+600,FTUE_Tap,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,RestSquadSlot,staff,loc(CFTUE_RESTDAYS_ALT),,?BTNOK?) ref:TAP_Begin_Coaching_Button
+M_DummyStepDelay:(2)
+M_FTUE:(newcard,WINDOW,newcard.btn_Close,-@l+940+@f,-@t+706,180,50,loc(CFTUE_COACHINGEXPLAINED4),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,NewCard,,#00000000,LEFT,NewCardContinueButton,newcard,,,?BTNOK?) ref:TAP_CollectAll_Button
+//##IAP4
+//M_FTUE:(home,WINDOW,commonui.btn_Club,698,-@t+700,110,100,loc(CFTUE_VIEWCLUBSCREEN),811,-@t+770,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,FooterTabclub,sidemenu,loc(CFTUE_VIEWCLUBSCREEN_ALT),,?BTNOK?) ref:View_Club_Screen
+//##N
+M_FTUE:(home,WINDOW,commonui.btn_Club,777,-@t+700,120,100,loc(CFTUE_VIEWCLUBSCREEN),890,-@t+770,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,FooterTabclub,sidemenu,loc(CFTUE_VIEWCLUBSCREEN_ALT),,?BTNOK?) ref:View_Club_Screen
+//##*
+M_FTUE:(club,WINDOW,ClickMessage,@l+250-@f,@t+80,218,60,loc(CFTUE_CLUBSCREEN),@l+388-@f,@t+190,FTUE_Tap,,@r-770+@f,-@t+380,,,,,(twk(Club,CurrentTab)),2,,,#00000000,RIGHT,DummyCTRLSelect,ftue,loc(CFTUE_CLUBSCREEN_ALT),,RT) ref:Club_Screen_Tab2
+M_FTUE:(club,WINDOW,ClickMessage,@l+470-@f,@t+80,218,60,loc(CFTUE_CLUBOVERVIEW),@l+608-@f,@t+190,FTUE_Tap,,@r-770+@f,-@t+380,,,,,(twk(Club,CurrentTab)),3,,,#00000000,RIGHT,DummyCTRLSelect,ftue,loc(CFTUE_CLUBOVERVIEW_ALT),,RT) ref:Club_Screen_Tab3
+M_FTUE:(club,WINDOW,home.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_DATA),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,(twk(Club,CurrentTab)),1,,ftue.queuePressConference,#00000000,LEFT,HomeContinueButton,sidemenu,,,?BTNOK?) ref:Club_Screen_Tab1
+M_FTUE:(question,FULLSCREEN,question.answersFlipped,@l,@t,@w,@h,,,,,,,,,,,,,,,,#00000000) ref:WAIT_For_Start
+M_FTUE:(question,WINDOW,question.btn_Answer0,308,-@t+524,260,160,,470,710,FTUE_Tap,,,,,,,,,,,,#00000000,,QuestionAnswer0,question,,,?BTNOK?) ref:TAP_Correct_Answer
+M_FTUE:(question,WINDOW,question.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,questionContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_DummyStepDelay:(3)
+M_FTUE:(newcard,WINDOW,newcard.btn_Close,-@l+942+@f,-@t+706,180,50,loc(CFTUE_TEAMTALKCARDEXPLAINED),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,NewCard,,#00000000,LEFT,NewCardContinueButton,newcard,,,?BTNOK?) ref:Teamtalk_card_explained
+M_FTUE:(home,WINDOW,home.btn_FacilityPressed,@l-@f,@t+232+[@z/2],120,75,loc(CFTUE_LEAVEYOUALONENOW),@l+90-@f,@t+360+[@z/2],FTUE_Tap,,@r-770+@f,-@t+380,,,,,,,,("player.ForceQueueQuickSave",,"home.ForceHighlightFitnessCentre"),#00000000,RIGHT,home_side_FITNESS,home,loc(CFTUE_LEAVEYOUALONENOW_ALT),,?BTNOK?) ref:TAP_Fitness_Centre
+M_FTUE:(home,WINDOW,home.btn_Build,400,300,350,200,,580,480,FTUE_Tap,,,,,,,,,,,,#00000000,,,,,,?BTNOK?) ref:TAP_Facility
+M_FTUE:(home,WINDOW,facility.btn_Upgrade,@C-160,-@t+529,312,216,,680,-@t+760,FTUE_TapAngled,,,,,,,,,,,,#00000000,,Upgrade1,facility,,,?BTNOK?) ref:TAP_Buy_Button
+M_DummyStepDelay:(5)
+//##IAP4
+//M_FTUE:(home,WINDOW,commonui.btn_Staff,580,-@t+700,110,100,loc(CFTUE_FITNESSCOACH),694,-@t+770,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,,#00000000,LEFT,FooterTabstaff,sidemenu,,,?BTNOK?) ref:TAP_Buy_Button
+//##N
+M_FTUE:(home,WINDOW,commonui.btn_Staff,646,-@t+700,120,100,loc(CFTUE_FITNESSCOACH),770,-@t+770,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,,#00000000,LEFT,FooterTabstaff,sidemenu,loc(CFTUE_FITNESSCOACH_ALT),,?BTNOK?) ref:TAP_Buy_Button
+//##*
+M_FTUE:(staff,WINDOW,staff.btn_HireList,@C-144,@t+124+[@z/2],130,164,loc(CFTUE_VIEWAVAILABLESTAFF),@C-20,@t+320+[@z/2],FTUE_Tap,,@r-770+@f,-@t+380,,,,,,,,,#00000000,RIGHT,RootFitnessCentre1,staff,loc(CFTUE_VIEWAVAILABLESTAFF_ALT),,?BTNOK?) ref:TAP_View_Available_Staff
+M_FTUE:(staffhirelist,WINDOW,profilestaff.DIALOGOPENED,@l,@t+180,@w,@h-255,loc(CFTUE_AVAILABLECOACHES),@l+470,@t+640,FTUE_Drag,,@r-520+@f,-@t+70,,staff.hireListScrolled,@l+470,@t+350,,,,,#00000000,ABOVERIGHT,StaffHireList0,staffhirelist,loc(CFTUE_AVAILABLECOACHES_ALT),DissolveRoot,(UP,DOWN,?BTNOK?)) ref:Browse_Coaches
+M_FTUE:(profilestaff,WINDOW,profilestaff.btn_NegotiationAdd,@C+[@W/4]-130+[@f/2],@t+535+[@z/2],80,50,loc(CFTUE_CONTRACTLENGTH),@C+[@W/4]-50+[@f/2],@t+640+[@z/2],FTUE_Tap,,@r-520+@f,-@t+70,,,,,,,OverlayLayer1,,#00000000,ABOVERIGHT,StaffOtherNegotiationAddButton,profilestaff,,,?BTNOK?) ref:Negotiate_Coach
+M_FTUE:(profilestaff,WINDOW,profilestaff.btn_Negotiate,465,@t+642+[@z/2],225,80,,660,@t+730+[@z/2],FTUE_TapAngled,,,,,,,,,,OverlayLayer1,,#00000000,,StaffOtherOfferButton,profilestaff,,,?BTNOK?) ref:Negotiate_Contract
+M_FTUE:(profilestaff,WINDOW,(profilestaff.btn_NegotiationLower,,profilestaff.btn_NegotiationHigher),@l+20,@t+520,600+@y,220+@z,loc(CFTUE_HIGHERLOWER),,,,,@r-520+@f,-@t+70,,,,,,,OverlayLayer1,"negotiate.CancelDisabled",#00000000,ABOVERIGHT,NegotiationHigherButton,profilestaff,loc(CFTUE_HIGHERLOWER_ALT)) ref:Higher_Lower
+M_FTUE:(profilestaff,WINDOW,profilestaff.btn_NegotiationAgreed,@l+20,@t+520,1120+@y-[@f*2],220+@z,,,,,,600,180,,,,,,,OverlayLayer1,,#00000000) ref:Agree_Contract
+M_FTUE:(staff,WINDOW,home.btn_Play,-@l+942+@f,-@t+706,180,50,loc(CFTUE_MATCH3),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,,#00000000,LEFT,HomeContinueButton,sidemenu,,,?BTNOK?) ref:Time_for__Match3
+M_FTUE:(leaguefixtures,WINDOW,leaguefixtures.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,LeagueFixContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Play_Button
+M_FTUE:(formationmenu,WINDOW,formation.btn_Confirm,-@l+942+@f,-@t+706,180,50,loc(CFTUE_TEAMGOOD),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,10,,,#00000000,LEFT,FormationPMContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Confirm_Button
+M_FTUE:(match_interval,WINDOW,matchinterval.btn_Confirm,@l,@t,@w,@h,,-@l+1040,-@t+760,,,,,,,,,,,,,#00000000,,PlayPauseButton,sidemenu,,,?BTNOK?) ref:TAP_Start_Match3
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+70,-@t+180,,,,,,,,("match.WorkRateDisabled",,"match.TacticsDisabled"),#00000000,,PlayPauseButton,sidemenu,,,?BTNOK?) ref:Commentary_Screen //Match 3: WorkRate, Tactics Disabled
+M_FTUE:(match,WINDOW,,@l,@t,@w,@h,,,,,,,,,,,,(twk(Match,Half)),10,,,#00000000) ref:Match3_Halftime
+M_FTUE:(match,WINDOW,match.btn_Formation,@l+640-@f,-@t+706,180,50,loc(CFTUE_APPLYTEAMTALKCARD),@l+820-@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,,"match.TacticsEnabled",#00000000,LEFT,TacticsButton,sidemenu,loc(CFTUE_APPLYTEAMTALKCARD_ALT),,?BTNOK?) ref:Third_Match_Halftime
+M_FTUE:(formationmatch,WINDOW,,@l+642+[[[490+@y]/3]*2]-@f,@t+80,[490+@y]/3,50,loc(CFTUE_VIEWCARDS),@l+662+[[[490+@y]/3]*2.55]-@f,@t+180,FTUE_Tap,,@l+310-@f,-@t+380,,,,,(twk(Formation,CurrentTab)),3,,("match.WorkRateDisabled",,"formation.force_drag","TeamTalkSlot|MatchCardsArea"),#00000000,LEFT,DummyCTRLSelect,ftue,loc(CFTUE_VIEWCARDS_ALT),,(RT)) ref:TAP_Card_Tab
+M_FTUE:(formationmatch,WINDOW,formationmatch.action_TeamTalk,@l+642-@f,@t+330,490+@y,200,loc(CFTUE_SKILLDRAG),@r-245-[@y/2]+@f,500-[@z/2],FTUE_DragHold,,@l+310-@f,-@t+380,,,@l+320-@f,300,,,,,#00000000,LEFT,TeamTalkSlot,formationmatch,loc(CFTUE_SKILLDRAG_ALT),,?BTNOK?) ref:DRAG_Card_onto_team
+M_FTUE:(teamtalk,FULLSCREEN,ClickMessage,@l,@t,@w,@h,loc(CFTUE_TEAMTALKEXPLAINED),@r-280,-@t+660,FTUE_Tap,,@r-770+@f,-@t+380,NEXT,,,,,,,"teamtalk.pause",#00000060,RIGHT,,,loc(CFTUE_TEAMTALKEXPLAINED_ALT)) ref:Teamtalk_explained
+M_FTUE:(teamtalk,WINDOW,ClickMessage,@l,@t,@w,@h,,,,,,,,,,,,(twk(TeamTalk,ContinueEnabled)),1,,("teamtalk.resume"),,,,,,,(UP,DOWN,LEFT,RIGHT,?BTNOK?)) ref:Teamtalk_minigame
+M_FTUE:(teamtalk,WINDOW,teamtalk.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,TeamTalkContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_FTUE:(formationmatch,WINDOW,formation.btn_Confirm,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+70,@t+70,,,@l+420,500,,,,,#00000000,,FormationMatchResumeButton,sidemenu,,,?BTNOK?) ref:TAP_Resume_Button
+M_FTUE:(match,WINDOW,match.btn_WorkRate,@l+256-@f,-@t+706,50,50,loc(CFTUE_WORKRATESLIDER),@l+312-@f,-@t+780,FTUE_TapAngled,,@r-770+@f,-@t+380,,,,,,,,("match.WorkRateEnabled",,"match.TacticsDisabled"),#00000000,RIGHT,WorkRateUpButton,sidemenu,loc(CFTUE_WORKRATESLIDER_ALT),,?BTNOK?) ref:INCREASE_Workrate
+M_FTUE:(match,WINDOW,match.btn_Play,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,PlayPauseButton,sidemenu,,,?BTNOK?) ref:TAP_Play
+M_FTUE:(match_stats,WINDOW,matchstats.btn_Continue,@l,@t,@w,@h,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,MatchStatsContinueButton,sidemenu) ref:TAP_Continue_Button
+M_FTUE:(results,WINDOW,results.continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,ResultsContinueButton,sidemenu,,,(?BTNOK?,LT,RT)) ref:TAP_Continue_Button  
+M_FTUE:(animatedleague,WINDOW,animatedleague.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,,#00000000,,AnimatedLeagueContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button  
+M_FTUE:(finances,WINDOW,finances.btn_Continue,-@l+942+@f,-@t+706,180,50,,-@l+1050+@f,-@t+780,FTUE_TapAngled,,,,,,,,,,,"player.ForceQueueSaveCareer",#00000000,,FinancesContinueButton,sidemenu,,,?BTNOK?) ref:TAP_Continue_Button
+M_FTUE:(staff,WINDOW,staff.btn_GenerateCard,@C-150,@t+80+[@z/2],300,280,loc(CFTUE_NEW_FITNESSCARD),@C+110,@t+310+[@z/2],FTUE_Tap,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,CoachingRootFitnessCentre1,staff,loc(CFTUE_NEW_FITNESSCARD_ALT),,?BTNOK?) ref:TAP_Begin_Coaching_Button
+M_DummyStepDelay:(3)
+M_FTUE:(newcard,WINDOW,newcard.btn_Close,-@l+942+@f,-@t+706,180,50,loc(CFTUE_COACHINGEXPLAINED5),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,NewCard,,#00000000,LEFT,NewCardContinueButton,newcard,,,?BTNOK?) ref:Coaching_card_explained
+##IA
+M_FTUE:(home,WINDOW,store.btn_BuxStore,@r-270+@f,@t,270,50,loc(CFTUE_GOTOSHOP),@R-100+@f,-@t+110-[@z],FTUE_Tap,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT) ref:Go_to_shop
+M_FTUE:(store,WINDOW,,@o+250,@t+115,220,45,loc(CHINT_STORE),@o+465,-@t+210-[@z],FTUE_Tap,,@l+310-@f,-@t+380,,,,,(twk(Store,CurrentTab)),5,OverlayLayer1,,#00000000,LEFT) ref:Go_to_card_tab
+M_FTUE:(store,WINDOW,store.btn_Buy,50-[@y/2],@M+225,200,60,loc(CFTUE_PACKFORFREE),240-[@y/2],@M+330,FTUE_Tap,,@r-520+@f,-@t+70,,,,,,,OverlayLayer1,,#00000000,ABOVERIGHT) ref:Buy_card_pack
+M_FTUE:(CardPackOpen,WINDOW,,@l,@t,@w,@h,,@C-250,@t+380,FTUE_Drag,,,,,,@C+250,@t+380,(twk(CardPack,Opened)),1,NewCard,,#00000000) ref:Open_card_pack
+M_DummyStepDelay:(5)
+M_FTUE:(CardPackOpen,WINDOW,CardPackOpen.back,-@l+942+@f,-@t+706,180,50,loc(CFTUE_CARDQUALITY),-@l+1050+@f,-@t+780,FTUE_TapAngled,,@l+310-@f,-@t+380,,,,,,,NewCard,,#00000000,LEFT) ref:TAP_Continue_Button
+M_FTUE:(store,WINDOW,store.btn_Close,@r-115+@f,@t+83,115,32,loc(CFTUE_CARDSCOLLECTION),@r-70+@f,@t+170,FTUE_Tap,,@l+310-@f,-@t+380,,,,,,,OverlayLayer1,,#00000000,LEFT) ref:TAP_Close_Store
+##*
+M_FTUE:("home",WINDOW,commonui.btn_Help,@o,@t,115,50,loc(CFTUE_CONCLUSION),@o+115,@t+100,FTUE_Tap,,@l+310-@f,-@t+380,,,,,,,,"player.ForceQueueQuickSave",#00000000,LEFT,DummyCTRLSelect,ftue,loc(CFTUE_CONCLUSION_ALT),,(BACK)) ref:FTUE_Conclusion
+
+// Should be the last thing to disable the FTUE after completion
+M_DummyStep:(ftue.btn_Complete)

@@ -1,0 +1,7 @@
+﻿id	en	br	pt	de	es	fr	it	pl	tr	ru	ja	ko	ch	fa	ar
+1	Asia	Ásia	Ásia	Asien	Asia	Asie	Asia	Azja	Asya	Азия	アジア	아시아	亚洲	آسیا	آسيا
+2	Africa	África	África	Afrika	África	Afrique	Africa	Afryka	Afrika	Африка	アフリカ	아프리카	非洲	آفریقا	أفريقيا
+3	North America	América do Norte	América do Norte	Nordamerika	América del Norte	Amérique du Nord	Nord America	Ameryka Północna	Kuzey Amerika	Северная Америка	北米	북아메리카	北美	آمریکای شمالی	شمال أمريكا
+4	South America	Ámérica do Sul	Ámérica do Sul	Südamerika	América del Sur	Amérique du Sud	Sud America	Ameryka Południowa	Güney Amerika	Южной Америке	南米	남아메리카	南美洲	آمریکای جنوبی	جنوب أمريكا
+5	Oceania	Oceânia	Oceânia	Ozeanien	Oceanía	Océanie	Oceania	Oceania	Okyanusya	Океания	オセアニア	오세아니아	大洋洲	اقیانوسیه	أوقيانوسيا
+6	Europe	Europa	Europa	Europa	Europa	l'Europe	Europa	Europa	Avrupa	Европа	ヨーロッパ	유럽	欧洲	اروپا	أوروبا

@@ -1,0 +1,46 @@
+Import:(Core.uih)
+Import:(cards.uih)
+// ----------------------------------- Dragged card ---------------------------
+Rect:(0,0) $HIDE ref:DraggableCard
+{
+	Sheet:((0,0,900),(0,0,0),66.46) ref:Sheet
+	//FIXEDFOV
+		Pin(0,0,900)
+		float(%rotx,%roty)
+		set(%rotx,gel3d.rotx)
+		set(%roty,gel3d.roty)
+
+	{
+		// ------------ JC The dragged card will be cloned and parented here
+		Rect:() ref:Hook
+			float(%scalex,%scaley)
+			init(%scalex,1)
+			init(%scaley,1)
+			frlerp(gel.scalex,%scalex,0.2)
+			frlerp(gel.scaley,%scaley,0.2)
+	}
+}
+	Card_Draggable()
+
+
+// ----------------------------------- Dropped card ---------------------------
+
+Rect:(0,0,?CARD_W?,?CARD_H?) $HIDE ref:DroppableCard
+{{
+	Sheet:((0,0,900),(0,0,0),66.46) ref:Sheet
+	//FIXEDFOV
+		Pin(0,0,900)
+		float(%xrot,%roty)
+		set(%rotx,gel3d.rotx)
+		set(%roty,gel3d.roty)
+	{
+		// ------------ JC The dropped card will be parented here
+		Rect:() ref:Hook
+			float(%scalex,%scaley)
+			init(%scalex,1)
+			init(%scaley,1)
+			frlerp(gel.scalex,%scalex,0.2)
+			frlerp(gel.scaley,%scaley,0.2)
+	}
+}}
+	Card_Droppable()

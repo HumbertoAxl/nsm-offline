@@ -1,0 +1,140 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Card_Reflection,NewGUI/Cards/Card_Reflection.png) FORCE
+Img:(Card_Energy,NewGUI/Cards/Card_Energy.png) FORCE
+Img:(CardRim,NewGUI/Cards/CardRim.png,20,20,20,20,0.5) FORCE
+Img:(RoleWhite,NewGUI/Cards/Person/RoleWhite.png,5,5,5,5,0.5) FORCE
+
+##IA
+Img:(Card_Star0,NewGUI/Cards/Person/Card_Star0.png) Scale:0.5 FORCE
+Img:(Card_Star1,NewGUI/Cards/Person/Card_Star1.png) Scale:0.5 FORCE
+Img:(Card_Star2,NewGUI/Cards/Person/Card_Star2.png) Scale:0.5 FORCE
+Img:(Card_Star3,NewGUI/Cards/Person/Card_Star3.png) Scale:0.5 FORCE
+Img:(Card_Star4,NewGUI/Cards/Person/Card_Star4.png) Scale:0.5 FORCE
+Img:(Card_Star5,NewGUI/Cards/Person/Card_Star5.png) Scale:0.5 FORCE
+
+##P4N
+Img:(Card_Star0,NewGUI/Cards/Person/Card_Star0.png) FORCE
+Img:(Card_Star1,NewGUI/Cards/Person/Card_Star1.png) FORCE
+Img:(Card_Star2,NewGUI/Cards/Person/Card_Star2.png) FORCE
+Img:(Card_Star3,NewGUI/Cards/Person/Card_Star3.png) FORCE
+Img:(Card_Star4,NewGUI/Cards/Person/Card_Star4.png) FORCE
+Img:(Card_Star5,NewGUI/Cards/Person/Card_Star5.png) FORCE
+##*
+
+Img:(PlayableCard_Base,NewGUI/Cards/PlayableCard_Base.png) FORCE
+Img:(Card_Player,NewGUI/Cards/Card_Player.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+Macro:(M_SizeDefines)
+	// Used SD/HD Cards - Do Not Change
+	Define:(?CARD_W_SD?=120)
+	Define:(?CARD_H_SD?=155)
+	Define:(?CARD_W_HD?=300)
+	Define:(?CARD_H_HD?=387)
+EndM
+
+M_SizeDefines:()
+
+// Used by everything else in script
+Define:(?CARD_W?=?CARD_W_SD?)
+Define:(?CARD_H?=?CARD_H_SD?)
+
+Surf:($CARDSSURF, 2048, 2048)
+SubSurfaceArray:($CARDS_ARRAY_SURF,$CARDSSURF,0,0,256,512,?CARD_W_SD?,?CARD_H_SD?,8,4,FIFO,1)
+
+Surf:($HDCARDSSURF, 1024, 1024)
+SubSurfaceArray:($HDCARDS_ARRAY_SURF,$HDCARDSSURF,0,0,512,1024,?CARD_W_SD?,?CARD_H_SD?,2,1,FIFO,1)
+
+Import:(cardtemplate_person.uih)
+Import:(cardtemplates_playable.uih)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+
+Macro:(M_CardScroller,?TWKCAT?,?TWKVAL?)
+	if((twk(CardEngine,DraggingCard)) and(twk(CardsCarousel,State) oneof(0,2)))
+	<
+		if(TouchX >  gel.parent.gx and(TouchX < [gel.parent.gx + gel.parent.w]))
+		<
+			if(TouchY < [gel.parent.gy+40])
+			<
+				//add(twk(?TWKCAT?,?TWKVAL?),[gel.parent.gy-TouchY]/15)
+				add(twk(?TWKCAT?,?TWKVAL?),8)
+			>
+
+			if(TouchY > [[gel.parent.gy+gel.parent.h]-40])
+			<
+				//add(twk(?TWKCAT?,?TWKVAL?),[[gel.parent.gy+gel.parent.h]-TouchY]/15)
+				sub(twk(?TWKCAT?,?TWKVAL?),8)
+			>
+		>
+	>
+EndM
+
+Macro:(M_CardScrollerHorizontal,?TWKCAT?,?TWKVAL?)
+	if((twk(CardEngine,DraggingCard)) and(twk(CardsCarousel,State) oneof(0,2)))
+	<
+		if(TouchY >  gel.parent.gy and(TouchY < [gel.parent.gy + gel.parent.h]))
+		<
+			if(TouchX < [gel.parent.gx+40])
+			<
+				//add(twk(?TWKCAT?,?TWKVAL?),[gel.parent.gx-TouchX]/5)
+				add(twk(?TWKCAT?,?TWKVAL?),8)
+			>
+
+			if(TouchX > [[gel.parent.gx+gel.parent.w]-40])
+			<
+				//add(twk(?TWKCAT?,?TWKVAL?),[[gel.parent.gx+gel.parent.w]-TouchX]/5)
+				sub(twk(?TWKCAT?,?TWKVAL?),8)
+			>
+		>
+	>
+EndM
+
+Macro:(M_ScrollHoverZone,?X?,?Y?,?W?,?H?,?CAT?,?VAR?,?DIRECTION?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		float(%r,%over)
+		if(twk(Ftue,Enabled)=0)
+		<
+			if((twk(CardEngine,DraggingCard)) and(twk(CardsCarousel,State) oneof(0,2)))
+			<
+				if((twk(CardEngine,DraggingCardX) >= gel.gx) and(twk(CardEngine,DraggingCardX) <= [gel.gx+gel.w]) and(twk(CardEngine,DraggingCardY) >= gel.gy) and(twk(CardEngine,DraggingCardY) <= [gel.gy + gel.h]))
+				<
+					:set(%over,1)
+					:set(%r,0)
+					set(%r,min(%r+0.4,20))
+					add(twk(?CAT?,?VAR?),%r * ?DIRECTION?)
+				>
+				else
+				<
+					:set(%over,0)
+				>
+			>
+			else
+			<
+				:set(%over,0)
+			>
+		>
+EndM
+
+
+Macro:(M_CardSlot,?X?,?Y?,?ID?,?FILTER?,?COMBINATION?,?DELAY?,?SCALE?,?REF?)
+	Cull:(?X?,?Y?,?CARD_W?,?CARD_H?) ref:?ID?
+		Handle(0.5,0.5)
+	{{
+	}}
+		.set(gel.scale,?SCALE?)
+		Card_Slot(?ID?,?FILTER?,?COMBINATION?,false,true,twk(CardEngine,PickupDelay)) ref:?REF?
+EndM
+
+Macro:(M_ReserveSlot,?ID?)
+	Cull:(?X?,?Y?,?CARD_W?,?CARD_H?) ref:?ID?
+		Handle(0.5,0.5)
+	{{
+	}}
+		Card_Slot(?ID?,PLAYER|SUBSTITUTE,PU_MANAGER|PU_COACHING,false,true,twk(CardEngine,PickupDelay))
+		// In case we want to block any directional input from code.
+		CTRLBlock() ref:CTRLBlock
+		
+EndM

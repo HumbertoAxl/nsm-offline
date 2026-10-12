@@ -1,0 +1,136 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(matchengine_common.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+
+Animation:(120,Loop) ref:PassMarker
+{
+	//Centre
+	During:(0,59) 
+	{
+		Draw:(Circle_50,0,0,40,40,,#7AE90360)
+			Handle(0.5,0.5)
+			TweenCol(#7AE90340) 
+	}
+	During:(60,119) 
+	{
+		Draw:(Circle_50,0,0,40,40,,#7AE90340)
+			Handle(0.5,0.5)
+			TweenCol(#7AE90360) 
+	}
+	
+	//Concentric Rings
+	During:(0,99) 
+	{
+		Draw:(Highlight_Circle,0,0,70,70,,#AAFFAA00)
+			TweenSize(0,0,35,35,-1,-1)
+			TweenCol(#AAFFAAFF)
+	}
+	During:(20,119) 
+	{
+		Draw:(Highlight_Circle,0,0,70,70,,#AAFFAA00)
+			TweenSize(0,0,35,35,-1,-1)
+			TweenCol(#AAFFAAFF)
+	}
+}
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+Cls:(#000000FF,True)
+	Layer(Pitch)
+
+Rect:()
+	.Post(FadeOutMusic)
+	.set(twk(Facilities,PitchLevelVisible),twk(Facilities,PitchLevel))
+	.set(twk(Facilities,PitchStandNLevelVisible),twk(Facilities,PitchStandNLevel))
+	.set(twk(Facilities,PitchStandSLevelVisible),twk(Facilities,PitchStandSLevel))
+	.set(twk(Facilities,PitchStandWLevelVisible),twk(Facilities,PitchStandWLevel))
+	.set(twk(Facilities,PitchStandELevelVisible),twk(Facilities,PitchStandELevel))
+	.set(twk(Facilities,PitchCornersLevelVisible),twk(Facilities,PitchCornersLevel))
+	.set(twk(Facilities,PitchLevel),twk(Facilities,PitchLevel))
+	.set(twk(Facilities,PitchStandNLevel),twk(Facilities,PitchStandNLevel))
+	.set(twk(Facilities,PitchStandSLevel),twk(Facilities,PitchStandSLevel))
+	.set(twk(Facilities,PitchStandWLevel),twk(Facilities,PitchStandWLevel))
+	.set(twk(Facilities,PitchStandELevel),twk(Facilities,PitchStandELevel))
+	.set(twk(Facilities,PitchCornersLevel),twk(Facilities,PitchCornersLevel))
+Draw:(Counter,0,0,16,16) ref:PathPointTemplate
+	Layer(Pitch)
+	Handle(0.5,0.5)
+{
+} Template
+
+Rect:(0,0,16,16) $HIDE ref:PathPointWithButton
+	Layer(Pitch)
+	Handle(0.5,0.5)
+{{
+	Draw:(Counter,@L,@T,@W,@H) $HIDE ref:PathPointWithButton
+
+	Locator:(0,0,0,0,0,0,1,1,1) $HIDE ref:PathPointWithButton
+		set(gel3d.rotz,twk(Pitch,CameraZRotation))
+	{
+		Locator:(0,0,0,0,0,0,1,1,1)
+			set(gel3d.rotx,90+twk(Pitch,CameraXRotation))
+		{
+			##N
+			M_Text:(⛌,@L-7,@T-7,30,30,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF)
+			##P4
+			M_Text:(⛍,@L-7,@T-7,30,30,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF)
+			##*
+		}
+	}
+}} Template
+
+Rect:(0,0) $HIDE ref:PassToPoint
+	Layer(Pitch)
+	Handle(0.5,0.5)
+{{
+
+	AnimInstance:(17,17,PassMarker) ref:PassToPoint
+	Draw:(Highlight,17,17,34,34,,#7AE903FF)
+		Handle(0.5,0.5)
+		Spinner(0.5)
+
+
+	Locator:(0,0,0,0,0,0,1,1,1) $HIDE ref:PassToPoint
+		set(gel3d.rotz,twk(Pitch,CameraZRotation))  
+	{
+		Locator:(0,0,0,0,0,0,1,1,1)
+			set(gel3d.rotx,90+twk(Pitch,CameraXRotation))
+		{
+			##N
+			M_Text:(⛋,@C+2,@T-30,30,30,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF)
+			##P4
+			M_Text:(⛊,@C+2,@T-30,30,30,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF)
+			##*
+		}
+	}
+}} Template
+
+Locator:((0,0,0),(0,0,0),(1,1,1)) ref:TrainingLine
+{
+	Locator:((0,0,0),(0,0,0),(1,1,1)) ref:Locator
+	{
+		Draw:(White,0,0,20,10,,#0000FFFF) ref:LineDraw
+			PulseAlpha(0.5,0.1,0.4,0.4,0.2,0.2)
+	}
+} Template
+
+
+Draw:(Counter,0,0,2,2) ref:Avoider
+	Handle(0.5,0.5)
+	//Layer(Sky)
+{
+
+} Template
+
+
+
+M_MatchCamera:()
+{
+	M_MatchCameraContent:()
+}
+
+M_Rain:(40)
+M_Snow:(40)

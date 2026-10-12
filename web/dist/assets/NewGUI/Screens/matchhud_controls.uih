@@ -1,0 +1,297 @@
+Img:(Icon_Dribbling,NewGUI/UI/MatchCommentary/Icon_Dribbling.png)
+Img:(Icon_Heading,NewGUI/UI/MatchCommentary/Icon_Heading.png)
+Img:(Icon_Kicking,NewGUI/UI/MatchCommentary/Icon_Kicking.png)
+
+Animation:(40,Loop) ref:DribblingBall
+{
+	During:(0,30)
+	{
+		Draw:(Circle_20,42,44,11,11)
+			set(gel.x,lerp(42,77,tween))
+			.set(gel.y,44)
+			set(gel.alpha,lerp(1,0,tween))
+	}
+
+}
+
+Animation:(40,Loop) ref:HeadingBall
+{
+	During:(0,30)
+	{
+		Draw:(Circle_20,37,0,11,11)
+			set(gel.x,lerp(37,47,tween))
+			.set(gel.y,0)
+			set(gel.alpha,lerp(1,0,tween))
+	}
+
+}
+
+// Match,ControllerTouchState | 0 - None | 1 - Paused | 2 - Kicking | 3 - Dribbling | 4 - Heading | 5 - Pass Cursor (Controller)
+Rect:(@L+30,@B-80)
+	set(gel.vis,(twk(MatchHUD,IsExternalReplay) = 0) and(twk(MatchHUD,ShowReplay) = 0) and(twk(Match,InTapBall) = 0) and(twk(ControllerInput,Enabled) = 0))
+{{
+	// Dribbling
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Match,ControllerTouchState)=3)
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+	{
+		Draw:(Icon_Dribbling)
+		AnimInstance:(0,0,DribblingBall)
+	}
+
+	// Kicking
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Match,ControllerTouchState)=2)
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+	{
+		Draw:(Icon_Kicking)
+		Draw:(Circle_20,42,44,11,11)
+	}
+
+	// Heading
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Match,ControllerTouchState)=4)
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+	{
+		Draw:(Icon_Heading)
+		AnimInstance:(0,0,HeadingBall)
+	}
+
+	// Pass Cursor
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Match,ControllerTouchState)=5)
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+	{
+		Draw:(White,0,0,50,50)
+	}
+
+	// Tackling
+	Dissolve:()
+		.set(gel.alpha,0)
+		if(twk(Match,ControllerTouchState)=6)
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+	{
+		Draw:(White,0,0,50,50)
+	}
+
+
+
+	M_Text:(,70,47,0,0,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		if(twk(Match,ControllerTouchState) oneof(2,3,4,5,6))
+		<
+			frlerp(gel.alpha,1,0.2)
+		>
+		else
+		<
+			:set(gel.alpha,0)
+		>
+		if(twk(Match,ControllerTouchState) = 2)
+		<
+			:set(gel.text,loc(game_STATE_KICK))
+		>
+		elif(twk(Match,ControllerTouchState) = 3)
+		<
+			:set(gel.text,loc(game_STATE_DRIBBLE))
+		>
+		elif(twk(Match,ControllerTouchState) = 4)
+		<
+			:set(gel.text,loc(game_STATE_HEADER))
+		>
+		elif(twk(Match,ControllerTouchState) = 5)
+		<
+			:set(gel.text,loc(game_STATE_PASSCURSOR))
+		>
+		elif(twk(Match,ControllerTouchState) = 6)
+		<
+			:set(gel.text,loc(game_STATE_TACKLING))
+		>>>>>
+}}
+
+ 
+// Controller Input controls
+Rect:(@L+30,@B-210)
+	if(twk(MatchHUD,ShowControllerControls) = 0)
+	<
+		:set(gel.vis,0)
+	>
+	else
+	<
+		CTRLClick(BACK,false)
+		<
+			set(twk(SettingsGlobal,CTRLShowMatchControls),1-twk(SettingsGlobal,CTRLShowMatchControls))
+		>
+		float(%state,%timer)
+		set(gel.vis,twk(MatchHUD,GoalDistance)="")
+		.set(gel.alpha,twk(ControllerInput,Enabled) and(twk(SettingsGlobal,CTRLShowMatchControls) = 1))
+
+		if(twk(ControllerInput,Enabled))
+		<
+			if(twk(SettingsGlobal,CTRLShowMatchControls))
+			<
+				frlerp(gel.alpha,1,0.1)
+			>
+			else
+			<
+				:set(%state,0)
+				:set(%timer,0)
+
+				if(twk(Match,CTRLInputPressed))
+				<
+					set(%state,0)
+					set(%timer,0)
+				>
+
+				if(%state = 0)
+				<
+					:set(%timer,0)
+					frlerp(gel.alpha,0,0.3)
+					add(%timer,FrameTime*0.01)
+					if(%timer >= 3)
+					<
+						set(%state,1)
+					>
+				>
+				elif(%state = 1)
+				<
+					frlerp(gel.alpha,1,0.1)
+				>>
+			>
+		>
+		else
+		<
+			set(gel.alpha,0)
+		>
+	>
+{{
+	Draw:(White,0,0,0,180,,#00000060FFFFFFFF)
+		// Find the widest string
+		float(%sw)
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Aim),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_ManualPass),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Shoot),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Dribble),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_SetPlayerRun),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_ChangeDirection),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Shoot),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Aim),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Aim),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_ManualAim),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Head),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_SetPlayerRun),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Aim),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_ManualPass),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Shoot),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_SetPlayerRun),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_AimKick),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_Strike),0)*0.55))
+
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_MovePlayer),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_ChangePlayer),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_BlockTackle),0)*0.55))
+		.set(%sw,max(%sw,strwidth(loc(matchcontrols_SlideTackle),0)*0.55))
+		// Set the width
+		set(gel.w,%sw+67)
+
+	Rect:(37,-5) $HIDE ref:Standard
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.Standard)
+	{
+		M_Text:(matchcontrols_Aim,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_ManualPass,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Shoot,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Dribble,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_SetPlayerRun,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,43) $HIDE ref:Dribbling
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.Dribbling)
+	{
+		M_Text:(matchcontrols_ChangeDirection,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Shoot,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,59) $HIDE ref:ManualAiming
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.ManualAim)
+	{
+		M_Text:(matchcontrols_Aim,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,11) $HIDE ref:Heading
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.Heading)
+	{
+		M_Text:(matchcontrols_AimHeader,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_ManualAim,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Head,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_SetPlayerRun,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,11) $HIDE ref:Setpiece
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.Setpiece)
+	{
+		M_Text:(matchcontrols_Aim,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_ManualPass,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Shoot,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_SetPlayerRun,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,43) $HIDE ref:TapBall
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.TapBall)
+	{
+		M_Text:(matchcontrols_AimKick,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_Strike,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(37,11) $HIDE ref:OffBall
+		VerticalList(32)
+		set(gel.vis,twk(MatchHUD,ControllerControlsState) = UIControllerControlStates.Tackling)
+	{
+		M_Text:(matchcontrols_MovePlayer,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_ChangePlayer,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_BlockTackle,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		M_Text:(matchcontrols_SlideTackle,0,0,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+}}

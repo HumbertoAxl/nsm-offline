@@ -1,0 +1,769 @@
+//-------------------------------------------Timer
+//------------------Digital
+Img:(Construction_Timer_Digital,NewGUI/UI/Timer/Construction_Timer_Digital.png)
+Img:(DigNumber_0,NewGUI/UI/Timer/DigNumber_0.png) FORCE
+Img:(DigNumber_1,NewGUI/UI/Timer/DigNumber_1.png) FORCE
+Img:(DigNumber_2,NewGUI/UI/Timer/DigNumber_2.png) FORCE
+Img:(DigNumber_3,NewGUI/UI/Timer/DigNumber_3.png) FORCE
+Img:(DigNumber_4,NewGUI/UI/Timer/DigNumber_4.png) FORCE
+Img:(DigNumber_5,NewGUI/UI/Timer/DigNumber_5.png) FORCE
+Img:(DigNumber_6,NewGUI/UI/Timer/DigNumber_6.png) FORCE
+Img:(DigNumber_7,NewGUI/UI/Timer/DigNumber_7.png) FORCE
+Img:(DigNumber_8,NewGUI/UI/Timer/DigNumber_8.png) FORCE
+Img:(DigNumber_9,NewGUI/UI/Timer/DigNumber_9.png) FORCE
+
+StaticModel:(Construction_Timer_Digital,Construction_Timer_Digital)
+
+//-----------------Analog
+Img:(Construction_Timer_Glass,NewGUI/UI/Timer/Construction_Timer_Glass.png)
+Img:(Construction_Timer_Needle,NewGUI/UI/Timer/Construction_Timer_Needle.png)
+Img:(Construction_Timer_Integers,NewGUI/UI/Timer/Construction_Timer_Integers.png)
+
+Texture:(Construction_Timer,Construction/Construction_Timer.png)
+##P4N
+Texture:(Construction_Timer_Night,Construction/Construction_Timer_DUSK.nspng)
+##*
+
+StaticModel:(Construction_Timer,Construction_Timer)
+##P4N
+StaticModel:(Construction_Timer_Snow,HIGH DETAIL/Winter/Construction_Timer_SNOW.3DMH)
+##*
+
+
+
+Macro:(M_ConstructionTimer,?XROT?,?YROT?,?ZROT?,?SCALE?,?SPD1?,?SPD2?,?VAR?)
+
+	Surf:($ConTimer?VAR?,256,256)
+
+	Rect:()
+		if(twk(?VAR?ConstructionNoLocal,ClockTimerEnabled) = 1)
+		<
+			:set(gel.vis,0)
+		>
+		else
+		<
+			if(shell(Facility) = "facility")
+			<
+				set(gel.vis,0)
+			>
+			else
+			<
+				set(gel.vis,twk(?VAR?Construction,CompletionTurn) > twk(Construction,Turn))
+			>
+		>
+	{
+		View:($ConTimer?VAR?,256,256)
+		{
+			Sheet:() 
+			{
+				Cls:(#000000FF)
+				
+				Draw:(Construction_Timer_Night,0,256,256,-256,,#FFFFFFFF)
+					set(gel.vis,twk(Facilities,Night) = 1)
+
+				Draw:(Construction_Timer,0,256,256,-256,,#FFFFFFFF)
+					set(gel.vis,twk(Facilities,Night) = 0)
+
+
+				M_Text:("2",138,128,0,0,C,C,Text,KNUL40,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+					Scale(3.5,3.5)
+					set(gel.text,twk(?VAR?Construction,TimeRemaining))
+
+				//Glass
+				Locator:((138,128,0),(0,0,0),(1,1,1))
+					set(gel3d.rotz,-(twk(Cam,RZ)))
+				{
+						Draw:(Construction_Timer_Glass,0,0,200,200,,#FFFFFF30)
+							Handle(0.5,0.5)	
+							Additive()	
+						Draw:(Construction_Timer_Glass,0,0,200,200,,#CCCCFFFF)
+							Handle(0.5,0.5)		
+				}
+				//Bezel Top
+				Locator:((37,229,0),(0,0,0),(1,1,1))
+					set(gel3d.rotz,-(twk(Cam,RZ)))
+				{
+						Draw:(Construction_Timer_Glass,0,0,28,28,180,#DDDDFF50)
+							Handle(0.5,0.5)	
+							Additive()	
+						Draw:(Construction_Timer_Glass,0,0,28,28,180,#CCCCFFFF)
+							Handle(0.5,0.5)		
+				}
+
+				Draw:(Construction_Timer_Needle,138,130,192,192,,#FF3040FF)
+					Handle(0.5,0.5)
+					Spinner(0.5)
+				
+				Draw:(Construction_Timer_Integers,0,0,256,256,,#FFFFFF20)
+
+			}
+		}
+
+		Locator:((0,0,0),(-90,0,0),(?SCALE?,?SCALE?,?SCALE?))
+			If:(?VAR?="TrainingGround")
+				if(twk(Facilities,TrainingGroundLevel) = 1)
+				<
+					:set(gel3d.x,11300)
+					:set(gel3d.y,-3300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 2)
+				<
+					:set(gel3d.x,11200)
+					:set(gel3d.y,-3700)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 3)
+				<
+					:set(gel3d.x,10750)
+					:set(gel3d.y,-3800)
+					:set(gel3d.z,-4000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 4)
+				<
+					:set(gel3d.x,10600)
+					:set(gel3d.y,-4700)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 5)
+				<
+					:set(gel3d.x,10600)
+					:set(gel3d.y,-5450)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="FitnessCentre")
+				if(twk(Facilities,FitnessCentreLevel) = 1)
+				<
+					:set(gel3d.x,760)
+					:set(gel3d.y,15050)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 2)
+				<
+					:set(gel3d.x,820)
+					:set(gel3d.y,15200)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 3)
+				<
+					:set(gel3d.x,1100)
+					:set(gel3d.y,15300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 4)
+				<
+					:set(gel3d.x,1000)
+					:set(gel3d.y,14800)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 5)
+				<
+					:set(gel3d.x,1200)
+					:set(gel3d.y,14700)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="YouthAcademy")
+				if(twk(Facilities,YouthAcademyLevel) = 0)
+				<
+					:set(gel3d.x,11457)
+					:set(gel3d.y,11985)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,YouthAcademyLevel) = 1)
+				<
+					:set(gel3d.x,11457)
+					:set(gel3d.y,11985)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 2)
+				<
+					:set(gel3d.x,11816)
+					:set(gel3d.y,11695)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 3)
+				<
+					:set(gel3d.x,11800)
+					:set(gel3d.y,11828)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 4)
+				<
+					:set(gel3d.x,12140)
+					:set(gel3d.y,11490)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 5)
+				<
+					:set(gel3d.x,12125)
+					:set(gel3d.y,11785)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="MedicalUnit")
+				if(twk(Facilities,MedicalUnitLevel) = 0)
+				<
+					:set(gel3d.x,-13155)
+					:set(gel3d.y,-5918)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,MedicalUnitLevel) = 1)
+				<
+					:set(gel3d.x,-13155)
+					:set(gel3d.y,-5918)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 2)
+				<
+					:set(gel3d.x,-13300)
+					:set(gel3d.y,-5525)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 3)
+				<
+					:set(gel3d.x,-13500)
+					:set(gel3d.y,-5747)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 4)
+				<
+					:set(gel3d.x,-13570)
+					:set(gel3d.y,-5900)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 5)
+				<
+					:set(gel3d.x,-13350)
+					:set(gel3d.y,-5850)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="ScoutsOffice")
+				if(twk(Facilities,ScoutsOfficeLevel) = 0)
+				<
+					:set(gel3d.x,-10650)
+					:set(gel3d.y,8780)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,ScoutsOfficeLevel) = 1)
+				<
+					:set(gel3d.x,-10650)
+					:set(gel3d.y,8780)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 2)
+				<
+					:set(gel3d.x,-10480)
+					:set(gel3d.y,8750)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 3)
+				<
+					:set(gel3d.x,-10380)
+					:set(gel3d.y,8790)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 4)
+				<
+					:set(gel3d.x,-10302)
+					:set(gel3d.y,8965)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 5)
+				<
+					:set(gel3d.x,-10135)
+					:set(gel3d.y,9060)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="ClubShop")
+				if(twk(Facilities,ClubShopLevel) = 0)
+				<
+					:set(gel3d.x,-1300)
+					:set(gel3d.y,-8250)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,ClubShopLevel) = 1)
+				<
+					:set(gel3d.x,-1300)
+					:set(gel3d.y,-8250)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 2)
+				<
+					:set(gel3d.x,-1457)
+					:set(gel3d.y,-8223)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 3)
+				<
+					:set(gel3d.x,-1460)
+					:set(gel3d.y,-8300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 4)
+				<
+					:set(gel3d.x,-770)
+					:set(gel3d.y,-8930)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 5)
+				<
+					:set(gel3d.x,-770)
+					:set(gel3d.y,-8905)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="PitchStandN")
+				if(twk(Facilities,PitchStandNLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,2800)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandNLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandE")
+				if(twk(Facilities,PitchStandELevel) oneof(1,2,3,4))
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,2000)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandELevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandS")
+				if(twk(Facilities,PitchStandSLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,-2800)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandSLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandW")
+				if(twk(Facilities,PitchStandWLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,-2000)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandWLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchCorners")
+				if(twk(Facilities,PitchCornersLevel) oneof(2,3,4))
+				<
+					:set(gel3d.x,2800)
+					:set(gel3d.y,-2200)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			float(%t)
+			add(%t,FrameTime*?SPD2?)
+			set(gel3d.rotz,-(twk(Cam,RZ)))
+			set(gel3d.z,lerp(-1600,-1650,[sin(%t)+1]/2))
+			Euler(RYP)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Construction_Timer,$ConTimer?VAR?)
+						Layer(AboveSky)
+
+					##P4N
+					Rect:() $HIDE
+						set(gel.vis,Player.weatherSeason = 3)
+					{
+						Locator:((0,0,0),(0,180,0))
+						{
+							DrawStaticModel:(Construction_Timer_Snow,$ConTimer?VAR?)
+								Layer(AboveSky)
+						}
+					}
+					##*		
+				}
+			}
+	}
+EndM
+
+
+
+
+Macro:(M_ConstructionTimerDig,?XROT?,?YROT?,?ZROT?,?SCALE?,?SPD1?,?SPD2?,?VAR?)
+
+	Surf:($ConTimerDig?VAR?,256,256)
+
+	Rect:()
+		if(twk(?VAR?ConstructionNoLocal,ClockTimerEnabled) = 0)
+		<
+			:set(gel.vis,0)
+		>
+		else
+		<
+			if(shell(Facility) = "facility") 
+			<
+				set(gel.vis,0)
+			>
+			else
+			<
+				set(gel.vis,twk(?VAR?Construction,CompletionTurn) > twk(Construction,Turn))
+			>
+		>
+	{
+		View:($ConTimerDig?VAR?,256,256)
+		{
+			Sheet:() 
+			{
+				Cls:(#000000FF)
+				
+				
+				Draw:(Construction_Timer_Digital,0,0,256,256,,#FFFFFFFF)
+
+				//HOUR TENS
+				Draw:(DigNumber_8,46,75,32,,,#FFFFFFFF)
+					set(gel.img,"DigNumber_"::twk(?VAR?ConstructionNoLocal,HourTen))
+				//HOUR SINGLE
+				Draw:(DigNumber_8,82,75,32,,,#FFFFFFFF)
+					set(gel.img,"DigNumber_"::twk(?VAR?ConstructionNoLocal,HourSingle))
+
+				//Decimal
+				Draw:(White,116,122,7,,,#000000FF)
+					PulseAlpha(1,0.3,0.01,0.01,0.01,0.5,0.5)
+
+				//MINUTE TENS
+				Draw:(DigNumber_8,125,90,23,,,#FFFFFFFF)
+					set(gel.img,"DigNumber_"::twk(?VAR?ConstructionNoLocal,MinuteTen))
+				//MINUTE SINGLE
+				Draw:(DigNumber_8,152,90,23,,,#FFFFFFFF)
+					set(gel.img,"DigNumber_"::twk(?VAR?ConstructionNoLocal,MinuteSingle))
+				
+				Locator:((128,128,0),(0,0,0),(1,1,1))
+					set(gel3d.rotz,-(twk(Cam,RZ)))
+				{
+						Draw:(Fade_Left,0,0,355,355,,#FFFFFF30)
+							Handle(0.5,0.5)	
+							Additive()	
+				}
+			}
+		}
+		Locator:((0,0,0),(-90,0,0),(?SCALE?,?SCALE?,?SCALE?))
+			If:(?VAR?="TrainingGround")
+				if(twk(Facilities,TrainingGroundLevel) = 1)
+				<
+					:set(gel3d.x,11300)
+					:set(gel3d.y,-3300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 2)
+				<
+					:set(gel3d.x,11200)
+					:set(gel3d.y,-3700)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 3)
+				<
+					:set(gel3d.x,10750)
+					:set(gel3d.y,-3800)
+					:set(gel3d.z,-4000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 4)
+				<
+					:set(gel3d.x,10600)
+					:set(gel3d.y,-4700)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,TrainingGroundLevel) = 5)
+				<
+					:set(gel3d.x,10600)
+					:set(gel3d.y,-5450)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="FitnessCentre")
+				if(twk(Facilities,FitnessCentreLevel) = 1)
+				<
+					:set(gel3d.x,760)
+					:set(gel3d.y,15050)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 2)
+				<
+					:set(gel3d.x,820)
+					:set(gel3d.y,15200)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 3)
+				<
+					:set(gel3d.x,1100)
+					:set(gel3d.y,15300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 4)
+				<
+					:set(gel3d.x,1000)
+					:set(gel3d.y,14800)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,FitnessCentreLevel) = 5)
+				<
+					:set(gel3d.x,1200)
+					:set(gel3d.y,14700)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="YouthAcademy")
+				if(twk(Facilities,YouthAcademyLevel) = 0)
+				<
+					:set(gel3d.x,11457)
+					:set(gel3d.y,11985)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,YouthAcademyLevel) = 1)
+				<
+					:set(gel3d.x,11457)
+					:set(gel3d.y,11985)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 2)
+				<
+					:set(gel3d.x,11816)
+					:set(gel3d.y,11695)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 3)
+				<
+					:set(gel3d.x,11800)
+					:set(gel3d.y,11828)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 4)
+				<
+					:set(gel3d.x,12140)
+					:set(gel3d.y,11490)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,YouthAcademyLevel) = 5)
+				<
+					:set(gel3d.x,12125)
+					:set(gel3d.y,11785)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="MedicalUnit")
+				if(twk(Facilities,MedicalUnitLevel) = 0)
+				<
+					:set(gel3d.x,-13155)
+					:set(gel3d.y,-5918)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,MedicalUnitLevel) = 1)
+				<
+					:set(gel3d.x,-13155)
+					:set(gel3d.y,-5918)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 2)
+				<
+					:set(gel3d.x,-13300)
+					:set(gel3d.y,-5525)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 3)
+				<
+					:set(gel3d.x,-13500)
+					:set(gel3d.y,-5747)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 4)
+				<
+					:set(gel3d.x,-13570)
+					:set(gel3d.y,-5900)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,MedicalUnitLevel) = 5)
+				<
+					:set(gel3d.x,-13350)
+					:set(gel3d.y,-5850)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="ScoutsOffice")
+				if(twk(Facilities,ScoutsOfficeLevel) = 0)
+				<
+					:set(gel3d.x,-10650)
+					:set(gel3d.y,8780)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,ScoutsOfficeLevel) = 1)
+				<
+					:set(gel3d.x,-10650)
+					:set(gel3d.y,8780)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 2)
+				<
+					:set(gel3d.x,-10480)
+					:set(gel3d.y,8750)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 3)
+				<
+					:set(gel3d.x,-10380)
+					:set(gel3d.y,8790)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 4)
+				<
+					:set(gel3d.x,-10302)
+					:set(gel3d.y,8965)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ScoutsOfficeLevel) = 5)
+				<
+					:set(gel3d.x,-10135)
+					:set(gel3d.y,9060)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="ClubShop")
+				if(twk(Facilities,ClubShopLevel) = 0)
+				<
+					:set(gel3d.x,-1300)
+					:set(gel3d.y,-8250)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,ClubShopLevel) = 1)
+				<
+					:set(gel3d.x,-1300)
+					:set(gel3d.y,-8250)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 2)
+				<
+					:set(gel3d.x,-1457)
+					:set(gel3d.y,-8223)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 3)
+				<
+					:set(gel3d.x,-1460)
+					:set(gel3d.y,-8300)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 4)
+				<
+					:set(gel3d.x,-770)
+					:set(gel3d.y,-8930)
+					:set(gel3d.z,-2000)
+				>
+				elif(twk(Facilities,ClubShopLevel) = 5)
+				<
+					:set(gel3d.x,-770)
+					:set(gel3d.y,-8905)
+					:set(gel3d.z,-2000)
+				>>>>>
+			EndIf
+			If:(?VAR?="PitchStandN")
+				if(twk(Facilities,PitchStandNLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,2800)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandNLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandE")
+				if(twk(Facilities,PitchStandELevel) oneof(1,2,3,4))
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,2000)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandELevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandS")
+				if(twk(Facilities,PitchStandSLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,-2800)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandSLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchStandW")
+				if(twk(Facilities,PitchStandWLevel) oneof(0,1,2,3,4))
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,-2000)
+					:set(gel3d.z,-2000)
+				>
+				if(twk(Facilities,PitchStandWLevel) =5)
+				<
+					:set(gel3d.x,0)
+					:set(gel3d.y,0)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			If:(?VAR?="PitchCorners")
+				if(twk(Facilities,PitchCornersLevel) oneof(2,3,4))
+				<
+					:set(gel3d.x,2800)
+					:set(gel3d.y,-2200)
+					:set(gel3d.z,-2000)
+				>
+			EndIf
+			float(%t)
+			add(%t,FrameTime*?SPD2?)
+			set(gel3d.rotz,-(twk(Cam,RZ)))
+			set(gel3d.z,lerp(-1600,-1650,[sin(%t)+1]/2))
+			Euler(RYP)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					Locator:(0,0,0,0,180,0)
+					{
+						DrawStaticModel:(Construction_Timer_Digital,$ConTimerDig?VAR?)
+							Layer(AboveSky)
+					}
+				}
+			}
+	}
+EndM

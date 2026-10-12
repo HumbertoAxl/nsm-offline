@@ -1,0 +1,89 @@
+// WARNING! : Default font must be the last one
+// Padding: Left,Right,Top,Middle,Bottom
+
+// New-look UI
+FONTSET new 6
+	0:Knul-Regular.ttf:17:0,0:-6,-6,28,37,-47
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	1:Knul-Regular.ttf:28:-1,0:-8,-8,45,61,-78
+	2:Knul-Regular.ttf:17:1,0:-6,0,28,37,-48:1:0:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54
+	4:IRANSans.ttf:20:0,0:-10,-15,35,45,-50:1:0::0:RTL
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	5:IRANSans.ttf:17:0,0:-6,-6,30,40,-40:1:0:Fonts/Gradient_Cash.png:10:RTL
+ENDSET
+
+//FONTSET ios-new 6
+//	0:Knul-Regular.ttf:17:0,0:-6,-6,28,37,-47
+//		Inject:9733:hexcoin60.png:-10:34:30:3
+//	1:Knul-Regular.ttf:28:-1,0:-8,-8,45,61,-78
+//	2:Knul-Regular.ttf:17:1,0:-6,0,28,37,-48:1:0:Fonts/Gradient_Cash.png:16
+//	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54
+//	4:IRANSans.ttf:20:0,0:-10,-15,35,45,-50:2:10::0:RTL
+//		Inject:9733:hexcoin60.png:-10:34:30:3
+//	5:IRANSans.ttf:17:0,0:-6,-6,30,40,-40:2:10:Fonts/Gradient_Cash.png:10:RTL
+//ENDSET
+
+FONTSET ios-new 6
+	0:Knul-Regular.ttf:17:0,0:-6,-6,28,37,-47:2:5
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	1:Knul-Regular.ttf:28:-1,0:-8,-8,45,61,-78:2:5
+	2:Knul-Regular.ttf:17:1,0:-6,0,28,37,-48:2:5:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54:2:5
+	4:IRANSans.ttf:20:0,0:-10,-15,35,45,-50:2:10::0:RTL
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	5:IRANSans.ttf:17:0,0:-6,-6,30,40,-40:2:10:Fonts/Gradient_Cash.png:10:RTL
+ENDSET
+
+FONTSET android-new 6
+	0:Knul-Regular.ttf:39:0,0:-6,-7,27,36,-46:0:0::0:LTR
+		Inject:9733:hexcoin60.png:-7:32:34:3
+	1:Knul-Regular.ttf:63:-1,0:-7,5,44,60,-76
+	2:Knul-Regular.ttf:39:1,0:-6,2,33,34,-2:1:0:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:60:0,0:-4,-4,42,54,-65
+	4:IRANSans.ttf:38:0,0:-6,-6,28,45,-60:1:0::0:RTL
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	5:IRANSans.ttf:38:0,0:-6,-6,28,45,-60:1:0:Fonts/Gradient_Cash.png:10:RTL
+ENDSET
+
+FONTSET steam-new 4
+	0:Knul-Regular.ttf:14.5:0,0:-5,-5,24,30,-36
+		Inject:9733:hexcoin50.png:-10:30:25:3
+	1:Knul-Regular.ttf:24:0,0:-8,-8,39,50,-61
+	2:Knul-Regular.ttf:14.5:0,0:-5,-5,24,30,-36:1:0:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:22:0,0:-4,-4,36,41,-46
+ENDSET
+
+FONTSET switch-new 4
+	0:Knul-Regular-Switch.ttf:17:0,0:-6,-6,28,37,-47
+		Inject:9733:hexcoin60.pngraw:-10:34:30:3
+	1:Knul-Regular-Switch.ttf:28:-1,0:-8,-8,45,61,-78
+	2:Knul-Regular-Switch.ttf:17:1,0:-6,0,28,37,-48:1:0:Fonts/Gradient_Cash.pngraw:16
+	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54
+ENDSET
+
+FONTSET ps4-new 4
+	0:Knul-Regular-PS4.ttf:17:0,0:-6,-6,28,37,-47
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	1:Knul-Regular-PS4.ttf:28:-1,0:-8,-8,45,61,-78
+	2:Knul-Regular-PS4.ttf:17:1,0:-6,0,28,37,-48:1:0:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54
+ENDSET
+
+FONTSET android-jp 5
+	0:Knul-Regular.ttf:39:0,0:-6,-7,27,36,-46:0:0::0:LTR:4
+		Inject:9733:hexcoin60.png:-7:32:34:3
+	1:Knul-Regular.ttf:63:-1,0:-7,5,44,60,-76
+	2:Knul-Regular.ttf:39:1,0:-6,2,33,34,-2:1:0:Fonts/Gradient_Cash.png:16
+	3:AA-BebasNeue.ttf:60:0,0:-4,-4,42,54,-65:0:0::0:LTR:4
+	4:TT_RodinCattleya-DB.TTF.vjapan:39:0,0:-6,-7,27,36,-46
+ENDSET
+
+FONTSET ios-jp 5
+	0:Knul-Regular.ttf:17:0,0:-6,-6,28,37,-47:2:5::0:LTR:4
+		Inject:9733:hexcoin60.png:-10:34:30:3
+	1:Knul-Regular.ttf:28:-1,0:-8,-8,45,61,-78:2:5::0:LTR:4
+	2:Knul-Regular.ttf:17:1,0:-6,0,28,37,-48:2:5:Fonts/Gradient_Cash.png:16:LTR:4
+	3:AA-BebasNeue.ttf:25.5:1,0:-4,-4,42,48,-54:2:5::0:LTR:4
+	4:TT_RodinCattleya-DB.TTF.vjapan:17:0,0:-8,-8,34,42,-50
+ENDSET

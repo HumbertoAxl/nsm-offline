@@ -1,0 +1,104 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(badge_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+ImgSeq:(StarTape#,NewGUI/UI/Anims/StarTape/Startape##.png,1,16)
+
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+Animation:(50,Loop) ref:Anim_StarTape
+{
+    Sequence:(StarTape#,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+    SpreadOver(0,50)
+    Handle(0.5,0.5)
+}
+//--------------------------------------------------------------------------------------------MACROS
+
+//AnimInstance
+AnimInstance:(0,0,Anim_StarTape) ref:AIRef_StarTapeEffect
+    Layer(AboveText)
+    EmitPlacer()
+    EmitLifetime()
+    EmitMover()
+    EmitSpinner()
+    :set(gel.scale,frand(0.4,0.8))
+
+    if(gel.y > @T)
+    <
+        frlerp(gel.scale,0.2,0.004)
+    >
+    if(gel.y > 650)
+    <
+        frlerp(gel.alpha,0,0.1)
+    >
+{
+} Template
+
+// Emitter
+Emitter:(EM_StarTape,AIRef_StarTapeEffect) ref:StarTapeShower
+
+//-------------------------------------------------------------------------------------------CONTENT
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	// Competition Colour
+	Draw:(White,@f,@T,@w,@H)
+	M_PrestigeMatch:(CompetitionColour)
+
+
+	// Competition Shield
+	Camera:((0,0,0),(0,0,0),66.461,(1,1,1),,,) //FIXEDFOV
+	{
+		UseShader:(Simple3D)
+		{
+			Locator:((1160,-2300,1500),(180,180,0),(1,1,1))
+			{
+				DrawStaticModel:(Shield_League_02,ShieldModel_Colour)
+					Blend(ONE,INV_IMAGE_ALPHA)
+					M_PrestigeMatch:(BannerModel)
+			}
+		}
+	}
+
+	// Vignette
+	M_Vignette:(#00000070,1)
+
+	// Competition Shield image
+	M_Text:(generic_WINNER,@C,41,0,0,C,C,TextLoc,KNUL30,Upper,0,0,#00000000,NoItalics,#FFFFFFAA,ref)
+	M_Text:("",@C,83,0,0,C,C,Text,BEBAS50,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,CompName)
+
+	// Competition Shield Image
+	Draw:(Blank,@C-75,100,150,150)
+		M_PrestigeMatch:(ShieldImage)
+
+	// Competition Trophy image
+	Draw:(Badge_Shadow,@C,575,400,30,,#00000080)
+		Handle(0.5,0.5)
+		frlerp(gel.scale,1.3,0.002)
+	Draw:(Blank,@C,562,400,400)
+	 	M_PrestigeMatch:(TrophyImage)
+	 	Handle(0.5,0.65)
+	 	frlerp(gel.scale,1.3,0.002)
+
+	// Club
+	M_Text:(generic_CLUB,@C-350-[@y/3],528,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFAA,ref)
+	Rect:(0,564,1,50)
+		float(%width)
+		set(gel.x,@C-350-[%width/2]-[@y/3])
+	{{
+		M_Text:(,40,0,0,0,L,C,Text,KNUL30,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,Player,TeamName,DoLTR)
+			set(%width,%gfw+20)
+		M_Badge:(0,0,HD,0.35,ClubBadge)
+	}}
+	
+	// Manager
+	M_Text:(generic_MANAGER,@C+350+[@y/3],528,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFAA,ref)
+	M_Text:(,@C+350-200+[@y/3],553,400,0,C,T,TextBox,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,Player,FullName,DoLTR)
+}}
+
+Instance:(StarTapeShower,0,0)

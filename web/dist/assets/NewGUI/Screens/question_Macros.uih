@@ -1,0 +1,128 @@
+Macro:(M_Answer,?ID?)
+	Sheet:(0,0,1191,0,0,0,51.49) // FIXEDFOV
+	 	PinVP(@C+[?ID?*276]-[[twk(Question,NumAnswers)-1]*138],@B-165)
+		set(gel.vis,twk(Question,Answer?ID?) != "")
+		float(%state)
+		Delay(twk(Question,AnswersDelay))
+		if(%state = 0)
+		<
+			Delay(?ID?*0.1)
+			frlerp(gel3d.roty,180,0.1)
+			if(gel3d.roty >= 90)
+			<
+				set(gel3d.roty,-90)
+				set(%state,1)
+				:Post(sounds.cards_Swap)
+			>
+		>
+		if(%state = 1)
+		<
+			frlerp(gel3d.roty,0,0.1)
+			// Fire a message when the last has answer has flipped
+			if(?ID? = [twk(Question,NumAnswers)-1])
+			<
+				:Post(question.answersFlipped)
+			>
+		>
+	{{
+		Rect:(0,0,260,160) ref:QuestionAnswer?ID?
+			Handle(0.5,0.5)
+			float(%clicked,%pressed)
+			
+			if((%state = 1) and(twk(Question,SelectedAnswer) = -1) and(twk(Question,InProgress)))
+			<
+				Press()
+				<
+					:set(%pressed,1)
+				>
+				else
+				<
+					:set(%pressed,0)
+				>
+				Click()
+				<
+					set(%clicked,1)
+				>
+				if(%clicked)
+				<
+					Post(UI_Select)
+					.set(twk(Question,SelectedAnswer),?ID?)
+					Post(question.btn_Answer?ID?)
+					Post(UI_KeyMomentHeartbeatStop)
+				>
+				M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			>
+			// Auto Continue
+			if(twk(Question,SelectedAnswer) = ?ID?)
+			<
+				if(twk(Question,TimedQuestion) = 0)
+				<
+					Delay(0.5)
+					.Message(question.btn_Continue)
+				>
+			>
+		{{
+			Rect:(@L,@T,@W,@H)
+				set(gel.vis,%state = 0)
+			{{
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,0,0,@W,@H,,#252525FF)
+				Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+			}}
+
+			Rect:(@L,@T,@W,@H)
+				set(gel.vis,%state = 1)
+			{{
+				Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,0,0,@W,@H)
+				
+				// Incorrect
+				Draw:(RoundedPanel,0,0,260,161,,#FF0000AA) $HIDE
+					if(twk(Question,IncorrectAnswer) = ?ID?)
+					<
+						set(gel.vis,1)
+						:Post(UI_InterviewAnswerWrong)
+					>
+
+				// Correct
+				Draw:(RoundedPanel,0,0,260,161,,#00EE0000)
+					if(twk(Question,CorrectAnswer) = ?ID?)
+					<
+						if(twk(Question,SelectedAnswer) = twk(Question,CorrectAnswer))
+						<
+							PulseAlpha(0.75,0,0.1,0.1,0,0.1,0.1,4)
+							:Post(UI_InterviewAnswerCorrect)
+						>
+						else
+						<
+							:Delay(0.75)
+							PulseAlpha(0.75,0,0.1,0.1,0,0.1,0.1,4)
+						>
+					>
+
+				Draw:(Button_Shade,0,80,@W,80,,#00000010FFFFFFFF)
+
+				M_Text:(,0,80,@W,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+					StringReadout(Question,Answer?ID?)
+
+				Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+					Layer(AboveText)
+					Additive()
+					if(%pressed)
+					<
+						set(gel.colour,#60606060)
+					>
+					else
+					<
+						frlerp(gel.colour,#00000000,0.05)
+					>
+			}}
+
+		}}
+			if(twk(Question,SelectedAnswer) != ?ID? and(twk(Question,SelectedAnswer) != -1))
+			<
+				frlerp(gel.scalex,0.9,0.25)
+				frlerp(gel.scaley,0.9,0.25)
+			>
+	}}
+EndM

@@ -1,0 +1,63 @@
+Rect:(0,0,@W,40) ref:Ticker1
+	float(%id,%stage)
+	.set(gel.x,50)
+	.set(gel.alpha,0)
+	if(%stage = 0)
+	<
+		frlerp(gel.x,0,0.05)
+		frlerp(gel.alpha,1,0.1)
+		:Delay(4)
+		:set(%stage,1)
+	>
+	if(%stage = 1)
+	<
+		frlerp(gel.x,-50,0.05)
+		frlerp(gel.alpha,0,0.1)
+		:Delay(1)
+		
+	>
+	if(gel.alpha < 0.01)
+	<
+		:Post(ticker.spawnNext)
+		:Post(ticker.shelveItem,%id)
+		:set(%stage,0)
+	>
+	Click()
+	<
+		//:Post(UI_Swoosh)
+		:Post(ticker.spawnNext)
+		:Post(ticker.shelveItem,%id)
+		:set(%stage,0)
+		:set(gel.alpha,0)
+	>
+{
+	M_Text:(Testing Ticker,0,0,@w,40,C,C,Text,KNUL24,,0,0,#00000000,Italics,#EFEFEFFF000000FF,Ticker1)
+		M_Style:(Outline,#FFFFFF10)
+		CharacterSpacing(0.5)
+} Template
+
+
+Dissolve:(@L,@B-110,@W,40)
+	Layer(Debug)
+	LockLayer()
+	.set(gel.alpha,0)
+	if((twk(Ftue,Enabled)) and(twk(Ftue,Step) oneof(2,3)))
+	<
+		set(gel.vis,0)
+	>
+	if(twk(CardsCarousel,State) = 0)
+	<
+		if((shell(Facility) = "facility") or(twk(Footer,NavigationEnabled) = 0))
+		<
+			frlerp(gel.alpha,0,0.15)
+		>
+		else
+		<
+			frlerp(gel.alpha,1,0.15)
+		>
+	>
+
+{{
+	Draw:(White,0,0,@W,@H,,#1E5BB899FFFFFFFF)
+	Rect:() ref:TickerTape
+}}

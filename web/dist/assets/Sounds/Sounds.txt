@@ -1,0 +1,124 @@
+
+// --------------------------------------Error
+
+Snd:(NotFound,Beep)
+Alias:(Beep, NotFound)
+
+// --------------------------------------Music
+
+Music:(UI_Music,Interface/New_Audio/ui_music)
+
+// --------------------------------------New UI Sounds
+
+Snd:(UI_Back,Interface/New_Audio/ui_back,LOAD_AT_STARTUP)
+Snd:(UI_Build,Interface/New_Audio/ui_build,LOAD_AT_STARTUP)
+Snd:(UI_BuyItem,Interface/New_Audio/ui_buyitem,LOAD_AT_STARTUP)
+Snd:(UI_CardAppear,Interface/New_Audio/ui_card_appear,LOAD_AT_STARTUP)
+Snd:(UI_ChangeTab,Interface/New_Audio/ui_changetab,LOAD_AT_STARTUP)
+Snd:(UI_ClaimReward,Interface/New_Audio/ui_claimreward,LOAD_AT_STARTUP)
+Snd:(UI_ClockSpeedUp,Interface/New_Audio/ui_clockspeedup,LOAD_AT_STARTUP)
+Snd:(UI_EarningsGainStat,Interface/New_Audio/ui_earnings_gainstats,LOAD_AT_STARTUP)
+Snd:(UI_EarningsScoreLoop,Interface/New_Audio/ui_earnings_scoreloop,LOAD_AT_STARTUP)
+Snd:(UI_Error,Interface/New_Audio/ui_error,LOAD_AT_STARTUP)
+Snd:(UI_Fail,Interface/New_Audio/ui_fail,LOAD_AT_STARTUP)
+Snd:(UI_InterviewAnswerCorrect,Interface/New_Audio/ui_interview_answercorrect,LOAD_AT_STARTUP)
+Snd:(UI_InterviewAnswerGlow,Interface/New_Audio/ui_interview_answerglow,LOAD_AT_STARTUP)
+Snd:(UI_InterviewAnswerWrong,Interface/New_Audio/ui_interview_answerwrong,LOAD_AT_STARTUP)
+Snd:(UI_KeyMomentHeartbeat,Interface/New_Audio/ui_keymoment_heartbeat,LOAD_AT_STARTUP)
+Snd:(UI_MatchIntro,Interface/New_Audio/ui_matchintro,LOAD_AT_STARTUP)
+Snd:(UI_MoneyFly,Interface/New_Audio/ui_moneyfly,LOAD_AT_STARTUP)
+Snd:(UI_RefillEnergy,Interface/New_Audio/ui_refillenergy,LOAD_AT_STARTUP)
+Snd:(UI_ResultsConfetti,Interface/New_Audio/ui_results_confetti,LOAD_AT_STARTUP)
+Snd:(UI_ResultsGainStats,Interface/New_Audio/ui_results_gainstats,LOAD_AT_STARTUP)
+Snd:(UI_ResultsScoreLoop,Interface/New_Audio/ui_results_scoreloop,LOAD_AT_STARTUP)
+Snd:(UI_ResultsStarRating,Interface/New_Audio/ui_results_starrating,LOAD_AT_STARTUP)
+Snd:(UI_Select,Interface/New_Audio/ui_select,LOAD_AT_STARTUP)
+Snd:(UI_SpecialEvent,Interface/New_Audio/ui_specialevent,LOAD_AT_STARTUP)
+Snd:(UI_Success,Interface/New_Audio/ui_success,LOAD_AT_STARTUP)
+Snd:(UI_Swoosh,Interface/New_Audio/ui_swoosh,LOAD_AT_STARTUP)
+Snd:(UI_SwooshBig,Interface/New_Audio/ui_swooshbig,LOAD_AT_STARTUP)
+Snd:(UI_Tweet,Interface/New_Audio/ui_tweetcomment,LOAD_AT_STARTUP)
+
+// --------------------------------------Legacy UI References With New Sounds
+
+Snd:(General_CashIn,Interface/New_Audio/ui_buyrealmoney,LOAD_AT_STARTUP)
+Snd:(General_CashOut,Interface/New_Audio/ui_buyitem,LOAD_AT_STARTUP)
+Snd:(General_Positive,Interface/New_Audio/ui_success,LOAD_AT_STARTUP)
+Snd:(General_Negative,Interface/New_Audio/ui_fail,LOAD_AT_STARTUP)
+Snd:(General_Success,Interface/New_Audio/ui_success,LOAD_AT_STARTUP)
+Snd:(Person_DrinkNRG,Interface/New_Audio/ui_refillenergy,LOAD_AT_STARTUP)
+
+// --------------------------------------Legacy UI References With Original Sounds
+
+Snd:(Cards_Swap,Interface/Swap,LOAD_AT_STARTUP)
+
+// --------------------------------------New Match Sounds
+
+Snd:(Match_AmbienceRain,Football/New_Audio/ambience_rain,LOAD_AT_STARTUP)
+Snd:(Match_AmbienceTraining,Football/New_Audio/ambience_training,LOAD_AT_STARTUP)
+Snd:(Match_BallBounce,Football/New_Audio/ball_collision_grass_01,LOAD_AT_STARTUP)
+Snd:(Match_BallBounce,Football/New_Audio/ball_collision_grass_02,LOAD_AT_STARTUP)
+Snd:(Match_BallBounce,Football/New_Audio/ball_collision_grass_03,LOAD_AT_STARTUP)
+Snd:(Match_BallBounce,Football/New_Audio/ball_collision_grass_04,LOAD_AT_STARTUP)
+Snd:(Match_BallHitHoarding,Football/New_Audio/ball_collision_panel_01,LOAD_AT_STARTUP)
+Snd:(Match_BallHitHoarding,Football/New_Audio/ball_collision_panel_02,LOAD_AT_STARTUP)
+Snd:(Match_BallHitHoarding,Football/New_Audio/ball_collision_panel_03,LOAD_AT_STARTUP)
+Snd:(Match_CrowdChant,Football/New_Audio/audience_chant_01,LOAD_AT_STARTUP)
+Snd:(Match_CrowdChant,Football/New_Audio/audience_chant_02,LOAD_AT_STARTUP)
+Snd:(Match_CrowdChant,Football/New_Audio/audience_chant_03,LOAD_AT_STARTUP)
+Snd:(Match_CrowdGoalLong,Football/New_Audio/audience_goal_long,LOAD_AT_STARTUP)
+Snd:(Match_PlayerSlide,Football/New_Audio/character_slide_01,LOAD_AT_STARTUP)
+Snd:(Match_PlayerSlide,Football/New_Audio/character_slide_02,LOAD_AT_STARTUP)
+Snd:(Match_PlayerSlide,Football/New_Audio/character_slide_03,LOAD_AT_STARTUP)
+Snd:(Match_PlayerTackle,Football/New_Audio/character_tackle_01,LOAD_AT_STARTUP)
+Snd:(Match_PlayerTackle,Football/New_Audio/character_tackle_02,LOAD_AT_STARTUP)
+Snd:(Match_PlayerTackle,Football/New_Audio/character_tackle_03,LOAD_AT_STARTUP)
+Snd:(Match_StadiumMusicLoop,Football/New_Audio/stadium_musicloop,LOAD_AT_STARTUP)
+Snd:(Match_WhistleHalftime,Football/New_Audio/whistle_halftime,LOAD_AT_STARTUP)
+
+// --------------------------------------Legacy Match References With New Sounds
+
+Snd:(Training_ConeSplit,Interface/New_Audio/ui_success,LOAD_AT_STARTUP)
+Snd:(Match_CrowdAmbience,Football/New_Audio/audience_idle,LOAD_AT_STARTUP)
+Snd:(Match_CrowdBoo,Football/New_Audio/audience_boo,LOAD_AT_STARTUP)
+Snd:(Match_CrowdCheer,Football/New_Audio/audience_applause,LOAD_AT_STARTUP)
+Snd:(Match_CrowdGoal,Football/New_Audio/audience_goal_01,LOAD_AT_STARTUP)
+Snd:(Match_CrowdGoal,Football/New_Audio/audience_goal_02,LOAD_AT_STARTUP)
+Snd:(Match_CrowdOh,Football/New_Audio/audience_goalmiss,LOAD_AT_STARTUP)
+Snd:(Match_CrowdOh,Football/New_Audio/audience_disappointed_01,LOAD_AT_STARTUP)
+Snd:(Match_CrowdOh,Football/New_Audio/audience_disappointed_02,LOAD_AT_STARTUP)
+Snd:(Match_HitPost,Football/New_Audio/ball_collision_goalpost_03,LOAD_AT_STARTUP)
+Snd:(Match_KickLong,Football/New_Audio/ball_kick_hard_01,LOAD_AT_STARTUP)
+Snd:(Match_KickLong,Football/New_Audio/ball_kick_hard_02,LOAD_AT_STARTUP)
+Snd:(Match_KickLong,Football/New_Audio/ball_kick_hard_03,LOAD_AT_STARTUP)
+Snd:(Match_KickLong,Football/New_Audio/ball_kick_hard_04,LOAD_AT_STARTUP)
+Snd:(Match_KickShort,Football/New_Audio/ball_kick_soft_01,LOAD_AT_STARTUP)
+Snd:(Match_KickShort,Football/New_Audio/ball_kick_soft_02,LOAD_AT_STARTUP)
+Snd:(Match_KickShort,Football/New_Audio/ball_kick_soft_03,LOAD_AT_STARTUP)
+Snd:(Match_KickShort,Football/New_Audio/ball_kick_soft_04,LOAD_AT_STARTUP)
+Snd:(Match_Parry,Football/New_Audio/ball_collision_character_01,LOAD_AT_STARTUP)
+Snd:(Match_Parry,Football/New_Audio/ball_collision_character_02,LOAD_AT_STARTUP)
+Snd:(Match_Parry,Football/New_Audio/ball_collision_character_03,LOAD_AT_STARTUP)
+Snd:(Match_Whistle,Football/New_Audio/whistle_short,LOAD_AT_STARTUP)
+Snd:(Match_WhistleDelayed,Football/New_Audio/whistle_short,LOAD_AT_STARTUP)
+Snd:(Match_WhistleFinal,Football/New_Audio/whistle_fulltime,LOAD_AT_STARTUP)
+Snd:(Match_WhistleHalftime,Football/New_Audio/whistle_halftime,LOAD_AT_STARTUP)
+Snd:(Training_ConeHit,Football/New_Audio/cone_hit_01,LOAD_AT_STARTUP)
+Snd:(Training_ConeHit,Football/New_Audio/cone_hit_02,LOAD_AT_STARTUP)
+Snd:(Training_ConeHit,Football/New_Audio/cone_hit_03,LOAD_AT_STARTUP)
+Snd:(Training_PoleBoing,Football/New_Audio/pole_hit_01,LOAD_AT_STARTUP)
+Snd:(Training_PoleBoing,Football/New_Audio/pole_hit_02,LOAD_AT_STARTUP)
+Snd:(Training_PoleBoing,Football/New_Audio/pole_hit_03,LOAD_AT_STARTUP)
+
+// --------------------------------------Legacy Match References With Original Sounds
+
+Snd:(Match_HitNet,Football/HitNet,LOAD_AT_STARTUP)
+Snd:(Match_ClockTick,Football/Clock1000,LOAD_AT_STARTUP)
+
+// --------------------------------------Legacy Audio
+// General
+Snd:(General_Error,Interface/Error,LOAD_AT_STARTUP)
+
+// Match
+Snd:(Match_TrainingClap,Football/TrainingClap,LOAD_AT_STARTUP)
+

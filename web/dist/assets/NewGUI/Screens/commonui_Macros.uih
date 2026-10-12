@@ -1,0 +1,503 @@
+Animation:(100,Clamp) ref:CoinSting
+{
+	During:(0,100)
+	{
+		Rect:()
+			.set(gel.alpha,0.1)
+		{
+	    	Draw:(Header_Hex,-29,-17,50,50)
+	    	Draw:(Header_Hex,-29,17,50,50)
+	    	Draw:(Header_Hex,2,-36,50,50)
+	    	Draw:(Header_Hex,2,36,50,50)
+
+	    	Draw:(Header_Hex,34,-17,50,50)
+	    	Draw:(Header_Hex,34,17,50,50)
+		}
+	}
+
+	During:(0,20)
+    {
+    	Draw:(Header_Hex,-29,17,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    }	
+	During:(20,60)
+    {
+    	Draw:(Header_Hex,-29,17,50,50)
+    		TweenAlpha(0,0.1)
+    }	
+
+	During:(10,30)
+    {
+    	Draw:(Header_Hex,-29,-17,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    	Draw:(Header_Hex,2,36,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    }
+	During:(30,70)
+    {
+    	Draw:(Header_Hex,-29,-17,50,50)
+    		TweenAlpha(0,0.1)
+    	Draw:(Header_Hex,2,36,50,50)
+    		TweenAlpha(0,0.1)
+    }
+
+   	During:(20,40)
+    {
+    	Draw:(Header_Hex,2,-36,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    	Draw:(Header_Hex,34,17,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    }
+   	During:(40,80)
+    {
+    	Draw:(Header_Hex,2,-36,50,50)
+    		TweenAlpha(0,0.1)
+    	Draw:(Header_Hex,34,17,50,50)
+    		TweenAlpha(0,0.1)
+    }
+
+   	During:(30,50)
+    {
+    	Draw:(Header_Hex,34,-17,50,50,,#FFFFFF00)
+    		TweenAlpha(1,0.1)
+    }
+   	During:(50,90)
+    {
+    	Draw:(Header_Hex,34,-17,50,50)
+    		TweenAlpha(0,0.1)
+    }
+}
+
+
+Macro:(M_HeaderZoneOPEN,?X?,?Y?,?W?,?H?,?CAT?,?VAR?,?SCREEN?,?LINK?,?ID?,?CATINT?,?VARINT?)
+	Dissolve:(?X?,?Y?,?W?,?H?) ref:Header?ID?
+		.set(gel.alpha,0)
+		float(%pressed,%clicked,%zoneRearm)
+		if(%rearm)
+		<
+			:set(gel.alpha,0)
+		>
+		if(twk(?CAT?,?VAR?) = 1)
+		<
+			set(%zoneRearm,0)
+			:set(%zoneRearm,1)
+			frlerp(gel.alpha,1,0.15)	
+		>
+		else
+		<
+			frlerp(gel.alpha,0,0.15)
+		>
+		Press()
+		<
+			:set(%pressed,1)
+		>
+		else
+		<
+			:set(%pressed,0)
+		>
+		// Click
+		set(%clicked,0)
+		func(ClickFunc)
+		<
+			if(twk(?CAT?,?VAR?) and twk(?CATINT?,?VARINT?))
+			<
+				.set(twk(CardsCarousel,State),0)
+				Post(UI_Select)
+				set(%clicked,1)
+				Post(?LINK?)
+			>
+		>
+		Click()
+		<
+			call(ClickFunc)
+		>
+		CTRLClick(?BTNOK?)
+		<
+			call(ClickFunc)
+		>
+		// PS4 only - hide the blue selection box around the Cards Carousel header item, during ftue only
+		##4
+		if((twk(?CAT?,?VAR?)) and twk(?CATINT?,?VARINT?) and (?ID? oneof(2,3,4,5,6,7)))
+		<
+			if(?ID?=6)
+			<
+				if(twk(Ftue,Enabled) = 0)
+				<
+					CTRLSelect(CTRLSquareSelected,0,0,0,0)
+				>
+				elif((twk(Ftue,Enabled) = 1) and(twk(Ftue,Step) = 75))
+				<
+					CTRLClearSelect()
+				>>
+			>
+			else
+			<
+				CTRLSelect(CTRLSquareSelected,0,0,0,0)
+			>
+		>
+		##-
+		if((twk(?CAT?,?VAR?) and twk(?CATINT?,?VARINT?)) and(?ID? oneof(2,3,4,5,6,7)))
+		<
+			CTRLSelect(CTRLSquareSelected,0,0,0,0)
+		>
+		##*
+	{{
+		Draw:(White,0,0,1,@H,,#606060FF)
+		Draw:(White,@R,0,1,@H,,#606060FF)
+
+		Draw:(White,0,0,@W+1,@H,,#FFFFFF00)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.alpha,0.2)
+			>
+			else
+			<
+				if(gel.alpha > 0.01)
+				<
+					frlerp(gel.alpha,0,0.05)
+				>
+			>
+EndM
+
+
+Macro:(M_HeaderZoneCLOSE)
+	}}
+EndM
+
+
+Macro:(M_CurrencyReadout,?X?,?Y?)
+	M_Text:("100",?X?,?Y?,0,50,C,C,Text,CASH,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		FontScale(0.9,1)
+		FontStyle(#FDD98AFF000000FF,1,0 #000000FF000000FF,-2,-1 #000000FF000000FF,0,-1 #000000FF000000FF,2,-1 #000000FF000000FF,-2,0 #000000FF000000FF,2,0 #000000FF000000FF,-2,2 #000000FF000000FF,0,2 #000000FF000000FF,2,2 #000000FF000000FF,-2,-3 #000000FF000000FF,2,-3 #000000FF000000FF,-2,3 #000000FF000000FF,2,3)
+		.set(twk(BuxCounter,Reset),1)
+		set(gel.text,twk(BuxCounter,Output))
+		// float(%localBux,%goalAmount,%startAmount,%timer)
+		// .set(%localBux,twk(Player,Buxs))
+		// .set(%goalAmount,twk(Player,Buxs))
+		// .set(%startAmount,twk(Player,Buxs))
+
+		// if(%goalAmount != twk(Player,Buxs))
+		// <
+		// 	set(%timer,0)
+		// 	set(%startAmount,%localBux)
+		// 	set(%goalAmount,twk(Player,Buxs))
+		// >
+		// add(%timer,FrameTime*0.015)
+
+		// if(%localBux>twk(Player,Buxs))
+		// <
+		// 	set(%localBux,lerp(%startAmount,%goalAmount,min(1,%timer)))
+		// >
+		// else
+		// <
+		// 	if(twk(Money,SetCounter)=1)
+		// 	<
+		// 		if(%localBux<twk(Player,Buxs))
+		// 		<
+		// 			set(%localBux,lerp(%startAmount,%goalAmount,min(1,%timer)))
+		// 		>
+		// 	>
+		// 	else
+		// 	<
+		// 		set(%timer,0)
+		// 	>
+		// >
+
+		// if(twk(Money,IncrementBux) > 0)
+		// <
+		// 	add(%localBux,twk(Money,IncrementBux))
+		// 	set(twk(Money,IncrementBux),0)
+		// >
+
+		// set(gel.text,cashfmt(%localBux,0))
+
+		if(gel.text = "0")
+		<
+			:set(gel.alpha,0.4)
+		>
+		else
+		<
+			:set(gel.alpha,1)
+		>
+EndM
+
+
+Macro:(M_TeamScore,?X?,?Y?,?INDEX?)
+	M_Text:(,?X?,?Y?,0,0,C,C,Text,KNUL40,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref,Match,Team?INDEX?Score)
+		Handle(0.5,0.75)
+		float(%score,%flash,%targetScale)
+		.set(%targetScale,1)
+		// Reset score float
+		if(twk(Match,Half) = 0)
+		<
+			:set(%score,0)
+		>
+		if(twk(Match,Team?INDEX?Score) > %score)
+		<
+			:set(gel.scale,1)
+			:Delay(0.1)
+			:set(%flash,1)
+			:set(%score,twk(Match,Team?INDEX?Score))
+		>
+		if(%flash)
+		<
+			:set(%targetScale,1.5)
+			:Delay(2)
+			:set(%targetScale,1)
+			:set(%flash,0)
+		>
+		if(%targetScale > 1)
+		<
+			PulseAlpha(1,0.1,0.2,0.2,0.1,0.1,0.1)
+		>
+		else
+		<
+			set(gel.alpha,1)
+		>
+		frlerp(gel.scale,%targetScale,0.1)
+EndM
+
+
+
+// Macrod script
+Macro:(M_DOL_Manager)
+	if(twk(DynamicOverlay,CurrentTopScreen) = "manager")
+	<
+		if((twk(Manager,CurrentTab) = 3) and(twk(Manager,PrestigeCount) > 0))
+		<
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(PrestigeComboComboSelected,manager)
+				Post(CTRLNavigate)
+			>
+		>
+		if(twk(Manager,CurrentTab) = 5)
+		<
+			CTRLPress(DOWN)
+			<
+				##P4
+				CTRLSetSelected(CTRLSelect,manager,,settingsmusicslider)
+				##IAN
+				CTRLSetSelected(settingsmusictoggle,manager)
+				##*
+			>
+		>
+	>
+EndM
+
+Macro:(M_DOL_Search)
+	if(twk(DynamicOverlay,CurrentTopScreen) = "search")
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(ViewComboComboSelected,search)
+			Post(CTRLNavigate)
+		>
+	>
+EndM
+
+Macro:(M_DOL_PlayerProfile,?FOCUS?)
+	if(twk(DynamicOverlay,CurrentTopScreen) = "profileplayer")
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(?FOCUS?,profileplayer)
+			Post(CTRLNavigate)
+		>
+	>
+EndM
+
+Macro:(M_DOL_StaffProfile,?FOCUS?)
+	if(twk(DynamicOverlay,CurrentTopScreen) = "profilestaff")
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(?FOCUS?,profilestaff)
+			Post(CTRLNavigate)
+		>
+	>
+EndM
+
+Macro:(M_Screen_Home)
+	if((shell(GameScreen) = "home") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(home_side_STADIUM,home)
+			Post(CTRLNavigate)
+		> 
+	>
+EndM
+
+Macro:(M_Screen_League)
+	if((shell(GameScreen) = "league") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		if(twk(League,CurrentTab) oneof(1,2,3))
+		<
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(LeagueComboComboSelected,league)
+				Post(CTRLNavigate)
+			>
+		>
+	>
+EndM
+
+Macro:(M_Screen_SquadData,?COMBO?)
+	if((shell(GameScreen) = "squad") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(?COMBO?ComboSelected,squad)
+			Post(CTRLNavigate)
+		>
+	>
+EndM
+
+
+// Header Zone navigation
+Macro:(M_Navigation_Help)
+EndM
+
+Macro:(M_Navigation_Manager)
+	CTRLBlock(LEFT)
+	M_Screen_Home:()
+	M_Screen_League:()
+	M_DOL_Manager:()
+	M_DOL_Search:()
+	M_Screen_SquadData:(RoleCombo)
+	M_DOL_PlayerProfile:(PlayerPrevButton)
+	M_DOL_StaffProfile:(StaffPrevButton)
+EndM
+
+Macro:(M_Navigation_Social)
+	M_Screen_Home:()
+	M_Screen_League:()
+	M_DOL_Manager:()
+	M_DOL_Search:()
+	M_Screen_SquadData:(RoleCombo)
+EndM
+
+Macro:(M_Navigation_Search)
+	M_Screen_Home:()
+	M_Screen_League:()
+	if((shell(GameScreen) = "staff") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<	
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(RootFitnessCentre1,staff)
+			Post(CTRLNavigate)
+		>
+	>
+	if((shell(GameScreen) = "club") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		if(twk(Club,CurrentTab) = 1)
+		<
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(PressPanel,club)
+				Post(CTRLNavigate)
+			>
+		>
+	>
+	M_DOL_Manager:()
+	M_DOL_Search:()
+	M_Screen_SquadData:(RoleCombo)
+EndM
+
+Macro:(M_Navigation_Targets)
+	M_Screen_Home:()
+	M_Screen_League:()
+	M_DOL_Manager:()
+	M_DOL_Search:()
+	M_Screen_SquadData:(RoleCombo)
+EndM
+
+Macro:(M_Navigation_Cards)
+	M_Screen_Home:()
+	M_Screen_League:()
+	if((shell(GameScreen) = "formationmenu") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<	
+		CTRLPress(DOWN)
+		<
+			if(twk(Formation,CurrentTab) = 1)
+			<
+				CTRLSetSelected(SubsSelectGroup,formationmenu)
+				Post(CTRLNavigate)
+			>
+			if(twk(Formation,CurrentTab) = 2)
+			<
+				Post("CTRLCardCarouselDown")
+			>
+			if(twk(Formation,CurrentTab) = 3)
+			<
+				CTRLSetSelected(squaddatabutton,formationmenu)
+				Post(CTRLNavigate)
+			>
+		>
+	>
+	if((shell(GameScreen) = "staff") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		CTRLPress(DOWN)
+		<
+			if(twk(Staff,PostMatchState) = 0)
+			<
+				CTRLSetSelected(RootYouthAcademy,staff)
+				Post(CTRLNavigate)
+			>
+			else
+			<
+				CTRLSetSelected(CoachingRootYouthAcademy,staff)
+				Post(CTRLNavigate)
+			>
+		>
+	>	
+	if((shell(GameScreen) = "club") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		if(twk(Club,CurrentTab) = 1)
+		<
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(BoardPanel,club)
+				Post(CTRLNavigate)
+			>
+		>
+		if(twk(Club,CurrentTab) = 3)
+		<
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(DataToggleGroup,club)
+				Post(CTRLNavigate)
+			>
+		>
+	>
+	if((shell(GameScreen) = "staffhirelist") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+	<
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(DataListHeader,staffhirelist)
+			Post(CTRLNavigate)
+		>
+	>
+	M_DOL_Search:()
+	M_DOL_Manager:()
+	M_DOL_PlayerProfile:(PlayerNextButton)
+	M_DOL_StaffProfile:(StaffNextButton)
+	M_Screen_SquadData:(ViewCombo)
+EndM
+
+Macro:(M_Navigation_Bux)
+EndM
+
+Macro:(M_Navigation_Store)
+EndM
+
+Macro:(M_Navigation_CodeRedeem)
+	CTRLBlock(RIGHT)
+	M_Screen_Home:()
+	M_Screen_League:()
+	M_DOL_Manager:()
+	M_DOL_Search:()
+EndM

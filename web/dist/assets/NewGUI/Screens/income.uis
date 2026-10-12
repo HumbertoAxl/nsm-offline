@@ -1,0 +1,202 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Cheque_Base,NewGUI/UI/Income/Cheque_Base.png,20,20,20,20) Volatile:Income
+Img:(Cheque_Shadow,NewGUI/UI/Income/Cheque_Shadow.png) Volatile:Income
+Img:(Cheque_Reflection,NewGUI/UI/Income/Cheque_Reflection.png) Volatile:Income
+Img:(Cheque_Star,NewGUI/UI/Income/Cheque_Star.png) Volatile:Income
+// Img:(Cheque_NSSM,NewGUI/UI/Income/Cheque_NSSM.png) Volatile:Income
+Img:(Cheque_StarsTile,NewGUI/UI/Income/Cheque_StarsTile.png) Volatile:Income
+Img:(Cheque_Bux,NewGUI/UI/Income/Cheque_Bux.png) Volatile:Income
+Img:(Sheen,NewGUI/UI/Income/Sheen.png) Volatile:Income
+
+
+Img:(Cheque_NSM,NewGUI/UI/Income/Cheque_NSM.png) Volatile:Income
+Img:(SignatureBB,NewGUI/UI/Income/SignatureBB.png) Volatile:Income
+Img:(SignatureBB_Reflection,NewGUI/UI/Income/SignatureBB_Reflection.png) Volatile:Income
+Img:(Name_Reflection,NewGUI/UI/Income/Name_Reflection.png) Volatile:Income
+Img:(Signature01,NewGUI/UI/Income/Signature01.png) Volatile:Income
+Img:(Signature01_Reflection,NewGUI/UI/Income/Signature01_Reflection.png) Volatile:Income
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(Money,SetCounter),0)
+	:Message(income.addToBank)
+	Delay(3)
+	.set(twk(Money,SetCounter),1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+Draw:(Sparkle,0,0,50,50,,#808080FF) ref:Income_Sparkle
+    Handle(0.5,0.5)
+    Additive()
+    Layer(AboveText)
+    EmitPlacer()
+    EmitSpinner()
+    EmitMover()
+    EmitLifetime()
+    float(%lerp_time)
+	if(%lerp_time < 3)
+	<
+	   add(%lerp_time,0.15)
+	>
+
+	add(gel.y,%lerp_time)
+	frlerp(gel.alpha,0,0.02)
+	frlerp(gel.scale,0,0.02)
+{
+} Template
+
+Emitter:(EM_StarBurstFall,Income_Sparkle) ref:IncomeEmitter
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	Draw:(White,@f,533,@w,1,,#FFFFFF30)
+
+	// Cheque
+	Rect:(@C-270,225,740,310)
+		.set(gel.x,@C-270)
+		frlerp(gel.x,@C-370,0.1)
+	{{
+		Draw:(Cheque_Shadow,@C-640,200,640,206)
+		Draw:(Cheque_Shadow,@C+640,200,-640,206)
+		Draw:(Cheque_Reflection,-7,310)
+
+		Draw:(Cheque_Base,0,0,@W,@H)
+		Draw:(White,0,40,@W,@H-80,,#E9E6DCFF)
+		Draw:(Cheque_Star)
+		Clip:(0,0,@W,@H)
+		{
+			Tile:(Cheque_StarsTile,0,0,60,85)
+				Copies(13,1)
+			Tile:(Cheque_StarsTile,0,310,60,-85)
+				Copies(13,1)
+
+			Rect:()
+				float(%t)
+				add(%t,FrameTime*0.5)
+			{
+				Draw:(Sheen,70,-100,423,700,-12,#FFFFFFCC)
+					Scale(0.7,1)
+					Layer(AboveText)
+					set(gel.x,70 - [50*sin(%t)])
+				Draw:(Sheen,570,-100,423,700,-12,#FFFFFFCC)
+					Scale(0.5,1)
+					Layer(AboveText)
+					set(gel.x,570 - [50*sin(%t)])
+			}
+
+		}
+
+		// Outer Box
+		Draw:(White,15,20,710,2,,#B2AFA4FF)
+		Draw:(White,15,290,710,2,,#B2AFA4FF)
+		Draw:(White,15,20,2,270,,#B2AFA4FF)
+		Draw:(White,723,20,2,270,,#B2AFA4FF)
+
+		// Prize Money
+		Draw:(White,60,113,285,2,,#B2AFA4FF)
+		Draw:(White,60,183,620,2,,#B2AFA4FF)
+
+		// Bux and Income
+		Draw:(Cheque_Bux,410,67)
+		M_Text:(,460,87,0,0,L,C,Text,KNUL40,,0,0,#00000000,NoItalics,#7A7870FF,PrizeMoney)
+			float(%localAmount,%goalAmount,%t)
+			.set(%goalAmount,twk(Income,IncomeAmount))
+			Delay(0.5)
+			add(%t,FrameTime*0.015)
+			if(%localAmount < %goalAmount)
+			<
+				set(%localAmount,lerp(0,%goalAmount,min(1,%t)))
+				Post(UI_EarningsScoreLoop)
+			>
+			else
+			<
+				.set(twk(Money,BuxEmitterX),620)
+				.set(twk(Money,BuxEmitterY),300)
+				.set(twk(Money,BuxIncrease),twk(Income,IncomeAmount))
+				:set(twk(Money,BuxEmitterState),1)
+			>
+			set(gel.text,cashfmt(%localAmount,0))
+
+		Rect:() $HIDE
+			if(twk(Money,BuxEmitterState) = 1)
+			<
+				:set(gel.vis,1)
+			>
+		{
+			Instance:(IncomeEmitter,550,110)
+		}
+			
+
+
+		// Box
+		Draw:(White,400,55,280,3,,#B2AFA4FF)
+		Draw:(White,400,110,280,3,,#B2AFA4FF)
+		Draw:(White,400,55,3,55,,#B2AFA4FF)
+		Draw:(White,677,55,3,55,,#B2AFA4FF)
+		
+
+		// Player Name
+		M_Text:("",@C,158,0,0,C,C,Text,KNUL35,,1,0,#7A7870FF000000FF,NoItalics,#7A7870FF,PlayerName)
+			M_TextMaxWidth:(690)
+
+		// Signature
+		Draw:(White,197,253,483,2,,#B2AFA4FF)
+
+		Rect:() $HIDE ref:PrizeMoney
+		{
+			//NSM logo left and right
+			Draw:(Cheque_NSM,26,25)
+					.set(gel.vis,twk(Settings,AppVariant)!="China" )
+			Draw:(Cheque_NSM,658,25)
+					.set(gel.vis,twk(Settings,AppVariant)!="China" )
+			
+			M_Text:(seasonend_PRIZE,59,90,0,0,L,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#7A7870FF,ref)
+			M_Text:(,197,240,0,0,L,C,Text,KNUL22,,1,0,#7A7870FF,NoItalics,#7A7870FF,ref)
+				float(%r)
+				:set(%r,rand(0,1))
+				if(%r = 0)
+				<
+					.set(gel.text,LTR("BRIAN BROWN"))
+				>
+				else
+				<
+					.set(gel.text,LTR("BRUNO BROWN"))
+				> 
+					.set(gel.vis,twk(Settings,AppVariant)!="China" )
+			M_Text:(,197,267,0,0,L,C,Text,KNUL18,,0,0,#00000000,NoItalics,#7A7870FF,ref)
+				.set(gel.text,LTR("New Star Games")) 
+				.set(gel.vis,twk(Settings,AppVariant)!="China" )
+			Draw:(SignatureBB,405,185)
+			Draw:(SignatureBB_Reflection,405,197+170)
+			Draw:(Name_Reflection,185,350)
+				.set(gel.vis,twk(Settings,AppVariant)!="China" )
+		}
+
+		Rect:() $HIDE ref:Sponsorship
+		{
+			Draw:(Sponsor_2,100,40) ref:SponsorLogo
+				Scale(0.5,0.5)
+			{
+				Text:() $HIDE ref:SponsorName
+			}
+
+			M_Text:(sponsor_DIRECTOR,197,240,0,0,L,C,TextLoc,KNUL22,,1,0,#7A7870FF,NoItalics,#7A787050,ref)
+			Draw:(Signature01,460,192)
+			Draw:(Signature01_Reflection,460,197+170)
+		}
+	}}
+
+	M_Text:("congratulations",@C,120,0,0,C,C,TextLoc,KNUL25,Upper,0,0,#00000000,NoItalics,#505050FF,Title)
+	M_Text:("income_prizereward",@C,170,0,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Description)
+}}

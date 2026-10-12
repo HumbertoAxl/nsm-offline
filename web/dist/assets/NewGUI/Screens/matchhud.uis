@@ -1,0 +1,289 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Button_RetryActive,NewGUI/UI/Retry/Button_RetryActive.png,20,20,0,0) FORCE
+Img:(Button_RetryEmpty,NewGUI/UI/Retry/Button_RetryEmpty.png,20,20,0,0) FORCE
+Img:(Retry_Timer,NewGUI/UI/Retry/Retry_Timer.png,8,1,10,10) FORCE
+Img:(Retry_Slot,NewGUI/UI/Retry/Retry_Slot.png) FORCE
+Img:(Retry_Token,NewGUI/UI/Retry/Retry_Token.png) FORCE
+Img:(Retry_TokenIcon,NewGUI/UI/Retry/Retry_TokenIcon.png) FORCE
+Img:(Icon_Basket,NewGUI/UI/Retry/Icon_Basket.png) FORCE
+Img:(Icon_Video,NewGUI/UI/Retry/Icon_Video.png) FORCE
+Img:(Icon_R,NewGUI/UI/Icons/Icon_R.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_CheckMatchTouchDown,?HX?,?HY?)
+	if(TouchDown)
+	<
+		if((TouchX <= [gel.x+[gel.w-[gel.w*?HX?]]]) and(TouchX >= [gel.x-[gel.w*?HX?]]) and(TouchY <= [gel.y+[gel.h-[gel.h*?HY?]]]) and(TouchY >= [gel.y-[gel.h*?HY?]]))
+		<
+			set(twk(Match,TouchDown),0)
+		>
+	>
+EndM
+
+Macro:(M_RetrySlotAnim,?X?,?Y?,?INDEX?,?ICON?)
+	Rect:(?X?,?Y?,60,60)
+	{{
+		// Retry Slot BG
+		Draw:(Circle_100,0,0,60,60,,#B0B0B0FF)
+
+		// Available Retry
+		Draw:(Retry_Slot,@C,@M,75,75)
+			Handle(0.5,0.5)
+		
+		Draw:(?ICON?,@C-25,@M-25,50,50,,#0000001A)
+
+		Rect:()
+			set(gel.vis,twk(MatchHUD,RetriesRemainingSlot?INDEX?) > 0 or(twk(MatchHUD,RetriesRemainingSlot?INDEX?Used) = 1))
+		{
+			Draw:(Retry_Token,@C,@M,75,75)
+				Handle(0.5,0.5)
+				float(%targetScale)
+				if(twk(MatchHUD,RetriesRemainingSlot?INDEX?Used))
+				<
+					:Delay(0.1)
+					:set(%targetScale,1.3)
+					:Delay(0.3)
+					:set(%targetScale,0)
+					frlerp(gel.alpha,0,0.1)
+				>
+				else
+				<
+					:set(%targetScale,1)
+					:set(gel.alpha,1)
+				>
+				frlerp(gel.scale,%targetScale,0.1)
+
+			Draw:(Retry_TokenIcon,@C,@M,75,75)
+				Handle(0.5,0.5)
+				if(twk(MatchHUD,RetriesRemainingSlot?INDEX?Used))
+				<
+					frlerp(gel.angle,359,0.05)
+					frlerp(gel.alpha,0,0.05)
+				>
+				else
+				<
+					:set(gel.angle,0)
+				>
+		}
+	}}
+EndM
+
+Macro:(M_RetryPanel)
+	// Retry Button
+	Rect:()
+		set(gel.vis,twk(MatchHUD,RetryEnabled))
+	{
+		Rect:()
+			// Hide if on Replay screen and you have no retries
+			if((twk(MatchHUD,ShowReplay) and([twk(MatchHUD,RetriesRemainingSlot0) + twk(MatchHUD,RetriesRemainingSlot1)] = 0) and(twk(MatchHUD,RetryClicked) = 0)))
+			<
+				set(gel.vis,0)
+			>
+			else
+			<
+				set(gel.vis,1)
+			>
+
+			if(twk(MatchHUD,RetryClicked))
+			<
+				:Delay(1.1)
+				:Message(matchhud.btn_DoRetry)
+			>
+		{
+			M_PressOPEN:(@R-120,@B-220,180,140,link)
+				// Retries available
+				Rect:()
+					.set(gel.vis,([twk(MatchHUD,RetriesRemainingSlot0) + twk(MatchHUD,RetriesRemainingSlot1)] > 0))
+				{
+					Draw:(Button_RetryActive,-6,0,@W+12,@H+12)
+
+					// Timer shown on Replay Offer screen only
+					Rect:()
+						//##PIAS
+						// PS4 version doesn't have ingame replays, so we need to ignore this and always show the countdown.
+						// AC: TESTING PS4 REPLAYS IN MATCH ONLY
+						set(gel.vis,twk(MatchHUD,ShowReplayOffer) = 1)
+						//##*
+					{
+
+						// Timer
+						Dissolve:()
+							set(gel.vis,(twk(MatchHUD,RetriesRemainingSlot0) > 0) or(twk(MatchHUD,RetriesRemainingSlot1) > 0))
+							if(twk(MatchHUD,RetryClicked) = 1)
+							<
+								frlerp(gel.alpha,0,0.1)
+							>
+							else
+							<
+								:set(gel.alpha,1)
+							>
+						{
+							Draw:(Button_Shade,3,@B-50,@W-6,48,,#4C0000FF)
+							Draw:(Retry_Timer,3,@B-50,@W,48,,#FF0000FF)
+								if(twk(MatchHUD,RetryClicked) = 0)
+								<
+									set(gel.w,max(10,[twk(Match,BallDieTimer)/1.5]*[@W-5]))
+								>
+								if(gel.w < 30)
+								<
+									frlerp(gel.alpha,0,0.1)
+								>
+							Draw:(Fade_Down,4,@B-50,@W-8,8,,#00000060)
+
+							Rect:()
+								if(twk(Match,BallDieTimer) < 0.2)
+								<
+									frlerp(gel.alpha,0,0.1)
+								>
+								else
+								<
+									PulseAlpha(1,0.05,0.5,0.5)
+								>
+							{
+								// All languages except french
+								M_Text:(game_RETRY,0,@B-23,@W,0,C,C,TextBox,KNUL23,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+									LineSpacing(0.8)
+									set(gel.vis,TPlayerClass.languageId != 7))
+
+								// French language version, smaller font
+								M_Text:(game_RETRY,0,@B-23,@W,0,C,C,TextBox,KNUL21,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+									LineSpacing(0.8)
+									set(gel.vis,TPlayerClass.languageId = 7)
+
+							}
+						}
+					}
+
+
+					// Text shown on Replay screen only
+					Rect:()
+						set(gel.vis,twk(MatchHUD,ShowReplay) = 1)
+					{
+						Draw:(Fade_Down,4,@B-50,@W-8,8,,#00000030)
+						M_Text:(game_RETRY,0,@B-23,@W,0,C,C,TextBox,KNUL23,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+							LineSpacing(0.8)
+					}
+				}
+
+
+				// No Retries
+				Rect:()
+					.set(gel.vis,[twk(MatchHUD,RetriesRemainingSlot0) + twk(MatchHUD,RetriesRemainingSlot1)] = 0)
+				{
+					Draw:(Button_RetryEmpty,-6,0,@W+12,@H+12)
+					Draw:(Fade_Down,4,@B-50,@W-8,8,,#00000060)
+					M_Text:(game_NORETRIES,0,@B-23,@W,0,C,C,TextBox,KNUL23,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						LineSpacing(0.8)
+				}
+
+
+				##IA
+				M_RetrySlotAnim:(15,18,1,Icon_Basket)
+				Draw:(Separator,@C,10)
+				M_RetrySlotAnim:(@R-75,18,0,Blank)
+				##P4N
+				M_RetrySlotAnim:(@C-30,18,0,Retry_TokenIcon)
+				##*
+				
+				Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+					Layer(AboveText)
+					Additive()
+					if(%pressed)
+					<
+						set(gel.colour,#60606080)
+					>
+					else
+					<
+						frlerp(gel.colour,#00000000,0.05)
+					>
+
+				M_SwitchButtonHint:(⛌,@R-15,-5)	
+					.set(gel.vis,[twk(MatchHUD,RetriesRemainingSlot0) + twk(MatchHUD,RetriesRemainingSlot1)] = 1)
+
+			M_PressCLOSE:()
+				M_CTRLButtonExtra:(X,false)
+				if(%clicked)
+				<
+					:Message(matchhud.btn_TryRetryStart)
+				>
+		}
+
+		// Block screen immediately after retry
+		Rect:(@L,@T,@W,@H)
+			Click()
+			set(gel.vis,twk(MatchHUD,RetryClicked))
+	}
+EndM
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+Rect:(@o,@T,@s,@H)
+{{
+	Import:(matchhud_controls.uih)
+	Import:(matchhud_replaycontrols.uih)
+	Import:(matchhud_stings.uih)
+
+	// Replay Button
+	Rect:()
+		set(gel.vis,(twk(Ftue,Enabled) = 0) and(twk(MatchHUD,ShowReplayOffer)) and(twk(MatchHUD,RetryClicked) = 0))
+	{
+		##IA
+		M_Button:(@R-120,@T+100,180,70,Button_SilverSliced,Icon_R,@C-20,-1,40,40,#252525FF,matchhud.btn_Replay,ref,loc(game_REPLAY),0,20,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+		##P4N
+		M_Button:(@R-120,@T+100,180,70,Button_SilverSliced,,@C-20,-1,40,40,#252525FF,matchhud.btn_Replay,ref,loc(game_REPLAY),0,4,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			M_CTRLButtonExtra:(Y,false)
+		##*	
+			
+		M_SwitchButtonHint:(⛍,@R-45,@T+50)	
+	}
+
+
+	// Goal Distance
+	Rect:(@L+30,@B-58,200,45)
+		set(gel.vis,twk(MatchHUD,GoalDistance) != "" and(twk(MatchHUD,ShowReplay)=0))
+	{{
+		Draw:(RoundedPanel,@L,@T,@W,@H,,#000000FF)
+
+		M_Text:("40.5 metres",@L+20,@T,@W,@H,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			set(gel.text,(twk(MatchHUD,GoalDistance)))
+	}}
+
+
+	// What is this?
+	Rect:(@R-115,@T+80,200,60)
+		if(twk(MatchHUD,ShowReplay) = 0 and(twk(MatchHUD,ShowReplayOffer) = 0))
+		<
+			:set(gel.vis,1)
+			M_CheckMatchTouchDown:(0.5,0.5)
+		>
+		else
+		<
+			:set(gel.vis,0)
+		>
+	{{
+	}}
+
+
+	// Retry Panel
+	M_RetryPanel:()
+
+
+	// Continue Button
+	Rect:()
+		set(gel.vis,twk(MatchHUD,ContinueEnabled) and(twk(MatchHUD,RetryClicked) = 0))
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,matchhud.btn_Continue,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,5,5,10,10)
+			CTRLSetSelected()
+	}	
+}}

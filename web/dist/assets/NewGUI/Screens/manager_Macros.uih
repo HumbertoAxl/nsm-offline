@@ -1,0 +1,215 @@
+Img:(Ach_Trophy_Gold,NewGUI/UI/Achievements/Ach_Trophy_Gold.png) FORCE
+Img:(Ach_Trophy_Silver,NewGUI/UI/Achievements/Ach_Trophy_Silver.png) FORCE
+Img:(Ach_Steam,NewGUI/UI/Achievements/Ach_Steam.png) FORCE
+
+##4
+Img:(GoldPSN,NewGUI/UI/Achievements/GoldPSN.png) FORCE
+Img:(SilverPSN,NewGUI/UI/Achievements/SilverPSN.png) FORCE
+Img:(BronzePSN,NewGUI/UI/Achievements/BronzePSN.png) FORCE
+##*
+
+// Achievement template
+Cull:(0,0,@s-60,100) ref:AchievementRow
+	float(%CurrentValue,%MaxValue,%width,%claimClicked)
+	strvar(%hinttxt)
+	CTRLSelect(CTRLBasicSelected,0,0,6,6)
+	float(%selected)
+	CTRLIsSelected()
+	<
+		set(%selected,1)
+		set(%hinttxt,loc(settings_OKButton)::"  ")
+	>
+	else
+	<
+		set(%selected,0)
+		set(%hinttxt,"")
+	>
+{{
+
+	// Cell
+	Draw:(Cell100,-3,-2,@W+6,104)
+
+	##P4
+	// Steam Achievement
+	Draw:(Ach_Steam,-1,1,30,30,,#192837FFFFFFFFFF) $HIDE ref:SteamAchievement
+	##*
+
+
+	// Unclaimed background image
+	Draw:(Ach_Trophy_Silver,8,-20,140,140) ref:Background
+	
+
+	// Claimed Background image
+	Rect:() $HIDE ref:AchievementClaimedBackground
+	{
+		Draw:(Ach_Trophy_Silver,8,-20,140,140)
+		Draw:(Ach_Trophy_Gold,8,-20,140,140) 
+	}
+
+
+	// Claiming Animation
+	Rect:()
+		float(%amt)
+		init(%amt,1)
+		set(gel.vis,%claimClicked)
+	{
+		UseShader:(Region)
+		{
+			Draw:(Ach_Trophy_Gold,8,-20,140,140)
+				frlerp(%amt,0,0.08)
+				SetUniform4F(region,gel.gx,gel.gy+[100*%amt],130,130)
+		}
+
+		Instance:(AchievementEmitter,80,80) $HIDE
+			set(twk(EM_AchievementSparkles,YStart)(0.5),[1-%amt]*-100)
+			set(gel.vis,1)
+			Scale(0.7,0.7)
+	}
+	Draw:(Fade_Up,150,5,1,45,,#00000060)
+	Draw:(Fade_Down,150,50,1,45,,#00000060)
+
+
+	// Achievement Name
+	M_Text:("",170,@M,@W-560,0,L,C,TextBox,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AchievementName)
+		LineSpacing(1.2)
+
+
+	// Achievement Incomplete
+    Rect:() ref:AchievementIncompleteBtn
+    {
+    	Rect:()
+    		.set(gel.vis,%MaxValue > 1)
+    	{
+    		Draw:(Fade_Up,@R-380,5,1,45,,#00000060)
+			Draw:(Fade_Down,@R-380,50,1,45,,#00000060)
+		}
+
+    	// XP Reward Amount
+    	M_Text:(,@R-135,51,0,0,C,C,Text,KNUL23,,0,0,#00000000,NoItalics,#505050FF,IncompleteBtnText)
+    	##4
+    		set(gel.y,33)
+
+		Rect:(0,67)
+			float(%width)
+			set(gel.x,@R-123-[%width/2])
+		{{
+			Draw:(GoldPSN,-35,-18,35,35,,#FFFFFF00)  ref:TrophyQuality
+				.set(gel.vis,false)
+
+					
+			M_Text:(Gold Trophy,0,0,0,0,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#A07500FF,TrophyQuality)
+				set(%width,%gfw)
+				//Gold - #A07500FF
+	
+				//Silver - #505050FF
+
+				//Bronze - #AB542AFF
+		}}
+    	##*
+	}
+
+
+	// Achievement Progress
+	Rect:(@R-360,15,,,,#FFFFFFFF00000000) $HIDE ref:AchievementProgress
+	{{  
+		Draw:(CircleBar_Reflection,0,63,70,)
+		Draw:(Circle_200,2,2,66,66,,#252525FF)
+		UseShader:(Segment)
+		{
+			Draw:(Circle_200,35,35,64,64,,#43C3EDFF)
+				Handle(0.5,0.5)
+				float(%amt)
+				.set(%amt,[1.02/%MaxValue]*%CurrentValue) 
+				SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+		}
+		Draw:(CircleBar_Frame70,0,0,70,70,,#505050FF)
+
+		M_Text:(,-1,0,70,70,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			.set(gel.text,LTR(clamp(fmt(%CurrentValue,X),0,%MaxValue)))
+	}}
+	Draw:(Fade_Up,@R-270,5,1,45,,#00000060)
+	Draw:(Fade_Down,@R-270,50,1,45,,#00000060)
+
+
+	// Claim Button
+    M_Button:(@R-135,55,220,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,link,AchievementClaimBtn,loc(manager_ACHIEVEMENTS_CLAIM),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,CollectXPButton,,,%hinttxt)
+        float(%ID)
+        if(%selected)
+		<
+			M_CTRLButtonExtra:(?BTNOK?,false)
+		>
+        if(%clicked)
+        <
+        	if(gel.vis)
+        	<
+				Message(manager.btn_Achievement_Claimed_Clicked_ID,%ID :: "/" :: gel.gx :: "/" :: gel.gy)
+				set(gel.vis,false)
+				set(%claimClicked,1)
+				Post(UI_ClaimReward)
+			>
+        >
+
+
+
+	// Achievement Complete
+	Rect:() $HIDE ref:AchievementCompleted
+	{
+		M_Text:(manager_ACHIEVEMENTS_CLAIMED,@R-135,51,0,0,C,C,TextLoc,KNUL23,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+	}
+}} Template
+
+
+
+
+
+
+// Trophy template
+Cull:(0,0,280,570) ref:TrophyTemplate
+	float(%index,%winCount,%prestige)
+	CTRLSelect(CTRLBasicSelected,0,188,0,-535)
+{{
+	Draw:(Blank,@C-200,69,400,400)
+		M_Prestige:(TrophyImage)
+		if(%winCount > 0)
+		<
+			set(gel.colour,#FFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#40404050)
+		>
+
+	Draw:(Comp_BG,@C-130,461,260,24)
+		M_Prestige:(CompetitionColour)
+	
+	Draw:(White,@C,410,100,100)
+		Handle(0.5,0.5)
+		M_Prestige:(ShieldImage)
+
+	M_Text:("",@C-110,473,220,0,C,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,SelectedTrophyName)
+	M_Text:("",@C,505,0,0,C,C,Text,KNUL23,Upper,1,0,#252525FF,NoItalics,#252525FF,SelectedTrophyWins)
+	M_Text:("",@C,535,0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,SelectedTrophyLastWin)
+}} Template
+
+
+// Prestige Country trophy template
+Cull:(0,0,280,570) ref:CountryTrophyTemplate
+	float(%won,%current)
+	CTRLSelect(CTRLBlank)
+{{
+	Draw:(Trophy_Country,@C-200,69,400,400)
+		if(%won)
+		<
+			set(gel.colour,#FFFFFFFF)
+		>
+		else
+		<
+			set(gel.colour,#40404050)
+		>
+	Rect:()
+		set(gel.vis,%won > 0)
+	{
+		Draw:(Blank,@C-25,197,50,50) ref:NationFlag
+		M_Text:("",@C-140,453,280,0,C,C,TextLoc,KNUL25,Upper,0,0,#00000000,NoItalics,#505050FF,NationName)
+	}
+}} Template

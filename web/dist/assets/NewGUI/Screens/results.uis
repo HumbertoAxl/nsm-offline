@@ -1,0 +1,73 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(templates_fixtureresult.uih)
+Import:(templates_competitions.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(LeagueFixtures,FixturesScroll),0)
+	.set(twk(LeagueFixtures,ClickedId),-1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%open)
+{{
+
+	// Clipped content
+	Clip:(@L,@T+280,@W,@H-350)
+	{{
+		M_ResultCell:(FixturePlayed,results.btn_MatchInfo)
+		M_ResultCell_Double:(FixturePlayedDouble,results.btn_MatchInfo)
+		M_Result_Separator:(FixtureResultSeparator)
+			
+		CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+		{
+			// Moved Content
+			Rect:(30,10,@W-60,@H-25)
+			{{
+				Rect:(0,0,@W,@H) ref:ResultsList
+					ScrollingList(LeagueFixtures,FixturesScroll,@H,LeagueFixtures,FixturesScrollVel) ref:ScrollingListFixtures
+					CTRLScrollList(ScrollingListFixtures) ref:CTRLScrollList
+					VerticalList(5)
+				{{
+				}}
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-29,@B-45,Y)
+			CTRLScrollListIcon(ResultsList,CTRLScrollList) ref:CTRLScrollList
+
+
+		// Swipe Panels
+		Rect:(0,0,@W,@H) ref:SwipePanels
+			SwipePanel(LeagueFixtures,FixturesScroll,LeagueFixtures,FixturesScrollVel) ref:SwipePanelFixtures
+		{{
+			Rect:(0,10,@W,@H-20)
+			{{
+				M_ScrollIndicatorAlt:(@R-25,@H,LeagueFixtures,FixturesScroll,ResultsList,ScrollingListFixtures,SwipePanels,SwipePanelFixtures)
+			}}
+		}}
+	}}
+
+	M_ResultCell_Player_Single:(PlayerCupFixtureSmall)
+	PushOrigin:(@L+30,@T+195)
+		M_ResultCell_Player_Double:(PlayerCupFixtureLarge)
+	PopOrigin
+
+
+	// Headers and Filters
+	Rect:(@L,@T+80,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,60,@w,44)
+		M_FixturesHeader:(0,60,@W,44)
+		M_CompetitionHeader:()
+	}}
+}}

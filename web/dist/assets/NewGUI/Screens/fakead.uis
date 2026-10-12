@@ -1,0 +1,26 @@
+Import:(Core.uih)
+
+//AC: Fake ads need sorting out; these shouldn't be atlased in this way because they take up huge amounts of room.
+// AC: Use textures or individual volatile atlases instead.
+
+// Img:(FakeAd1,FakeAds/Fake_Ad_BHB.png) FORCE
+// Img:(FakeAd2,FakeAds/Fake_Ad_GC.png) FORCE
+// Img:(FakeAd3,FakeAds/Fake_Ad_SLKP.png) FORCE
+// Img:(FakeAd4,FakeAds/Fake_Ad_NSC.png) FORCE
+// Img:(FakeAd5,FakeAds/Fake_Ad_SBT.png) FORCE
+
+Draw:(White,@L,@T,@W,@H,,#000000FF)
+	Click(fakead.btn_Advert)
+
+Draw:(Blank,@C,@M,1024,640) ref:Image
+	Handle(0.5,0.5)
+
+Rect:() $HIDE
+	Delay(twk(FakeInterstitial,DismissDelay))
+	.set(gel.vis,1)
+{
+	Draw:(White,@R-100,@T,100,100,,#000000FF)
+	Draw:(Icon_Cross,@R-50,@T+50,80,80,,#FFFFFFFF)
+		Handle(0.5,0.5)
+		Click(fakead.btn_Close)
+}

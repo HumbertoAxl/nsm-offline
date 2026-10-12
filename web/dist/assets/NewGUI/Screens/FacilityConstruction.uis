@@ -1,0 +1,1220 @@
+//----------------------------------------------------------------Import Textures
+Texture:(Construction_Scaffold,Construction/Construction_Scaffold.png)
+Texture:(Construction_Scaffold_Roof,Construction/Construction_ScaffoldRoof.png)
+Texture:(Construction_Sheet01,Construction/Digger.png)
+Texture:(Brick,Construction/Brick.png)
+Texture:(Construction_Sheet02,Construction/Construction_CementTruck.png)
+Texture:(Construction_Crane_Side,Construction/Crane_Side.png)
+Texture:(Construction_Crane_Sections,Construction/Crane_Sections.png)
+Texture:(Construction_Rubble,Construction/Construction_Rubble.png)
+Texture:(Construction_Rubble_Fade,Construction/Construction_Rubble_Fade.png)
+
+
+##P4N
+//Night
+Texture:(Construction_Scaffold_Roof_Night,Construction/Construction_ScaffoldRoof_DUSK.nspng)
+Texture:(Construction_Scaffold_Night,Construction/Construction_Scaffold_DUSK.nspng)
+Texture:(Construction_Sheet01_Night,Construction/Digger_DUSK.nspng)
+Texture:(Construction_Sheet02_Night,Construction/Construction_CementTruck_DUSK.nspng)
+Texture:(Brick_Night,Construction/Brick_DUSK.nspng)
+Texture:(Construction_Rubble_Night,Construction/Construction_Rubble_DUSK.nspng)
+Texture:(Construction_Rubble_Fade_Night,Construction/Construction_Rubble_Fade_DUSK.nspng)
+Texture:(Construction_Crane_Side_Night,Construction/Crane_Side_DUSK.nspng)
+Texture:(Construction_Crane_Sections_Night,Construction/Crane_Sections_DUSK.nspng)
+
+//Winter
+Texture:(Construction_Scaffold_Roof_Winter,Construction/Construction_ScaffoldRoof_WINTER.nspng)
+Texture:(Construction_Scaffold_Winter,Construction/Construction_Scaffold_WINTER.nspng)
+Texture:(Construction_Sheet01_Winter,Construction/Digger_WINTER.nspng)
+Texture:(Construction_Sheet02_Winter,Construction/Construction_CementTruck_WINTER.nspng)
+Texture:(Brick_Winter,Construction/Brick_WINTER.nspng)
+Texture:(Construction_Rubble_Winter,Construction/Construction_Rubble_WINTER.nspng)
+Texture:(Construction_Rubble_Fade_Winter,Construction/Construction_Rubble_Fade_WINTER.nspng)
+Texture:(Construction_Crane_Side_Winter,Construction/Crane_Side_WINTER.nspng)
+Texture:(Construction_Crane_Sections_Winter,Construction/Crane_Sections_WINTER.nspng)
+
+//Winter Night
+//Texture:(Construction_Scaffold_Roof_Winter,Construction/Construction_ScaffoldRoof_WINTER.nspng)
+Texture:(Construction_Scaffold_Night_Winter,Construction/Construction_Scaffold_WINTER_DUSK.nspng)
+Texture:(Construction_Sheet01_Night_Winter,Construction/Digger_WINTER_DUSK.nspng)
+Texture:(Construction_Sheet02_Night_Winter,Construction/Construction_CementTruck_WINTER_DUSK.nspng)
+Texture:(Brick_Night_Winter,Construction/Brick_WINTER_DUSK.nspng)
+Texture:(Construction_Rubble_Night_Winter,Construction/Construction_Rubble_WINTER_DUSK.nspng)
+Texture:(Construction_Rubble_Fade_Night_Winter,Construction/Construction_Rubble_Fade_WINTER_DUSK.nspng)
+Texture:(Construction_Crane_Side_Night_Winter,Construction/Crane_Side_WINTER_DUSK.nspng)
+Texture:(Construction_Crane_Sections_Night_Winter,Construction/Crane_Sections_WINTER_DUSK.nspng)
+##*
+
+
+//-------------------------------------------Equipment Shadow
+Texture:(Construction_Shadow,Construction/Shadow.png,false)
+Texture:(Crane_Shadow,Construction/Crane_Shadow.png,false)
+
+
+
+
+//----------------------------------------------------------------Static Meshes
+//-------------------------------------------Dirt Base
+StaticModel:(Construction_Dirt_Base,Construction_Dirt_Base)
+
+//-------------------------------------------Scaffold Section
+StaticModel:(Construction_Scaffold_4X2L,Construction_Scaffold_4X2L)
+StaticModel:(Construction_Scaffold_4X2D,Construction_Scaffold_4X2D)
+
+StaticModel:(Construction_Scaffold_3X2L,Construction_Scaffold_3X2L)
+StaticModel:(Construction_Scaffold_3X2D,Construction_Scaffold_3X2D)
+
+StaticModel:(Construction_Scaffold_2X2L,Construction_Scaffold_2X2L)
+StaticModel:(Construction_Scaffold_2X2D,Construction_Scaffold_2X2D)
+
+StaticModel:(Construction_Scaffold_1X2L,Construction_Scaffold_1X2L)
+StaticModel:(Construction_Scaffold_1X2D,Construction_Scaffold_1X2D)
+
+
+StaticModel:(Construction_Scaffold_1X2C,Construction_Scaffold_1X2C)
+StaticModel:(Construction_Scaffold_1X2C_F,Construction_Scaffold_1X2C_F)
+StaticModel:(Construction_Scaffold_1X2C_INVA,Construction_Scaffold_1X2C_INVA)
+StaticModel:(Construction_Scaffold_1X2C_AL,Construction_Scaffold_1X2C_AL)
+StaticModel:(Construction_Scaffold_1X2C_AD,Construction_Scaffold_1X2C_AD)
+
+//-----------------------------------Low poly version for stadium in match
+StaticModel:(Construction_Scaffold_3X19_Low,Construction_Scaffold_3X19_Low)
+StaticModel:(Construction_Scaffold_5X19_Low,Construction_Scaffold_5X19_Low)
+StaticModel:(Construction_Scaffold_5X19X9_Low,Construction_Scaffold_5X19X9_Low)
+StaticModel:(Construction_Scaffold_3X13_Low,Construction_Scaffold_3X13_Low)
+StaticModel:(Construction_Scaffold_4X13_Low,Construction_Scaffold_4X13_Low)
+StaticModel:(Construction_Scaffold_5X13_Low,Construction_Scaffold_5X13_Low)
+StaticModel:(Construction_Scaffold_4X4_Low,Construction_Scaffold_4X4_Low)
+StaticModel:(Construction_Scaffold_5X5_Low,Construction_Scaffold_5X5_Low)
+
+//-------------------------------------------Rubble
+//SUMMER
+StaticModel:(Construction_Rubble_A,Construction_Rubble_A)
+StaticModel:(Construction_Rubble_B,Construction_Rubble_B)
+//WINTER
+##P4N
+StaticModel:(Construction_Rubble_A_Winter,HIGH DETAIL/Winter/Construction_Rubble_A_WINTER.3DMH)
+StaticModel:(Construction_Rubble_B_Winter,HIGH DETAIL/Winter/Construction_Rubble_B_WINTER.3DMH)
+##*
+
+//-------------------------------------------Digger
+StaticModel:(Construction_Digger,Construction_Digger)
+//-------------------------------------------ContainerCrates
+StaticModel:(Construction_Container01,Construction_Container01)
+//-------------------------------------------Barrels
+StaticModel:(Construction_Barrel_Single,Construction_Barrel_Single)
+StaticModel:(Construction_Barrel_Pile,Construction_Barrel_Pile)
+//-------------------------------------------CementTruck
+StaticModel:(Construction_CementTruck,Construction_CementTruck)
+StaticModel:(Construction_CementTruck_Bucket,Construction_CementTruck_Bucket)
+//-------------------------------------------Portaloo
+StaticModel:(Construction_Portaloo,Construction_Portaloo)
+//-------------------------------------------Pallet
+StaticModel:(Construction_Pallet,Construction_Pallet)
+//-------------------------------------------BrickPile
+StaticModel:(Construction_BrickPile,Construction_BrickPile)
+//-------------------------------------------Sign
+StaticModel:(Construction_Sign,Construction_Sign)
+//-------------------------------------------Crane
+StaticModel:(Construction_Crane_Tower,Construction_Crane_Tower)
+StaticModel:(Construction_Crane_TowerB,Construction_Crane_TowerB)
+StaticModel:(Construction_Crane_Base,Construction_Crane_Base)
+StaticModel:(Construction_Crane_BaseB,Construction_Crane_BaseB)
+
+
+//---------------------------------------------------------------------------------------------CurvePack
+CurvePack:(ConstructionPop,ConstructionPop)
+//----------------------------------------------------------------------------------------------Content
+
+
+
+//-----------------------------------------------------------------------------Animations
+
+
+//------------------------------------------------Facility SelectionIndicator
+
+Img:(StadiumSection_Highlight,NewGUI/UI/StadiumSection_Highlight.png)
+
+Animation:(119,Loop) ref:SelectMePulse
+{
+ 	//FullShrinkRing1
+	During:(0,59)
+	{
+        Draw:(StadiumSection_Highlight,0,0,1,1,0,#20FF20FF)
+ 			Handle(0.5,0.5)
+ 			TweenSize(250,250,0.5,0.5,,)
+ 			TweenCol(#DDFFDD10)
+    }
+
+    //FullShrinkRing2
+   	During:(60,119)
+    {
+    	Draw:(StadiumSection_Highlight,0,0,1,1,0,#20FF20FF)
+          	Handle(0.5,0.5)
+          	TweenSize(250,250,0.5,0.5,,)
+          	TweenCol(#DDFFDD10)
+    }
+}
+
+Animation:(119,Loop) ref:SelectMeStandPulse
+{
+ 	During:(0,119)
+	{
+		Draw:(White,0,0,250,250,,#AADDAA30)
+			Handle(0.5,0.5)
+	}
+        
+ 	//FullShrinkRing1
+	During:(0,59)
+	{
+      	Draw:(StadiumSection_Highlight,0,0,80,120,0,#20FF2060)
+ 			Handle(0.5,0.5)
+ 			TweenSize(250,250,0.5,0.5,,)
+ 			TweenCol(#DDFFDD00)
+
+      	Draw:(StadiumSection_Highlight,0,0,250,250,0,#20FF20FF)
+ 			Handle(0.5,0.5)
+ 			TweenCol(#DDFFDD10)
+    }
+
+    //FullShrinkRing2
+   	During:(60,119)
+    {
+    	Draw:(StadiumSection_Highlight,0,0,80,120,0,#20FF2060)
+          	Handle(0.5,0.5)
+          	TweenSize(250,250,0.5,0.5,,)
+          	TweenCol(#DDFFDD00)
+
+    	Draw:(StadiumSection_Highlight,0,0,250,250,0,#DDFFDD10)
+          	Handle(0.5,0.5)
+          	TweenCol(#20FF20FF)
+    }
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------------MACROS
+
+Macro:(M_AreaSelection,?POSX?,?POSY?,?POSZ?,?VAR?,?NAME?,?SCALEX?,?SCALEY?,?TX?,?TY?,?TROT?,?IMAGE?,?IMAGESIZE?)
+	Rect:() $HIDE
+		if((shell(GameScreen)="home") and(twk(Ftue,Step) >= 103))
+		<
+			if("?NAME?" oneof("ClubShop","FitnessCentre","MedicalUnit","ScoutsOffice","TrainingGround","YouthAcademy"))
+			<
+				set(gel.vis,(twk(FacilityView,Focused)!="?NAME?") and(twk(?NAME?Construction,LastConstructionLevel)=0) and(twk(?NAME?Construction,CompletionTurn)<=twk(Construction,Turn)))
+			>
+			elif("?NAME?"="Pitch")
+			<
+				set(gel.vis,not(twk(FacilityView,Focused) oneof("PitchStandN","PitchStandE","PitchStandS","PitchStandW","PitchCorners","Pitch")))
+			>
+			else
+			<
+				set(gel.vis,false)
+			>>
+		>
+	{
+		UseShader:(Default3D)
+   		{
+			Locator:((?POSX?,?POSY?,?POSZ?),(0,0,0),(1,1,1))
+			{	
+				AnimInstance:(0,0,SelectMePulse)
+					set(gel.anim.speed,0.55)
+					Scale(?SCALEX?,?SCALEY?)
+			}
+
+			Locator:((?POSX?,?POSY?,-5),(0,0,?TROT?),(1,1,1))
+				PulseAlpha(1,0,0.39,0.39,1,0.5,0.5)
+			{
+				
+				Rect:(,,,,,#FFFFFFFFFFFFFFFF)
+				##P4N
+					if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+					<
+						set(gel.colour,#1E3146FFFFFFFFFF)
+					>
+					else
+					<
+						set(gel.colour,#FFFFFFFFFFFFFFFF)
+					>
+				##IA
+					set(gel.colour,#FFFFFFFFFFFFFFFF)
+				##*
+				{
+					Draw:(Icon_Home_?IMAGE?,?TX?,?TY?-400,?IMAGESIZE?,?IMAGESIZE?,0,#FFFFFFFFFFFFFFFF)
+						Handle(0.5,0.5)
+
+					M_Text:(facilities_?NAME?,?TX?,?TY?+100,0,0,C,C,TextLoc,KNUL64,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						Scale(3.5,3.5)
+
+
+					M_Text:(facility_Press,?TX?,?TY?+400,0,0,C,C,TextLoc,KNUL35,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						Scale(6,6)
+						if(twk(ControllerInput,Enabled) = 1)
+						<
+							set(gel.vis,(twk(Home,CurrentFacility)=?VAR?) and(twk(Home,CurrentFacility) = twk(Home,CurrentHighlightFacility)))
+							set(gel.text,loc(facility_Press))
+						>
+						else
+						<
+							:set(gel.vis,1)
+							set(gel.text,loc(facility_Tap))
+						>
+				}
+			}
+		}
+	}
+EndM
+
+Macro:(M_StadiumAreaSelection,?POSX?,?POSY?,?POSZ?,?VAR?,?NAME?,?SCALEX?,?SCALEY?,?TX?,?TY?,?TROT?,?IMAGE?,?IMAGESIZEX?,?IMAGESIZEY?,?IMAGEPOSY?,?TANG?)
+	Rect:()
+		set(gel.vis,not(twk(FacilityView,Focused) oneof("PitchStandN","PitchStandE","PitchStandS","PitchStandW","PitchCorners","Pitch")) and(twk(Ftue,Step) >=103) and(shell(GameScreen) = "home"))
+	{
+		Locator:((?POSX?,?POSY?,-5),(0,0,?TROT?),(1,1,1))
+			PulseAlpha(1,0,0.39,0.39,1,0.5,0.5)
+		{
+			UseShader:(Default3D)
+   			{
+				Locator:((?POSX?,?POSY?,?POSZ?),(0,0,0),(1,1,1))
+				{	
+					AnimInstance:(0,0,SelectMeStandPulse)
+						set(gel.anim.speed,0.55)
+						Scale(?SCALEX?,?SCALEY?)
+				}
+
+				M_Text:(home_map_TAP,?POSX?,?POSY?,0,0,C,C,TextLoc,KNUL40,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)	
+					Scale(6,6)
+					Angle(?TANG?)
+				##P4N
+					if((Player.weatherSeason = 3) and(twk(Facilities,Night) = 0))
+					<
+						set(gel.colour,#1E3146FFFFFFFFFF)
+					>
+					else
+					<
+						set(gel.colour,#FFFFFFFFFFFFFFFF)
+					>
+				##IA
+					set(gel.colour,#FFFFFFFFFFFFFFFF)
+				##*
+			}
+		}
+	}
+EndM
+
+//--------------------------------------------------------------------------------------------------------------------------
+
+
+
+Macro:(M_ConScale,?VAR?,?SPEED?,?DELAY?)
+	Rearmable()
+
+	:if(twk(?VAR?Construction,TimeRemaining) > 0 and(twk(?VAR?Construction,UnderConstruction) = 0))
+	<
+		set(%FCURVE,0)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		set(%FCURVE,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0 and(twk(?VAR?Construction,UnderConstruction) = 1))
+	<
+		set(%FCURVE,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0)
+	<
+		set(%FCURVE,0)
+	>>>>
+
+	if(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		:Delay(?DELAY?)
+		add(%FCURVE,?SPEED?)
+		if(%FCURVE>1)
+		<
+			set(%FCURVE,1)
+		>
+	>
+	else
+	<
+		if(twk(?VAR?Construction,UnderConstruction) = 0)
+		<
+			:Delay(?DELAY?)
+			sub(%FCURVE,?SPEED?)
+			if(%FCURVE<0)
+			<
+				set(%FCURVE,0)
+			>
+		>
+	>
+	set(gel.vis,%FCURVE>0)
+EndM
+
+
+
+//Construction Object macro
+Macro:(M_ConstructionObjPop,?POSX?,?POSY?,?POSZ?,?ROT?,?PACK?,?OBJCURVE?,?OBJMESH?,?OBJTEX?,?SHADCURVE?,?DELAY?,?SPEED?,?VAR?,?SHADSCALEX?,?SHADSCALEY?)
+	Rect:()
+		float(%FCURVE)
+		M_ConScale:(?VAR?,?SPEED?,?DELAY?)		
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(90,0,0))
+		{
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+		 		FollowCurve(?PACK?,?OBJCURVE?,%FCURVE,true)
+			{	
+			 	//Object
+			 	Locator:((0,0,0),(-90,0,?ROT?),(0.01,0.01,0.01))	
+				{
+					DrawStaticModel:(?OBJMESH?,?OBJTEX?)
+						Blend(ONE,INV_IMAGE_ALPHA)
+						M_TextureSelect:()
+				}
+			}
+			
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+		 		FollowCurve(?PACK?,?SHADCURVE?,%FCURVE,true)
+			{	
+				//Shadow
+				Locator:((0,-0.03,0),(-90,0,?ROT?),(0.0?SHADSCALEX?,0.0?SHADSCALEY?,0.01))	
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+			}
+		}
+	}
+EndM
+
+Macro:(M_ScaffoldLow,?POSX?,?POSY?,?POSZ?,?ROT?,?TYPE?)
+		Locator:(?POSX?,?POSY?,?POSZ?,?ROT?,-90,90)
+			//Layer(AboveSky)
+		{
+			DrawStaticModel:(Construction_Scaffold_?TYPE?_Low,Construction_Scaffold)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				M_TextureSelect:()
+		}
+EndM
+
+
+Macro:(M_ConstructionCranePop,?POSX?,?POSY?,?POSZ?,?ROT?,?PACK?,?OBJCURVE?,?OBJMESHA?,?OBJMESHB?,?OBJTEXA?,?OBJTEXB?,?DELAY?,?SPEED?,?VAR?,?VAL?)
+	Rect:()
+		Layer(AboveSky)
+		float(%FCURVE)
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(90,0,0))
+		{
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+				set(gel.vis,?VAL?)
+		 		FollowCurve(ConstructionPop,Shadowpop,%FCURVE,true)
+			{	
+				//Shadow
+				Locator:((-3.8,-0.03,-3.7),(-90,0,180),(0.024,0.024,0.01))	
+				{
+					UseShader:(Simple3D)
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Crane_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+			}
+
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+				M_ConScale:(?VAR?,?SPEED?,?DELAY?)		
+		 		FollowCurve(?PACK?,?OBJCURVE?,%FCURVE,true)
+			{	
+			 	//Object
+			 	Locator:((0,0,0),(-90,0,?ROT?),(0.01,0.01,0.01))	
+				{
+			 		UseShader:(ProjectedLight3DVCol)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(?OBJMESHA?,?OBJTEXA?)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelect:()
+						DrawStaticModel:(?OBJMESHB?,?OBJTEXB?)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelect:()
+					}
+				}
+			}
+		}
+	}
+EndM
+
+
+Macro:(M_ConstructionTweaks,?VAR?,?FACNUM?)
+	Rect:()
+		if(twk(?VAR?Construction,TimeRemaining) > 0)
+		<
+			:if(twk(?VAR?Construction,UnderConstruction) = 0)
+			<
+				set(twk(?VAR?Construction,UnderConstruction),1)
+			>
+		>
+		else
+		<
+			if(twk(Home,CurrentFacility) = ?FACNUM?)
+			<
+				:if(twk(?VAR?Construction,UnderConstruction) = 1)
+				<
+					set(twk(?VAR?Construction,UnderConstruction),0)
+				>
+			>
+		>
+EndM
+
+Macro:(M_ScaffoldScale,?VAR?,?SCALETOX?,?SCALETOY?,?SCALETOZ?,?DELAY?,?SPEED?)
+	Rearmable()
+
+	:if(twk(?VAR?Construction,TimeRemaining) > 0 and(twk(?VAR?Construction,UnderConstruction) = 0))
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,1)
+		set(gel3d.scalez,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0 and(twk(?VAR?Construction,UnderConstruction) = 1))
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,1)
+		set(gel3d.scalez,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0)
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>>>>
+
+	if(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		:Delay(?DELAY?)
+		frlerp(gel3d.scalex,1,?SPEED?)
+		frlerp(gel3d.scaley,1,?SPEED?)
+		frlerp(gel3d.scalez,1,?SPEED?)
+	>
+	else
+	<
+		if(twk(?VAR?Construction,UnderConstruction) = 0)
+		<
+			:Delay(?DELAY?)
+			frlerp(gel3d.scalex,1,?SPEED?)
+			frlerp(gel3d.scaley,0,?SPEED?)
+			frlerp(gel3d.scalez,0,?SPEED?)
+		>
+	>
+EndM
+
+Macro:(M_ConstructionBaseScale,?VAR?,?SCALETOX?,?SCALETOY?,?DELAY?,?SPEED?)
+	Rearmable()
+
+	:if(twk(?VAR?Construction,TimeRemaining) > 0 and(twk(?VAR?Construction,UnderConstruction) = 0))
+	<
+		set(gel3d.scalex,0)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		set(gel3d.scalex,?SCALETOX?)
+		set(gel3d.scaley,?SCALETOY?)
+		set(gel3d.scalez,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0 and(twk(?VAR?Construction,UnderConstruction) = 1))
+	<
+		set(gel3d.scalex,?SCALETOX?)
+		set(gel3d.scaley,?SCALETOY?)
+		set(gel3d.scalez,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0)
+	<
+		set(gel3d.scalex,0)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>>>>
+
+	if(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		:Delay(?DELAY?)
+		frlerp(gel3d.scalex,?SCALETOX?,?SPEED?)
+		frlerp(gel3d.scaley,?SCALETOY?,?SPEED?)
+		frlerp(gel3d.scalez,1,?SPEED?)
+	>
+	else
+	<
+		if(twk(?VAR?Construction,UnderConstruction) = 0)
+		<
+			:Delay(?DELAY?)
+			frlerp(gel3d.scalex,0,?SPEED?)
+			frlerp(gel3d.scaley,0,?SPEED?)
+			frlerp(gel3d.scalez,0,?SPEED?)
+		>
+	>
+EndM
+
+Macro:(M_DiggerScale,?VAR?,?SCALETOX?,?SCALETOY?,?SCALETOZ?,?DELAY?,?SPEED?)
+	Rearmable()
+
+	:if(twk(?VAR?Construction,TimeRemaining) > 0 and(twk(?VAR?Construction,UnderConstruction) = 0))
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,1)
+		set(gel3d.scalez,1)
+
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0 and(twk(?VAR?Construction,UnderConstruction) = 1))
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,1)
+		set(gel3d.scalez,1)
+	>
+	:elif(twk(?VAR?Construction,TimeRemaining) = 0)
+	<
+		set(gel3d.scalex,1)
+		set(gel3d.scaley,0)
+		set(gel3d.scalez,0)
+	>>>>
+
+	if(twk(?VAR?Construction,TimeRemaining) > 0)
+	<
+		:Delay(?DELAY?)
+		frlerp(gel3d.scalex,1,?SPEED?)
+		frlerp(gel3d.scaley,1,?SPEED?)
+		frlerp(gel3d.scalez,1,?SPEED?)
+		//Delay(0.5)
+		//frlerp(gel3d.y,1,?SPEED?)
+	>
+	else
+	<
+		if(twk(?VAR?Construction,UnderConstruction) = 0)
+		<
+			:Delay(?DELAY?)
+			frlerp(gel3d.scalex,0,?SPEED?)
+			frlerp(gel3d.scaley,0,?SPEED?)
+			frlerp(gel3d.scalez,0,?SPEED?)
+		>
+	>
+EndM
+
+
+
+//--------------------------------------------------------------------------------------------------TEST STUFF
+Macro:(M_ConstructionBase,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALE1?,?SCALE2?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+	Rect:()
+	set(gel.vis,twk(Facilities,?VAR?Level)=?NUM? and(twk(?VAR?Construction,TimeRemaining) > 0))
+	{
+		// Rect:() $HIDE
+		// {
+		// 	Instance:(AchievementEmitter,?POSX?,?POSY?)
+		// } 
+	 // 	Scale(5,5)
+	 // 	Delay(?DELAY?)
+	 // 	set(gel.vis,1)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ConstructionBaseScale:(?VAR?,?SCALE1?,?SCALE2?,?DELAY?,?SPEED?)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							DrawStaticModel:(Construction_Rubble_A,Construction_Rubble)
+								M_TextureSelect:()
+							
+							DrawStaticModel:(Construction_Rubble_B,Construction_Rubble_Fade)
+						 		Blend(ONE,INV_IMAGE_ALPHA)
+						 		M_TextureSelect:()
+
+						}
+				}
+			}
+	}
+EndM
+
+
+Macro:(M_ConstructionScaffoldRoof,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALE1?,?SCALE2?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+	Rect:()
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ConstructionBaseScale:(?VAR?,?SCALE1?,?SCALE2?,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+					Rect:()
+						Layer(AboveSky)
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Construction_Scaffold_Roof)
+							M_TextureSelect:()
+					}
+				}
+			}
+	}
+EndM
+
+
+
+
+
+//--------------------------------------------------------------------Digger	
+
+
+Macro:(M_ConstructionDigger,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_DiggerScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(1,1,1))
+							{
+								DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+							DrawStaticModel:(Construction_Digger,Construction_Sheet01)
+								M_TextureSelect:()
+						}
+				}
+			}
+EndM
+
+Macro:(M_ConstructionCementTruck,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_DiggerScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,10,-3),(0,0,0),(0.65,1.3,1))
+							{
+								DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									Blend(ONE,INV_IMAGE_ALPHA)
+
+							}
+							
+							Locator:((0,-80,-230),(13,0,0),(1,1,1))
+							{
+								Locator:((0,0,0),(0,0,0),(1,1,1))
+									add(gel3d.roty,0.2)
+								{
+									DrawStaticModel:(Construction_CementTruck_Bucket,Construction_Sheet02)
+										M_TextureSelect:()
+										
+								}
+							}
+						}
+				}
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Construction_CementTruck,Construction_Sheet02)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+Macro:(M_ConstructionPortaloo,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_DiggerScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(0.3,0.3,1))
+							{
+								DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+				}
+
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Construction_Portaloo,Construction_Sheet02)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+Macro:(M_ConstructionPallet,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_DiggerScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(0.35,0.35,1))
+							{
+								DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+				}
+				Locator:((0,0,0),(0,0,0),(1,1,1))
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					Locator:((0,0,-3),(0,0,0),(1,1,1))
+					{
+						DrawStaticModel:(Construction_Pallet,Construction_Sheet02)
+							M_TextureSelect:()
+					}
+				}
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{	
+					Locator:((0,0,-15),(0,0,0),(1,1,1))
+					{
+						DrawStaticModel:(Construction_BrickPile,Brick)
+							M_TextureSelect:()
+
+					}
+				}
+			}
+EndM
+
+
+//--------------------------------------------------------------------ContainerCrate	
+Macro:(M_ConstructionCrate,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ScaffoldScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(0.7,1.7,1))
+							{
+								DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									Blend(ONE,INV_IMAGE_ALPHA)
+							}
+							
+						}
+				}
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{	
+					DrawStaticModel:(Construction_Container01,Stadium_Lv_3)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+
+
+//--------------------------------------------------------------------Barrels
+Macro:(M_ConstructionBarrelSingle,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ScaffoldScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(Simple3D)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(1,1,1))
+							{
+								//DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									//Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						
+						}
+				}
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Construction_Barrel_Single,Construction_Sheet01)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+Macro:(M_ConstructionBarrelPile,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?,?SPEED?,?VAR?,?NUM?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ScaffoldScale:(?VAR?,1,1,1,?DELAY?,?SPEED?)
+			{
+				UseShader:(ProjectedLight3DVCol)
+					SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+						Rect:()
+						Layer(AboveSky)
+						{
+							Locator:((0,0,-3),(0,0,0),(1,1,1))
+							{
+								//DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+									//Blend(ONE,INV_IMAGE_ALPHA)
+							}
+						}
+				}
+					UseShader:(ProjectedLight3DVCol)
+					//SetSampler(TexSamp1,$CLOUDSHADOW)
+				{
+					DrawStaticModel:(Construction_Barrel_Pile,Construction_Sheet01)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+
+Macro:(M_ConstructionLevel1Exp,?VAR?,?NUM?,?FACNUM?)
+		float(%level0Constructed)
+		// Loaded back into the screen whilst Level 0 to 1 Construction was underway - turn it off
+		.if(twk(?VAR?Construction,LastConstructionLevel) = 0 and(twk(Facilities,?VAR?Level) = ?NUM?) and(twk(?VAR?Construction,UnderConstruction) = 1))
+		<
+			set(%level0Constructed,2)
+		>
+
+
+		if(%level0Constructed = 1)
+		<
+			Delay(3)
+			set(%level0Constructed,2)
+		>
+
+
+		if(shell(Facility) != "")
+		<
+			set(gel.vis,twk(?VAR?Construction,LastConstructionLevel)=?NUM? and(twk(Facilities,?VAR?Level) = ?NUM?))
+		>
+		else
+		<
+			if(%level0Constructed = 0 and(twk(?VAR?Construction,LastConstructionLevel) = 0 and(twk(Facilities,?VAR?Level) = ?NUM?)))
+			<
+				.set(%level0Constructed,1)
+			>
+
+			if(%level0Constructed >= 1)
+			<
+				:set(twk(?VAR?Construction,TimeRemaining),1)
+				set(gel.vis,twk(Facilities,?VAR?Level) = ?NUM?)
+				
+				if(twk(Home,CurrentFacility) = ?FACNUM?)
+				<
+					if(%level0Constructed >= 2)
+					<
+						set(twk(?VAR?Construction,LastConstructionLevel),?NUM?)
+						set(twk(?VAR?Construction,UnderConstruction),0)
+						set(twk(?VAR?Construction,TimeRemaining),0)
+						// After we're gone through all the states reset it to 0
+						set(%level0Constructed,0)
+					>
+				>
+			>
+			else
+			<
+				set(gel.vis,twk(Facilities,?VAR?Level) = ?NUM?)
+			>
+		>
+EndM
+
+Macro:(M_CheckShowCars,?VAR?)
+	if(twk(?VAR?Construction,CompletionTurn) <= twk(Construction,Turn))
+	<
+		if((%conanim<=0))
+		<
+			set(gel.vis,1)
+		>
+		else
+		<
+			set(gel.vis,0)
+		>
+	>
+	else
+	<
+		set(gel.vis,0)
+	>
+EndM
+
+Macro:(M_CheckShowConstruction,?VAR?,?NUM?)
+	if(shell(Facility)!= "")
+	<
+		set(gel.vis,twk(?VAR?Construction,LastConstructionLevel)=?NUM? and(twk(Facilities,?VAR?Level) = ?NUM?))
+	>
+	else
+	<
+		set(gel.vis,twk(Facilities,?VAR?Level) = ?NUM? and(twk(Match,PlayerAtHome) = 1))
+	>
+	set(gel.vis,gel.vis and (%conanim>0))
+EndM
+
+Macro:(M_FacilityConstructionController,?VAR?,?FOCUS?,?POPULATED?)
+	float(%conanim,%hadfocus,%in,%out,%crowdvis,%initial)
+	.set(twk(?VAR?ConstructionNoLocal,DoInitialHomeSetup),1)
+	if(twk(?VAR?ConstructionNoLocal,DoInitialHomeSetup) = 1)
+	<
+		set(twk(?VAR?ConstructionNoLocal,DoInitialHomeSetup),0)
+		// AC: Determine state as we first enter the screen
+		set(%conanim,0)
+		set(%hadfocus,0)
+		set(twk(?VAR?Construction,Alert),0)
+		if(twk(?VAR?Construction,CompletionTurn)>twk(Construction,Turn))<
+			//AC: Need to see construction in progress
+			set(%conanim,3)
+		>
+		if(twk(?VAR?Construction,LastConstructionLevel)<twk(Facilities,?VAR?Level))<
+			if(twk(?VAR?Construction,CompletionTurn)=twk(Construction,Turn))<
+				//AC: Need to see construction in progress
+				set(%conanim,3)
+				set(twk(?VAR?Construction,Alert),1)
+			>
+			if(twk(?VAR?Construction,CompletionTurn)<=twk(Construction,Turn))<
+				//AC: Construction is complete, either just now or in the past.
+				set(twk(?VAR?Construction,LastConstructionLevel),twk(Facilities,?VAR?Level))
+				set(%in,-1)
+				set(%out,1)
+			>
+		>
+	>
+
+	if(twk(Home,CurrentFacility)=?FOCUS?)<
+		//AC: Ok, we're looking at the facility
+		set(%hadfocus,1)
+	>
+
+	if(%hadfocus)<
+		if((twk(?VAR?Construction,LastConstructionLevel)<twk(Facilities,?VAR?Level)) or (twk(?VAR?Construction,CompletionTurn)>twk(Construction,Turn)))<
+			set(%in,1)
+			set(%out,-1)
+			add(%conanim,0.02)
+			if(%conanim>3)<
+				set(%conanim,3)
+				if(twk(?VAR?Construction,CompletionTurn)<=twk(Construction,Turn))<
+					set(twk(?VAR?Construction,LastConstructionLevel),twk(Facilities,?VAR?Level))
+					set(%hadfocus,0)	// Reset %hadfocus, so that we only see the construction come down if we're still actually looking.
+				>
+			>
+		>else<
+			set(twk(?VAR?Construction,Alert),0)
+			set(%in,-1)
+			set(%out,1)
+			set(%conanim,max(%conanim-0.02,0))
+		>
+	>
+	// Copy %conanim into global scratch values so that our children don't need variable maps.
+	set(%gfc,%conanim)
+	set(%gfi,%in)
+	set(%gfo,%out)
+	selectchild(twk(Facilities,?VAR?LevelVisible))
+	If:("?POPULATED?"="Yes")
+	if((twk(Facilities,?VAR?LevelVisible)=twk(Facilities,?VAR?Level)) and (%conanim>0))<
+		set(twk(Populated,?VAR?),0)
+	>else<
+		set(twk(Populated,?VAR?),1)
+	>
+	EndIf
+EndM
+
+
+
+Macro:(M_ConstructionBaseScale_new,?SCALETOX?,?SCALETOY?,?DELAY?)
+	
+	set(%gfs,curve(clamp(%gfc,0,1),%gfi,%gfo))
+	set(gel3d.scalex,lerp(0,?SCALETOX?,%gfs))
+	set(gel3d.scaley,lerp(0,?SCALETOY?,%gfs))
+	set(gel3d.scalez,%gfs)
+
+EndM
+
+Macro:(M_ConstructionBase_new,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALE1?,?SCALE2?,?DELAY?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+		M_ConstructionBaseScale_new:(?SCALE1?,?SCALE2?,?DELAY?)
+	{
+		DrawStaticModel:(Construction_Rubble_A,Construction_Rubble)
+			M_TextureSelect:()
+		DrawStaticModel:(Construction_Rubble_B,Construction_Rubble_Fade)
+			Blend(ONE,INV_IMAGE_ALPHA)
+			M_TextureSelect:()
+	}
+	
+EndM
+
+
+//Construction Object macro
+Macro:(M_ConstructionObjPop_new,?POSX?,?POSY?,?POSZ?,?ROT?,?PACK?,?OBJCURVE?,?OBJMESH?,?OBJTEX?,?SHADCURVE?,?DELAY?,?SPEED?,?SHADSCALEX?,?SHADSCALEY?)
+	Rect:()
+		set(%gff,clamp((%gfc-(?DELAY?))*?SPEED?,0,1))
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(90,0,0))
+		{
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+		 		FollowCurve(?PACK?,?OBJCURVE?,%gff,true)
+			{	
+			 	//Object
+			 	Locator:((0,0,0),(-90,0,?ROT?),(0.01,0.01,0.01))	
+				{
+					UseShader:(ProjectedLight3DVColOneBit)
+						Layer(OneBit)
+					{
+						DrawStaticModel:(?OBJMESH?,?OBJTEX?)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelect:()
+					}
+				}
+			}
+			
+			If:(?SHADSCALEX?>0)
+				Locator:((0,0,0),(0,0,0),(1,1,1))
+			 		FollowCurve(?PACK?,?SHADCURVE?,%gff,true)
+				{	
+					//Shadow
+					Locator:((0,-0.03,0),(-90,0,?ROT?),(0.0?SHADSCALEX?,0.0?SHADSCALEY?,0.01))	
+					{
+						UseShader:(Simple3DNZW)
+							Layer(Shadows)
+						{
+							DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+								Blend(ONE,INV_IMAGE_ALPHA)
+						}
+					}
+				}
+			EndIf
+		}
+	}
+EndM
+
+
+
+
+Macro:(M_ConstructionCementTruck_new,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ConstructionBaseScale_new:(1,1,?DELAY?)
+			{
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					Locator:((0,10,-3),(0,0,0),(0.65,1.3,1))
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+				
+				Locator:((0,-80,-230),(13,0,0),(1,1,1))
+				{
+					Locator:((0,0,0),(0,0,0),(1,1,1))
+						add(gel3d.roty,0.2)
+					{
+						DrawStaticModel:(Construction_CementTruck_Bucket,Construction_Sheet02)
+							M_TextureSelect:()
+					}
+				}
+
+				DrawStaticModel:(Construction_CementTruck,Construction_Sheet02)	
+					M_TextureSelect:()
+			}
+EndM
+
+
+Macro:(M_ConstructionPallet_new,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?DELAY?)
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ConstructionBaseScale_new:(1,1,?DELAY?)
+			{
+				UseShader:(Simple3DNZW)
+					Layer(Shadows)
+				{
+					Locator:((0,0,-3),(0,0,0),(0.35,0.35,1))
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Construction_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+				Locator:((0,0,-3),(0,0,0),(1,1,1))
+				{
+					DrawStaticModel:(Construction_Pallet,Construction_Sheet02)
+						M_TextureSelect:()
+				}
+				Locator:((0,0,-15),(0,0,0),(1,1,1))
+				{
+					DrawStaticModel:(Construction_BrickPile,Brick)
+						M_TextureSelect:()
+				}
+			}
+EndM
+
+
+Macro:(M_ConstructionScaffoldRoof_new,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALE1?,?SCALE2?,?DELAY?)
+	Rect:()
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(1,1,1))
+			M_ConstructionBaseScale_new:(?SCALE1?,?SCALE2?,?DELAY?)
+			{
+				DrawStaticModel:(Construction_Dirt_Base,Construction_Scaffold_Roof)
+					M_TextureSelect:()
+			}
+	}
+EndM
+
+
+Macro:(M_ConstructionCranePop_new,?POSX?,?POSY?,?POSZ?,?ROT?,?PACK?,?OBJCURVE?,?OBJMESHA?,?OBJMESHB?,?OBJTEXA?,?OBJTEXB?,?DELAY?,?SPEED?,?VAL?)
+	Rect:()
+		Layer(AboveSky)
+		set(%gff,clamp((%gfc-(?DELAY?))*?SPEED?,0,1))
+	{
+		Locator:((?POSX?,?POSY?,?POSZ?),(90,0,0))
+		{
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+				set(gel.vis,?VAL?)
+		 		FollowCurve(ConstructionPop,Shadowpop,%gff,true)
+			{	
+				//Shadow
+				Locator:((-3.8,-0.03,-3.7),(-90,0,180),(0.024,0.024,0.01))	
+				{
+					UseShader:(Simple3DNZW)
+						Layer(Shadows)
+					{
+						DrawStaticModel:(Construction_Dirt_Base,Crane_Shadow)
+							Blend(ONE,INV_IMAGE_ALPHA)
+					}
+				}
+			}
+
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+		 		FollowCurve(?PACK?,?OBJCURVE?,%gff,true)
+			{	
+			 	//Object
+			 	Locator:((0,0,0),(-90,0,?ROT?),(0.01,0.01,0.01))	
+				{
+			 		UseShader:(ProjectedLight3DVColOneBit)
+			 			Layer(OneBit)
+						SetSampler(TexSamp1,$CLOUDSHADOW)
+					{
+						DrawStaticModel:(?OBJMESHA?,?OBJTEXA?)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelect:()
+							
+						DrawStaticModel:(?OBJMESHB?,?OBJTEXB?)
+							Blend(ONE,INV_IMAGE_ALPHA)
+							M_TextureSelect:()
+					}
+				}
+			}
+		}
+	}
+EndM

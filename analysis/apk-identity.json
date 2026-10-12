@@ -1,0 +1,113 @@
+{
+  "manifest": {
+    "versionCode": 57,
+    "versionName": "1.7.7",
+    "installLocation": 0,
+    "compileSdkVersion": 36,
+    "compileSdkVersionCodename": "16",
+    "requiredSplitTypes": "base__density",
+    "splitTypes": "",
+    "package": "uk.fiveaces.nsfc",
+    "platformBuildVersionCode": 36,
+    "platformBuildVersionName": 16
+  },
+  "permissions": [
+    "android.permission.INTERNET",
+    "android.permission.ACCESS_NETWORK_STATE",
+    "android.permission.READ_EXTERNAL_STORAGE",
+    "android.permission.WRITE_EXTERNAL_STORAGE",
+    "android.permission.READ_PHONE_STATE",
+    "android.permission.ACCESS_WIFI_STATE",
+    "android.permission.GET_ACCOUNTS",
+    "com.google.android.c2dm.permission.RECEIVE",
+    "uk.fiveaces.nsfc.permission.C2D_MESSAGE",
+    "com.google.android.gms.permission.AD_ID",
+    "com.android.vending.BILLING",
+    "android.permission.POST_NOTIFICATIONS",
+    "android.permission.WAKE_LOCK",
+    "android.permission.ACCESS_ADSERVICES_AD_ID",
+    "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
+    "android.permission.ACCESS_ADSERVICES_TOPICS",
+    "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
+    "android.permission.FOREGROUND_SERVICE",
+    "uk.fiveaces.nsfc.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+  ],
+  "activities": [
+    {
+      "theme": 2131689898,
+      "label": 2131623965,
+      "name": "uk.fiveaces.nsfc.MonkeyGame",
+      "exported": true,
+      "launchMode": 1,
+      "screenOrientation": 6,
+      "configChanges": 1184
+    },
+    {
+      "theme": 16973840,
+      "name": "com.android.billingclient.api.ProxyBillingActivity",
+      "exported": false,
+      "configChanges": 1456
+    },
+    {
+      "theme": 16973840,
+      "name": "com.android.billingclient.api.ProxyBillingActivityV2",
+      "exported": false,
+      "configChanges": 1456
+    },
+    {
+      "theme": 16973839,
+      "name": "com.google.android.gms.ads.AdActivity",
+      "exported": false,
+      "configChanges": 4016
+    },
+    {
+      "name": "com.google.android.gms.ads.OutOfContextTestingActivity",
+      "exported": false,
+      "configChanges": 4016
+    },
+    {
+      "theme": 16973840,
+      "name": "com.google.android.gms.ads.NotificationHandlerActivity",
+      "exported": false,
+      "taskAffinity": "",
+      "excludeFromRecents": true,
+      "launchMode": 2
+    },
+    {
+      "theme": 16973840,
+      "name": "com.google.android.gms.common.api.GoogleApiActivity",
+      "exported": false
+    },
+    {
+      "name": "com.fyber.inneractive.sdk.activities.InneractiveInternalBrowserActivity",
+      "screenOrientation": 13,
+      "configChanges": 3488,
+      "hardwareAccelerated": true
+    },
+    {
+      "theme": 16973831,
+      "name": "com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity",
+      "configChanges": 3488,
+      "hardwareAccelerated": true
+    },
+    {
+      "theme": 16973831,
+      "name": "com.fyber.inneractive.sdk.activities.InneractiveRichMediaVideoPlayerActivityCore",
+      "configChanges": 3488,
+      "hardwareAccelerated": true
+    },
+    {
+      "theme": 16973840,
+      "name": "com.fyber.inneractive.sdk.activities.InternalStoreWebpageActivity",
+      "excludeFromRecents": true,
+      "screenOrientation": 4,
+      "configChanges": 3488
+    },
+    {
+      "name": "com.fyber.inneractive.sdk.activities.FyberReportAdActivity",
+      "screenOrientation": 13,
+      "configChanges": 3488,
+      "hardwareAccelerated": true
+    }
+  ]
+}

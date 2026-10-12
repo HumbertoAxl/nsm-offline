@@ -1,0 +1,45 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@L,@T,@W,50)
+	.set(gel.alpha,0)
+	float(%timer,%alphaTarget,%canClose)
+	.set(%alphaTarget,1)
+	add(%timer,1)
+	frlerp(gel.alpha,%alphaTarget,0.15)
+	if(%timer > 100)
+	<
+		set(%alphaTarget,0)
+		set(%canClose,1)
+	>
+	if(%canClose = 1 and(gel.alpha < 0.01))
+	<
+		set(shell(OverlayBottom),"")
+	>
+{{
+	// Background
+	Draw:(White,0,0,@W,@H,,#252525FF)
+
+	M_Text:(,@C,0,0,@H,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref,QuickMessage,SplashMessage)
+		M_Style:(Outline,#FFFFFF20)
+        float(%spacing)
+        frlerp(gel.alpha,1,0.03)
+        .set(%spacing,60)
+        if(%canClose = 0)
+        <
+        	set(%spacing,max(1,%spacing - [FrameTime*3]))
+        >
+        else
+        <
+        	set(%spacing,min(60,%spacing + [FrameTime*3]))
+        >
+        
+        CharacterSpacing(%spacing)
+}}

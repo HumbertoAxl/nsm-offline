@@ -1,0 +1,48 @@
+##IA
+Img:(GoalkeeperBoots,NewGUI/Textures/Goalkeeper/NSM_Keeper_Boots.png) FORCE Scale:0.5
+Img:(GoalkeeperFace,NewGUI/Textures/Goalkeeper/NSM_Keeper_Face.png) FORCE Scale:0.5
+Img:(GoalkeeperShirt,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt.png) FORCE Scale:0.5
+Img:(GoalkeeperShirtDesignCollar,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_1.png) FORCE Scale:0.5
+Img:(GoalkeeperShirtDesignSleeves,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_2.png) FORCE Scale:0.5
+Img:(GoalkeeperShirtDesignShoulders,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_3.png) FORCE Scale:0.5
+Img:(GoalkeeperShorts,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shorts.png) FORCE Scale:0.5
+Img:(GoalkeeperSocks,NewGUI/Textures/Goalkeeper/NSM_Keeper_Socks.png) FORCE Scale:0.5
+Img:(GoalkeeperGloves,NewGUI/Textures/Goalkeeper/NSM_Keeper_Gloves.png) FORCE Scale:0.5
+##P4N
+Img:(GoalkeeperBoots,NewGUI/Textures/Goalkeeper/NSM_Keeper_Boots.png) FORCE
+Img:(GoalkeeperFace,NewGUI/Textures/Goalkeeper/NSM_Keeper_Face.png) FORCE
+Img:(GoalkeeperShirt,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt.png) FORCE
+Img:(GoalkeeperShirtDesignCollar,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_1.png) FORCE
+Img:(GoalkeeperShirtDesignSleeves,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_2.png) FORCE
+Img:(GoalkeeperShirtDesignShoulders,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shirt_Design_3.png) FORCE
+Img:(GoalkeeperShorts,NewGUI/Textures/Goalkeeper/NSM_Keeper_Shorts.png) FORCE
+Img:(GoalkeeperSocks,NewGUI/Textures/Goalkeeper/NSM_Keeper_Socks.png) FORCE
+Img:(GoalkeeperGloves,NewGUI/Textures/Goalkeeper/NSM_Keeper_Gloves.png) FORCE
+##*
+
+Macro:(M_GoalkeeperTexture,?ID?,?SKINCOL?,?HAIRCOL?,?KITSTYLE?,?KITCOL1?,?KITCOL2?,?SHORTSCOL?)
+	Surf:($GOALKEEPERTEXTURESURF?ID?,256,256)
+
+	View:($GOALKEEPERTEXTURESURF?ID?,256,256) ref:Texture
+		RTTOnce()
+	{	
+		Sheet:((0,0,0),(0,0,0),0,(1,1,1))
+		{
+			Cls:(#000000FF)
+			Dissolve:()
+			{
+				Draw:(GoalkeeperBoots,0,0,256,256,,#FFFFFFFF)
+				Draw:(GoalkeeperSocks,0,0,256,256,,?SHORTSCOL?)
+				Draw:(GoalkeeperFace,0,0,256,256,,?SKINCOL?)
+				Draw:(FootballerHair,0,0,256,256,,?HAIRCOL?)
+				Draw:(GoalkeeperShirt,0,0,256,256,,?KITCOL1?)
+
+				Draw:(GoalkeeperShirtDesignSleeves,0,0,256,256,,?KITCOL2?)
+					M_KeeperKitStyleImageSwitch:(?KITSTYLE?,"GoalkeeperShirtDesignSleeves","GoalkeeperShirtDesignCollar","GoalkeeperShirtDesignShoulders")
+
+				Draw:(GoalkeeperGloves,0,0,256,256,,#FFFFFFFF)
+				Draw:(GoalkeeperShorts,0,0,256,256,,?SHORTSCOL?)
+			}
+		}
+	}
+EndM

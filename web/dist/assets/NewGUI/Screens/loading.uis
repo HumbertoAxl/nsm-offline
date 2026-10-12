@@ -1,0 +1,116 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_upsells.uih)
+Import:(title_images.uih)
+
+//
+Img:(Loading_Shields,NewGUI/UI/Title/Loading_Shields.png) Volatile:Loading
+
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_LoadingTip,?INDEX?,?TEXT?,?IMAGE?)
+	Rect:()
+		.set(gel.vis,%product=?INDEX?)
+	{
+		M_Text:(?TEXT?,236,52,885+@y,0,L,C,TextBox,KNUL28,,0,0,#00000000,Italics,#FFFFFFFF,ref)
+		Draw:(?IMAGE?,0,-58,250,250)
+	}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H)
+	Click()
+	Grab()
+	Press()
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%rootAlpha)
+	set(%rootAlpha,gel.alpha)
+	if(%rootAlpha = 1)
+	<
+		Message(transition.load)
+	>
+{{
+
+	// Background
+	Draw:(White,@f,0,@w,@H,,#5E676CFF)
+	M_CircleGlow:(#E2EEF5EE,1.2)
+
+	Rect:(-232,0,0,0,11)
+	{{
+		Tile:(Loading_Shields,0,0,,,,#1C1C1C1A)
+			Copies(2,1)
+			Spacing(1000,300)
+		Tile:(Loading_Shields,-665,360,,,,#1C1C1C1A)
+			Copies(3,1)
+			Spacing(1000,300)
+		Tile:(Loading_Shields,0,720,,,,#1C1C1C1A)
+			Copies(2,1)
+			Spacing(1000,300)
+	}}
+
+
+	// New Star Logo
+	Draw:(Title_Badge,@R-220,@T+20,400)
+		Scale(0.5,0.5)
+
+
+	Rect:(0,@B-210)
+		float(%type)
+		##IA
+		:set(%type,rand(0,1))
+		##P4N
+		set(%type,0)
+		##*
+	{{
+		// Banner
+		Draw:(BannerFade_R,@f,0,@w,140,,#3D464DFF)
+		Draw:(UpSell_BannerLines,@f,102,800+@y,19)
+			Handle(1,0)
+			Scale(-1,1)
+
+
+		// Tip Of The Day
+		Rect:() $HIDE
+			.set(gel.vis,%type = 0)
+		{
+			M_Text:(,30,52,@s-60,0,L,C,TextBox,KNUL28,,0,0,#00000000,Italics,#FFFFFFFF,ref)
+				.set(gel.text,TPlayerClass.RandomTip)
+		}
+
+
+		// Product Upsell
+		Rect:() $HIDE
+			.set(gel.vis,%type = 1)
+		{
+			Rect:()
+				float(%product)
+				:set(%product,rand(0,6))
+			{
+				// M_LoadingTip:(0,loadingtip_Pack_GK,UpSell_Pack_GK)
+				// M_LoadingTip:(1,loadingtip_Pack_DEF,UpSell_Pack_DEF)
+				// M_LoadingTip:(2,loadingtip_Pack_MID,UpSell_Pack_MID)
+				// M_LoadingTip:(3,loadingtip_Pack_ATT,UpSell_Pack_ATT)
+				M_LoadingTip:(0,loadingtip_Pack_Players,UpSell_Pack_Players)
+				M_LoadingTip:(1,loadingtip_Pack_Management,UpSell_Pack_Management)
+				M_LoadingTip:(2,loadingtip_Pack_Coaching,UpSell_Pack_Coaching)
+				M_LoadingTip:(3,loadingtip_ExtraRetry,UpSell_Retries)
+				M_LoadingTip:(4,loadingtip_BuxPacks,UpSell_Bux)
+				M_LoadingTip:(5,loadingtip_TeamTalk_Cards,UpSell_Cards_TeamTalk)
+				M_LoadingTip:(6,loadingtip_Energy_Cards,UpSell_Cards_Energy)
+				//M_LoadingTip:(11,loadingtip_EarningsBoost,UpSell_Pack_)
+			}
+		}
+
+
+	}}
+
+	// Loading Text
+	M_Text:("...",@R-25,@B-39,0,0,R,C,Text,BEBAS28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		CharacterSpacing(4)
+	M_Text:(title_LOAD,@R-46,@B-39,0,0,R,C,TextLoc,BEBAS28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		CharacterSpacing(4)
+}}

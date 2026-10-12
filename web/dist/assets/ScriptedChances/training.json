@@ -1,0 +1,45 @@
+{    
+  "5" : {
+    "playerteam" :  [{"x": 0, "y": 0, "id": 1, "selno": 9, "stopautorun": true}, {"x": 300, "y": -450, "id":2, "selno": 10}],
+    "ball" :  {"x": 0, "y": -5, "controllerselno": 9, "controllerhuman": true},
+    "gamecontrols" :  {"paused": true},
+    "touchcontrols" :  {"force_taponplayer": 10, "disable_drag": true, "disable_dribbling": true, "disable_manualkicks": true, "disable_camerarotate": true, "disable_camerazoom": true}
+  },
+
+  "6" : {
+    "playerteam" :  [{"x": 0, "y": 0, "id": 1, "selno": 9, "stopautorun": true}, {"x": 300, "y": -450, "id":2, "selno": 10}],
+    "ball" :  {"x": 0, "y": -5, "controllerselno": 9, "controllerhuman": true},
+    "gamecontrols" :  {"paused": true},
+    "touchcontrols" :  {"force_taponspotx": 205, "force_taponspoty": -300, "disable_taponplayer": true, "disable_drag": true, "disable_dribbling": true, "disable_manualkicks": true, "disable_camerarotate": true, "disable_camerazoom": true}
+  },
+
+  "7" : {
+    "playerteam" :  [{"x": 0, "y": 0, "id": 1, "selno": 9}, {"x": 400, "y": -300, "id":2, "selno": 10}],
+    "ball" :  {"x": 0, "y": -5, "controllerselno": 9, "controllerhuman": true},
+    "gamecontrols" :  {"paused": true},
+    "touchcontrols" :  {"force_dragtopointx": 400, "force_dragtopointy": 150, "force_taponspotx": 400,"force_taponspoty": -150, "disable_manualkicks": true, "disable_taponplayer": true,"disable_taponspot": true, "disable_dribbling": true, "disable_camerarotate": true, "disable_camerazoom": true}
+  },
+
+  "9" : {
+    "playerteam" :  [{"x": 0, "y": 0, "id": 1, "selno": 10}],
+    "ball" :  {"x": 0, "y": -5, "controllerselno": 10, "controllerhuman": true},
+    "traininglines" :  [{"startx": -896, "starty": -500, "endx": 896, "endy": -500, "fail": false}, {"startx": -896, "starty": 600, "endx": 896, "endy": 600, "fail": true}],
+    "gamecontrols" :  {"paused": true, "desiredoffsetx": 0, "desiredoffsety": -10},
+    "touchcontrols" :  {"disable_manualkicks": true, "disable_taponplayer": true, "disable_taponspot": true, "disable_drag": true, "disable_camerarotate": true, "disable_camerazoom": true}
+  },  
+
+   "11" : {
+    "playerteam" :  [{"x": 100, "y": -1000, "id": 1, "selno": 10}],
+    "ball" :  {"x": 95, "y": -1005, "controllerselno": 10, "controllerhuman": true},
+    "gamecontrols" :  {"paused": true},
+    "touchcontrols" :  {"force_manualkick": true, "disable_drag": true, "disable_dribbling": true, "disable_camerarotate": true, "disable_camerazoom": true}
+   },
+   
+  "13" : {
+    "playerteam" :  [{"x": 0, "y": 0, "id": 1, "selno": 10, "stopautorun": true}],
+    "oppteam" :  [{"x": 0, "y": -300, "id": 7, "selno": 2, "stopmovement": true}],
+    "ball" :  {"x": 0, "y": -295, "controllerselno": 2, "controllerhuman": false},
+    "gamecontrols" :  {"paused": false, "desiredoffsetx": 0, "desiredoffsety": 5, "force_focusonplayer": 1},
+    "touchcontrols" :  {"disable_drag": true, "disable_manualkicks": true, "disable_taponplayer": true, "disable_taponspot": true, "disable_dribbling": true, "disable_camerarotate": true, "disable_camerazoom": true}
+  }
+}

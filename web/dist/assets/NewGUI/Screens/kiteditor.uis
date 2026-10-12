@@ -1,0 +1,222 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(rgbslider.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_kits.uih)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(KitEditor,ShirtScroll),0)
+	.set(twk(KitEditor,GoalieShirtScroll),0)
+	.inittwk(twk(KitEditor,OutfieldSelectedLayer),1)
+	.inittwk(twk(KitEditor,GoalieSelectedLayer),1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(kiteditor_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(Kit_Customise_Your_Kit),kiteditor)
+
+// ----------------
+// ----------------
+
+	// Tabs
+	Rect:(30,30,700+@y,50)
+		Layer(Text)
+	{{
+		Draw:(Tab_BG50,0,-2,@W+1,58)
+		M_Tab:(0,0,@W/4,50,Kit_SHIRT_PATTERN,1,KitEditor,CurrentTab,kiteditor.btn_Tab,5)
+		M_Tab:([@W/4],0,@W/4,50,Kit_SHIRT_COLOUR,2,KitEditor,CurrentTab,kiteditor.btn_Tab,5)
+		M_Tab:([@W/2],0,@W/4,50,Kit_GOAL_PATTERN,3,KitEditor,CurrentTab,kiteditor.btn_Tab,5)
+		M_Tab:([@W/4]*3,0,@W/4,50,Kit_SHIRT_COLOUR,4,KitEditor,CurrentTab,kiteditor.btn_Tab,5)
+
+		M_SwitchTabs:(4,KitEditor,-18,10,692+@y,10,KitEditor.btn_Tab)
+	}}
+
+
+
+	// Contents
+	Rect:(30,80,700+@y,520+@z)
+	{{
+		Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+		Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAA)
+		Draw:(Dialog_Fade,1,@B-1,@W-2,-300,,#FFFFFFAA)
+
+		// Outfield Kit Pattern Tab 
+		Dissolve:()
+			M_FadingTabContent:(KitEditor,CurrentTab,1)
+		{
+			CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			{
+				Clip:(1,0,@W-1,@H) ref:SwipePanels
+					if(twk(KitEditor,CurrentTab) = 1)
+					<
+						SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,KitEditor,ShirtScroll,KitEditor,ShirtScrollVel) ref:SwipePanelShirts
+					>
+				{{
+					Rect:(0,250+[@z/2],@W+80,@H-250-[@z/2])
+					{{
+						Rect:(0,0,@W,@H) ref:ShirtList
+							HorizontalList(20,,135,false)
+							ScrollingListX(KitEditor,ShirtScroll,@W,KitEditor,ShirtScrollVel) ref:ScrollingListShirts
+							CTRLScrollList(ScrollingListShirts) ref:CTRLScrollList
+						{{
+							M_ShirtPatternButton:(UIKitStyles.Sleeves,Sleeves,loc(Kit_SLEEVES))
+							M_ShirtPatternButton:(UIKitStyles.Stripes,Stripes,loc(Kit_STRIPES))
+							M_ShirtPatternButton:(UIKitStyles.Hoops,Hoops,loc(Kit_HOOPS))
+							M_ShirtPatternButton:(UIKitStyles.Plain,,loc(Kit_PLAIN))
+							M_ShirtPatternButton:(UIKitStyles.Checks,Checks,loc(Kit_CHECKS))
+							M_ShirtPatternButton:(UIKitStyles.DiagonalHalf,DiagonalHalf,loc(Kit_DIAGONALHALF))
+							M_ShirtPatternButton:(UIKitStyles.HorizontalHalf,HorizontalHalf,loc(Kit_HORIZONTALHALF))
+							M_ShirtPatternButton:(UIKitStyles.VerticalHalf,VerticalHalf,loc(Kit_VERTICALHALF))
+							M_ShirtPatternButton:(UIKitStyles.VStripe,VStripe,loc(Kit_VSTRIPE))
+							M_ShirtPatternButton:(UIKitStyles.CentreStripe,CentreStripe,loc(Kit_CENTRESTRIPE))
+							M_ShirtPatternButton:(UIKitStyles.Sash,Sash,loc(Kit_SASH))
+							M_ShirtPatternButton:(UIKitStyles.Quarters,Quarters,loc(Kit_QUARTERS))
+						}}
+					}}
+					Rect:(20,0,@W-40,@H)
+					{{
+						M_ScrollIndicatorAltH:(@B,@W,KitEditor,ShirtScroll,ShirtList,ScrollingListShirts,SwipePanels,SwipePanelShirts)
+					}}
+				}}
+			}
+
+			M_SwitchStickHint:(✃,@R-49,@B-34,X)
+				CTRLScrollListIcon(ShirtList,CTRLScrollList)
+		}
+
+
+		// Outfield Kit Colour Tab 
+		Dissolve:(0,0,@W,@H) $HIDE
+			M_FadingTabContent:(KitEditor,CurrentTab,2)
+		{
+			Rect:(0,[@z/3],@W,@H)
+			{{
+				Draw:(Button_Shadow,30-11,182-5,640+[@y]+22,308+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,30,182,640+[@y],308,,#FFFFFFFF000000FF)
+				
+				M_Text:(Home Colours,@C,25,0,0,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#505050FF,ColoursTitle)
+				M_ShirtColourButton:(@C-220-[@y/3],100,200+[@y/3],110,1,Kit_PRIMARY_COLOUR,ShirtColour1,Outfield)	
+				M_ShirtColourButton:(@C,100,200+[@y/3],110,2,Kit_SECONDARY_COLOUR,ShirtColour2,Outfield)
+				M_ShirtColourButton:(@C+220+[@y/3],100,200+[@y/3],110,3,Kit_SHORTS_COLOUR,ShortsColour,Outfield)
+
+				M_Text:(Kit_SHIRT_COLOUR,45+[@y/5],205,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				
+				CTRLSelectGroup:(40+[@y/5],239,333,247,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+				{
+					M_ColourPickerGrid:(50+[@y/5],249,320,400,KitEditor,SelectedColour,kiteditor.btn_SetColour,OutfieldPicker)
+				}
+
+				M_Text:(kit_editor_HINT,405+[@y/1.75]-[@y/4],205,230+[@y/2],0,C,C,TextLoc,KNUL20,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+				M_Text:(Home Colours,405+[@y/1.75]-[@y/4],230,230+[@y/2],0,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#505050FF,HistoryTitle)
+
+				M_KitHistoryButton:(520+[@y/1.75],282,230+[@y/2],65,?INDEX?,Kit_PRIMARY_COLOUR,OtherShirtColour1,Outfield)
+				M_KitHistoryButton:(520+[@y/1.75],360,230+[@y/2],65,?INDEX?,Kit_SECONDARY_COLOUR,OtherShirtColour2,Outfield)
+				M_KitHistoryButton:(520+[@y/1.75],438,230+[@y/2],65,?INDEX?,Kit_SHORTS_COLOUR,OtherShortsColour,Outfield)
+			}}
+		}
+
+
+		// Goalie Kit Pattern Tab 
+		Dissolve:() $HIDE
+			M_FadingTabContent:(KitEditor,CurrentTab,3)
+		{
+			CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			{
+				Clip:(1,0,@W-1,@H) ref:SwipePanels
+					if(twk(KitEditor,CurrentTab) = 3)
+					<
+						SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,KitEditor,GoalieShirtScroll,KitEditor,GoalieShirtScrollVel) ref:SwipePanelGKShirts
+					>
+				{{
+					Rect:(0,250+[@z/2],@W+80,@H-250-[@z/2])
+					{{
+						Rect:(0,0,@W,@H) ref:GoalieShirtList
+							HorizontalList(20,,135,false)
+							ScrollingListX(KitEditor,GoalieShirtScroll,@W,KitEditor,GoalieShirtScrollVel) ref:ScrollingListGKShirts
+							CTRLScrollList(ScrollingListGKShirts) ref:CTRLScrollList
+						{{
+							M_GoalieShirtPatternButton:(UIKitStyles.KeeperSleeves,Sleeves,loc(Kit_SLEEVES))
+							M_GoalieShirtPatternButton:(UIKitStyles.KeeperCollar,Collar,loc(Kit_COLLAR))
+							M_GoalieShirtPatternButton:(UIKitStyles.KeeperShoulders,Shoulders,loc(Kit_SHOULDERS))
+							M_GoalieShirtPatternButton:(UIKitStyles.KeeperPlain,,loc(Kit_PLAIN))
+						}}
+					}}
+					
+					Rect:(20,0,@W-40,@H)
+					{{
+						M_ScrollIndicatorAltH:(@B,@W,KitEditor,GoalieShirtScroll,GoalieShirtList,ScrollingListGKShirts,SwipePanels,SwipePanelGKShirts)
+					}}
+				}}
+			}
+			M_SwitchStickHint:(✃,@R-49,@B-34,X)
+				CTRLScrollListIcon(GoalieShirtList,CTRLScrollList)
+		}
+
+
+		// Goalie Kit Colour Tab 
+		Dissolve:(0,0,@W,@H) $HIDE
+			M_FadingTabContent:(KitEditor,CurrentTab,4)
+		{
+			Rect:(0,[@z/3],@W,@H)
+			{{
+				Draw:(Button_Shadow,30-11,182-5,640+[@y]+22,308+21,,#00000080000000FF)
+				Draw:(Button_SilverSliced,30,182,640+[@y],308,,#FFFFFFFF000000FF)
+				
+				M_Text:(Colours,@C,25,0,0,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#505050FF,ColoursTitle)
+				M_ShirtColourButton:(@C-220-[@y/3],100,200+[@y/3],110,1,Kit_PRIMARY_COLOUR,GoalieShirtColour1,Goalie)
+				M_ShirtColourButton:(@C,100,200+[@y/3],110,2,Kit_SECONDARY_COLOUR,GoalieShirtColour2,Goalie)
+				M_ShirtColourButton:(@C+220+[@y/3],100,200+[@y/3],110,3,Kit_SHORTS_COLOUR,GoalieShortsColour,Goalie)
+
+				M_Text:(Kit_SHIRT_COLOUR,45+[@y/5],205,0,0,L,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+				
+				CTRLSelectGroup:(40+[@y/5],239,333,247,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+				{
+					M_GoalieColourPickerGrid:(50+[@y/5],249,320,400,KitEditor,SelectedColour,kiteditor.btn_SetColour,GoaliePicker)
+				}
+				M_Text:(kit_editor_HINT,405+[@y/1.75]-[@y/4],205,230+[@y/2],0,C,C,TextLoc,KNUL20,Upper,1,0,#252525FF,NoItalics,#252525FF,ref)
+				M_Text:(Home Colours,405+[@y/1.75]-[@y/4],230,230+[@y/2],0,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#505050FF,HistoryTitle)
+
+				M_KitHistoryButton:(520+[@y/1.75],282,230+[@y/2],65,?INDEX?,Kit_PRIMARY_COLOUR,OtherShirtColour1,Goalie)
+				M_KitHistoryButton:(520+[@y/1.75],360,230+[@y/2],65,?INDEX?,Kit_SECONDARY_COLOUR,OtherShirtColour2,Goalie)
+				M_KitHistoryButton:(520+[@y/1.75],438,230+[@y/2],65,?INDEX?,Kit_SHORTS_COLOUR,OtherShortsColour,Goalie)
+			}}
+		}
+	}}
+
+
+	// Big Kits
+	Rect:(704+@y,40+[@z/2],402,575)
+	{{		
+		Draw:(RoundedPanel,56,-12,@W-40,@H+[@z/2],,#AAAAAA40)
+		
+		// Kit Swap Animation
+		AnimInstance:(31,30,KitSwap)
+		    .set(gel.anim.normtime,1)
+		    if(twk(KitEditor,CurrentTab)>2)
+		    <
+		 		frlerp(gel.anim.normtime,0,0.1)
+		 	>
+		 	else
+		 	<
+		 		frlerp(gel.anim.normtime,1,0.1)
+		 	>
+
+		M_Text:(Kit_Save_Changes,@R-320,@B-145+[@z/3],320,60,C,C,TextBox,KNUL24,,0,0,#00000000,NoItalics,#505050FF,Description)
+
+		// Purchase Button 
+		M_Button:(@R-156,@B-56+[@z/3],280,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,kiteditor.btn_Buy,BuyButton,"",0,2,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText,1)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			CTRLBlock(UP)
+	}}	
+
+// ----------------
+// ----------------
+
+M_NewDialogCLOSE:()

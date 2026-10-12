@@ -1,0 +1,526 @@
+Import:(badge_Macros.uih)
+Import:(templates_combo.uih)
+//--------------------------------------------------------------------------------------------LEAGUE
+Img:(Icon_PosUp,NewGUI/UI/Icons/Icon_PosUp.png)
+Img:(Icon_PosDown,NewGUI/UI/Icons/Icon_PosDown.png)
+Img:(Icon_PosSame,NewGUI/UI/Icons/Icon_PosSame.png)
+Img:(Cell_Stripe,NewGUI/UI/Cells/Cell_Stripe.png)
+
+Macro:(M_ArrowSwitch,?X?,?Y?,?INC_MSG?,?DEC_MSG?)
+	PushOrigin:(?X?,?Y?)
+		Rect:(-160,0,160,55)
+			float(%pressed)
+			Press()
+			<
+				:set(%pressed,1)
+			>
+			else
+			<
+				:set(%pressed,0)
+			>
+			M_RepeatPressAction:(?DEC_MSG?)
+		{{
+			Draw:(Fade_Right,0,0,160,40,#FFFFFF00)
+				Additive()
+				if(%pressed)
+				<
+					frlerp(gel.alpha,0.15,0.25)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+			Draw:(White,0,3,1,34,,#999999FF)
+				set(gel.vis,twk(ControllerInput,Enabled) = 0)
+
+			M_Text:("<",42,20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF000000FF,ref)
+				if(%pressed)
+				<
+					frlerp(gel.scale,1.4,0.25)
+				>
+				else
+				<
+					:set(gel.scale,1)
+				>	
+			M_SwitchButtonHint:(⛎,0,5)
+			M_CTRLButtonExtra:(LB,false)
+		}}
+
+		Rect:(0,0,160,55)
+			float(%pressed)
+			Press()
+			<
+				:set(%pressed,1)
+			>
+			else
+			<
+				:set(%pressed,0)
+			>
+			M_RepeatPressAction:(?INC_MSG?)
+		{{
+			Draw:(Fade_Left,0,0,160,40,#FFFFFF00)
+				Additive()
+				if(%pressed)
+				<
+					frlerp(gel.alpha,0.15,0.25)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>		
+			Draw:(White,@R,3,-1,34,,#999999FF)
+				set(gel.vis,twk(ControllerInput,Enabled) = 0)
+
+			M_Text:(">",118,20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF000000FF,ref)
+				if(%pressed)
+				<
+					frlerp(gel.scale,1.4,0.25)
+				>
+				else
+				<
+					:set(gel.scale,1)
+				>	
+
+			M_SwitchButtonHint:(⛏,127,5)
+			M_CTRLButtonExtra:(RB,false)
+		}}
+	PopOrigin
+EndM
+
+// Headers
+Macro:(M_LeagueStandingsHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		set(gel.vis,twk(League,CurrentTab) = 1)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			Rect:()
+				set(gel.vis,twk(League,GroupCount) <= 1)
+			{
+				M_Text:(league_TABLE_POSITION_tla,5,0,50,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(standings_TEAM,140,0,300,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)	
+			}
+
+			Rect:()
+				set(gel.vis,twk(League,GroupCount) > 1)
+			{
+				M_ArrowSwitch:(160,0,league.btn_IncreaseGroup,league.btn_DecreaseGroup)
+
+				M_Text:(,160,0,0,@H,C,C,Text,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					set(gel.text,twk(League,GroupName))
+					ToUpperCase()
+			}
+			
+			M_Text:(standings_PLAYED_tla,400,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+
+			M_Text:(standings_WON_sla,470+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_DREW_sla,530+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_LOST_sla,590+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+
+			//	Smaller font size for LTR (text overlaps)
+			Rect:()
+				set(gel.vis,twk(Settings,UsingLTRText)=1)
+			{
+				M_Text:(standings_FOR_2la,660+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL17,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(standings_AGAINST_2la,730+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL17,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(standings_DIFF_2la,800+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL17,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			}
+			Rect:()
+				set(gel.vis,twk(Settings,UsingLTRText)=0)
+			{
+				M_Text:(standings_FOR_2la,660+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(standings_AGAINST_2la,730+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(standings_DIFF_2la,800+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			}
+
+			M_Text:(standings_POINTS,880+[@y*0.6],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_FORM,[@R-85]-[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+Macro:(M_LeagueFixturesHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		set(gel.vis,twk(League,CurrentTab) = 2)
+	{{
+		Rect:(30,0,@W-60,@H) ref:RoundHeader
+		{{
+			M_ArrowSwitch:(@C,0,league.btn_IncreaseFixtureRound,league.btn_DecreaseFixtureRound)
+
+			M_Text:(,@C,0,0,@H,C,C,Text,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,loc(league_FIXTURES_ROUND) :: " " :: LTR(twk(League,FixturesRound)))
+				ToUpperCase()
+
+		}}
+	}}
+EndM
+
+Macro:(M_LeagueRatingsHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		set(gel.vis,twk(League,CurrentTab) = 3)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_Text:(league_RATINGS_TOPSCORER,@W*0.25,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(league_RATINGS_MOSTASST,@W*0.75,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+Macro:(M_LeagueNewStarHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		set(gel.vis,twk(League,CurrentTab) = 4)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_Text:(generic_WEEK,13,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(league_NSFC_COMP,150,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(league_NSFC_OPPONENT,@C-60,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(league_NSFC_RESULT,@W*0.75,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:("-",@R-40,0,0,@H,C,C,Text,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+Macro:(M_AnimatedStandingsHeader,?X?,?Y?,?W?,?H?)
+	Rect:(?X?,?Y?,?W?,?H?)
+	{{
+		Rect:(30,0,@W-60,@H)
+		{{
+			M_Text:(standings_TEAM,140,0,300,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_PLAYED_tla,400,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_WON_sla,470+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_DREW_sla,530+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_LOST_sla,590+[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_FOR_2la,660+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_AGAINST_2la,730+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_DIFF_2la,800+[@y*0.4],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_POINTS,880+[@y*0.6],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			M_Text:(standings_FORM,[@R-85]-[@y*0.2],0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+// Cells
+Macro:(M_LeagueFixtureRow,?REF?,?PLAYER?)
+	Cull:(0,0,@W,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+		 	Post(fixtures.btn_MatchInfo,0) ref:Post
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		If:(?PLAYER?)
+			.CTRLSetSelected()
+		EndIf
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell55Dark,-3,-2,@W+6,59)
+			M_Glint:(0,0,0,@W)
+			M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,HomePosition)
+			M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AwayPosition)
+			M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,HomeCompetition)
+			M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AwayCompetition)
+			M_Text:(New Star,@C-160,0,0,@H,R,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+			M_Text:(Dagenham,@C+160,0,0,@H,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+			M_Text:("00",@C-10,0,0,@H,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+			M_Text:("00",@C+10,0,0,@H,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+			M_Text:("-",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,?REF?)
+		Else
+			Draw:(Cell55,-3,-2,@W+6,59)
+			M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,HomePosition)
+			M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AwayPosition)
+			M_Text:("",20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,HomeCompetition)
+			M_Text:("",@R-20,0,0,@H,R,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,AwayCompetition)
+			M_Text:(New Star,@C-160,0,0,@H,R,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			M_Text:(Dagenham,@C+160,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			M_Text:("00",@C-10,0,0,@H,R,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			M_Text:("00",@C+10,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+			M_Text:("-",@C,0,0,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,?REF?)
+		EndIf
+
+		Draw:(Cell_Fixture_Separator,@C-80,3)
+		Draw:(Cell_Fixture_Separator,@C+80,3)
+
+		M_Badge:(@C-120,@M,SD,1,TeamHomeBadge)
+		M_Badge:(@C+120,@M,SD,1,TeamAwayBadge)
+
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+Macro:(M_FormItem,?X?,?Y?,?ALPHA?)
+	Rect:(?X?,?Y?) ref:Form
+		set(gel.colour,?ALPHA?FFFFFFFF)
+	{{
+		Rect:() $HIDE ref:Win
+		{
+			Draw:(RoundedPanel,0,0,24,24)
+				.set(gel.colour,twk(FormColours,Win))
+			M_Text:(standings_WON_sla,12,0,0,24,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,Form1)
+		}
+
+		Rect:() $HIDE ref:Draw
+		{
+			Draw:(RoundedPanel,0,0,24,24)
+				.set(gel.colour,twk(FormColours,Draw))
+			M_Text:(standings_DREW_sla,12,0,0,24,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,Form1)
+		}
+
+		Rect:() $HIDE ref:Loss
+		{
+			Draw:(RoundedPanel,0,0,24,24)
+				.set(gel.colour,twk(FormColours,Loss))
+			M_Text:(standings_LOST_sla,12,0,0,24,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,Form1)
+		}
+	}}
+EndM
+
+Macro:(M_FormGroup,?X?)
+	Rect:(?X?,15)
+	{{	
+		M_FormItem:(0,0,#FFFFFF66)
+		M_FormItem:(27,0,#FFFFFF8C)
+		M_FormItem:(54,0,#FFFFFFB3)
+		M_FormItem:(81,0,#FFFFFFD9)
+		M_FormItem:(108,0,#FFFFFFFF)		
+	}}
+EndM
+
+
+
+
+
+Macro:(M_LeagueStandingsRow,?REF?,?PLAYER?)
+	Cull:(0,0,@W,55) ref:?REF?
+		M_CellPress:()
+		func(ClickFunc)
+		<
+			Post(UI_Select)
+			Post(league.row_team,0) ref:Post
+		>
+		Click()
+		<
+			callparent(0,ClickFunc)
+		>
+		M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		If:(?PLAYER?)
+			.CTRLSetSelected()
+		EndIf
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell55Dark,-3,-2,@W+6,59)
+			M_Glint:(0,0,0,@W)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Pos)
+			M_Text:(,140,0,230,@H,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(,400,0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Played)
+			M_Text:(,470+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Won)
+			M_Text:(,530+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Drawn)
+			M_Text:(,590+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Lost)
+			M_Text:(,670+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsFor)
+			M_Text:(,730+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsAgainst)
+			M_Text:(,790+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsDifference)
+			M_Text:(,880+[@y*0.6],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Points)
+		Else
+			Draw:(Cell55,-3,-2,@W+6,59)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Pos)
+			M_Text:(,140,0,230,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(,400,0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Played)
+			M_Text:(,470+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Won)
+			M_Text:(,530+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Drawn)
+			M_Text:(,590+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Lost)
+			M_Text:(,660+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsFor)
+			M_Text:(,730+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsAgainst)
+			M_Text:(,800+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsDifference)
+			M_Text:(,880+[@y*0.6],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Points)
+		EndIf
+
+		Draw:(White,880+[@y*0.6]-40,3,80,49,,#00000010FFFFFFFF)
+		M_Badge:(110,@M,SD,1,TeamBadge)
+
+		// Place indicator
+		Draw:(Cell_Stripe,,,,,,#79E53EFFFFFFFFFF) $HIDE ref:Top
+		Draw:(Cell_Stripe,,,,,,#3E9CE5FFFFFFFFFF) $HIDE ref:Promotion
+		Draw:(Cell_Stripe,,,,,,#E53E3EFFFFFFFFFF) $HIDE ref:Relegation
+
+		// Change indicator
+		Draw:(Icon_PosUp,50,17,20,20) $HIDE ref:MovedUp
+		Draw:(Icon_PosDown,50,17,20,20) $HIDE ref:MovedDown
+		Draw:(Icon_PosSame,50,17,20,20) $HIDE ref:NotMoved
+
+		M_FormGroup:(@R-150-[@y*0.2])
+		
+		M_CellPressHighlight:()
+	}} Template
+EndM
+
+
+Define:(?MOVESPEED?=0.225)
+Define:(?GAPTIME?=0.4)
+Macro:(M_AnimatedStandingsRow,?REF?,?PLAYER?)
+	Cull:(0,0,@W,55) ref:?REF?
+		//func(ClickFunc)
+		//<
+		//>
+		//M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+		float(%position,%positionChange,%step,%stepDelay,%targetY,%timer,%displacementX,%targetX,%timerX,%focusMe)
+		:set(gel.y,%targetY)
+		:set(gel.x,%targetX)
+		.set(%step,0)
+		.set(%timer,-3)
+		.set(%timerX,0)	
+		.set(twk(AnimatedLeague,Animating),twk(AnimatedLeague,ShouldAnimate))
+		add(%timer,FrameTime * 0.04)
+		add(%timerX,FrameTime * 0.04)
+		if(twk(AnimatedLeague,HasAnimatedOnce) >0)
+		<
+			.set(twk(AnimatedLeague,Animating),0)
+		>
+		if((%focusMe > 0) and(twk(AnimatedLeague,Animating)))
+		<
+			.set(twk(AnimatedLeague,StandingsScroll),-(gel.y-150))
+		>
+
+		// Start movement
+		if(%positionChange != 0)
+		<	
+			if(%timer > [%stepDelay*?GAPTIME?])
+			<
+				set(gel.y,%targetY)
+				set(%step,max(-1,min(1,%positionChange)))
+				set(%targetY,gel.y - (%step * 62))
+				set(%positionChange,%positionChange - %step)
+				set(%timer,%timer - ?GAPTIME?)
+				set(%position,%position - %step)
+				:Post(UI_ChangeTab)
+			>
+		>
+
+		// Start Lateral movement
+		if(%displacementX > 0)
+		<	
+			if(%timerX > 0.5)
+			<
+				set(%timerX,-1.5)
+				set(%targetX,%displacementX)
+				set(%displacementX,-twk(AnimatedLeague,PlayerDisplacementX))
+			>
+		>
+
+		// Vertical movement complete, start lateral movement back
+		if(%positionChange = 0)
+		<
+			if(%displacementX < 0)
+			<
+				if(%timerX > 0.5)
+				<
+					set(%timerX,-1.5)
+					set(%targetX,0)
+					set(%displacementX,0)
+					set(twk(AnimatedLeague,Animating),0)
+					set(twk(AnimatedLeague,HasAnimatedOnce),1)
+				>
+			>
+		>
+
+		
+		// Handle movement
+		if(%timerX >= 0.0)
+		<
+			frlerp(gel.x,%targetX,?MOVESPEED?)
+		>
+		frlerp(gel.y,%targetY,?MOVESPEED?)
+			
+
+		// Track player's team
+		if(%positionChange != 0)
+		<
+			if(%focusMe > 0.0)
+			<
+				frlerp(twk(AnimatedLeague,StandingsScroll),-(gel.y-150),?MOVESPEED?)
+			>
+		>
+	{{
+		If:(?PLAYER?)
+			Draw:(Cell55Dark,-3,-2,@W+6,59)
+			M_Glint:(0,0,0,@W)
+		Else
+			Draw:(Cell55,-3,-2,@W+6,59)
+		EndIf
+
+		Rect:()
+			.set(gel.alpha,0)
+			if(twk(AnimatedLeague,Animating) = 0)
+			<
+				frlerp(gel.alpha,1,0.1)
+			>
+		{
+			Draw:(Cell_Stripe,,,,,,#79E53EFFFFFFFFFF) $HIDE ref:Top
+			Draw:(Cell_Stripe,,,,,,#3E9CE5FFFFFFFFFF) $HIDE ref:Promotion
+			Draw:(Cell_Stripe,,,,,,#E53E3EFFFFFFFFFF) $HIDE ref:Relegation
+
+			Draw:(Icon_PosUp,50,17,20,20) $HIDE ref:MovedUp
+			Draw:(Icon_PosDown,50,17,20,20) $HIDE ref:MovedDown
+			Draw:(Icon_PosSame,50,17,20,20) $HIDE ref:NotMoved
+		}
+
+		M_Badge:(110,@M,SD,1,TeamBadge)
+
+
+		If:(?PLAYER?)
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Pos)
+				.set(gel.alpha,0)
+				if(twk(AnimatedLeague,Animating) = 0)
+				<
+					frlerp(gel.alpha,1,0.1)
+				>
+			M_Text:(,140,0,230,@H,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+		Else
+			M_Text:(,5,0,50,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Pos)
+				.set(gel.alpha,0)
+				if(twk(AnimatedLeague,Animating) = 0)
+				<
+					frlerp(gel.alpha,1,0.1)
+				>
+			M_Text:(,140,0,230,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+		EndIf
+
+
+		
+		Rect:()
+			.set(gel.alpha,0)
+			if(twk(AnimatedLeague,Animating) = 0)
+			<
+				frlerp(gel.alpha,1,0.1)
+			>
+		{
+			If:(?PLAYER?)
+				M_Text:(,400,0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Played)
+				M_Text:(,470+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Won)
+				M_Text:(,530+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Drawn)
+				M_Text:(,590+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Lost)
+				M_Text:(,660+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsFor)
+				M_Text:(,730+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsAgainst)
+				M_Text:(,800+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,GoalsDifference)
+				M_Text:(,880+[@y*0.6],0,0,@H,C,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Points)
+			Else
+				M_Text:(,400,0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Played)
+				M_Text:(,470+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Won)
+				M_Text:(,530+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Drawn)
+				M_Text:(,590+[@y*0.2],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Lost)
+				M_Text:(,660+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsFor)
+				M_Text:(,730+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsAgainst)
+				M_Text:(,800+[@y*0.4],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,GoalsDifference)
+				M_Text:(,880+[@y*0.6],0,0,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Points)
+			EndIf
+
+			Draw:(White,880+[@y*0.6]-40,3,80,49,,#00000010)
+			M_FormGroup:(@R-150-[@y*0.2])
+		}
+	}} Template
+EndM

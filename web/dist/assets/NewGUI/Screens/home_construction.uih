@@ -1,0 +1,587 @@
+Define:(?HOMEORMATCH?=HOME)
+
+//----------------------------------------------------------------------------------------------------------------------------WEST STAND MACROS
+Macro:(M_StandWConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandW,?NUM?)
+		{
+			//Seperate element Home screen version for animation.
+			Locator:((50,360,0),(0,0,180),(1,1,1))
+			{
+										
+				//Digger
+				M_ConstructionObjPop_new:(-900,3300,0,20,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.7,1,1,1)
+
+				//Left
+				M_ConstructionObjPop_new:(-2245,2195,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-2005,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-1385,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(-380,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(630,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1655,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				M_ConstructionObjPop_new:(2295,2200,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(2390,2445,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(2295,2700,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(1655,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(630,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-380,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1385,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				M_ConstructionObjPop_new:(-2005,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+				M_ConstructionObjPop_new:(-2245,2705,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.7,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-2340,2445,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.75,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+
+Macro:(M_StandWConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandW,?NUM?)
+			
+		{
+			Locator:((50,-150,0),(0,0,180),(1,1,1))
+			{
+										
+				//Digger
+				M_ConstructionObjPop_new:(1700,3100,0,260,ConstructionPop,Diggerpop,Construction_Digger,Construction_Sheet01,Shadowpop,0.7,1,1,1)
+
+				//Left
+				M_ConstructionObjPop_new:(-2245,1695,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-2005,1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-1385,1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(-380,1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(630,1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1655,1600,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				M_ConstructionObjPop_new:(2295,1700,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(2390,2200,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(2295,2700,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(1655,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(1025,2960,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(520,3053,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-325,3055,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				M_ConstructionObjPop_new:(-965,2960,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+				M_ConstructionObjPop_new:(-1605,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.7,1,0,0)
+				M_ConstructionObjPop_new:(-2245,2705,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.75,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-2340,2200,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.8,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------EAST STAND MACROS
+
+Macro:(M_StandEConstruction1,?NUM?)
+
+	Rect:()	// Visibility set by tier selector
+	{
+		Rect:()
+			M_CheckShowConstruction:(PitchStandE,?NUM?)
+		{
+			Locator:((0,-422,0),(0,0,0),(1,1,1))
+			{
+				//Left
+				M_ConstructionObjPop_new:(-2245,2195,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-2005,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-1385,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(-380,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(630,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1655,2100,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				M_ConstructionObjPop_new:(2295,2200,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(2390,2445,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(2295,2700,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(1655,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(630,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-380,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1385,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				M_ConstructionObjPop_new:(-2005,2800,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+				M_ConstructionObjPop_new:(-2245,2705,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.7,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-2340,2445,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.75,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+
+Macro:(M_StandEConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:()
+			M_CheckShowConstruction:(PitchStandE,?NUM?)
+		{
+			// Animated scaffold mesh for home screen
+			Locator:((0,-150,0),(0,0,0),(1,1,1))
+			{
+				
+				//------Crane
+				//Column
+				M_ConstructionCranePop_new:(-2105,3300,0,0,ConstructionPop,Diggerpop,Construction_Crane_Base,Construction_Crane_BaseB,Construction_Crane_Side,Construction_Crane_Sections,0.6,1,1)
+				//Arm
+				Locator:((-2105,3300,0),(0,0,0),(1,1,1))
+					float(%t)
+					add(%t,FrameTime*0.1)
+					add(gel3d.rotz,0.01)
+					set(gel3d.rotz,lerp(210,340,[sin(%t)+1]/2))
+					Euler(RYP)
+				{
+					M_ConstructionCranePop_new:(0,0,0,0,ConstructionPop,Diggerpop,Construction_Crane_Tower,Construction_Crane_TowerB,Construction_Crane_Side,Construction_Crane_Sections,0.5,1,0)
+				}					
+				
+				//Left
+				M_ConstructionObjPop_new:(-2245,1945,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-2005,1850,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-1385,1850,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(-380,1850,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(630,1850,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1655,1850,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				M_ConstructionObjPop_new:(2295,1950,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(2390,2435,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(2295,2945,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(1655,3045,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(630,3045,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-380,3045,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1385,3045,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				M_ConstructionObjPop_new:(-2005,3045,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+				M_ConstructionObjPop_new:(-2245,2950,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.7,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-2340,2435,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.75,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------SOUTH STAND MACROS
+Macro:(M_StandSConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+			//Animated scaffold sections for outside of match
+			Locator:((-50,0,0),(0,0,90),(1,1,1))
+			{
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(1575,2760,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3000,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3005,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,2750,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+//South stand construction tier 4
+Macro:(M_StandSConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+			
+			// Animated mesh home screen version
+			Locator:((-50,0,0),(0,0,90),(1,1,1))
+			{
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.25,1,0,0)		
+				//Back
+				M_ConstructionObjPop_new:(1575,2860,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3250,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3255,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,2870,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+//South stand construction tier 5
+Macro:(M_StandSConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandS,?NUM?)
+		{
+			//Animated scaffold for home screen
+			Locator:((-50,0,0),(0,0,90),(1,1,1))
+			{
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(1585,3000,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3500,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3505,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,3000,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+	
+		}
+	}
+EndM
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------NORTH STAND MACROS
+//North stand construction tiers 0,1,2,3
+Macro:(M_StandNConstruction1,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+			// Animated scaffold for home screen
+			Locator:((100,-50,0),(0,0,-90),(1,1,1))
+			{
+				//Base
+				//M_ConstructionBase_new:(0,100,-2,0,0,0,3,3.7,1.2)
+										
+				//Digger
+				//M_ConstructionDigger_new:(-1200,-650,0,0,0,120,1)
+
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.25,1,0,0)	
+				//Back
+				M_ConstructionObjPop_new:(1575,2765,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3000,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3100,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3005,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,2750,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+	
+		}
+	}
+EndM
+
+//North stand construction tier 4
+Macro:(M_StandNConstruction4,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+				
+			// Animated scaffold mesh for home screen
+			Locator:((100,-55,0),(0,0,-90),(1,1,1))
+			{
+
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(1575,2860,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3250,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3350,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3255,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,2870,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+//North stand construction tier 5
+Macro:(M_StandNConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchStandN,?NUM?)
+		{
+			// Animated scaffold for home screen
+			Locator:((100,-50,0),(0,0,-90),(1,1,1))
+			{
+				//Base
+				//M_ConstructionBase_new:(0,100,-2,0,0,0,3,3.7,1.2)
+										
+				//Digger
+				//M_ConstructionDigger_new:(-1200,-650,0,0,0,120,1)
+
+				//Left
+				M_ConstructionObjPop_new:(-1545,2495,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+				M_ConstructionObjPop_new:(-1305,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+				M_ConstructionObjPop_new:(-685,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.1,1,0,0)
+				M_ConstructionObjPop_new:(335,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+				M_ConstructionObjPop_new:(1100,2400,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+				M_ConstructionObjPop_new:(1480,2500,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+				//Back
+				M_ConstructionObjPop_new:(1585,3000,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+				//Right
+				M_ConstructionObjPop_new:(1480,3500,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				M_ConstructionObjPop_new:(1100,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.4,1,0,0)
+				M_ConstructionObjPop_new:(335,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.45,1,0,0)
+				M_ConstructionObjPop_new:(-685,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_4X2L,Construction_Scaffold,Shadowpop,0.5,1,0,0)
+				M_ConstructionObjPop_new:(-1305,3600,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2L,Construction_Scaffold,Shadowpop,0.55,1,0,0)
+				M_ConstructionObjPop_new:(-1545,3505,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.6,1,0,0)
+				//Front
+				M_ConstructionObjPop_new:(-1640,3000,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.65,1,0,0)
+			}
+
+		}
+	}
+EndM
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------CORNER STAND MACROS
+Macro:(M_PitchCornersConstruction3,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchCorners,?NUM?)
+		{
+			// Animated scaff for home screen
+			Rect:()
+			{
+
+				//North East Corner
+				Locator:((10,0,0),(0,0,0),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(2925,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3310,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.1,1,0,0)			
+					//Back
+					M_ConstructionObjPop_new:(3405,2110,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)	
+					//Right
+					M_ConstructionObjPop_new:(3310,2495,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.2,1,0,0)	
+					M_ConstructionObjPop_new:(2925,2590,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)	
+					M_ConstructionObjPop_new:(2540,2495,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.3,1,0,0)	
+					//Front
+					M_ConstructionObjPop_new:(2445,2105,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)	
+				}
+
+				//South East Corner
+				Locator:((-780,-820,0),(0,0,90),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(2925,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3310,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.1,1,0,0)			
+					//Back
+					M_ConstructionObjPop_new:(3405,2110,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3310,2495,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(2925,2590,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2495,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2105,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+				
+				//South West Corner
+				Locator:((50,-65,0),(0,0,180),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(2925,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3310,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3405,2110,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3310,2495,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(2925,2590,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2495,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2105,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+			
+
+				//North West Corner
+				Locator:((830,755,0),(0,0,-90),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(2925,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3310,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3405,2110,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3310,2495,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(2925,2590,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2495,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2105,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_2X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+			}
+
+		}
+	}
+EndM
+
+
+
+Macro:(M_PitchCornersConstruction5,?NUM?)
+	Rect:() // Visibility set by tier selector
+	{
+		Rect:() $HIDE
+			M_CheckShowConstruction:(PitchCorners,?NUM?)
+		{
+			//Animated scaffold for home screen
+			Rect:()
+			{
+				//Base
+				//M_ConstructionBase_new:(0,100,-2,0,0,0,3,3.7,1.2)
+										
+				//Digger
+				//M_ConstructionDigger_new:(-1200,-650,0,0,0,120,1)
+
+				//North East Corner
+				Locator:((-10,0,0),(0,0,0),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(3060,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3555,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3650,2240,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3555,2745,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(3060,2840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2745,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2235,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+
+				//South East Corner
+				Locator:((-750,-850,0),(0,0,90),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(3060,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3555,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3650,2240,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3555,2745,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(3060,2840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2745,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2235,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+
+				}
+				
+				//South West Corner
+				Locator:((70,-40,0),(0,0,180),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(3060,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3555,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3650,2240,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3555,2745,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(3060,2840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2745,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2235,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+			
+
+				//North West Corner
+				Locator:((810,755,0),(0,0,-90),(1,1,1))
+				{
+					//Left
+					M_ConstructionObjPop_new:(2545,1720,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AD,Construction_Scaffold,Shadowpop,0,1,0,0)
+					M_ConstructionObjPop_new:(3060,1620,0,0,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.05,1,0,0)
+					M_ConstructionObjPop_new:(3555,1720,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C,Construction_Scaffold,Shadowpop,0.1,1,0,0)				
+					//Back
+					M_ConstructionObjPop_new:(3650,2240,0,90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.15,1,0,0)
+					//Right
+					M_ConstructionObjPop_new:(3555,2745,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_AL,Construction_Scaffold,Shadowpop,0.2,1,0,0)
+					M_ConstructionObjPop_new:(3060,2840,0,180,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2L,Construction_Scaffold,Shadowpop,0.25,1,0,0)
+					M_ConstructionObjPop_new:(2540,2745,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_1X2C_F,Construction_Scaffold,Shadowpop,0.3,1,0,0)
+					//Front
+					M_ConstructionObjPop_new:(2445,2235,0,-90,ConstructionPop,Scaffoldpop,Construction_Scaffold_3X2D,Construction_Scaffold,Shadowpop,0.35,1,0,0)
+				}
+			}
+
+		}
+	}
+EndM
+

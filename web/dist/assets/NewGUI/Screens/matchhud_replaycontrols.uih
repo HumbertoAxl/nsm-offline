@@ -1,0 +1,192 @@
+Img:(Icon_FooterNSM,NewGUI/UI/Footer/Icon_FooterNSM.png)
+
+Macro:(M_DownloadTag)
+	##IA
+	Rect:()
+	{
+		Draw:(Icon_FooterNSM,@L+28,@B-128,150,50,,#FFFFFF99)
+		M_Text:("Replay_ComingSoon",@L+160,@B-128,@W,50,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFCC,ref)
+	}
+	##I
+		If:(?REALLYWIDECONTENT?)
+			.set(gel.y,65)
+		EndIf
+	##*
+EndM
+
+
+Rect:(@L,@T,@W,@H)
+	set(gel.vis,twk(MatchHUD,ShowReplay) = 1)
+	Press()
+	<
+		:set(twk(MatchHUD,ReplayTouchDown),1)
+	>
+	else
+	<
+		:Message(matchhud.resumeReplay)
+		:set(twk(MatchHUD,ReplayTouchDown),0)
+	>
+	if(twk(ControllerInput,Enabled) and(twk(MatchHUD,ShowReplay) = 1))
+	<
+		if(abs(JoyX0) >= 0.1)
+		<
+			:Message("matchhud.pauseReplay")
+			Message("matchhud.scrollFrameByAmountLerp",JoyX0*5)
+		>
+		else
+		<
+			:Message("matchhud.resumeReplay")
+		>
+		CTRLPress(?BTNOK?,false)
+		<
+			Message("matchhud.slowmo")
+		>
+		else
+		<
+			:Message(matchhud.resumeReplay)
+		>
+	>
+{{
+	Draw:(RoundedPanel,30,@B-63,@W-260,50,,#DDDDDD44)
+		##I
+		If:(?REALLYWIDECONTENT?)
+			.set(gel.y,@B-63-65)
+		EndIf
+		##*
+	{{
+		Rect:(@f,0,@W,60)
+			float(%grabbed)
+			Grab()
+			<
+				:set(%grabbed,1)
+			>
+			else
+			<
+				set(%grabbed,0)
+			>
+		{
+			Rect:(70,0,@W-70,0) ref:ScrubLimits
+			{
+				Draw:(Blank) ref:CurrentTime
+			}
+
+			Rect:(45,0,@W-90,40) 
+				if(%grabbed)
+				<
+					Message(matchhud.setSnapToFrame)	
+					Message(matchhud.scrubReplay)
+				>
+				else
+				<
+					:Message(matchhud.resumeReplay)
+				>
+			{{
+				Draw:(Button_Toggle,0,2,,,,#FFFFFFFF)
+					Scale(0.5,0.5)
+					Handle(0.5,0)
+					set(gel.x,[twk(MatchHUD,ReplayCurrentTime)/twk(MatchHUD,ReplayTotalTime)]*@W)
+			}}
+		}
+	}}
+	M_SwitchStickHint:(✂,@R-263,@B-51,X)
+
+
+
+	Rect:()
+		.set(gel.vis,twk(MatchHUD,IsExternalReplay) = 0)
+		strvar(%hinttxt)
+	{
+		// Replay animation
+		Draw:(RoundedPanel,30,@T+60,60,60,,#000000BB)
+		M_Text:(replay_INDICATOR_sla,30,@T+60,60,60,C,C,TextLoc,BEBAS60,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			PulseAlpha(1,0.05,0.6,0.6,0.1,0.1)
+	
+		// Save button
+		##IA
+		M_Button:(@R-120,@T+100,180,70,Button_SilverSliced,Icon_R,@C-20,-1,40,40,#252525FF,matchhud.saveReplay,ref,loc(replay_SAVE_new),0,20,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+		##PN
+		// No saving of replays on PS4.
+		M_Button:(@R-120,@T+100,180,70,Button_SilverSliced,,@C-20,-1,40,40,#252525FF,matchhud.saveReplay,ref,loc(Replay_Save),0,4,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			M_CTRLButtonExtra:(Y,false)
+
+		M_SwitchButtonHint:(⛍,@R-45,@T+50)
+		##*
+			
+
+		M_Button:(@R-120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,matchhud.exitReplay,ref,loc(replay_EXIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+			M_CTRLButtonExtra:(?BTNCAN?,false)
+			if(twk(ControllerInput,Enabled) = 1)
+	   		<
+	   			set(%hinttxt,loc(settings_CANButton)::"  ")
+	    	>
+	}
+
+
+
+
+
+
+	// Recording Replays
+	Rect:()
+		set(gel.vis,twk(MatchHUD,IsExternalReplay) = 1)
+	{
+		Rect:()
+			set(gel.vis,twk(Debug,EnableShareReplay))
+		{
+			Rect:()
+				set(gel.vis,twk(MatchHUD,RecordReplayUnbound) = 0 and(twk(MatchHUD,IsRecordingScreen) = 0 ))
+			{
+				M_Button:(@R-120,@B-100,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,matchhud.btn_ShareReplay,ref,loc(replay_SHARE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+			}
+				
+			Rect:()
+				set(gel.vis,twk(MatchHUD,RecordReplayUnbound) = 0 and(twk(MatchHUD,IsRecordingScreen)=1))
+			{
+				M_Button:(@R-120,@B-100,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,loc(replay_SAVING),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+				{
+					Draw:(White,@R-190,@B-262,180,10)
+						Layer(AboveText)
+						set(gel.w,(twk(MatchHUD,RecordingProgress)/twk(MatchHUD,RecordReplayBoundedTime))*180)
+				}
+			}
+			
+			Rect:()
+				set(gel.vis,twk(MatchHUD,RecordReplayUnbound) = 1 and(twk(MatchHUD,IsRecordingScreen) = 0))
+			{
+				M_Button:(@R-120,@B-100,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,matchhud.btn_StartRecording,ref,loc(replay_RECORD),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)	
+			}	
+				
+			
+			Rect:()
+				set(gel.vis,twk(MatchHUD,RecordReplayUnbound) = 1 and(twk(MatchHUD,IsRecordingScreen) = 1))
+			{
+				M_Button:(@R-120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,matchhud.btn_StopRecording,ref,loc(replay_FINISH),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			}
+				
+		}
+
+
+		//Exit Replay
+		Rect:()
+			set(gel.vis,twk(MatchHUD,IsRecordingScreen)=0)
+			strvar(%hinttxt)
+		{
+			M_Button:(@R-120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,matchhud.exitReplay,ref,loc(replay_EXIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+				M_CTRLButtonExtra:(?BTNCAN?,false)
+				if(twk(ControllerInput,Enabled) = 1)
+		   		<
+		   			set(%hinttxt,loc(settings_CANButton)::"  ")
+		    	>
+		}	
+		
+	}
+
+
+	// Android and iOS only
+	M_DownloadTag:()
+
+}}

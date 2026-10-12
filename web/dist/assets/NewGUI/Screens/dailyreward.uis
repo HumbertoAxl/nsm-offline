@@ -1,0 +1,230 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(ImageDefs_upsells.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+Define:(?CONTAINERX?=200)
+Define:(?CONTAINERW?=@W)
+Define:(?REELSPACING?=200)
+Define:(?REELWIDTH?=200)
+Define:(?REELCOUNT?=12)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_DailyRewardTemplate,?INDEX?,?IMG?,?TEXT?)
+    Rect:() ref:DailyReward?INDEX?
+    {
+        Draw:(Badge_Shadow,0,120,240,,,#00000040)
+        Draw:(UpSell_?IMG?,120,0,) ref:HD
+            Handle(0.5,0.5)
+    } Template
+EndM
+
+       
+
+//Reel Container 
+Macro:(M_ReelContainerOPEN,?X?,?Y?,?W?,?H?)
+    Clip:(?X?,?Y?,?W?,?H?)
+        float(%rate)
+    {{
+        Rect:() ref:ReelContainer
+            .set(gel.x,[[fmt(gel.x/?REELSPACING?,X)-1]*?REELSPACING?] + [?CONTAINERW? / 2])
+            .set(twk(DailyReward,ReelState),-1)
+            func(SpinReel)
+            <
+                set(twk(DailyReward,ReelState),0)
+            >
+
+            //JF: Wind up
+            if(twk(DailyReward,ReelState) = 0)
+            <
+                //JF: Speed for initial wind up
+                add(gel.x,5)
+                //JF: How long to wind up for
+                :Delay(0.5)
+                set(twk(DailyReward,ReelState),1)
+            >
+            else
+            <
+                
+                :init(%rate,30)
+
+                //JF: Super spin
+                if(twk(DailyReward,ReelState) = 1)
+                <
+                    sub(gel.x,%rate)
+
+                    float(%delay)
+                    //:set(%delay,frand(2,3))
+
+                    //JF: How long to do this spin for
+                    :Delay(3)
+                    //JF: Slow down
+                    mul(%rate,0.95)
+                    //JF: Minimum speed for switching to scroll to
+                    if(%rate <= 1)
+                    <
+                        set(%rate,1)
+                        set(twk(DailyReward,ReelState),2)
+                    >
+                >
+                else
+                <
+                    if(twk(DailyReward,ReelState) = 2)
+                    <
+                        add(gel.x,2)
+
+                        float(%skipOver)
+                        //JF: Pick a random number of reels to skip over
+                        :set(%skipOver,fmt(gel.x/?REELSPACING?,X) + rand(2,4))
+
+                        if(%skipOver <= fmt(gel.x/?REELSPACING?,X))
+                        <
+                            float(%scrollTo)
+
+                            :set(%scrollTo,[[fmt(gel.x/?REELSPACING?,X)-1]*?REELSPACING?] + [?CONTAINERW?/2])
+                            :set(%rate,0)
+                            //JF: Speed to move back to the final reel
+                            frlerp(gel.x,%scrollTo,0.05)
+
+                            if(abs(gel.x - %scrollTo) < 1)
+                            <
+                                :set(gel.x,%scrollTo)
+                                :Message(playgroundopponent.reelSpinFinished)
+                                :set(twk(DailyReward,ReelSpinFinished),1)
+                                Delay(2)
+                                :Message(playgroundopponent.reelDelayFinished)
+                            >
+                        >
+                    >
+                >
+            >
+        {
+EndM
+
+Macro:(M_ReelContainerCLOSE)
+        }
+    }}
+EndM
+
+//Reel Item 
+Macro:(M_ReelItem,?ID?)
+    Rect:([?ID?-1]*?REELSPACING?,@M,?REELWIDTH?,50)
+        Handle(0.5,0.5)
+        // Reposition when going off right
+        if(gel.gx>[?CONTAINERX?+?CONTAINERW?+[?REELWIDTH?/2]])
+        <
+            sub(gel.x,?REELWIDTH?*?REELCOUNT?)
+        >
+        // Reposition when going off left
+        if(gel.gx<[?CONTAINERX?-[?REELWIDTH?/2]])
+        <
+            add(gel.gx,?REELWIDTH?*?REELCOUNT?)
+        >
+        float(%lerpAmt)
+        // Scale
+        if(gel.gx < [?CONTAINERX?+[?CONTAINERW?/2]])
+        <
+            set(gel.scale,lerp(1,0,clamp([@l + [?CONTAINERX?+[?CONTAINERW?/2]] - gel.gx]/?CONTAINERW?,0,1)))
+        >
+        else
+        <
+            set(gel.scale,lerp(1,0,clamp([@l + gel.gx - [?CONTAINERX?+[?CONTAINERW?/2]]]/?CONTAINERW?,0,1)))
+        >
+        if(abs([@l + gel.gx - [?CONTAINERX?+[?CONTAINERW?/2]]]) < [?REELSPACING? / 2])
+        <
+            :Message(playgroundopponent.reelSelected,[?ID?-1])
+        >
+    {{
+        Draw:(White,@L,@T,190,190,#FFFFFFFF)
+            Handle(0.5,0.5)
+    }}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+// Draw:(White,100,250,2,200)
+// Draw:(White,900,250,2,200)
+
+
+M_ReelContainerOPEN:(@L,300,@W,400)
+    M_ReelItem:(1)
+    M_ReelItem:(2)
+    M_ReelItem:(3)
+    M_ReelItem:(4)
+    M_ReelItem:(5)
+    M_ReelItem:(6)
+    M_ReelItem:(7)
+    M_ReelItem:(8)
+    M_ReelItem:(9)
+    M_ReelItem:(10)
+    M_ReelItem:(11)
+    M_ReelItem:(12)
+M_ReelContainerCLOSE:()
+
+
+
+// Temporary Trigger
+Draw:(White,100,100,100,100)
+    Click()
+    <
+        :call(ReelContainer,SpinReel)
+    >
+
+Text:(,450,200)
+    set(gel.text,twk(DailyReward,ReelState))
+
+M_DailyRewardTemplate:(1,Bux,?TEXT?)
+
+// Draw:(Badge_Shadow,80,320,240,,,#00000040)
+// Draw:(UpSell_Bux,200,200,) ref:HD
+//     Handle(0.5,0.5)//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+Macro:(M_RewardItem)
+    Rect:(0,0,365,347)
+        float(%lerpAmt)
+        Handle(182,240)
+        set(%lerpAmt,[[@y/2]+gel.gx-[@w/2]]/[@w/2])
+        set(gel.scale,lerp(1.1,0.7,min(1,abs(%lerpAmt))))
+        if(abs(%lerpAmt) < 0.25)
+        <
+           
+        >
+    {{
+         Draw:(White,0,0,200,200,,#FF000020)
+    }}
+EndM
+
+//-----------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+M_NewDialogOPEN:(loc(dailyreward_HEADER),dailyreward)
+
+ 
+
+    Dissolve:(0,50,@W,@H-45) 
+    {{  
+        Rect:(30,0,@W-60,@H) ref:RewardPanel 
+             SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,DailyReward,RewardScroll,DailyReward,RewardScrollVel) ref:SwipePanelReplays
+        {{
+            Rect:(0,0,@W,@H) ref:RewardList
+                ScrollingListX(DailyReward,RewardScroll,@W+560+@y,DailyReward,RewardScrollVel) ref:ScrollingListBadges
+                ChildrenOffset(220,0) ref:Offset
+                {
+                   // M_RewardItem:()
+                   // M_RewardItem:()
+                   // M_RewardItem:()
+                }
+        }}
+    }}   
+        
+    
+M_NewDialogCLOSE:()
+
+
+

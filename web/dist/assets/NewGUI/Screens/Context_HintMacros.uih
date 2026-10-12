@@ -1,0 +1,226 @@
+Import:(splitspines.uih)
+Import:(ImageDefs_characters.uih)
+
+Macro:(M_HandAnim,?ANIMX?,?ANIMY?,?ANIMNAME?,?ANIMKILL?)
+	Rect:(?ANIMX?,?ANIMY?,,,,#FFFFFF00)
+		Layer(AboveText)
+		set(gel.vis,(twk(ScreenTransition,Active) = 0) and(not(twk(System,LastClickMessage) = ?ANIMKILL?)))
+
+		Rearmable()
+		:set(gel.alpha,0)
+		:set(gel.anim.normtime,0)
+		:set(gel.anim.speed,0)
+		:set(gel.scale,0.3)
+
+		frlerp(gel.alpha,1,0.1)
+		if(gel.alpha>0.7)
+		<
+			:set(gel.anim.speed,1)
+		>
+	{{
+		##IA
+		SplitSpine:(NSM_?ANIMNAME?,NSM_FTUE,?ANIMNAME?)
+		Spine:(NSM_?ANIMNAME?,0,0,,?ANIMNAME?,Loop)
+		##P4
+		SplitSpine:(NSM_?ANIMNAME?_PC,NSM_FTUE,?ANIMNAME?_PC)
+		Spine:(NSM_?ANIMNAME?_PC,0,0,,?ANIMNAME?_PC,Loop)
+		##*
+	}}
+EndM
+
+Macro:(M_HandAnim_DragHoldRelease,?ANIMX?,?ANIMY?,?ANIMDESTX?,?ANIMDESTY?,?ANIMKILL?)
+	Rect:(?ANIMX?,?ANIMY?,,,,#FFFFFF00)
+		Layer(AboveText)
+		set(gel.vis,(twk(ScreenTransition,Active) = 0) and(not(twk(System,LastClickMessage) = ?ANIMKILL?)))
+
+		Rearmable()
+		float(%stage,%t)
+		// Reset
+		if(gel.vis)
+		<
+			:set(%stage,0)
+			:set(%t,0)
+			:set(gel.alpha,0)
+			:set(gel.scale,0.3)
+		>
+
+		frlerp(gel.alpha,1,0.1)
+		if(gel.alpha > 0.7)
+		<
+			:set(gel.anim.speed,1)
+		>
+
+		// Staging		
+		if(%stage = 0)
+		<
+			:set(gel.x,?ANIMX?)
+			:set(gel.y,?ANIMY?)
+		>
+		if(%stage = 1)
+		<
+			add(%t,FrameTime * 0.017)
+			set(gel.x,lerp(?ANIMX?,?ANIMDESTX?,min(1,%t)))
+			set(gel.y,lerp(?ANIMY?,?ANIMDESTY?,min(1,%t)))
+			if(%t >= 1)
+			<
+				set(%stage,2)
+				set(gel.x,?ANIMDESTX?)
+				set(gel.y,?ANIMDESTY?)
+			>
+		>
+	{{
+
+		##IA
+		Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold,Loop)
+		##P4
+		Spine:(NSM_FTUE_TapHoldPath,0,0,,FTUE_TapHold_PC,Loop)
+		##*
+			if(%stage = 0)
+			<
+				// Reset
+				:set(gel.anim.normtime,0)
+				:set(gel.anim.speed,1)
+
+				// Play
+				if(gel.anim.normtime > 0.5)
+				<
+					set(gel.anim.speed,0)
+					set(%stage,1)
+					set(%t,0)
+				>
+			>
+			if(%stage = 2)
+			<
+				set(gel.anim.speed,-1)
+				if(gel.anim.normtime <= 0)
+				<
+					set(gel.anim.normtime,0)
+					set(gel.anim.speed,1)
+					set(%stage,0)
+				>
+			>
+	}}
+EndM
+
+Macro:(M_ContextHintDialog,?SCREEN?,?TYPE?,?X?,?Y?,?W?,?H?,?MESSAGE?,?ANIMX?,?ANIMY?,?ANIMNAME?,?CLICK?,?MESSAGEX?,?MESSAGEY?,?BUTTON?,?ANIMKILL?,?ANIMDESTX?,?ANIMDESTY?,?TWK?,?STEP?,?SHELL?,?INITMESSAGE?,?COL?,?SIMON?,?MESSAGE_ALT?)
+	Rect:()
+	{
+		Rect:()
+			Rearmable()
+			:Post(?INITMESSAGE?)
+			set(gel.vis,(shell(?SHELL?)=?SCREEN?) and(shellvis(?SHELL?)))
+		{
+			Rect:()
+				Rearmable()
+				:set(twk(FtueNoLocal,ContextHintActive),1)
+				OnPost("android-back-pressed")
+				<
+					add(twk(ContextHint,?TWK?Enabled),1)
+					set(twk(FtueNoLocal,ContextHintActive),0)
+				>
+
+			// CLICK CONTROL
+			M_ClickWindow:(?TYPE?,?X?,?Y?,?W?,?H?,?COL?,?TWK?)
+
+			// MESSAGE DIALOG
+			If:("?MESSAGE?" != "")
+				Rect:(0,0,500,240)
+					If:(?CLICK?)
+						Click(?CLICK?)
+					EndIf
+				{{
+					//Simon Read 
+					If:(?TYPE?="FULLSCREEN")
+						Draw:(Fade_Up,@l,-@t+500,@w,300,,#000000FF)
+					EndIf
+
+					If:(?SIMON?="LEFT")
+						Draw:(FTUESimon,@l-232-@f,-@t+245,750,,,#FFFFFFFF)
+					EndIf
+
+					If:(?SIMON?="RIGHT" or(?SIMON?="ABOVERIGHT"))
+						Draw:(FTUESimon,@r-528+@f,-@t+245,750,,,#FFFFFFFF)
+					EndIf
+
+					Dissolve:(?MESSAGEX?,?MESSAGEY?,@W,@H) 
+						.set(gel.alpha,0)
+						frlerp(gel.alpha,1,0.05)
+					{{
+						If:(?SIMON?="LEFT")
+							Draw:(Bubble_Shadow,-37,-9,@W+46,@H+19)
+							Draw:(SpeechAngle,1,180,,,-45,#EEEEEEEE)
+ 						EndIf
+
+ 						If:(?SIMON?="RIGHT")
+							Draw:(Bubble_Shadow,@W+37,-9,-@W-46,@H+19)
+							Draw:(SpeechAngle,528,207,-20,,45,#EEEEEEEE)
+ 						EndIf
+
+ 						If:(?SIMON?="ABOVERIGHT")
+							Draw:(Bubble_Shadow,@W+9,278,@H+46,-@W-18,90)
+							Draw:(SpeechAngle,33,268,,,135,#EEEEEEEE)
+						EndIf
+
+ 						// New background without using clips
+ 						Draw:(RoundedPanel,0,0,@W,@H,,#EEEEEEEE)
+ 						Draw:(Fade_Down,0,32,@W,5,,#00000080)
+ 						// Don't need this but is a base red to allow for hexagons to fade in
+						Draw:(Button_Shade,0,34,@W,-34,,#CC1618FF)
+						Draw:(Header_Hexagons,0,0,@W,34,,#FFFFFF00)
+							Delay(0.5)
+							frlerp(gel.alpha,1,0.01)
+						Draw:(White,2,2,@W-4,1,,#FFFFFF30)
+
+
+						//Message Title Text 
+						M_Text:(Assistant_Manager,20,0,0,38,L,C,TextLoc,KNUL24,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+							.ToUpperCase()
+						
+						//Message Body Text
+						M_Text:(,20,105,[@W-30],0,L,C,TextBox,KNUL22,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							if(twk(ControllerInput,Enabled) = 1)
+							<
+								If:("?MESSAGE_ALT?" != "")
+									:set(gel.text,?MESSAGE_ALT?)
+								Else
+									:set(gel.text,?MESSAGE?)
+								EndIf
+							>
+							else
+							<
+								:set(gel.text,?MESSAGE?)
+							>
+						
+						//NEXT Button  
+						If:(?BUTTON?)
+							M_Button:(@R-100,@B-35,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,click,ObeyBtn,loc(ftue_OK),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ObeyButton)
+								CTRLClearSelect()
+								CTRLGlobalBlockExcept(?BTNOK?)
+								M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+								if(%clicked)
+								<
+									add(twk(ContextHint,?TWK?Enabled),1)
+									set(twk(FtueNoLocal,ContextHintActive),0)
+								>
+
+						EndIf
+					}}
+				}}
+				
+			EndIf
+
+			//Spine Animation
+			If:(?ANIMNAME?)
+				M_HandAnim:(?ANIMX?,?ANIMY?,?ANIMNAME?,?ANIMKILL?)
+			EndIf
+
+			//Spine Animation
+			If:(?ANIMNAME?=FTUE_Drag)
+				M_HandAnim_DragHoldRelease:(?ANIMX?,?ANIMY?,?ANIMDESTX?,?ANIMDESTY?,?ANIMKILL?)
+			EndIf
+		}
+	}
+	    set(gel.vis,twk(ContextHint,?TWK?Enabled)=?STEP?)
+EndM
+
+

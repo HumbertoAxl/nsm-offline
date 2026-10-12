@@ -1,0 +1,335 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(consent.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(settings_Macros.uih)
+
+##P4N
+Import:(settings_Controls.uih)
+##*
+//--------------------------------------------------------------------------------------------MESHES
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:()
+	//JF: Unblock all buttons so that we can navigate the screen - when its opened above New Cards
+	CTRLGlobalUnBlockExcept()
+
+M_NewDialogOPEN:("",settings)
+
+	// Tabs
+	Rect:(0,0,@W,40)
+		Layer(AboveText2)
+		LockLayer()
+		//.set(gel.vis,twk(Debug,DevBuild) and(twk(Settings,LanguageSelectEnabled)))
+		.Message(debug_langselectenabled, twk(Settings,LanguageSelectEnabled))
+		.Message(debug_AppVariant, twk(Settings,AppVariant))
+
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+
+		##IA
+		M_Tab:(30,0,220,50,options_HEADER,1,Settings,CurrentTab,,5)
+		// M_Tab:(250,0,220,50,settings_Language,2,Settings,CurrentTab,,5)
+		// 	.set(gel.vis,twk(Settings,LanguageSelectEnabled))
+		Rect:() // Completely disable lang select for CAFE builds
+		{
+			M_Tab:(250,0,220,50,settings_Language,2,Settings,CurrentTab,,5)
+			.set(gel.vis,twk(Settings,LanguageSelectEnabled))
+		}
+		if(twk(Settings,AppVariant) oneof("Cafe","China") )
+		<
+			.set(gel.vis,0)
+		>
+		else
+		<
+			.set(gel.vis,1)
+		>
+
+		##X
+		M_Tab:(250,0,220,50,settings_Graphics,2,Settings,CurrentTab,,5)
+		##*
+
+		##P4N
+		M_Tab:(30,0,220,50,options_HEADER,1,Settings,CurrentTab,,5)
+
+		M_Tab:(250,0,220,50,settings_Controller1,2,Settings,CurrentTab,,5)
+		M_Tab:(470,0,220,50,settings_Controller2,3,Settings,CurrentTab,,5)
+		M_Tab:(690,0,220,50,settings_Language,4,Settings,CurrentTab,,5)
+			.set(gel.vis,twk(Settings,LanguageSelectEnabled))
+
+		M_SwitchTabs:(3,Settings,12,13,682,13)
+			set(gel.vis,twk(Settings,LanguageSelectEnabled) = 0)
+
+		M_SwitchTabs:(4,Settings,12,13,902,13)
+			set(gel.vis,twk(Settings,LanguageSelectEnabled) = 1)
+		##*	
+	}}
+
+
+	Dissolve:(0,50,@W,@H-45)
+		M_FadingTabContent:(Settings,CurrentTab,1)
+	{{
+		// Left Side
+		Clip:(0,0,@W,@H)
+		{{
+			Rect:(@C-546-[@y/4],15,526,@H-30)
+			{{
+				Rect:(0,0,@W,@H)
+				{{
+					Rect:(0,0,@W,@H) ref:OptionsList
+						ScrollingList(Settings,OptionsScroll,@H,Settings,OptionsScrollVel) ref:ScrollingListOptions
+						CTRLScrollList(ScrollingListOptions) ref:CTRLScrollList
+					{{
+						##IA
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_RewardedAds:(0,185)
+						M_Settings_Distance:(0,270)
+						M_Settings_DataConsent:(0,355)
+						//M_Settings_OldNewLook:(0,440)
+						//M_Settings_Leaderboards:()
+									
+						//M_Settings_EcoMode:()
+						M_Settings_DebugButton:(0,525)
+						
+						##P4
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_Distance:(0,185)
+						M_Settings_MatchControls:(0,270)
+						
+						Rect:()
+							.set(gel.h,[85*6]+100)
+						{
+							M_Settings_InvertCamera:(X,0,355)
+							M_Settings_InvertCamera:(Y,0,440)
+							##P
+							M_Settings_QuitToDesktop:(0,525)
+							##P4
+							M_Settings_DebugButton:(0,610)
+
+
+							Rect:(0,695,100,0)
+						}
+						
+						##N
+						M_Settings_Music:(0,15)
+						M_Settings_Sound:(0,100)
+						M_Settings_Distance:(0,185)
+						M_Settings_MatchControls:(0,270)
+
+						Rect:()
+							.set(gel.h,[85*6]+100)
+						{
+							M_Settings_InvertCamera:(X,0,355)
+							M_Settings_InvertCamera:(Y,0,440)
+							M_Settings_DebugButton:(0,525)
+
+							Rect:(0,610,100,0)
+						}
+						##*
+					}}
+
+
+					// Swipe Panels
+					Rect:(0,0,@W,@H) ref:SwipePanels
+						SwipePanel(Settings,OptionsScroll,Settings,OptionsScrollVel) ref:SwipePanelOptions
+						.set(twk(Settings,OptionsScroll),0)
+						.set(twk(Settings,OptionsScrollVel),0)
+					{{
+						Rect:(0,-5,@W,@H+10)
+						{{
+							M_ScrollIndicatorAlt:(@R,@H,Settings,OptionsScroll,OptionsList,ScrollingListOptions,SwipePanels,SwipePanelOptions)
+						}}
+					}}
+					M_SwitchStickHint:(✃,@R-4,@B-30,Y)
+						CTRLScrollListIcon(OptionsList,CTRLScrollList)
+				}}
+			}}
+		}}
+
+
+		// Right Side
+		Rect:(@C+15+[@y/4],15+[@z/2],530,[@H-30]-[@z/2])
+		{{
+			M_Settings_Credits:(0,0,530,@H)
+				set(gel.vis,(twk(Settings,CurrentTab) = 1) and (twk(Settings,AppVariant)!="China" ))
+			M_Settings_VersionNumber:(@R,@B-10)
+		}}
+		##IA
+		M_ClipboardCopy:()
+		##*
+		Draw:(Fade_Down,@f,@B+5,@w,-100-[@z/2],,#FFFFFFAA00000000)
+	}}
+
+
+	Dissolve:() $HIDE
+		##IA
+		M_FadingTabContent:(Settings,CurrentTab,2)
+		##X
+		M_FadingTabContent:(Settings,CurrentTab,3)
+		##P4N
+		M_FadingTabContent:(Settings,CurrentTab,4)
+		##*
+
+	{
+		//	Normal app variant
+		Rect:(@C-546-[@y/4],80+[@z/2],1092+[@y/2],[@H-95]-[@z/2])
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60)
+			Rect:(@C-265,60,@W,@H)
+				GridList(20,20)
+			{{
+				M_LanguageEntry:(0,Text,English)
+				M_LanguageEntry:(1,Text,Turkish)
+				M_LanguageEntry:(2,Text,Brazilian Portuguese)
+				M_LanguageEntry:(3,Text,Italian)
+				M_LanguageEntry:(4,Text,Spanish)
+				//M_LanguageEntry:(5,Text,Polish)
+				M_LanguageEntry:(6,Text,German)
+				M_LanguageEntry:(7,Text,French)
+				//M_LanguageEntry:(8,Text,Portuguese)
+				// M_LanguageEntry:(10,Text,Japanese)
+				// M_LanguageEntry:(15,Text,EnglishJP)
+				##IAP
+				M_LanguageEntry:(9,Text,Russian)
+				// M_LanguageEntry:(13,Image,Farsi)
+				// M_LanguageEntry:(14,Image,Arabic)
+				// M_LanguageEntry:(12,Text,Chinese)
+				##*
+			}}
+		}}
+		if(twk(Settings,AppVariant) ="Normal")
+		<
+			.set(gel.vis,1)
+		>
+		else
+		<
+			.set(gel.vis,0)
+		>
+
+		//	Japan variant
+		Rect:(@C-546-[@y/4],80+[@z/2],1092+[@y/2],[@H-95]-[@z/2])
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60)
+			Rect:(@C-265,60,@W,@H)
+				GridList(20,20)
+			{{
+				M_LanguageEntry:(10,Text,Japanese)
+				M_LanguageEntry:(15,Text,EnglishJP)
+			}}
+		}}
+		if(twk(Settings,AppVariant) ="Japan")
+		<
+			.set(gel.vis,1)
+		>
+		else
+		<
+			.set(gel.vis,0)
+		>
+
+		//	East app variant
+		Rect:(@C-546-[@y/4],80+[@z/2],1092+[@y/2],[@H-95]-[@z/2])
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60)
+			Rect:(@C-265,60,@W,@H)
+				GridList(20,20)
+			{{
+				M_LanguageEntry:(0,Text,English)
+				M_LanguageEntry:(14,Image,Arabic)
+			}}
+		}}
+		if(twk(Settings,AppVariant) ="East")
+		<
+			.set(gel.vis,1)
+		>
+		else
+		<
+			.set(gel.vis,0)
+		>
+
+		//	Cafe app variant ( A bit redundant since we don't show language select for Cafe, but just for completion)
+		Rect:(@C-546-[@y/4],80+[@z/2],1092+[@y/2],[@H-95]-[@z/2])
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60)
+			Rect:(@C-265,60,@W,@H)
+				GridList(20,20)
+			{{
+				M_LanguageEntry:(13,Image,Farsi)
+			}}
+		}}
+		if(twk(Settings,AppVariant)="Cafe")
+		<
+			.set(gel.vis,1)
+		>
+		else
+		<
+			.set(gel.vis,0)
+		>
+	}
+
+	##X
+	Dissolve:() $HIDE
+		M_FadingTabContent:(Settings,CurrentTab,2)
+	{
+		Rect:(@C-546,70+[@z/2],1092,[@H-85]-[@z/2])
+			//.set(gel.vis,twk(Debug,DevBuild) and(twk(Settings,LanguageSelectEnabled)))
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF60)
+			Rect:(140,50,@W,@H)
+				GridList(20,1)
+			{{
+				M_Resolution:(1024x768)
+				M_Resolution:(1152x768)
+				M_Resolution:(1280x720)
+				M_Resolution:(1366x768)
+				M_Resolution:(1600x900)
+				M_Resolution:(1920x1080)
+			}}
+			M_Settings_Fullscreen:(0,400)
+		}}
+	}
+	##*
+
+	##P4N
+	//-----------------------------------NAVIGATION CONTROLS
+	Dissolve:() $HIDE
+		M_FadingTabContent:(Settings,CurrentTab,2)
+	{
+		Rect:(@C-546,70+[@z/2],1092,[@H-85]-[@z/2])
+		{{
+			##N
+			M_NavigationControls_Switch:()
+			##P
+			M_NavigationControls_PC:()
+			##4
+			M_NavigationControls_PS4:()
+			##P4N
+		}}
+	}
+
+	//------------------------------------MATCH CONTROLS
+	Dissolve:() $HIDE
+		M_FadingTabContent:(Settings,CurrentTab,3)
+	{
+		Rect:(@C-546,70+[@z/2],1092,[@H-85]-[@z/2])
+		{{
+			##N
+			M_MatchControls_Switch:()
+			##P
+			M_MatchControls_PC:()
+			##4
+			M_MatchControls_PS4:()
+			##P4N
+		}}
+	}
+	##*
+
+M_NewDialogCLOSE:()

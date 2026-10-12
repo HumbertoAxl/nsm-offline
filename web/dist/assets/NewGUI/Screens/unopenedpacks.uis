@@ -1,0 +1,115 @@
+// //-------------------------------------------------------------------------------------------IMPORTS
+// Import:(Core.uih)
+// //
+// //----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+// //Img:(Pack_Variety,NewGUI/Store/Pack_Variety.png)
+// //---------------------------------------------------------------------------------------------SETUP
+// Rect:()
+// 	:set(twk(Menu,UnopenedPacksScrollX),0)
+// 	:set(twk(Menu,UnopenedPacksScrollXVel),0)
+
+// //----------------------------------------------------------------------------------------ANIMATIONS
+// //--------------------------------------------------------------------------------------------MACROS
+// // Unopened pack template
+// Rect:(0,0,270,600) ref:UnopenedCardPack
+// 	strvar(%uid,%xPos,%yPos)
+// 	set(%xPos,gel.gx)
+// 	set(%yPos,gel.gy)
+// {{
+// 	Draw:(RoundedPanel)
+
+
+// 	M_Text:(TITLE,0,150,263,50,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,Title)
+// 	M_Text:(COUNTER,0,0,250,50,R,C,Text,KNUL30,,1,0,#000000FF,NoItalics,#000000FF,Counter)
+
+// 	// BUY BUTTON
+// 	Draw:(RoundedPanel,10,440,245,80)
+// 		Click()
+// 		<
+// 			set(twk(UnopenedPack,SelectedUId),%uid)
+// 			set(twk(CardPack,StartXPos),%xPos)
+// 			set(twk(CardPack,StartYPos),%yPos)
+// 			.Message(unopenedpacks.btn_Open)
+// 		>
+// 		Press()
+// 		<
+// 			frlerp(gel.colour,#AAAAAAFF,0.25)
+// 		>
+// 		NoPress()
+// 		<
+// 			frlerp(gel.colour,#FFFFFFFF,0.25)
+// 		>
+// 	{{
+// 		M_Text:(OPEN,0,0,245,80,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,Price)
+// 	}}
+
+// }} Template
+
+
+
+
+
+// //-------------------------------------------------------------------------------------------CONTENT
+// Rect:(@L,@T,@W,@H,,#FFFFFF00)
+// 	Click()
+// 	float(%state)
+// 	.set(%state,1)
+// 	.if(twk(Header,StoreState) = 1)
+// 	<
+// 		.set(gel.alpha,1)
+// 	>
+// 	if(twk(Header,StoreState) = 1)
+// 	<
+// 		frlerp(gel.alpha,1,0.1)
+// 	>
+// 	if(%state = 0)
+// 	<
+// 		frlerp(gel.alpha,0,0.1)
+// 		if(gel.alpha < 0.01)
+// 		<
+// 			Message(unopenedpacks.btn_Back)
+// 		>
+// 	>
+
+// 	.set(twk(Header,StoreState),1)
+// {{
+// 	Draw:(White,0,0,@W,@H,,#606060FFFFFFFFFF)
+
+// 	// Close button
+// 	M_ImageButton:(@R-90,@T+100,60,60,0,0,45,45,White,#252525FF,null,BackButtonAudio)
+// 		<
+// 			.set(%state,0)
+// 			.set(twk(Header,StoreState),0)
+// 		>
+
+// 	Clip:(-@l,@T+150,1152,@H-150)
+// 	{{
+// 		Rect:(0,10,@W,@H-20)
+// 		{{
+// 			Rect:(35,0,@W,@H) ref:PackContainer
+// 				ScrollingList(Menu,StoreScrollX,@H,Menu,StoreScrollXVel) ref:ScrollingList
+// 				GridList(1,1)
+// 			{
+// 			}
+// 		}}
+// 	}}
+// }}
+
+
+
+
+
+
+
+
+// // Horizontal scrollwindow
+// Rect:(@L,@T,@W,@H)
+// 	SwipePanel(Menu,StoreScrollX,Menu,StoreScrollXVel,PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+// 	Layer(Text)
+
+// Rect:()
+// 	ScrollingList(Menu,StoreScrollX,0,Menu,StoreScrollXVel)
+// {
+// 	Rect:()
+// 		set(gel.y,twk(Menu,StoreScrollW)-1064)
+// }

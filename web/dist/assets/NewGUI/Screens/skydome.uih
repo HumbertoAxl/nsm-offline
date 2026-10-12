@@ -1,0 +1,148 @@
+//-----------------------------------------------------------------------------------------------Skydome Macro
+//Blue sky texture
+Texture:(Sky_Dome1_Blue,Sky/sky_Blue1.png)
+//Grey sky texture
+Texture:(Sky_Dome1_Gloomy,Sky/sky_grey1.png)
+
+##IA
+//SkyMesh
+StaticModel:(Sky_Dome_Gloomy,Sky_Cylinder_Gloomy)
+##P4N
+//SkyMesh
+StaticModel:(Sky_Dome_Gloomy_HI,HIGH DETAIL/Sky_Cylinder_Gloomy_HI.3DMH)
+
+//BlueSky
+Texture:(Sky_Dome2_Blue,Sky/sky_Blue2.nspng)
+Texture:(Sky_Dome3_Blue,Sky/sky_Blue3.nspng)
+Texture:(Sky_Dome4_Blue,Sky/sky_Blue4.nspng)
+Texture:(Sky_Dome5_Blue,Sky/sky_Blue5.nspng)
+
+//Dusk
+Texture:(Sky_Dome1_Night,Sky/sky_DUSK1.nspng)
+Texture:(Sky_Dome2_Night,Sky/sky_DUSK2.nspng)
+Texture:(Sky_Dome3_Night,Sky/sky_DUSK3.nspng)
+Texture:(Sky_Dome4_Night,Sky/sky_DUSK4.nspng)
+Texture:(Sky_Dome5_Night,Sky/sky_DUSK5.nspng)
+
+//CloudySky
+Texture:(Sky_Dome2_Gloomy,Sky/sky_grey2.nspng)
+Texture:(Sky_Dome3_Gloomy,Sky/sky_grey3.nspng)
+Texture:(Sky_Dome4_Gloomy,Sky/sky_grey4.nspng)
+
+//Winter
+Texture:(Sky_Dome1_Winter,Sky/sky_WINTER1.nspng)
+//WinterNight
+Texture:(Sky_Dome1_Night_Winter,Sky/sky_WINTER1_DUSK.nspng)
+##*
+
+
+
+Macro:(M_SkyMacro,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALEX?,?SCALEY?,?SCALEZ?,?SHADER?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(?SCALEX?,?SCALEY?,?SCALEZ?))
+		Layer(Pitch)
+	{
+		UseShader:(?SHADER?)
+		{
+			##IA
+			//Blue Sky low poly
+			DrawStaticModel:(Sky_Dome_Gloomy,Sky_Dome1_Blue)
+			##P4N
+			//Blue Sky hi poly
+			DrawStaticModel:(Sky_Dome_Gloomy_HI,Sky_Dome1_Blue)
+			##*
+
+			##IAP
+				//it's raining
+				.if(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN)
+				<
+					//day
+					set(gel.img,Sky_Dome1_Gloomy)
+				>
+			##P4N
+				.if(Player.weatherSeason = 3)
+				<
+					//it's winter
+					.if(twk(Facilities,Night) = 1)
+					<
+						//night
+						set(gel.img,Sky_Dome1_Night_Winter)
+					>else<
+						//day
+						set(gel.img,Sky_Dome1_Winter)
+					>
+				>else<
+					//it's not Winter and it's raining
+					.if(twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN)
+					<
+						
+						if(twk(Facilities,Night) = 1)
+						<
+							//night
+							set(gel.img,Sky_Dome5_Night)
+						>else<
+							//day
+							set(gel.img,"Sky_Dome"::fmt(rand(1,4),X)::"_Gloomy")
+						>
+					// it's not winter and not raining
+					>else<
+						if(twk(Facilities,Night) = 1)
+						<
+							//night
+							set(gel.img,"Sky_Dome"::fmt(rand(1,4),X)::"_Night")
+						>	
+						else<
+							//day
+							set(gel.img,"Sky_Dome"::fmt(rand(1,5),X)::"_Blue")
+						>		
+					>
+				>
+			##*
+		} 
+	}
+EndM
+
+//-----------------------------------------------------------------------------------------------Horizon Macro
+##IA
+StaticModel:(Sky_Horizon,Sky_Horizon)
+##P4N
+StaticModel:(Sky_Horizon_HI,HIGH DETAIL/Sky_Horizon_HI.3DMH)
+##*
+
+//0 - NewStar Home Horizon >1 Away horizons
+Texture:(Sky_Dome_Horizon_0,Sky/Horizon_0.png)
+Texture:(Sky_Dome_Horizon_1,Sky/Horizon_1.png)
+Texture:(Sky_Dome_Horizon_2,Sky/Horizon_2.png)
+Texture:(Sky_Dome_Horizon_3,Sky/Horizon_3.png)
+Texture:(Sky_Dome_Horizon_4,Sky/Horizon_4.png)
+
+##P4N
+//Dusk
+Texture:(Sky_Dome_Horizon_0_Night,Sky/Horizon_0_DUSK.nspng)
+//Winter
+Texture:(Sky_Dome_Horizon_0_Winter,Sky/Horizon_0_WINTER.nspng)
+//WinterDusk
+Texture:(Sky_Dome_Horizon_0_Night_Winter,Sky/Horizon_0_WINTER_DUSK.nspng)
+##*
+
+Macro:(M_HorizonMacro,?POSX?,?POSY?,?POSZ?,?ROTX?,?ROTY?,?ROTZ?,?SCALEX?,?SCALEY?,?SCALEZ?)
+	Locator:((?POSX?,?POSY?,?POSZ?),(?ROTX?,?ROTY?,?ROTZ?),(?SCALEX?,?SCALEY?,?SCALEZ?))
+		Layer(Pitch)
+	{
+		UseShader:(Simple3D)
+		{
+			##IA
+			DrawStaticModel:(Sky_Horizon,Sky_Dome_Horizon_0)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				.set(gel.image,"Sky_Dome_Horizon_" :: fmt(twk(Match,Horizon),X))
+			##P4N
+			DrawStaticModel:(Sky_Horizon_HI,Sky_Dome_Horizon_0)
+				Blend(ONE,INV_IMAGE_ALPHA)
+				.set(gel.image,"Sky_Dome_Horizon_" :: fmt(twk(Match,Horizon),X))
+				M_TextureSelectW:()
+			##*		
+		} 
+	}
+EndM
+
+
+

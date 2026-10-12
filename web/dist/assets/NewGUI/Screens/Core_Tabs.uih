@@ -1,0 +1,182 @@
+// HORIZONTAL TABS
+Img:(Tab_BG50,NewGUI/UI/Tabs/Tab_BG50.png) FORCE
+Img:(Tab_BG60,NewGUI/UI/Tabs/Tab_BG60.png) FORCE
+Img:(Tab_Edges50,NewGUI/UI/Tabs/Tab_Edges50.png,15,15,0,0) FORCE
+Img:(Tab_Edges60,NewGUI/UI/Tabs/Tab_Edges60.png,15,15,0,0) FORCE
+Img:(Tab_Fade50,NewGUI/UI/Tabs/Tab_Fade50.png) FORCE
+Img:(Tab_Fade60,NewGUI/UI/Tabs/Tab_Fade60.png) FORCE
+
+Macro:(M_Tab,?X?,?Y?,?W?,?H?,?TEXT?,?INDEX?,?CAT?,?VAR?,?LINK?,?BUFFER?)
+	Rect:(?X?,?Y?,?W?,?H?) ref:Tab?CAT??INDEX?
+		:inittwk(twk(?CAT?,?VAR?),1)
+		float(%pressed,%selected,%disabled)
+		if(twk(?CAT?,?VAR?) = ?INDEX?)
+		<
+			set(%selected,1)
+		>
+		else
+		<
+			set(%selected,0)
+		>
+		if(%disabled)
+		<
+			set(gel.alpha,0.2)
+		>
+		else
+		<
+			set(gel.alpha,1)
+		>
+	{{
+
+		// Buffer System
+		Rect:(0,-?BUFFER?,@W,@H+[?BUFFER?*2])
+			if(not(%disabled))
+			<
+				Click(?LINK?)
+				<
+					if(twk(?CAT?,?VAR?) != ?INDEX?)
+					<
+						Post(UI_ChangeTab)
+					>
+					:set(%pressed,0)
+					:set(twk(?CAT?,?VAR?),?INDEX?)
+				>
+				
+				Press()
+				<
+					set(%pressed,1)
+				>
+				else
+				<
+					set(%pressed,0)
+				>
+
+				if(twk(CardEngine,DraggingCard))
+				<
+					if((?CAT?="ProfilePlayer") or(?CAT?="ProfileStaff"))
+					<
+						Over()
+						<
+							if(twk(?CAT?,?VAR?) != ?INDEX?)
+							<
+								:Delay(0.5)
+								:Post(UI_ChangeTab)
+								:set(twk(?CAT?,?VAR?),?INDEX?)
+							>
+						>
+						else
+						<
+							set(%pressed,0)
+						>
+					>
+				>
+			>
+
+		Draw:(Fade_Up,@L,@B-50,1,50,,#AAAAAAFF)
+		Draw:(Fade_Up,@R,@B-50,1,50,,#AAAAAAFF)
+
+		Draw:(Tab_Edges?H?,0,5,@W+1,@H-5)
+			if(%selected)
+			<
+				frlerp(gel.alpha,1,0.25)
+			>
+			else
+			<
+				if(%pressed)
+				<
+					frlerp(gel.alpha,1,0.15)
+				>
+				else
+				<
+					frlerp(gel.alpha,0,0.3)
+				>
+			>
+		Draw:(Tab_Fade?H?,1,@H-37,@W-1,37,,#FFFFFF00)
+			if(%selected)
+			<
+				frlerp(gel.alpha,0.35,0.05)
+			>
+			else
+			<
+				if(%pressed)
+				<
+					frlerp(gel.alpha,0.35,0.05)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+			>
+
+		M_Text:(?TEXT?,0,0,@W,@H,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,Title)
+
+		// Glint
+		Draw:(Glint,0,@H-2,10,1,,#404040FFFFFFFFFF)
+			set(gel.vis,%selected)
+			Shine(0,@W)
+			Additive()
+	}}
+EndM
+
+
+Macro:(M_SwitchTabs,?COUNT?,?CAT?,?ICON1_X?,?ICON1_Y?,?ICON2_X?,?ICON2_Y?,?MESSAGE?)
+	Rect:()
+	{
+		Rect:()
+			CTRLClick(LT,false)
+			<
+				if(twk(?CAT?,CurrentTab) > 1)
+				<
+					sub(twk(?CAT?,CurrentTab),1)
+					If:(?MESSAGE?)
+						Message(?MESSAGE?)
+					EndIf
+					Post(UI_ChangeTab)
+				>
+			>
+			CTRLClick(RT,false)
+			<
+				if(twk(?CAT?,CurrentTab) < ?COUNT?)
+				<
+					add(twk(?CAT?,CurrentTab),1)
+					If:(?MESSAGE?)
+						Message(?MESSAGE?)
+					EndIf
+					Post(UI_ChangeTab)
+				>
+			>
+
+		M_SwitchButtonHint:(⛐,?ICON1_X?,?ICON1_Y?)
+		M_SwitchButtonHint:(⛑,?ICON2_X?,?ICON2_Y?)
+	}
+EndM
+
+
+Macro:(M_SwitchTabs_League,?COUNT?,?CAT?,?ICON1_X?,?ICON1_Y?,?ICON2_X?,?ICON2_Y?)
+	Rect:()
+	{
+		Rect:()
+			CTRLClick(LT,false)
+			<
+				if((twk(?CAT?,TableTabEnabled) = 1) or((twk(?CAT?,TableTabEnabled) = 0) and(twk(?CAT?,CurrentTab) > 2)))
+				<
+					if(twk(?CAT?,CurrentTab) > 1)
+					<
+						sub(twk(?CAT?,CurrentTab),1)
+						Post(UI_ChangeTab)
+					>
+				>
+			>
+			CTRLClick(RT,false)
+			<
+				if(twk(?CAT?,CurrentTab) < ?COUNT?)
+				<
+					add(twk(?CAT?,CurrentTab),1)
+					Post(UI_ChangeTab)
+				>
+			>
+
+		M_SwitchButtonHint:(⛐,?ICON1_X?,?ICON1_Y?)
+		M_SwitchButtonHint:(⛑,?ICON2_X?,?ICON2_Y?)
+	}
+EndM

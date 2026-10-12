@@ -1,0 +1,162 @@
+Macro:(M_CustomScrollGlobals)
+	float(%point0Lerp,%point1Lerp,%point2Lerp,%point3Lerp,%point4Lerp)
+	float(%closestId,%closestActualId)
+	float(%currentScroll,%targetScroll)
+	float(%centre,%spacing,%count,%looping)
+EndM
+
+Macro:(M_CustomScrollSwipe,?CAT?,?SCROLLTWK?)
+	float(%lastScroll)
+	.set(twk(?CAT?,?SCROLLTWK?),0)
+	.set(twk(?CAT?,?SCROLLTWK?Vel),0)
+	SwipePanel(?CAT?,?SCROLLTWK?,?CAT?,?SCROLLTWK?Vel)
+	<
+		//JF: Dummy call needed for branch
+		:set(gel.colour,#FFFFFFFF)
+	>
+	else
+	<
+		//JF: When the velocity is less than this, snap back to image
+		if(abs(twk(?CAT?,?SCROLLTWK?Vel))<2)
+		<
+			set(twk(?CAT?,?SCROLLTWK?Vel),0)
+			frlerp(twk(?CAT?,?SCROLLTWK?),%targetScroll,0.1)
+		>
+	>
+	//JF: Cap the amount the mouse has moved - stops items moving too much
+	if(%lastScroll-twk(?CAT?,?SCROLLTWK?)>50)
+	<
+		set(twk(?CAT?,?SCROLLTWK?),%lastScroll-50)
+	>
+	if(%lastScroll-twk(?CAT?,?SCROLLTWK?)<-50)
+	<
+		set(twk(?CAT?,?SCROLLTWK?),%lastScroll+50)
+	>
+	set(%lastScroll,twk(?CAT?,?SCROLLTWK?))
+	//JF: Cap the velocity - stops items moving too much
+	set(twk(?CAT?,?SCROLLTWK?Vel),min(30,max(-30,twk(?CAT?,?SCROLLTWK?Vel))))
+	//JF: Global float to access the current scroll elsewhere
+	set(%currentScroll,twk(?CAT?,?SCROLLTWK?))
+EndM
+
+Macro:(M_CustomScrollList,?CAT?,?TWK?,?CENTRE?,?SPACING?,?COUNT?,?LOOP?)
+	.set(%centre,?CENTRE?)
+	.set(%spacing,?SPACING?)
+	.set(%count,?COUNT?)
+	If:(?LOOP?="LOOP")
+		.set(%looping,1)
+	Else
+		.set(%looping,0)
+	EndIf
+
+	// Caps the list when not looping
+	if(%looping=0)
+	<
+		if(twk(?CAT?,?TWK?)>50)
+		<
+			set(twk(?CAT?,?TWK?),50)
+			set(twk(?CAT?,?TWK?Vel),0)
+		>
+		if(twk(?CAT?,?TWK?)<[-%count*%spacing+100])
+		<
+			set(twk(?CAT?,?TWK?),[-%count*%spacing+100])
+			set(twk(?CAT?,?TWK?Vel),0)
+		>
+	>
+	//JF: This mimics the ScrollingList doodad
+	add(twk(?CAT?,?TWK?),twk(?CAT?,?TWK?Vel))
+	mul(twk(?CAT?,?TWK?Vel),0.95)
+	set(gel.x,twk(?CAT?,?TWK?))
+EndM
+
+Macro:(M_CustomScrollCentrePoint,?ID?,?LOOP?)
+	Rect:(0,0)
+		.set(gel.x,%centre+[?ID?*%spacing])
+		//JF: Lerp progress to the centre point
+		set(%point?ID?Lerp,[[%centre-gel.gx]/%spacing])
+		//JF: Works out the current target scroll point if this is the closest
+		if(abs(gel.gx-%centre)<[%spacing/2])
+		<
+			:set(%closestActualId,?ID?)
+			:set(%targetScroll,%currentScroll-[gel.gx-%centre])
+		>
+
+		if(%looping=1)
+		<
+			float(%diff,%id)
+			//JF: ID will change when the images loop
+			set(%id,[gel.x-%centre]/%spacing)
+			if(abs(%point?ID?Lerp)<=1)
+			<
+				set(%closestId,%id)
+				set(%diff,0)
+			>
+			else
+			<
+				//JF: Calculates the difference based on the image in the middle
+				set(%diff,%id-%closestId)
+				if(abs(%diff)>[[%count-1]/2])
+				<
+					if(%closestId<%id)
+					<
+						set(%diff,abs(%diff)-%count)
+					>
+					else
+					<
+						set(%diff,%count-abs(%diff))
+					>
+				>
+			>
+			set(gel.x,%centre+[[%closestId+%diff]*%spacing])
+		>
+EndM
+
+Macro:(M_CustomScrollImageEffects,?ID?,?DEFAULT?,?TOP?)
+	Handle(0.5,0.5)
+	//JF: Insert effects based on distance to the middle here
+	set(gel.alpha,min(1,max(0,lerp(1,0.2,abs(%point?ID?Lerp)))))
+	set(gel.x,lerp(225,150,%point?ID?Lerp))
+	set(gel.scale,lerp(1,0.7,abs(%point?ID?Lerp)))
+	//JF: Makes sure the image that is closest to the middle is on top
+	if(%closestActualId=?ID?)
+	<
+		:set(gel.layer,?TOP?)
+	>
+	else
+	<
+		:set(gel.layer,?DEFAULT?)
+	>
+EndM
+
+
+//JF: EXAMPLE WITH 5 ELEMENTS
+// Rect:()
+// 	M_CustomScrollGlobals:()
+// {
+// 	Rect:(125,360+[@T*0.68],200,200,90)
+// 		M_CustomScrollSwipe:(FacilityUpgrade,UpgradesScrollX)
+// 	Rect:(0,200,0,0)	
+// 		M_CustomScrollList:(FacilityUpgrade,UpgradesScrollX,150,5)
+// 	{{
+// 		M_CustomScrollCentrePoint:(225,0)
+// 		M_CustomScrollCentrePoint:(225,1)
+// 		M_CustomScrollCentrePoint:(225,2)
+// 		M_CustomScrollCentrePoint:(225,3)
+// 		M_CustomScrollCentrePoint:(225,4)
+// 	}}
+
+// 	Rect:(0,200)
+// 	{{
+
+// 		Draw:(White,0,0,100,100,,#FFFFFFFF)
+// 		 	M_CustomScrollImageEffects:(0,Default,Text)
+// 		 Draw:(White,0,0,100,100,,#FFFF00
+// 		 	M_CustomScrollImageEffects:(1,Default,Text)
+// 		 Draw:(White,0,0,100,100,,#FF0000
+// 		  	M_CustomScrollImageEffects:(2,Default,Text)
+// 		 Draw:(White,0,0,100,100,,#00FFFF
+// 		  	M_CustomScrollImageEffects:(3,Default,Text)
+// 		 Draw:(White,0,0,100,100,,#0000FF
+// 		  	M_CustomScrollImageEffects:(4,Default,Text)
+// 	}}
+// }

@@ -1,0 +1,227 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(templates_league.uih)
+
+Import:(templates_combo.uih)
+Import:(templates_ratings.uih)
+Import:(templates_myfixtures.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+			Layer(Default)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,200,60,league_TABLE,1,League,CurrentTab)
+			set(%disabled,twk(League,TableTabEnabled) = 0)
+		M_Tab:(230,0,200,60,league_FIXTURES,2,League,CurrentTab)
+		M_Tab:(430,0,200,60,league_RATINGS,3,League,CurrentTab)
+		M_Tab:(630,0,200,60,,4,League,CurrentTab)
+
+		M_SwitchTabs_League:(4,League,12,15,822,15)
+	}}
+
+
+	//Combo Template
+	M_League_Combo:(@R-275,@T+80,250,60,league.btn_ToggleCombo,league.cmb_League,True)
+
+
+	// Clipped Content
+	Clip:(@L,@T+180,@W,@H-249)
+	{{
+		// Moved Content
+		Rect:(30,10,@W-60,@H-25)
+		{{
+			//League
+			CTRLSelectGroup:(-30,-10,@W+60,@H+24,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:LeagueSelect
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(LeagueComboComboSelected,league)
+					Post(CTRLNavigate)
+				>
+			{
+				// Stick it in a rect to fix the scrolling list inheriting from a parent when it shoudn't
+				Rect:()
+				{
+					Rect:(0,0,@W,@H) ref:TeamList
+						M_FadingTabContent:(League,CurrentTab,1)
+						ScrollingList(League,StandingsScroll,@H,League,StandingsScrollVel) ref:ScrollingListLeague
+						VerticalList(5) ref:VerticalList
+						CTRLScrollList(ScrollingListLeague) ref:CTRLScrollList
+					{{
+						M_LeagueStandingsRow:(PlayerTeamEntry,1)
+						M_LeagueStandingsRow:(TeamEntry)
+					}}
+
+				}
+			}
+
+			// Fixtures
+			CTRLSelectGroup:(-30,-10,@W+60,@H+24,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:FixtureSelect
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(LeagueComboComboSelected,league)
+					Post(CTRLNavigate)
+				>
+			{
+				Rect:()
+				{
+					Rect:(0,0,@W,@H) $HIDE ref:FixturesList
+						M_FadingTabContent:(League,CurrentTab,2)
+						ScrollingList(League,FixturesScroll,@H,League,FixturesScrollVel) ref:ScrollingListFixtures
+						VerticalList(5) ref:VerticalList
+						CTRLScrollList(ScrollingListFixtures) ref:CTRLScrollList
+						Rearmable()
+						if(gel.vis)
+						<
+							:Message(league.refresh_FixturesRound)
+						>
+					{{
+						M_LeagueFixtureRow:(PlayerFixtureEntry,1)
+						M_LeagueFixtureRow:(FixtureEntry)
+					}}
+				}
+			}
+
+
+			// Top Scorers
+			CTRLSelectGroup:(-30,-10,@W+60,@H+24,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:RatingsSelect
+				CTRLPress(UP)
+				<
+					CTRLSetSelected(LeagueComboComboSelected,league)
+					Post(CTRLNavigate)
+				>
+			{
+				Rect:(0,5,@W,@H-5)
+				{{
+					Rect:(0,0,@W,@H) $HIDE ref:RatingsList
+						M_FadingTabContent:(League,CurrentTab,3)
+						ScrollingList(League,RatingsScroll,@H,League,RatingsScrollVel) ref:ScrollingListRatings
+						GridList(9,5) ref:GridList
+						CTRLScrollList(ScrollingListRatings) ref:CTRLScrollList
+					{{
+						M_RatingScorer:(PlayerTopScorer,1)
+						M_RatingScorer:(TopScorer)
+						M_RatingAssist:(PlayerTopAssist,1)
+						M_RatingAssist:(TopAssist)
+						M_RatingBlank:(BlankRating)
+					}}
+				}}
+				
+
+				Rect:(0,0,@W,@H)
+					set(gel.vis,twk(League,CurrentTab)=3 and(twk(TopScorer,TopScorer1Exists)=0))
+				{{
+					Rect:() $HIDE ref:EmptyRatings
+					{
+						M_Text:(league_DATAMESS,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+							set(gel.vis,twk(League,CompetitionType) = 1)
+						M_Text:(league_DATAMESSCUP,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+							set(gel.vis,twk(League,CompetitionType) oneof(2,3))
+					}
+				}}
+			}
+			
+
+			// My Schedule
+			CTRLSelectGroup:(-30,-10,@W+60,@H+24,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:MyFixturesSelect
+			{
+				Rect:()
+				{
+					Rect:(0,0,@W,@H) $HIDE ref:MyFixturesList
+						M_FadingTabContent:(League,CurrentTab,4)
+						ScrollingList(League,MyFixturesScroll,@H,League,MyFixturesScrollVel) ref:ScrollingListMyFixtures
+						VerticalList(5) ref:VerticalList
+						CTRLScrollList(ScrollingListMyFixtures) ref:CTRLScrollList
+					{{
+					}}
+				}
+			}
+
+		}}
+
+		// Swipe Panels
+		Rect:(0,0,@W,@H) ref:SwipePanels
+			if(not(twk(CardEngine,DraggingCard)))
+			<
+				if(twk(League,CurrentTab) = 1)
+				<
+					SwipePanel(League,StandingsScroll,League,StandingsScrollVel) ref:SwipePanelLeague
+				>
+				if(twk(League,CurrentTab) = 2)
+				<
+					SwipePanel(League,FixturesScroll,League,FixturesScrollVel) ref:SwipePanelFixtures
+				>
+				if(twk(League,CurrentTab) = 3)
+				<
+					SwipePanel(League,RatingsScroll,League,RatingsScrollVel) ref:SwipePanelRatings
+				>
+				if(twk(League,CurrentTab) = 4)
+				<
+					SwipePanel(League,MyFixturesScroll,League,MyFixturesScrollVel) ref:SwipePanelMyFixtures
+				>
+			>
+		{{
+			Rect:(0,10,@W,@H-20)
+			{{
+				M_ScrollIndicatorAlt:(@R-25,@H,League,StandingsScroll,TeamList,ScrollingListLeague,SwipePanels,SwipePanelLeague)
+					set(gel.vis,twk(League,CurrentTab)=1)
+				M_ScrollIndicatorAlt:(@R-25,@H,League,FixturesScroll,FixturesList,ScrollingListFixtures,SwipePanels,SwipePanelFixtures)
+					set(gel.vis,twk(League,CurrentTab)=2)
+				M_ScrollIndicatorAlt:(@R-25,@H,League,RatingsScroll,RatingsList,ScrollingListRatings,SwipePanels,SwipePanelRatings)
+					set(gel.vis,twk(League,CurrentTab)=3)
+				M_ScrollIndicatorAlt:(@R-25,@H,League,MyFixturesScroll,MyFixturesList,ScrollingListMyFixtures,SwipePanels,SwipePanelMyFixtures)
+					//JF: Need this here so its done after the tweak reset inside M_ScrollIndicatorAlt
+					if(not(gel.vis))
+					<
+						:Message(myfixtures.scrollToNext)
+					>
+					set(gel.vis,twk(League,CurrentTab)=4)
+			}}
+		}}
+		M_SwitchStickHint:(✃,@R-29,@B-45,Y)
+			if(twk(League,CurrentTab) = 1)
+			<
+				CTRLScrollListIcon(TeamList,CTRLScrollList)
+			>
+			elif(twk(League,CurrentTab) = 2)
+			<
+				CTRLScrollListIcon(FixturesList,CTRLScrollList)
+			>
+			elif(twk(League,CurrentTab) = 3)
+			<
+				CTRLScrollListIcon(RatingsList,CTRLScrollList)
+			>
+			elif(twk(League,CurrentTab) = 4)
+			<
+				CTRLScrollListIcon(MyFixturesList,CTRLScrollList)
+			>>>>
+			
+	}}
+
+
+	// Headers and Filters
+	Rect:(@L,@T+140,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,0,@w,44)
+		M_LeagueStandingsHeader:(0,0,@W,@H)
+		M_LeagueFixturesHeader:(0,0,@W,@H)
+		M_LeagueRatingsHeader:(0,0,@W,@H)
+		M_LeagueNewStarHeader:(0,0,@W,@H)
+	}}
+}}

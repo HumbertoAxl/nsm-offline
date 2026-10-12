@@ -1,0 +1,105 @@
+Import:(badge_Macros.uih)
+
+Cull:(0,0,@s-60,55) ref:MyFixturePlayedEntry
+	M_CellPress:()
+	float(%id)
+	func(ClickFunc)
+	<
+		Post(UI_Select)
+		Post(myfixtures.btn_MatchInfo,%id)
+	>
+	Click()
+	<
+		callparent(0,ClickFunc)
+	>
+	M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+{{
+	Draw:(Cell55,-3,-2,@W+6,59)
+
+	M_Text:(,20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Week)
+	Draw:(Icon_CupSmall,110,10,34,34,,#151515FFFFFFFFFF) $HIDE ref:IconCup
+	Draw:(Icon_NightSmall,70,10,34,34,,#151515FFFFFFFFFF) $HIDE ref:IconNight
+	M_Text:(,150,0,0,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Competition)
+	M_Badge:(@C-100,@M,SD,1,FixtureTeamBadge)
+	M_Text:(TEAM,@C-60,0,0,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Team)
+
+	Draw:(White,[@W*0.75]-75,2,150,51,,#79E53EFFFFFFFFFF) $HIDE ref:Win
+	Draw:(White,[@W*0.75]-75,2,150,51,,#3E9CE5FFFFFFFFFF)  $HIDE ref:Draw
+	Draw:(White,[@W*0.75]-75,2,150,51,,#E53E3EFFFFFFFFFF) $HIDE ref:Loss
+	Draw:(White,[@W*0.75]-75,28,150,26,,#00000008FFFFFFFF)
+	M_Text:(,[@W*0.75]-75,0,150,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Score)
+
+	M_Text:(H,@R-40,0,0,@H,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Venue)
+
+	M_CellPressHighlight:()
+}} Template
+
+
+Cull:(0,0,@s-60,100) ref:MyFixtureNextEntry
+	M_CellPress:()
+	float(%id)
+	func(ClickFunc)
+	<
+		Post(UI_Select)
+		Post(myfixtures.btn_MatchInfo,%id)
+	>
+	Click()
+	<
+		callparent(0,ClickFunc)
+	>
+	M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+	.CTRLSetSelected()
+{{
+	Draw:(Cell100Dark,-3,-2,@W+6,104)
+	M_Glint:(0,0,0,@W)
+
+	M_Text:(,20,51,0,0,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Week)
+	Draw:(Icon_CupSmall,110,33,34,34,,#FFFFFFCCFFFFFFFF) $HIDE ref:IconCup
+	Draw:(Icon_NightSmall,70,33,34,34,,#FFFFFFCCFFFFFFFF) $HIDE ref:IconNight
+	M_Text:(,150,51,0,0,L,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Competition)
+
+	M_Badge:(@C-100,@M,HD,0.5,FixtureTeamBadge)
+	M_Text:(TEAM,@C-60,32,0,0,L,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Team)
+	M_Text:(,@C-60,71,0,0,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Position)
+	M_Text:(,@C-60,71,0,0,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,League)
+
+	M_Text:(H,@R-40,51,0,0,C,C,Text,KNUL25,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Venue)
+
+	M_CellPressHighlight:()
+}} Template
+
+
+Cull:(0,0,@s-60,55) ref:MyFixtureUnplayedEntry
+	M_CellPress:()
+	float(%id)
+	func(ClickFunc)
+	<
+		Post(UI_Select)
+		Post(myfixtures.btn_MatchInfo,%id)
+	>
+	Click()
+	<
+		callparent(0,ClickFunc)
+	>
+	M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+{{
+	Draw:(Cell55,-3,-2,@W+6,59)
+
+	M_Text:(,20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,Week)
+	Draw:(Icon_CupSmall,110,10,34,34,,#151515FFFFFFFFFF) $HIDE ref:IconCup
+	Draw:(Icon_NightSmall,70,10,34,34,,#151515FFFFFFFFFF) $HIDE ref:IconNight
+	M_Text:(,150,0,0,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Competition)
+	M_Badge:(@C-100,@M,SD,1,FixtureTeamBadge)
+	M_Text:(TEAM,@C-60,0,0,@H,L,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Team)
+
+	M_Text:(H,@R-40,0,0,@H,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,Venue)
+
+	Rect:()
+		set(gel.vis,twk(Debug,Enabled))
+	{
+		Draw:(White,0,0,50,@H,,#FF0000AAFFFFFFFF)
+			Click(debug.skipSeasonPosWeek,twk(Debug,SkipSeasonPos)::"|"::%id)
+	}
+
+	M_CellPressHighlight:()
+}} Template

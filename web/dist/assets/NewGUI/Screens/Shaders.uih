@@ -1,0 +1,75 @@
+//-----------------*------------*-------------*---------------------*---------------*
+// Shader definitions
+ShaderProgram:(Anim3D,anim3D_frag.glsl,anim3D_vert.glsl)
+ShaderProgram:(Anim3DShadow,anim3Dshad_frag.glsl,anim3Dshad_vert.glsl)
+ShaderProgram:(Simple3D,simple3D_frag.glsl,simple3D_vert.glsl)
+ShaderProgram:(Simple3DNZW,simple3D_zwriteoff_frag.glsl,simple3D_vert.glsl)
+ShaderProgram:(SimpleTextureFade3D,simpleTextureFade3D_frag.glsl,simple3D_vert.glsl)
+ShaderProgram:(Static3D,static3D_frag.glsl,static_vert.glsl)
+ShaderProgram:(OneBitAlpha,onebit_frag.glsl,onebit_vert.glsl)
+ShaderProgram:(VertexLit,vertexLit3D_frag.glsl,vertexLit3D_vert.glsl)
+ShaderProgram:(VertexLitCrowd,vertexLitCrowd_frag.glsl,vertexLit3D_vert.glsl)
+ShaderProgram:(VertexLitFaded,vertexLitFaded_frag.glsl,vertexLit3D_vert.glsl)
+ShaderProgram:(NoUV3D,simple3D_frag.glsl,NoUV3D_vert.glsl)
+ShaderProgram:(Coloured3D,coloured_frag.glsl,simple3D_vert.glsl)
+ShaderProgram:(Downsample,downsample_frag.glsl,downsample_vert.glsl)
+ShaderProgram:(Default3D,default3D_frag.glsl,default3D_vert.glsl)
+ShaderProgram:(Crowd3D,crowd3D_frag.glsl,crowd3D_vert.glsl)
+ShaderProgram:(CrowdCorner3D,crowd3D_frag.glsl,crowdcorner3D_vert.glsl)
+ShaderProgram:(ZSafeSprite,zsafe_frag.glsl,default3D_vert.glsl)
+ShaderProgram:(ZSafeGradient,zsafegradient_frag.glsl,zsafegradient_vert.glsl)
+
+ShaderProgram:(CreditsBall3D,creditsball3d_frag.glsl,creditsball3d_vert.glsl)
+ShaderProgram:(TitleBall3D,titleball3D_frag.glsl,titleball3d_vert.glsl)
+
+ShaderProgram:(ProjectedLight3D,ProjectedLight3D_frag.glsl,ProjectedLight3D_vert.glsl)
+ShaderProgram:(ProjectedLight3DVCol,ProjectedLight3D_vcol_frag.glsl,ProjectedLight3D_vcol_vert.glsl)
+ShaderProgram:(ProjectedLight3DVColOneBit,ProjectedLight3D_vcol_frag_onebit.glsl,ProjectedLight3D_vcol_vert.glsl)
+ShaderProgram:(ProjectedLight3DVColFaded,ProjectedLight3D_vcol_frag_faded.glsl,ProjectedLight3D_vcol_vert.glsl)
+ShaderProgram:(ProjectedLight3DPitch,ProjectedLight3DPitch_frag.glsl,ProjectedLight3DPitch_vert.glsl)
+
+ShaderProgram:(Segment,segment_frag.glsl,segment_vert.glsl)
+
+//Example of using Segment shader:
+// UseShader:(Segment)
+// {
+// 	Draw:(circularthing,200,200)
+// 		float(%amt)
+//       // %amt should go from 0 to 1 (or 0 to a bit more than 1 if you want a soft-ended effect)
+// 		set(%amt,clamp((TouchX-100)/200,0,1)	
+// 		Handle(0.5,0.5)
+//		 // You can spin the graphic to follow the sweep if you want, or not.
+// 		set(gel.angle,-%amt*360)
+//		 // This does the heavy lifting, setting the centre of the segment and passing through the amount. The last number is how 'hard edged'
+//		 // you want the effect. 1000 is super-crisp. Around 100 gives a nice anti-aliased end. 10 gives a soft fadeout, and you'll have 
+//	     // to allow amt to go beyond 1.0 to get a completely solid circle.
+// 		SetUniform4F(seganim,gel.gx,gel.gy,1-(%amt*2),100)
+// }
+
+ShaderProgram:(Radius,radius_frag.glsl,segment_vert.glsl)
+
+//UseShader:(Radius)
+//{
+//	Draw:(Ball,200,200,,,,#FF0000FF)
+//		float(%amt)
+//		set(%amt,abs(TouchX-320))
+//		Handle(0.5,0.5)
+//		 // Similar to above, but now %amt is radius in screen-space units, and the '0.5' in the last part is how sharp the edge should be.
+//		 // 0.1 = soft, 0.5 = anti-aliased, 1 = crisp.
+//		SetUniform4F(radius,gel.gx,gel.gy,%amt*%amt,0.5/(%amt+1))
+//}
+
+ShaderProgram:(Region,region_frag.glsl,segment_vert.glsl)
+
+// UseShader:(Region)
+// 	SetUniform4F(region,100,100,200,200)	// Define the clip region in your normal screen-space. 
+//                                          // NOTE: These values ignore all push origins etc etc; it's purely relative to the sheet or screen origin.
+// {
+// 	Sheet:(0,0,500,0,0,0,45,1,1,1)
+// 		add(gel3d.rotx,1)
+// 		add(gel3d.roty,0.7)
+// 	{
+// 		Draw:(Ball,0,0,,,,#FF0000FF)
+// 			Handle(0.5,0.5)
+// 	}
+// }

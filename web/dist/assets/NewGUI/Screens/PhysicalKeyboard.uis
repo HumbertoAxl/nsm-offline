@@ -1,0 +1,225 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Icon_Keyboard_Delete,NewGUI/UI/Icons/Icon_Keyboard_Delete.png)
+Img:(Icon_Keyboard_Shift_0,NewGUI/UI/Icons/Icon_Keyboard_Shift_0.png) FORCE
+Img:(Icon_Keyboard_Shift_1,NewGUI/UI/Icons/Icon_Keyboard_Shift_1.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+// Init SHIFT and CAPS states
+Rect:()
+	.set(twk(Keyboard,CapsLockActive),0)
+	.set(twk(Keyboard,ShiftActive),1)
+// No SHIFT on player name entry
+Rect:()
+	if(shell(GameScreen) = "setup")
+	<
+		set(twk(Keyboard,ShiftAvailable),1)
+	>
+	else
+	<
+		set(twk(Keyboard,ShiftAvailable),0)
+	>
+	CTRLClearSelect()
+	CTRLGlobalBlockExcept(UP,DOWN,LEFT,RIGHT,X,Y,B,A,LT,RT)
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(PhysicalKeyboard_Macros.uih)
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Rect:(@L,@T,@W,@H)
+	Click()
+	Press()
+	SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel)
+
+
+Dissolve:(@o,@T,@s,@H) ref:DialogRoot
+{{
+
+	Rect:(@L,@B-310,@W,310)
+	{{
+		Draw:(White,@f,0,@w,310,,#07080AEA)
+		Draw:(Fade_Up,@f,@B-200,@w,200,,#000000FF)
+
+		Draw:(White_Frame,@C-345,15,690,245,,#FFFFFF80)
+		{{
+			M_Glint:(0,0,0,690)
+			M_Glint:(0,245,0,690)
+		}}
+
+		PushOrigin:(@C-302,55)
+			// Row 1
+			Rect:(0,0)
+			{{
+				Rect:()
+					HorizontalList(10)
+				{
+					M_KeyboardButton:(Q,q,16)
+						CTRLPress(LEFT)
+						<
+							CTRLSetSelected(P)
+							Post(CTRLNavigate)
+						>
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Shift)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(W,w,22)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Shift)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(E,e,4)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Space)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(R,r,17)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Space)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(T,t,19)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Space)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(Y,y,24)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Space)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(U,u,20)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Space)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(I,i,8)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Ok)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(O,o,14)
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Ok)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(P,p,15)
+						CTRLPress(RIGHT)
+						<
+							CTRLSetSelected(Q)
+							Post(CTRLNavigate)
+						>
+						CTRLPress(UP)
+						<
+							CTRLSetSelected(Ok)
+							Post(CTRLNavigate)
+						>
+				}
+			}}
+
+			// Row 2
+			Rect:(0,55)
+			{{
+				Rect:()
+					HorizontalList(10)
+				{
+					M_KeyboardButton:(A,a,0)
+						CTRLPress(LEFT)
+						<
+							CTRLSetSelected(-)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(S,s,18)
+					M_KeyboardButton:(D,d,3)
+					M_KeyboardButton:(F,f,5)
+					M_KeyboardButton:(G,g,6)
+					M_KeyboardButton:(H,h,7)
+					M_KeyboardButton:(J,j,9)
+					M_KeyboardButton:(K,k,10)
+					M_KeyboardButton:(L,l,11)
+					M_KeyboardButton:("-","-",)
+						CTRLPress(RIGHT)
+						<
+							CTRLSetSelected(A)
+							Post(CTRLNavigate)
+						>
+				}
+			}}
+
+			// Row 3
+			Rect:(0,110)
+			{{
+				Rect:()
+					HorizontalList(10)
+				{
+					M_KeyboardButton:(Z,z,25)
+						CTRLPress(LEFT)
+						<
+							CTRLSetSelected(BackSpace)
+							Post(CTRLNavigate)
+						>
+					M_KeyboardButton:(X,x,23)
+					M_KeyboardButton:(C,c,2)
+					M_KeyboardButton:(V,v,21)
+					M_KeyboardButton:(B,b,1)
+					M_KeyboardButton:(N,n,13)
+					M_KeyboardButton:(M,m,12)
+					Rect:(0,0,55,0)
+					M_Keyboard_Delete:()
+
+				}
+			}}
+
+			// Row 4
+			Rect:(0,165)
+			{{
+				Rect:()
+					HorizontalList(10)
+				{
+					Rect:(0,0,22.5,0)
+					M_Keyboard_Shift:()
+					Rect:(0,0,88,0)
+					M_Keyboard_Space:()
+					Rect:(0,0,-75,0)
+					M_Keyboard_Done:()
+
+				}
+			}}
+		PopOrigin
+
+
+		//	Only show hints if ControllerInput, otherwise it's being shown by FORCE_SOFT_KEYBOARD
+		Rect:()
+			set(gel.vis,twk(ControllerInput,Enabled)) 
+		{
+			M_Text:(keyboard_Enter,@C+320,@B-25,0,0,R,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(%gfo,%gfw)
+
+			M_Text:(,@C,@B-25,0,0,R,C,Text,KNUL24,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.vis,twk(Keyboard,ShiftAvailable) = 1)
+				.set(gel.x,@C+280-%gfo)
+				if(twk(Keyboard,ShiftActive) = 0)
+				<
+					:set(gel.text,loc(keyboard_Shift))
+				>
+				elif(twk(Keyboard,CapsLockActive) = 0)
+				<
+					:set(gel.text,loc(keyboard_CapsLock))
+				>
+				elif(twk(Keyboard,CapsLockActive) = 1)
+				<
+					:set(gel.text,loc(keyboard_CapsLockOff))
+				>>>
+		}
+	}}
+}}

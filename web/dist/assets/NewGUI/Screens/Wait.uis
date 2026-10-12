@@ -1,0 +1,96 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Wait_Spinner,NewGUI/IAP/Wait_Spinner.png)
+Img:(Wait_Shield,NewGUI/IAP/Wait_Shield.png)
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+Animation:(50,Loop) ref:WaitSpinner
+{ 
+	During:(0,09)
+	{
+		Draw:(Wait_Shield,0,0,70,70,,#FFFFFF99)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,72,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,143,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-146,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-72,#FFFFFF85)
+			Handle(0.5,0.5)
+	}
+	During:(10,19)
+	{
+		Draw:(Wait_Shield,0,0,70,70,,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,72,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,143,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-146,#FFFFFF85)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-72,#FFFFFF99)
+			Handle(0.5,0.5)
+	}
+	During:(20,29)
+	{
+		Draw:(Wait_Shield,0,0,70,70,,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,72,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,143,#FFFFFF85)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-146,#FFFFFF99)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-72,#FFFFFFFF)
+			Handle(0.5,0.5)
+	}
+	During:(30,39)
+	{
+		Draw:(Wait_Shield,0,0,70,70,,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,72,#FFFFFF85)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,143,#FFFFFF99)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-146,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-72,#FFFFFFFF)
+			Handle(0.5,0.5)
+	}
+	During:(40,49)
+	{
+		Draw:(Wait_Shield,0,0,70,70,,#FFFFFF85)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,72,#FFFFFF99)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,143,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-146,#FFFFFFFF)
+			Handle(0.5,0.5)
+		Draw:(Wait_Shield,0,0,70,70,-72,#FFFFFFFF)
+			Handle(0.5,0.5)
+	}
+}
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Draw:(White,@L,@T,@W,@H,,#15151500)
+    frlerp(gel.alpha,0.80,0.25)
+    Click(None)
+
+
+
+Rect:(@C,360)
+{{
+	AnimInstance:(0,0,WaitSpinner)
+	Draw:(Wait_Spinner,0,0,-85,85,,#FFFFFF50)
+		Handle(0.5,0.5)
+		Spinner(2)
+	Draw:(Wait_Spinner,0,0,105,105,,#FFFFFF10)
+		Handle(0.5,0.5)
+		Spinner(-1)
+	M_Text:(store_WAIT,0,80,0,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+}}

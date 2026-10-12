@@ -1,0 +1,9 @@
+// **********************************************
+// * Purely for image references we want to use in preload - so they get atlased *
+// **********************************************
+
+##N
+Import:(preloadprogress.uih)
+
+M_PRELOADPROGRESS:()
+##*

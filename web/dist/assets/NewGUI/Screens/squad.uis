@@ -1,0 +1,118 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(cards.uih)
+Import:(templates_combo.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(squad_Macros.uih)
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	.set(twk(Squad,ViewComboSelected),1)
+	.set(twk(Squad,ViewComboReadout),loc(General))
+	.set(twk(Squad,RoleComboSelected),-1)
+	.set(twk(Squad,RoleComboReadout),loc(view_All))
+{{
+	// Combo template
+	M_ComboOPEN:(@R-225,@T+80,200,60,Squad,ViewCombo,squadlist.cmb_Close)
+		M_ComboEntry:(Squad,ViewCombo,squadlist.cmb_View,1,(loc(General)),0)
+		M_ComboEntry:(Squad,ViewCombo,squadlist.cmb_View,2,(loc(Stats)),0)
+		M_ComboEntry:(Squad,ViewCombo,squadlist.cmb_View,3,(loc(Skills)),0)
+		M_ComboEntry:(Squad,ViewCombo,squadlist.cmb_View,4,(loc(Concerns)),0)
+	M_ComboCLOSE:(Squad,ViewCombo)
+
+	//Role filter Combo
+	M_ComboOPEN:(@L+25,@T+80,200,60,Squad,RoleCombo,squadlist.rcmb_Close)
+		M_ComboEntry:(Squad,RoleCombo,squadlist.rcmb_Filter,-1,(loc(view_All)),0)
+		M_ComboEntry:(Squad,RoleCombo,squadlist.rcmb_Filter,0,(loc(tla_Goalkeeper)),0)
+		M_ComboEntry:(Squad,RoleCombo,squadlist.rcmb_Filter,1,(loc(tla_Defender)),0)
+		M_ComboEntry:(Squad,RoleCombo,squadlist.rcmb_Filter,2,(loc(tla_Midfielder)),0)
+		M_ComboEntry:(Squad,RoleCombo,squadlist.rcmb_Filter,3,(loc(tla_Attacker)),0)
+	M_ComboCLOSE:(Squad,RoleCombo)
+
+
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+		Layer(Text)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+			Layer(Default)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_ComboSelected:(@L+25,0,200,60,Squad,RoleCombo,squadlist.rcmb_Open)
+		M_ComboSelected:(@R-225,0,200,60,Squad,ViewCombo,squadlist.cmb_Open)
+	}}
+
+
+
+
+	CTRLSelectGroup:(0,@T+180,@W,@H-250,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+	{
+		// Clipped Content
+		Clip:(@L,@T+180,@W,@H-250)
+		{{
+			// Moved Content
+			Rect:(30,10,@W-60,@H-25)
+			{{
+				M_SquadListRow_ViewGeneral:(SquadList,squadlist)
+				M_SquadListRow_ViewStats:(SquadList,squadlist)
+				M_SquadListRow_ViewSkill:(SquadList,squadlist)
+				M_SquadListRow_ViewConcerns:(SquadList,squadlist)
+				
+				// PLAYER DATA
+				Rect:(0,0,@W,@H)
+					M_CardScroller:(Squad,DataListScroll)
+				{{
+			 		Rect:(0,0,@W,@H) ref:PlayerList
+			 			ScrollingList(Squad,DataListScroll,@H,Squad,DataListScrollVel) ref:ScrollingList
+			 			CTRLScrollList(ScrollingList) ref:CTRLScrollList
+			 			VerticalList(5) ref:Offset
+			 		{{
+			 		}}
+				}}
+			}}
+
+			// Swipe Panel
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				if(not(twk(CardEngine,DraggingCard)))
+				<
+					SwipePanel(Squad,DataListScroll,Squad,DataListScrollVel) ref:SwipePanelSquad
+				>
+			{{
+				Rect:(0,10,@W,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,Squad,DataListScroll,PlayerList,ScrollingList,SwipePanels,SwipePanelSquad)
+				}}
+			}}
+		}}
+	}
+	M_SwitchStickHint:(✃,@R-29,@B-115,Y)
+		CTRLScrollListIcon(PlayerList,CTRLScrollList)
+
+
+
+
+
+	// Headers
+	Rect:(@L,@T+140,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,0,@w,44)
+		CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			CTRLClick(UP)
+			<
+				CTRLSetSelected(RoleComboComboSelected,squad)
+				Post(CTRLNavigate)
+			>
+		{
+			M_DataListHeaders:(0,0,@W,40,SquadList,squadlist)
+		}
+	}}
+}}

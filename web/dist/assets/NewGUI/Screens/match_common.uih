@@ -1,0 +1,116 @@
+Import:(Shaders.uih)
+
+Img:(Counter,NewGUI/Match/Counter.png)
+Img:(Highlight,NewGUI/Match/Highlight.png)
+Img:(MatchArrow,NewGUI/Match/Arrow.png)
+Img:(Offside_Flag,NewGUI/Match/Offside_Flag.png)
+Img:(RefMap,NewGUI/Match/testref.png)
+
+Macro:(M_PlayerShadow,?BUFFER?,?SURF?)
+	// Surf:(?SURF?,256,256)
+
+	// Sheet:(80,80,0,0,0,0,0,1,1,1,?SURF?,400,400)
+	// 	Project((-0.25,0.5,1),(0,0,0),(0,0,1))
+	// {
+	// 	Cls:(#FFFFFFFF)
+	// 	Locator:((0,0,0),(0,0,0),(0.17,0.17,-0.17))
+	// 	{
+	// 		DrawModelShadow:(?BUFFER?,#F0E8E8FF)
+	// 	}
+	// }
+
+	// Locator:(0,0,0,0,0,0) ref:ShadowLoc
+	// 	set(gel3d.x,%x)
+	// 	set(gel3d.y,%y)
+	// 	set(gel3d.z,%z)
+	// {
+	// 	Draw:(?SURF?,0,0,400,400)
+	// 		Handle(80,80)
+	// 		Blend(ZERO,IMAGE_COLOUR)
+	// }
+
+	Draw:(Circle_50,0,0,40,40,,#00000030)
+		Layer(Pitch)
+		Handle(0.5,0.5)
+		set(gel.x,%x)
+		set(gel.y,%y)
+EndM
+
+Macro:(M_CommonLocatorDraws)
+	UseShader:(default)
+	{
+		Draw:(Highlight,0,0,650,650) $HIDE ref:Highlight
+			Layer(Pitch)
+			Handle(0.5,0.5)
+	}
+EndM
+
+Macro:(M_CommonNonLocatorDraws)
+	Rect:()
+		Layer(Pitch)
+		set(gel.x,%x)
+		set(gel.y,%y)
+	{
+		Draw:(Circle_200,0,0,100,100,,#BBFFBB00) $HIDE ref:DribbleIndicator
+			Handle(0.5,0.5)
+			set(gel.scale,[1/twk(Pitch,Scale)])
+
+		Draw:(MatchArrow,,,,,,#FFFFFFAA) $HIDE ref:RunArrow
+			Handle(0,0.5)
+
+		Draw:(Counter,0,0,80,80) $HIDE ref:Counter
+			Handle(0.5,0.5)
+	}
+
+	Locator:(0,0,0,0,0,0,1,1,1)
+		set(gel3d.x,%x)
+		set(gel3d.y,%y)
+		set(gel3d.z,%z)
+		set(gel3d.rotz,twk(Pitch,CameraZRotation))
+		Layer(AboveText2)
+	{
+		Locator:(0,0,0,0,0,0,1,1,1)
+			set(gel3d.rotx,90+twk(Pitch,CameraXRotation))
+		{
+			##N
+			M_Text:(⛋,35,-25,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,CTRLPassButton)
+			##IAP4
+			M_Text:(⛊,35,-25,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,CTRLPassButton)
+			##*
+
+			Draw:(Offside_Flag,0,-100,40,40) $HIDE ref:OffsideFlag
+				Handle(0.5,0.5)
+				PulseAlpha(1,0.1,0.3,0.3,0.1,0.1,0.1)
+
+			Rect:() $HIDE ref:PlayerName
+			{
+				M_Text:(,0,0,0,50,C,C,Text,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,PlayerName)
+					M_Style:(Outline,#FFFFFF20)
+					CharacterSpacing(1.5)
+					//set(gel.scale,[1/twk(Pitch,Scale)])
+
+					//JF: Delayed fade out after not touching the screen
+					if(twk(Pitch,ShowPlayerNames) = 0)
+					<
+						:set(gel.alpha,1)
+						:Delay(2)
+						frlerp(gel.alpha,0,0.1)
+					>
+					//JF: Fade in after touching the screen
+					if(twk(Pitch,ShowPlayerNames) = 1)
+					<
+						//JF: Only show this name if our filter includes it, or there is no filter
+						if(twk(Pitch,FilteredPlayerNames) = "" or(twk(Pitch,FilteredPlayerNames) contains("|"::gel.text::"|")))
+						<
+							frlerp(gel.alpha,1,0.2)
+						>
+					>
+					//JF: Straight fade out after the game unfreezes
+					if(twk(Pitch,ShowPlayerNames) = -1)
+					<
+						frlerp(gel.alpha,0,0.1)
+					>
+			}
+		}
+	}
+EndM

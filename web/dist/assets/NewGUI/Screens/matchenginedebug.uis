@@ -1,0 +1,44 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(match_common.uih)
+Import:(matchengine_common.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+//---------------------------------------------------------------------------------------------SETUP
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+Cls:(#000000FF)
+
+Draw:(Counter,0,0,32,32) ref:PathPointTemplate
+	Handle(0.5,0.5)
+{
+} Template
+
+Draw:(Counter,0,0,32,32) ref:WaypointTemplate
+	Handle(0.5,0.5)
+{
+} Template
+
+Draw:(Highlight,0,0,34,34,,#FF0000FF) $HIDE ref:PassToPoint
+	Handle(0.5,0.5)
+{
+} Template
+
+
+
+
+
+
+
+
+M_MatchCamera:()
+{
+	M_MatchCameraContent:()
+
+	M_FootballerTexture:(0,#B19479FF,#333333FF,2,#FF0000FF,#FFFFFFFF,#FF0000FF)
+	M_Footballer:(0,0.12,0.12,0.12,)
+}
+
+M_Rain:()
+M_Snow:()

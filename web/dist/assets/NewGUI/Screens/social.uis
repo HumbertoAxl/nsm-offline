@@ -1,0 +1,536 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(TweetPanel_Club,NewGUI/UI/Social/TweetPanel_Club.png,20,20,20,20) FORCE
+Img:(TweetPanel_Press,NewGUI/UI/Social/TweetPanel_Press.png,20,20,20,20) FORCE
+Img:(TweetPanel_Sponsor,NewGUI/UI/Social/TweetPanel_Sponsor.png,20,20,20,20) FORCE
+Img:(Tweet_Verified,NewGUI/UI/Social/Tweet_Verified.png) FORCE
+//---------------------------------------------------------------------------------------------SETUP
+
+Macro:(M_SocialDefine)
+	Define:(?MESSAGEWIDTH?=@s-149)
+EndM
+M_SocialDefine:()
+
+Rect:()
+	.set(twk(Messages,MessagesScroll),0)
+	.set(twk(Messages,MessagesScrollVel),0)
+	.set(twk(Messages,SocialScroll),0)
+	.set(twk(Messages,SocialScrollVel),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+Macro:(M_SocialHeader_News)
+	M_SocialDefine:()
+	Rect:() ref:Root
+	{
+		Rect:()
+			set(gel.vis,twk(Player,StarLevel) < 5)
+		{
+			Draw:(White,3,4,?MESSAGEWIDTH?,78,,#FFFFFFFF)
+			Draw:(MSG_News_NSAdvertiser_Left,0,4,,78,,#00000060)
+			Draw:(MSG_News_NSAdvertiser_Right,@R-750,4,,78)
+
+			Draw:(Character_Reporter2,100,130,300,300)
+				Handle(0.5,0.5)
+		}
+
+		Rect:()
+			set(gel.vis,(twk(Player,StarLevel) >= 5) and(twk(Player,StarLevel) < 10))
+		{
+			Draw:(White,3,4,?MESSAGEWIDTH?,78,,#3351A8FF)
+			Draw:(MSG_News_NSPost_Left,0,4,,78,,#2A3F84FF)
+			Draw:(MSG_News_NSPost_Right,@R-750,4,,78)
+
+			Draw:(Character_Reporter1,100,130,300,300)
+				Handle(0.5,0.5)
+		}
+
+		Rect:()
+			set(gel.vis,twk(Player,StarLevel) >= 10)
+		{
+			Draw:(White,3,4,?MESSAGEWIDTH?,78,,#CC0000FF)
+			Draw:(MSG_News_NSN_Left,6,4,,78,,#00000060)
+			Draw:(MSG_News_NSN_Right,@R-750,4,,78)
+
+			Draw:(Character_Reporter,100,130,300,300)
+				Handle(0.5,0.5)
+		}
+
+		// Name
+		M_Text:(,210,30,0,0,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			if(twk(Player,StarLevel) < 5)
+			<
+				set(gel.colour,#252525FF)
+			>
+			elif((twk(Player,StarLevel) >= 5) and(twk(Player,StarLevel) < 10))
+			<
+				set(gel.colour,#FFFFFFFF)
+			>
+			elif(twk(Player,StarLevel) >= 10)
+			<
+				set(gel.colour,#FFFFFFFF)
+			>>>
+
+		// Position
+		M_Text:(messages_REPORTER,210,62,0,0,L,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,Description)
+			if(twk(Player,StarLevel) < 5)
+			<
+				set(gel.colour,#25252580)
+			>
+			elif((twk(Player,StarLevel) >= 5) and(twk(Player,StarLevel) < 10))
+			<
+				set(gel.colour,#FFFFFF80)
+			>
+			elif(twk(Player,StarLevel) >= 10)
+			<
+				set(gel.colour,#FFFFFF80)
+			>>>
+	}
+EndM
+
+Macro:(M_SocialHeader_Construction)
+	M_SocialDefine:()
+	Rect:() ref:Root
+	{
+		Draw:(White,3,4,?MESSAGEWIDTH?,78,,#343434FF)
+		Draw:(MSG_News_NSConstruction_Left,6,4,,78,,#FFFFFF60)
+		Draw:(MSG_News_NSConstruction_Right,@R-750,4,,78)
+
+		Rect:(4,4,300,80)
+		{
+			M_Text:(,210,32,0,0,L,C,Text,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Name)
+			M_Text:(messages_ASSISTANT,210,60,0,0,L,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#808080FF,Description)
+		}
+
+		// Character
+		Draw:(Character_Builder,100,145,300,300)
+			Handle(0.5,0.5)
+	}
+EndM
+
+Macro:(M_SocialHeader_Club,?COL?,?TEXT?)
+	M_SocialDefine:()
+	Rect:() ref:Root
+	{
+		Draw:(Fade_Left,206+[@y],4,800,78,0,#?COL?FF)
+		Draw:(Fade_Right,3,4,800,78,0,#FFFFFFFF)
+		Draw:(Banner_Star,@R-150,0,,80,,#FFFFFF20)
+			Handle(1,0)
+
+		M_Badge:(@R-452,46,HD,0.65,HeaderBadge)
+		M_Text:(?TEXT?,@R-512,45,,0,R,C,Text,KNUL35,,0,0,#00000000,NoItalics,#000000FF,ClubName)
+				M_Style:(Outline,#00000020)
+			if(@w<=1152)
+			<
+				M_TextMaxWidth:(240)
+			>
+
+		Rect:(4,4,300,80)
+		{
+			M_Text:(,210,32,0,0,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			M_Text:(messages_ASSISTANT,210,60,0,0,L,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#505050FF,Description)
+		}
+
+		Rect:()	$HIDE ref:CardFace
+		{
+			Draw:(Generic_Player_Shadow,14,20,180,,,#FFFFFF30)
+			Rect:(100,84) ref:CardFace
+				Card_Face(Message_Face) ref:CardFaceDoodad
+				Scale(1.5,1.5)
+		}
+
+		// Character
+		Rect:() $HIDE ref:CharacterFace
+		{
+			Draw:(Character_Reporter,100,130,300,300) ref:CharacterFace
+				Handle(0.5,0.5)
+		}
+	}
+EndM
+
+Macro:(M_MessageEntry)
+	Cull:(0,0,@W,250) ref:MessageRoot
+		inherit(%yPos)
+        float(%read,%index,%dismissed)
+        init(%read,0)
+        // -1 is undefined, 0 is low, 1 is medium, 2 is high
+        float(%priority)
+
+		.set(gel.y,%yPos)
+		frlerp(gel.y,%yPos,0.25)
+
+		if(%dismissed)
+		<
+			:set(gel.vis,0)
+		>
+		else
+		<
+			add(%yPos,gel.h+10)
+		>
+		float(%selected)
+	{{
+		Draw:(PanelAngled,-3,-3,@W+6,@H+6,,#FFFFFFCC)
+			if(%read)
+			<
+				set(gel.colour,#DDDDDDBB)
+			>
+			else
+			<
+				set(gel.colour,#FFFFFFCC)
+			>
+
+		Draw:(Fade_Down,1,84,@W-2,80,,#00001010)
+		Draw:(White,1,85,@W-2,1,,#FFFFFF80)
+
+		Rect:() ref:HeaderHook
+
+		M_ExclamationAlert:(0,0)
+			set(gel.vis,%priority=2)
+
+		Draw:(White,@R-84,4,1,80,,#00000020)
+
+		M_ImageButton:(@R-44,44,80,80,0,0,40,40,Icon_Recycle,#252525FF)
+			if(%selected)
+			<
+				M_CTRLButtonExtra:(Y,false)
+			>
+			if(%clicked)
+			<
+				:set(%dismissed,1)
+				:Post(social.msg_Dismissed,%index)
+			>
+			M_SwitchButtonHint:(⛍,@R-28,0)
+				set(gel.vis,%selected)
+
+		Rect:(@R-234,0,170,75)
+		{{
+			M_Text:(,125,15,0,30,R,C,Text,KNUL20,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Subject)
+			{{
+				Draw:(White,8,1,100,26,,#2C84F2FF)
+					Layer(Default)
+					.set(gel.w,-%gfw-16)
+			}}
+
+			M_Text:(,125,60,0,0,R,C,Text,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,Date)
+				M_Style:(Outline,#00000020)
+
+		}}
+
+		M_Text:(,210,125,@W-220,0,L,T,TextBoxAtt,KNUL25,,0,0,#00000000,NoItalics,#252525FF,Message)
+			LineSpacing(1.15)
+
+		CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+			if(twk(Messages,CTRLForceSelectedType) = 0 and(twk(Messages,CTRLForceSelectedIndex) = %index))
+			<
+				CTRLSetSelected()
+			>
+			CTRLIsSelected()
+			<
+				:set(%selected,1)
+			>
+			else
+			<
+				:set(%selected,0)
+			>
+		{
+			// Character click zone
+			Rect:(5,5,195,@H-10)
+				Layer(Text)
+				CTRLSelect(CTRLSquareSelected,0,0,0,0)
+				func(ClickFunc_Character)
+				<
+					Post(UI_Select)
+					Post(social.msg_ButtonProfile,%index)
+				>
+				Click()
+				<
+					call(ClickFunc_Character)
+				>
+				CTRLClick(?BTNOK?)
+				<
+					call(ClickFunc_Character)
+				>
+			
+			// Message click zone
+			Rect:(200,85,@W-205,@H-90)
+				Layer(Text)
+				CTRLSelect(CTRLSquareSelected,0,0,0,0)
+				func(ClickFunc_Message)
+				<
+					Post(UI_Select)
+					Post(social.msg_ButtonMessage,%index)
+				>
+				Click()
+				<
+					call(ClickFunc_Message)
+				>
+				CTRLClick(?BTNOK?)
+				<
+					call(ClickFunc_Message)
+				>
+		}
+	}} Template
+EndM
+
+Macro:(M_SocialEntry)
+	Cull:(0,0,550,250) ref:Tweet
+		float(%read,%index,%type)
+        Click(social.tweet_ButtonProfile,%index)
+
+		float(%selected)
+		if(twk(Messages,CTRLForceSelectedType) = 1 and(twk(Messages,CTRLForceSelectedIndex) = %index))
+		<
+			CTRLSetSelected()
+		>
+		CTRLIsSelected()
+		<
+			:set(%selected,1)
+		>
+		else
+		<
+			:set(%selected,0)
+		>
+	{{
+		Rect:() $HIDE ref:Player
+		{
+			Rect:()
+				.set(%type,0)
+			Draw:(TweetPanel_Club,-6,-1,@W+12,@H+12)
+			M_Text:(generic_PLAYER,220,38,0,0,L,C,TextLoc,KNUL21,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(White,0,118,@W,5)
+			Draw:(CircleBar_Reflection,60,112,100,)
+		}
+
+		Rect:() $HIDE ref:Fan
+		{
+			Rect:()
+				.set(%type,1)
+			Draw:(TweetPanel_Club,-6,-1,@W+12,@H+12)
+			M_Text:(generic_FANS,220,38,0,0,L,C,TextLoc,KNUL21,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(White,0,118,@W,5)
+			Draw:(CircleBar_Reflection,60,112,100,)
+		}
+
+		Rect:() $HIDE ref:Press
+		{
+			Rect:()
+				.set(%type,2)
+			Draw:(TweetPanel_Press,-6,-1,@W+12,@H+12)
+			M_Text:(generic_PRESS,220,38,0,0,L,C,TextLoc,KNUL21,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(White,0,118,@W,5)
+			Draw:(CircleBar_Reflection,60,112,100,)
+		}
+
+		Rect:() $HIDE ref:Sponsor
+		{
+			Rect:()
+				.set(%type,3)
+			Draw:(TweetPanel_Sponsor,-6,-1,@W+12,@H+12)
+			M_Text:(messages_SPONSOR,220,38,0,0,L,C,TextLoc,KNUL21,Upper,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(White,0,118,@W,5)
+			Draw:(Sponsor_1,20,30) ref:Logo
+				Scale(0.45,0.45)
+		}
+
+		// Delete
+		Draw:(White,@R-82,25,1,80,,#00000020)
+		M_ImageButton:(@R-40,65,80,80,0,0,40,40,Icon_Recycle,#252525FF)
+			if(%selected)
+			<
+				M_CTRLButtonExtra:(Y,false)
+			>
+			if(%clicked)
+			<
+				:Post(social.tweet_Dismissed,%index)
+			>
+			M_SwitchButtonHint:(⛍,@R-28,25)
+				set(gel.vis,%selected)
+
+		// Name and Verified
+		M_Text:("",220,70,245,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,Name)
+			CharacterSpacing(1)
+		{{
+			Draw:(Tweet_Verified,0,-18,35,35,,#FFFFFFFF000000FF)
+				.set(gel.x,%gfw+8)
+				.set(gel.vis,%type != 3)
+		}}
+
+		M_Text:("",220,97,0,0,L,C,Text,KNUL23,,0,0,#00000000,NoItalics,#808080FF,Date)
+		
+		// Message
+		Draw:(Fade_Up,5,125,@W-10,115,,#00000010)
+		M_Text:(,20,182,@W-40,0,C,C,TextBoxAtt,KNUL23,,0,0,#00000000,NoItalics,#252525FF,Message)
+			M_Style:(Outline,#25252510)
+			LineSpacing(1)
+			CharacterSpacing(0.4)
+
+
+		// Character
+		UseShader:(Radius)
+		{
+			Rect:(110,70)
+			{{
+				Rect:() $HIDE ref:Card
+					SetUniform4F(radius,gel.gx,gel.gy,2800,0.01)
+					Card_Face(CardFace) ref:CardFace
+					Handle(0.5,0.5)
+				{
+					Draw:(Fade_Down,0,0,125,125,,#B4C3CBFF)
+						Handle(0.5,0.5)
+				}
+
+				// 2d Character
+				Rect:() $HIDE ref:CharacterFace
+					SetUniform4F(radius,gel.gx,gel.gy,2800,0.01)
+				{{
+					Draw:(Fade_Down,0,0,125,125,,#B4C3CBFF)
+						Handle(0.5,0.5)
+					Draw:(Character_Reporter,0,20,190,190) ref:CharacterFace
+						Handle(0.5,0.5)
+				}}
+			}}
+		}
+	}} Template
+		CTRLSelect(CTRLSquareSelected,0,0,0,0)
+EndM
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+M_NewDialogOPEN:(loc(messages_INBOX),social)
+// ----------------
+// ----------------
+
+	// Tabs
+	Rect:(0,0,@W,40)
+		Layer(Text)
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,220,50,messages_MESSAGES,1,Messages,CurrentTab,,5)
+		M_Tab:(250,0,220,50,messages_SOCIAL,2,Messages,CurrentTab,,5)
+
+		M_SwitchTabs:(2,Messages,12,13,462,13)
+	}}
+
+
+
+
+	CTRLSelectGroup:(0,50,@W,@H-47,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+	{
+		// Messages
+		Dissolve:(0,50,@W,@H-45) ref:SwipePanels
+			M_FadingTabContent:(Messages,CurrentTab,1)
+			if(twk(Messages,CurrentTab) = 1)
+			<
+				SwipePanel(Messages,MessagesScroll,Messages,MessagesScrollVel) ref:SwipePanelMessages
+			>
+		{{
+			// Clipped Content
+			Clip:(0,0,@W,@H)
+			{{
+				Rect:(30,15,@W-60,@H-30)
+				{{
+					Rect:(0,0,@W,@H) ref:MessagesList
+						float(%yPos)
+						ScrollingList(Messages,MessagesScroll,@H,Messages,MessagesScrollVel) ref:ScrollingListMessages
+						CTRLScrollList(ScrollingListMessages) ref:CTRLScrollList
+						set(%yPos,0)
+						VerticalList(260) ref:VList
+					{{
+						M_MessageEntry:()
+					}}
+				}}
+				Rect:(30,10,@W-60,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R+5,@H,Messages,MessagesScroll,MessagesList,ScrollingListMessages,SwipePanels,SwipePanelMessages)
+				}}
+			}}
+
+			M_Text:(messages_NOMESSAGES,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#25252500,NoMessages)
+				if(twk(Messages,MessagesCount) = 0)
+				<
+					frlerp(gel.alpha,1,0.05)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+		}}
+
+
+
+
+
+
+
+		// Social
+		Dissolve:(0,50,@W,@H-45) $HIDE ref:SwipePanels
+			M_FadingTabContent:(Messages,CurrentTab,2)
+			if(twk(Messages,CurrentTab) = 2)
+			<
+				SwipePanel(Messages,SocialScroll,Messages,SocialScrollVel) ref:SwipePanelSocial
+			>
+		{{
+			Clip:(0,0,@W,@H) 
+			{{
+				Rect:(30,15,@W-60,@H-30)
+				{{
+					Rect:(@C-275,0,@W,@H) ref:SocialList
+						ScrollingList(Messages,SocialScroll,@H,Messages,SocialScrollVel) ref:ScrollingListSocial
+						CTRLScrollList(ScrollingListSocial) ref:CTRLScrollList
+						VerticalList(10) ref:VList
+					{{
+						M_SocialEntry:()
+					}}
+				}}
+				Rect:(30,10,@W-60,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R+5,@H,Messages,SocialScroll,SocialList,ScrollingListSocial,SwipePanels,SwipePanelSocial)
+				}}
+			}}
+
+			M_Text:(messages_NOSOCIAL,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#25252500,NoMessages)
+				if(twk(Messages,SocialCount) = 0)
+				<
+					frlerp(gel.alpha,1,0.05)
+				>
+				else
+				<
+					:set(gel.alpha,0)
+				>
+		}}
+	}
+
+	M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+		if(twk(Messages,CurrentTab) = 1)
+		<
+			CTRLScrollListIcon(MessagesList,CTRLScrollList)
+		>
+		elif(twk(Messages,CurrentTab) = 2)
+		<
+			CTRLScrollListIcon(SocialList,CTRLScrollList)
+		>>
+	
+
+	Rect:()
+		set(twk(Messages,CTRLForceSelectedType),-1)
+		set(twk(Messages,CTRLForceSelectedIndex),-1)
+
+// ----------------
+// ----------------
+M_NewDialogCLOSE:()

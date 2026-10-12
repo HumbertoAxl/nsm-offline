@@ -1,0 +1,302 @@
+Rect:()
+	// First, figure out what we want to be playing, if anything.
+	strvar(%crowdTrainingPlaying,%crowdTrainingRequested)
+	float(%rainPlaying,%rainRequested,%snowPlaying,%snowRequested,%stadiumMusicPlaying,%stadiumMusicRequested)
+
+	set(%rainRequested,twk(Audio,Rain))
+	set(%snowRequested,twk(Audio,Snow))
+	set(%stadiumMusicRequested,twk(Audio,StadiumMusic))
+	set(%crowdTrainingRequested,twk(Audio,Ambient))
+
+	if(twk(Audio,SuppressAllAmbient))
+	<
+		set(%crowdTrainingRequested,"")
+		set(%rainRequested,0)
+		set(%snowRequested,0)
+		set(%stadiumMusicRequested,0)
+	>
+
+	// Handle crowd and training.
+	if(%crowdTrainingPlaying != %crowdTrainingRequested)
+	<
+		set(%crowdTrainingPlaying,%crowdTrainingRequested)
+		if(%crowdTrainingPlaying = "")<
+			FadeOutAmbient(3000,0)
+		>else<
+			if(%crowdTrainingPlaying = "training")
+			<
+				FadeInAmbient(Match_AmbienceTraining,1,1000,0)
+			>else<
+				FadeInAmbient(Match_CrowdAmbience,1,1000,0)
+			>
+		>
+	>
+	// Now for rain, snow and stadium music.
+	if(%rainPlaying != %rainRequested)
+	<
+		set(%rainPlaying,%rainRequested)
+		if(%rainPlaying)
+		<
+			FadeInAmbient(Match_AmbienceRain,0.5,1000,1)
+		>else<
+			FadeOutAmbient(3000,1)
+		>
+	>
+	// Commented out until we get a snow sample
+	// if(%snowPlaying != %snowRequested)
+	// <
+	// 	set(%snowPlaying,%snowRequested)
+	// 	if(%snowPlaying)
+	// 	<
+	// 		FadeInAmbient(Match_AmbienceSnow,0.5,1000,1)
+	// 	>else<
+	// 		FadeOutAmbient(3000,1)
+	// 	>
+	// >
+	if(%stadiumMusicPlaying != %stadiumMusicRequested)
+	<
+		set(%stadiumMusicPlaying,%stadiumMusicRequested)
+		if(%stadiumMusicPlaying)
+		<
+			FadeInAmbient(Match_StadiumMusicLoop,0.07,1000,2)
+		>else<
+			FadeOutAmbient(3000,2)
+		>
+	>
+
+
+
+//----------------------------------------------------------------------------------------Audio Macros
+
+
+Macro:(M_SFXPlay,?MESSAGE?,?SAMPLE?,?VOLUME?,?LOOP?,?DELAY?,?PITCH?,?CHANNEL?)
+	OnPost(?MESSAGE?)
+	<
+		PlaySnd(?SAMPLE?,?VOLUME?,?LOOP?,?DELAY?,?PITCH?,?CHANNEL?)
+
+	>
+EndM
+
+
+Macro:(M_MusicPlay,?FADEINMESSAGE?,?FADEOUTMESSAGE?,?SAMPLE?,?VOLUME?,?FADE?)
+	OnPost(?FADEINMESSAGE?)
+	<
+		set(twk(Settings,CanPlayMusic),1)
+		FadeInMusic(?SAMPLE?,?VOLUME?,?FADE?*1000)
+	>
+
+	OnPost(?FADEOUTMESSAGE?)
+	<
+		set(twk(Settings,CanPlayMusic),0)
+		FadeOutMusic(?FADE?*5000)
+
+	>
+EndM
+
+//----------------------------------------------------------------------------------------Audio Events
+
+Rect:()
+
+	/// --------------------------------------Menu Music
+	M_MusicPlay:("FadeInMusic","FadeOutMusic",UI_Music,0.1,1)
+
+	// --------------------------------------New UI Sounds
+	
+	//Back Button
+	M_SFXPlay:("UI_Back",UI_Back,1,False,0,1,-1)
+	//Build Button
+	M_SFXPlay:("UI_Build",UI_Build,0.5,False,0,1,-1)
+	//Card Appear
+	M_SFXPlay:("UI_CardAppear",UI_CardAppear,0.3,False,0,1,-1)
+	//Change Tab
+	M_SFXPlay:("UI_ChangeTab",UI_ChangeTab,1,False,0,1,-1)
+	//Claim Reward
+	M_SFXPlay:("UI_ClaimReward",UI_ClaimReward,1,False,0,1,-1)
+	//Clock Speed Up
+	M_SFXPlay:("UI_ClockSpeedUp",UI_ClockSpeedUp,1,False,0,1,-1)
+	//Cash Particle Emitter
+	M_SFXPlay:("UI_EarningsScoreLoop",UI_EarningsScoreLoop,0.5,False,0,1,-1)
+	//CTRLGroupEnter
+	OnPost(CTRLSelectGroup_Enter)
+	<
+		PlaySnd(UI_Select,0.4,False,0,1,-1)
+	>
+	//CTRLGroupExit
+	OnPost(CTRLSelectGroup_Exit)
+	<
+		PlaySnd(UI_Back,0.4,False,0,1,-1)
+	>
+	//CTRLGroupNavigate
+	OnPost(CTRLNavigate)
+	<
+		PlaySnd(UI_ChangeTab,0.3,False,0,1,-1)
+	>
+	//Gain Stat
+	M_SFXPlay:("UI_EarningsGainStat",UI_EarningsGainStat,0.3,False,0,1,-1)
+	//General Fail
+	M_SFXPlay:("UI_Fail",UI_Fail,1,False,0,1,-1)
+	//Interview Answer Correct
+	M_SFXPlay:("UI_InterviewAnswerCorrect",UI_InterviewAnswerCorrect,1,False,0,1,-1)
+	//Interview Answer Incorrect
+	M_SFXPlay:("UI_InterviewAnswerWrong",UI_InterviewAnswerWrong,1,False,0,1,-1)
+	//Key Moment Heartbeat
+	M_SFXPlay:("UI_KeyMomentHeartbeat",UI_KeyMomentHeartbeat,1,true,0,1,24)
+		OnPost(UI_KeyMomentHeartbeatStop)
+		<
+			PauseSnd(24)
+		>
+	//Money Fly
+	M_SFXPlay:("UI_MoneyFly",UI_MoneyFly,0.4,False,0,1,-1)
+	//XP Particle Emitter
+	M_SFXPlay:("UI_ResultsScoreLoop",UI_ResultsScoreLoop,0.5,False,0,1,-1)
+	//Star Rating
+	M_SFXPlay:("UI_ResultsStarRating",UI_ResultsStarRating,0.5,False,0,1,-1)
+	//Confetti Particle Emitter
+	M_SFXPlay:("UI_ResultsConfetti",UI_ResultsConfetti,0.2,False,0,1,-1)
+	//Select Button
+	M_SFXPlay:("UI_Select",UI_Select,1,False,0,1,-1)
+	//General Success
+	M_SFXPlay:("UI_Success",UI_Success,1,False,0,1,-1)
+	//Swoosh
+	M_SFXPlay:("UI_Swoosh",UI_Swoosh,0.1,False,0,1,-1)
+	//Swoosh Big!
+	M_SFXPlay:("UI_SwooshBig",UI_SwooshBig,0.4,False,0,1,-1)
+	//Tweet
+	M_SFXPlay:("UI_Tweet",UI_Tweet,0.6,False,0,1,-1)
+
+	// --------------------------------------Legacy UI References With New Sounds
+
+	//Cash In
+	M_SFXPlay:("sounds.general_CashIn",General_CashIn,0.4,False,0,1,-1)
+	//General Success
+	M_SFXPlay:("sounds.general_Success",General_Success,1,False,0,1,-1)
+	//Purchase
+	M_SFXPlay:("General_CashOut",General_CashOut,1,False,0,1,-1)
+	//Positive Sting
+	M_SFXPlay:("sounds.general_Positive",General_Positive,1,False,0,1,-1)
+	//Negative Sting 
+	M_SFXPlay:("sounds.general_Negative",General_Negative,1,False,0,1,-1)
+
+	// --------------------------------------Legacy UI References With Original Sounds
+
+	//Card Swap
+	M_SFXPlay:("sounds.cards_Swap",Cards_Swap,0.15,False,0,1,-1)
+	M_SFXPlay:("sounds.person_DrinkNRG",Person_DrinkNRG,0.5,False,0,1,-1)
+
+	// --------------------------------------New Match Sounds
+	//Ball Bounce
+	M_SFXPlay:("sounds.match_BallBounce",Match_BallBounce,0.1,False,0,1,-1)
+	//Crowd Chant
+	M_SFXPlay:("Match_CrowdChant",Match_CrowdChant,0.9,False,0,1,-1)
+	//Hit Hoarding
+	M_SFXPlay:("sounds.match_BallHitHoarding",Match_BallHitHoarding,0.8,False,0,1,-1)
+	//Crowd Goal Long
+	M_SFXPlay:("sounds.match_CrowdGoalLong",Match_CrowdGoalLong,1,False,0,1,15)
+	//Player Slide
+	M_SFXPlay:("sounds.match_PlayerSlide",Match_PlayerSlide,0.3,False,0,1,-1)
+	//Player Tackle
+	M_SFXPlay:("sounds.match_PlayerTackle",Match_PlayerTackle,0.2,False,0,1,-1)
+	//Half time Whistle
+	M_SFXPlay:("WhistleHalftime",Match_WhistleHalftime,0.5,False,0,1,-1)
+	//Commentary Whistles
+	OnPost(sounds.match_KickOff)
+	<
+		PlaySnd(Match_Whistle,0.5,False,0,1,-1)
+		Delay(0.5)
+		PlaySnd(Match_CrowdCheer,0.5,False,0,1,-1)
+	>
+
+	OnPost(sounds.match_HalfTime)
+	<
+		PlaySnd(Match_WhistleHalftime,0.5,False,0,1,-1)
+		Delay(0.5)
+		PlaySnd(Match_CrowdCheer,0.5,False,0,1,-1)
+	>
+
+	OnPost(sounds.match_FullTime)
+	<
+		PlaySnd(Match_WhistleFinal,0.5,False,0,1,-1)
+		Delay(0.5)
+		PlaySnd(Match_CrowdCheer,0.5,False,0,1,-1)
+	>
+
+	// --------------------------------------Legacy Match References With New Sounds
+
+	//Crowd Boo 
+	M_SFXPlay:("sounds.match_CrowdBoo",Match_CrowdBoo,0.5,False,0,1,-1)
+	//Crowd Cheer 
+	M_SFXPlay:("sounds.match_CrowdCheer",Match_CrowdCheer,0.5,False,0,1,-1)
+	//Crowd Goal
+	M_SFXPlay:("sounds.match_CrowdGoal",Match_CrowdGoal,1,False,0,1,-1)
+	//Crowd Oh
+	M_SFXPlay:("sounds.match_CrowdOh",Match_CrowdOh,1,False,0,1,-1)
+	float(%playCrowdFill)
+	OnPost("sounds.match_CrowdFillStart")
+	<
+		set(%playCrowdFill,1)
+	>
+	OnPost("sounds.match_CrowdFillStop")
+	<
+		set(%playCrowdFill,0)
+		PauseSnd(23)
+	>
+	OnPost("sounds.match_CrowdFillCancel")
+	<
+		set(%playCrowdFill,0)
+	>
+	if(%playCrowdFill)
+	<
+		float(%crowdFillRandDelay)
+		// Random delay to wait before starting the cheer
+		:set(%crowdFillRandDelay,frand(2,5))
+		:Delay(%crowdFillRandDelay)
+		:PlaySnd(Match_CrowdChant,0.1,False,0,1,23)
+		// Delay for the length of the SFX
+		:Delay(2)
+		set(%playCrowdFill,0)
+	>
+	if(twk(Audio,SuppressAllAmbient))
+	<
+		:Post("sounds.match_CrowdFillStop")
+	>
+
+
+
+	//Ball Collision With Post
+	M_SFXPlay:("sounds.match_HitPost",Match_HitPost,0.8,False,0,1,-1)
+	//Kick Long 
+	M_SFXPlay:("sounds.match_KickLong",Match_KickLong,0.5,False,0,1,-1)
+	//Kick Short 
+	M_SFXPlay:("sounds.match_KickShort",Match_KickShort,0.3,False,0,1,-1)
+	//Ball Collision With Player
+	M_SFXPlay:("sounds.match_Parry",Match_Parry,0.4,False,0,1,-1)
+	//Short Whistle
+	M_SFXPlay:("sounds.match_Whistle",Match_Whistle,0.5,False,0,1,-1)
+	//Whistle Delayed
+	M_SFXPlay:("sounds.match_WhistleDelayed",Match_WhistleDelayed,0.5,False,0,1,-1)
+	//Full Time Whistle
+	M_SFXPlay:("sounds.match_WhistleFinal",Match_WhistleFinal,0.5,False,0,1,-1)
+	//Cone Hit
+	M_SFXPlay:("sounds.training_ConeHit",Training_ConeHit,0.5,False,0,1,-1)
+	//Pole Hit
+	M_SFXPlay:("sounds.training_PoleBoing",Training_PoleBoing,0.5,False,0,1,-1)
+	
+	// --------------------------------------Legacy Match References With Original Sounds
+
+	M_SFXPlay:("sounds.match_HitNet",Match_HitNet,1,False,0,1,-1)
+	M_SFXPlay:("sounds.match_ClockTick",Match_ClockTick,0.3,True,0,1,23)
+		OnPost(UI_KeyMomentHeartbeatStop)
+			<
+				PauseSnd(23)
+			>
+
+	// --------------------------------------Legacy Sound from Code Untouched
+
+
+	M_SFXPlay:("sounds.general_Error",General_Error,1,False,0,1,-1)
+	M_SFXPlay:("sounds.general_CashOut",General_CashOut,1,False,0,1,-1)
+	
+	M_SFXPlay:("sounds.match_TrainingClap",Match_TrainingClap,1,False,0,1,-1)
+
+	M_SFXPlay:("sounds.training_ConeSplit",Training_ConeSplit,1,False,0,1,-1)
+	

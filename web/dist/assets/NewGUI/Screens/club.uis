@@ -1,0 +1,1311 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(badge_Macros.uih)
+Import:(formation_Macros.uih)
+Import:(ImageDefs_characters.uih)
+Import:(club_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_kits.uih)
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//-----------------------------------------------------------------------------------------TEMPLATES
+//--------------------------------------------------------------------------------------------MACROS
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+	// Tabs
+	Rect:(@L,@T+80,@W,60)
+		Layer(Text)
+	{{
+		Draw:(Dialog_Fade,@f,60,@w,200,,#FFFFFFAA)
+			Layer(Default)
+		Draw:(Tab_BG60,@f,-2,@w,68)
+		M_Tab:(30,0,220,60,club_RELATIONSHIPS,1,Club,CurrentTab)
+		M_Tab:(250,0,220,60,club_OVERVIEW,2,Club,CurrentTab)
+		M_Tab:(470,0,220,60,club_DATA,3,Club,CurrentTab)
+
+		M_SwitchTabs:(3,Club,12,15,681,15)
+	}}
+
+
+
+	//--------------------------------------------------------------------------- Relationships Tab
+	Rect:()
+		M_FadingTabContent:(Club,CurrentTab,1)
+	{
+		Rect:(22,@T+155,@W-44,510)
+		{{
+			//Fans
+			Rect:(0+8,0,[@W/4]-16,@H) ref:FanPanel
+				float(%adjustState)
+				func(ClickFunc)
+				<
+					Post(UI_Select)
+					CTRLSetSelected(RelPriceButton,club)
+					set(%adjustState,1)
+				>
+				func(BackFunc)
+				<
+					Message("club.btn_TicketsCancel")
+					Message("club.btn_ShopCancel")
+					set(%adjustState,0)
+					CTRLPopSelectGroup()
+					CTRLSetSelected(FanPanelCTRLGroup)
+				>
+			{{
+				//Fans Relationship
+				CTRLSelectGroup:(-3,-3,@W+6,@H+6,,CTRLBasicSelected,,,,,,,CTRLGroupRound) ref:FanPanelCTRLGroup
+					CTRLClick(?BTNOK?)
+					<
+						callparent(1,ClickFunc)
+					>
+					Click()
+					<
+						callparent(1,ClickFunc)
+					>
+
+				{
+					Rect:(0,0,@W,@H) ref:FansPanel
+						M_CellPress:()
+
+					{{
+						Rect:()
+							CTRLSelect(CTRLBlank)
+							CTRLHasSelectedGroup()
+							<
+								:set(%adjustState,1)
+							>
+							else
+							<
+								:set(%adjustState,0)
+							>
+
+						Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+						Draw:(FloorShadow,-12,@B-2,@W+24,11)
+						Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+						Draw:(NewStarShape,0,0,@W,460,,#E8E8E8FFFFFFFFFF)
+
+						// Title
+						Draw:(Header_Hexagons,0,0,@W,34)
+						M_Text:(generic_FANS,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Type)
+							M_Style:(Outline,#FFFFFF20)
+
+						// Character
+						Draw:(Character_Fan,@C-188-[@y*0.05],0,300,300)
+						M_CircularBar:(@C+3+[@y*0.05],120,Club,FansRelationship)
+						M_Text:(,10,295,@W-20,0,C,C,TextBox,KNUL25,,1,0,#25252580,Italics,#252525FF,ref)
+							.set(gel.text,"“ " :: twk(Club,FansRelationshipDesc) :: " ”")
+							LineSpacing(0.8)
+							
+
+						Draw:(White,0,345,@W,1,,#00000015)
+						M_Text:(club_RELATIONSHIPS_TICKETS_LC,@C-60-58-[@y*0.05],385,116,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+						
+						M_Text:(,@C-60-60-[@y*0.05],435,120,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							set(gel.text,"★ " :: commasfmt(twk(Club,TicketPrice)))
+						
+						M_Text:(club_RELATIONSHIPS_MERCH_LC,@C+60-55+[@y*0.05],385,110,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+							
+						M_Text:(performance_NOTOWNED,@C+50-60+[@y*0.05],435,140,0,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+							set(gel.vis,twk(Facilities,ClubShopLevel) = 0)
+						M_Text:(,@C+60-60+[@y*0.05],435,120,0,C,C,TextLoc,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Club,ShopPrices)
+							set(gel.vis,twk(Facilities,ClubShopLevel) > 0)
+
+						// Panel Action
+						Rect:(0,@B-50,@W,50)
+						{{
+							Tile:(White,12,0,8,1,,#AAAAAAFFFFFFFFFF)
+								Copies([[@W-12]/15],1)
+								Spacing(15,0)
+							Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+							M_Text:(club_RELATIONSHIPS_ADJUST,0,@M,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+								M_Style:(Outline,#25252520)
+						}}
+
+						Rect:()
+							Layer(AboveText)
+							LockLayer()
+							float(%panelState)
+						{
+							Draw:(Button_Shade,0,@B+1,@W,0,,#CCCCCC00FFFFFFFF)
+								Click()
+								Handle(0,1)
+								if(%adjustState = 1)
+								<
+									:Delay(0.2)
+									frlerp(gel.alpha,1,0.25)
+									frlerp(gel.h,477,0.25)
+									if(gel.h > 476)
+									<
+										:set(gel.h,477)
+									>
+									:Delay(0.3)
+									set(%panelState,1)
+								>
+								if(%adjustState = 0)
+								<
+									:Delay(0.2)
+									:set(%panelState,0)
+									frlerp(gel.alpha,0,0.25)
+									frlerp(gel.h,0,0.25)
+								>
+								if(%adjustState = -1)
+								<
+									:set(%panelState,0)
+									set(gel.alpha,0)
+									set(gel.h,0)
+								>
+								set(gel.hy,gel.h)
+							
+							Rect:() $HIDE
+								if(%panelState = 1)
+								<
+									:set(gel.vis,1)
+									frlerp(gel.alpha,1,0.2)
+								>
+								else
+								<
+									frlerp(gel.alpha,0,0.2)
+									if(gel.alpha < 0.01)
+									<
+										set(gel.alpha,0)
+										set(gel.vis,0)
+									>
+								>
+								if(twk(Club,CurrentTab) != 1)
+								<
+									:Message("club.btn_TicketsCancel")
+									:Message("club.btn_ShopCancel")
+									:set(%adjustState,-1)
+								>
+							{
+								//--------------Ticket Prices
+								Rect:(0,34,@W,50)
+								{{
+
+									M_Text:(club_RELATIONSHIPS_TICKETS,@C,20,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+
+									//Price
+									M_Text:("50",@C,50,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+										set(gel.text,"★ " :: commasfmt(twk(Club,TicketPrice)))
+										strvar(%current)
+										.set(%current,gel.text)
+										if(%current != gel.text)
+										<
+											:set(gel.alpha,0)
+											:set(gel.scale,0.5)
+											:set(%current,gel.text)
+										>
+										frlerp(gel.alpha,1,0.1)
+										frlerp(gel.scale,1,0.2)
+
+									// Ticket Price Down
+									M_Button:(@C-60,100,110,40,Button_SilverSliced,,10,-5,64,64,#FFFFFFFF,club.btn_TicketsDown,ref,"-",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+										set(%disabled,twk(Club,TicketPriceBand) = 0)
+										M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+										CTRLBlock(UP,LEFT)
+										CTRLClick(?BTNCAN?)
+										<
+											Post(UI_Back)
+											call(FanPanel,BackFunc)
+										>
+				
+									// Ticket Price Up
+									M_Button:(@C+60,100,110,40,Button_SilverSliced,,10,-5,64,64,#FFFFFFFF,club.btn_TicketsUp,ref,"+",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+										set(%disabled,twk(Club,TicketPriceBand) = 8)
+										M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+										CTRLBlock(UP)
+										CTRLClick(?BTNCAN?)
+										<
+											Post(UI_Back)
+											call(FanPanel,BackFunc)
+										>
+									
+									// Tip
+									M_Text:("Club_TicketPricesTip",10,160,@W-20,0,C,C,TextBox,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+										LineSpacing(0.8)
+								}}
+
+								//----------------------------------------------------
+								Draw:(White,0,232,@W,3,,#252525FFFFFFFFFF)
+								//----------------------------------------------------
+
+								//--------------Store Prices
+								Rect:()
+									set(gel.vis,twk(Facilities,ClubShopLevel) > 0)
+								{
+									Rect:(0,233,@W,50)
+									{{
+										M_Text:(club_RELATIONSHIPS_MERCH,@C,20,0,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+
+										// Price Bracket Text
+										M_Text:("50",@C,50,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Club,ShopPrices)
+											strvar(%current)
+											.set(%current,gel.text)
+											if(%current != gel.text)
+											<
+												:set(gel.alpha,0)
+												:set(gel.scale,0.5)
+												:set(%current,gel.text)
+											>
+											frlerp(gel.alpha,1,0.1)
+											frlerp(gel.scale,1,0.2)
+
+										// Reduce Price Button
+										M_Button:(@C-60,100,110,40,Button_SilverSliced,,10,-5,64,64,#FFFFFFFF,club.btn_ShopDown,ref,"-",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+											set(%disabled,twk(Club,ShopPricesBand) = 0)
+											M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+											CTRLBlock(LEFT)
+											CTRLClick(?BTNCAN?)
+											<
+												Post(UI_Back)
+												call(FanPanel,BackFunc)
+											>
+
+										// Increase Price Button
+										M_Button:(@C+60,100,110,40,Button_SilverSliced,,10,-5,64,64,#FFFFFFFF,club.btn_ShopUp,ref,"+",0,0,C,C,Text,KNUL25,Upper,1,0,#252525FF,NoItalics,#252525FF,textref)
+											set(%disabled,twk(Club,ShopPricesBand) = 5)
+											M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+											CTRLClick(?BTNCAN?)
+											<
+												Post(UI_Back)
+												call(FanPanel,BackFunc)
+											>
+
+										// Tip
+										M_Text:("Club_ShopPricesTip",10,160,@W-20,0,C,C,TextBox,KNUL22,,0,0,#00000000,NoItalics,#505050FF,ref)
+											LineSpacing(0.8)
+									}}
+								}
+								
+								// Close Button
+								//----------------------------------------------------
+								M_Button:(@C-60,@B-34,110,50,Button_RedSliced,Icon_Cross,@C-20,5,40,40,#FFFFFFFF,link,RelPriceButton,"",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref,,BackButtonAudio)
+									M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+									CTRLBlock(LEFT)
+									if(%clicked)
+									<
+										call(FanPanel,BackFunc)
+									>
+									CTRLClick(?BTNCAN?)
+									<
+										Post(UI_Back)
+										call(FanPanel,BackFunc)
+									>
+
+								// Confirm Button
+								M_Button:(@C+60,@B-34,110,50,Button_GreenSliced,Icon_Tick,@C-20,5,40,40,#FFFFFFFF,link,ref,"",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+									M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+									if((twk(Club,CurrentTicketPriceBand) = twk(Club,TicketPriceBand)) and(twk(Club,CurrentShopPricesBand) = twk(Club,ShopPricesBand)))
+									<
+										set(%disabled,1)
+									>
+									else
+									<
+										set(%disabled,0)
+									>
+									if(%clicked)
+									<
+										Message(club.btn_TicketsConfirm)
+										Message(club.btn_ShopConfirm)
+										:set(%adjustState,0)
+										CTRLPopSelectGroup()
+										CTRLSetSelected(FanPanelCTRLGroup)
+									>
+									CTRLClick(?BTNCAN?)
+									<
+										Post(UI_Back)
+										call(FanPanel,BackFunc)
+									>
+							}
+							
+						}
+						M_CellPressHighlight:()
+					}}
+				}
+			}}
+
+			// Press
+			Rect:([@W*0.25]+8,0,[@W/4]-16,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:PressPanel
+					M_CellPress:()
+					func(ClickFunc)
+					<
+						Post(UI_Select)
+						Message(commonui.btn_Social)
+					>
+					M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+					Click()
+					<
+						call(ClickFunc)
+					>
+				{{
+					Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+					Draw:(FloorShadow,-12,@B-2,@W+24,11)
+					Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+					Draw:(NewStarShape,0,0,@W,460,,#E8E8E8FFFFFFFFFF)
+
+					// Title
+					Draw:(Header_Hexagons,0,0,@W,34)
+					M_Text:(generic_PRESS,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Type)
+						M_Style:(Outline,#FFFFFF20)
+
+					// Character
+					Draw:(Character_Press,@C-188-[@y*0.05],0,300,300)
+					M_CircularBar:(@C+3+[@y*0.05],120,Club,PressRelationship)
+					M_Text:(,10,295,@W-20,0,C,C,TextBox,KNUL25,,1,0,#25252580,Italics,#252525FF,ref)
+						.set(gel.text,"“ " :: twk(Club,PressRelationshipDesc) :: " ”")
+						LineSpacing(0.8)
+
+					Draw:(White,0,345,@W,1,,#00000015)
+					// Panel Action
+					Rect:(0,@B-50,@W,50)
+					{{
+						Tile:(White,12,0,8,1,,#AAAAAAFFFFFFFFFF)
+							Copies([[@W-12]/15],1)
+							Spacing(15,0)
+						Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+						M_Text:(club_RELATIONSHIPS_MESSAGES,0,@M,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+							M_Style:(Outline,#25252520)
+					}}
+					M_CellPressHighlight:()
+				}}			
+			}}
+
+			// Sponsors
+			Rect:(@C+8,0,[@W/4]-16,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:SponsorsPanel
+					M_CellPress:()
+					func(ClickFunc)
+					<
+						Post(UI_Select)
+						Message(club.btn_ViewSponsors)
+					>
+					M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+					Click()
+					<
+						call(ClickFunc)
+					>
+				{{
+					Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+					Draw:(FloorShadow,-12,@B-2,@W+24,11)
+					Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+					Draw:(NewStarShape,0,0,@W,460,,#E8E8E8FFFFFFFFFF)
+
+					// Title
+					Draw:(Header_Hexagons,0,0,@W,34)
+					M_Text:(generic_SPONSORS,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Type)
+						M_Style:(Outline,#FFFFFF20)
+
+					// Character
+					Draw:(Character_Sponsor,@C-188-[@y*0.05],0,300,300)
+					M_CircularBar:(@C+3+[@y*0.05],120,Club,SponsorRelationship)
+					M_Text:(,10,295,@W-20,0,C,C,TextBox,KNUL25,,1,0,#25252580,Italics,#252525FF,ref)
+						.set(gel.text,"“ " :: twk(Club,SponsorRelationshipDesc) :: " ”")
+						LineSpacing(0.8)
+
+					Draw:(White,0,345,@W,1,,#00000015)
+					// No Sponsor
+					Rect:()
+						set(gel.vis,not(twk(Club,HasSponsor1)))
+					{
+						M_Text:("Sponsor_Alert_Shirt",10,390,@W-20,34,C,C,TextBox,KNUL22,,0,0,#00000000,NoItalics,#808080FF,ref)
+					}
+
+					// Has Sponsor
+					Rect:()
+						set(gel.vis,twk(Club,HasSponsor1))
+					{
+						M_Text:("sponsor_WINBONUSES",@C-60-55-[@y*0.05],385,110,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(,@C-60-60-[@y*0.05],435,120,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							set(gel.text,"★ " :: commasfmt(twk(Club,Sponsor1WinBonus)+twk(Club,Sponsor2WinBonus)+twk(Club,Sponsor3WinBonus)))
+
+						M_Text:("sponsor_GOALBONUSES",@C+60-55+[@y*0.05],385,110,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+						M_Text:(,@C+60-60+[@y*0.05],435,120,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+							set(gel.text,"★ " :: commasfmt(twk(Club,Sponsor1GoalBonus)+twk(Club,Sponsor2GoalBonus)+twk(Club,Sponsor3GoalBonus)))
+					}
+
+					// Panel Action
+					Rect:(0,@B-50,@W,50)
+					{{
+						Tile:(White,12,0,8,1,,#AAAAAAFFFFFFFFFF)
+							Copies([[@W-12]/15],1)
+							Spacing(15,0)
+						Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+						M_Text:(club_RELATIONSHIPS_VIEWSPONSORS,0,@M,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+							M_Style:(Outline,#25252520)
+					}}
+					M_CellPressHighlight:()
+				}}				
+			}}
+
+			// Board
+			Rect:([@W*0.75]+8,0,[@W/4]-16,@H)
+			{{
+				Rect:(0,0,@W,@H) ref:BoardPanel
+					M_CellPress:()
+					func(ClickFunc)
+					<
+						Post(UI_Select)
+						Message(club.btn_RequestFunds)
+					>
+					M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6) 
+					Click()
+					<
+						call(ClickFunc)
+					>
+				{{
+					Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+					Draw:(FloorShadow,-12,@B-2,@W+24,11)
+					Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+
+					Draw:(NewStarShape,0,0,@W,460,,#E8E8E8FFFFFFFFFF)
+
+					// Title
+					Draw:(Header_Hexagons,0,0,@W,34)
+					M_Text:(generic_BOARD,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,Type)
+						M_Style:(Outline,#FFFFFF20)
+
+					// Character
+					Draw:(Character_Board,@C-188-[@y*0.05],0,300,300)
+					M_CircularBar:(@C+3+[@y*0.05],120,Club,BoardRelationship)
+					M_Text:(,10,295,@W-20,0,C,C,TextBox,KNUL25,,1,0,#25252580,Italics,#252525FF,ref)
+						.set(gel.text,"“ " :: twk(Club,BoardRelationshipDesc) :: " ”")
+						LineSpacing(0.8)
+		
+
+					Draw:(White,0,345,@W,1,,#00000015)
+					M_Text:(club_RELATIONSHIPS_SHARE,@C-100,385,200,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+					M_Text:(,@C,435,0,0,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+						set(gel.text,LTR(fmt(Player.shareholderPercentage,X) :: "%"))
+
+					// Panel Action
+					Rect:(0,@B-50,@W,50)
+					{{
+						Tile:(White,12,0,8,1,,#AAAAAAFFFFFFFFFF)
+							Copies([[@W-12]/15],1)
+							Spacing(15,0)
+						Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+						M_Text:(club_RELATIONSHIPS_FUNDS,0,@M,@W,0,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+							M_Style:(Outline,#25252520)
+					}}
+					M_CellPressHighlight:()
+				}}				
+			}}
+		}}
+	}
+
+	//--------------------------------------------------------------------------- Overview Tab
+	
+	Clip:(@L,@T+140,@W,@H-210) $HIDE
+		M_FadingTabContent:(Club,CurrentTab,2)
+			.set(twk(Club,OverviewScroll),0)
+			if(not(gel.vis))
+			<
+				:set(twk(Club,OverviewScrollVel),0)
+			>
+	{{	
+		CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:OverviewGroup
+		{
+			// Club Overview Scrolling List
+			Rect:(0,0,@W,@H) ref:SwipePanels
+				if(not(twk(CardEngine,DraggingCard)))
+				<
+					SwipePanel(Club,OverviewScroll,Club,OverviewScrollVel) ref:SwipePanelOverview
+
+				>
+			{{
+				Rect:(0,0,@W,@H) ref:OverviewList
+					ScrollingList(Club,OverviewScroll,@H,Club,OverviewScrollVel) ref:ScrollingListOverview
+					CTRLScrollList(ScrollingListOverview) ref:CTRLScrollList
+					float(%yPos)
+					set(%yPos,0)
+				{{
+					// Club Details
+					Rect:(30,0,[@W-90]/2,@H)
+					{{
+						// Title
+						Draw:(White,0,15,@W,34,,#808080FFFFFFFFFF)
+						Draw:(White,0,16,@W,32,,#B0B0B0FFFFFFFFFF)
+						M_Text:(club_CLUB,10,15,0,34,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+						// Club Name
+						M_Text:(,10,85,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(Name) :: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:("",0,0,300,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Player,TeamName,DoLTR)
+								set(gel.x,%gfo+10)
+						}}
+
+						M_Button:(436+[@y/2],86,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,club.btn_NameEditor,BuyButton,loc(club_EDIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText)
+							:set(gel.vis,twk(FuseParams,EnableNameEditor)=1)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+	
+							Draw:(White,0,120,@W,1,,#0000001AFFFFFFFF)
+							
+						
+
+						// Squad Rating
+						M_Text:(Squad Rating,10,155,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(Squad Rating):: ":")
+						{{
+							Rect:(-10,-34,,,,#FFFFFFFF000000FF)
+								.set(gel.x,%gfw+5)
+							{{
+								Draw:(Profile_Star2,0,0,140,140) $HIDE ref:ReputationRatingImage
+								M_TeamRatingStars:(0,0,Club,Reputation,)
+							}}
+						}}
+						Draw:(White,0,185,@W,1,,#0000001AFFFFFFFF)
+					
+						// Manager Reputation
+						M_Text:(Club_ManagerReputation,10,220,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,290,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								.set(gel.text,LTR(twk(Player,FullName)) ::  twk(Club,ManagerReputationString))
+						}}
+						Draw:(White,0,250,@W,1,,#0000001AFFFFFFFF)
+
+						// Squad Size
+						M_Text:(club_SQUAD,10,285,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref,Club,SquadSize,DoLTR)
+								.set(gel.x,%gfo+10)
+						}}
+						Draw:(White,0,315,@W,1,,#0000001AFFFFFFFF)
+
+						// Staff Size
+						M_Text:(club_STAFF,10,350,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								.set(gel.text,LTR(twk(Club,StaffSize) :: " / 5"))
+						}}
+						Draw:(White,0,380,@W,1,,#0000001AFFFFFFFF)
+					}}
+
+					// Stadium Details
+					Rect:(30,380,[@W-90]/2,@H)
+					{{
+						// Title
+						Draw:(White,0,15,@W,34,,#808080FFFFFFFFFF)
+						Draw:(White,0,16,@W,32,,#B0B0B0FFFFFFFFFF)
+						M_Text:(facilities_Stadium,10,15,0,34,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+						// Stadium Name
+						M_Text:(,10,86,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(Name) :: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								set(gel.x,%gfo+10)
+								set(gel.text,LTR(twk(Player,StadiumName)))
+						}}
+
+						M_Button:(436+[@y/2],86,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,club.btn_NameEditor,BuyButton,loc(club_EDIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText)
+							:set(gel.vis,twk(FuseParams,EnableNameEditor)=1)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+
+						Draw:(White,0,120,@W,1,,#0000001AFFFFFFFF)
+
+						// Stadium Capacity
+						M_Text:(,10,150,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(stadium_Capacity) :: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								set(gel.x,%gfo+10)
+								.set(gel.text,commasfmt(twk(Club,StadiumCapacity)))
+						}}
+						Draw:(White,0,170,@W,1,,#0000001AFFFFFFFF)
+
+						// Last Attendance
+						M_Text:(club_CROWD_LAST,10,200,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								.set(gel.text,commasfmt(twk(Club,LastAttendance)))
+						}}
+						Draw:(White,0,220,@W,1,,#0000001AFFFFFFFF)
+
+						// Average Attendance
+						M_Text:(club_CROWD_AVG,10,250,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								.set(gel.text,commasfmt(twk(Club,AverageAttendance)))
+						}}
+						Draw:(White,0,270,@W,1,,#0000001AFFFFFFFF)
+
+						// Highest Attendance
+						M_Text:(club_CROWD_HIGH,10,300,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								.set(gel.text,commasfmt(twk(Club,HighestAttendance)))
+						}}
+						Draw:(White,0,320,@W,1,,#0000001AFFFFFFFF)
+
+						// North Stand
+						M_Text:(facilities_NorthStand,10,350,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(facilities_NorthStand):: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								if(twk(StadiumConstruction,TimeRemaining) >= 1)
+								<
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,PitchStandNLevel)+1]) :: " " :: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+								>
+								else
+								<
+									if(twk(Facilities,PitchStandNLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,PitchStandNLevel)))
+									>
+								>
+						}}
+						Draw:(White,0,370,@W,1,,#0000001AFFFFFFFF)
+
+						// East Stand
+						M_Text:(facilities_EastStand,10,400,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(facilities_EastStand):: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								if(twk(StadiumConstruction,TimeRemaining) >= 1)
+								<
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,PitchStandELevel)+1]) :: " " :: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+								>
+								else
+								<
+									if(twk(Facilities,PitchStandELevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: twk(Facilities,PitchStandELevel))
+									>
+								>
+						}}
+						Draw:(White,0,420,@W,1,,#0000001AFFFFFFFF)
+
+						// South Stand
+						M_Text:(facilities_SouthStand,10,450,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(facilities_SouthStand):: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								if(twk(StadiumConstruction,TimeRemaining) >= 1)
+								<
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,PitchStandSLevel)+1]) :: " " :: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+								>
+								else
+								<
+									if(twk(Facilities,PitchStandSLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: twk(Facilities,PitchStandSLevel))
+									>
+								>
+						}}
+						Draw:(White,0,470,@W,1,,#0000001AFFFFFFFF)
+
+						// West Stand
+						M_Text:(facilities_WestStand,10,500,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							.set(gel.text,loc(facilities_WestStand):: ":")
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								if(twk(StadiumConstruction,TimeRemaining) >= 1)
+								<
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,PitchStandWLevel)+1]) :: " " :: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+								>
+								else
+								<
+									if(twk(Facilities,PitchStandWLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: twk(Facilities,PitchStandWLevel))
+									>
+								>
+						}}
+						Draw:(White,0,520,@W,1,,#0000001AFFFFFFFF)
+					}}
+
+					// Kit & Badge Details
+					Rect:(@C+15,0,[@W-90]/2,@H)
+					{{
+						// Title
+						Draw:(White,0,15,@W,34,,#808080FFFFFFFFFF)
+						Draw:(White,0,16,@W,32,,#B0B0B0FFFFFFFFFF)
+						M_Text:(club_KITBADGE,10,15,0,34,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+						// Home Kit
+						M_Text:(Home Kit,0,80,160,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+						M_GoalieKitRender:(46,106,385,575,Player,HomeGoalieShirtCol1,HomeGoalieShirtCol2,HomeGoalieKitStyle,HomeGoalieShortsCol,0.40)
+						M_KitRender:(-17,112,385,575,Player,HomeShirtCol1,HomeShirtCol2,HomeKitStyle,HomeShortsCol,0.46)
+						
+						M_Button:(80,349,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,club.btn_HomeKitEditor,BuyButton,loc(club_EDIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText)
+							:set(gel.vis,twk(FuseParams,EnableHomeKitEditor)=1)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+						// Away Kit
+						M_Text:(Away Kit,178+[@y/4],80,160,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						
+						M_GoalieKitRender:(223+[@y/4],106,385,575,Player,AwayGoalieShirtCol1,AwayGoalieShirtCol2,AwayGoalieKitStyle,AwayGoalieShortsCol,0.40)
+						M_KitRender:(160+[@y/4],112,385,575,Player,AwayShirtCol1,AwayShirtCol2,AwayKitStyle,AwayShortsCol,0.46)
+						
+						M_Button:(258+[@y/4],349,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,club.btn_AwayKitEditor,BuyButton,loc(club_EDIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText)
+							:set(gel.vis,twk(FuseParams,EnableAwayKitEditor)=1)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+						// Team Badge
+						M_Text:(club_BADGE,354+[@y/2],80,160,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+						
+						Draw:(Badge_Shadow,345+[@y/2],285,170,,,#00000020FFFFFFFF)
+						Draw:($CLUBBADGESURF,435+[@y/2],195,140,140)
+							Handle(0.5,0.5)
+							Scale(1.2,1.2)
+						
+						M_Button:(434+[@y/2],349,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,club.btn_BadgeEditor,BuyButton,loc(club_EDIT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText)
+							:set(gel.vis,twk(FuseParams,EnableBadgeEditor)=1)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+
+						//Coming Soon 
+						Clip:(@L,305,@W,80)
+							:set(gel.vis,twk(FuseParams,EnableEditorComingSoon)=1)
+						{{
+							Draw:(Upsell_MatchBanner_01,@R,0,835)
+								Handle(1,0)
+
+							M_Text:(Editor_ComingSoon,28,48,@W,0,C,C,TextBox,BEBAS50,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+								CharacterSpacing(2)
+								LineSpacing(0.9)
+								set(gel.scale,0.9)
+								if(twk(Club,CurrentTab) = 2)
+								<
+									PulseAlpha(1,0,0.3,0.3,1.5,3,3)
+								>
+								else
+								<
+									:set(gel.alpha,0)
+								>
+							M_Text:(Editor_ComingSoonSubText,0,41,@W,0,C,C,TextBox,KNUL23,Upper,1,0,#FFFFFFFF,Italics,#FFFFFFFF,ref)
+								if(twk(Club,CurrentTab) = 2)
+								<
+									PulseAlpha(0,1,0.3,0.3,1.5,3,3)
+								>
+								else
+								<
+									:set(gel.alpha,0)
+								>
+						}}  
+					}}
+
+					// Facility Details
+					Rect:(@C+15,380,[@W-90]/2,@H)
+					{{
+						// Title
+						Draw:(White,0,15,@W,34,,#808080FFFFFFFFFF)
+						Draw:(White,0,16,@W,32,,#B0B0B0FFFFFFFFFF)
+						M_Text:(club_FACILITIES,10,15,0,34,L,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+
+						// Training Ground
+						M_Text:(club_TRAININGGROUND,10,80,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(TrainingGroundConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,TrainingGroundLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(TrainingGroundConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,TrainingGroundLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,TrainingGroundLevel)))
+									>
+							}
+						}}
+						Draw:(White,0,100,@W,1,,#0000001AFFFFFFFF)
+
+						// Fitness Centre
+						M_Text:(club_FITNESSCENTRE,10,130,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(FitnessCentreConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,FitnessCentreLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(FitnessCentreConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,FitnessCentreLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,FitnessCentreLevel)))
+									>
+							}
+						}}
+						Draw:(White,0,150,@W,1,,#0000001AFFFFFFFF)
+
+						// Youth Academy
+						M_Text:(club_ACADEMY,10,180,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(YouthAcademyConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,YouthAcademyLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(YouthAcademyConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,YouthAcademyLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,YouthAcademyLevel)))
+									>
+							}			
+						}}
+						Draw:(White,0,200,@W,1,,#0000001AFFFFFFFF)
+
+						// Medical Unit
+						M_Text:(club_MEDICAL,10,230,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(MedicalUnitConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,MedicalUnitLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(MedicalUnitConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,MedicalUnitLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,MedicalUnitLevel)))
+									>
+							}
+						}}
+						Draw:(White,0,250,@W,1,,#0000001AFFFFFFFF)
+
+						// Scout Office
+						M_Text:(club_SCOUTOFFICE,10,280,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(ScoutsOfficeConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,ScoutsOfficeLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(ScoutsOfficeConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,ScoutsOfficeLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,ScoutsOfficeLevel)))
+									>
+							}
+						}}
+						Draw:(White,0,300,@W,1,,#0000001AFFFFFFFF)
+				
+						// Club Shop
+						M_Text:(club_CLUBSHOP,10,330,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Under Construction
+							Rect:()
+								.set(gel.vis,twk(ClubShopConstruction,TimeRemaining) >= 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR([twk(Facilities,ClubShopLevel)+1]))
+									PulseAlpha(1,0,0.3,0.3,2,2,2)
+						
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									.set(gel.text," ":: SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									PulseAlpha(0,1,0.3,0.3,2,2,2)
+							}
+
+							// Not Owned or Owned
+							Rect:()
+								.set(gel.vis,twk(ClubShopConstruction,TimeRemaining) < 1)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(Facilities,ClubShopLevel) = 0)
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+									else
+									<
+										.set(gel.text,loc(club_OTHERLEVEL) :: " " :: LTR(twk(Facilities,ClubShopLevel)))
+									>
+							}
+						}}
+						Draw:(White,0,350,@W,1,,#0000001AFFFFFFFF)
+
+						// Club Shop Prices
+						M_Text:(club_CLUBSHOP_PRICES,10,380,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							// Not owned
+							Rect:()
+								.set(gel.vis,twk(Facilities,ClubShopLevel) = 0)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									if(twk(ClubShopConstruction,TimeRemaining) >= 1)
+									<
+										.set(gel.text,SLTR("(") :: loc(club_CONSTRUCTION) :: SLTR(")"))
+									>
+									else
+									<
+										.set(gel.text,loc(club_NOTOWNED))
+									>
+							}
+
+							// Owned
+							Rect:()
+								.set(gel.vis,twk(Facilities,ClubShopLevel) > 0)
+							{
+								M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+									.set(gel.x,%gfo+10)
+									set(gel.text(twk(Club,ShopPrices)))
+
+							}
+						}}
+						Draw:(White,0,400,@W,1,,#0000001AFFFFFFFF)
+
+						// Ticket Prices
+						M_Text:(club_RELATIONSHIPS_TICKETS_LC,10,430,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+							set(%gfo,%gfw)
+						{{
+							M_Text:(,0,0,0,0,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ref)
+								.set(gel.x,%gfo+10)
+								set(gel.text,"★ " :: commasfmt(twk(Club,TicketPrice)))
+						}}
+						Draw:(White,0,450,@W,1,,#0000001AFFFFFFFF)
+
+						//Adjust Prices Button
+						M_Text:(Overview_Title_AdjustPrices,10,485,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref)
+
+						M_Button:(@R-97,490,160,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,,,loc(Overview_Adjust),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,)
+							M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+							if(%clicked)
+							<
+								set(twk(Club,CurrentTab),1)
+								call(FanPanel,ClickFunc)
+								CTRLSetSelected(RelPriceButton,club)
+							>
+						
+						Draw:(White,0,520,@W,1,,#0000001AFFFFFFFF)
+					}}
+				}}
+
+				Rect:(0,10,@W,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R-25,@H,Club,OverviewScroll,OverviewList,ScrollingListOverview,SwipePanels,SwipePanelOverview)
+				}}
+			}}
+		}
+
+		M_SwitchStickHint:(✃,@R-37,@B-53,Y)
+			CTRLScrollListIcon(OverviewList,CTRLScrollList)
+	}}
+
+	//--------------------------------------------------------------------------- Sponsors Tab
+	
+	// Rect:(@L,@T+140,@W,@H-225) $HIDE
+	// 	M_FadingTabContent:(Club,CurrentTab,3)
+	// {{
+	// 	M_Sponsor:(@C-320-160-35,0,1,club_SPONSOR_SHIRT)
+	// 	M_Sponsor:(@C-160,0,2,club_SPONSOR_SLEEVE)
+	// 	M_Sponsor:(@C+160+35,0,3,club_SPONSOR_HOARDING)
+	// }}
+
+	//--------------------------------------------------------------------------- Data Tab
+	
+	Rect:(@L,@T+140,@W,@H-210) $HIDE
+		M_FadingTabContent:(Club,CurrentTab,3)
+		.set(twk(Club,DataFilterScroll),0)
+		if(not(gel.vis))
+		<
+			:set(twk(Club,DataFilterScrollVel),0)
+		>
+		float(%swiping)
+	{{
+		// Data Mess
+		Clip:(0,0,@W-260,@H) ref:SwipePanel
+			if(not(twk(CardEngine,DraggingCard)))
+			<
+				if(%swiping oneof(0,1))
+				<
+					SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,History,ChartScroll,History,ChartScrollVel) ref:SwipePanelData
+					<
+						:set(%swiping,1)
+					>
+					else
+					<
+						set(%swiping,0)
+					>
+				>
+			>
+		{{
+			Rect:(0,0,@W,@H)
+				set(gel.vis,twk(History,NumberOfEntries) = 0)
+			{{
+				M_Text:(club_DATAMESS,0,@M-20,@W,0,C,C,TextLoc,KNUL28,,0,0,#00000000,NoItalics,#252525FF,ref)
+			}}
+
+			Rect:(30,0)
+			{
+				Rect:(0,40,@W,450+@z) ref:ClubChart
+					ScrollingListX(History,ChartScroll,@W-50,History,ChartScrollVel) ref:ScrollingList
+					CTRLScrollList(ScrollingList) ref:CTRLScrollList
+					.set(twk(History,ChartScroll),-5000)
+
+					ChartXAxis(ChartXAxisBottomLabel,ChartXAxisTopLabel,History,ChartBottomAxisFixtures,History,ChartTopAxisFixtures,History,ChartCupFixtures)
+
+					ChartLine(History,ChartSquadHappiness,#A15E9DFFFFFFFFFF,0,100) ref:SquadHappiness
+					ChartLine(History,ChartRelationBoard,#282828FFFFFFFFFF,0,100) ref:RelationBoard
+					ChartLine(History,ChartRelationFans,#CC1618FFFFFFFFFF,0,100) ref:RelationFans
+					ChartLine(History,ChartRelationPress,#2196F3FFFFFFFFFF,0,100) ref:RelationPress
+					ChartLine(History,ChartRelationSponsor,#263186FFFFFFFFFF,0,100) ref:RelationSponsor
+					
+					ChartLine(History,ChartLeaguePos,#CC1618FFFFFFFFFF,30,1,1) ref:LeaguePos
+					ChartLine(History,ChartSquadSkills,#151515FFFFFFFFFF,0,100) ref:SquadSkills
+					ChartLine(History,ChartSquadFitness,#3DAC00FFFFFFFFFF,0,100) ref:SquadFitness
+					ChartLine(History,ChartSquadValue,#036E98FFFFFFFFFF,0,1000000) ref:SquadValue
+
+					ChartLine(History,ChartAttendance,#607D8BFFFFFFFFFF,0,100) ref:Attendance
+					ChartLine(History,ChartRevenue,#263186FFFFFFFFFF,0,100) ref:Revenue
+					ChartLine(History,ChartSponsorship,#990353FFFFFFFFFF,0,100) ref:Sponsorship
+					ChartLine(History,ChartTVBonus,#00CDC8FFFFFFFFFF,0,100) ref:TVBonus
+
+					ChartLine(History,ChartTicketPrices,#3F51B5FFFFFFFFFF,0,100) ref:TicketPrices
+					ChartLine(History,ChartGateReceipts,#E68900FFFFFFFFFF,0,100) ref:GateReceipts
+					ChartLine(History,ChartShopSales,#9B3C15FFFFFFFFFF,0,100) ref:ShopSales
+					ChartLine(History,ChartPricebandShop,#6A5A50FFFFFFFFFF,0,100,0,History,ChartPricebandShopDisplay) ref:PricebandShop
+
+					ChartLineToggle(SquadHappiness,History,ChartToggle,SHAPPINESS)
+					ChartLineToggle(RelationBoard,History,ChartToggle,RBOARD)
+					ChartLineToggle(RelationFans,History,ChartToggle,RFANS)
+					ChartLineToggle(RelationPress,History,ChartToggle,RPRESS)
+					ChartLineToggle(RelationSponsor,History,ChartToggle,RSPONSOR)
+					
+					ChartLineToggle(LeaguePos,History,ChartToggle,LPOS)
+					ChartLineToggle(SquadSkills,History,ChartToggle,SSKILLS)
+					ChartLineToggle(SquadFitness,History,ChartToggle,SFITNESS)
+					ChartLineToggle(SquadValue,History,ChartToggle,SVALUE)
+
+					ChartLineToggle(Attendance,History,ChartToggle,ATT)
+					ChartLineToggle(Revenue,History,ChartToggle,REVENUE)
+					ChartLineToggle(Sponsorship,History,ChartToggle,SPONSORBNS)
+					ChartLineToggle(TVBonus,History,ChartToggle,TVB)
+
+					ChartLineToggle(TicketPrices,History,ChartToggle,PBT)
+					ChartLineToggle(GateReceipts,History,ChartToggle,GATER)
+					ChartLineToggle(ShopSales,History,ChartToggle,SHOPS)
+					ChartLineToggle(PricebandShop,History,ChartToggle,PBS)
+			}
+
+			Rect:(30,0,@W-60,@H)
+			{{
+				M_ScrollIndicatorAltH:(@B,@W,History,ChartScroll,ClubChart,ScrollingList,SwipePanel,SwipePanelData)
+			}}
+
+			Rect:()
+				:set(gel.vis,twk(History,NumberOfEntries) > 0)
+			{
+				M_SwitchStickHint:(✃,@R-59,@B-36,X)
+					CTRLScrollListIcon(ClubChart,CTRLScrollList)
+			}
+		}}
+
+		CTRLSelectGroup:(@R-260,0,260,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare) ref:DataToggleGroup
+		{
+			// Filters
+			Rect:(@R-260,0,260,@H)
+			{{
+				Draw:(PanelAngled,-3,-3,@W+6,@H+6,,#FFFFFF70FFFFFFFF)
+				Clip:(0,1,@W,@H-2)
+				{{
+					// Data Filter Clipped Content
+					Rect:(0,0,@W,@H) ref:SwipePanel
+						if(not(twk(CardEngine,DraggingCard)))
+						<
+							if(%swiping oneof(0,2))
+							<
+								SwipePanel(Club,DataFilterScroll,Club,DataFilterScrollVel) ref:SwipePanelData
+								<
+									:set(%swiping,2)
+								>
+								else
+								<
+									set(%swiping,0)
+								>
+							>
+						>
+					{{
+						Rect:(30,35,@W,@H-25)
+						{{
+							Rect:(100,0,@W,@H) ref:DataList
+								ScrollingList(Club,DataFilterScroll,@H,Club,DataFilterScrollVel) ref:ScrollingListData
+								CTRLScrollList(ScrollingListData) ref:CTRLScrollList
+								float(%yPos)
+								set(%yPos,0)
+							{{
+								M_ResetAllToggle:(0,0,0)
+								M_PerformanceToggle:(0,0,1,"League Position",LPOS,#CC1618FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,2,"Attendance",ATT,#607D8BFFFFFFFFFF)
+								M_PerformanceToggle:(0,0,3,"finances_TicketPrice",PBT,#3F51B5FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,4,"finances_GateReceipts",GATER,#E68900FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,5,"finances_ClubShopSales",SHOPS,#9B3C15FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,6,"finances_ClubShopPrices",PBS,#6A5A50FFFFFFFFFF)
+								M_RelationshipToggle:(0,0,7,RBOARD,RFANS,RPRESS,RSPONSOR,#282828FFFFFFFFFF,#CC1618FFFFFFFFFF,#2196F3FFFFFFFFFF,#263186FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,11,"Squad Rating",SSKILLS,#151515FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,12,"Squad Energy",SFITNESS,#3DAC00FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,13,"Squad Happiness",SHAPPINESS,#A15E9DFFFFFFFFFF)
+								M_PerformanceToggle:(0,0,14,"Revenue",REVENUE,#263186FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,15,"Sponsorship",SPONSORBNS,#990353FFFFFFFFFF)
+								M_PerformanceToggle:(0,0,16,"Squad Value",SVALUE,#036E98FFFFFFFFFF)
+							}}
+						}}
+						
+						Rect:(0,10,@W,@H-20)
+						{{
+							M_ScrollIndicatorAlt:(@R-25,@H,Club,DataFilterScroll,DataList,ScrollingListData,SwipePanel,SwipePanelData)
+						}}
+
+					}}
+				}}
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-37,@B-53,Y)
+			CTRLScrollListIcon(DataList,CTRLScrollList)
+	}}
+}}

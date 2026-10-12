@@ -1,0 +1,188 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(setup_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+##P4N
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Volatile:BGPanorama
+##IA
+Img:(BG_Panorama,NewGUI/UI/ImageBG/BG_Panorama.png) Scale:0.5 Volatile:BGPanorama
+##*
+
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_NameEntryCell,?X?,?Y?,?W?,?H?,?ID?,?LINK?,?TWK?)
+	Rect:(?X?,?Y?,?W?,?H?)
+		Layer(Text)
+		M_CTRLGenericClickableExtra:(?BTNOK?,true,CTRLSquareSelected,0,0,0,0)
+		Click()
+		<
+			set(%clicked,1)
+		>
+		if(%clicked)
+		<
+			if(twk(Rename,FocusedItem) != ?ID?)
+			<
+				:Post(UI_Select)
+			>
+			:Message(?LINK?)
+		>
+		if(twk(Rename,FocusedItem) = ?ID?)
+		<
+			:CTRLSetSelected()
+			CTRLBlock(LEFT,RIGHT,UP,DOWN,?BTNCAN?)
+		>
+
+		strvar(%textstring)
+		float(%w)
+	{{
+		Draw:(White,0,0,@W,@H,,#E0E0E9FF)
+			if(twk(Rename,FocusedItem) = ?ID?)
+			<
+				frlerp(gel.colour,#FFFFFFFF,0.1)
+			>
+			else
+			<
+				set(gel.colour,#DDDDDDFF)
+			>
+
+
+		PushOrigin:(15,0)
+			M_Text:(,0,2,0,@H,L,C,Text,KNUL30,,1,0,#252525FF,NoItalics,#252525FF,ref)
+				set(%w,%gfw)
+				if((twk(Rename,FocusedItem) = ?ID?) and(%textstring!=gel.text))
+				<
+					:Post(UI_Select)
+				>
+				set(%textstring,gel.text)
+				
+				if(twk(Rename,?TWK?NameChanged))
+				<
+					set(gel.colour,#252525FF)
+				>
+				else
+				<
+					set(gel.colour,#00000020)
+				>
+				If:(?ID?=1)
+					GS_ShowTeamName()
+				EndIf
+				If:(?ID?=2)
+					GS_ShowStadiumName()
+				EndIf
+
+
+			// Focus Indicator
+			Draw:(White,0,5,3,40,,#3040FFFF)
+				set(gel.vis,twk(Rename,FocusedItem) = ?ID?)
+				:set(gel.alpha,1)
+				PulseAlpha(1,0,0.35,0.35,0.2,0.2)
+				if(twk(Rename,?TWK?NameChanged))
+				<
+					set(gel.x,%w+16)
+				>
+				else
+				<
+					set(gel.x,10)
+				>
+		PopOrigin
+
+		// Clear box
+		Rect:(@R-70,0,70,@H)
+			Click(rename.btn_Clear)
+			Click(,,1)
+			set(gel.vis,twk(Rename,FocusedItem) = ?ID? and(twk(Rename,?TWK?NameChanged)))
+		{{
+			Draw:(Circle_50,20,7,35,35,,#CCCCCCFF)
+			M_Text:("x",20,5,35,35,C,C,Text,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		}}
+	}}
+EndM
+
+
+
+
+
+
+
+// //-------------------------------------------------------------------------------------------CONTENT
+Rect:(@L,@T,@W,@H)
+	Click(rename.loseFocus,,1)
+
+M_NewDialogOPEN:(loc(Rename_Rename_Your_Club_&_Stadium),rename)
+
+Dissolve:() ref:DissolveRoot
+{
+	Draw:(BG_Panorama,@L-[@y/2],0-[@y/2],@W+[@y*2],@H+@y,,#FFFFFFFF)
+
+	// Rename Team
+	Rect:(@C-450-50,80,450,590)
+	{{
+		Rect:(20,0,@W,230)
+		{{
+			// Club Name
+			Rect:(0,0,@W,120)
+			{{
+				M_Text:(Club Name,10,3,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+					.set(gel.text,loc(Club Name):: ":")
+				M_NameEntryCell:(6,24,@W-10,50,1,rename.inp_TeamName_HIT,Team)
+				Draw:(White,6,80,@W-10,-90)
+				Draw:(SponsorFrame_Desel,0,80,@W+2,-100,,#CC1618FF)
+				Clip:(0,-74,@W+2,98)
+				{{
+					Draw:(Dialog_Hexagons,@C+20,54,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.15,0.01)
+					
+					Draw:(Dialog_Hexagons,@C+20,85,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.15,0.01)
+				}}
+				M_Text:(setup_MAXCHARS,0,-80,@W-10,100,R,B,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+				M_Text:(,-104,-40,@W-10,100,R,B,Text,KNUL30,,0,0,#00000000,NoItalics,#50505050,ref)
+					.set(gel.text,LTR(FC))
+					.set(gel.vis,twk(Settings,AppVariant)!="China" )
+			}}
+		}}
+	}}
+
+	// Rename Stadium
+	Rect:(@C+10,80,450,590)
+	{{
+		Rect:(20,0,@W,230)
+		{{
+			// Stadium Name
+			Rect:(0,0,@W,120)
+			{{
+				M_Text:(Club_STADIUMNAME,10,3,0,0,L,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				M_NameEntryCell:(6,24,@W-10,50,2,rename.inp_StadiumName_HIT,Stadium)
+				Draw:(White,6,80,@W-10,-90)
+				Draw:(SponsorFrame_Desel,0,80,@W+2,-100,,#CC1618FF)
+				Clip:(0,-74,@W+2,98)
+				{{
+					Draw:(Dialog_Hexagons,@C+20,54,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.15,0.01)
+
+					Draw:(Dialog_Hexagons,@C+20,85,,,,#00000000)
+						Delay(0.5)
+						frlerp(gel.alpha,0.15,0.01)
+				}}
+				M_Text:(setup_MAXCHARSL,0,-80,@W-10,100,R,B,TextLoc,KNUL20,,0,0,#00000000,NoItalics,#FFFFFF80,ref)
+			}}
+		}}	
+	}}
+
+	Draw:(Fade_Up,@L,@B-150,@W,150)
+	
+	// Button
+	M_Button:(@R-120,@B-43,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,rename.btn_Buy,BuyButton,"",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyButtonText,1,ForwardButtonAudio)
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+}
+
+M_NewDialogCLOSE:()

@@ -1,0 +1,450 @@
+Img:(Icon_Decrease,NewGUI/UI/MatchCommentary/Icon_Decrease.png)
+Img:(Icon_Increase,NewGUI/UI/MatchCommentary/Icon_Increase.png)
+Img:(Icon_MatchPlay,NewGUI/UI/MatchCommentary/Icon_MatchPlay.png)
+Img:(Icon_MatchPause,NewGUI/UI/MatchCommentary/Icon_MatchPause.png)
+Img:(Icon_Tactics,NewGUI/UI/MatchCommentary/Icon_Tactics.png)
+Img:(Button_Display,NewGUI/UI/MatchCommentary/Button_Display.png,10,10,0,0)
+Img:(WorkRateNotch,NewGUI/UI/MatchCommentary/WorkRateNotch.png)
+
+
+Macro:(M_WorkRateButton)
+	M_PressOPEN:(@L+168,@B-38,276,50,?LINK?)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			set(gel.vis,not(%disabled))
+		Draw:(Button_SilverSliced,0,0,@W,@H)
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		Draw:(White,50,0,@W-100,50,,#B2B2B2FF)
+		Draw:(Button_Display,50,0,176,50)
+
+		Tile:(White,76,26,6,20,,#312711FFFFFFFFFF)
+			Copies(10,1)
+			Spacing(13)
+
+		Rect:()
+			if(twk(Match,WorkRate) = 0)
+			<
+				PulseAlpha(1,0.75,0.6,0.6)
+			>
+			elif(twk(Match,WorkRate) = 1)
+			<
+				PulseAlpha(1,0.74,0.5,0.5)
+			>
+			elif(twk(Match,WorkRate) = 2)
+			<
+				PulseAlpha(1,0.71,0.4,0.4)
+			>
+			elif(twk(Match,WorkRate) = 3)
+			<
+				PulseAlpha(1,0.68,0.3,0.3)
+			>
+			elif(twk(Match,WorkRate) = 4)
+			<
+				PulseAlpha(1,0.65,0.2,0.2)
+			>>>>
+		{
+			Rect:(59,16)
+				set(gel.vis,twk(Match,WorkRate) >= 0)
+			{{
+				Draw:(WorkRateNotch,0,0)
+				Draw:(WorkRateNotch,13,0)
+			}}
+
+			Rect:(85,16)
+				set(gel.vis,twk(Match,WorkRate) >= 1)
+			{{
+				Draw:(WorkRateNotch,0,0)
+				Draw:(WorkRateNotch,13,0)
+			}}
+
+			Rect:(111,16)
+				set(gel.vis,twk(Match,WorkRate) >= 2)
+			{{
+				Draw:(WorkRateNotch,0,0)
+				Draw:(WorkRateNotch,13,0)
+			}}
+
+			Rect:(137,16)
+				set(gel.vis,twk(Match,WorkRate) >= 3)
+			{{
+				Draw:(WorkRateNotch,0,0)
+				Draw:(WorkRateNotch,13,0)
+			}}
+
+			Rect:(163,16)
+				set(gel.vis,twk(Match,WorkRate) = 4)
+			{{
+				Draw:(WorkRateNotch,0,0)
+				Draw:(WorkRateNotch,13,0)
+			}}
+		}
+
+		Clip:(50,22,176,28)
+		{{
+			Tile:(DotMatrix_Tile,0,1,32,60,,#AAAAAAFFFFFFFFFF)
+				Copies(6,1)
+				Additive()
+		}}
+
+		Draw:(Icon_Decrease,@L+10,10,30,30,,#252525FFFFFFFFFF)
+			if(twk(Match,WorkRate) = 0)
+			<
+				:set(gel.alpha,0.3)
+			>
+			else
+			<
+				:set(gel.alpha,1)
+			>
+
+		Draw:(Icon_Increase,@R-40,10,30,30,,#252525FFFFFFFFFF)
+			if(twk(Match,WorkRate) = 4)
+			<
+				:set(gel.alpha,0.3)
+			>
+			else
+			<
+				:set(gel.alpha,1)
+			>
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#00000000)
+			Layer(Text)
+			Additive()
+			if((%leftPressed) or(%rightPressed))
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+
+		M_Text:(commentary_WORKRATE,50,-13,@W-100,50,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	M_PressCLOSE:()
+		if(twk(Match,State) =?STATE_OVER?) 
+		<
+			:set(%disabled,1)
+		>
+		else
+		<
+			:set(%disabled,0)
+		>
+		// Click
+		if(not(%disabled))
+		<
+			if(%clicked)
+			<
+				if(%leftClicked)
+				<
+					set(twk(Match,WorkRate),max(0,twk(Match,WorkRate)-1))
+				>
+				if(%rightClicked)
+				<
+					set(twk(Match,WorkRate),min(4,twk(Match,WorkRate)+1))
+				>
+				:Post(match.btn_WorkRate,twk(Match,WorkRate)/4)
+			>
+		>
+		// Controller
+		{{
+			Rect:(-113,0,50,50) ref:WorkRateDownButton
+				M_CTRLButtonLRExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6,L)
+
+			Rect:(113,0,50,50) ref:WorkRateUpButton
+				M_CTRLButtonLRExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6,R)
+		}}
+EndM
+
+
+Macro:(M_FocusButton)
+	M_PressOPEN:(@L+474,@B-38,276,50,?LINK?)
+		Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			set(gel.vis,not(%disabled))
+		Draw:(Button_SilverSliced,0,0,@W,@H)
+		Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+		Draw:(White,50,0,@W-100,50,,#B2B2B2FF)
+		Draw:(Button_Display,50,0,176,50)
+
+		Clip:(50,22,176,28)
+		{{
+			Tile:(DotMatrix_Tile,0,1,32,60,,#AAAAAAFFFFFFFFFF)
+				Copies(6,1)
+				Additive()
+		}}
+
+		Draw:(Icon_Decrease,@L+10,10,30,30,,#252525FFFFFFFFFF)
+			if(twk(Match,Focus) = 0)
+			<
+				:set(gel.alpha,0.3)
+			>
+			else
+			<
+				:set(gel.alpha,1)
+			>
+
+		Draw:(Icon_Increase,@R-40,10,30,30,,#252525FFFFFFFFFF)
+			if(twk(Match,Focus) = 4)
+			<
+				:set(gel.alpha,0.3)
+			>
+			else
+			<
+				:set(gel.alpha,1)
+			>
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#00000000)
+			Layer(Text)
+			Additive()
+			if((%leftPressed) or(%rightPressed))
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+
+		M_Text:(commentary_FOCUS,50,-13,@W-100,50,C,C,TextLoc,KNUL20,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		
+		Rect:(138,37,176,50)
+			Handle(0.5,0.5)
+			float(%current)
+			.set(%current,twk(Match,Focus))
+			if(%current != twk(Match,Focus))
+			<
+				:set(gel.alpha,0)
+				:set(gel.scale,0.25)
+				:set(%current,twk(Match,Focus))
+			>
+			frlerp(gel.alpha,1,0.25)
+			frlerp(gel.scale,1,0.25)
+		{{
+			Rect:(@L,@T,@W,@H)
+			{{
+				M_Text:(,0,0,@W,50,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFCA59FF,ref)
+					M_Style:(Outline,#FFCA5920)
+					CharacterSpacing(1)
+					if(twk(Match,Focus) = 0)
+					<
+						:set(gel.text,loc(commentary_FOCUS_DEFEND))
+					>
+					elif(twk(Match,Focus) = 1)
+					<
+						:set(gel.text,loc(commentary_FOCUS_COUNTER))
+					>
+					elif(twk(Match,Focus) = 2)
+					<
+						:set(gel.text,loc(commentary_FOCUS_BALANCED))
+					>
+					elif(twk(Match,Focus) = 3)
+					<
+						:set(gel.text,loc(commentary_FOCUS_ATTACK))
+					>
+					elif(twk(Match,Focus) = 4)
+					<
+						:set(gel.text,loc(commentary_FOCUS_DIRECT))
+					>>>>>
+					ToUpperCase()
+					set(%gfw,strwidth(gel.text,0)*0.55)
+				{{
+					Draw:(TextGlow_Title,0,0,@W,52,,#FFA86260)
+						Layer(Default)
+						set(gel.w,%gfw+40)
+						set(gel.x,@C-[[%gfw+40]/2])
+				}}
+			}}
+		}}
+		
+	M_PressCLOSE:()
+		if(twk(Match,State) =?STATE_OVER?) 
+		<
+			:set(%disabled,1)
+		>
+		else
+		<
+			:set(%disabled,0)
+		>
+		// Click
+		if(not(%disabled))
+		<
+			if(%clicked)
+			<
+				if(%leftClicked)
+				<
+					set(twk(Match,Focus),max(0,twk(Match,Focus)-1))
+				>
+				if(%rightClicked)
+				<
+					set(twk(Match,Focus),min(4,twk(Match,Focus)+1))
+				>
+				:Post(match.btn_Focus)
+			>
+		>
+		// Controller
+		{{
+			Rect:(-113,0,50,50) ref:FocusDownButton
+				M_CTRLButtonLRExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6,L)
+
+			Rect:(113,0,50,50) ref:FocusUpButton
+				M_CTRLButtonLRExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6,R)
+		}}
+EndM
+
+
+Macro:(M_TacticsButton)
+	M_Button:(@L+732,@B-33,180,50,Button_SilverSliced,Icon_Tactics,11,5,40,40,#252525FF,match.btn_Formation,TacticsButton,loc(commentary_FOCUS_TACTICS),59,3,L,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,ref)
+		if(twk(Match,TacticsEnabled) = 0 or(twk(Match,State) = ?STATE_OVER?))
+		<
+			:set(%disabled,1)
+		>
+		else
+		<
+			:set(%disabled,0)
+		>
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+EndM
+
+
+Macro:(M_PlayButton)
+	// Play
+	Rect:() 
+		strvar(%BUTTONTEXT)
+		init(%BUTTONTEXT,"")
+		set(gel.vis,twk(Match,State) != ?STATE_OVER?)
+	{
+		// Play Button
+		M_PressOPEN:(@R-120,@B-38,180,50,link,ref,ForwardButtonAudio)
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			Draw:(Button_GreenSliced,0,0,@W,@H)
+			
+			Rect:(@C,0)
+				float(%w)
+				set(gel.x,@C-[%w/2])
+			{{
+				Draw:(Icon_MatchPlay,0,11,30,30)
+				M_Text:(commentary_PLAY,33,26,0,0,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%w,%gfw+38)
+			}}
+
+			Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+				Layer(AboveText)
+				Additive()
+				if(%pressed)
+				<
+					set(gel.colour,#60606060)
+				>
+				else
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+		M_PressCLOSE:()
+			set(gel.vis,twk(Match,State) oneof(?STATE_PREMATCH?,?STATE_PRESHOOTOUT?,?STATE_PAUSED?,?STATE_OVER?))
+			if(%clicked)
+			<
+				:Post(match.btn_Play)
+				:set(twk(Match,TacticsEnabled),1)
+			>
+
+
+		// Pause Button
+		M_PressOPEN:(@R-120,@B-38,180,50,link,ref,ForwardButtonAudio)
+			Draw:(Button_Shadow,-11,-5,@W+22,@H+21,,#00000080000000FF)
+			Draw:(Button_RedSliced,0,0,@W,@H)
+			
+			Rect:(@C,0)
+				float(%w)
+				set(gel.x,@C-[%w/2])
+			{{
+				Draw:(Icon_MatchPause,0,11,30,30)
+				M_Text:(commentary_PAUSE,33,26,0,0,L,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+					set(%w,%gfw+38)
+			}}
+
+			Draw:(Button_Shade,0,@M,@W,[@H/2],,#00000010FFFFFFFF)
+
+			Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+				Layer(AboveText)
+				Additive()
+				if(%pressed)
+				<
+					set(gel.colour,#60606060)
+				>
+				else
+				<
+					frlerp(gel.colour,#00000000,0.05)
+				>
+		M_PressCLOSE:()
+			set(gel.vis,twk(Match,State) oneof(?STATE_PLAYING?,?STATE_INCIDENT?))
+			set(%disabled,twk(Ftue,Enabled) = 1 and(twk(Ftue,Step) < 84))
+			if(%clicked)
+			<
+				:Message(match.btn_Pause)
+			>
+	}
+
+	//Continue
+	Rect:()
+		set(gel.vis,twk(Match,State) = ?STATE_OVER?)
+	{
+		M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#00000000,match.btn_Play,ref,loc(generic_CONTINUE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+	}
+
+	Rect:(@R-208,@B-62,175,46) ref:PlayPauseButton
+		set(gel.vis, twk(Match,State) != ?STATE_SHOOTOUT?)
+		Layer(AboveText)
+		CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		Rearmable()
+		:CTRLSetSelected()
+		CTRLClick(?BTNOK?)
+		<
+			:Post(UI_Select)
+			if((twk(Match,State) oneof(?STATE_PLAYING?,?STATE_INCIDENT?)) and(twk(Ftue,Enabled) = 0 or(twk(Ftue,Step) >= 84)))
+			<
+				:Post(match.btn_Pause)
+			>
+			elif(twk(Match,State) oneof(?STATE_PREMATCH?,?STATE_PRESHOOTOUT?,?STATE_PAUSED?,?STATE_OVER?))
+			<
+				:Post(match.btn_Play)
+			>>
+		>
+		if(twk(Match,State) = ?STATE_OVER?)
+		<
+			:CTRLSetSelected()
+		>
+EndM
+
+
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+Dissolve:(@o,@B-70,@s,70)
+	if((twk(Header,DialogState) = 1) or(twk(DynamicOverlay,CurrentTopOverlay) oneof("Help","Message","Settings","FTUEExit")))
+	<
+		frlerp(gel.alpha,0,0.25)
+		if(gel.alpha < 0.01)
+		<
+			:set(gel.vis,0)
+		>
+
+	>
+	else
+	<
+		:set(gel.vis,1)
+		frlerp(gel.alpha,1,0.25)
+	>
+{{
+	// Flow Buttons
+	Rect:()
+		set(gel.vis,shell(GameScreen) = "match")
+	{
+		M_WorkRateButton:()
+			M_FTUEDisableButton:("match.WorkRateEnabled","match.WorkRateDisabled")
+		M_FocusButton:()
+			M_FTUEDisableButton:("match.FocusEnabled","match.FocusDisabled")
+		M_TacticsButton:()
+			M_FTUEDisableButton:("match.TacticsEnabled","match.TacticsDisabled")
+		M_PlayButton:()
+	}
+}}

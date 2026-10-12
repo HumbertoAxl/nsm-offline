@@ -1,0 +1,275 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(staff_Macros.uih)
+Import:(templates_combo.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Import:(ImageDefs_facilities.uih)
+
+Img:(Icon_BirdsEye,NewGUI/UI/Icons/Icon_BirdsEye.png)
+##N
+//No option on Switch
+Img:(Staff_HireList,NewLook/UI/Staff/Staff_HireList.png)
+##-
+// Option on all other platforms
+Img:(OL_Staff_HireList,NewGUI/UI/Staff/Staff_HireList.png) FORCE
+Img:(NL_Staff_HireList,NewLook/UI/Staff/Staff_HireList.png) FORCE
+If:(twk(SettingsGlobal,OldNewLook))
+	ImgClone:(Staff_HireList,NL_Staff_HireList)
+Else
+	ImgClone:(Staff_HireList,OL_Staff_HireList)
+EndIf
+##*
+//---------------------------------------------------------------------------------------------SETUP
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+
+
+//Staff Card Slot Macro
+Macro:(M_HireStaffButton,?TEXT?,?COMBOSELECTED?,?COMBOREADOUT?,?FACILITY?,?STAFFTYPE?,?REF?)
+		M_Button:(74,130,118,152,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,HireStaffButton?REF?,loc(?TEXT?),0,3,C,C,TextBox,KNUL18,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			if(%selected)
+			<
+				M_CTRLButtonExtra:(?BTNOK?,false)
+			>
+			float(%occupied)
+			
+			if(%clicked)
+			<
+				:Post(staff.btn_HireList,?COMBOSELECTED?)
+			>
+
+			if(twk(Facilities,?FACILITY?Level) > 0)
+			<
+				if(%occupied = 0)
+				<
+					:set(gel.alpha,0)
+					:set(gel.vis,1)
+					if(twk(Staff,DraggingStaffType) = ?STAFFTYPE?)
+					<
+						:set(%disabled,1)
+						frlerp(gel.alpha,0,0.1)
+					>
+					else
+					<
+						:set(%disabled,0)
+						frlerp(gel.alpha,1,0.1)
+					>
+				>
+				else
+				<
+					:set(gel.vis,0)
+				>
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>
+EndM
+
+//Staff Parent Box Macro
+Macro:(M_StaffSlot,?X?,?Y?,?ID?,?FACILITY?,?STAFFTYPE?,?TITLE?,?ORDER?)
+	Rect:(?X?,?Y?,300,280) ref:Root?ID?
+		float(%occupied,%selected)
+		CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		if(twk(Facilities,?FACILITY?Level) > 0)
+		<
+			CTRLClick(?BTNOK?)
+			<
+				if(%occupied = 0)
+				<
+					callchild(PressClick,ButtonClicked)
+				>
+				else
+				<
+					Post("staff.btn_OpenStaff",?STAFFTYPE?)
+				>
+			>
+		>
+		CTRLIsSelected()
+		<
+			set(%selected,1)
+		>
+		else
+		<
+			set(%selected,0)
+		>
+	{{
+
+		// Panel
+		Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+		Draw:(NewStarShape,0,0,@W,540,,#C5C5C560FFFFFFFF)
+		
+
+		// Facility Image
+		Draw:(?FACILITY?1_Background,300,2,300,)
+	        .set(gel.img,?FACILITY?::clamp(twk(Facilities,?FACILITY?Level),1,6)::_Background)
+			.set(gel.hx,300)
+		
+
+		// Panel Shadow 
+		Rect:()
+			.set(gel.vis,?FACILITY?="ScoutsOffice" or(?FACILITY?="MedicalUnit"))
+		{
+			Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+			Draw:(FloorShadow,-12,@B-2,@W+24,11)
+		}
+
+
+		// Cooldown Text
+		Rect:(0,226,@W,40)
+			if((twk(Staff,Coaching?ORDER?OnCooldown) = 1) and(%occupied))
+			<
+				:set(gel.vis,1)
+			>
+			elif((twk(Facilities,?FACILITY?Level) > 0) and(%occupied=0))
+			<
+				:set(gel.vis,1)
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>>
+		{{
+			Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+			Draw:(White,0,1,@W,@H-2,,#AAAAAAFFFFFFFFFF)			
+			Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFFFFFFFFFF)
+			Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFFFFFFFFFF)
+
+			// Cooldown description
+			M_Text:(,0,20,@W,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,Staff,Coaching?ORDER?CooldownDesc)
+				set(gel.vis,(twk(Staff,Coaching?ORDER?OnCooldown) = 1) and(%occupied))
+
+			// Hire staff member tip
+			M_Text:(COACHINGERROR_FACILITYNOTOCCUPIED,0,20,@W,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.vis,(twk(Facilities,?FACILITY?Level) > 0) and(%occupied=0))
+		}}
+
+
+		// Buy facility tip
+		Rect:()
+			set(gel.vis,twk(Facilities,?FACILITY?Level) = 0)
+		{
+			Draw:(RoundedPanel,0,0,@W,@H+1,,#000000AAFFFFFFFF)
+			M_Text:(CoachingPurchaseFacility,@C-100,@M,200,0,C,C,TextBox,KNUL23,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		}
+
+		// Title
+		Draw:(Header_Hexagons,0,0,@W,34)
+		M_Text:(?TITLE?,0,18,@W,0,C,C,TextLoc,KNUL23,Upper,1,0,#FFFFFF80,NoItalics,#FFFFFFFF,ref)
+		
+
+		// Hire Staff Button 
+		If:(?FACILITY?="TrainingGround")
+			M_HireStaffButton:(staff_HireCoach,?CSTAFFTYPE_SKILLSCOACH?,staff_SkillsCoach,TrainingGround,?CSTAFFTYPE_SKILLSCOACH?,TrainingGround1)
+				M_SwitchButtonHint:(?ICONOK?,118,40)
+					set(gel.vis,%selected and(twk(Facilities,?FACILITY?Level) > 0 ))
+		EndIf
+
+		If:(?FACILITY?="FitnessCentre")
+			M_HireStaffButton:(staff_HireCoach,?CSTAFFTYPE_FITNESSCOACH?,staff_FitnessCoach,FitnessCentre,?CSTAFFTYPE_FITNESSCOACH?,FitnessCentre1)
+				M_SwitchButtonHint:(?ICONOK?,118,40)
+					set(gel.vis,%selected and(twk(Facilities,?FACILITY?Level) > 0 ))
+		EndIf
+
+		If:(?FACILITY?="YouthAcademy")
+
+			M_HireStaffButton:(staff_HireCoach,?CSTAFFTYPE_YOUTHCOACH?,staff_YouthCoach,YouthAcademy,?CSTAFFTYPE_YOUTHCOACH?,YouthAcademy)
+				M_SwitchButtonHint:(?ICONOK?,118,40)
+					set(gel.vis,%selected and(twk(Facilities,?FACILITY?Level) > 0 ))
+		EndIf
+
+		If:(?FACILITY?="ScoutsOffice")
+			M_HireStaffButton:(staff_HireScout,?CSTAFFTYPE_SCOUT?,staff_Scout,ScoutsOffice,?CSTAFFTYPE_SCOUT?,ScoutOffice)
+				M_SwitchButtonHint:(?ICONOK?,118,40)
+					set(gel.vis,%selected and(twk(Facilities,?FACILITY?Level) > 0 ))
+		EndIf
+
+		If:(?FACILITY?="MedicalUnit")
+			M_HireStaffButton:(staff_HirePhysio,?CSTAFFTYPE_PHYSIO?,staff_Physio,MedicalUnit,?CSTAFFTYPE_PHYSIO?,MedicalUnit)
+				M_SwitchButtonHint:(?ICONOK?,118,40)
+					set(gel.vis,%selected and(twk(Facilities,?FACILITY?Level) > 0 ))
+		EndIf
+
+
+		// View Facility Button
+		M_Button:(@R-40,79,50,50,Button_SilverSliced,Icon_BirdsEye,0,0,50,50,#252525FF,staff.btn_Buy?FACILITY?,ref,,0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)
+			if(%selected)
+			<
+				M_CTRLButtonExtra:(Y,false)
+			>
+			M_SwitchButtonHint:(⛍,@R-29,40)
+				set(gel.vis,%selected)
+	
+
+		// Staff Card
+		Rect:(74,125,?CARD_W?,?CARD_H?)
+			Handle(0.5,0.5)
+			Card_Slot(?ID?,,,false,true,0) ref:CardSlot
+		{{
+		}}
+	}}
+EndM
+
+//Available staff box
+Macro:(M_HireListSlot,?X?,?Y?,?ID?)
+	Rect:(?X?,?Y?,300,280) ref:Root?ID?
+		strvar(%hinttxt)
+		CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		CTRLIsSelected()
+		<
+			set(%hinttxt,loc(settings_OKButton)::"  ")
+		>
+		else
+		<
+			set(%hinttxt,"")
+		>
+		CTRLClick(?BTNOK?)
+		<
+			callchild(PressClick,ButtonClicked)
+		>
+	{{
+			// Panel
+			Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)
+			Draw:(NewStarShape,0,0,@W,540,,#C5C5C560FFFFFFFF)
+			Draw:(Header_Hexagons,0,0,@W,34)
+			Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+			Draw:(FloorShadow,-12,@B-2,@W+24,11)
+			Draw:(Staff_HireList,@C-150,30,300,200)
+			
+			// Title Text
+			M_Text:(CoachingHireStaff,0,18,@W,0,C,C,TextLoc,KNUL23,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				M_Style:(Outline,#FFFFFF20)
+
+			M_Button:(@C,@B-35,260,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,staff.btn_HireList,ref,loc(staff_BROWSE),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+	}}
+EndM
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:() ref:DissolveRoot
+{
+	Rect:(@L,@T,@W,@H) ref:CoreRoot
+		set(gel.vis,twk(Staff,PostMatchState) = 0)
+	{
+		Rect:(30,80,1092,580)
+		{{
+			M_StaffSlot:(50,0,TrainingGround1,TrainingGround,?CSTAFFTYPE_SKILLSCOACH?,staff_SkillsCoach,0)
+			M_StaffSlot:(394,0,FitnessCentre1,FitnessCentre,?CSTAFFTYPE_FITNESSCOACH?,staff_FitnessCoach,1)
+			M_StaffSlot:(738,0,YouthAcademy,YouthAcademy,?CSTAFFTYPE_YOUTHCOACH?,staff_YouthCoach,2)
+			M_StaffSlot:(50,305,ScoutOffice,ScoutsOffice,?CSTAFFTYPE_SCOUT?,staff_Scout,3)
+			M_StaffSlot:(394,305,MedicalUnit,MedicalUnit,?CSTAFFTYPE_PHYSIO?,staff_Physio,4)
+			
+			M_HireListSlot:(738,305,HireStaff)
+		}}
+	}
+
+	// Coaching
+	Import:(staff_coaching.uih)
+}

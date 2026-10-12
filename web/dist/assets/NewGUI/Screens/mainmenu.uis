@@ -1,0 +1,344 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(consent.uih)
+Import:(title_images.uih)
+
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Title_Clouds,NewGUI/UI/Title/Title_Clouds.png) Volatile:TitleArtwork
+Img:(Title_Stadium,NewGUI/UI/Title/Title_Stadium.png) Volatile:TitleArtwork
+Img:(Title_Stadium_Upper1,NewGUI/UI/Title/Title_Stadium_Upper.png) Volatile:TitleArtwork
+Img:(Title_Stadium_Upper2,NewGUI/UI/Title/Title_Stadium_Upper2.png) Volatile:TitleArtwork
+Img:(Title_Stadium_Upper3,NewGUI/UI/Title/Title_Stadium_Upper3.png) Volatile:TitleArtwork
+Img:(Title_Stadium_Upper4,NewGUI/UI/Title/Title_Stadium_Upper4.png) Volatile:TitleArtwork
+Img:(Title_Footer,NewGUI/UI/Title/Title_Footer.png) Volatile:TitleArtwork
+
+Img:(Title_GrassPatch,NewGUI/UI/Title/Title_GrassPatch.png) Volatile:TitleArtwork
+Img:(Soft_Shadow,NewGUI/TapBall/Soft_Shadow.png)
+
+
+//Demo
+Img:(Title_Demo,NewGUI/Demo/Title_Demo.png)
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.Post(FadeInMusic)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+//--------------------------------------------------------------------------------------------MESHES
+Img:(FootballTexture_High,NewGUI/Textures/Football_High.png) FORCE Scale:0.5
+StaticModel:(Football_High,Football_High)
+//-------------------------------------------------------------------------------------------CONTENT
+
+Rect:(@L,@T,@W,@H)
+	Click()
+	<
+		Post(UI_Select)
+		Post(mainmenu.btn_Continue)
+	>
+	CTRLClick(?BTNOK?,False)
+	<
+		Post(UI_Select)
+		Post(mainmenu.btn_Continue)
+	>
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+{{
+
+	// Title Artwork
+	//-----------------------------------------------------------------------X size
+	If:(@w>1400)
+		Rect:(@C,@M)
+			Handle(0.5,0.5)
+		{{
+			//-------------------------------------Logo
+			Rect:(@C+30,@M+30,@w,768)
+				Handle(0.5,0.5)
+				Scale(1.2,1.2)
+			{{
+				Draw:(Title_Stadium,0,40,@W,@H)
+					Handle(0.5,0.5)
+			}}
+				frlerp(gel.scale,1,0.01)
+				frlerp(gel.y,@M,0.01)
+				frlerp(gel.x,@C,0.01)
+
+			//-------------------------------------Clouds
+			Rect:(@C-155,@M-390,1366,768)
+				Handle(0.5,0.5)
+				Scale(1.1,1.1)
+			{{
+				Draw:(Title_Clouds,0,0,@W,)
+					Handle(0.5,0)
+			}}
+				frlerp(gel.scale,1,0.01)
+				frlerp(gel.y,@M-395,0.01)
+				frlerp(gel.x,@C-150,0.01)
+		
+			
+			//-----------------------------------Top Part
+			Rect:(@C-30,@M+10,@w,)
+				Handle(0.5,0.5)	
+				Scale(1.2,1.2)
+			{{
+				Draw:(White,@C-15,@M-90,@W+100,@H,-15.5,#B71416FF)
+					Handle(0.5,1)
+				Rect:()
+					float(%cycle)
+					:Delay(2)
+					set(%cycle,(%cycle+(FrameTime*0.2)) fmod 360)
+				{
+					Draw:(Title_Stadium_Upper1,0,0,@W,@H)
+						frlerp(gel.alpha,(%cycle < 120),0.01)
+						Handle(0.5,0.5)	
+
+					Draw:(Title_Stadium_Upper3,0,0,@W,@H,,#FFFFFF00)
+						frlerp(gel.alpha,(120 < %cycle < 240),0.01)
+						Handle(0.5,0.5)	
+
+					Draw:(Title_Stadium_Upper2,0,0,@W,@H,,#FFFFFF00)
+						frlerp(gel.alpha,(240 < %cycle < 360),0.01)
+						Handle(0.5,0.5)	
+				}
+			}}
+				frlerp(gel.scale,1,0.01)
+				frlerp(gel.x,@C,0.01,-1,-1)
+				frlerp(gel.y,@M-8,0.01,-1,-1)
+		}}
+	Else
+		//---------------------------------------------------------------below X
+		
+		//----------------------------------Logo
+		Rect:(@C+30,@M+30,1366,768)
+			Handle(0.5,0.5)
+			Scale(1.2,1.2)
+		{{
+			Draw:(Title_Stadium,0,40,@W,@H)
+				Handle(0.5,0.5)
+		}}
+			frlerp(gel.scale,1,0.01)
+			frlerp(gel.y,@M,0.01)
+			frlerp(gel.x,@C,0.01)
+
+		//----------------------------------Clouds
+		Rect:(@C-5,@M-350,1366,768)
+			Handle(0.5,0.5)
+			Scale(1.1,1.1)
+		{{
+			Draw:(Title_Clouds,0,0,@W,)
+				Handle(0.5,0)
+		}}
+			frlerp(gel.scale,1,0.01)
+			frlerp(gel.y,@M-355,0.01)
+			frlerp(gel.x,@C,0.01)
+		
+		
+		//----------------------------------Top Part
+		Rect:(@C-30,@M-20,1366,768)
+			Handle(0.5,0.5)	
+			Scale(1.2,1.2)
+		{{
+			Draw:(White,@C-15,@M-60,@W+80,@H,-15.5,#B71416FF)
+				Handle(0.5,1)
+			Rect:()
+				float(%cycle)
+				:Delay(2)
+				set(%cycle,(%cycle+(FrameTime*0.2)) fmod 360)
+			{
+				Draw:(Title_Stadium_Upper1,0,0,@W,@H)
+					frlerp(gel.alpha,(%cycle < 120),0.02)
+					Handle(0.5,0.5)	
+
+				Draw:(Title_Stadium_Upper3,0,0,@W,@H,,#FFFFFF00)
+					frlerp(gel.alpha,(120 < %cycle < 240),0.02)
+					Handle(0.5,0.5)	
+
+				Draw:(Title_Stadium_Upper2,0,0,@W,@H,,#FFFFFF00)
+					frlerp(gel.alpha,(240 < %cycle < 360),0.02)
+					Handle(0.5,0.5)	
+			}
+		}}
+				frlerp(gel.scale,1,0.01)
+				frlerp(gel.x,@C,0.01)
+				frlerp(gel.y,@M-20,0.01)
+	EndIf
+	
+
+		
+	//----------------------------------------------Mesh Ball
+	Camera:((0,0,0),(0,0,0),26.66,(1,1,1),,,) //FIXEDFOV
+		if((twk(ScreenTransition,Active) = 1) and(shell(GameScreen) != "mainmenu"))
+		<
+			set(gel.vis,0)
+		>
+		Pin(0,0,0)
+	{
+		UseShader:(TitleBall3D)
+			SetUniform4F(SpecParams,0.9)
+		{
+			Locator:((-98,-620,39),(180,0,0),(60,60,60))
+				frlerp(gel3d.scalex,50,0.01)
+				frlerp(gel3d.scaley,50,0.01)
+				frlerp(gel3d.scalez,50,0.01)
+				frlerp(gel3d.roty,-90,0.01)
+				.set(gel3d.x,-150)
+				frlerp(gel3d.x,-97.5,0.01)
+			{
+				DrawStaticModel:(Football_High,FootballTexture_High)
+			}
+		}
+	}
+
+	//-------------------------------------------------------Grass and Ball Shadow
+	//Ball Shadow Mid
+	Draw:(Soft_Shadow,@C-735,@M+270,280,72,,#000000FF)
+		frlerp(gel.x,@C-500,0.01)
+		frlerp(gel.y,@M+230,0.01)
+
+	//Ball Shadow Front
+	Draw:(Soft_Shadow,@C-675,@M+260,140,36,,#000000FF)
+		frlerp(gel.x,@C-450,0.01)
+		frlerp(gel.y,@M+256,0.05)
+
+	//Grass Fringe
+	Draw:(Title_GrassPatch,@C-730,@M+286,280,42,,#DDDDDD90)
+		Scale(1.3)
+		frlerp(gel.colour,#DDDDDD00,0.005)
+		frlerp(gel.scale,0.98,0.01)
+		frlerp(gel.x,@C-614,0.01)
+		frlerp(gel.y,@M+234,0.01)
+	
+	Draw:(Title_GrassPatch,@C-600,@M+295,280,42,,#DDDDDD00)
+		Scale(1.3)
+		frlerp(gel.colour,#DDDDDD95,0.04)
+		frlerp(gel.scale,0.96,0.01)
+		frlerp(gel.x,@C-517,0.01)
+		frlerp(gel.y,@M+248,0.01)
+	
+	// Divider
+	Draw:(White_Angle,@C,@M-75,2000,18,-15.5,#000000FF)
+		Handle(0.5,0.5)
+
+
+	//Logo and Title
+	##J
+	Draw:(Title_Badge,@C-200,@M-197,400)
+	##-
+	Draw:(Title_Badge,@C-200,@M-297,400)
+	Draw:(Title_Manager,@C-150,@M+78,300,100)
+	##*
+	// ##!J
+	// ##*
+
+	//Title Underline
+	// Note: None in Japan variant
+	##E
+	//Arabic
+	Draw:(White,@C-145,@M+152,290,3,,#FFFFFF80)
+	##C
+	//Farsi
+	Draw:(White,@C-130,@M+170,260,3,,#FFFFFF80)
+ 	##!ECJ
+	//English
+	Draw:(White,@C-124,@M+167,248,3,,#FFFFFF80)
+	##*
+	
+
+	//-----------------------------------------------------------------------Footer
+	Draw:(Title_Footer,@f,@B-82,@w,82)
+	M_Text:(title_TAP,@C,@B-35,0,0,C,C,TextLoc,KNUL24,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		CharacterSpacing(3)
+		PulseAlpha(1,0.1,0.8,0.8,1.5)
+		##P4N
+		if(twk(ControllerInput,Enabled) = 1)
+		<
+			:set(gel.text,loc(title_PRESS))
+		>
+		else
+		<
+			:set(gel.text,loc(title_TAP))
+		>
+		##*
+
+	Rect:() // China warning title_WARNING_CHINA
+		{
+			M_Text:(title_WARNING_CHINA,@C-300,650,600,0,C,C,TextBox,KNUL24,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+
+			//M_Text:(title_WARNING_CHINA,@C,@B-235,0,0,C,C,TextLoc,KNUL24,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		}
+		if(twk(Settings,AppVariant) ="China")
+		<
+			.set(gel.vis,1)
+		>
+		else
+		<
+			.set(gel.vis,0)
+		>
+
+	// Debug FTUE
+	Rect:(@L+30,@T+70,150,60)
+		if(twk(Debug,DevBuild))
+		<
+			:set(gel.vis,1)
+			Click(ftue.debug_Disable)
+			<
+				set(gel.vis,0)
+			>
+		>
+		else
+		<
+			:set(gel.vis,0)
+		>
+	{{
+		Draw:(White,0,0,@W,@H,,#FFFFFF80)
+		M_Text:("Disable FTUE",@C,0,0,65,C,C,Text,KNUL23,,0,0,#00000000,Italics,#252525FF,ref)
+			M_Style:(Outline,#25252520)
+	}}
+
+
+	//Demo Version Title
+	##J
+	Draw:(Title_Demo,@C,@M-262,240) $HIDE
+		Handle(0.5,0.5)
+		set(gel.vis,twk(Settings,DemoVersion) = 1)
+	##-
+	Draw:(Title_Demo,@C,@M+212,240) $HIDE
+		Handle(0.5,0.5)
+		set(gel.vis,twk(Settings,DemoVersion) = 1)
+	##*
+
+		// Rect:() // Debug
+		// {
+		// 	M_Text:(TESTTESTEST,@C-500,140,1000,0,C,C,TextBox,KNUL35,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		// 	M_Text:(TESTTESTEST,@C-500,200,1000,0,C,C,TextBox,KNUL40,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		// 	M_Text:(TESTTESTEST,@C-500,260,1000,0,C,C,TextBox,CASH,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+		// 	M_Text:(TESTTESTEST,@C-500,320,1000,0,C,C,TextBox,BEBAS28,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			
+		// }
+
+	// Rect:() // Debug
+	// 	{
+	// 		// M_Text:(ACHIEVEMENT_43,@C-500,20,1000,0,C,C,TextBox,KNUL64,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,80,1000,0,C,C,TextBox,KNUL40,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,140,1000,0,C,C,TextBox,KNUL20,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,200,1000,0,C,C,TextBox,KNUL17,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,260,1000,0,C,C,TextBox,BEBAS60,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,320,1000,0,C,C,TextBox,BEBAS38,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 		M_Text:(ACHIEVEMENT_43,@C-500,380,1000,0,C,C,TextBox,BEBAS28,,0,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+	// 	}
+	
+
+}}
+
+
+// Additional blocker near options
+Rect:(@R-120,@T,120,70)
+	Click()
+
+M_Consent_Panel:()
+

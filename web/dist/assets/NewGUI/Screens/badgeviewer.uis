@@ -1,0 +1,27 @@
+Import:(Core.uih)
+Import:(badge_Macros.uih)
+
+
+M_Badge:(@C-130,@M-50,HD,1,BigBadge1)
+M_Badge:(@C+130,@M-50,HD,1,BigBadge2)
+
+
+PushOrigin:(@C,@M)
+	M_Badge:(-150,0,SD,1,SmallBadge1)
+	M_Badge:(-75,0,SD,1,SmallBadge2)
+	M_Badge:(-0,0,SD,1,SmallBadge3)
+	M_Badge:(75,0,SD,1,SmallBadge4)
+	M_Badge:(150,0,SD,1,SmallBadge5)
+
+	M_Badge:(-150,70,SD,1,SmallBadge6)
+	M_Badge:(-75,70,SD,1,SmallBadge7)
+	M_Badge:(-0,70,SD,1,SmallBadge8)
+	M_Badge:(75,70,SD,1,SmallBadge9)
+	M_Badge:(150,70,SD,1,SmallBadge10)
+PopOrigin
+
+ M_Text:(,@C,@B-45,0,0,L,C,Text,KNUL22,,0,0,#00000000,Italics,#252525FF,ref,BadgeEditor,FileName)
+
+
+M_Button:(@L+120,@B-33,180,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,badgeviewer.btn_Quit,ref,"EXIT",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+M_Button:(@R-120,@B-33,180,50,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,badgeviewer.btn_Refresh,ref,"REFRESH",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref)

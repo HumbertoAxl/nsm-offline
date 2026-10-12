@@ -1,0 +1,397 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(cards.uih)
+Import:(badge_Macros.uih)
+Import:(templates_fixtureresult.uih)
+Import:(formation_Macros.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(Cell55_NoPress,NewGUI/UI/Cells/Cell55_NoPress.png,20,20,0,0)
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(ClubProfile,SubsScroll),0)
+	.set(twk(ClubProfile,SubsScrollVel),0)
+	.set(twk(ClubProfile,ReservesScroll),0)
+	.set(twk(ClubProfile,ReservesScrollVel),0)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_OppositionSquadCard,?INDEX?,?FILTER?,?COMBINATION?)
+	Rect:(0,0,?CARD_W?,?CARD_H?) ref:ClubFormation?INDEX?
+		Handle(0.5,0.5)
+		Layer(AboveText)
+		LockLayer()
+		Scale(0.95,0.95)
+	{{
+	}}
+		.set(gel.x,twk(Team1Formation,Sel?INDEX?_X))
+		.set(gel.y,twk(Team1Formation,Sel?INDEX?_Y)*1.05)
+		Card_Slot(ClubFormation?INDEX?,?FILTER?,?COMBINATION?) ref:CardSlot
+		£M_FormationNavigation_?INDEX?:(Team1Formation,PresetId,ClubFormation)
+EndM
+
+Macro:(M_ClubFixture)
+	Cull:(0,0,@W,55) ref:ClubFixtureEntry
+		float(%playerFixture)
+		CTRLSelect(CTRLBasicSelected,0,0,6,6)
+		.CTRLSetSelected("DUMMYREF") ref:CTRLSetSelected
+	{{
+		Draw:(Cell55_NoPress,-3,-2,@W+6,59)
+		Rect:() ref:ClubInfo
+			Click() ref:Click
+		Rect:() ref:MatchInfo
+			Click() ref:Click
+
+
+		M_Text:(,20,0,0,@H,L,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,ClubFixtureEntry)
+		M_Text:(,@C-60,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ClubFixtureEntry)
+		M_Badge:(@C-100,30,SD,1,FixtureTeamBadge)
+		Draw:(White,[@W*0.75]-75,2,150,51,,#79E53EFFFFFFFFFF) $HIDE ref:Win
+		Draw:(White,[@W*0.75]-75,2,150,51,,#3E9CE5FFFFFFFFFF)  $HIDE ref:Draw
+		Draw:(White,[@W*0.75]-75,2,150,51,,#E53E3EFFFFFFFFFF) $HIDE ref:Loss
+		M_Text:(SCORE,[@W*0.75]-75,0,150,@H,C,C,Text,KNUL28,,1,0,#252525FF,NoItalics,#252525FF,ClubFixtureEntry)
+
+		M_Text:(VENUE,@R-40,0,0,@H,C,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ClubFixtureEntry)
+		M_Text:(COMPETITION,150,0,0,@H,L,C,Text,KNUL25,,1,0,#252525FF,NoItalics,#252525FF,ClubFixtureEntry)
+	}} Template
+EndM
+
+
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+M_NewDialogOPEN:(loc(clubprofile_HEADER),clubprofile)
+// ----------------
+// ----------------
+	// Tabs
+	Rect:(0,0,@W,50)
+	{{
+		Draw:(Tab_BG50,@f,-2,@w,58)
+		M_Tab:(30,0,200,50,clubprofile_SQUAD,1,ClubProfile,CurrentTab,,5)
+		M_Tab:(230,0,200,50,clubprofile_FIXTURES,2,ClubProfile,CurrentTab,,5)
+
+		M_SwitchTabs:(2,ClubProfile,12,12,422,12)
+	}}
+
+
+
+
+
+	// Team Colours
+	Clip:(@R-200,0,200,90)
+	{{
+		Draw:(White_Angle,100,-50,50,250,-30)
+			.set(gel.colour,twk(ClubProfile,TeamCol1))
+			.set(gel.alpha,0.7)
+		Draw:(White_Angle,130,-50,50,250,-30)
+			.set(gel.colour,twk(ClubProfile,TeamCol2))
+		M_Badge:(@R-60,50,HD,0.55,BigBadge)
+	}}
+	M_Text:(,@R-165,30,0,0,R,C,Text,KNUL30,,0,0,#00000000,NoItalics,#252525FF,ref,ClubProfile,Name,DoLTR)
+	M_Text:(CONF STH,@R-185,72,0,0,R,C,Text,KNUL25,,0,0,#00000000,NoItalics,#505050FF,ref,ClubProfile,LeagueName,DoLTR)
+
+
+
+
+
+	Rect:()
+		M_FadingTabContent:(ClubProfile,CurrentTab,1)
+	{
+		// Left Side Pitch
+		Rect:(@L,43)
+		{{
+			Draw:(Squad_Pitch_Texture,0,15,665,624)
+
+			// First XI
+			CTRLSelectGroup:(41,30,584,564,,CTRLPitchSelected,,,,,,1,CTRLGroupPitch) ref:SquadGroup
+				.CTRLSetSelected()
+			{	
+				Rect:(332,44)
+					CTRLHasSelectedGroup(0,true)
+					<
+						.CTRLSetSelected(ClubFormation0)
+					>
+				{{
+					M_OppositionSquadCard:(10,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(9,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(8,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(7,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(6,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(5,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(4,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(3,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(2,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(1,PLAYER|STARTER,NONE)
+					M_OppositionSquadCard:(0,PLAYER|STARTER,NONE)
+				}}
+
+				M_FormationStatistics:(448,558,ClubProfile)
+			}
+		}}
+			Scale(0.93,0.93)
+
+
+		// Contents
+		Rect:(620,90,@W-630,535+@z)
+		{{
+			Draw:(PanelAngled2,-3,-3,@W+6,@H+6)
+			Draw:(Dialog_Fade,1,0,@W-2,300,,#FFFFFFAAFFFFFFFF)
+			Draw:(Dialog_Fade,1,@B-1,@W-2,-300,,#FFFFFFAAFFFFFFFF)
+
+
+
+			// LINE UP
+			Rect:()
+				float(%swiping,%scrolling)
+				set(%scrolling,0)
+			{
+				// Subs/Reserves Sidebar
+				Draw:(White,1,0,28,534,,#707F87FFFFFFFFFF)
+				Draw:(White,29,0,3,534,,#00000015FFFFFFFF)
+					Layer(AboveText)
+				Draw:(Fade_Down,1,267,28,6,,#00000060FFFFFFFF)
+				Rect:(15,133,0,0,90)
+				{{
+					M_Text:(tactics_SUBS,0,0,@W,0,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						CharacterSpacing(3)
+					M_Text:(squad_RESERVES,-267,0,@W,0,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+						CharacterSpacing(3)	
+				}}
+
+				
+				// Clipped Content
+				Clip:(29,0,@W-30,534)
+				{{
+					// SUBS
+					CTRLSelectGroup:(0,0,@W,267,,CTRLSquareSelected,,,,,,1,CTRLGroupSquare)
+						CTRLIsSelected()
+						<
+							set(%scrolling,1)
+						>
+					{
+						Rect:(0,0,@W,267) ref:SubsList
+							ScrollingListX(ClubProfile,SubsScroll,@W,ClubProfile,SubsScrollVel) ref:ScrollingListSubs
+							CTRLHasSelectedGroup(0,true)
+							<
+								set(%scrolling,1)
+							>
+							if(%scrolling = 1)
+							<
+								CTRLScrollList(ScrollingListSubs) ref:CTRLScrollList
+							>
+						{{
+							M_SubMarker:(70-12,29,1)
+							M_SubMarker:(200-12,29,2)
+							M_SubMarker:(330-12,29,3)
+							M_SubMarker:(460-12,29,4)
+							M_SubMarker:(590-12,29,5)
+							M_SubMarker:(720-12,29,6)
+							M_SubMarker:(850-12,29,7)
+							M_CardSlot:(70,134,ClubSubstitute1,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(200,134,ClubSubstitute2,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(330,134,ClubSubstitute3,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(460,134,ClubSubstitute4,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(590,134,ClubSubstitute5,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(720,134,ClubSubstitute6,PLAYER|SUBSTITUTE,NONE,0,1)
+							M_CardSlot:(850,134,ClubSubstitute7,PLAYER|SUBSTITUTE,NONE,0,1)
+								CTRLBlock(RIGHT)
+						}}
+
+						Rect:(0,0,@W,257) ref:SwipePanels
+							if(not(twk(CardEngine,DraggingCard)))
+							<
+								if(%swiping oneof(0,1))
+								<
+									SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,ClubProfile,SubsScroll,ClubProfile,SubsScrollVel) ref:SwipePanelSubs
+									<
+										:set(%swiping,1)
+									>
+									else
+									<
+										set(%swiping,0)
+									>
+								>
+							>
+						{{
+							Rect:(10,272,@W-20,@H)
+							{{
+								M_ScrollIndicatorAltH:(0,@W,ClubProfile,SubsScroll,SubsList,ScrollingListSubs,SwipePanels,SwipePanelSubs)
+							}}
+						}}
+					}
+					M_SwitchStickHint:(✃,@R-38,236,X)
+						if(%scrolling = 1)
+						<
+							CTRLScrollListIcon(SubsList,CTRLScrollList)
+						>
+						else
+						<
+							set(gel.vis,0)
+						>
+
+
+					// RESERVES
+					CTRLSelectGroup:(0,267,@W,267,,CTRLSquareSelected,,,,,,1,CTRLGroupSquare)
+						CTRLIsSelected()
+						<
+							set(%scrolling,2)
+						>
+					{
+						// Moved Content
+						Rect:(70,365,@W,267)
+						{{
+							Rect:(0,0,20,100) ref:ReservesListEndBuffer
+							{
+							} Template
+							
+							Rect:(0,35,@W,@H) ref:ReservesList
+								ScrollingListX(ClubProfile,ReservesScroll,@W,ClubProfile,ReservesScrollVel) ref:ScrollingListReserves
+								CTRLHasSelectedGroup(0,true)
+								<
+									set(%scrolling,2)
+								>
+								if(%scrolling = 2)
+								<
+									CTRLScrollList(ScrollingListReserves) ref:CTRLScrollList
+								>
+								:ChildrenOffset(130,) ref:Offset
+							{{
+							}}
+						}}
+
+						Rect:(0,267,@W,257) ref:SwipePanels
+							if(not(twk(CardEngine,DraggingCard)))
+							<
+								if(%swiping oneof(0,2))
+								<
+									SwipePanel(PageSystem,BlockScroll,PageSystem,BlockScrollVel,ClubProfile,ReservesScroll,ClubProfile,ReservesScrollVel) ref:SwipePanelReserves
+									<
+										:set(%swiping,2)
+									>
+									else
+									<
+										set(%swiping,0)
+									>
+								>
+							>
+						{{
+							Rect:(10,272,@W-20,@H)
+							{{
+								M_ScrollIndicatorAltH:(0,@W,ClubProfile,ReservesScroll,ReservesList,ScrollingListReserves,SwipePanels,SwipePanelReserves)
+							}}
+						}}
+					}
+					M_SwitchStickHint:(✃,@R-38,503,X)
+						if(%scrolling = 2)
+						<
+							CTRLScrollListIcon(ReservesList,CTRLScrollList)
+						>
+						else
+						<
+							set(gel.vis,0)
+						>
+				}}
+			}
+		}}
+	}
+
+
+
+
+
+	Rect:() $HIDE
+		M_FadingTabContent:(ClubProfile,CurrentTab,2)
+	{
+		CTRLSelectGroup:(0,130,@W,@H-127,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+		{
+			Clip:(0,130,@W,@H-125) ref:SwipePanels
+				SwipePanel(ClubProfile,FixturesScroll,ClubProfile,FixturesScrollVel) ref:SwipePanelFixtures
+			{{
+				Rect:(30,10,@W-60,@H-25)
+				{{
+					M_ClubFixture:()
+					Rect:(0,0,@W,@H) ref:FixturesList
+						ScrollingList(ClubProfile,FixturesScroll,@H,ClubProfile,FixturesScrollVel) ref:ScrollingListFixtures
+						CTRLScrollList(ScrollingListFixtures) ref:CTRLScrollList
+						VerticalList(5) ref:VerticalList
+				}}
+				Rect:(30,10,@W-60,@H-20)
+				{{
+					M_ScrollIndicatorAlt:(@R+5,@H,ClubProfile,FixturesScroll,FixturesList,ScrollingListFixtures,SwipePanels,SwipePanelFixtures)
+				}}
+			}}
+		}
+		M_SwitchStickHint:(✃,@R-29,@B-40,Y)
+			CTRLScrollListIcon(FixturesList,CTRLScrollList)
+
+		Rect:(0,90,@W,40)
+			Layer(Text)
+		{{
+			Draw:(ColumnHeader,@f,0,@w,44)
+			Rect:(30,0,@W-60,@H)
+			{{
+				M_Text:(generic_WEEK,13,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(clubprofile_COMPETITION,150,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(clubprofile_OPPONENT,@C-60,0,0,@H,L,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:(clubprofile_RESULT,@W*0.75,0,0,@H,C,C,TextLoc,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				M_Text:("-",@R-40,0,0,@H,C,C,Text,KNUL20,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+			}}
+		}}
+	}
+	
+// ----------------
+// ----------------
+M_NewDialogCLOSE:()	
+
+
+
+
+
+
+
+// DEBUG FOR SETTING TEAM STRENGTH
+Rect:()
+	set(gel.vis,twk(Debug,SetTeamStrength))
+{
+	Draw:(White,0,80,240,100)
+		Layer(Debug)
+		float(%strength)
+		.set(%strength,10)
+		Click()
+	{{
+		M_Text:(,0,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			Layer(Debug)
+			set(gel.text,"STRENGTH: "::fmt(%strength,X))
+
+		Draw:(RoundedPanel,10,40,30,30,,#FF0000FF)
+			Click()
+			<
+				set(%strength,max(10,%strength-10))
+			>
+		{{
+			M_Text:("<",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+				Layer(Debug)
+		}}
+
+		Draw:(RoundedPanel,50,40,30,30,,#FF0000FF)
+			Click()
+			<
+				set(%strength,min(100,%strength+10))
+			>
+		{{
+			M_Text:(">",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+				Layer(Debug)
+		}}
+
+		Draw:(RoundedPanel,90,40,140,30,,#FF0000FF)
+			Click(debug.setTeamStrength,twk(ClubProfile,Id)::"|"::fmt(%strength,X))
+		{{
+			M_Text:("GENERATE",5,0,@W,@H,L,T,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+				Layer(Debug)
+		}}
+	}}
+}

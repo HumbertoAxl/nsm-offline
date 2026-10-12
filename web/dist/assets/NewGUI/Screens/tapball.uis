@@ -1,0 +1,648 @@
+
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(match_construction.uih)
+Import:(facility_Macros.uih)
+Import:(match_weather.uih)
+Import:(match_stadium.uih)
+Import:(CamAnim.uih)
+Import:(skydome.uih)
+
+Import:(FacilityConstruction.uis)
+
+Import:(home_NSMWorld.uih)
+
+Cls:(#50505000,True)
+	Layer(Pitch)
+//-------------------------------------------------------------------------------------------IMAGES
+Img:(Soft_Shadow,NewGUI/TapBall/Soft_Shadow.png)
+
+//--------------Grass bits and pieces for shader applied to Grass blend mesh under ball
+
+// Base texture - Tiled across mesh
+Texture:(GrassTapBallTexture,GrassTapBall.png)
+
+//Sits just behind ball line higher up screen
+Img:(GrassBG2,NewGUI/TapBall/Grass_BG_TILED.png)
+
+//Sits at base of mesh/screen
+Img:(GrassFG,NewGUI/TapBall/Grass_FG_TILED.png)
+
+//Grass blades applied to GrassFringe mesh and sits just in-front of ball.
+Img:(GrassFront2,NewGUI/TapBall/Grass_Front_TILED.png)
+
+//-------------------------------------------------------------------------------------------MESHES
+StaticModel:(Football_High,Football_High)
+
+//------------------------------------------------------------------------------------------- Setup
+
+Rect:()
+	.set(twk(Facilities,PitchLevelVisible),twk(Facilities,PitchLevel))
+	.set(twk(Facilities,PitchStandNLevelVisible),twk(Facilities,PitchStandNLevel))
+	.set(twk(Facilities,PitchStandSLevelVisible),twk(Facilities,PitchStandSLevel))
+	.set(twk(Facilities,PitchStandWLevelVisible),twk(Facilities,PitchStandWLevel))
+	.set(twk(Facilities,PitchStandELevelVisible),twk(Facilities,PitchStandELevel))
+	.set(twk(Facilities,PitchCornersLevelVisible),twk(Facilities,PitchCornersLevel))
+	.set(twk(Facilities,TrainingGroundLevelVisible),twk(Facilities,TrainingGroundLevel))
+	.set(twk(Facilities,MedicalUnitLevelVisible),twk(Facilities,MedicalUnitLevel))
+	.set(twk(Facilities,FitnessCentreLevelVisible),twk(Facilities,FitnessCentreLevel))
+	.set(twk(Facilities,ScoutsOfficeLevelVisible),twk(Facilities,ScoutsOfficeLevel))
+	.set(twk(Facilities,ClubShopLevelVisible),twk(Facilities,ClubShopLevel))
+	.set(twk(Facilities,YouthAcademyLevelVisible),twk(Facilities,YouthAcademyLevel))
+
+//------------------------------------------------------------------------------------------- 2D Animations
+
+Animation:(30,Clamp) ref:TapAnim
+{
+	
+	During:(0,16) 
+	{
+		Draw:(Circle_100,0,0,15,15,,#0653B275)
+			Handle(0.5,0.5)
+		Draw:(Circle_100,0,0,20,20,,#0653B200)
+			Handle(0.5,0.5)
+			TweenSize(50,50,10,10,-1,-1)
+			TweenCol(#0653B260)
+	}
+	During:(16,29) 
+	{
+	Draw:(Circle_100,0,0,15,15,,#0653B275)
+			Handle(0.5,0.5)
+			TweenCol(#0653B200)
+	Draw:(Circle_100,0,0,50,50,,#0653B260)
+			Handle(0.5,0.5)
+			TweenSize(80,80,25,25,-1,-1)
+			TweenCol(#0653B200)
+	
+	}
+	
+	During:(0,18) 
+	{
+		Draw:(Highlight_Circle,0,0,10,10,,#0653B210)
+			TweenSize(108,108,5,5,-1,-1)
+			TweenCol(#29A1DBFF)
+	}
+	During:(19,29) 
+	{
+		Draw:(Highlight_Circle,0,0,108,108,,#29A1DBFF)
+			TweenSize(115,115,54,54,-1,-1)
+			TweenCol(#0653B200)
+	}
+}
+
+Animation:(80,Loop) ref:TapFP
+{
+	//OuterCircle
+	During:(0,44) 
+	{
+
+		Draw:(Highlight_Circle,0,0,70,70,,#7AE90390)
+			Handle(0.5,0.5)
+			TweenCol(#7AE90340)
+	}
+	During:(45,79) 
+	{
+
+		Draw:(Highlight_Circle,0,0,70,70,,#7AE90340)
+			Handle(0.5,0.5)
+			TweenCol(#7AE90390)
+	}
+
+	//Shrinking Rings
+	During:(0,4) 
+	 {
+		Draw:(Highlight_Circle,0,0,78,78,,#AAFFAA00)
+			Handle(0.5,0.5)
+			TweenSize(74,74,39,39,-1,-1)
+			TweenCol(#AAFFAA80)
+	}
+	During:(5,74) 
+	 {
+		Draw:(Highlight_Circle,0,0,73,73,,#AAFFAA80)
+			Handle(0.5,0.5)
+			TweenSize(10,10,36.5,36.5,-1,-1)
+			TweenCol(#FFFFFF00)
+	}
+
+	//Circle Grow
+	During:(60,79) 
+	{
+		Draw:(Circle_100,0,0,1,1,,#00FF0090)
+			Handle(0.5,0.5)
+			TweenSize(90,90,0.5,0.5,-1,-1)
+			TweenCol(#FFFFFF00)
+	}
+
+	//BG
+	During:(0,79) 
+	{
+		Draw:(Circle_100,0,0,15,15,,#7AE903FF)
+			Handle(0.5,0.5)
+		Draw:(Circle_100,0,0,75,75,,#00FF0050)
+			Handle(0.5,0.5)
+	}
+ }
+
+//---------------------MODELLED STADIUM BG
+Rect:() 
+   	M_CameraVariables:()
+{
+	//-------------------------------------------------------------Cam
+
+	//Camera in ball location
+	Rect:()
+	{
+		Locator:(0,0,90,7,0,0)
+			Rearmable()
+			if(twk(Match,TapBallHeader))
+			<
+				:set(gel3d.z,0)
+			>
+			else
+			<
+				:set(gel3d.z,90)
+			>
+			// 40 to move the camera back
+			:set(gel3d.x,twk(Match,TapBallPlayerX)+[cos(twk(Match,TapBallShotDir)) * -[40+?TAPBALL_CAMERA_XOFFSET?]])
+			:set(gel3d.y,-20+twk(Match,TapBallPlayerY)+[sin(twk(Match,TapBallShotDir)) * -[40+?TAPBALL_CAMERA_YOFFSET?]])
+			:set(gel3d.rotz,-[90+twk(Match,TapBallShotDir)])			
+			M_BlendCameraToLocator:(1,1,(75.13*1.07))
+	}
+
+
+
+	//-----------------------------------------------------------------------------------------Cam var
+	M_SetCameraVariablesFromTweaks:()
+
+	//-----------------------------------------------------------------------------------------Camera
+	Camera:((0,0,0),(0,0,0),101.75,(1,1,1),,@w,@h) //FIXEDFOV
+
+	    M_PositionCamera:()
+	{	
+		
+		//-------------------------------------------------------Meshes
+		Locator:((0,-20,100),(0,0,0),(1,1,1)) ref:PitchStadium
+		{
+			//World home and pitch
+			Locator:((0,0,0),(0,0,90),(0.7,0.7,0.7))
+			{
+				//-------------------------------------------------------Surrounding Enivironment
+				M_NSMWorld:(1)
+				
+				//-------------------------------------------------------Stadium base
+				Locator:((0,0,0),(0,0,0),(1,1,1))
+				{
+					M_StadiumBaseHome:(1)
+					M_3DPitchHome:(1)
+				}
+			}		
+
+			//-------------------------------------------------------------Goals
+			//NorthGoal
+			M_Goal:(0,1355,0,0,0.6,1,AboveText)
+			//SouthGoal
+			M_Goal:(0,-1355,0,180,0.6,0,AboveText)
+
+			//Stadium
+			Locator:((0,0,0),(0,0,90),(0.7,0.7,0.7))
+			{	
+
+				Locator:((0,0,0),(0,0,0),(1,1,1))
+				{
+
+					M_LowerStadiumHome:(Stadium,1,)		
+				}
+
+			}
+
+			
+		}
+
+		//------------------------------------------------------------------SkyDome assets
+		Locator:((0,0,80),(0,0,0),(0.1,0.1,0.1))
+		{
+			//Skydome
+			M_SkyMacro:(0,0,100,0,0,0,1,1,1,Simple3D)
+			
+			//SkyHorizon
+			M_HorizonMacro:(0,0,0,0,0,0,1,1,1)		
+		}
+
+		//------------------------------------------------------------------Grass At Back Behind Ball
+		Locator:(0,0,98,90,0,0)
+			Rearmable()
+			:set(gel3d.x,%CX+[cos(twk(Match,TapBallShotDir)) * [30+?TAPBALL_CAMERA_XOFFSET?]])
+			:set(gel3d.y,%CY+[sin(twk(Match,TapBallShotDir)) * [30+?TAPBALL_CAMERA_YOFFSET?]])
+			:set(gel3d.rotz,twk(Match,TapBallShotDir)+90)
+			//Layer(AboveText)
+		{
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34AE0)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B345E0)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C253E0)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A841E0)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1BE0)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C14E0)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#769B07E0)
+				>>>>>>>
+			{
+				Tile:(GrassBG2,-80,-4,30,,,#FFFFFFFFFFFFFFFF)
+					Copies(5,1)
+					Spacing(30,1)
+
+				##P4N
+				Tile:(GrassBG2,-80,-8.5,15,,,#FFFFFFFFFFFFFFFF)
+					Copies(10,1)
+					Spacing(15,1)
+				##*
+			}
+
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34AA0)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B345A0)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C253A0)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A841A0)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1BA0)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C14A0)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#769B07A0)
+				>>>>>>>
+			{	
+				Tile:(GrassBG2,-80,-8,30,,,#FFFFFFFFFFFFFFFF)
+					Copies(5,1)
+					Spacing(30,34)
+				Tile:(GrassBG2,-50,-6,14,,,#FFFFFFFFFFFFFFFF)
+					Copies(8,1)
+					Spacing(14,34)
+			}
+		}
+		Euler(RYP)
+
+		//-------------------------------------------------------------------Grass Middle infront of ball
+		Locator:(0,0,98,90,0,0)
+			Rearmable()
+			:set(gel3d.x,%CX+[cos(twk(Match,TapBallShotDir)) * [63+?TAPBALL_CAMERA_XOFFSET?]])
+			:set(gel3d.y,%CY+[sin(twk(Match,TapBallShotDir)) * [63+?TAPBALL_CAMERA_YOFFSET?]])
+			:set(gel3d.rotz,twk(Match,TapBallShotDir)+90)
+			Layer(AboveText2)
+		{
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34A80)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B34580)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C25380)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A84180)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1B80)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C1480)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#769B0780)
+				>>>>>>>
+			{
+				Tile:(GrassFront2,-100,2,100,,,#FFFFFFFFFFFFFFFF)
+					Copies(3,1)
+					Spacing(100,34)
+			}
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34A95)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B34595)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C25395)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A84195)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1B95)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C1495)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#769b0795)
+				>>>>>>>
+			{	
+				Tile:(GrassFront2,-110,-1,55,,,#FFFFFFFFFFFFFFFF)
+					Copies(4,1)
+					Spacing(55,8)
+			}
+		}
+		Euler(RYP)
+
+		//--------------------------------------------------------------------Grass Front
+		Locator:(0,0,98,90,0,0)
+			Rearmable()
+			:set(gel3d.x,%CX+[cos(twk(Match,TapBallShotDir)) * [30+?TAPBALL_CAMERA_XOFFSET?]])
+			:set(gel3d.y,%CY+[sin(twk(Match,TapBallShotDir)) * [30+?TAPBALL_CAMERA_YOFFSET?]])
+			:set(gel3d.rotz,twk(Match,TapBallShotDir)+90)
+			Layer(AboveText2)
+		{
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34A80)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B34580)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C25380)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A84180)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1B80)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C1480)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#5D760080)
+				>>>>>>>
+			{
+				Tile:(GrassFront2,-90,0,55,,,#FFFFFFFFFFFFFFFF)
+					Copies(3,1)
+					Spacing(55,8)
+			}
+	
+			Rect:(#92C147FFFFFFFFFF)
+				if(twk(Facilities,PitchLevel)=0)
+				<
+					set(gel.colour,#CFC34A95)
+				>
+				elif(twk(Facilities,PitchLevel)=1)
+				<
+					set(gel.colour,#C3B34595)
+				>
+				elif(twk(Facilities,PitchLevel)=2)
+				<
+					set(gel.colour,#B0C25395)
+				>
+				elif(twk(Facilities,PitchLevel)=3)
+				<
+					set(gel.colour,#91A84195)
+				>
+				elif(twk(Facilities,PitchLevel)=4)
+				<
+					set(gel.colour,#7D8F1B95)
+				>
+				elif(twk(Facilities,PitchLevel)=5)
+				<
+					set(gel.colour,#606C1495)
+				>
+				elif(twk(Facilities,PitchLevel)=6)
+				<
+					set(gel.colour,#5D760095)
+				>>>>>>>
+			{
+				Tile:(GrassFront2,-100,-3,100,,,#FFFFFFFFFFFFFFFF)
+					Copies(2,1)
+					Spacing(100,8)
+			}
+		}
+		Euler(RYP)
+	}
+
+
+	//--------------------------------------------------------------------------3D TapBall
+	Camera:((0,0,0),(0,0,0),121.89,(1,1,1),,@w,@h) ref:BallCamera
+	//FIXEDFOV
+	    M_PositionCamera:()
+	    set(gel3d.fov,(50*1.04))
+	    //JF: To line the ball up with the new FOV
+	    set(gel3d.x,%CX+[cos(twk(Match,TapBallShotDir)) * -[30+?TAPBALL_BALLCAMERA_XOFFSET?]])
+		set(gel3d.y,%CY+[sin(twk(Match,TapBallShotDir)) * -[30+?TAPBALL_BALLCAMERA_YOFFSET?]])
+		set(gel3d.z,%CZ+5.5+?TAPBALL_BALLCAMERA_ZOFFSET?)
+	{
+		Locator:((0,0,100),(90,0,0),(1,1,1)) ref:TapPlane
+			set(gel3d.x,twk(TapBall,PosX))
+			set(gel3d.y,-20+twk(TapBall,PosY))
+		{
+		}
+
+		Locator:((0,0,91),(0,0,0),(1.3,1.3,1.3)) ref:TapBall			
+			set(gel3d.rotz,-%CRZ)
+			set(gel3d.x,twk(TapBall,PosX))
+			set(gel3d.y,-20+twk(TapBall,PosY))
+			set(gel3d.z,twk(TapBall,Height))
+			Layer(AboveText)
+		{
+			UseShader:(Static3D)
+			{
+				Locator:((0,0,0),(90,0,0),(9.89,9.89,9.89))
+					set(gel3d.roty,twk(TapBall,Rotation))
+				{
+					DrawStaticModel:(Football_High,FootballTexture_High)
+				}
+			}
+
+			UseShader:(default)
+			{
+				Locator:((0,0,0),(90,0,0),(1,1,1))
+					set(gel.vis,twk(ControllerInput,Enabled)=1)
+					if(twk(TapBall,Kicked) = 0)
+					<
+						set(gel3d.x,twk(TapBall,JoyCursorX))
+						set(gel3d.z,twk(TapBall,JoyCursorY))
+					>
+					Layer(AboveText)
+				{
+					AnimInstance:(0,0,TapFP) ref:TapFP
+						Scale(0.05,0.05)
+						Rearmable()  
+						:set(gel.vis,true)
+						if(twk(TapBall,Kicked) = 2)
+						<
+						 	:set(gel.vis,false)
+						>
+					
+
+					AnimInstance:(0,0,TapAnim) $HIDE ref:TapPoint
+						Scale(0.05,0.05)
+						 Rearmable()
+						 :set(gel.vis,false)
+						 if(twk(TapBall,Kicked) = 2)
+						 <
+						 	:set(gel.anim.normtime,0)
+						 	:set(gel.anim.speed,1)
+						 	:set(gel.vis,true)
+						 	:Post(UI_Select)
+						 >
+				}
+			}
+		}
+
+		Locator:((0,0,101.8),(90,0,0),(0.045,0.045,0.045))
+			set(gel3d.rotz,-%CRZ)
+			set(gel3d.x,twk(TapBall,PosX))
+			set(gel3d.y,-20+twk(TapBall,PosY))
+		{
+			UseShader:(default)
+			{
+				Draw:(Soft_Shadow) ref:TapBallDayShadow
+					Rearmable()
+					Layer(Text)
+					Handle(0.5,0.5)
+					// 94 is the resting TapBall/Height
+					set(gel.scale,lerp(1,0.75,clamp([94-twk(TapBall,Height)]/20,0,1)))
+					set(gel.alpha,lerp(1,0.2,clamp([94-twk(TapBall,Height)]/20,0,1)))
+					:set(gel.vis,twk(Match,TapBallHeader) = 0)
+
+				// Shadow Night
+				Rect:(-1000,925) ref:TapBallNightShadow
+				{{
+					// Needs texture setting up
+					Draw:(Soft_Shadow,0,0,200,50) $HIDE ref:TapBallNightShadow
+						Handle(0.5,0.5)
+					Draw:(Soft_Shadow,0,0,200,50) $HIDE ref:TapBallNightShadow
+						Handle(0.5,0.5)
+					Draw:(Soft_Shadow,0,0,200,50) $HIDE ref:TapBallNightShadow
+						Handle(0.5,0.5)
+					Draw:(Soft_Shadow,0,0,200,50) $HIDE ref:TapBallNightShadow
+						Handle(0.5,0.5)
+				}}
+					Rearmable()
+					Layer(Text)
+					:set(gel.vis,twk(Match,Daytime) = 0 and(twk(Match,TapBallHeader) = 0))
+			}
+		}
+			Euler(RYP)
+	}
+}
+
+
+
+
+
+
+//---------------------------------------------------------------Kick Animation
+AnimInstance:(0,0,TapAnim) $HIDE ref:TapPoint
+	Rearmable()
+	:set(gel.vis,false)
+	if(twk(TapBall,Kicked) = 1 and(twk(ControllerInput,Enabled)=0))
+	<
+		:set(gel.anim.normtime,0)
+		:set(gel.anim.speed,1)
+		:set(gel.x,twk(TapBall,KickX))
+		:set(gel.y,twk(TapBall,KickY))
+		:set(gel.vis,true)
+		:Post(UI_Select)
+	>
+	Layer(AboveText)
+
+	//Grass FX on Kick
+	Rect:(0,911,0,0) $HIDE ref:GrassBladesEmitPoint
+	{{
+		Instance:(GrassBladesShowerEmmiter,0,0)
+	}}
+		Layer(AboveText)
+
+//-----------------------------------Rain
+Rect:()
+	Layer(AboveSky)
+     set(gel.vis,twk(Match,Weather) = UIMatchConsts.WEATHER_RAIN and(twk(MatchInterval,FormationCam)=0))
+{
+    Instance:(RainSplashesEmitter,140,464)
+    Instance:(RainStreaksEmitter,240,0)
+}
+M_Rain:(0)
+M_Snow:(0)
+
+
+Rect:(@o,@T,@s,@H)
+strvar(%hinttxt)
+{{
+	M_Button:(@R-120,@B-33,180,50,Button_RedSliced,,0,0,0,0,#FFFFFFFF,match.btn_tapballCancel,ref,loc(navigate_Cancel),0,3,C,C,TextLoc,KNUL22,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,textref,,,%hinttxt)
+		##N
+		M_CTRLButtonExtra:(X,false)
+		##IAP4
+		M_CTRLButtonExtra:(Y,false)
+		##*
+		Layer(AboveText2)
+		LockLayer()
+		set(gel.vis,twk(Match,AllowFPCancel) and(twk(Ftue,Enabled) = 0) and(twk(Ftue,TrainingEnabled) = 0))
+		if(twk(ControllerInput,Enabled) = 1)
+   		<
+   			##N
+   			set(%hinttxt,loc(settings_XButton)::"  ")
+   			##IAP4
+   			set(%hinttxt,loc(settings_YButton)::"  ")
+   			##*
+    	>
+
+
+}} 

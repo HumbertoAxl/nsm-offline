@@ -1,0 +1,447 @@
+Macro:(M_DebugOption,?X?,?Y?,?TEXT?,?CAT?,?VAR?,?NO?,?YES?,?MSG?,?PARAM?)
+	Rect:(?X?,?Y?,320,40)
+		strvar(%BUTTONTEXT)
+	{{
+		M_Button:(0,0,@W,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,3,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+			set(%BUTTONTEXT,?TEXT?)
+			If:(?CAT?)
+				if(twk(?CAT?,?VAR?) = 0)
+				<
+					set(gel.alpha,0.5)
+					set(%BUTTONTEXT,?TEXT? :: ?NO?)
+				>
+				else
+				<
+					set(gel.alpha,1)
+					set(%BUTTONTEXT,?TEXT? :: ?YES?)
+				>
+			EndIf
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				if(%open)
+				<
+					:Message(?MSG?,?PARAM?)
+					If:(?CAT?)
+						set(twk(?CAT?,?VAR?),1-twk(?CAT?,?VAR?))
+					EndIf
+				>
+			>
+	}}
+
+EndM
+
+
+Macro:(M_LeftRightAdjust,?X?,?Y?,?TWEAK?,?MOD?,?TEXT?)
+	Rect:(?X?,?Y?)
+	{{
+		M_Button:(0,0,50,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,"<",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				sub(?TWEAK?,?MOD?)
+			>
+
+		M_Text:("",135,0,0,0,C,C,Text,KNUL18,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			set(gel.text,?TEXT?)
+
+		M_Button:(270,0,50,40,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,">",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+			M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+			if(%clicked)
+			<
+				add(?TWEAK?,?MOD?)
+			>
+	}}
+EndM
+
+
+Rect:(@L,@T,@W,@H)
+	set(gel.vis,twk(Debug,Enabled))
+{{
+	
+	Rect:(@R-150,@T+50)
+		float(%open)
+		set(gel.vis,twk(Debug,ExternalDebugMenu) = 0)
+	{{
+		Draw:(White,0,0,150,30,,#000000FF)
+			Click()
+			<
+				set(%open,1-%open)
+			>
+			if(%open)
+			<
+				frlerp(gel.h,150,0.2)
+				frlerp(gel.alpha,0.5,0.2)
+			>
+			else
+			<
+				frlerp(gel.h,30,0.2)
+				frlerp(gel.alpha,1,0.2)
+			>
+		M_Text:(,5,15,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			set(gel.text,"FPS: "::twk(Debug,FPS))
+
+		Rect:()
+			frlerp(gel.alpha,%open,0.1)
+		{
+
+			M_Text:(,5,45,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"Update Timer: "::twk(Debug,TimerUpdate))
+			M_Text:(,5,75,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"Particle Timer: "::twk(Debug,TimerParticle))
+			M_Text:(,5,105,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"Cards Timer: "::twk(Debug,TimerCards))
+			M_Text:(,5,135,0,0,L,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"Render Timer: "::twk(Debug,TimerRender))
+		}
+	}}
+
+	Rect:() ref:DebugOptionsRoot
+		set(gel.vis,(shell(GameScreen) = "home") and(twk(DynamicOverlay,CurrentTopOverlay) = ""))
+		float(%open)
+		Layer(Debug)
+		LockLayer()
+		if(%open)
+		<
+			CTRLClearSelect()
+		>
+	{
+		Draw:(White,@L,0,@W,0,,#00000000)
+			Click()
+			.set(gel.h,0)
+			if(%open)
+			<
+				frlerp(gel.h,@H,0.2)
+				frlerp(gel.alpha,0.9,0.2)
+			>
+			else
+			<
+				frlerp(gel.h,0,0.2)
+				frlerp(gel.alpha,0,0.2)
+			>
+
+		Rect:()
+			strvar(%BUTTONTEXT)
+		{
+			M_Button:(75,@B-30,100,50,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+				M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+				if(%open)
+				<
+					:set(%BUTTONTEXT,"Close")
+				>
+				else
+				<
+					:set(%BUTTONTEXT,"Debug")
+				>
+				if(%clicked)
+				<
+					set(%open,1-%open)
+				>
+
+		}
+
+		Dissolve:()
+			.set(gel.alpha,0)
+			if(%open and(twk(Debug,ExternalDebugMenu) = 0))
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.2)
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>
+		{{
+			M_DebugOption:(200,100,Forced Chances,Debug,ForceChances,No,Yes,,)
+			M_DebugOption:(200,150,FP Cancel,Match,AllowFPCancel,Off,On,,)
+			M_DebugOption:(200,200,"Infinite Retries: ",Match,InfiniteRetries,No,Yes,,)
+			M_DebugOption:(200,250,"Set Team Str: ",Debug,SetTeamStrength,No,Yes,debug.enableTeamStrength,(twk(Debug,SetTeamStrength)))
+			//M_DebugOption:(200,300,"Content Grid: ",Debug,ContentGrid,Off,On,link)
+			M_DebugOption:(200,300,"Stack Profile Carousel: ",Debug,StackProfileCarousel,No,Yes,,)
+			M_DebugOption:(200,350,"Camera Adjust: ",Debug,CameraAdjust,Off,On,,)
+			M_DebugOption:(200,400,"Split Load: ",Debug,SplitLoading,No,Yes,,)
+			M_DebugOption:(200,450,Override Facilities,Debug,OverrideFacilities,No,Yes,,)
+				if(twk(Debug,OverrideFacilities))
+				<
+					set(twk(Facilities,TrainingGroundLevel),6)
+					set(twk(Facilities,MedicalUnitLevel),6)
+					set(twk(Facilities,FitnessCentreLevel),6)
+					set(twk(Facilities,ScoutsOfficeLevel),6)
+					set(twk(Facilities,ClubShopLevel),6)
+					set(twk(Facilities,YouthAcademyLevel),6)
+				>
+			M_DebugOption:(200,500,"2D Crowd: ",Debug,EnableCrowd,No,Yes,,)
+
+			M_DebugOption:(550,100,"Skip Season - Win",,,,,debug.skipSeasonWin,)
+			M_DebugOption:(550,150,"Skip Season - Lose",,,,,debug.skipSeasonLose,)
+			
+			// Skip Season
+			Rect:(550-135,200,50,40)
+				.set(twk(Debug,SkipSeasonPos),1)
+				strvar(%BUTTONTEXT)
+			{{
+				M_Button:(0,0,@W,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,"<",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						sub(twk(Debug,SkipSeasonPos),1)
+					>
+
+				M_Button:(135,0,200,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,3,C,C,TextBox,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+					set(%BUTTONTEXT,"Skip Season|Pos: "::fmt(twk(Debug,SkipSeasonPos),X))
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						:Message(debug.skipSeasonPos,twk(Debug,SkipSeasonPos))
+					>
+
+				M_Button:(270,0,@W,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,">",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						add(twk(Debug,SkipSeasonPos),1)
+					>
+			}}
+
+
+			M_LeftRightAdjust:(800,100,twk(CardEngine,PickupDelay),10,"Card Pickup Delay: "::fmt(twk(CardEngine,PickupDelay),X))
+				set(twk(CardEngine,PickupDelay),clamp(twk(CardEngine,PickupDelay),10,300))
+
+			M_LeftRightAdjust:(800,150,twk(Match,DifficultyLever),0.05,"Match Difficulty: "::fmt(twk(Match,DifficultyLever),X.XX))
+				set(twk(Match,DifficultyLever),clamp(twk(Match,DifficultyLever),0,1))
+
+			M_Text:("STREAK DIFFICULTY",935,200,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				set(gel.text,"SKILL DIFFICULTY: "::fmt(1+(clamp(twk(PlayerSaved,CurrentStreak),twk(StreakDifficulty,LowerStreakClamp),twk(StreakDifficulty,UpperStreakClamp)) * twk(StreakDifficulty,SkillModifier)),X.XX))
+			M_LeftRightAdjust:(800,250,twk(PlayerSaved,CurrentStreak),1,"Current Streak: "::fmt(twk(PlayerSaved,CurrentStreak),X))
+			M_LeftRightAdjust:(800,300,twk(StreakDifficulty,SkillModifier),0.01,"Skill Modifier: "::fmt(twk(StreakDifficulty,SkillModifier),X.XX))
+			M_LeftRightAdjust:(800,350,twk(StreakDifficulty,UpperStreakClamp),1,"Upper Streak Clamp: "::fmt(twk(StreakDifficulty,UpperStreakClamp),X))
+			M_LeftRightAdjust:(800,400,twk(StreakDifficulty,LowerStreakClamp),1,"Lower Streak Clamp: "::fmt(twk(StreakDifficulty,LowerStreakClamp),X))
+		}}
+
+
+
+
+
+
+		Dissolve:()
+			.set(gel.alpha,0)
+			if(%open and(twk(Debug,ExternalDebugMenu) = 1))
+			<
+				:set(gel.vis,1)
+				frlerp(gel.alpha,1,0.2)
+			>
+			else
+			<
+				:set(gel.vis,0)
+			>
+		{{
+
+			M_DebugOption:(200,100,"Skip Season - Win",,,,,debug.skipSeasonWin,)
+			M_DebugOption:(200,150,"Skip Season - Lose",,,,,debug.skipSeasonLose,)
+			
+			// Skip Season
+			Rect:(200-135,200,50,40)
+				.set(twk(Debug,SkipSeasonPos),1)
+				strvar(%BUTTONTEXT)
+			{{
+				M_Button:(0,0,@W,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,"<",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						sub(twk(Debug,SkipSeasonPos),1)
+					>
+
+				M_Button:(135,0,200,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,3,C,C,TextBox,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+					set(%BUTTONTEXT,"Skip Season|Pos: "::fmt(twk(Debug,SkipSeasonPos),X))
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						:Message(debug.skipSeasonPos,twk(Debug,SkipSeasonPos))
+					>
+
+				M_Button:(135,50,200,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,(%BUTTONTEXT),0,3,C,C,TextBox,KNUL20,,0,0,#00000000,NoItalics,#252525FF,textref)
+					set(%BUTTONTEXT,"Switch to Position: "::fmt(twk(Debug,SkipSeasonPos),X))
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						:Message(debug.switchPos,twk(Debug,SkipSeasonPos))
+					>
+
+				M_Button:(270,0,@W,@H,Button_SilverSliced,,0,0,0,0,#FFFFFFFF,link,ref,">",0,3,C,C,Text,KNUL22,Upper,0,0,#00000000,NoItalics,#252525FF,textref)
+					M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+					if(%clicked)
+					<
+						add(twk(Debug,SkipSeasonPos),1)
+					>
+			}}
+
+			M_DebugOption:(550,100,"Add Bux",,,,,debug.getBux,1000000)
+			M_DebugOption:(550,150,"Refill Squad Energy",,,,,debug.setSquadEnergy,100)
+			M_DebugOption:(550,200,"Disable Build Timers",,,,,debug.disableBuildTimers,)
+
+			M_DebugOption:(900,100,"Increase Fans",,,,,debug.boostFans,10)
+			M_DebugOption:(900,150,"Decrease Fans",,,,,debug.boostFans,-10)
+			M_DebugOption:(900,200,"Increase Press",,,,,debug.boostPress,10)
+			M_DebugOption:(900,250,"Decrease Press",,,,,debug.boostPress,-10)
+			M_DebugOption:(900,300,"Increase Sponsors",,,,,debug.boostSponsors,10)
+			M_DebugOption:(900,350,"Decrease Sponsors",,,,,debug.boostSponsors,-10)
+			M_DebugOption:(900,400,"Increase Board",,,,,debug.boostBoard,10)
+			M_DebugOption:(900,450,"Decrease Board",,,,,debug.boostBoard,-10)
+		}}
+	}
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Rect:()
+	set(gel.vis,twk(Debug,CameraAdjust) and(shell(GameScreen) = "home"))
+{
+
+	Rect:(150,@B-130)
+	{{
+		Rect:(0,0,50,50)
+			if(twk(Home,CamMinXA) <= 0 and(twk(Home,CamMinXA) > twk(Home,CamMaxXA)))
+			<
+				:set(gel.alpha,1)
+				Click()
+				<	
+					sub(twk(Home,CamMinXA),1)
+				>
+			>
+			else
+			<
+				set(gel.alpha,0.1)
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:("<",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,ref)
+		}}
+
+		Rect:(50,0,50,50)
+			if(twk(Home,CamMinXA) < 0)
+			<
+				:set(gel.alpha,1)
+				Click()
+				<	
+					add(twk(Home,CamMinXA),1)
+				>
+			>
+			else
+			<
+				set(gel.alpha,0.1)
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:(">",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		M_Text:(,50,-20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,Home,CamMinXA)
+	}}
+
+	M_Text:(,300,@B-180,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		set(gel.text,"X Angle Range")
+
+	Rect:(300,@B-130)
+	{{
+		Rect:(0,0,50,50)
+			if(twk(Home,CamMaxXA) > -90)
+			<
+				:set(gel.alpha,1)
+				Click()
+				<	
+					sub(twk(Home,CamMaxXA),1)
+				>
+			>
+			else
+			<
+				:set(gel.alpha,0.1)
+			>			
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:("<",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		Rect:(50,0,50,50)
+			if(twk(Home,CamMaxXA) < 0 and(twk(Home,CamMaxXA) < twk(Home,CamMinXA)))
+			<
+				Click()
+				<	
+					add(twk(Home,CamMaxXA),1)
+				>
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:(">",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		M_Text:(,50,-20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,Home,CamMaxXA)
+	}}
+
+
+
+
+
+
+	Rect:(450,@B-130)
+	{{
+		Rect:(0,0,50,50)
+			Click()
+			<	
+				sub(twk(Home,CamMinDistance),1000)
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:("<",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FFFFFFFFFF,ref)
+		}}
+
+		Rect:(50,0,50,50)
+			Click()
+			<	
+				add(twk(Home,CamMinDistance),1000)
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:(">",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		M_Text:(,50,-20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,Home,CamMinDistance)
+	}}
+
+	M_Text:(,600,@B-180,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+		set(gel.text,"Zoom Range")
+
+	Rect:(600,@B-130)
+	{{
+		Rect:(0,0,50,50)
+			Click()
+			<	
+				sub(twk(Home,CamMaxDistance),1000)
+			>		
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:("<",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		Rect:(50,0,50,50)
+			Click()
+			<	
+				add(twk(Home,CamMaxDistance),1000)
+			>
+		{{
+			Draw:(RoundedPanel,0,0,@W,@H)
+			M_Text:(">",0,0,@W,@H,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+		}}
+
+		M_Text:(,50,-20,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#FFFFFFFF,ref,Home,CamMaxDistance)
+	}}
+}

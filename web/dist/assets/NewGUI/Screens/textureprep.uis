@@ -1,0 +1,9 @@
+Import:(Core.uih)
+Import:(match_footballerTexture.uih)
+Import:(match_goalkeeperTexture.uih)
+
+Rect:() ref:TextureHook
+{
+
+}
+	ShowShell(TexturePrep,0)

@@ -1,0 +1,245 @@
+Img:(Chart_X,NewGUI/_Core/Chart/Chart_X.png)
+Img:(Chart_Y,NewGUI/_Core/Chart/Chart_Y.png)
+
+// ----------------------------------------------- TEMPLATES
+
+Draw:(ChartPoint,0,0,12,12,,#80808080) ref:ChartPoint
+	Scale(0.5,0.5)
+	Handle(0.5,0.5)
+{
+	M_Text:(,-50,-40,100,50,C,C,Text,KNUL18,,1,0,#FFFFFFFFFFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,ChartPoint)
+		CharacterSpacing(2.5)
+		set(%gfw,strwidth(gel.text,0)*1.3)
+		Layer(AboveText)
+		{
+			Draw:(RoundedPanel,0,-25,100,40,,#FEFEFEFF000000FF) ref:ChartPoint
+				Scale(0.5,0.5)
+				Layer(Text)
+				.set(gel.w,%gfw+50)
+				.set(gel.hx,[gel.w/2])
+		}
+} Template
+
+Draw:(ChartLine,0,0,1,4) ref:ChartLine
+	Handle(0,0.5)
+{
+} Template
+
+Draw:(Chart_X,,,,,,#808080FFFFFFFFFF) ref:ChartXAxis
+	Handle(0.5,0)
+{{
+	Draw:(RoundedPanel,-12,5,24,24,,#00000020FFFFFFFF)
+	M_Text:(W,0,18,0,0,C,C,Text,KNUL20,,1,0,#252525FF000000FF,NoItalics,#252525FF000000FF,ChartXAxisBottomLabel)
+	{
+		Draw:(Icon_CupSmall,11,2,30,30,,#252525FFFFFFFFFF) $HIDE ref:Icon
+	}
+
+	M_Text:(H,0,0,0,0,C,C,Text,KNUL20,,1,0,#252525FF000000FF,NoItalics,#252525FF000000FF,ChartXAxisTopLabel)
+		.sub(gel.y,15)
+	{
+		Rect:() $HIDE ref:Icon
+	}
+}} Template
+
+Draw:(Chart_Y,,,,,,#808080FFFFFFFFFF) ref:ChartYAxis
+{{
+}} Template
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------- TEMPLATES
+Draw:(ChartPoint,0,0,8,8,,#80808080) ref:ChartPoint
+	Scale(0.5,0.5)
+	Handle(0.5,0.5)
+	Layer(AboveText)
+{
+	M_Text:(,-50,-40,100,50,C,C,Text,KNUL18,,0,0,#FFFFFFFFFFFFFFFF,NoItalics,#FFFFFFFFFFFFFFFF,ChartPoint)
+		Layer(AboveText)
+		{
+			Draw:(White,0,-25,100,20,,#FFFFFFFF000000FF) ref:ChartPoint
+				Layer(Text)
+				.set(gel.w,%gfw+10)
+				.set(gel.hx,gel.w/2)
+		}
+} Template
+
+Draw:(ChartLine,0,0,1,4) ref:ChartLine
+	Handle(0,0.5)
+{
+} Template
+
+// ANIMATED CHART
+Draw:(ChartPoint,0,0,8,8,,#80808080) ref:AnimatedChartPoint
+	Scale(0.5,0.5)
+	Handle(0.5,0.5)
+	float(%id)
+{
+} Template
+
+Draw:(ChartLine,0,0,1,4) ref:AnimatedChartLine
+	Handle(0,0.5)
+	float(%id)
+{
+} Template
+
+Draw:(ChartPoint,0,0,8,8,,#80808080) ref:SeasonReviewChartPoint
+	Scale(0.5,0.5)
+	Handle(0.5,0.5)
+	float(%id)
+	colvar(%col)
+	set(%col,#252525FF)
+	if(twk(SeasonReview,ViewStreak)=0)
+	<
+		if(%id>=twk(SeasonReview,UnbeatenStreakStart) and(%id<[twk(SeasonReview,UnbeatenStreakStart)+twk(SeasonReview,UnbeatenStreak)]))
+		<
+			set(%col,#FFFF00FF)
+		>
+	>
+	if(twk(SeasonReview,ViewStreak)=1)
+	<
+		if(%id>=twk(SeasonReview,WinStreakStart) and(%id<[twk(SeasonReview,WinStreakStart)+twk(SeasonReview,WinStreak)]))
+		<
+			set(%col,#00FF00FF)
+		>
+	>
+	if(twk(SeasonReview,ViewStreak)=2)
+	<
+		if(%id>=twk(SeasonReview,LossStreakStart) and(%id<[twk(SeasonReview,LossStreakStart)+twk(SeasonReview,LossStreak)]))
+		<
+			set(%col,#FF0000FF)
+		>
+	>
+	frlerp(gel.colour,%col,0.1)
+{
+} Template
+
+Draw:(ChartLine,0,0,1,4) ref:SeasonReviewChartLine
+	Handle(0,0.5)
+	float(%id)
+	colvar(%col)
+	set(%col,#252525FF)
+	if(twk(SeasonReview,ViewStreak)=0)
+	<
+		if(%id>twk(SeasonReview,UnbeatenStreakStart) and(%id<[twk(SeasonReview,UnbeatenStreakStart)+twk(SeasonReview,UnbeatenStreak)]))
+		<
+			set(%col,#FFFF00FF)
+		>
+	>
+	if(twk(SeasonReview,ViewStreak)=1)
+	<
+		if(%id>twk(SeasonReview,WinStreakStart) and(%id<[twk(SeasonReview,WinStreakStart)+twk(SeasonReview,WinStreak)]))
+		<
+			set(%col,#00FF00FF)
+		>
+	>
+	if(twk(SeasonReview,ViewStreak)=2)
+	<
+		if(%id>twk(SeasonReview,LossStreakStart) and(%id<[twk(SeasonReview,LossStreakStart)+twk(SeasonReview,LossStreak)]))
+		<
+			set(%col,#FF0000FF)
+		>
+	>
+	frlerp(gel.colour,%col,0.1)
+{
+} Template
+
+Draw:(White,0,0,1,1,,#808080FFFFFFFFFF) ref:ChartXAxis
+	Handle(0,0)
+{{
+	M_Text:(H,0,10,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ChartXAxisBottomLabel)
+	{
+		Draw:(Icon_CupSmall,0,40,40,40,,#252525FFFFFFFFFF) $HIDE ref:Icon
+			Handle(0.5,0.5)
+	}
+
+	M_Text:(H,0,0,0,0,C,C,Text,KNUL20,,0,0,#00000000,NoItalics,#252525FF,ChartXAxisTopLabel)
+	{
+		Rect:() $HIDE ref:Icon
+	}
+}} Template
+
+Draw:(White,0,0,1,1,,#808080FFFFFFFFFF) ref:ChartYAxis
+{{
+}} Template
+
+Clip:(0,-120,225,250) ref:PieChartWedgeRight
+{{
+	Draw:(Circle_200,0,120,225,225) ref:PieChartWedgeRight
+		Handle(0.5,0.5)
+}} Template
+
+Clip:(-225,-120,225,250) ref:PieChartWedgeLeft
+{{
+	Draw:(Circle_200,225,120,-225,225) ref:PieChartWedgeLeft
+		Handle(0.5,0.5)
+}} Template
+
+// ----------------------------------------------- MACROS
+
+Macro:(M_ChartYLine,?Y?,?TEXT?)
+	Draw:(White,0,?Y?,@W,2,,#DDDDDDFF)
+	Text:(?TEXT?,0,?Y?,,,R,,#555555FF)
+		FontShadow(0,0)
+		Handle(1,0.5)
+		Italicise(0.0)
+		FontScale(0.5,0.5)
+		FontSize(0)
+EndM
+
+
+
+
+Macro:(M_ChartArea,?X?,?Y?,?W?,?H?,?MARGIN_L?,?MARGIN_R?,?MARGIN_T?,?MARGIN_B?,?REF?)
+	Rect:(?X?+?MARGIN_L?,?Y?+?MARGIN_T?,?W?,?H?) ref:?REF?
+	{{
+		//Draw:(White,-?MARGIN_L?,-?MARGIN_T?,@W+[?MARGIN_L?+?MARGIN_R?],@H+[?MARGIN_T?+?MARGIN_B?],)
+		Draw:(White,0,0,@W,@H,,#DDDDDDFF)
+		Draw:(White,1,1,@W-2,@H-2)
+	}}
+EndM
+
+Macro:(M_ChartArea100,?X?,?Y?,?W?,?H?,?MARGIN_L?,?MARGIN_R?,?MARGIN_T?,?MARGIN_B?,?REF?)
+	M_ChartArea:(?X?,?Y?,?W?,?H?,?MARGIN_L?,?MARGIN_R?,?MARGIN_T?,?MARGIN_B?,?REF?)
+	{{
+		Define:(?SPLIT_Y?=@H/9)
+		M_ChartYLine:(0,100)
+		M_ChartYLine:(?SPLIT_Y?,)
+		M_ChartYLine:(?SPLIT_Y?*2,70)
+		M_ChartYLine:(?SPLIT_Y?*3,)
+		M_ChartYLine:(?SPLIT_Y?*4,50)
+		M_ChartYLine:(?SPLIT_Y?*5,)
+		M_ChartYLine:(?SPLIT_Y?*6,30)
+		M_ChartYLine:(?SPLIT_Y?*7,)
+		M_ChartYLine:(?SPLIT_Y?*8,10)
+		M_ChartYLine:(?SPLIT_Y?*9,)
+	}}
+EndM
+
+Macro:(M_ChartArea2Splits,?X?,?Y?,?W?,?H?,?MARGIN_L?,?MARGIN_R?,?MARGIN_T?,?MARGIN_B?,?REF?,?TEXT_B?,?TEXT_M?,?TEXT_T?)
+	M_ChartArea:(?X?,?Y?,?W?,?H?,?MARGIN_L?,?MARGIN_R?,?MARGIN_T?,?MARGIN_B?,?REF?)
+	{{
+		Define:(?SPLIT_Y?=@H/2)
+		M_ChartYLine:(0,?TEXT_T?)
+		M_ChartYLine:(?SPLIT_Y?,?TEXT_M?)
+		M_ChartYLine:(?SPLIT_Y?*2,?TEXT_B?)
+	}}
+EndM

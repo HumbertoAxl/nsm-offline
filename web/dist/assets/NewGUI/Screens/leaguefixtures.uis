@@ -1,0 +1,127 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+Import:(templates_fixtureresult.uih)
+Import:(templates_competitions.uih)
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	.set(twk(LeagueFixtures,FixturesScroll),0)
+	.set(twk(LeagueFixtures,ClickedId),-1)
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Rect:(0,0,@s-60,85) ref:PlayerCupFixture
+	M_CellPress:()
+	func(ClickFunc)
+	<
+		Message(leaguefixtures.btn_MatchInfo) ref:ClickMessage
+		Post(UI_Select)
+	>
+	Click()
+	<
+		callparent(0,ClickFunc)
+	>
+	M_CTRLCellExtra:(?BTNOK?,true,CTRLBasicSelected,0,0,6,6)
+{{
+	Draw:(Cell85Dark,-3,-2,@W+6,89)
+	M_Glint:(0,0,0,@W)
+
+	M_Badge:(@C-120,@M,HD,0.55,TeamHomeBadge)
+	M_Badge:(@C+120,@M,HD,0.55,TeamAwayBadge)
+
+	M_Text:("",20,43,0,0,L,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,HomePosition)
+	M_Text:("",20,43,0,0,L,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,HomeCompetition)
+
+	M_Text:("TEAM A",@C-180,43,0,0,R,C,Text,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,PlayerCupFixture)
+		if(@w=1152)
+		<
+			M_TextMaxWidth:(240)
+		>
+
+	M_Text:(league_FIXTURES_VERSUS_sla,@C,43,0,0,C,C,TextLoc,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,PlayerCupFixture)
+	M_Text:("TEAM B",@C+180,43,0,0,L,C,Text,KNUL30,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,PlayerCupFixture)
+		if(@w=1152)
+		<
+			M_TextMaxWidth:(240)
+		>
+		
+	M_Text:("",@R-20,43,0,0,R,C,Text,KNUL28,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AwayPosition)
+	M_Text:("",@R-20,43,0,0,R,C,Text,KNUL25,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,AwayCompetition)
+
+	M_CellPressHighlight:()
+}} Template
+//-------------------------------------------------------------------------------------------CONTENT
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	float(%open)
+{{
+
+	// Clipped content
+	Rect:(@L,@T+180,@W,@H-250) 
+	{{
+		Rect:(0,5,@W,@H)
+			VerticalList(5)
+		{
+			// Static content
+			Rect:(0,0) ref:StaticContent
+				Layer(Text)
+			{
+				Rect:(30,0) ref:Hook
+					VerticalList(5)
+			}
+
+
+			// Clipped content
+			Clip:(@L,0,@W,@H-100)
+			{{
+				CTRLSelectGroup:(0,0,@W,@H,,CTRLSquareSelected,,,,,,,CTRLGroupSquare)
+				{
+					// Moved Content
+					Rect:(30,10,@W-60,@H-25)
+					{{
+						M_FixtureCell:(CupFixture)
+						M_FixtureCell_Double:(CupFixtureDouble)
+						M_ResultCell:(FixturePlayed,leaguefixtures.btn_MatchInfo)
+						M_ResultCell_Double:(FixturePlayedDouble,leaguefixtures.btn_MatchInfo)
+						M_Result_Separator:(FixtureSeparator)
+
+						Rect:(0,0,@W,@H) ref:FixtureList
+							ScrollingList(LeagueFixtures,FixturesScroll,@H,LeagueFixtures,FixturesScrollVel) ref:ScrollingListFixtures
+							CTRLScrollList(ScrollingListFixtures) ref:CTRLScrollList
+							VerticalList(5)
+						{{
+						}}
+					}}
+				}
+				M_SwitchStickHint:(✃,@R-29,@B-45,Y)
+					CTRLScrollListIcon(FixtureList,CTRLScrollList)
+
+				// Swipe Panels
+				Rect:(0,0,@W,@H) ref:SwipePanels
+					SwipePanel(LeagueFixtures,FixturesScroll,LeagueFixtures,FixturesScrollVel) ref:SwipePanelFixtures
+				{{
+					Rect:(0,10,@W,@H-20)
+					{{
+						M_ScrollIndicatorAlt:(@R-25,@H,LeagueFixtures,FixturesScroll,FixtureList,ScrollingListFixtures,SwipePanels,SwipePanelFixtures)
+					}}
+				}}
+			}}
+		}
+	}}
+
+
+	// Headers and Filters
+	Rect:(@L,@T+80,@W,44)
+		Layer(Text)
+	{{
+		Draw:(ColumnHeader,@f,60,@w,44)
+		M_FixturesHeader:(0,60,@W,44)
+		M_CompetitionHeader:()
+	}}	
+}}

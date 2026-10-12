@@ -1,0 +1,171 @@
+Import:(match_construction.uih)
+Import:(facility_Macros.uih)
+
+Import:(match_football.uih)
+Import:(match_footballer.uih)
+Import:(match_goalkeeper.uih)
+Import:(match_stadium.uih)
+Import:(match_weather.uih)
+
+
+Import:(FacilityConstruction.uis)
+Import:(home_NSMWorld.uih)
+
+Img:(DirectionIndicator,NewGUI/Match/Direction_Indicator.png)
+
+// Macro:(M_Unitree,?X?,?Y?,?SCALEX?,?SCALEY?,?IMAGE?)
+// 	Locator:((?X?-20,?Y?-20,0),(0,0,0),(?SCALEX?,?SCALEY?,1))
+// 	{
+// 		Draw:(?IMAGE?,,,146,132,90,#00000030)
+// 			Handle(0.5,0.5)
+// 	}
+
+// 	//Trunk
+// 	Locator:((?X?,?Y?,0),(0,90,90),(?SCALEX?,?SCALEY?,1))
+// 		set(gel3d.rotx,90-twk(Pitch,CameraZRotation))
+// 	{
+// 		Draw:(Trunk)
+// 			Handle(0.5,1)
+// 	}
+
+// 	// Foliage
+// 	Locator:((?X?,?Y?,0),(0,0,0),(1,1,1))
+// 	 	set(gel3d.rotz,twk(Pitch,CameraZRotation))
+// 	{
+// 		Locator:((0,0,-70),(0,0,0),(?SCALEX?,?SCALEY?,1))
+// 			set(gel3d.rotx,90+twk(Pitch,CameraXRotation))
+// 		{
+// 			Draw:(?IMAGE?)
+// 				Scale(2,2)
+// 				Handle(0.5,0.8)
+// 		}
+// 	}
+// EndM
+
+Macro:(M_MatchCamera)
+	Camera:((0,2000,-6000),(-60,0,0),?MATCH_FOV?,(0.1,0.1,0.1),,@w,@h) ref:Camera
+		float(%CX,%CY,%CZ,%CRX,%CRY,%CRZ)
+		set(%CX,gel3d.x)
+		set(%CY,gel3d.y)
+		set(%CZ,gel3d.z)
+		set(%CRX,gel3d.rotx)
+		set(%CRY,gel3d.roty)
+		set(%CRZ,gel3d.rotz)
+EndM
+
+
+Macro:(M_MatchCameraContent)
+	M_Goal:(0,-1355,0,180,0.6,0,AboveSky)
+	M_Goal:(0,1355,0,0,0.6,1,AboveSky)
+
+	
+	Locator:((0,0,0),(0,0,0),(1,1,1)) ref:PitchStadium
+	{
+		//All stadium and surrounding area mesh Macros
+		Locator:((0,0,0),(0,0,90),(0.7,0.7,0.7))
+		{
+			//-------------------------------------------------------Enivironment Meshes
+			M_NSMWorld:(1)
+			//-------------------------------------------------------Stadium Meshes
+			Locator:((0,0,0),(0,0,0),(1,1,1))
+			{
+				M_StadiumBaseHome:(1)
+				M_3DPitchHome:(1)
+				M_LowerStadiumHome:(Stadium,1,)		
+			}
+		}
+	}
+
+	Locator:((0,0,0),(0,0,-90),(1,1,1))
+		if((twk(Pitch,ShowShootDirection) oneof(0,1)) or(twk(Ftue,Enabled) = 1))
+		<
+			set(gel3d.x,twk(Pitch,ShootDirectionX))
+			set(gel3d.y,twk(Pitch,ShootDirectionY))
+		>
+	{
+		Draw:(DirectionIndicator,,,,,,#B7F34DFFFFFFFFFF)
+			Rearmable()
+			:if(twk(Ftue,Enabled) = 1 and(twk(Pitch,ShowShootDirection) != -2))
+			<
+				set(gel.alpha,0.5)
+			>
+			else
+			<
+				set(gel.alpha,0)
+			>
+			set(gel.scale,[3/twk(Pitch,Scale)])
+			Handle(0.5,0.5)
+			if(twk(Pitch,ShowShootDirection) = 0) //JF: Delayed fade out after not touching the screen
+			<
+				:set(gel.alpha,0.5)
+				if(twk(Ftue,Enabled) = 0)
+				<
+					:Delay(2)
+					frlerp(gel.alpha,0,0.1)
+				>
+			>
+			elif(twk(Pitch,ShowShootDirection) = 1) //JF: Fade in after touching the screen
+			<
+				frlerp(gel.alpha,0.5,0.2)
+			>
+			elif(twk(Pitch,ShowShootDirection) = -1) //JF: Fade out after the game unfreezes or touch is released
+			<
+				if(twk(Ftue,Enabled) = 0)
+				<
+					frlerp(gel.alpha,0,0.1)
+				>
+			>
+			elif(twk(Pitch,ShowShootDirection) = -2)
+			<
+				:set(gel.alpha,0)
+			>>>>
+	}
+
+	Rect:() ref:PathPoints
+	Rect:() ref:Waypoints
+	Rect:() ref:TrainingHook
+	Rect:() ref:SpawnHook
+
+	Rect:()
+		set(twk(Match,TouchDown),TouchDown)
+		set(twk(Match,TouchX),TouchX)
+		set(twk(Match,TouchY),TouchY)
+
+	M_Football:()
+	Import:(match_arrow.uih)
+
+	Rect:()
+		if(twk(Pitch,ShowPlayerNames) = 1)
+		<
+			set(twk(Pitch,ShowPlayerNames),-1)
+		>
+		if(twk(Pitch,ShowShootDirection) = 1)
+		<
+			set(twk(Pitch,ShowShootDirection),-1)
+		>
+EndM
+
+Macro:(M_MatchScreenshot,?SURF?,?SCRN?,?SIZE?)
+	//JF: Need this Locator to reset any external pushes to the Camera
+	Locator:((0,0,0),(0,0,0),(1,1,1))
+	{{
+		View:(?SURF?,?SIZE?,@h*[?SIZE?/@w]) ref:ScreenshotView
+		{
+			Camera:((0,2000,-6000),(-60,0,0),20,(0.1,0.1,0.1)) ref:ScreenshotCamera
+				float(%CX,%CY,%CZ,%CRX,%CRY,%CRZ)
+				set(%CX,gel3d.x)
+				set(%CY,gel3d.y)
+				set(%CZ,gel3d.z)
+				set(%CRX,gel3d.rotx)
+				set(%CRY,gel3d.roty)
+				set(%CRZ,gel3d.rotz)
+			{
+				Dissolve:()
+					Post(?SCRN?.screenshotRendered)
+				{
+					M_MatchCameraContent:()
+				}
+			}
+		}
+	}}
+EndM

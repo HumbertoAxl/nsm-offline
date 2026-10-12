@@ -1,0 +1,178 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(BG_Stadium,NewGUI/UI/ImageBG/BG_Stadium.png) Volatile:BGStadium
+//---------------------------------------------------------------------------------------------SETUP
+Rect:()
+	// Setup
+	.set(twk(Question,SelectedAnswer),-1)
+	.set(twk(Question,IncorrectAnswer),-1)
+	.set(twk(Question,CorrectAnswer),-1)
+	.set(twk(Question,NormTimeRemaining),1)
+	.set(twk(Question,StartTimer),0)
+
+	// Timings
+	if(twk(Question,TimedQuestion)=0)
+	<
+		set(twk(Question,QuestionDelay),1.5)
+		set(twk(Question,AnswersDelay),2.5)
+	>
+	else
+	<
+		set(twk(Question,QuestionDelay),1.5)
+		set(twk(Question,AnswersDelay),3)
+		set(twk(Question,TimerDelay),3.1)
+	>
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Import:(question_Macros.uih)
+//-----------------------------------------------------------------------------------------TEMPLATES
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+Dissolve:(@o,@T,@s,@H) ref:DissolveRoot
+	.set(gel.alpha,0)
+	frlerp(gel.alpha,1,0.1)
+{{
+
+	//Background 
+	If:(?TALLCONTENT?)
+		Draw:(BG_Stadium,@C,50,@w,376+@z)
+		 	Handle(0.5,0)
+	Else
+		Draw:(BG_Stadium,@C,50,@w,376)
+			Handle(0.5,0)
+	EndIf
+
+	// Can delete and incorporate into image
+	Draw:(Fade_Down,@f,50,@w,150,,#FFFFFFAA)
+	Draw:(Fade_Up,@f,326+@z,@w,100,,#FFFFFFAA)
+
+
+	// Question Instructions 
+	Rect:(@L+30,@T+80,@W-60,60)
+	{{
+		Draw:(RoundedPanel,0,0,@W,@H,,#00000000)
+			frlerp(gel.alpha,0.75,0.025)
+
+		Clip:(0,0,@W,@H)
+			.set(gel.w,0)
+			if(gel.w < @W)
+			<
+				add(gel.w,15)
+			>
+		{{
+			M_Text:(press_NOPRESSURE,@C,30,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				:set(gel.vis,twk(Question,TimedQuestion) = 0)
+			M_Text:(press_PRESSURE,@C,30,0,0,C,C,TextLoc,KNUL30,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				:set(gel.vis,twk(Question,TimedQuestion) = 1)
+		}}
+	}}
+
+
+	// Speech Panel
+	Rect:(@C-304,@B-605-[@z/2],850,190)
+		Layer(Text)
+	{{
+		Draw:(Bubble_Shadow,-38,-9,@W+47,@H+19)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF40)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,0.8,0.1)
+		{{
+			Draw:(Bubble_Speech,-30,132,,,,#FFFFFF00FFFFFFFF)
+				Delay(twk(Question,QuestionDelay))
+				frlerp(gel.alpha,0.95,0.1)
+		}}
+
+		// Question Text
+		Draw:(Speech_L,@C-250,94,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C-350,0.1)
+			frlerp(gel.scale,0.5,0.1)
+			
+		Draw:(Speech_R,@C+250,94,,,,#FFFFFF00)
+			Handle(0.5,0.5)
+			.set(gel.scale,0.4)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+			frlerp(gel.x,@C+350,0.1)
+			frlerp(gel.scale,0.5,0.1)
+
+		M_Text:(,125,0,600,@H,C,C,TextBox,KNUL35,,0,0,#00000000,NoItalics,#50505000,ref,Question,Question)
+			Delay(twk(Question,QuestionDelay))
+			frlerp(gel.alpha,1,0.1)
+	}}
+
+
+	// Answer Panel
+	Rect:(@L,@B-342,@W,342)
+	{{
+		// Red Panel
+		Draw:(White,@f,0,@w,76,,#CC1618FF)
+		Draw:(White,@f,38,@w,38,,#00000009)
+		Draw:(Fade_Down,@f,38,@w,18,,#00000020)
+
+
+		// Answer Panel
+		Draw:(White,@f,82,@w,320,,#00000080)
+		Draw:(White,@f,76,@w,6,,#D6D6D6FF)
+		Draw:(Fade_Right,@C,76,[@w/2]-100,6,,#707070FF)
+		Draw:(Fade_Right,@C,76,-[[@w/2]-100],6,,#707070FF)
+
+		// Lower Tier Reporter
+		Rect:(@C-284,5)
+			set(gel.vis,twk(Player,StarLevel) < 5)
+		{{
+			Draw:(White,16,0,317,66)
+			Draw:(MSG_News_NSAdvertiser_Right,17,0,,66)
+			Draw:(Character_Reporter2,-136,-90-[@z/2],600,600)
+				Handle(0.5,0.5)
+		}}
+
+		// Middle Tier Reporter
+		Rect:(@C-284,5)
+			set(gel.vis,(twk(Player,StarLevel) >= 5) and(twk(Player,StarLevel) < 10))
+		{{
+			Draw:(White,16,0,294,66,,#3351A8FFFFFFFFFF)
+			Draw:(MSG_News_NSPost_Right,-8,0,,66)
+			Draw:(Character_Reporter1,-136,-90-[@z/2],600,600)
+				Handle(0.5,0.5)
+		}}
+
+		// Upper Tier Reporter
+		Rect:(@C-284,5)
+			set(gel.vis,twk(Player,StarLevel) >= 10)
+		{{
+			Draw:(MSG_News_NSN_Right,-20,0,,66)
+			Draw:(Character_Reporter,-136,-90-[@z/2],600,600)
+				Handle(0.5,0.5)
+		}}
+	}}
+
+
+	// TIMED QUESTION
+	Rect:()
+		set(gel.vis,twk(Question,TimedQuestion) = 1)
+	{
+		M_CircleTimer:(@C+486,@B-342,Question)
+			Delay(twk(Question,TimerDelay))
+			.set(twk(Question,StartTimer),1)
+			.set(%enabled,1)
+	}
+
+	M_Answer:(0)
+	M_Answer:(1)
+	M_Answer:(2)
+	M_Answer:(3)
+}}

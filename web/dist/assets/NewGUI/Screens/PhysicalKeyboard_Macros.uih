@@ -1,0 +1,217 @@
+Macro:(M_KeyboardButton,?UPPER_TEXT?,?LOWER_TEXT?,?LINK?)
+	M_PressOPEN:(0,0,55,45,msg,?UPPER_TEXT?,ForwardButtonAudio)
+		Draw:(RoundedPanel,0,0,@W,@H,,#3C3D40FF)
+		Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+
+		M_Text:(?LOWER_TEXT?,@C,23,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Style:(Outline,#FFFFFF10)
+			set(gel.vis,twk(Keyboard,ShiftActive)=0)
+		M_Text:(?UPPER_TEXT?,@C,23,0,0,C,C,Text,KNUL28,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+			M_Style:(Outline,#FFFFFF10)
+			set(gel.vis,twk(Keyboard,ShiftActive)=1)
+
+	M_PressCLOSE:()
+		M_CTRLButtonExtra:(?BTNOK?,true,CTRLButtonSelected,3,3,6,6)
+		if(%clicked)
+		<
+			if(twk(Keyboard,ShiftActive)=0)
+			<
+				Message(keyboard.btn_Char,?LOWER_TEXT?)
+			>
+			else
+			<
+				if(twk(Keyboard,CapsLockActive) = 0)
+				<
+					set(twk(Keyboard,ShiftActive),0)
+				>
+				Message(keyboard.btn_Char,?UPPER_TEXT?)
+			>
+		>
+EndM
+
+
+Macro:(M_CommandButton,?TEXT?,?LINK?,?W?,?COL?,?ICON?,?SHORTCUT?,?HINT?)
+	M_PressOPEN:(0,0,?W?,45,msg,?LINK?,ForwardButtonAudio)
+		Draw:(RoundedPanel,0,0,@W,@H,,?COL?)
+		Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+
+		If:(?TEXT?)
+			M_Text:(?TEXT?,@C,23,0,0,C,C,TextLoc,KNUL22,,0,0,#00000000,NoItalics,#FFFFFFFF,ref)
+				M_Style:(Outline,#FFFFFF40)
+				CharacterSpacing(2)
+		EndIf
+
+		If:(?ICON?)
+			Draw:(?ICON?,@C,@M,50,50)
+				Handle(0.5,0.5)
+		EndIf
+
+		M_SwitchButtonHint:(?HINT?,@R-28,3)
+			Scale(0.85,0.85)
+
+	M_PressCLOSE:()
+		M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,?SHORTCUT?)
+		if(%clicked)
+		<
+			Post(keyboard.btn_Char,?LINK?)
+		>
+
+
+EndM
+
+
+Macro:(M_Keyboard_Delete)
+	M_CommandButton:(,BackSpace,185,#7A7D80FF,Icon_Keyboard_Delete,X,⛌)
+		CTRLPress(RIGHT)
+		<
+			CTRLSetSelected(Z)
+			Post(CTRLNavigate)
+		>
+EndM
+
+
+Macro:(M_Keyboard_Shift)
+	M_PressOPEN:(0,0,120,45,link,Shift,ForwardButtonAudio)
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#7A7D80FF)
+		Draw:(Button_Shade,0,@M,@W,@H/2,,#00000010FFFFFFFF)
+
+		Draw:(RoundedPanel,0,0,@W,@H,,#FFFFFF00)
+			Layer(AboveText)
+			Additive()
+			if(%pressed)
+			<
+				set(gel.colour,#60606060)
+			>
+			else
+			<
+				frlerp(gel.colour,#00000000,0.05)
+			>
+			
+		Draw:(Icon_Keyboard_Shift_0,@C-25,@M-25,50,50)
+			if(twk(Keyboard,ShiftActive) = 0)
+			<
+				set(gel.img,"Icon_Keyboard_Shift_0")
+			>
+			else
+			<
+				set(gel.img,"Icon_Keyboard_Shift_1")
+			>
+
+		Draw:(Circle_20,98,17,12,12,,#252525FF)
+		Rect:()
+			set(gel.vis,twk(Keyboard,CapsLockActive))
+		{
+			Draw:(Circle_10,104,23,8,8,,#FFFFFFBB)
+				Handle(0.5,0.5)
+			Draw:(Circle_10,104,23,8,8)
+				Handle(0.5,0.5)
+				PulseScale(0.4,0.8,0.6,0.6)
+		}
+	
+		// M_SwitchButtonHint:(⛐,8,8)
+		// 	Scale(0.95,0.95)
+		Draw:(RoundedPanel,0,0,@W,@H,,#000000CC)
+			set(gel.vis,twk(Keyboard,ShiftAvailable) = 0)
+
+	M_PressCLOSE:()
+		// Is Shift Key available
+		if(twk(Keyboard,ShiftAvailable) = 1)
+		<
+			M_CTRLButtonAndShortcutExtra:(?BTNOK?,CTRLButtonSelected,3,3,6,6,LT)
+			CTRLPress(LEFT)
+			<
+				CTRLSetSelected(Ok)
+				Post(CTRLNavigate)
+			>
+			CTRLPress(UP)
+			<
+				CTRLSetSelected(Z)
+				Post(CTRLNavigate)
+			>
+			CTRLPress(DOWN)
+			<
+				CTRLSetSelected(Q)
+				Post(CTRLNavigate)
+			>
+			if(%clicked)
+			<
+				if(twk(Keyboard,CapsLockActive) = 1)
+				<
+					set(twk(Keyboard,CapsLockActive),0)
+					set(twk(Keyboard,ShiftActive),0)
+				>
+				else
+				<
+					if(twk(Keyboard,ShiftActive) = 1)
+					<
+						set(twk(Keyboard,CapsLockActive),1)
+					>
+					else
+					<
+						set(twk(Keyboard,ShiftActive),1)
+					>
+				>
+			>
+		>
+		else
+		<
+			// Force Shift On and leave Caps Lock off
+			set(twk(Keyboard,ShiftActive),1)
+			set(twk(Keyboard,CapsLockActive),1)
+		>
+EndM
+
+
+Macro:(M_Keyboard_Space)
+	M_CommandButton:(keyboard_Space,Space,315,#7A7D80FF,,Y,⛍)
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(E)
+			Post(CTRLNavigate)
+		>
+		CTRLPress(UP)
+		<
+			CTRLSetSelected(C)
+			Post(CTRLNavigate)
+		>
+EndM
+
+
+Macro:(M_Keyboard_Done)
+	M_CommandButton:(keyboard_Done,Ok,185,#42BB00FF,,RT,⛑)
+		CTRLPress(RIGHT)
+		<
+			CTRLSetSelected(Shift)
+			Post(CTRLNavigate)
+		>
+		CTRLPress(DOWN)
+		<
+			CTRLSetSelected(I)
+			Post(CTRLNavigate)
+		>
+EndM

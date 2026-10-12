@@ -1,0 +1,17 @@
+Import:(Core.uih)
+
+//Swap BG Screen at frame 26/30
+
+Spine:(NSM_Stings,@C,@M,,Sting_Wipe,Once) ref:TransitionWipe
+	:Post(UI_SwooshBig)
+	Delay(0.3)
+	.set(twk(TransitionWipe,ScreenState),0)
+	.set(gel.anim.speed,1.5)
+	if(gel.anim.normtime >= 0.8)
+	<
+		.set(twk(TransitionWipe,ScreenState),1)
+	>
+	if(gel.anim.normtime >= 1)
+	<
+		.set(twk(TransitionWipe,ScreenState),2)
+	>

@@ -1,0 +1,441 @@
+//-------------------------------------------------------------------------------------------IMPORTS
+Import:(Core.uih)
+Import:(ImageDefs_characters.uih)
+//
+//----------------------------------------------------------------------------------LOCAL IMAGE DEFS
+Img:(MarketingManager1,NewGUI/IAP/Special/MarketingManager1.png) FORCE Volatile:Store
+//---------------------------------------------------------------------------------------------SETUP
+// Marketing Manager Purchase
+Rect:()
+	float(%purchaseMade)
+	OnPost(finances.marketingManagerBought)
+	<
+		.set(%purchaseMade,1)
+	>
+	if(%purchaseMade)
+	<
+		.set(twk(Money,SetCounter),0)
+		.set(twk(Money,BuxEmitterX),920)
+		.set(twk(Money,BuxEmitterY),485)
+
+		.set(twk(Money,BuxIncrease),twk(Finances,MarketingManagerBonus))
+		.set(twk(Money,BuxEmitterState),1)
+		// Delay for coin counter to start animating
+		Delay(1)
+		.set(twk(Money,SetCounter),1)
+	>
+
+// Staging
+Rect:()
+	// Disabled Money Counter by default and reset stage
+	.set(twk(Money,SetCounter),0)
+	.set(twk(Finances,Stage),-1)
+	.set(twk(Money,BuxEmitterX),920)
+	.set(twk(Money,BuxEmitterY),575)
+	
+	float(%allowNextStage)
+	init(%allowNextStage,1)
+	// This nudges the stage along for the ftue
+	OnPost(finances.allowNextStage,%allowNextStage)
+	
+	if(twk(ScreenTransition,Active) = 0)
+	<
+		// Relationship changes
+		:Post(UI_Swoosh)
+		.Post(finances.stage,1)
+				
+		// Finances
+		if(%allowNextStage)
+		<
+			Delay(1)
+			.Post(finances.stage,2)
+
+			.set(twk(Money,BuxIncrease),twk(Finances,TotalRevenue))
+			.set(twk(Money,BuxEmitterState),1)
+			
+			// Delay for coin counter to start animating
+			Delay(1)
+			.set(twk(Money,SetCounter),1)
+		>
+	>
+
+// Audio
+Rect:()
+	set(twk(Audio,SuppressAllAmbient),1)
+	
+//----------------------------------------------------------------------------------------ANIMATIONS
+//--------------------------------------------------------------------------------------------MACROS
+Macro:(M_FinancePanelOPEN,?X?,?Y?,?TITLE?,?CHARACTER?,?CAT?,?VAR?,?REVERSE?)
+	Sheet:((0,0,1191),(0,0,0),51.49,(1,1,1)) //FIXEDFOV
+	 	PinVP(?X?,?Y?)
+	 	float(%flip,%state)
+	 	// Flip
+		if(%flip = 1)
+		<
+			if(%state = 0)
+			<
+				frlerp(gel3d.roty,180,0.15)
+			>
+			else
+			<
+				frlerp(gel3d.roty,0,0.15)
+			>
+			if((gel3d.roty >= 90) and(%state = 0))
+			<
+				set(gel3d.roty,-90)
+				set(%state,1)
+			>
+		>
+		if(%flip = 2)
+		<
+			if(%state = 1)
+			<
+				frlerp(gel3d.roty,-180,0.15)
+			>
+			else
+			<
+				frlerp(gel3d.roty,0,0.15)
+			>
+			if((gel3d.roty<-90) and(%state = 1))
+			<
+				set(gel3d.roty,90)
+				set(%state,0)
+			>
+		>
+		
+	{{
+		Rect:(0,0,258,570)
+			Handle(0.5,0.5)
+			
+			##IA
+			// If:(?REVERSE?="True")
+			if(?REVERSE?="True")
+			<
+				Click()
+				<
+					Post(UI_Swoosh)
+					
+					if(%state = 0)
+					<
+						set(%flip,1)
+					>
+					if(%state = 1)
+					<
+						set(%flip,2)
+					>
+				>
+			>
+			// EndIf
+			##*
+
+		Rect:(0,0,258,570)
+			Handle(0.5,0.5)
+			float(%pressed)
+			Press()
+			<
+				set(%pressed,1)
+			>
+			else
+			<
+				set(%pressed,0)
+			>
+		{{
+			Rect:(@L,@T,@W,@H)
+			{{
+				Draw:(Rounded_Shadowed_Reflection,-7,@B,@W+14,72)
+				Draw:(FloorShadow,-12,@B-2,@W+24,11)
+				Draw:(Rounded_Shadowed,-16,-13,@W+32,@H+32)				
+
+				// Front Content
+				Rect:()
+					set(gel.vis,%state = 0)
+				{
+					Draw:(NewStarShape,0,0,@W,570,,#E8E8E8FF)
+
+					// Title
+					Draw:(Header_Hexagons,0,0,@W,34)
+					M_Text:(?TITLE?,0,0,@W,34,C,C,TextLoc,KNUL23,Upper,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,Type)
+
+					// Character
+					Draw:(Character_?CHARACTER?,@C,130,270,270) ref:Character
+						Handle(0.5,0.5)
+
+					// Relationship Description
+					M_Text:(,@C,315,0,0,C,C,Text,KNUL24,,0,0,#00000000,Italics,#252525FF,ref)
+						M_Style:(Outline,#25252510)
+						.set(gel.text,"“ " :: twk(Club,?VAR?Desc) :: " ”")
+					// Meter
+					M_CircularBarChange:(@C-60,175,?CAT?,?VAR?)
+				}
+
+				##IA
+				// If:(?REVERSE?=True)
+				Rect:()
+					.set(gel.vis,?REVERSE?=True)
+				{
+					Draw:(Icon_PanelRotate,@R-45,@B-38,40,40,,#25252580)
+
+					// Cell Press Highlight
+					Draw:(RoundedPanel,0,1,@W,@H-2,,#FFFFFF00)
+						Additive()
+						Layer(Text)
+						if(%pressed)
+						<
+							set(gel.colour,#60606060)
+						>
+						else
+						<
+							if(gel.alpha > 0.01)
+							<
+								frlerp(gel.colour,#00000000,0.05)
+							>
+						>
+				}
+				// EndIf
+				##*
+EndM
+
+Macro:(M_FinancePanelCLOSE)
+			}}
+		}}
+	}}
+EndM
+
+Macro:(M_FinanceEntry,?X?,?Y?,?TITLE?,?CAT?,?VAR?,?TYPE?)
+	Rect:(?X?,?Y?,258,48)
+	{{
+		M_Text:(?TITLE?,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#808080FF,ref)
+
+		Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+		Draw:(White,0,1,@W,@H-2,,#C0C0C0FFFFFFFFFF)
+
+		If:(?TYPE?=Add)
+			M_Text:(,@C,24,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#25252500,ref)
+				.set(gel.text,"★ " :: commasfmt(twk(?CAT?,?VAR?)))
+				.set(gel.alpha,0.3)
+				if(twk(?CAT?,?VAR?) > 0)
+				<
+					.set(gel.alpha,1)
+				>
+		EndIf
+		If:(?TYPE?=Total)
+			M_Text:(,@C,24,0,0,C,C,Text,KNUL35,,1,0,#000000FF,NoItalics,#000000FF,ref)
+				set(gel.text,"★ " :: commasfmt(twk(Finances,TotalRevenue)))
+				.set(gel.alpha,0)
+				.set(gel.scale,3)
+				if(twk(ScreenTransition,Active) = 0)
+				<
+					frlerp(gel.scale,1,0.2)
+					frlerp(gel.alpha,1,0.2)
+				>
+
+		EndIf
+
+		Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFFFFFFFFFF)
+		Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFFFFFFFFFF)
+	}}
+EndM
+//-------------------------------------------------------------------------------------------CONTENT
+
+
+
+
+Dissolve:() ref:DissolveRoo
+	
+{
+
+	// Fans
+	M_FinancePanelOPEN:(@C-411,365,generic_FANS,Fan,Club,FansRelationship,False)
+		
+		Draw:(White,0,345,@W,1,,#00000015)
+		M_FinanceEntry:(0,395,performance_RECEIPTS,Finances,GateReceiptsIn,Add)
+
+		Rect:(0,485,258,48)
+			set(gel.vis,twk(Finances,HasShop) = 0)
+		{{
+			M_Text:(performance_STORESALES,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#808080FF,ref)
+			Draw:(White,0,0,@W,@H,,#808080FF)
+			Draw:(White,0,1,@W,@H-2,,#C0C0C0FF)
+			M_Text:(performance_NOTOWNED,@C,24,0,0,C,C,TextLoc,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+			Draw:(Fade_Right,@L,0,20,@H,,#EEEEEEFFFFFFFFFF)
+			Draw:(Fade_Left,@R-20,0,20,@H,,#EEEEEEFFFFFFFFFF)
+		}}
+
+		M_FinanceEntry:(0,485,performance_STORESALES,Finances,ShopSalesIn,Add)
+			set(gel.vis,twk(Finances,HasShop) = 1)
+
+	M_FinancePanelCLOSE:()
+
+
+
+
+
+	// Press
+	M_FinancePanelOPEN:(@C-137,365,generic_PRESS,Press,Club,PressRelationship,False)
+		
+		Draw:(White,0,345,@W,1,,#00000015)
+		M_FinanceEntry:(0,395,performance_TV,Finances,TVBonusIn,Add)
+		M_FinanceEntry:(0,485,performance_CUP,Finances,CupBonusIn,Add)
+	
+	M_FinancePanelCLOSE:()
+
+
+
+
+
+	// Sponsors
+	M_FinancePanelOPEN:(@C+137,365,generic_SPONSORS,Sponsor,Club,SponsorRelationship,False)
+
+		Draw:(White,0,345,@W,1,,#00000015)
+		M_FinanceEntry:(0,395,performance_WIN,Finances,WinBonusIn,Add)
+		M_FinanceEntry:(0,485,performance_GOAL,Finances,GoalBonusIn,Add)
+	
+	M_FinancePanelCLOSE:()
+
+
+
+
+
+	// Board
+	Rect:()
+		float(%allowMarkettingManager)
+		if(twk(Settings,AppVariantChina)=China3)
+		<
+			.set(%allowMarkettingManager,0)
+  		.set(twk(Finances,BoardCanFlip),"False")
+		>
+		else
+		<
+			.set(%allowMarkettingManager,1)
+  		.set(twk(Finances,BoardCanFlip),"True")
+		>
+		// .Message(AppVariantChina," AVC:"::twk(Settings,AppVariantChina))
+		// .Message(allowMarkettingManager," AMM:"::%allowMarkettingManager)
+		// .Message(canReverse," CR:"::twk(Finances,BoardCanFlip))
+	{
+	// M_FinancePanelOPEN:(@C+411,365,generic_BOARD,Board,Club,BoardRelationship, False )
+	M_FinancePanelOPEN:(@C+411,365,generic_BOARD,Board,Club,BoardRelationship, twk(Finances,BoardCanFlip) )
+		// Front Content
+		Rect:()
+			set(gel.vis,%state = 0)
+		{
+			Draw:(White,0,345,@W,1,,#00000015)
+			M_Text:(performance_SHARE,15,381,0,0,L,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#252525FF,ref)
+			M_Text:("",@R-40,381,0,0,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+				.set(gel.text,LTR("-" :: fmt(twk(Finances,ShareholdersPercentage),X) :: "%"))
+				CharacterSpacing(1)
+			{{
+				Draw:(RoundedPanel,-25,-15,50,30,,#DD1010FF)
+					Layer(Default)
+			}}
+
+			##IA
+			Rect:()
+				.set(gel.vis,%allowMarkettingManager)
+			{
+				// Marketing Manager
+				M_Text:(performance_MM,15,420,0,0,L,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#252525FF,ref)
+					if(Player.marketingManagerDuration > 0)
+					<
+						.set(gel.colour,#252525FF)
+					>
+					else
+					<
+						.set(gel.colour,#25252540)
+					>
+				M_Text:("+20%",@R-40,420,0,0,C,C,Text,KNUL20,,1,0,#FFFFFFFF,NoItalics,#FFFFFFFF,ref)
+					float(%mmBonusPercent)
+					if(Player.marketingManagerDuration > 0)
+					<
+						.set(%mmBonusPercent,Player.marketingManagerBonus)
+						.set(gel.text,LTR("+" :: fmt(%mmBonusPercent,X) :: "%"))
+					>
+					else
+					<
+						.set(gel.text,LTR("+0%"))
+					>
+					CharacterSpacing(1)
+				{{
+					Draw:(RoundedPanel,-25,-15,50,30,,#138E1BFF)
+						Layer(Default)
+						if(Player.marketingManagerDuration > 0)
+						<
+							.set(gel.colour,#138E1BFF)
+						>
+						else
+						<
+							.set(gel.colour,#80808040)
+						>
+				}}
+			}
+			##*
+
+			##P4
+			M_Text:(MONEY,@C,420,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#DD1010FF,ref)
+				.set(gel.text,"- " :: "★ " :: commasfmt(twk(Finances,ShareholdersCut)))
+			##*
+
+			M_FinanceEntry:(0,485,performance_TOTAL,Finances,TotalRevenue,Total)
+		}
+
+		// Back Content
+		Rect:() ref:BoardPanel_Back
+			set(gel.vis,%state = 1)
+		{
+			M_Text:("character_MarketingManager",@L,17,@W,0,C,C,TextLoc,KNUL23,,0,0,#00000000,NoItalics,#505050FF,ref)
+			Draw:(White,0,33,@W,1,,#00000015)
+
+			Draw:(MarketingManager1,@C,180)
+				Handle(0.5,0.5)
+				Scale(0.6,0.6)
+
+			// Not Owned
+			Rect:() ref:Price
+				set(gel.vis,Player.marketingManagerDuration = 0)
+			{
+				M_Text:(,10,306,@W-20,0,C,T,TextBox,KNUL24,,0,0,#00000000,NoItalics,#252525FF,MarketingManager_Title)
+				M_Text:(,10,345,@W-20,0,C,T,TextBox,KNUL23,,0,0,#00000000,Italics,#505050FF,MarketingManager_Descr)
+	    		M_Button:(@C,467,230,60,Button_GreenSliced,,0,0,0,0,#FFFFFFFF,finances.btn_BuyMarketingManager,ref," ",0,3,C,C,Text,KNUL25,Upper,0,0,#00000000,NoItalics,#FFFFFFFF,BuyMarketingButtonText,1)
+			}
+
+			// Owned
+			Rect:()
+				set(gel.vis,Player.marketingManagerDuration > 0)
+			{
+				Rect:(0,395,258,48)
+				{{
+					Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+					Draw:(White,0,1,@W,@H-2,,#C0C0C0FFFFFFFFFF)
+
+					M_Text:(performance_MM_BONUS,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#808080FF,ref)
+					M_Text:("",@C,24,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+						set(gel.text,"★ " :: commasfmt(twk(Finances,MarketingManagerBonus)))
+				}}
+
+				Rect:(0,485,258,48)
+				{{
+					Draw:(White,0,0,@W,@H,,#808080FFFFFFFFFF)
+					Draw:(White,0,1,@W,@H-2,,#C0C0C0FFFFFFFFFF)
+
+					M_Text:(concern_Contract,@C,-14,0,0,C,C,TextLoc,KNUL24,,0,0,#00000000,NoItalics,#808080FF,ref)
+					M_Text:("",@C,24,0,0,C,C,Text,KNUL25,,0,0,#00000000,NoItalics,#252525FF,ref)
+						float(%mmDuration)
+						.set(%mmDuration,Player.marketingManagerDuration)
+						if(Player.marketingManagerDuration = 1)
+						<
+							.set(gel.text,fmt(%mmDuration,X) :: " " :: loc(performance_MM_CONTRACT3))
+						>
+						else
+						<
+							.set(gel.text,fmt(%mmDuration,X) :: " " :: loc(performance_MM_CONTRACT2))
+						>
+				}}
+
+
+
+
+			}
+		}
+	M_FinancePanelCLOSE:()
+}
+}
