@@ -102,3 +102,7 @@ Runtime modules, bundled browser resources, tests, build helpers and English inv
 ## Performance investigation
 
 See [performance findings and alternatives](analysis/PERFORMANCE.md) for the WebAssembly assessment, binary resource loading, scalar-register JIT changes and measurement limits. Repack resources with `node web/tools/pack-assets.mjs`; run the decoding benchmark with `node web/tools/bench-loading.mjs`. Both local serving and Netlify declare gzip encoding for the compressed binary resource pack.
+
+## Phone display and trial texture fixes
+
+Landscape uses the available viewport's native aspect ratio, with bounded device-pixel rendering and WebGL antialiasing where supported. See [trial and display validation](analysis/TRIAL_AND_DISPLAY.md) for the repaired temporary 3D texture ownership paths, memory limits and phone confirmation still required. After updating, reopen the Home Screen app online and download offline resources again if you use offline mode.

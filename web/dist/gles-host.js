@@ -4,7 +4,7 @@ import {F, BF} from './dex-vm.js';
 // Keep this bridge independent of game classes so other GLES2 DEX games can use it.
 export class GLESHost {
   constructor(canvas, options = {}) {
-    this.gl = options.gl || canvas.getContext('webgl', {alpha:false, depth:true, stencil:true, antialias:false, preserveDrawingBuffer:false});
+    this.gl = options.gl || canvas.getContext('webgl', {alpha:false, depth:true, stencil:true, antialias:true, preserveDrawingBuffer:false});
     if (!this.gl) throw new Error('WebGL 1 is unavailable');
     this.objects = new Map(); this.ids = new WeakMap(); this.nextId = 1;
     this.locations = new Map(); this.locationIds = new Map(); this.nextLocation = 1;
@@ -184,7 +184,7 @@ export class GLESHost {
   surfacePixels(surface) {
     if (!surface.pixels) {
       const image=surface.image||surface.canvas||surface.bitmap?.image||surface.bitmap?.canvas;
-      if(image){const canvas=this.makeCanvas(surface.width,surface.height),ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);surface.pixels=new Uint8Array(ctx.getImageData(0,0,surface.width,surface.height).data);}
+      if(image){const canvas=this.makeCanvas(surface.width,surface.height),ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);const data=ctx.getImageData(0,0,surface.width,surface.height).data;surface.pixels=new Uint8Array(data.buffer,data.byteOffset,data.byteLength);canvas.width=canvas.height=0;}
       else surface.pixels=new Uint8Array(surface.width*surface.height*4);
     }
     return surface.pixels;
@@ -211,6 +211,8 @@ export class GLESHost {
   uploadSurface(surface) {
     const gl=this.gl;
     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,surface.twidth,surface.theight,0,gl.RGBA,gl.UNSIGNED_BYTE,this.paddedPixels(surface));
+    // Retain pixels only for mutable surfaces; immutable images can recreate them.
+    if((surface.image||surface.canvas)&&!surface.modified)surface.pixels=null;
     const filter=surface.createMipmaps<0?gl.NEAREST:gl.LINEAR;
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,filter);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,filter);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,surface.tiled?gl.REPEAT:gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,surface.tiled?gl.REPEAT:gl.CLAMP_TO_EDGE);
@@ -248,7 +250,7 @@ export class GLESHost {
     this.writeSurfacePatch(surface,x,y,width,height,pixels,true);
   }
   writeSurfacePatch(surface,x,y,width,height,pixels,premultiplied=false) {
-    this.registerSurface(surface);const target=this.surfacePixels(surface);
+    this.registerSurface(surface);surface.modified=true;const target=this.surfacePixels(surface);
     // Dynamic font atlases start transparent and store premultiplied RGB.
     if(premultiplied&&!surface.premultiplied){for(let p=0;p<target.length;p+=4)for(let k=0;k<3;k++)target[p+k]=Math.round(target[p+k]*target[p+3]/255);surface.premultiplied=true;}
     const patch=new Uint8Array(width*height*4);patch.set(pixels);

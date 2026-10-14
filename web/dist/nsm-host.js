@@ -151,8 +151,10 @@ export class NSMHost extends JavaHost {
       if(name==='LoadImageData'||name==='LoadStaticTexImage') {
         const surface=this.surfaceFor(a[name==='LoadImageData'?1:0]);if(!surface)return ret(0);
         const dimensions=a[name==='LoadImageData'?2:1];if(dimensions.length>0)dimensions[0]=surface.width;if(dimensions.length>1)dimensions[1]=surface.height;
-        if(name==='LoadStaticTexImage')return ret(surface.bitmap||{$class:'Landroid/graphics/Bitmap;',surface});
-        a[0].bytes=new Uint8Array(graphics.surfacePixels(surface));a[0].view=new DataView(a[0].bytes.buffer);return ret(a[0]);
+        graphics.discardSurface(surface);
+        if(name==='LoadStaticTexImage'){const bitmap=surface.bitmap||{$class:'Landroid/graphics/Bitmap;',surface};bitmap.temporary=true;return ret(bitmap);}
+        // Transfer the temporary readback to the DEX buffer, retaining no registry copy.
+        a[0].bytes=graphics.surfacePixels(surface);a[0].view=new DataView(a[0].bytes.buffer,a[0].bytes.byteOffset,a[0].bytes.byteLength);surface.pixels=null;surface.image=null;surface.canvas=null;surface.bitmap=null;return ret(a[0]);
       }
       if(name==='initNativeGL'||name==='<init>')return ret(0);
       if(name==='_glTexImage2D2'||name==='_glTexSubImage2D2') {const index=name==='_glTexImage2D2'?5:4,bitmap=a[index];if(bitmap?.surface){const surface=bitmap.surface;if(surface.image||surface.canvas)a[index]=surface.image||surface.canvas;else {const data={bytes:graphics.surfacePixels(surface)};return ret(name==='_glTexImage2D2'?graphics.invoke('_glTexImage2D',[a[0],a[1],a[2],surface.width,surface.height,0,a[3],a[4],data]):graphics.invoke('_glTexSubImage2D',[a[0],a[1],a[2],a[3],surface.width,surface.height,6408,5121,data]));}}}
@@ -161,7 +163,7 @@ export class NSMHost extends JavaHost {
     if(type==='Landroid/opengl/GLES20;')return ret(graphics.invoke(name,a,proto));
     if(type==='Landroid/graphics/Bitmap;') {
       if(name==='hasAlpha')return ret(true);
-      if(name==='recycle')return ret(0);
+      if(name==='recycle'){if(self.temporary&&self.surface){graphics.discardSurface(self.surface);self.surface.image=null;self.surface.canvas=null;self.surface.pixels=null;self.surface.bitmap=null;self.surface=null;}return ret(0);}
     }
     if(/^Ljava\/nio\/(Byte|Short|Int|Float)Buffer;$/.test(type)&&(name==='allocate'||name==='allocateDirect')) {
       const unit=type.includes('ByteBuffer')?1:type.includes('ShortBuffer')?2:4;

@@ -27,3 +27,10 @@ test('program deletion releases all cached uniform handles over repeated rebuild
  for(let i=0;i<1000;i++){const id=host.invoke('glCreateProgram',[]);host.invoke('glGetUniformLocation',[id,'uColour']);host.invoke('glGetUniformLocation',[id,'uMatrix']);host.invoke('glDeleteProgram',[id]);}
  assert.equal(host.objects.size,0);assert.equal(host.locations.size,0);assert.equal(host.locationIds.size,0);
 });
+
+test('immutable image uploads release cached CPU pixels; edited images retain their content',()=>{
+ const {host,gl,calls}=context();Object.assign(gl,{TEXTURE_2D:3553,TEXTURE_BINDING_2D:32873,UNPACK_PREMULTIPLY_ALPHA_WEBGL:37441,UNPACK_FLIP_Y_WEBGL:37440,UNPACK_ALIGNMENT:3317,LINEAR:9729});gl.getParameter=p=>p===3317?4:false;
+ for(const name of ['bindTexture','pixelStorei','texParameteri'])gl[name]=(...a)=>calls.push([name,...a]);
+ const surface={width:1,height:1,image:{},pixels:new Uint8Array([255,0,0,128])};host.registerSurface(surface);host.updateSurface(surface);assert.equal(surface.pixels,null);assert.deepEqual([...calls.find(c=>c[0]==='texImage2D').at(-1)],[128,0,0,128]);
+ surface.pixels=new Uint8Array([0,255,0,255]);surface.modified=true;host.updateSurface(surface);assert.deepEqual([...surface.pixels],[0,255,0,255]);
+});
