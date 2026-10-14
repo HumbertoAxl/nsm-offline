@@ -98,3 +98,7 @@ Progress belongs to the browser and the site's origin. Export a backup from your
 ## Repository contents
 
 Runtime modules, bundled browser resources, tests, build helpers and English investigation notes are included. The original APK, decompiled source tree, local logs, temporary tools and personal/test progress backups are excluded. Original game content and available in-game languages are preserved.
+
+## Performance investigation
+
+See [performance findings and alternatives](analysis/PERFORMANCE.md) for the WebAssembly assessment, binary resource loading, scalar-register JIT changes and measurement limits. Repack resources with `node web/tools/pack-assets.mjs`; run the decoding benchmark with `node web/tools/bench-loading.mjs`. Both local serving and Netlify declare gzip encoding for the compressed binary resource pack.

@@ -1,3 +1,4 @@
+import {decodeAssetBundle} from './asset-bundle.js';
 import {runStartupFrame} from './startup-frame.js';
 import {bindTouchAction} from './touch-controls.js?v=touch5';
 import {createFrameGate} from './frame-clock.js';
@@ -17,10 +18,12 @@ const log=s=>{diagnostics.logs.push(String(s));if(diagnostics.logs.length>120)di
 function fail(e){running=false;diagnostics.state='error';diagnostics.error={message:e.message,trace:e.dexTrace,stack:e.stack};console.error(e,e.dexTrace);$('loader').hidden=false;status.textContent='Game stopped: '+e.message+'\n'+(e.dexTrace?.slice(-5).join(' → ')||'');$('start').hidden=true;$('retry').hidden=false;}
 const json=async p=>{const r=await fetch(p);if(!r.ok)throw Error('Cannot load '+p);return r.json();};
 async function boot(){
- const [dex,assets,data]=await Promise.all(['game-dex.json','asset-manifest.json','runtime-data.json'].map(json));
+ const bootStarted=performance.now();
+ const [dex,assets,files]=await Promise.all([json('game-dex.json'),json('asset-manifest.json'),fetch('runtime-data.bin.gz').then(async r=>{if(!r.ok)throw Error('Cannot load resource bundle');return decodeAssetBundle(await r.arrayBuffer());})]);
+ diagnostics.resourcesReadyMs=performance.now()-bootStarted;
  const graphics=new GLESHost(canvas);window.graphics=graphics;storage=await SaveStore.open(log);
  const fontCanvas=document.createElement('canvas');host=new NSMHost({assets,graphics,width:1280,height:720,language:'en',storage,log,fontContext:fontCanvas.getContext('2d')});window.host=host;
- for(const [p,b]of Object.entries(data))host.files.set(p,Uint8Array.from(atob(b),c=>c.charCodeAt(0)));
+ for(const [p,b]of files)host.files.set(p,b);
  for(let i=0;i<storage.length;i++){const k=storage.key(i);if(k.startsWith('nsm-file:'))host.files.set(k.slice(9),Uint8Array.from(atob(storage.getItem(k)),c=>c.charCodeAt(0)));}
  host.options.audio=new AudioHost(p=>host.path(p),log);
  const images=new Map(),preload=assets.filter(a=>a.width&&a.height&&/\.(png|jpg)$/i.test(a.path));let done=0;
@@ -32,7 +35,7 @@ async function boot(){
  keyboard.oninput=()=>{if(!host.keyboardAlt){let c=0;while(previous[c]===keyboard.value[c]&&c<previous.length)c++;for(let i=c;i<previous.length;i++)chars.push(8);for(let i=c;i<keyboard.value.length;i++)chars.push(keyboard.value.charCodeAt(i));}previous=keyboard.value;};keyboard.onkeydown=e=>{if(e.key==='Enter'){chars.push(13);keyboard.blur();}};
  vm=new DexVM(dex,host);window.vm=vm;installOfflineRuntime(vm);status.textContent='Starting original game code…';await new Promise(r=>setTimeout(r,0));
  vm.withInstructionBudget(500000000,()=>{vm.call(P+'bb_;','bbInit');vm.call(P+'bb_;','bbMain');vm.call(host.delegate.$class,'StartGame',[host.delegate]);});
- diagnostics.state='ready';$('progress').value=100;status.textContent='Ready';$('start').hidden=false;$('tools').disabled=false;
+ diagnostics.readyMs=performance.now()-bootStarted;diagnostics.state='ready';$('progress').value=100;status.textContent='Ready';$('start').hidden=false;$('tools').disabled=false;
 }
 const frameGate=createFrameGate(),frameSamples=new Float32Array(120);let sampleCount=0,sampleIndex=0;
 function tick(timestamp){if(!running)return;if(!frameGate(timestamp,host?.rate||60)){requestAnimationFrame(tick);return;}const started=performance.now();try{if(!paused&&!document.hidden){if(input.length)vm.call(host.delegate.$class,'TouchEvent',[host.delegate,...input.shift()]);for(let i=0;i<24&&chars.length;i++)vm.call(host.delegate.$class,'KeyEvent',[host.delegate,3,chars.shift()]);for(const method of ['UpdateGame','RenderGame_Early','RenderGame_Late','RenderGame_End'])vm.call(host.delegate.$class,method,[host.delegate]);host.drainUpdates(vm);diagnostics.frames++;diagnostics.frameMs=performance.now()-started;frameSamples[sampleIndex++%120]=diagnostics.frameMs;sampleCount=Math.min(120,sampleCount+1);if(diagnostics.frames%60===0){const samples=Array.from(frameSamples.subarray(0,sampleCount)).sort((a,b)=>a-b);canvas.dataset.frames=String(diagnostics.frames);canvas.dataset.frameMs=diagnostics.frameMs.toFixed(2);canvas.dataset.frameMeanMs=(samples.reduce((sum,n)=>sum+n,0)/sampleCount).toFixed(2);canvas.dataset.frameP95Ms=samples[Math.min(sampleCount-1,Math.floor(sampleCount*.95))].toFixed(2);canvas.dataset.glObjects=String(window.graphics.objects.size);canvas.dataset.glSurfaces=String(window.graphics.surfaces?.size||0);diagnostics.performance={frames:diagnostics.frames,cpuMeanMs:Number(canvas.dataset.frameMeanMs),cpuP95Ms:Number(canvas.dataset.frameP95Ms),glObjects:window.graphics.objects.size,glSurfaces:window.graphics.surfaces?.size||0,uniformHandles:window.graphics.locations.size,decodedAudio:host.options.audio.buffers.size,heapBytes:performance.memory?.usedJSHeapSize??null};}}requestAnimationFrame(tick);}catch(e){fail(e);}}
@@ -77,4 +80,4 @@ navigator.serviceWorker?.addEventListener('message',event=>{const message=event.
 
 installFullscreen({button:$('fullscreen'),status:$('fullscreenStatus'),beforeRequest:()=>{$('options').close();paused=false;}});
 
-$('diagnostic').onclick=()=>{const report={format:'nsm-performance',version:1,createdAt:new Date().toISOString(),userAgent:navigator.userAgent,performance:diagnostics.performance??null,error:diagnostics.error,logs:diagnostics.logs.slice(-40)};const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));link.download='nsm-performance.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};
+$('diagnostic').onclick=()=>{const report={format:'nsm-performance',version:1,createdAt:new Date().toISOString(),userAgent:navigator.userAgent,startup:{resourcesReadyMs:diagnostics.resourcesReadyMs??null,readyMs:diagnostics.readyMs??null},performance:diagnostics.performance??null,error:diagnostics.error,logs:diagnostics.logs.slice(-40)};const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));link.download='nsm-performance.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};

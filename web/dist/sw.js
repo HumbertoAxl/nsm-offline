@@ -3,7 +3,7 @@ const NSM_CACHE_PREFIX = 'nsm-offline-v1-';
 const NSM_METADATA_CACHE = 'nsm-offline-metadata';
 const NSM_SCOPE = self.registration.scope;
 const NSM_ACTIVE_KEY = new URL('__nsm_offline_active__', NSM_SCOPE).href;
-const NSM_SHELL = ['','index.html','style.css','frame-clock.js','touch-controls.js','startup-frame.js','fullscreen.js','manifest.webmanifest','icon.png','app.js','dex-vm.js','dex-jit.js','java-host.js','nsm-host.js','gles-host.js','font-host.js','audio-host.js','save-store.js','offline-runtime.js','progress-backup.js','game-dex.json','asset-manifest.json','runtime-data.json'];
+const NSM_SHELL = ['','index.html','style.css','frame-clock.js','touch-controls.js','startup-frame.js','fullscreen.js','manifest.webmanifest','icon.png','app.js','dex-vm.js','dex-jit.js','java-host.js','nsm-host.js','gles-host.js','font-host.js','audio-host.js','save-store.js','offline-runtime.js','progress-backup.js','game-dex.json','asset-manifest.json','runtime-data.bin.gz','asset-bundle.js'];
 const NSM_SHELL_PATHS = new Set(NSM_SHELL.map(path=>new URL(path,NSM_SCOPE).pathname));
 const NSM_ASSET_ROOT = new URL('assets/',NSM_SCOPE).pathname;
 let nsmDownloadRunning = false;

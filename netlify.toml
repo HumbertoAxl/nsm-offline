@@ -14,3 +14,9 @@
   for = "/index.html"
   [headers.values]
     Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/runtime-data.bin.gz"
+  [headers.values]
+    Content-Type = "application/octet-stream"
+    Content-Encoding = "gzip"

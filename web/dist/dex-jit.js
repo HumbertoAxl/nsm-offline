@@ -2,8 +2,8 @@
 // No game rules are replaced: both paths execute the APK's instructions.
 export function compileDex(vm,m,helpers){
   if(m.tries?.length)return null;
-  const c=vm.words(m),instructions=[],targets=new Set([0]);
-  const s16=v=>(v<<16)>>16,s8=v=>(v<<24)>>24,i32=(a,b)=>(a|(b<<16))|0,R=i=>`r[${i}]`,val=v=>typeof v==='bigint'?v+'n':JSON.stringify(v);
+  const c=vm.words(m),instructions=[],targets=new Set([0]),scalar=vm.scalarRegistersEnabled!==false;
+  const s16=v=>(v<<16)>>16,s8=v=>(v<<24)>>24,i32=(a,b)=>(a|(b<<16))|0,R=i=>scalar?`r${i}`:`r[${i}]`,val=v=>typeof v==='bigint'?v+'n':JSON.stringify(v);
   for(let pc=0;pc<c.length;){
     const w=c[pc],op=w&255,a=w>>>8,A=a&15,B=a>>>4,x=c[pc+1],y=c[pc+2];let n=1,code='',end=false;
     const go=p=>{targets.add(p);return `pc=${p};continue;`;};
@@ -83,7 +83,8 @@ export function compileDex(vm,m,helpers){
     }
     instructions.push({pc,n,code,end});if(end)targets.add(pc+n);pc+=n;
   }
-  let body=`const r=new Array(${m.registers}).fill(0);for(let i=0;i<args.length;i++)r[${m.registers-m.ins}+i]=args[i];let result=0,pc=0;while(true){switch(pc){`;
+  const registers=scalar?`let ${Array.from({length:m.registers},(_,i)=>`${R(i)}=${i<m.registers-m.ins?'0':`args.length>${i-(m.registers-m.ins)}?args[${i-(m.registers-m.ins)}]:0`}`).join(',') || 'unused=0'};`:`const r=new Array(${m.registers}).fill(0);for(let i=0;i<args.length;i++)r[${m.registers-m.ins}+i]=args[i];`;
+  let body=registers+`let result=0,pc=0;while(true){switch(pc){`;
   const ref=vm.dex.methods[m.id],budgetMessage=JSON.stringify('Instruction budget exceeded in '+ref[0].split('/').pop().replace(';','')+'.'+ref[1]);
   let count=0;for(let j=0;j<instructions.length;j++){const i=instructions[j];if(targets.has(i.pc)){let next=j;while(next+1<instructions.length&&!targets.has(instructions[next+1].pc))next++;count=next-j+1;body+=`case ${i.pc}:if((vm.steps+=${count})>vm.limit)throw new VMError(${budgetMessage});`; }body+=i.code;}
   body+='default:throw new VMError("Compiled method fell through");}}';

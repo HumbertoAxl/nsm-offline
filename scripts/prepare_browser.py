@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import shutil
 import struct
+import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,6 +65,7 @@ def main():
             manifest.append(asset)
     (OUT / 'asset-manifest.json').write_text(json.dumps(manifest, separators=(',', ':')), encoding='utf-8')
     (OUT / 'runtime-data.json').write_text(json.dumps(bundle, separators=(',', ':')), encoding='utf-8')
+    subprocess.run(['node', str(ROOT / 'web' / 'tools' / 'pack-assets.mjs')], check=True)
     print(f'Prepared {len(manifest)} bundled assets.')
     print('Preserved runtime snapshots:', ', '.join(preserved) or '(none)')
     print('Bootstrapped runtime snapshots:', ', '.join(refreshed) or '(none)')
