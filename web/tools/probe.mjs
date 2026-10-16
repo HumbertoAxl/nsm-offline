@@ -66,6 +66,9 @@ try{
   console.log('Tap-start flow completed',afterTapFrames,'frames after release');
  }
  if(process.argv.includes('--checkpoint')){console.log('Checkpoint result',saveProgressCheckpoint(vm),'stored files',[...storageData.keys()]);if(tapStart&&afterTapFrames===50&&[...storageData.keys()].some(key=>key.includes(':career')))throw Error('Incomplete trial career was serialized');}
+ // Uninstrumented timing of stable frames: --bench=N
+ const bench=Number(process.argv.find(value=>value.startsWith('--bench='))?.split('=')[1]??0);
+ if(bench>0){const tick=()=>{for(const name of ['UpdateGame','RenderGame_Early','RenderGame_Late','RenderGame_End'])vm.call(host.delegate.$class,name,[host.delegate]);host.drainUpdates(vm);};const times=[];for(let i=0;i<bench;i++){const t=performance.now();tick();times.push(performance.now()-t);}times.sort((a,b)=>a-b);console.log(JSON.stringify({benchFrames:bench,meanMs:+(times.reduce((a,b)=>a+b,0)/bench).toFixed(3),medianMs:+times[bench>>1].toFixed(3),p95Ms:+times[Math.floor(bench*.95)].toFixed(3)}));}
  if(profile)profileFrames(vm,host,20,()=>{for(const name of ['UpdateGame','RenderGame_Early','RenderGame_Late','RenderGame_End'])vm.call(host.delegate.$class,name,[host.delegate]);host.drainUpdates(vm);});
  console.log(JSON.stringify({frames,graphics:graphics.stats,logs:logs.slice(-12),storageEntries:storageData.size},null,2));
 }catch(error){console.error(error.stack||error);console.error('DEX trace:',error.dexTrace||vm.trace);console.error('Recent game logs:',logs.slice(-20));

@@ -180,6 +180,7 @@ export class NSMHost extends JavaHost {
     return super.invoke(vm,ref,proto,raw,staticCall);
   }
   byteBuffer(self){if(!self.bytes)return 0;if(!self.nioBuffer||self.nioBuffer.bytes!==self.bytes)self.nioBuffer={$class:'Ljava/nio/ByteBuffer;',bytes:self.bytes,position:0,unit:1};return self.nioBuffer;}
+  interceptsField(vm,id){return vm.dex.fields[id][0]===T('BBDataBuffer')||super.interceptsField(vm,id);}
   getField(vm,obj,id) {
     const [fieldOwner,bufferName]=vm.dex.fields[id];if(fieldOwner===T('BBDataBuffer')){if(bufferName==='_data')return this.byteBuffer(obj);if(bufferName==='_length')return obj.bytes?.length||0;}
     if(obj.$class===T('gxtkSurface')) {

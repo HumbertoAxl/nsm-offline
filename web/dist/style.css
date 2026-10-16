@@ -1,6 +1,29 @@
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#071a27;color:#fff;font:16px system-ui}main{width:100%;height:100%;display:flex;align-items:center;justify-content:center}canvas{display:block;width:min(100vw,177.78vh);height:min(56.25vw,100vh);touch-action:none}#loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#071a27;padding:24px;text-align:center}#loader[hidden],[hidden]{display:none!important}#status{white-space:pre-wrap;max-width:85vw;overflow-wrap:anywhere}progress{width:min(400px,80vw);margin:20px}button,label{font:inherit}button{padding:10px 18px;background:#2b6675;color:white;border:1px solid #89bcb8;border-radius:8px;cursor:pointer}#tools{position:fixed;right:max(8px,env(safe-area-inset-right));top:8px;font-size:12px;padding:6px;opacity:.7}dialog{max-width:460px;background:#102c37;color:white;border:1px solid #789;border-radius:12px}dialog::backdrop{background:#000a}label{display:block;margin:20px 0}.native-keyboard{position:fixed;bottom:20px;left:20%;width:60%;padding:10px;font:20px system-ui}
-main{height:100dvh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);overflow:hidden}canvas{width:min(calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)),calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))*16/9));height:auto;max-height:100%;aspect-ratio:16/9}#tools{top:max(8px,env(safe-area-inset-top))}dialog{width:min(460px,94vw);max-height:85dvh;overflow:auto}dialog button{display:block;width:100%;min-height:44px;margin:12px 0}button:focus-visible{outline:3px solid #b8e3ca;outline-offset:3px}
-/* Explicit stacking keeps iOS WebGL compositing below the HTML controls. */
-canvas{position:relative;z-index:0}#loader{z-index:10;pointer-events:auto}#tools{z-index:20;pointer-events:auto}button{touch-action:manipulation;pointer-events:auto}
-/* Use the actual wide viewport; original UI scales to the reported device size. */
-@media (orientation:landscape){canvas{width:100%;height:100%;max-height:none;aspect-ratio:auto}}
+/* A game surface: no selection, callouts, magnifier, tap highlight or page zoom. */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+input{-webkit-user-select:text;user-select:text}
+html,body{position:fixed;inset:0;margin:0;width:100%;height:100%;overflow:hidden;background:#071a27;color:#fff;font:16px system-ui;overscroll-behavior:none;touch-action:none;-webkit-text-size-adjust:100%}
+/* Safe-area insets as seen from the stage; swapped when the stage is rotated. */
+:root{--sa-t:env(safe-area-inset-top);--sa-r:env(safe-area-inset-right);--sa-b:env(safe-area-inset-bottom);--sa-l:env(safe-area-inset-left)}
+html.rotated{--sa-t:env(safe-area-inset-left);--sa-r:env(safe-area-inset-top);--sa-b:env(safe-area-inset-right);--sa-l:env(safe-area-inset-bottom)}
+/* The stage is always landscape; stage.js sizes it and rotates it in portrait. */
+main{position:fixed;left:0;top:0;width:100vw;height:100vh;transform-origin:0 0;display:flex;align-items:center;justify-content:center;padding:var(--sa-t) var(--sa-r) var(--sa-b) var(--sa-l);overflow:hidden}
+/* Use the whole safe area; the original UI scales to the reported size. */
+canvas{display:block;position:relative;z-index:0;width:100%;height:100%;touch-action:none}
+#loader{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#071a27;padding:24px;text-align:center}
+#loader[hidden],[hidden]{display:none!important}
+#status{white-space:pre-wrap;max-width:85vw;overflow-wrap:anywhere}
+progress{width:min(400px,80vw);margin:20px}
+button,label{font:inherit}
+button{padding:10px 18px;background:#2b6675;color:white;border:1px solid #89bcb8;border-radius:8px;cursor:pointer;touch-action:manipulation;pointer-events:auto}
+button:focus-visible{outline:3px solid #b8e3ca;outline-offset:3px}
+/* The game's own buttons sit in the corners and top/bottom bars. The middle of
+   the right edge is clear; inside the safe-area margin when there is one. */
+#tools{position:absolute;z-index:20;top:50%;right:max(2px,calc((var(--sa-r) - 32px)/2));transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:#0006;color:#fffc;opacity:.6}
+#tools svg{width:18px;height:18px}
+dialog{width:min(460px,94vw);max-height:85dvh;overflow:auto;background:#102c37;color:white;border:1px solid #789;border-radius:12px}
+html.rotated dialog{width:min(460px,94vh);max-height:85dvw;transform:rotate(-90deg)}
+dialog::backdrop{background:#000a}
+dialog button{display:block;width:100%;min-height:44px;margin:12px 0}
+label{display:block;margin:20px 0}
+.hint{font-size:13px;opacity:.75}
+.native-keyboard{position:absolute;z-index:20;bottom:20px;left:20%;width:60%;padding:10px;font:20px system-ui}

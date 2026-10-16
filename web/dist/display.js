@@ -5,7 +5,8 @@ export function renderSize(cssWidth,cssHeight,dpr=1){
  return {width:Math.max(2,Math.floor(w*scale/2)*2),height:Math.max(2,Math.floor(h*scale/2)*2)};
 }
 export function installDisplay(canvas,onChange,{dpr=()=>globalThis.devicePixelRatio||1,observe=globalThis.ResizeObserver}={}){
- const refresh=()=>{const rect=canvas.getBoundingClientRect(),size=renderSize(rect.width,rect.height,dpr());if(canvas.width!==size.width||canvas.height!==size.height){canvas.width=size.width;canvas.height=size.height;}onChange(size);};
+ // Layout size, unaffected by the portrait stage rotation.
+ const refresh=()=>{const rect=canvas.clientWidth?{width:canvas.clientWidth,height:canvas.clientHeight}:canvas.getBoundingClientRect(),size=renderSize(rect.width,rect.height,dpr());if(canvas.width!==size.width||canvas.height!==size.height){canvas.width=size.width;canvas.height=size.height;}onChange(size);};
  refresh();const observer=observe?new observe(refresh):null;observer?.observe(canvas);
  return {refresh,dispose:()=>observer?.disconnect()};
 }

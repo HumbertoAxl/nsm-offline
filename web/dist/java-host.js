@@ -324,6 +324,8 @@ export class JavaHost{
   persist(path){if(!path.startsWith('@')||!this.options.storage)return;const bytes=this.files.get(path);let binary='';for(let p=0;p<bytes.length;p+=8192)binary+=String.fromCharCode(...bytes.subarray(p,p+8192));this.options.storage.setItem('nsm-file:'+path,btoa(binary));}
   loadString(path){const key=this.path(path);return this.files.has(key)?new TextDecoder().decode(this.files.get(key)):this.options.storage?.getItem(path)||'';}
   makeSurface(width,height){const s={$class:PREFIX+'gxtkSurface;',$fields:new Map(),width,height,seq:1,texId:++this.surfaceId|| (this.surfaceId=1)};s.bitmap={$class:'Landroid/graphics/Bitmap;',surface:s};this.options.graphics?.registerSurface(s);return s;}
+  // Fields getField can replace; others are read directly by compiled code.
+  interceptsField(vm,id){const owner=vm.dex.fields[id][0];return owner===PREFIX+'gxtkSurface;'||owner==='Ljava/lang/Object;';}
   getField(vm,obj,id){const name=vm.dex.fields[id][1];if(obj.$class===PREFIX+'gxtkSurface;'){
     if(name in obj)return obj[name];
     if(name==='width'||name==='twidth')return obj.width||0;

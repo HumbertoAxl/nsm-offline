@@ -1,5 +1,11 @@
 import {F, BF} from './dex-vm.js';
 
+// Fixed dispatch tables, built once instead of on every bridged call.
+const CREATE={glCreateBuffer:'Buffer',glCreateTexture:'Texture',glCreateFramebuffer:'Framebuffer',glCreateRenderbuffer:'Renderbuffer',glCreateProgram:'Program',glCreateShader:'Shader'};
+const BINDINGS={glBindBuffer:'Buffer',glBindTexture:'Texture',glBindFramebuffer:'Framebuffer',glBindRenderbuffer:'Renderbuffer'};
+const GETTERS={glGetBufferParameteriv:['getBufferParameter',2,false],glGetRenderbufferParameteriv:['getRenderbufferParameter',2,false],glGetTexParameteriv:['getTexParameter',2,false],glGetTexParameterfv:['getTexParameter',2,true],glGetFramebufferAttachmentParameteriv:['getFramebufferAttachmentParameter',3,false],glGetVertexAttribiv:['getVertexAttrib',2,false],glGetVertexAttribfv:['getVertexAttrib',2,true]};
+const DIRECT=new Set(['glActiveTexture','glBlendFunc','glBlendFuncSeparate','glBlendEquation','glBlendEquationSeparate','glBlendColor','glCheckFramebufferStatus','glClear','glClearColor','glColorMask','glCullFace','glDepthFunc','glDepthMask','glDisable','glDisableVertexAttribArray','glEnable','glEnableVertexAttribArray','glFinish','glFlush','glFrontFace','glGenerateMipmap','glGetError','glGetString','glHint','glLineWidth','glPixelStorei','glPolygonOffset','glRenderbufferStorage','glSampleCoverage','glScissor','glStencilFunc','glStencilFuncSeparate','glStencilMask','glStencilMaskSeparate','glStencilOp','glStencilOpSeparate','glTexParameteri','glTexParameterf','glViewport']);
+
 // Android GLES2 uses integer names and Java arrays; WebGL uses opaque objects.
 // Keep this bridge independent of game classes so other GLES2 DEX games can use it.
 export class GLESHost {
@@ -24,6 +30,8 @@ export class GLESHost {
     if (!item || (kind && item.kind !== kind)) throw new Error(`Unknown GLES ${kind || 'object'} ${id}`);
     return item.object;
   }
+  // Locations of a deleted program: GL_INVALID_OPERATION, and the call is ignored.
+  uniformLocation(id) { if (id !== -1 && !this.locations.has(id)) { this.glError ||= 1282; return null; } return this.location(id); }
   location(id) { if (id === -1) return null; if (!this.locations.has(id)) throw new Error(`Unknown GLES uniform location ${id}`); return this.locations.get(id); }
   parameter(value) {
     if (value && typeof value === 'object' && !ArrayBuffer.isView(value) && !Array.isArray(value)) return this.ids.get(value) || 0;
@@ -76,6 +84,8 @@ export class GLESHost {
       return Array.from({length},(_,i)=>floats?data.getFloat32(i*4,true):data.getInt32(i*4,true));
     }
     const array = source?.array || source, start = (source?.position || 0)+(offset || 0);
+    // WebGL reads float uniforms synchronously, so a view needs no copy.
+    if (floats && array instanceof Float32Array && start+length <= array.length) return array.subarray(start,start+length);
     return Array.from({length},(_,i)=>floats?(array instanceof Float32Array?array[start+i]:F(array[start+i])):array[start+i]);
   }
   pixelView(source, type, offset=0) {
@@ -88,16 +98,19 @@ export class GLESHost {
     const gl = this.gl, wrapper = originalName.startsWith('_'), name = wrapper ? originalName.slice(1) : originalName;
     const a = [...input];
     if (name === 'initNativeGL') return 0;
-    const create = {glCreateBuffer:'Buffer',glCreateTexture:'Texture',glCreateFramebuffer:'Framebuffer',glCreateRenderbuffer:'Renderbuffer',glCreateProgram:'Program',glCreateShader:'Shader'};
-    if (create[name]) { const kind=create[name]; if(kind==='Shader')this.stats.shaders++; return this.register(gl['create'+kind](...a),kind); }
-    const generated = /^glGen(Buffers|Textures|Framebuffers|Renderbuffers)$/.exec(name);
+    // WebGL getError is a synchronous GPU round trip; the game polls it ~80 times
+    // per frame for debug checks. Report GL_NO_ERROR unless checks are requested.
+    if (name === 'glGetError' && (this.glError || !this.checkErrors)) { const error=this.glError||0; this.glError=0; return error; }
+    if (CREATE[name]) { const kind=CREATE[name]; if(kind==='Shader')this.stats.shaders++; return this.register(gl['create'+kind](...a),kind); }
+    const generated = name.startsWith('glGen') && /^glGen(Buffers|Textures|Framebuffers|Renderbuffers)$/.exec(name);
     if (generated) { const kind=generated[1].slice(0,-1); for(let i=0;i<a[0];i++)this.write(a[1],(a[2]||0)+i,this.register(gl['create'+kind](),kind)); return 0; }
-    const deletion = /^glDelete(Buffer|Texture|Framebuffer|Renderbuffer|Program|Shader)(s?)$/.exec(name);
+    const deletion = name.startsWith('glDelete') && /^glDelete(Buffer|Texture|Framebuffer|Renderbuffer|Program|Shader)(s?)$/.exec(name);
     if (deletion) { const kind=deletion[1], ids=deletion[2]?this.array(a[1],a[2]||0,a[0],false):[a[0]]; for(const id of ids){if(!id)continue; gl['delete'+kind](this.object(id,kind)); this.objects.delete(id); if(kind==='Texture'){const surface=this.surfaces?.get(id);this.surfaces?.delete(id);if(surface){surface.texture=null;surface.texId=0;surface.uploaded=false;if(this.bound===surface)this.bound=null;}} if(kind==='Program'){for(const [key,location]of this.locationIds){if(key.startsWith(id+':')){this.locationIds.delete(key);this.locations.delete(location);}}}} return 0; }
-    const bindings={glBindBuffer:'Buffer',glBindTexture:'Texture',glBindFramebuffer:'Framebuffer',glBindRenderbuffer:'Renderbuffer'};
     if(name==='glBindTexture'&&this.surfaces?.has(a[1])){const surface=this.surfaces.get(a[1]);if(!surface.uploaded)this.updateSurface(surface);}
-    if(bindings[name]) { gl[name.slice(2,3).toLowerCase()+name.slice(3)](a[0],this.object(a[1],bindings[name])); if(name==='glBindBuffer')this.boundBuffers.set(a[0],a[1]); return 0; }
-    if(name==='glUseProgram'){gl.useProgram(this.object(a[0],'Program'));return 0;}
+    if(BINDINGS[name]) { gl[name.slice(2,3).toLowerCase()+name.slice(3)](a[0],this.object(a[1],BINDINGS[name])); if(name==='glBindBuffer')this.boundBuffers.set(a[0],a[1]); return 0; }
+    // After ResumeGame, frames already queued still bind the destroyed shaders
+    // (program -1). GLES reports an error and keeps the current program.
+    if(name==='glUseProgram'){if(a[0]!==0&&!this.objects.has(a[0])){this.glError||=1281;return 0;}gl.useProgram(this.object(a[0],'Program'));return 0;}
     if(name==='glAttachShader'||name==='glDetachShader'){gl[name==='glAttachShader'?'attachShader':'detachShader'](this.object(a[0],'Program'),this.object(a[1],'Shader'));return 0;}
     if(name==='glShaderSource'){gl.shaderSource(this.object(a[0],'Shader'),a[1]);return 0;}
     if(name==='glCompileShader'||name==='glLinkProgram'||name==='glValidateProgram'){const kind=name==='glCompileShader'?'Shader':'Program';gl[name.slice(2,3).toLowerCase()+name.slice(3)](this.object(a[0],kind));return 0;}
@@ -121,11 +134,11 @@ export class GLESHost {
       const values=(gl.getAttachedShaders(this.object(a[0],'Program'))||[]).slice(0,a[1]).map(o=>this.ids.get(o));
       this.write(a[2],wrapper?0:a[3],values.length);this.write(wrapper?a[3]:a[4],wrapper?0:a[5],values);return 0;
     }
-    const uniform=/^glUniform([1-4])(f|i)(v?)$/.exec(name);
-    if(uniform){const size=Number(uniform[1]),floats=uniform[2]==='f',vector=!!uniform[3],location=this.location(a[0]);if(location===null)return 0;const method='uniform'+uniform[1]+uniform[2]+uniform[3];if(vector)gl[method](location,this.array(a[2],a[3]||0,a[1]*size,floats));else gl[method](location,...a.slice(1));return 0;}
-    const matrix=/^glUniformMatrix([2-4])fv$/.exec(name);
-    if(matrix){const size=Number(matrix[1]),location=this.location(a[0]);if(location!==null)gl['uniformMatrix'+size+'fv'](location,!!a[2],this.array(a[3],a[4]||0,a[1]*size*size,true));return 0;}
-    const attrib=/^glVertexAttrib([1-4])(f|fv)$/.exec(name);
+    const uniform=name.startsWith('glUniform')&&/^glUniform([1-4])(f|i)(v?)$/.exec(name);
+    if(uniform){const size=Number(uniform[1]),floats=uniform[2]==='f',vector=!!uniform[3],location=this.uniformLocation(a[0]);if(location===null)return 0;const method='uniform'+uniform[1]+uniform[2]+uniform[3];if(vector)gl[method](location,this.array(a[2],a[3]||0,a[1]*size,floats));else gl[method](location,...a.slice(1));return 0;}
+    const matrix=name.startsWith('glUniformMatrix')&&/^glUniformMatrix([2-4])fv$/.exec(name);
+    if(matrix){const size=Number(matrix[1]),location=this.uniformLocation(a[0]);if(location!==null)gl['uniformMatrix'+size+'fv'](location,!!a[2],this.array(a[3],a[4]||0,a[1]*size*size,true));return 0;}
+    const attrib=name.startsWith('glVertexAttrib')&&/^glVertexAttrib([1-4])(f|fv)$/.exec(name);
     if(attrib){gl['vertexAttrib'+attrib[1]+attrib[2]](a[0],...(attrib[2]==='fv'?[this.array(a[1],a[2]||0,Number(attrib[1]),true)]:a.slice(1)));return 0;}
     if(name==='glBufferData'){gl.bufferData(a[0],a[2]==null||a[2]===0?a[1]:this.bytes(a[2],0,a[1]),a[3]);this.stats.uploads++;return 0;}
     if(name==='glBufferSubData'){gl.bufferSubData(a[0],a[1],this.bytes(a[3],a[4]||0,a[2]));this.stats.uploads++;return 0;}
@@ -150,13 +163,11 @@ export class GLESHost {
     if(name==='glDiscardZ'){if(this.discard)this.discard.discardFramebufferEXT(gl.FRAMEBUFFER,[gl.DEPTH_ATTACHMENT]);return 0;}
     if(name==='glIsTexture')return gl.isTexture(this.object(a[0],'Texture'));
     if(name==='glGetIntegerv'||name==='glGetBooleanv'||name==='glGetFloatv'){this.write(a[1],a[2]||0,gl.getParameter(a[0]),name==='glGetFloatv');return 0;}
-    const getters={glGetBufferParameteriv:['getBufferParameter',2,false],glGetRenderbufferParameteriv:['getRenderbufferParameter',2,false],glGetTexParameteriv:['getTexParameter',2,false],glGetTexParameterfv:['getTexParameter',2,true],glGetFramebufferAttachmentParameteriv:['getFramebufferAttachmentParameter',3,false],glGetVertexAttribiv:['getVertexAttrib',2,false],glGetVertexAttribfv:['getVertexAttrib',2,true]};
-    if(getters[name]){const [method,count,float]=getters[name];this.write(a[count],a[count+1]||0,gl[method](...a.slice(0,count)),float);return 0;}
+    if(GETTERS[name]){const [method,count,float]=GETTERS[name];this.write(a[count],a[count+1]||0,gl[method](...a.slice(0,count)),float);return 0;}
     if(name==='glGetUniformfv'||name==='glGetUniformiv'){this.write(a[2],a[3]||0,gl.getUniform(this.object(a[0],'Program'),this.location(a[1])),name==='glGetUniformfv');return 0;}
     if(name==='glDepthRangef'){gl.depthRange(...a);return 0;}
     if(name==='glClearDepthf'){gl.clearDepth(...a);return 0;}
-    const direct=new Set(['glActiveTexture','glBlendFunc','glBlendFuncSeparate','glBlendEquation','glBlendEquationSeparate','glBlendColor','glCheckFramebufferStatus','glClear','glClearColor','glColorMask','glCullFace','glDepthFunc','glDepthMask','glDisable','glDisableVertexAttribArray','glEnable','glEnableVertexAttribArray','glFinish','glFlush','glFrontFace','glGenerateMipmap','glGetError','glGetString','glHint','glLineWidth','glPixelStorei','glPolygonOffset','glRenderbufferStorage','glSampleCoverage','glScissor','glStencilFunc','glStencilFuncSeparate','glStencilMask','glStencilMaskSeparate','glStencilOp','glStencilOpSeparate','glTexParameteri','glTexParameterf','glViewport']);
-    if(direct.has(name)){if(name==='glGetString')return gl.getParameter(a[0]);const method=name.slice(2,3).toLowerCase()+name.slice(3);return gl[method](...a) ?? 0;}
+    if(DIRECT.has(name)){if(name==='glGetString')return gl.getParameter(a[0]);const method=name.slice(2,3).toLowerCase()+name.slice(3);return gl[method](...a) ?? 0;}
     throw new Error(`GLES20 bridge is missing ${originalName}`);
   }
   uploadClientAttribute(record) {

@@ -6,6 +6,7 @@
     "dev": "node server.mjs",
     "test": "node --test test/*.test.mjs dist/gles-host.test.mjs",
     "probe": "node tools/probe.mjs",
+    "stamp": "node tools/stamp-sw.mjs",
     "build:assets": "python ../scripts/prepare_browser.py"
   }
 }

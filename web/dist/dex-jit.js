@@ -3,14 +3,14 @@
 export function compileDex(vm,m,helpers){
   if(m.tries?.length)return null;
   const c=vm.words(m),instructions=[],targets=new Set([0]),scalar=vm.scalarRegistersEnabled!==false;
-  const s16=v=>(v<<16)>>16,s8=v=>(v<<24)>>24,i32=(a,b)=>(a|(b<<16))|0,R=i=>scalar?`r${i}`:`r[${i}]`,val=v=>typeof v==='bigint'?v+'n':JSON.stringify(v);
+  let sites=0;const s16=v=>(v<<16)>>16,s8=v=>(v<<24)>>24,i32=(a,b)=>(a|(b<<16))|0,R=i=>scalar?`r${i}`:`r[${i}]`,val=v=>typeof v==='bigint'?v+'n':JSON.stringify(v);
   for(let pc=0;pc<c.length;){
     const w=c[pc],op=w&255,a=w>>>8,A=a&15,B=a>>>4,x=c[pc+1],y=c[pc+2];let n=1,code='',end=false;
     const go=p=>{targets.add(p);return `pc=${p};continue;`;};
     if(op===0&&w!==0)break;
     if(op>=0x44&&op<=0x51){const array=R(x&255),index=R(x>>>8);n=2;code=`if(!${array})throw new JavaError('Ljava/lang/NullPointerException;','array');if(${index}<0||${index}>=${array}.length)throw new JavaError('Ljava/lang/ArrayIndexOutOfBoundsException;',String(${index}));`+(op<=0x4a?`${R(a)}=${array}[${index}]??0;`:`${array}[${index}]=${R(a)};`);}
-    else if(op>=0x52&&op<=0x5f){n=2;const key=vm.fieldIds[x],obj=R(B),t=vm.dex.fields[key][2];code=`if(!${obj})throw new JavaError('Ljava/lang/NullPointerException;',${JSON.stringify(vm.dex.fields[key][1])});`+(op<=0x58?`${R(A)}=vm.host.getField?.(vm,${obj},${key})??${obj}.$fields?.get(${key})??${t==='J'||t==='D'?'0n':'0'};`:`${obj}.$fields.set(${key},${R(A)});`);}
-    else if(op>=0x60&&op<=0x6d){n=2;const key=vm.fieldIds[x],field=vm.dex.fields[key];code=`vm.init(${JSON.stringify(field[0])});`+(op<=0x66?`${R(a)}=vm.host.getStatic?.(vm,${key})??vm.statics.get(${key})??${field[2]==='J'||field[2]==='D'?'0n':'0'};`:`vm.statics.set(${key},${R(a)});`);}
+    else if(op>=0x52&&op<=0x5f){n=2;const key=vm.fieldIds[x],obj=R(B),t=vm.dex.fields[key][2];code=`if(!${obj})throw new JavaError('Ljava/lang/NullPointerException;',${JSON.stringify(vm.dex.fields[key][1])});`+(op<=0x58?(vm.host.getField&&vm.host.interceptsField?.(vm,key)===false?`${R(A)}=`:`${R(A)}=vm.host.getField?.(vm,${obj},${key})??`)+`${obj}.$fields?.get(${key})??${t==='J'||t==='D'?'0n':'0'};`:`${obj}.$fields.set(${key},${R(A)});`);}
+    else if(op>=0x60&&op<=0x6d){n=2;const key=vm.fieldIds[x],field=vm.dex.fields[key];code=`if(ready[${sites}]!==true){vm.init(${JSON.stringify(field[0])});ready[${sites++}]=vm.classes.get(${JSON.stringify(field[0])})?.state!==1;}`+(op<=0x66?`${R(a)}=vm.host.getStatic?.(vm,${key})??vm.statics.get(${key})??${field[2]==='J'||field[2]==='D'?'0n':'0'};`:`vm.statics.set(${key},${R(a)});`);}
     else if((op>=0x6e&&op<=0x72)||(op>=0x74&&op<=0x78)){n=3;const regs=op<0x74?[y&15,(y>>>4)&15,(y>>>8)&15,y>>>12,A].slice(0,B):Array.from({length:a},(_,i)=>y+i);code=`result=vm.invoke(${x},[${regs.map(R)}],${op});`;
       // Startup parsing reads millions of UTF-16 units. For the Java host's
       // primitive String representation, avoid allocating an invoke argument
@@ -88,6 +88,6 @@ export function compileDex(vm,m,helpers){
   const ref=vm.dex.methods[m.id],budgetMessage=JSON.stringify('Instruction budget exceeded in '+ref[0].split('/').pop().replace(';','')+'.'+ref[1]);
   let count=0;for(let j=0;j<instructions.length;j++){const i=instructions[j];if(targets.has(i.pc)){let next=j;while(next+1<instructions.length&&!targets.has(instructions[next+1].pc))next++;count=next-j+1;body+=`case ${i.pc}:if((vm.steps+=${count})>vm.limit)throw new VMError(${budgetMessage});`; }body+=i.code;}
   body+='default:throw new VMError("Compiled method fell through");}}';
-  try{return new Function('F','BF','D','BD','JavaError','VMError',`return function(vm,args){${body}}`)(...helpers);}catch{return null;}
+  try{return new Function('F','BF','D','BD','JavaError','VMError',`const ready=[];return function(vm,args){${body}}`)(...helpers);}catch{return null;}
 }
 

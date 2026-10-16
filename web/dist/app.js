@@ -1,4 +1,5 @@
 import {installDisplay} from './display.js';
+import {installStage,toCanvas} from './stage.js';
 import {decodeAssetBundle} from './asset-bundle.js';
 import {runStartupFrame} from './startup-frame.js';
 import {bindTouchAction} from './touch-controls.js?v=touch5';
@@ -15,6 +16,7 @@ const P='Luk/fiveaces/nsfc/',$=id=>document.getElementById(id),canvas=$('game'),
 
 const diagnostics=window.diagnostics={state:'loading',frames:0,logs:[],error:null};
 let vm,host,storage,running=false,paused=false;const input=[],chars=[];
+const stage=installStage($('stage'));
 installDisplay(canvas,size=>{if(host){host.options.width=size.width;host.options.height=size.height;}diagnostics.display={...size,devicePixelRatio:window.devicePixelRatio||1};});
 const log=s=>{diagnostics.logs.push(String(s));if(diagnostics.logs.length>120)diagnostics.logs.shift();};
 function fail(e){running=false;diagnostics.state='error';diagnostics.error={message:e.message,trace:e.dexTrace,stack:e.stack};console.error(e,e.dexTrace);$('loader').hidden=false;status.textContent='Game stopped: '+e.message+'\n'+(e.dexTrace?.slice(-5).join(' → ')||'');$('start').hidden=true;$('retry').hidden=false;}
@@ -61,11 +63,15 @@ async function startFirstFrame(){
   diagnostics.frames++;
  }
  if(window.graphics.gl.isContextLost?.())throw Error('The browser lost the WebGL context during startup.');
- diagnostics.state='running';$('loader').hidden=true;
+ diagnostics.state='running';$('loader').hidden=true;maybeDownloadOffline();
  requestAnimationFrame(tick);
 }
 canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();fail(Error('WebGL context lost. Reload the page to rebuild graphics; saved progress is retained.'));});
-const pointers=new Map();for(const [event,code]of [['pointerdown',7],['pointermove',9],['pointerup',8],['pointercancel',8]])canvas.addEventListener(event,e=>{e.preventDefault();if(!running||paused)return;let slot=pointers.get(e.pointerId);if(code===7){slot=[...Array(32).keys()].find(i=>![...pointers.values()].includes(i));pointers.set(e.pointerId,slot);canvas.setPointerCapture(e.pointerId);}if(slot===undefined)return;const b=canvas.getBoundingClientRect(),v=[code,slot,(e.clientX-b.left)*canvas.width/b.width,(e.clientY-b.top)*canvas.height/b.height];if(code===9&&input.at(-1)?.[0]===9&&input.at(-1)?.[1]===slot)input[input.length-1]=v;else input.push(v);if(code===8)pointers.delete(e.pointerId);});
+const pointers=new Map();for(const [event,code]of [['pointerdown',7],['pointermove',9],['pointerup',8],['pointercancel',8]])canvas.addEventListener(event,e=>{e.preventDefault();if(!running||paused)return;let slot=pointers.get(e.pointerId);if(code===7){slot=[...Array(32).keys()].find(i=>![...pointers.values()].includes(i));pointers.set(e.pointerId,slot);canvas.setPointerCapture(e.pointerId);}if(slot===undefined)return;const p=toCanvas(stage.box(),canvas,e.clientX,e.clientY),v=[code,slot,p.x,p.y];if(code===9&&input.at(-1)?.[0]===9&&input.at(-1)?.[1]===slot)input[input.length-1]=v;else input.push(v);if(code===8)pointers.delete(e.pointerId);});
+// iOS: no double-tap or pinch zoom, magnifier, callout or text selection over the game.
+for(const name of ['touchstart','touchmove','touchend','touchcancel'])canvas.addEventListener(name,e=>e.preventDefault(),{passive:false});
+const formControl=e=>e.target instanceof Element&&!!e.target.closest('dialog,input');
+for(const name of ['gesturestart','gesturechange','gestureend','dblclick','contextmenu','selectstart'])document.addEventListener(name,e=>{if(name.startsWith('gesture')||!formControl(e))e.preventDefault();},{passive:false});
 bindTouchAction($('tools'),()=>{if($('options').open)return;try{$('options').showModal();paused=true;}catch(e){fail(e);}});bindTouchAction($('close'),()=>$('options').close());$('options').onclose=()=>paused=false;
 $('backup').onclick=async()=>{try{if(running)saveProgressCheckpoint(vm);await storage.flush();const saved=exportProgress(storage);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(saved)],{type:'application/json'}));a.download='nsm-progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);$('offline').textContent='Backup exported.';}catch(e){$('offline').textContent=e.message;}};
 $('restore').onchange=async e=>{try{const saved=JSON.parse(await e.target.files[0].text());await importProgress(storage,saved);location.reload();}catch(e){$('offline').textContent=e.message;}};
@@ -73,12 +79,31 @@ document.addEventListener('visibilitychange',()=>{if(!vm||!running)return;try{if
 window.addEventListener('pagehide',()=>{if(vm&&running)try{saveProgressCheckpoint(vm);}catch(e){log(e.message);}});
 boot().catch(fail);
 
-let offlineWorker;
+let offlineWorker,offlineState=null,updateReady=false,reloading=false;
+const hadController=!!navigator.serviceWorker?.controller;
+const startOfflineDownload=async()=>{if(!offlineWorker)return;$('downloadOffline').disabled=true;$('offline').textContent='Downloading original resources…';try{await navigator.storage?.persist?.();}catch{}offlineWorker.postMessage({type:'CACHE_GAME'});};
+// Download the complete game once, after it is running, so later launches and
+// scene changes never wait for the network. Unchanged files are not fetched again.
+function maybeDownloadOffline(){if(offlineState&&!offlineState.offline&&!offlineState.downloading&&diagnostics.state==='running'){offlineState.downloading=true;startOfflineDownload();}}
+async function reloadForUpdate(){if(reloading)return;reloading=true;try{if(vm&&running)saveProgressCheckpoint(vm);await storage?.flush();}catch(e){log(e.message);}location.reload();}
 if('serviceWorker' in navigator && isSecureContext){
- navigator.serviceWorker.register('./sw.js').then(async registration=>{await navigator.serviceWorker.ready;offlineWorker=registration.active;$('downloadOffline').disabled=!offlineWorker;$('offline').textContent='Download the game resources for offline use on this browser.';}).catch(e=>{$('offline').textContent='Offline cache unavailable: '+e.message;});
+ navigator.serviceWorker.register('./sw.js').then(async registration=>{
+  await navigator.serviceWorker.ready;offlineWorker=registration.active;$('downloadOffline').disabled=!offlineWorker;$('offline').textContent='Download the game resources for offline use on this browser.';
+  offlineWorker?.postMessage({type:'VERSION'});
+  // Installed iPhone apps resume the open page instead of loading it again.
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)registration.update().catch(()=>{});});
+ }).catch(e=>{$('offline').textContent='Offline cache unavailable: '+e.message;});
+ // A new version took control. Reload now if no game is running; otherwise the
+ // next time the app goes to the background, after its progress is saved.
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadController)return;if(running)updateReady=true;else reloadForUpdate();});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&updateReady)reloadForUpdate();});
 }else $('offline').textContent='Offline download requires HTTPS or localhost. Local-network HTTP works while this server is running.';
-$('downloadOffline').onclick=async()=>{if(!offlineWorker)return;$('downloadOffline').disabled=true;$('offline').textContent='Downloading original resources…';await navigator.storage?.persist?.();offlineWorker.postMessage({type:'CACHE_GAME'});};
-navigator.serviceWorker?.addEventListener('message',event=>{const message=event.data;if(message?.type==='CACHE_GAME_PROGRESS')$('offline').textContent=`Downloading for offline play: ${message.completed}/${message.total}`;else if(message?.type==='CACHE_GAME_COMPLETE'){$('offline').textContent='Offline resources saved. Add this page to your Home Screen.';$('downloadOffline').disabled=false;}else if(message?.type==='CACHE_GAME_ERROR'){$('offline').textContent='Offline download failed: '+message.message;$('downloadOffline').disabled=false;}});
+$('downloadOffline').onclick=startOfflineDownload;
+navigator.serviceWorker?.addEventListener('message',event=>{const message=event.data;
+ if(message?.type==='VERSION'){offlineState=message;$('version').textContent='Version '+message.version;if(message.offline)$('offline').textContent='Offline copy of this version is saved on this browser.';maybeDownloadOffline();}
+ else if(message?.type==='CACHE_GAME_PROGRESS')$('offline').textContent=`Downloading for offline play: ${message.completed}/${message.total}`;
+ else if(message?.type==='CACHE_GAME_COMPLETE'){if(offlineState)offlineState.offline=!!message.version;$('offline').textContent='Offline resources saved. Add this page to your Home Screen.';$('downloadOffline').disabled=false;}
+ else if(message?.type==='CACHE_GAME_ERROR'){$('offline').textContent='Offline download failed: '+message.message;$('downloadOffline').disabled=false;}});
 
 installFullscreen({button:$('fullscreen'),status:$('fullscreenStatus'),beforeRequest:()=>{$('options').close();paused=false;}});
 

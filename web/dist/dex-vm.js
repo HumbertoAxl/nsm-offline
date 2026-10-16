@@ -28,7 +28,7 @@ export class DexVM{
       }
       return id;
     });
-    this.methodInfo=dex.methods.map(ref=>({ref,proto:dex.protos[ref[2]],signature:sig(ref[1],dex.protos[ref[2]]),host:host.shouldHandle?.(ref)??true,targets:new Map()}));
+    this.instanceOf=new Map();this.methodInfo=dex.methods.map(ref=>({ref,proto:dex.protos[ref[2]],signature:sig(ref[1],dex.protos[ref[2]]),host:host.shouldHandle?.(ref)??true,targets:new Map()}));
   }
   defaultValue(t){return t==='J'||t==='D'?0n:0;}
   pack(t,v){if(t==='F')return BF(v);if(t==='D')return BD(v);if(t==='J')return BigInt(v||0);if(t==='Z')return v?1:0;return v??0;}
@@ -39,14 +39,21 @@ export class DexVM{
     const method=c.lookup.get('<clinit>()V');if(method)this.execute(method,[]);c.state=2;
   }
   newObject(name){
-    this.init(name);const object={$class:name,$fields:new Map()};let c=this.classes.get(name);
-    while(c){for(const [id,flags]of c.fields)if(!(flags&8))object.$fields.set(id,this.defaultValue(this.dex.fields[id][2]));c=this.classes.get(c.parent);}
+    const owner=this.classes.get(name);if(owner?.state!==2)this.init(name);
+    // Instance fields and their defaults, collected once per class.
+    let template=owner?.instanceTemplate;
+    if(!template){template=[];let c=owner;while(c){for(const [id,flags]of c.fields)if(!(flags&8))template.push(id,this.defaultValue(this.dex.fields[id][2]));c=this.classes.get(c.parent);}if(owner)owner.instanceTemplate=template;}
+    const object={$class:name,$fields:new Map()};for(let i=0;i<template.length;i+=2)object.$fields.set(template[i],template[i+1]);
     return object;
   }
   isInstance(value,name){
     if(value===null||value===undefined||value===0)return false;if(name==='Ljava/lang/Object;')return true;
     if(typeof value==='string')return name==='Ljava/lang/String;'||name==='Ljava/lang/CharSequence;';
-    const pending=[value.$class],seen=new Set();while(pending.length){const type=pending.pop();if(type===name)return true;if(!type||seen.has(type))continue;seen.add(type);const c=this.classes.get(type);if(c)pending.push(c.parent,...(c.interfaces||[]));}
+    // The class hierarchy is fixed once loaded, so each (class, type) answer is kept.
+    let known=this.instanceOf.get(value.$class);if(!known)this.instanceOf.set(value.$class,known=new Map());
+    let found=known.get(name);
+    if(found===undefined){found=false;const pending=[value.$class],seen=new Set();while(pending.length){const type=pending.pop();if(type===name){found=true;break;}if(!type||seen.has(type))continue;seen.add(type);const c=this.classes.get(type);if(c)pending.push(c.parent,...(c.interfaces||[]));}known.set(name,found);}
+    if(found)return true;
     if(value instanceof Error)return name==='Ljava/lang/Throwable;'||name==='Ljava/lang/Exception;'||name===value.$class;
     return false;
   }
@@ -77,7 +84,8 @@ export class DexVM{
     const dynamic=opcode===0x6e||opcode===0x72||opcode===0x74||opcode===0x78;
     if(!staticCall&&!args[0])throw new JavaError('Ljava/lang/NullPointerException;',ref[0]+'.'+ref[1]);
     const name=dynamic&&args[0]?.$class?args[0].$class:ref[0];
-    if(staticCall)this.init(ref[0]);
+    // Static calls initialize their class once; skip the lookup afterwards.
+    if(staticCall&&!info.initialized){this.init(ref[0]);info.initialized=(this.classes.get(ref[0])?.state??2)===2;}
     let m=info.targets.get(name);if(m===undefined){m=this.find(name,signature);info.targets.set(name,m);}
     if(!m?.code)throw new VMError('Missing implementation: '+name+'.'+signature);
     return this.execute(m,args);
